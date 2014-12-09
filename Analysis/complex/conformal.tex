@@ -1,0 +1,199 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Conformal Maps}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+
+All sets will be connected unless said otherwise.
+\section{Schwarz Reflection}
+Schwarz reflection is a way to analytically continue a function.
+
+\begin{thm}[Schwarz reflection]\llabel{thm:schwarz-reflection}
+Suppose $\Om$ is an open set symmetric about the real axis. Let $\Om^+=\Om\cap \set{z}{\Im z>0}$ and similarly for $\Om^0,\Om^-$. Suppose $f^+,f^-$ are holomorphic on $\Om^+$ and $\Om^-$, can be {\it continuously} extended to $\Om^0$, and are equal there. 
+
+Then the pasting $f$ of $f^+,f^-$ is holomorphic.
+\end{thm}
+\begin{proof}
+We use Morera's Theorem. By splitting, we just have to consider curves (or triangles) one of whose edges are on the real axis. Use continuity to move the path upwards/downwards slightly.
+\end{proof}
+
+The following special case is useful.
+
+\begin{cor}\llabel{cor:schwarz-reflection}
+Let $\Om, \Om^{\pm}$ be as above. 
+Suppose $f$ is holomorphic on $\Om^+$ and real on $\Om^0$. Then $f$ can be analytically continued to $\Om$.
+\end{cor}
+\begin{proof}
+Let $f^-=\ol{f(\ol{z})}$ in Schwarz reflection~\ref{thm:schwarz-reflection}. (We have $\lim_{\ep\to 0}\fc{\ol{f(\ol{z+\ep})}-\ol{f(\ol{z})}}{\ep}=\ol{f'(\ol z)}$.)
+\end{proof}
+
+\section{Schwarz's lemma}
+Let $D$ be the open disc.
+\begin{lem}[Schwarz]\llabel{lem:schwarz}
+Let $f$ be a map $D\to D$ with $f(0)=0$.
+
+If either $f'(0)=1$ or $\sup_{z\in D} |f(z)|=1$, then $f(z)=cz$ for some $|c|=1$.
+\end{lem}
+We can use this to find $\Aut(D)$.
+\begin{lem}\llabel{lem:autD}
+The automorphism of $D$ are in the form
+\[
+f(z)=e^{i\te} \ub{\fc{\al - z}{1-\ol{\al}z}}{:=\psi_\al}
+\]
+for $\al\in D$. Here, $ \fc{\al - z}{1-\ol{\al}z}$ is an involution switching 0, $\al$, and $z\mapsto e^{i\te}z$ is a rotation by $\te$.
+
+The automorphisms of $\cal H$ are in the form $z\mapsto \fc{az+b}{cz+d}$ with $\smatt abcd\in \SL_2(\R)$. We have $\Aut(D)\cong \Aut(\cal H)\cong \SL_2(\R)$.
+\end{lem}
+\begin{proof}[Proof of Lemma~\ref{lem:schwarz}]
+By the maximal modulus principle, $\af{f(z)}{z}\le 1$ inside the disc. (Consider the circle $C_r$, and let $r\to 1^-$. This is necessary because $f$ many not be defined on $\pl D$.)
+
+If equality is attained anywhere, then $\fc{f(x)}{x}$ is constant. 
+\end{proof}
+
+\begin{proof}[Proof of Lemma~\ref{lem:autD}]
+Suppose $f\in \Aut(D)$ sends $\al$ to 0.
+Then $f$ is the composition of $\fc{\al-z}{1-\ol{\al}z}$ and an automorphism fixing 0.
+
+To get the automorphisms of $\cal H$, conjugate by the isomorphism between $D$ and $\cal H$.
+\[
+\xymatrix{
+D\ar@/^1pc/[r]^{i\fc{1-z}{1+z}} & \cal H \ar@/^1pc/[l]^{\fc{i-z}{i+z}}
+}
+\]
+The rest is calculation.
+\end{proof}
+
+Tip: How to remember/think about the maps? 
+\begin{enumerate}
+\item
+On the boundary, the map $\cal H\to D$ is given by $\tan \te\mapsto \cos 2\te+i\sin 2\te$. By trig identities, this is $\fc{1-z^2}{1+z^2}+\fc{2zi}{1+z^2}=\fc{i-z}{i+z}$. 
+\end{enumerate}
+\section{On complex analytic maps}
+\begin{thm}[Open mapping theorem]\llabel{thm:omt}
+If $f$ is holomorpic on $\Om$ and $\forall z\in \Om, f'(z)\ne 0$, then $f$ is open.
+
+Moreover, $f'(z_0)\ne0$ iff $f$ is injective in some open set around $z_0$.
+\end{thm}
+\begin{proof}
+Use Rouch\'e's Theorem on $f(z)\approx f'(z_0)(z-z_0)+f(z_0)$ to show there is exactly 1 solution to $f(z)=y$ for $y$ close to $f(z_0)$. Thus the image of an open is open.
+
+For the second part, use Rouch\'e on $f\approx f(z_0)+a_k(z-z_0)^k$.
+\end{proof}
+
+\begin{lem}
+If $f:U\to V$ satisfies $\forall z\in U,f'(z)\ne 0$ and is bijective, then the inverse map is holomorphic.
+\end{lem}
+\begin{proof}
+We can certainly define $f^{-1}$. Theorem~\ref{thm:omt} shows it's continuous. The standard calculation shows that $(f^{-1})'(f(z))=\rc{f'(z)}$, which is defined.
+
+\end{proof}
+Define a biholomorphic map to be $f:U\to V$ that is bijective holomorphic with $\forall z\in U,f'(z)\ne0$.
+\section{Normal families}
+Say a property holds compact-locally if it holds for every compact subset.
+\begin{thm}[Arzela-Ascoli]\llabel{thm:arzela-ascoli}
+\begin{enumerate}
+\item
+Suppose $X\subeq \R^n$ is compact. A closed and bounded equicontinuous family of functions in $C(X)$ is compact. 
+In other words, if $\cal F$ is an infinite family of pointwise bounded equicontinuous functions in $C(X)$, then any sequence in $\cal F$ has a uniformly convergent subsequence. 
+\item
+The same is true of any open set $U$, if we ask these conditions hold compact-locally. (Define \textbf{normal} to mean every sequence has a subsequence converging compact-locally.)
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+See Real Analysis notes. For (2) diagonalize over an exhaustion by compact subsets (e.g., in $\R^n$).
+\end{proof}
+%Let $\cal F$ be an infinite family of functions. If $\cal F$ is compact-locally equicontinuous then there exists a subsequence that is compact-locally uniformly convergent.
+
+In the $\C$ world, much looser criteria force $\cal F$ to be an  family of pointwise bounded equicontinuous functions.
+\begin{thm}[Montel]\llabel{thm:montel}
+If $\cal F$ is compact-locally uniformly bounded, then $\cal F$ is compact-locally equicontinuous and hence normal. 
+\end{thm}
+Counterexample for $\R$: $\sin(nx)$.
+\begin{proof}
+One way to show good continuity/limit/boundedness properties in complex analysis is to use the integral representation. Given $K$, for points $|x-y|<\ep_1$, write $f(x)=\rc{2\pi}\int_{C_{\ep_2}}\fc{f(z)}{z-x}\,dz$ over a circle containing $x,y$. Now bound the difference $f(x)-f(y)$ uniformly $\to 0$ in terms of $\sup_{z\in K, f\in \cal F} f$ as $\ep_1\to 0$.
+
+Now use Arzela-Ascoli~\ref{thm:arzela-ascoli}.
+\end{proof}
+
+We'll take $\cal F$ to be an injective family of functions below, so we'll want this to be preserved under limit.
+\begin{lem}\llabel{lem:inj-conv} (Pr. 8.3.5)
+If $\Om$ is a connected open subset, $f_n$ are injective, and $f_n\to f$ compact-locally uniformly, then $f$ is injective or constant.
+\end{lem}
+\begin{proof}
+Idea: we can count the number of solutions of $f_n(z)-w$ using a holomorphic function. By convergence, the number of solutions must stay constant.
+
+Suppose $f(0)=0$ is a problem point, WLOG $f_n(0)=0$. Just use $\rc{2\pi i}\int_\ga \fc{f_n'}{f_n}\,dz$.
+\end{proof}
+
+\section{Riemann Mapping Theorem}
+\begin{thm}
+All proper simply connected open set in $\C$ are isomorphic (complex analytically).
+\end{thm}
+
+It suffices to prove that if $\Om$ is a simply connected open set then there is a biholomorphism $f:\Om \to D$.
+
+\begin{proof}
+\begin{enumerate}
+\item
+Construct an injective map $f:\Om \to D$ with $f'\ne 0$ and with 0 in the image.
+\begin{enumerate}
+\item
+Find $f_1:\Om\to \Om_1$ where $\Om_1$ avoids an open set around a point. 
+Let $f_1=\ln (x-a)$ where $a\nin \Om$; this is well-defined because $\Om$ is simply connected. 
+Note $w\in f(\Om)$ implies $w+ 2\pi i\nin \ol{f(\Om)}$. (To see it's not in the closure, note otherwise (becuase $f$ is open) there is a point close by with $w',w'+2\pi i\in f(\Om)$, contradiction. Alternatively, replace 2 by $2+\ep$ so this argument is unnecessary.)
+\item
+Now $\Om_1$ avoids an open set around $\be$. Let $f_2=\fc{1}{z-\be}$; $f_2(\Om_1)$ is bounded in norm.
+\item
+Translate and dilate so it fits in the unit disc and includes 0.
+\end{enumerate}
+\item 
+We can now assume $0\in \Om\subeq D$. 
+Recast the existence problem as a maximization problem. Consider $\cal F:=\set{f:\Om \to D}{f\text{ injective, }f'\ne 0}$, and $s=\sup_{f\in \cal F}|f'(0)|$. Claim 1: The maximum is attained. Claim 2: $f$ attaining the maximum is an isomorphism $\Om \to D$.
+
+Proof of Claim 1: $\cal F$ is uniformly bounded so normal by Theorem~\ref{thm:montel}. Thus there exists a subsequence $f_n\to f$ with $f_n'(0)\to s$. In the real world, this is not enough to say $f'(0)=s$. In the complex world it is, because we can express $f_n'$ again {\it in terms of $f_n$} using the integral representation, and just use uniform convergence of the $f_n$. We have $f\in \cal F$ by Lemma~\ref{lem:inj-conv} ($f$ can't be constant because $f'(0)\ne 0$.)
+\item
+Proof of Claim 2: Otherwise (if $f$ is not surjective) we exhibit $g$ with larger $|g'(0)|$. Idea: If $f$ is not surjective, write
+\[
+f=\Phi\circ F
+\]
+where $|\Phi'(0)|<1$ (proved using Schwarz's lemma~\ref{lem:schwarz}) forcing $|F'(0)|>|f'(0)|$. (Use chain rule.)
+
+If $\Phi$ is a map $D\to D$ that is not injective, it can't be in the form $cz,|c|=1$, so by Schwarz must have $|\Phi'(0)|<1$. Thus we let $F$ be a function whose inverse is multivalued on $D$ but that is injective on $\Om$. Use the square root!
+
+BWOC, let $\al\nin f(\Om)$. $F=\psi_{\sqrt{\al}}\circ \sqrt{}\circ \psi_\al\circ f$ and let $\Phi$ be the inverse $\psi_{\sqrt{\al}}\circ \sqrt{}\circ \psi_\al$. This gives $F\in \cal F$ with $|F'(0)|$ larger, contradiction.
+\end{enumerate}
+\end{proof}
+
+\section{Schwarz-Christoffel formula}
+
+
+
+
+%\input{chapters/1.tex}
+ 
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}
