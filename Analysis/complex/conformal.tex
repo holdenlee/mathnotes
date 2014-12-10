@@ -149,7 +149,7 @@ Suppose $f(0)=0$ is a problem point, WLOG $f_n(0)=0$. Just use $\rc{2\pi i}\int_
 \end{proof}
 
 \section{Riemann Mapping Theorem}
-\begin{thm}
+\begin{thm}[Riemann mapping theorem]\llabel{thm:rmt}
 All proper simply connected open set in $\C$ are isomorphic (complex analytically).
 \end{thm}
 
@@ -187,10 +187,130 @@ BWOC, let $\al\nin f(\Om)$. $F=\psi_{\sqrt{\al}}\circ \sqrt{}\circ \psi_\al\circ
 \end{enumerate}
 \end{proof}
 
+The Riemann mapping theorem does not tell us what happens on the boundary of the open sets (if the map can be extended, etc.). We show the map behaves nicely in the case of a polygon.
+
+\begin{thm}[Extending to the boundary]\llabel{thm:extend-boundary}
+Let $D,P$ be open sets with ``regular" boundary, i.e., for every point $p\in \pl S$, there is a small open set $U\ni p$ with $U\cap \pl S$ topologically equivalent to a line segment. (Ex. $D$ is a disc, $P$ is a polygon.)
+%Let $P$ be a polygon; 
+Suppose $f:D\to P$  is an isomorphism. Then $f$ can be extended to a continuous bijection function $\ol{D}\to \ol{P}$.
+\end{thm}
+The idea is that if there is $>1$ possible value for $\lim_{n\to \iy} f(z_n)$ given $z_n\to z\in \pl D$, then area would not be preserved. There would be $z_n,z_n'$ such that $|z_n-z_n'|\to 0$ but $f(z_n)-f(z_n')$ is large.
+
+\begin{lem}\llabel{lem:area}
+Let $f:U\to V$ be an isomorphism. Then $\Area V = \int |f'(z)|^2\,dx\,dy$.
+\end{lem}
+\begin{proof}
+Think of $f$ as a map $\R^2\to \R^2$. The factor is the Jacobian. Calculate it using the Cauchy-Riemann equations.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:extend-boundary}]
+\begin{enumerate}
+\item (4.5) First, to prove continuity at $z\in \pl D$, using the triangle inequality, it suffices to consider nearby points $z\in \pl D$ and $z'\in D$.
+\item
+If $z_n\to z$ then by (sequential) compactness of $\ol{P}$, $f(z_n)$ has a limit point. If for each such sequence $f(z_n)$ has only 1 limit point it must be the actual limit. Thus if $f$ does not extend continuously to $z$, then there are sequences $z_n,z_n'$ such that $f(z_n),f(z_n')$ converge to different values $w,w'$. This suggests $f(x)-f(y)$ can stay away from 0 even though $x,y\to z$. 
+
+To formalize this, suppose $f(z_n),f(z_n')$ converge to different values. We find continuous curves $\ga(r),\ga'(r)$ containing $z_n,z_n'$ ($r$ is distance to $z$) such that $|\ga(r)-\ga'(r)|>\de$ for $r,\de$ small enough. To do this, choose disjoint open balls around $w,w'$ and take inverse images of curves containing $f(z_n),f(z_n')$ there.
+
+(4.3) Let $\ga(r)= z+re^{i\te_1(r)}$ and similarly for $\ga'$. 
+Let $U$ be the region between $\ga,\ga'$ from radius 0 to $s$.
+We have
+\bal
+\int_{\te_1(r)}^{\te_2(r)}r|f'(z)|\,dz& = \int_{\ga(r)}^{\ga'(r)} |f'(z)|\,dz\ge \de\\
+\iy > \Area(f(U))&=\iint_{U}|f'(z)|^2\,dz\\
+&= \int_0^s\int_{\te_1(r)}^{\te_2(r)} r|f'(z)|^2 \,d\te\,dr&(z=x+re^{i\te}))\\
+&\ge \int_0^s\fc{(\int_{\te_1}^{\te_2} r|f'(z)|\,d\te)^2}{\int_{\te_1}^{\te_2} r\,d\te}\,dr&\text{C-S}\\
+&\ge \int_0^s\fc{c}{r}\,dr= \iy.
+\end{align*}
+\item Now apply to $P\to D$ as well to get $g=f^{-1}$.
+\end{enumerate}
+\end{proof}
+
 \section{Schwarz-Christoffel formula}
 
+The Riemann Mapping Theorem does not give an explicit formula. We give an explicit formula for $\cal H\to P$, $P$ a polygon.
 
+How might we create one? The key is knowing how to the straight line $\R$ to a single sharp corner. Then multiplying functions together we can create a series of corners.
 
+To get one corner, consider the function $f_\be(z)= z^{\be}$ which maps $\R$ to the rays of an angle $\be\pi$. 
+Now we would like a function on $\R$ such that $\arg F$ is a piecewise step function, so that if we integrate it we will move along the sides of a polygon. Just multiply translates of functions $f_\be$ and integrate. This motivates the formula below.
+% with internal angle $\al\pi$. We can have corners at $A_1,A_2$ by considering $f_{\al_1}(z-A_1)$, $f_{\al_2}(z-A_2)$.
+%$\int_{0}^z \ze^{-\be}\,d\ze$.
+\begin{thm}[Schwarz-Christoffel]\llabel{thm:schwarz-christoffel}
+\begin{enumerate}
+\item
+Suppose $\be_1,\ldots, \be_k>0$ with $1<\sum_k \be_k\le 2$ and $A_1<\cdots <A_n$ be real. 
+The following is an analytic map $\cal H\to P$ for some polygon $P$.
+\[
+S(z)=\int_{-\iy}^z\prod_k (\ze-A_k)^{-\be_k}\,d\ze.
+\]
+$P$ starts at $(0,0)$ in the $+\Re$ directions and its edges going around have exterior angles $\be_k\pi$ and $\be_0\pi:= (2-\sum_k \be_k)\pi$. $A_kA_{k+1}$ gets mapped to the edge forming exterior angle $\be_k\pi$ (absolute angle $\sum_k \be_k\pi$), where $A_{n+1}=A_0:=\iy$.
+\item For any such polygon, there is a isomorphism $\cal H\to P$ that is given by $c_1S(z)+c_2$ for some $c_1,c_2$.
+\end{enumerate}
+\end{thm}
+Let $a_k$ be the image of $A_k$. 
+Note that if $\sum_k \be_k=2$, then the last exterior angle is 0, i.e. $a_{\iy}$ is on the segment $a_na_1$.
+\begin{proof}
+We prove the case where $\sum_k \be_k=2$ first.
+\begin{enumerate}
+\item
+To see how it maps $\R$, note that 
+\[
+\arg \ddd z = \arg \prod_k (z-A_k)^{-\be_k} = \sum_{A_k>z} -\be_k\pi.
+\]
+(The $-$ is so that the angle increases by $\be_k\pi$ after passing $A_k$, and to make things convergent.)
+
+Note $S$ is well-defined because $\be_k<1$, so the integral converges around $A_k$; $\sum b_k>1$, so $\lim_{|z|\to \iy}S(z)$ exists (because integrating around a large arc gives something on the order of $r^{-\sum b_k +1}$). 
+\item
+Let $f$ be the isomorphism given by Riemann mapping~\ref{thm:rmt}, extend it to the boundary by~\ref{thm:extend-boundary}, and let $A_k$ be the preimages of the vertices (maybe one of them is $\iy$, in which we will be trying to match $f$ up with $S$ in the case $\sum \be_k<2$). 
+
+We will use a Liouville-type argument to show $f$ is given by the (a rotation+translation of the) Schwarz function. We can't hope to apply such an argument to $f$ because $f$ can't extend. We instead apply it to $\fc{f'}{f}$. 
+
+We want a function we can extend by Schwarz reflection. Thus we get rid of the corner. Let $h_k = (f(z) - a_k)^{\rc{\al_k}}$. Then $h_k$ sends $A_{k-1}A_{k+1}$ to a straight line. By Schwarz reflection~\ref{cor:schwarz-reflection} we can extend $h_k$ to the strip between $A_{k-1}$ and $A_{k+1}$. (We are in the case of~\ref{cor:schwarz-reflection} once we map the straight line into the real axis.) (Check $h_k'\ne 0$ by checking it is injective on small balls around real points (This suffices by Theorem~\ref{thm:omt}.). Check the latter by examining the Schwarz construction.)
+
+Computing the derivatives gives an expression for $\fc{f''}{f'}$ in terms of $h_k$ (without all those exponents). (We expect $\fc{f''}{f'}=(\ln f)'$ to be nice because if $f=S(z)$ this would be nice.) Its only pole in the strip is $A_k$. Since the strips cover $\C$, this analytically continues $\fc{f''}{f'}$.
+
+In the case of $[A_n,\iy), (-\iy,A_1]$, we can in fact analytically continue $f$ across these, and find its continuation there to be bounded (because $P$ is bounded, and the construction is just reflection), so $f$ is holomorphic at $\iy$. Expanding in power series gives: if $f$ is holomorphic at $\iy$ then $\lim_{|z|\to \iy}\fc{f''}{f'}\to 0$.
+
+Using Liouville, $\fc{f''}{f'}=-\sum \fc{\be_k}{z-A_k}$. Integrating gives $F'=cS'$.
+\item In the case where one of the vertices is mapped from $\iy$, use a M\"obius map to reduce to the above case.
+\end{enumerate}
+\end{proof}
+
+\section{Examples, Elliptic integrals}
+\begin{thm}
+The function
+\[
+\int_0^z \rc{\sqrt{(1-\ze^2)(1-k^2\ze^2)}}\,d\ze
+\]
+is a function from $\cal H$ to a rectangle of side lengths 
+\bal
+A&=2\int_0^1\rc{\sqrt{(1-\ze^2)(1-k^2\ze^2)}}\,d\ze\\
+B&=\int_1^{\rc k} \rc{\sqrt{-(1-\ze^2)(1-k^2\ze^2)}}\,d\ze.
+\end{align*}
+It maps 
+\bal
+\iy&\mapsto -Bi\\
+-\rc k &\mapsto \fc A2-Bi\\
+-1&\mapsto \fc A2\\
+0&\mapsto 0\\
+1&\mapsto -\fc A2\\
+\rc k & \mapsto -\fc A2 + Bi.
+\end{align*}
+The inverse function can be meromorphically extended to the whole plane and is elliptic with lattice $\an{2A,2Bi}$. In fact it equals $\fc{c}{\wp(z)-\wp(Bi)}$ for some $c$. \fixme{Find it!}
+\end{thm}
+Note we can also get a version for $\ze(\ze-1)(\ze-\la)$. (These 2 forms of an elliptic curve have always puzzled me, but now it's clear: the corresponding functions on $\cal H$ are related by  a $\fc{az+b}{cz+d}$ transformation that takes $-\rc k, -1, 1, \rc k$ to $1,\la,\iy,0$.)
+\begin{proof}
+This function does what we claim by Schwarz-Christoffel~\ref{thm:schwarz-christoffel}. To extend the inverse function, use Schwarz reflection. These rectangles tile the plane. After reflecting 2 times we get back to the original function, so it is periodic with respect to the lattice $\an{2A,2Bi}$. Let $f$ be the inverse function.
+
+Consider the function $(\wp, \wp'):\C\to E:=\{y^2=(x^2-1)(k^2x^2-1)\}$ (include the point at infinity). We have maps
+\[
+\xymatrix{
+E\ar[d]_{(x,y)\mapsto x} & \\
+\cal H & \C\ar[l]_{f} \ar[lu]_{(\wp,\wp')}
+}
+\]
+We have $(\wp,\wp')^*\fc{dx}y = dz$; restricting to the original domain of $f$, we find this means $\wp^*\fc{d\ze}{\sqrt{\cdots}} = dz$. By FTC, $(\int_0^z\rc{\sqrt{\cdots}} \,d\ze=\cdots(z))^* dz = \fc{d\ze}{\sqrt{\cdots}}$. The differentials agree on an open set so must agree everywhere. This tells us that $\wp = f$ up to translation by some constant. \fixme{But what about the fact the pole changed?}
+\end{proof}
 
 %\input{chapters/1.tex}
  
