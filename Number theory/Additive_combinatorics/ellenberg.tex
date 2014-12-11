@@ -1,0 +1,195 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Polynomial method}
+\chead{} 
+\rhead{Kakeya conjecture} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+
+\tableofcontents
+\section{Kakeya problem}
+\begin{conj}
+Let $E\subeq \R^n$ contain a line segment of length 1 in every direction (called a \textbf{Kakeya set}). Then 
+\[
+\dim_{\text{Haus}}(E)=n.
+\]
+\end{conj}
+Note that Besicovich showed that a Kakeya set $E$ can have $\mu(E)=0$.
+
+For $n>2$ this is a big open problem in harmonic analysis.
+%montgomery's conjecture on dirichlet polynomials.
+
+Tom Wolff proposed the discrete problem, over $\F_q^n$. Note here $q$ is the parameter that varies rather than $n$. Think of it as a bigger and bigger discrete grid.
+
+(Proof omitted here. See AMiIT notes.)
+
+%
+Comments: In number theory we're inclined to use Lang-Weil. But here you get polynomials by interpolation so have no control over cohomology, etc.
+You only have Hilbert-polynomial like invariants like degree. 
+All we really used is Bezout's Theorem: the intersection of a line and hypersurface either has $\le d$ points or it's a geometric containment.
+{\it What if you know more algebraic geometry; could you do more?}
+
+A lot of people have used the ``polynomial method" since: Tao, Guth, Katz, Quilodran, Dvir, Sharir, Bourgain, Zohl, Solymosi, Zhang, Iosevich,... They include combinatorialists, harmonic analysts, number theorists, etc. 
+%We don't know what's accessible!
+
+
+\section{Kakeya problem, analyst's version}
+Analysts like to think of operators on function spaces.
+
+A subset corresponds to a characteristic function. Things that you can prove about subsets you should prove about all functions!
+
+\begin{thm}[Kakeya maximal function conjecture, Ellenberg, Oberlin, Tao 2010]
+Let $f:\F_q^n \to \R$. Define $f^*:\Pj^{n-1}(\F_q)\to \R$ by
+\[
+f^*(\om) = \sup_{\ell\parallel \om}\sum_{x\in \ell} |f(x)|.
+\]
+%it can't have a dense line in every direction
+Then
+\[
+\ve{f^*}_n< c_n q^{\fc{n-1}{n}} \ve{f}_n
+\]
+%operator being bounded in $L^n$
+%sum of the values of the function is equal to $q$.
+\end{thm}
+Note that the Kakeya condition on $S$ tells us $\chi_s^*=q$ for all $\om\in \Pj^{n-1}(\F_q)$, so this conjecture gives
+\[
+q\cdot q^{\fc{n-1}{n}} < c_n q^{\fc{n-1}{n}}\ub{\ve{\chi_S}_n}{|S|^{\rc n}}.
+\]
+How to use the polynomial method? We use the multiplicity trick (Saraf-Sudan). Given a function $f:\F_q^n\to \Z$, interpolate a $P$ of bounded degree vanishing to degree $f(x)$ at $x$. 
+%another linear condition with dimension bound.
+This gives $\sim f(x)^n$ linear conditions. 
+Thus the $L^n$ norm comes up naturally. 
+
+%Instead of a Kakeya condition, we can say ``at least $n$ points."
+
+\section{Open questions}
+
+Here's an open question.
+\begin{prb}[Furstenberg-type problem]
+Let $S\subeq \F_q^n$ be a set such that for every $K$-plane $V$, there exists a $k$-plane $W$ parallel to $V$ such that $|W\cap S|>q^n$. Is $|S|>q^{\fc{cn}{k}q}$?
+\end{prb}
+%C=K, certainly you have positive proportion.
+%$k$-plane operator
+
+Line segment intersects in set of Hausdorff dimension at least $\be$.
+
+\begin{thm}
+\begin{itemize}
+\item (EOT)
+For $c=k$, $|S|>q^n(1-q^{1-k})^{\binom n2}$.
+\item
+(Zhang) For $c=\rc 2$, $\F_q=\F_p$, 
+\[
+|S|>q^{\fc n2+\fc{c^r}{n^2}}.
+\]
+\end{itemize}
+\end{thm}
+%some of the results are sharp for trivial methods; for some the polynomial method is only the first step.
+
+How does the finite field case differ from the Euclidean case? Dvir proves something too much!
+\begin{itemize}
+\item
+Besicovich: There exists a Kakeya set of measure 0.
+\item
+There is a Kakeya set in $\F_q^n$ has measure $>c_n$. ($2^{-n}$.)
+\end{itemize}•
+Scale is missing! We can't do multiscale analysis. (Terry Tao writes on graininess, planiness...) Lines can be clustered closely. In $\F$, two things are the same or not. There is no metric with multiple scales. In summary,
+\begin{itemize}
+\item
+$\F_q$ has only one scale.
+\item
+$\R$ has infinitely many scales.
+\end{itemize}
+\begin{prb}
+Is the Kakeya conjecture true for
+\begin{itemize}
+\item
+$\F_q[[z]]$
+\item
+$\Z_p$
+\item 
+$\F_q[t]/t^2$
+(This has only 2 different scales, but it's hard! Try it! This is an infinitesimal step towards understanding how to approach the general problem!)
+\end{itemize}
+\end{prb}
+\begin{thm}[Dummit, Hoblicsch]
+There exists Kakeya sets in $\F_q[[t]]$ and $\Z_p^n$ of measure 0.
+\end{thm}
+Their sets do have Minkowski dimension $n$. Thus these rings are rich enough for the Besicovich phenomenon. Their construction is not related to Besicovich's construction; it's very clever. It's iterative, and uses a martingale theorem. The limit of a stochastic process has to converge to 0; a little measure seeps away each step.
+
+\section{Guth-Katz}
+
+Guth and Katz showed:
+\begin{thm}[Guth, Katz, 2010, conjecture of Bourgain]
+Let $L$ be a set of $N^2$ lines in $\R^3$ so that no more than $N$ lie in any plane. Let $S$ be a set of points such that each line in $L$ has at least $N$ points of $S$. Then 
+\[
+|S|>cN^3.
+\]
+\end{thm}
+Asymptotically, the lines don't intersect and each line contributes $\succsim N$ points.
+\begin{thm}[Guth-Katz, 2010, Erd\H os distance conjecture]
+$N$ points in $\R^2$ determine at least $\fc{N}{\ln N}$ distinct distances.
+\end{thm}
+This is almost sharp, $\fc{N}{\sqrt{\ln N}}$ is attainable. %for Peter, $\sqrt{\ln N}$ is a big deal.
+%paid 1000 dollars. No you haven't solved. Graham: I'm giving it anyway.
+%taken off $\sqrt{\log N}$...
+
+The Elekes-Sharir setup is as follows (they set up a program for these types of problems): 
+\begin{itemize}
+\item
+few distinct distances mean that 
+\item there are many pairs $(x_1,y_1)$ and $(x_2,y_2)$ such that $d(x_1,y_1)=d(x_2,y_2)$.
+\item What's a grown-up way of saying this? That there exist $g\in G$, the group of rigid motions, such that $g(x_1)=x_2, g(y_1)=y_2$. 
+$G(x_1,x_2)=\set{g\in G}{gx_1=x_2}$ a translate of $\SO_2\in G$.
+%codimension 1 question
+%these guys intersect more than you might expect.
+\item 
+There are many poits of intersection between $G(x_1,x_2)$ in $G$, 1-dimensional lines in 3-dimensional space. That is the main theorem in their paper.
+\end{itemize}
+A lot of problems in extremal combinatorial geometry (distinct areas of simplices, etc.), as long as we can express the problem as orbits of groups.
+There's a desire for incidence theory not just for linear subspaces, but about varieties, using their degrees.
+
+Guth-Katz, in solving the Erd\H os problem, uses polynomials to cut $\R^n$ into cells. {\it This seriously uses $K=\R$.}
+
+Guth-Katz in solving Bourgain's conjecture, uses a purely algebraic approach that works over $\C$.
+
+The Bourgain conjecture on $\F_q$ would be: Given $q^2$ lines in $\F_q$, no $q$ of which lie on the same plane, the union of the lines has $cq^3$ points. This is false!
+
+There is a piece that looks like differential geometry: there are three vectors (?) that are planar. This is not true in characteristic $p$! Planes are the enemy, but in characteristic $p$. 
+There is a non-plane curve in $\F_p$ all of whose points are flex points! They have degree $\ge p$. 
+\begin{thm}[Ellenberg, Hoblicsek, 2014]
+Bourgain is true for $\F_p$, $p$ prime.
+\end{thm}
+%stephanov, $\F_p$ to $\F_{p^2}$ for Riemann over finite fields.
+
+What I'm working on now. We're not satisfied about theorems about sets of points in space. (That's a zero-dimension set in affine space.) We want geometric Kakeya: extremal problems for 0-dimensional subschemes of $\A^n$. 
+From Ravi Vakil, to prove stuff about smooth curves, degenerate them until they're as non-smooth as they can be. This looks scary but they're easier. 
+Degenerate to fat points at the origin, then recover stuff about smooth schemes. 
+
+Painful combinatorial difficulties can be ameliorated by passing to the maximal degenerate case.
+
+Bombieri-Pila: The theory of unlikely intersections. Real algebraic geometry, transcendental theory. Hardest to show polynomial is not 0.
+%High-dimensional 
+
+Bounding number of rational points on curves. %varieties. Heath-Brown upper bounds.
+\end{document}
