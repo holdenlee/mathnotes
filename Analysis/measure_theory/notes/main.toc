@@ -1,0 +1,95 @@
+\contentsline {section}{\numberline {1}Wed. 2/2/2011}{6}{section.1}
+\contentsline {subsection}{\numberline {1}Riemann integration}{6}{subsection.1.1}
+\contentsline {section}{\numberline {2}Fri. 2/4/2011}{7}{section.2}
+\contentsline {subsection}{\numberline {1}Riemann integrability}{7}{subsection.2.1}
+\contentsline {subsection}{\numberline {2}Riemann-Stieltjes integral}{9}{subsection.2.2}
+\contentsline {section}{\numberline {3}Mon. 2/7/2011}{10}{section.3}
+\contentsline {subsection}{\numberline {1}Integration by parts}{10}{subsection.3.1}
+\contentsline {subsection}{\numberline {2}Riemann-Stieltjes integrability}{11}{subsection.3.2}
+\contentsline {subsection}{\numberline {3}Variation}{11}{subsection.3.3}
+\contentsline {section}{\numberline {4}Wed. 2/9/2011}{12}{section.4}
+\contentsline {subsection}{\numberline {1}Functions of Bounded Variation}{12}{subsection.4.1}
+\contentsline {subsection}{\numberline {2}Convergence rate}{13}{subsection.4.2}
+\contentsline {subsection}{\numberline {3}Lebesgue integration: Motivation}{14}{subsection.4.3}
+\contentsline {section}{\numberline {5}Fri. 2/11/2011}{15}{section.5}
+\contentsline {subsection}{\numberline {1}Measure}{15}{subsection.5.1}
+\contentsline {subsection}{\numberline {2}Basic results}{16}{subsection.5.2}
+\contentsline {section}{\numberline {6}Mon. 2/14/2011}{17}{section.6}
+\contentsline {subsection}{\numberline {1}More on $\sigma $-algebras}{17}{subsection.6.1}
+\contentsline {section}{\numberline {7}Wed. 2/16/2011}{19}{section.7}
+\contentsline {subsection}{\numberline {1}Constructing measures}{19}{subsection.7.1}
+\contentsline {section}{\numberline {8}Fri. 2/18/2011}{23}{section.8}
+\contentsline {subsection}{\numberline {1}Constructing measures, continued}{23}{subsection.8.1}
+\contentsline {section}{\numberline {9}Tue. 2/22/2011}{25}{section.9}
+\contentsline {subsection}{\numberline {1}Uniqueness}{25}{subsection.9.1}
+\contentsline {subsection}{\numberline {2}Invariance of measure}{26}{subsection.9.2}
+\contentsline {section}{\numberline {10}Wed. 2/23/2011}{28}{section.10}
+\contentsline {subsection}{\numberline {1}Some cool stuff}{28}{subsection.10.1}
+\contentsline {subsection}{\numberline {2}Probability measures}{29}{subsection.10.2}
+\contentsline {section}{\numberline {11}Fri. 2/25/2011}{30}{section.11}
+\contentsline {subsection}{\numberline {1}Bernoulli measure}{30}{subsection.11.1}
+\contentsline {section}{\numberline {12}Mon. 2/28/2011}{32}{section.12}
+\contentsline {subsection}{\numberline {1}Lebesgue Integration}{32}{subsection.12.1}
+\contentsline {section}{\numberline {13}Wed. 3/2/2011}{34}{section.13}
+\contentsline {subsection}{\numberline {1}Lebesgue Integration}{34}{subsection.13.1}
+\contentsline {section}{\numberline {14}Fri. 3/4/2011}{37}{section.14}
+\contentsline {subsection}{\numberline {1}Convergence Theorems}{37}{subsection.14.1}
+\contentsline {section}{\numberline {15}Mon. 3/7/11}{40}{section.15}
+\contentsline {subsection}{\numberline {1}Lebesgue dominated convergence}{40}{subsection.15.1}
+\contentsline {subsection}{\numberline {2}Convergence in $\mu $-measure}{41}{subsection.15.2}
+\contentsline {section}{\numberline {16}Wed. 3/9/11}{42}{section.16}
+\contentsline {subsection}{\numberline {1}Convergence}{42}{subsection.16.1}
+\contentsline {section}{\numberline {17}Fri. 3/11/11}{45}{section.17}
+\contentsline {subsection}{\numberline {1}Sunrise Lemma}{45}{subsection.17.1}
+\contentsline {subsection}{\numberline {2}Lebesgue's differentiation theorem}{46}{subsection.17.2}
+\contentsline {section}{\numberline {18}Mon. 3/14/11}{48}{section.18}
+\contentsline {subsection}{\numberline {1}Lebesgue's differentiation theorem}{48}{subsection.18.1}
+\contentsline {section}{\numberline {19}Wed. 3/16/11}{51}{section.19}
+\contentsline {subsection}{\numberline {1}Product measures}{51}{subsection.19.1}
+\contentsline {section}{\numberline {20}Fri. 3/18/11}{54}{section.20}
+\contentsline {subsection}{\numberline {1}Isodiametric inequality}{54}{subsection.20.1}
+\contentsline {subsection}{\numberline {2}Hausdorff's construction}{55}{subsection.20.2}
+\contentsline {section}{\numberline {21}Mon. 3/28/11}{56}{section.21}
+\contentsline {subsection}{\numberline {1}Change of variables}{56}{subsection.21.1}
+\contentsline {subsection}{\numberline {2}Polar coordinates}{58}{subsection.21.2}
+\contentsline {section}{\numberline {22}Wed. 3/30/11}{59}{section.22}
+\contentsline {subsection}{\numberline {1}Change of variables}{59}{subsection.22.1}
+\contentsline {section}{\numberline {23}Fri. 4/1/11}{60}{section.23}
+\contentsline {subsection}{\numberline {1}Polar coordinates}{60}{subsection.23.1}
+\contentsline {subsection}{\numberline {2}Surface measure}{61}{subsection.23.2}
+\contentsline {section}{\numberline {24}Mon. 4/4/11}{61}{section.24}
+\contentsline {subsection}{\numberline {1}Surface measure}{61}{subsection.24.1}
+\contentsline {section}{\numberline {25}Wed. 4/6/11}{63}{section.25}
+\contentsline {subsection}{\numberline {1}Divergence}{63}{subsection.25.1}
+\contentsline {section}{\numberline {26}Fri. 4/8/11}{65}{section.26}
+\contentsline {subsection}{\numberline {1}Jensen's inequality}{65}{subsection.26.1}
+\contentsline {section}{\numberline {27}Mon. 4/11/11}{67}{section.27}
+\contentsline {subsection}{\numberline {1}Lebesgue spaces}{67}{subsection.27.1}
+\contentsline {section}{\numberline {28}Wed. 4/13/11}{69}{section.28}
+\contentsline {subsection}{\numberline {1}Inequalities, continued}{69}{subsection.28.1}
+\contentsline {subsection}{\numberline {2}Mixed Lebesgue spaces}{70}{subsection.28.2}
+\contentsline {section}{\numberline {29}Fri. 4/15/11}{72}{section.29}
+\contentsline {subsection}{\numberline {1}Transformations on Lebesgue Spaces}{72}{subsection.29.1}
+\contentsline {section}{\numberline {30}Wed. 4/20/11}{74}{section.30}
+\contentsline {subsection}{\numberline {1}Convolution}{74}{subsection.30.1}
+\contentsline {section}{\numberline {31}Fri. 4/22/11}{76}{section.31}
+\contentsline {subsection}{\numberline {1}Hilbert spaces}{76}{subsection.31.1}
+\contentsline {section}{\numberline {32}Mon. 4/25/11}{78}{section.32}
+\contentsline {subsection}{\numberline {1}Hilbert spaces}{78}{subsection.32.1}
+\contentsline {section}{\numberline {33}Wed. 4/27/11}{79}{section.33}
+\contentsline {subsection}{\numberline {1}Fourier Series}{79}{subsection.33.1}
+\contentsline {section}{\numberline {34}Fri. 4/29/11}{81}{section.34}
+\contentsline {subsection}{\numberline {1}Fourier Transform, $L^1$}{81}{subsection.34.1}
+\contentsline {subsection}{\numberline {2}Fourier Transform, $L^2$}{83}{subsection.34.2}
+\contentsline {section}{\numberline {35}Mon. 5/2/11}{83}{section.35}
+\contentsline {subsection}{\numberline {1}Fourier transform on $L^2$}{83}{subsection.35.1}
+\contentsline {section}{\numberline {36}Wed. 5/4/11}{86}{section.36}
+\contentsline {subsection}{\numberline {1}}{86}{subsection.36.1}
+\contentsline {subsection}{\numberline {2}Radon-Nikodym}{88}{subsection.36.2}
+\contentsline {section}{\numberline {37}Fri. 5/6/11}{89}{section.37}
+\contentsline {subsection}{\numberline {1}}{89}{subsection.37.1}
+\contentsline {subsection}{\numberline {2}Daniell integration}{90}{subsection.37.2}
+\contentsline {section}{\numberline {38}Mon. 5/9/11}{91}{section.38}
+\contentsline {section}{\numberline {39}Wed. 5/11/11}{93}{section.39}
+\contentsline {subsection}{\numberline {1}Caratheodory}{93}{subsection.39.1}
+\contentsfinish 
