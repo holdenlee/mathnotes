@@ -1,0 +1,95 @@
+\lecture{Wed. 2/9/2011}
+
+\subsection{Functions of Bounded Variation}
+\begin{thm}
+A function can be written as the difference of two increasing functions if and only if it has bounded variation.
+\end{thm}
+\begin{proof}
+Suppose that
+\[
+\Var(\psi;[a,b])<\infty.
+\]
+%dv
+Then 
+\begin{align*}
+\psi(x)-\psi(a)&=V_+(\psi;[a,x])-V_-(\psi;[a,x])\\
+\psi(x)&=[\psi(a)+V_+(\psi;[a,x])]-V_-(\psi;[a,x])%=\psi(x)-\psi(a)
+\end{align*}
+\end{proof}
+\subsection{Convergence rate}
+Let $f:[0,1]\to \R$ be smooth ($f\in C^1$)
+Let
+\[
+R_n(f)=\rc{n} \sum_{m=1}^n f\pa{\frac mn}.
+\]
+\[
+(R)\int_0^1 f(x)\,dx=\lim_{n\to \infty} R_n(f).
+\]
+How fast does $R_n(f)$ converge to the integral? In general we can't do better than the following argument:
+\begin{align*}
+(R)\int_0^1 f(x)\,dx- R_n(f)&=\sum_{m=1}^n \int_{\frac{m-1}{n}}^{\frac mn} \pa{f(x)-f\pa{\frac mn}}\\
+&=\int_{\frac{m-1}{n}} \pa{x-\frac mn}f'(\xi_x)\,dx\\
+&\leq n\cdot ||f'||_u\rc{n^2}=\rc{n}||f'||_u
+\end{align*}
+This is the best we can do because letting $f(x)=x$,
+\[
+R_n(f)=\rc n\sum_{m=1}^n \frac mn=\frac{n(n+1)}{2n^2}=\frac{1}{2}+\frac{1}{2n}.
+\]
+
+However, if $f$ is periodic we can do a lot better. We integrate by parts, in such a way so that we don't boundary terms, by choosing constants of integration appropriately. Then
+\begin{align*}
+&\quad (R)\int_0^1 f(x)\,dx-R_n(f)\\
+&=-\sum_{m=1}^n (R)\int_{\frac{m-1}{n}}^{\frac mn} \pa{f(x)-f\pf{m-1}{n}}\,dx\\
+&=-\sum_{m=1}^n (R)\int_{\frac{m-1}{n}}^{\frac mn} \pa{x-\frac{m-1}{n}}f'(x)\,dx\\
+&=-\sum_{m=1}^n (R)\int_{\frac{m-1}{n}}^{\frac mn} \pa{x-\frac{m-1}{n}-\rc{2n}}f'(x)\,dx&\text{by periodicity}\\
+&=-\sum_{m=1}^n (R)\int_{\frac{m-1}{n}}^{\frac mn} \pa{x-\frac{m-1}{n}-\rc{2n}}\pa{f'(x)-f\pa{\frac mn}}\,dx.
+\end{align*}
+We used periodicity to subtract off the average value of $x-\frac{m-1}{n}$ on $\ba{\frac{m-1}{n},{\frac mn}}$. (Note $\int_0^1cf'(x)\,dx=0$.) In the last step we used $\frac{1}{2n}$ is the average value of $x-\frac{m-1}{n}$ on the integral, so $\int_{\frac{m-1}{n}}^{\frac mn} \pa{x-\frac{m-1}{n}-\rc{2n}}=0$.
+The last expression is bounded by $\rc{2n^2}||f''||_u$, better than $\rc{n}$.
+
+Now assume that $f$ and $f'$ are both periodic $C^1$. (i.e. $f'(1)=f'(0)$ as well)
+\begin{align*}
+&\quad \sum_{m=1}^n\int_{\frac{m-1}{n}}^{\frac mn} \pa{x-\frac{m-1}{n}-\rc{2n}}\pa{f'(x)-f\pa{\frac mn}}\,dx\\
+&=-\rc{2n}\sum_{m=1}^n \int_{\frac{m-1}{n}}^{\frac mn}f'(x)-f'\pa{\frac mn}+\sum_{m=1}^n \int_{\frac{m-1}{n}}^{\frac mn} \pa{x-\frac{m-1}{n}}\pa{f'(x)-f'\pa{\frac mn}}\\
+&=-\rc{2n}\sum_{m=1}^n \int_{\frac{m-1}{n}}^{\frac mn}f'(x)-f'\pa{\frac mn}+\sum_{m=1}^n \int_{\frac{m-1}{n}}^{\frac mn} \pa{x-\frac{m-1}{n}}^2f''(x)
+\end{align*}
+Use periodicity to subtract off average value.
+\[
+-\rc{2n}\sum_{m=1}^n \int_{\frac{m-1}{n}}^{\frac mn}f'(x)-f'\pa{\frac mn}+\sum_{m=1}^n \int_{\frac{m-1}{n}}^{\frac mn} \ba{\pa{x-\frac{m-1}{n}}^2-\rc{3n^2}}\pa{f''(x)-f''\pa{\frac mn}}\,dx.
+\]
+Repeating this process. If $f$ and all its derivatives are periodic (of period 1) then the error in the Riemann approximation is going to 0 
+faster than any $\rc{n^k}$.
+%Restore to $f'$ factor $f'\pa{\frac mn}$.
+
+To define Riemann integals for complex valued-functions, just look at real and complex parts separately. Let $f(x)=e^{2\pi ix}$.
+Let $\xi_{m,n}=\frac mn\pa{1-\rc n}$. Then
+\[
+n\pa{\int_0^1 e^{2\pi i x}\,dx-
+\rc{n}\sum_{m=1}^n f(\xi_{m,n})}=
+\rc n\sum_{m=1}^n e^{\frac{2\pi i(1-\rc n)m}{n}}
+=e^{\frac{2\pi i(1-\rc n)}{n}}\frac{1-e^{-\frac{2\pi i}{n}}}{1-e^{\frac{2\pi i(1-\rc n)}{n}}}\to -1
+.\]
+Moral: Periodicity destroyed by bad choice function.
+
+\begin{df}
+The \textbf{Bernoulli numbers} $b_l$ are inductively defined by
+\[
+b_{l+1}=\sum_{k=0}^l \frac{(-1)^k}{(k+2)!}b_{l-k}.
+\]
+\end{df}
+\subsection{Lebesgue integration: Motivation}
+
+Let $E$ be a set. Let $f:E\to \R$.
+Let $\mu$ be ``volume" or measure of $\Ga$; that is $\mu$ is defined on nice subsets of $E$. We want to find a way to integrate $f$ with respect to $\mu$. We want to find a partition of $E$ into subsets $\Ga$ so that $f$ is constant or close to constant on each set $\Ga$. We then add up $\mu(E)y$ ($y$ this constant value).
+
+Riemann: $E$ has topological structure and $f$ is nice with respect to topology (e.g. continuous). Partition into sets small from the topological standpoint, then give me $f$, it'll be nearly constant on each subset.
+
+But if $f$ doesn't respect topology this FAILS!
+
+Lebesgue: Look at sets of the form
+\[
+\{x|f(x)\in[(m-1)2^{-n},m2^{-n}]\}
+\]
+$f$ is nearly constant on each of these subsets, regardless of topological niceness. Now integrate.
+
+But first we need to find the ``volume" or ``measure" of these sets! They will be HIDEOUS... Integration theory is easy compared to assigning measures.

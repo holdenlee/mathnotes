@@ -1,0 +1,158 @@
+\lecture{Wed. 3/2/2011}
+
+For a simpler proof of Monday's stuff see updated text.
+
+\subsection{Lebesgue Integration}
+
+Let
+$
+\bar{\R}=[-\infty,\infty]
+$ 
+(a two-point compactification of $\R$). By convention,
+\[
+0\cdot \infty =0,\quad \pm \infty \mp \infty=\text{undef}.
+\]
+Let $\widehat{\bar{\R}^2}=\bar{\R}^2\bs \{(-\infty,\infty),(\infty,-\infty)\}.$ We now let functions take values in $\bar{\R}$.
+
+\begin{cor}\label{simpleineq}
+For simple functions $f\leq g$,
+\[
+\int f\,d\mu\le \int g\,d\mu.
+\]
+If $\int f\,d\mu<\infty$ then 
+\[
+\int g-f \,d\mu=\int g\,d\mu-\int f\,d\mu.
+\]
+\end{cor}
+\begin{proof}
+Write $g=f+(g-f)$ for the first assertion.
+\end{proof}
+
+Now we complete the definition of Lebesgue integral for non-simple functions. Let $f\geq 0$ be a measurable function. Let $\{\ph_n:n\geq 1\}$ be a nondecreasing sequence of nonnegative simple functions such that $\ph_n\nearrow f$ and define
+\[
+\int f=\lim_{n\to \infty} \ph_n.
+\]
+For instance, take 
+\[
+\ph_n(x)=\begin{cases}
+m2^{-m},&\text{if }m2^{-n}\leq f(x)<(m+1)2^{-n}\text{ for }m\leq 4^n.\\
+2^n,&\text{if }f(x)\geq 2^n.
+\end{cases}
+\]
+The following gives that the integral is well-defined.
+\begin{lem}\label{extendintwelldef}
+Suppose $\{\ph_n\}$ is a sequence of nonnegative simple functions, and $\lim_{n\to \infty }\ph_n\geq \psi$. Then 
+\[
+\lim_{n\to \infty}\int \ph_n\,d\mu \geq \int \psi_n\,d\mu.
+\]
+\end{lem}
+If we had $\ph_n\nearrow f$ and $\psi_n\nearrow f$, we get $\lim_{n\to \infty} \ph_n\geq \psi_m$ so taking the limit we get $\lim_{n\to \infty} \ph_n\geq \lim_{n\to \infty}\psi_n$. Similarly with $\ph_n$ and $\psi_n$ reversed.  The lemma then shows that the integral is well-defined.
+\begin{proof}
+Consider 3 cases.
+\begin{enumerate}
+\item
+$\mu(\psi=\infty)>0$: % the assertion is obvious. Suppose else. %Let $\ph_n\nearrow \psi$. 
+Now for $M<\infty$, 
+\[
+\lim_{n\to \infty} \mu(\{x:\ph_n(x)>M\})=\mu\pa{\bigcup_n \{x:\ph_n(x)>M\}}\geq \mu(\{x:\psi(x)=\infty\}).
+\]
+(increasing sequence of sets! Proposition~\ref{measure-basic}(4)(*)).
+Thus by~(\ref{simpleineq}),
+\begin{align*}
+\ph_n &\geq M1_{\{\ph_n>M\}}\\
+\lim_{n\to \infty}\int \ph_n &\geq M\mu(\{\ph=\infty\}),
+\end{align*}
+showing $\int \ph_n\,d\mu\to \infty$.
+\item $\mu(\psi>0)=\infty$. Since $\psi$ is simple, actually $\mu(\psi>\ep)=\infty$ for some $\ep>0$. Then
+$\lim_{n\to \infty} \int \ph_n=\infty=\int \psi$.
+\item $\mu(\psi=\infty)=0$ and $\mu(\ps>0)<\infty$. Let $\hat{E}=\{0<\psi<\infty\}$; this has finite measure. Now
+\[
+\int_{\hat{E}}\psi=\int \psi.
+\]
+(The set where $\psi=\infty$, $\psi=0$ make no contribution, the first because $\mu$ is 0 and the latter because $\psi=0$.) Now 
+\[
+\int \ph_n \geq \int_{\hat E} \ph_n.
+\]
+(Integrate over less.) We need to show
+\[
+\lim_{n\to \infty}\ph_n\geq \int_{\hat E} \ps.
+\]
+Thus we can assume that $0<\psi<\infty$. Since $\psi$ is a simple function there exist $\ep>0,\,M<\iy$ so that $\ep\leq \psi\leq M$. Consider $0<\de<\ep$. Then
+\begin{align*}
+\int \ph_n&\geq \int_{\{\ph_n\ge \ps-\de\}}\ph_n\\
+&\geq \int_{\{\ph_n\ge \ps-\de\}} (\ps-\de)\\
+&=\pa{\int_{\{\ph_n\ge \ps-\de\}}\psi}-\de\mu(\{\ph_n\ge \ps-\de\})\\
+%
+&\geq \int \psi-\int_{\{\ph_n< \ps-\de\}}-\de\mu(E)\\
+&\ge \int \ps-M\mu(\ph_n< \ps-\de)-\de \mu(E).
+%ph_n gett larger harder -de
+%Sets decreasing to the empty set!
+\end{align*}
+The sets $\{\ph_n\leq \ps-\ph\}$ have finite measure and decrease to the empty set, so their measures decrease to 0 (*). Taking $n\to \infty,\de\to 0$,
+\[
+\lim_{n\to \infty} \ph_n\geq \int \ps.%-\de\mu(E).
+\]
+\end{enumerate}
+\end{proof}
+This lemma uses the full power of countable additivity. We used it crucially twice (*).
+\begin{pr}
+For all nonnegative measurable functions,
+\[\int (\al f +\be g)=\al\int f+\be \int g.\]
+%$\int (g-f)=\int g-\int f$.
+If $f\leq g$ then $\int f\leq \int g$. 
+\end{pr}
+%Average size.
+\begin{thm}[Markov Inequality]
+%a la Lebesgue this is trivial. a la Riemann not so much
+Let $f\geq 0$. Then
+\[
+\mu(f\geq R)\leq \rc{R}\int_{\{f\geq R\}} f\leq \rc R \int{f}.
+\]
+\end{thm}
+\begin{proof}
+Integrate 
+\[
+\la 1_{f\geq \la}\leq 1_{f\geq \la}f\leq f
+\]
+and divide by $R$.
+\end{proof}
+\begin{cor}
+If $\int f=0$ then $\mu(f>0)=0$.
+\end{cor}
+\begin{proof}
+By Proposition~\ref{measure-basic} and Markov's inequality,
+\[
+\mu(f>0)=\lim_{n\to \iy} \mu\pa{f\geq \rc n}=\lim_{n\to \iy} 0=0.
+\]
+\end{proof}
+One more step in defining Lebesgue integral: 
+Get away from dependence on nonnegativity. There is a canonical way of writing $f$ as a difference of a nonnegative and nonpositive function, $f=f^+-f^-$. Define
+\[
+\int f=\int f^+-\int f^-
+\]
+when one of the two integrals on the RHS is finite. We have to check the integral is linear, $\int (f+g)=\int f+\int g$. (Assume $\int f, \int g$ are defined and they are not infinite with opposite sign, i.e. $(\int f^{\pm})\vee (\int g^{\pm})<\infty$.)
+Take $E^+=\{f+g\geq 0\}$ and $E^-=\{f+g<0\}$.
+Then
+\begin{align*}
+\int_{E^+} (f+g)&=\int_{E^+} [(f^++g^+)-(f^-+g^-)]\,d\mu\\
+&=\int_{E^+} (f^++g^+)-\int_{E^+} (f^-+g^-)\\
+&=\int_{E'} f^++\int_{E^+}g^+-\int_{E^+}f^--\int_{E^+} g^-.
+%2nd term geq 1st term, pos part f+g
+\end{align*}
+and similarly for $E^-$. Add everything up!
+
+A recap:
+\begin{enumerate}
+\item
+We first define integrals for simple functions.
+\item
+We define integrals for increasing limit of simple functions.
+\item
+We define integrals for differences of two nonnegative functions.
+\end{enumerate}
+%at each step take what looks like an arbitrary def, in the first case, I have a simple function, suppose write it a linear comb as values it takes times indicator func, but that's only one way of writing and you want to make sure you can take any choice.
+%2nd stage, f as an increasing limit of simple funtions.
+%3rd stage, d as difference of two noneg funcs.
+%L^1(\mu, R) 
+%Ptwise convgce more than enuf, not unifo needed!
+%remarkably continuous

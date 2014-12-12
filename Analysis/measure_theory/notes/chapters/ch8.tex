@@ -1,0 +1,133 @@
+\lecture{Fri. 2/18/2011}
+
+\subsection{Constructing measures, continued}
+
+We continue to assume all 6 conditions given in the previous lecture.
+
+By assumption 6, given $G\in \cal G(E)$ we can write $G=\bigcup_{m=1}^{\infty} I_m$. Lemma~\ref{tmusum} says
+\[
+\tilde{\mu}(G)=\sum_{m=1}^{\infty} V(I_m).
+\]
+It immediately follows that if $G\cap G'=\phi$ then
+\[
+\tilde{\mu}(G\cup G')=\tilde{\mu}(G)+\tilde{\mu}(G').
+\]
+(Just put the two families of rectangles together.)
+
+\begin{pr}\label{tmuinf}
+\[
+\tilde{\mu}(\Ga)=
+\inf\{\tilde{\mu}(G):G\in \cal G(E)\text{ and }\Ga\subeq G\}.
+\]
+\end{pr}
+\begin{proof}
+Now ``$\leq$" obviously holds.
+
+We need to show that given $\bigcup_{m=1}^{\infty} I_m\supeq \Ga$ and  $\ep>0$, 
+\[
+\tilde{\mu}(G)\leq \sum_{m=1}^n V(I_m)+\ep.
+\] 
+Take $I_m'$ so that $I_m'^{\circ} \supeq I_m$ and $V(I_m')\leq V(I_m)+2^{-m}\ep$. Now take
+\[
+G=\bigcup_{m=1}^{\infty} I_m'^{\circ}.
+\]
+\end{proof}
+%subcollection sigma algebra countably additive
+
+We want a family of sets in $\cal P(E)$ that is a $\sigma$-algebra, such that the restriction of $\tilde{\mu}$ there is countably additive and hence a measure.
+
+Let $\cal L$ be the collection of $\Ga\subeq E$ such that for every $\ep>0$ there exists $G\supeq \Ga$ with $\tilde{\mu}(G\bs \Ga)<\ep$.
+\begin{thm}\label{lsigma}
+$\cal L$ is a $\sigma$-algebra.
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item Every open set is in $\cal L$:
+\[\cal G(E)\subeq \cal L.\]
+\item $\cal L$ is closed under countable unions, by the $2^{-n}\ep$ argument.
+\item ``Sets of measure 0" are in $\cal L$:
+\[\tilde{\mu}(\Ga)=0\implies \Ga\in \cal L.\]
+(Take an open set $U\supeq \Ga$ so that $\tilde{\mu}(\Ga)\leq \ep$.)
+\item Compact sets are in $\cal L$. We use the following lemma:
+\begin{lem}
+Suppose $K,K'\sub\sub E$ with $K\cap K'$ and $K\cap K'=\phi$. (The notation $\sub\sub$ means ``compact subset of".) Then
+\[
+\tmu(K\cup K')=\tmu(K)+\tmu(K').
+\]
+\end{lem}
+\begin{proof}
+``$\leq$" holds by subadditivity.
+
+We can find disjoint open subsets $G,G'$ containing $K,K'$. Let $H$ be an open set such that $H\supeq K\cup K'$. Then
+\begin{align*}
+\tmu(H)&\geq
+\tmu((G\cap H)\cup (G'\cap H))\\
+&\stackrel{\ref{tmusum}}{=} \tmu(G\cap H)+\tmu(G'\cap H)\\
+&=\tmu(K)+\tmu(K')
+\end{align*}
+Taking the infimum of the LHS gives $\tmu(K\cup K')$ by Lemma~\ref{tmuinf}.
+%open set cont ga
+%every oepn set cont cup 
+\end{proof}
+Now we show that if $K\sub\sub E$ then $K\in \cal L$.
+We need to show for $\ep>0$ there exists $G\supeq K$ so $\tmu(G\bs K)<\ep$. We claim $\tmu(K)<\infty$. By assumption 6, we can write $K=\bigcup_{m=1}^{\infty} I_m$. For each $I_m$ we can choose open $I_m'$ so that $I_m'^{\circ}\supeq I_m$ with $V(I_m')\leq V(I_m)+1$. We can choose a finite cover: $K\subeq \bigcup_{m=1}^n I_m'^{\circ}$. Then $\tmu(K)\leq \sum_{m=1}^n V(I_m'^{\circ})$. %(Why?)
+
+We can choose $G\supeq K$ so that $\tmu(G)\leq \tmu(K)+\ep$, i.e. $\tmu(G)-\tmu(K)\leq \ep$.
+%NTS $\tmu(G\bs K)\leq \ep$.
+Look at $G\bs K$; it is open. ($K$ is compact in a metric space, so closed.) Thus by assumption 6, we can write $G\bs K=\bigcup_{m=1}^n I_m$. Now we show
+\[
+\tmu\pa{K\cup \bigcup_{m=1}^n I_m}\leq \tmu(G)
+\]
+Now $K\cup \bigcup_{m=1}^n I_m$ is compact because it is a finite union of compact sets. They are disjoint so by the Lemma~\ref{tmusum}  the volume is
+\[
+\tmu (K)+\sum_{m=1}^n V(I_m).
+\]
+Hence
+\[
+\tmu(G\bs K)=\sum_{m=1}^{\infty} V(I_m)\leq \ep.
+\]
+%Take an open cover by rectangles
+%Additivity from continuity
+So $K$ is in $\cal L$.
+\item Closed sets $F$ are in $\cal L$.
+Indeed, write $E=\bigcup_{m=1}^{\infty} I_m$ (assumption 6). 
+Given closed $F$, $F_n=G\cap \bigcup_{m=1}^n I_m$ is compact (because a closed set in a compact set is compact) and hence in $\cal L$ by item 3. Now $F=\bigcup_{n=1}^{\infty} F_n$, so by item 2 ($\cal L$ closed under countable union), $F\in \cal L$.
+\item Countable unions of closed sets are in $\cal L$, i.e. $\cal F_{\sigma}(E)\subeq \cal L$: Use item 5 and item 2 ($\cal L$ closed under countable union).
+\item If $\Ga\in \cal L$ then $\Ga^c\in \cal L$.
+Given $\Ga\in \cal L$, choose $G_n\supeq \Ga$ so that $\tmu(G_n\bs \Ga)\leq \rc n$. Let $D=\bigcap_{n=1}^{\infty} G_n$. Then $D\in \cal G_{\de}(E)$, $D\supeq \Ga$, and  $\tmu(D\bs \Ga)=0$. Hence $D\bs \Ga\in \cal L$ by item 3.
+
+Now $\Ga^c\bs D^c=D\bs \Ga$. So
+\[
+\Ga^c=D^c\cup (\Ga^c\bs D^c)\in \cal L.
+\]
+Note $D^c\in \cal F_{\sigma}(E)$ so $D^c\in \cal L$ by item 6.
+Hence $D\in \cal F_{\sigma}\subeq \cal L$.
+\end{enumerate}
+We've shown the three defining properties of a $\sigma$-algebra (Definition~\ref{salgdf}) in items 1 ($E$ is open), item 2 (closed under countable union), and item 7 (closed under complements).
+\end{proof}
+
+%closed ctable union
+
+%every open set in space can be written as union of nonoverlapping rectangles.
+
+\begin{thm}\label{mumeas}
+$\mu=\tmu|\cal L$ is a measure on $\cal L$.
+\end{thm}
+\begin{proof}
+We need to show $\mu$ is countably additive. Since $\Ga^c\in \cal L$, given $\Ga\in \cal L$ and $\ep>0$ there exists $F\in \cal F(E),F\subeq \Ga$ so that $\tmu(\Ga\bs F)<\ep$ by the same trick.%: $\Ga^c$ is in $\cal L$. %so there is an open set contaioning it so mu tilde of that -complement is %<\ep take F to be complement.
+
+Assume we have $\Ga_n,n\geq 1$ mutually disjoint, relatively compact (i.e. having compact closure) sets in $\cal L$. We first prove countable additivity in this case. Given $K_n\sub\sub E$, for $K_n\subeq \Ga_n$. %Note the $K_n$'s are disjoint by relative compactness. 
+Thus
+\[
+\mu\pa{\bigcup_{m=1}^{\infty}\Ga_m}\geq
+\mu\pa{\bigcup_{m=1}^{n}\Ga_m}\geq
+\mu\pa{\bigcup_{m=1}^n K_m}
+=\sum_{m=1}^n \mu(K_m).
+\]
+Now take $K_n$ such that $\mu(\Ga_n)\leq \mu(K_n)+\ep2^{-n}$ and take $n\to \infty$.
+
+The opposite inequality holds by subadditivity of $\tmu$.
+
+For the general case, choose $I_m\in \cal R$ so that $E=\bigcup_{n=1}^{\infty} I_n$, and let $A_1=I_1$, $A_{n+1}=I_{n+1}\bs \bigcup_{m=1}^n I_m$. Then the $A_n$'s are mutually disjoint, relatively compact sets in $\cal L$, and so are $\Ga_{m,n}=A_m\cap \Ga_n$. Now use the previous part on the $\Ga_{m,n}$.
+\end{proof}
+This finishes the proof of existence.

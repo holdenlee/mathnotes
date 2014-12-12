@@ -1,0 +1,122 @@
+\lecture{Wed. 5/11/11}
+
+\subsection{Caratheodory}
+\begin{df}
+Suppose $E\ne \phi$. A function $\tilde{\mu}:\cal P(E)\to [0,\iy]$ is a \textbf{outer measure} if 
+\begin{enumerate}
+\item $\tilde{\mu}(\phi)=0$
+\item $\tilde{\mu}(A)\le \tilde{\mu}(B)$ whenever $A\subeq B$.
+\item $\tilde{\mu}\pa{\bigcup_{n=1}^{\iy} \Ga_n} \le \sum_{n=1}^{\iy} \tilde{\mu}(\Ga_n)$.
+\end{enumerate}
+\end{df}
+Note if $(E,\cal B, \mu)$ is an outer measure, then
+\[
+\tilde{\mu}(\Ga)=\inf\{ \mu(B)\mid B\in \cal B,\, \Ga\subeq B\}.
+\]
+\begin{df}
+A set $A\subeq \cal P(E)$ is \textbf{Caratheodory measurable} if for every $\Ga\subeq E$, $\tilde{\mu}(\Ga)=\tilde{\mu} (A\cap \Ga)+\tilde{\mu}(A^c\cap \Ga)$, i.e. $A$ cuts every other set nicely from the point of view of $\mu$.
+
+The collection of Caratheodory measurable sets is denoted $\cal B_{\tilde{\mu}}$.
+\end{df}
+%In many cases few sets, not interesting.
+Note if $\tilde{\mu}$ comes from a measure, then everything in the original \sia{} is Caratheodory measurable.
+
+The main theorem is the following.
+\begin{thm}
+$\cal B_{\tilde{\mu}}$ is a \sia{} and $\tilde{\mu}|_{\cal B_{\tilde{\mu}}}$ is a measure.
+\end{thm}
+This theorem is very general. However, for it to be of use, we need a criteria on which sets are Caratheodory. This is given by the following.
+\begin{thm}
+Let $(E,\rh)$ be a metric space. If $\rh(A,B)>0$ then $\tilde{\mu}(A\cup B)=\tilde{\mu}(A)+\tilde{\mu}(B)$. Then $\cal B_E\subeq \cal B_{\tilde{\mu}}$.
+\end{thm}
+%at least de apart, cover with sets union smaller than de/2. Throw of sets don't intersect either. If intersect one don't intersect other. Divide cover into two parts; form sum get additivity. Let $\de\to 0$, eventually H^S satisfies this property.
+\begin{lem}
+The set of Caratheodory measurable sets is an algebra.
+\end{lem}
+\begin{proof}
+It is clear that $\ph, E$ are measurable sets, and that $A$ is measurable iff $A^c$ is measurable, by symmetry of definition.
+
+Suppose $A,B\in \cal B_{\tilde{\mu}}$. Let $\Ga\subeq E$. Then
+\begin{align*}
+\tilde{\mu}(\Ga)&=\tilde{\mu}(A\cap \Ga)+\tilde{\mu}(A^c\cap \Ga)\\
+&=\tilde{\mu} (A\cap \Ga)+\tilde{\mu}(A^c \cap B\cap \Ga)+\tilde{\mu}(A^c\cap B^c\cap \Ga)\\
+&=\tilde{\mu} (A\cap \Ga)+\tilde{\mu}(A^c \cap B\cap \Ga)+\tilde{\mu}((A\cup B)^c\cap \Ga)\\
+&\ge \tilde{\mu}((A\cup B)\cap \Ga)+\tilde{\mu}(A\cup B)^c\cap \Ga
+\end{align*}
+where we used...
+\end{proof}
+\begin{lem}
+The set of Caratheodory measurable sets is a $\si$-algebra.
+\end{lem}
+\begin{proof}
+It suffices to show that if $\{A_n\mid n\ge 1\}\subeq \cal B_{\tilde{\mu}}$ are mutually disjoint, then their intersection is also in $\cal B_{\tilde{\mu}}$. Let $B_n=\bigcup_{m=1}^n$. By induction on $n$, $\tilde{\mu}(\Ga\cap B_n)=\sum_{m=1}^n \tilde{\mu}(\Ga\cap A_m)$. By monotonicity, 
+\[\tmu(\Ga\cap B)\ge\tilde{\mu}(\Ga\cap B_n)=\sum_{m=1}^n \tilde{\mu}(\Ga\cap A_m).\]
+Taking the limit as $n\to \iy$ and letting $B=\bigcup_{m=1}^{\iy} A_m$, 
+\[
+\tmu(\Ga)=\tmu(\Ga\cap B_n)+\tmu (\Ga\cap B_n^c)\ge \sum_{m=1}^n \tmu(\Ga\cap A_m)+\tmu (\Ga\cap B^c)\ge\tmu(\Ga \cap B).
+\]
+What?
+\[
+\tmu(\Ga)\ge \sum_{m=1}^{\iy} \tmu(\Ga\cap A_m) +\tmu (\Ga\cap B^c)\ge \tmu(\Ga\cap B)+\tmu(\Ga\cap B^c)
+\]
+\[
+\tmu\pa{\bigcup_{m=1}^n A_m}\ge \sum_{m=1}^{\iy}\tmu(A_m).
+\]
+So measure.
+%proved that
+\end{proof}
+\begin{lem}
+If $G$ is open, $A\subeq G$, and $A_n=\{x\in A\mid \rh(x,G^c)\ge \rc n\}$,
+ Then $\tmu (A_n)\nearrow \tmu(A)$. %A_n\nffffffearrow
+\end{lem}
+\begin{proof}
+Since G is open, the $A_n$ increase to $A$. Let $D_n=A_{n+1}\bs A_n$. Let 
+\begin{align*}
+\tmu(A)&=\tmu(A_{2m})\cup \bigcup_{n\ge 2m} D_n
+\le \tmu(A_{2m})+\tmu\pa{
+\bigcup_{n\ge m} D_{2n}}
++\tmu\pa{\bigcup_{n\ge m} D_{2n+1}}\\
+&\le \sum_{n\ge m}\tmu(D_{2n})+\sum_{n\ge m}\tmu (D_{2n+1})
+\end{align*}
+We need to show that for $\mu(A_N)$,
+\[
+\tmu(A)\le \lim_{n\to \iy} \tmu_{n\to iy} \tmu (A_n)=:K<\iy.
+\]
+%tail ofcen v esq
+Note
+\[
+K\ge \tmu(A_{2M+1})\ge \tmu\pa{
+\bigcup_{n=1}^M D_{2n}}
+\]
+created space between them (think of ring of circles)
+Positive distance from one another. Use thm.
+\end{proof}
+\begin{lem}
+\[
+\cal B_E\subeq \cal B_{\tmu}.
+\]
+\end{lem}
+%suffices tto show wvery open subesr if.
+\begin{proof}
+Let $A=G\cap \Ga$, $A_n\nearrow A$, $A_n\nearrow A$...
+Now
+\begin{align*}
+\tmu(G\cap \Ga)&=\lim_{n\to \iy} \tmu (A_n)\\
+\tmu(A_a\cup G^c)&\tmu(A_n)+\tmu(G_c).
+\tmu(\Ga)&\ge \tmu() +\tmu()
+\end{align*}
+$\Ga=(\Ga\cap G)\cup (\Ga\cup G^c)\supeq A_n\cup (\Ga\cap G^c)$. 
+$A_n$ a positive distance from $G^c$.
+These sets a pos distance
+\begin{align*}
+\tmu(\Ga)&\ge \tmu(A_n)+\tmu(\Ga\cap G^c)\\
+&\ge \tmu(\Ga\cap G)+\tmu(\Ga\cap G^c)
+\end{align*}
+\end{proof}
+%\tmu(A)\le \tmu(A_{2m})+\tmu\pa{
+%\bigcup_{n\ge 2m} D_n
+%} subadditivity
+%Even and odd $\bigcup_{n\ge m} D_{2n}$
+%NTS $\sum_1^M \tmu(D_{2n})$ pos dist from one another
+%by Caratheodory's ASSUMPTION  you have add, =\tmu\pa{\bigcup_1^M D_{2n}}. 
+%Trick, break up sum, separate from one another.

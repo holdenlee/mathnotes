@@ -1,0 +1,140 @@
+\lecture{Wed. 2/23/2011}
+
+\subsection{Some cool stuff}
+\begin{lem}[Vitalli]\label{vitalli}%Lemma
+Suppose $\Ga\subeq \R$ is Lebesgue measurable with positive measure. Then 
+\[
+\Ga-\Ga=\{x-y:x,y\in \Ga\}\supeq [-\de,\de]
+\]
+for some $\de>0$.
+\end{lem}
+\begin{proof}
+Without loss of generatlity, we can assume $\Ga$ has finite Lebesgue measure. Then there exists $G\in \cal G(\R)$ such that $\Ga\subeq G$ and 
+$
+\la_{\R}(G\bs \Ga)\leq \rc{3}\la_{\R}(\Ga).
+$
+Then 
+\[\la(\Ga)\geq \frac{3}{4}\la(G).\]
+Every open set of the real line can be written as the union of disjoint open intervals; write $G=\bigcup_{m=1}^{\infty} I_m$. Then
+\[
+\sum_{m=1}^{\infty} \la(\Ga\cap I_m^{\circ})
+=\la(\Ga)\geq \frac{3}{4}\la(G)=\frac 34 \sum_{m=1}^{\infty} \la(I_m^{\circ})
+\]
+For at least one open interval,
+\[
+\la(\Ga\cap I_m^{\circ})\geq \frac 34
+\la(I_m^{\circ}),
+\]
+i.e. $\Ga$ looks large in some open interval. Let $A=\Ga\cap I_m^{\circ}$ and suppose $A\cap (d+A)=\phi$. (Note $A$ intersects $d+A$ iff $d\in A-A$.) Then
+\[
+\frac 32 \la(I_m^{\circ})
+\leq
+2\la(A)=\la(A\cup (d+A)).
+\]
+Now $(a,b) \cup(a+d,b+d)$ is contained in an interval of length $b-a+|d|$ (either $(a,b+d)$ or $(a+d,b)$). Then
+\[
+|d|\geq \rc 2 \la(I_m^{\circ}).
+\]
+So we can let $\de=\rc{2}\la(I_m^{\circ})$.
+\end{proof}
+%Cavalier use of Axiom of Choice!
+\begin{thm}
+Assuming the Axiom of Choice, given any $\Ga$ be any set of positive measure, there exists a nonmeasurable set contained in $\Ga$.
+\end{thm}
+\begin{proof}
+Define an equivalence relation by
+\[
+x\sim y\iff x-y\in \Q.
+\]
+Using the Axiom of Choice, let $A$ be a set with exactly one representative from each equivalence class.
+
+Let $\Ga$ be any Lebesgue measurable set with positive measure. Consider the sets $\Ga\cap (q+A)$. Suppose the intersection were Lebesgue measurable for every $q\in \Q$. But
+\[
+\Ga=\bigcup_{q\in \Q} (\Ga\cap(q+A))=\Ga.
+\]
+If $\Ga$ has positive measure, then there exists $q$ such that $\Ga\cap (q+A)$ is Lebesgue measurable of positive measure. By Vitalli's Lemma~\ref{vitalli}, $\Ga\cap q+A$ contains an entire interval. But this is a contradiction because the difference of two elements in $q+A$ is rational only if it is zero.
+%Given any measurable set >0 can find subset nonmeasurable.
+\end{proof}
+\subsection{Probability measures}
+\begin{thm}
+Let $F:\R\to \R$ %is a increasing and bounded, with $F(\infty)=\lim_{x\to -\infty}F(x)=0$, and $F$ right continuous. 
+be a function. Then there exists a finite Borel measure on $\R$ such that
+\[
+\mu_F((-\infty,x])=F(x)
+\]
+for all $x\in \R$ if and only if
+\begin{enumerate}
+\item
+$F$ is increasing.
+\item
+$F$ is bounded.
+\item
+$F(-\infty)=\lim_{x\to -\infty}F(x)=0$.
+\item
+$F$ is right continuous.
+\end{enumerate}
+\end{thm}
+$F$ is called a \textbf{distribution function} (for the measure $\mu_F$). %Any right-continuous nondecreasing function is the distribution function for some measure.
+
+\begin{proof}
+Suppose $\mu$ is a finite Borel measure on $\R$. Define $F(x)=\mu((-\infty,x])$. Then 
+\begin{enumerate}
+\item
+$F$ is nondecreasing because $x\leq y$ implies $(-\infty,x]\subeq (-\infty, y]$.
+\item
+$F$ is bounded because $\mu$ is finite.
+\item
+$F(-\infty)=0$ because the the measure of a decreasing sequence of sets $(-\infty, -n]$ is the limit of the measures. 
+\item
+$F$ is right continuous for the same reason because
+\[
+(-\infty,x]=\bigcap_{n=1}^{\infty} \left(-\infty, x+\rc n\right].
+\]
+\end{enumerate}
+Given $F$ satisfying the conditions we can write $F=F_d+F_c$ where $F_d$ is pure jump and $F_c$ is nondecreasing. Thus we just need to consider $F$ pure jump or nondecreasing.
+
+For $F_d$ pure jump, let $D$ be the set of discontinuities. Then
+\[
+F_d(x)=\sum_{y\in D\cap (-\infty, x]} (F_{d}(x)-F_d(x-)).
+\]
+This motivates us to take
+\[
+\mu_{F_{d}}(\Ga)=\sum_{y\in \Ga\cap D}(F_d(y)-F_d(y-)).
+\]
+(Just add up the jumps in the set.)
+
+For $F_c$ continuous, let $R$ be the set of closed intervals of the real line. Define $V$ by
+\[
+V([a,b])=\mu_{F_c}([a,b]).
+\]
+We check this satisfies hypotheses, so $\mu_{F_c}$ defines a Borel measure.
+%(Note 
+%\[
+%\mu_{F_c}(\{a\})=\lim_{n\to \infty} \mu_{F_c} \pa{\left(a-\rc n,a\right]}=0
+%\]
+%by continuity of $F_c$.)
+
+%Then $\mu_F((-\infty, b))=\mu_F((-\infty, b])=F(b)$, $\mu_F((a,b))=F(b)-F(a)$.  
+(Assumptions 4 and 5 come from continuity; for assumption 4 %$J\supeq \bigcup_{m=1}^n I_m$, 
+emulate the proof of Lemma~\ref{coverineq}.)
+%V of slightly smaller doesn't differ so much from inside or outside--continuity.
+
+Now we show uniqueness. Suppose $\nu((-\infty, x])=F(x)$.
+It is finite, and by taking a sequence of intervals increasing to $(a,b)$,
+\[\nu_F((a,b))=\sum_{n\to \infty}\bc{F\pa{b-\rc n}-F(\al)}=F(b-)-F(a).\]
+%
+%Since it ?, it suffices to show 
+Every open set is the union of disjoint intervals; $\nu=\mu_F$ on open intervals so they agree on open sets.
+ %If $\nu$ assumes right value at each interval, then yum.
+Then $\nu=\mu_F$.
+%don't need cont.
+%Let 
+%$\mu_F([a,b])=F(b)-F(a)$. Now $\mu_F([a,b])=F(b)-F(a)$ and
+\end{proof}
+
+%Prob. Arena where measure theory gets used.
+We talk about coin tossing. Suppose each coin is heads independently with probabity $p\in (0,1)$; let $q-1=a$. Let $(\eta_1,\ldots, \eta_n)\in \{0,1\}^n$. %The probability of this sequence is $p^n$. In general t
+The probability  is $p^{\sum_{i=1}^n\eta_i}q^{n-\sum_{i=1}^n \eta_i}$.
+
+We want to consider infinite coin tossing games, and describe events that depend on infinite number of tosses. We want to find a measure!
+To be continued.

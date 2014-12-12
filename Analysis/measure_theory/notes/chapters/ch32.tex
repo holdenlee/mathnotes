@@ -1,0 +1,71 @@
+\lecture{Mon. 4/25/11}
+
+%Story of the day
+%And I meet St. Peter at the gate and he tells me I pass or fail, not that I got no credit.
+
+\subsection{Hilbert spaces}
+\begin{thm}\label{densperp}
+Let $H$ be a Hilbert space and let $S\subeq H$. Then $\spn(S)$ is dense in $H$ iff $S^{\perp}=\{0\}$.
+\end{thm}
+\begin{proof}
+First suppose $\spn(S)$ is dense in $H$. 
+If $x\perp S$ then $x\perp \spn(S)$ and $x\perp\ol{\spn(S)}$. The last step in more detail: Suppose $x\perp \Ga$, and $y_n\to y$. This means $\an{x,y_n}=0$. By Schwarz's inequality the inner product is continuous, so $\an{x,y_n}\to \an{x,y}=0$. Now $x\perp\ol{\spn(S)}=H$ gives $x=0$.
+
+For the inverse, note that $S^{\perp}$ is always a closed subspace, by continuity of inner product. Suppose $\spn(S)$ is not dense. Then there exists $x\nin \ol{\spn(S)}$ and $x-\Pi_{\ol{\spn(S)}}x\ne 0$, $x-\Pi_{\ol{\spn(S)}}\in \perp{S}\neq \{0\}$.
+%Conversely suppose $S^{\perp}=\{0\}$.
+\end{proof}
+
+%Given $H$ finite dimensional, 
+\begin{df}
+$B\subeq H$ is a basis if $\ol{\spn(B)}=H$ and $B$ is linearly independent.
+\end{df}
+This agrees with the usual definition for finite dimensional $H$. 
+Consider $l^2(\N;\R)$, i.e. $(\al_1,\al_2,\ldots)$ such that $\sum_{i=1}^n\al_i^2<\iy$. 
+Define $e_n$ by $(e_n)_i=\de_{in}$. The span of the $e_n$ are those vectors with a finite number of nonzero entries; we have to take the closure.
+
+We care about bases with the additional property that they are orthonormal.
+
+\begin{lem}
+Suppose that $H$ is a separable Hilbert space. Then there exists an orthonormal basis $\{e_n|n\ge 0\}$ for $H$.
+\end{lem}
+\begin{proof}
+Choose $\{x_k:k\ge 0\}$ dense in $H$, and weed out the ones that are linearly dependent with the ones before: take $x_{n_0}$ to be the first nonzero vector. Given $x_{n_0},\ldots, x_{n_k}$, find the first $n_{k+1}>n_k$ so that $x_{n_k}$ is linearly independent from $x_{n_0},\ldots, x_{n_k}$. In this way we get a sequence $\{y_n|n\ge 0\}$ that are linearly dependent and that spans the same set as the $x_n$, so its span is dense.
+
+Now we turn the $y_n$ into an orthonormal basis by Gram-Schmidt orthogonalization. Consider $L_n=\spn(\{y_0,\ldots, y_n\})$. We claim that all finite-dimensional vector spaces are closed. Indeed, suppose $x_k=\sum_{m=1}^n \al_{m,k}y_m\to x$. There is $\ep>0$ such that $\ve{\sum_{m=1}^n \al_my_m}\ge \ep\pa{\sum_{m=1}^n |\al_m|^2}^{\rc 2}$: 
+look at it as a function on the unit sphere in $n$ dimensions; by compactness there is a minimum $\ep$. Now $\sum_{m=1}^n (\al_{m,l}-\al_{m,k})^2\to 0$ so the $\al{m,l}$'s converge by Cauchy.
+
+Now take $e_0=\frac{y_0}{\ve{y_0}}$. Now take
+\[
+e_n=\frac{y_n-\Pi_{L_{n-1}}y_n}{\ve{y_n-\Pi_{L_{n-1}}y_n}}
+\]
+to get an orthonormal basis. (The denominators are not 0 by linear independence.) Indeed, $\spn(\{y_0,\ldots,y_n\})=\spn(\{e_0,\ldots, e_n\})$, so the span of the $e_n$'s equals the span of the $y_n$'s, which is dense.
+\end{proof}
+Note an orthonormal set $\{e_n\}$ is linearly independent, by taking inner products with $e_m$.
+\begin{thm}
+Let $\{e_n:n\ge 0\}$ be an orthonormal sequence.
+\begin{enumerate}
+\item
+If $\{\al_m|m\ge 0\}\in \ell^2(N,\C)$, then $\sum_{m=0}^n \al_me_m$ converges.
+\item
+Moreover,
+\[\an{
+\sum_{m=0}^{\iy} \al_me_m,\sum_{m=0}^{\iy} \be_me_m
+}=\sum_{m=0}^{\iy}\al_m\ol{\be_m}.
+\]
+\end{enumerate}
+Therefore $(\al_m)\to \sum_{m=0}^n \al_me_m$ is a isomorphism of Hilbert spaces.
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item
+Use Cauchy's criterion. We have
+\[
+\ve{\sum_{m=0}^N\al_me_m-\sum_{m=0}^N \al_me_m}^2=
+\ve{\sum_{m=M+1}^N \al_me_m}^2
+%=\sum\an{\al_me_m,\al_{m'}e_{m'}}
+=\sum_{m=M+1}^N |\al_m|^2\to 0
+\]
+showing this is a Cauchy sequence.
+\item Similar. Do for finite, pass limits.
+\end{enumerate}•
+\end{proof}

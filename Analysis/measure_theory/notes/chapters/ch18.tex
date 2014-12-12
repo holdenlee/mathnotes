@@ -1,0 +1,156 @@
+\lecture{Mon. 3/14/11}
+
+\subsection{Lebesgue's differentiation theorem}
+
+\begin{lem}\label{lipint}
+Suppose $F(-\iy)=0$ and $F$ satisfies the Lipschitz condition 
+\[0\le F(y)-F(x)\le L(y-x)\text{ for }x\le y.\]
+Then $F$ is a definite integral.
+\end{lem}
+
+\begin{proof}
+Let
+\[
+f_n(x)=2^n(F((k+1)2^{-n})-F(k2^{-n})), \,k2^{-n}\le x<(k+1)2^{-n}.
+\]
+Then $0\le f_n\le L$ and
+\[
+\int_{-\iy}^{\iy} f_n\,dx=F(\iy).
+\]
+Let $m<n$. %Note $f_m$ is constant on the interval $[k2^{-n}, (k+1)2^{-n})$. 
+Consider
+\begin{align*}
+\int_{[k2^{-m}, (k+1)2^{-m})} f_m f_n\,d\la
+&=f_m(k2^{-m})\int f_n\,d\la\\
+&=2^{-m} f_m(k2^{-n})^2 \\
+&=\int f_m^2\,d\la.
+\end{align*}
+Hence
+\[
+\int (f_n-f_m)^2\,d\la=\int f_n^2\,d\la-\int f_m^2\,d\la\to 0
+\]
+since $\int f_n^2\le LF(\iy)$. (A bounded monotonic sequence converges.) By Markov's inequality,
+\[
+\mu(|f_n-f_m|\ge\ep)=\mu(|f_n-f_m|^2\ge\ep^2)\le \rc{\ep^2}\int |f_n-f_m|^2\,d\la.
+\]
+Taking the sup over $n>m$, 
+\[
+\sup_{n>m}\mu(|f_n-f_m|\ge \ep)\le \rc{\ep^2}\sup_{n>m}\int |f_n-f_m|^2\to 0.
+\]
+By Cauchy's Criterion for convergence in measure~(\ref{cccom}), there exists $f$ so that $f_n\xrightarrow{\mu} f$. 
+%(Subseq conv almost everywhere, true for each $f_n$, true for $f$) \
+Changing $f$ on a set of measure 0 we may assume $0\le f\le L$. 
+
+Consider $F(y)-F(x)$. For $n\ge m$,
+\[
+F(l2^m)-F(k2^{-m})=\int_{[k2^{-m}, l2^{-m})} f_n\,d\la
+\to\int f\,d\la\text{ as }n\to\iy.
+\]
+by Lebesgue's Dominated Convergence Theorem for convergence in measure ($L$ is a Lebesgue dominant of the $f_m$). Let $F(y)=\int_{(-\iy,y]}f$. Hence for dyadics,
+\[
+F(y)-F(x)=\int_{(x,y]} f\,d\la.
+\]
+Both sides are continuous and the dyadics for a dense set so this is true for all $x$ and $y$.
+%If Lipschitz continuous then indefinite integral.
+\end{proof}
+
+\begin{lem}\label{abint}
+Suppose $F$ is absolutely continuous and nondecreasing. Then $F$ is a definite integral. (Hence, by Theorem~\ref{ftoc2}, it is differentiable a.e.)
+\end{lem}
+\begin{proof}
+For every $\ep>0$ and $\de>0$ there exist intervals $I$ such that $\sum |I|<\de$ and
+\[
+\sum_I F(I^+)-F(I^-)<\ep.
+\]
+From a homework problem, $F$ is absolutely continuous iff $\mu_F$ is absolutely continuous with respect to $\la_R$ (i.e. $\la(\Ga)=0\implies \mu(\Ga)=0$). 
+
+By Corollary~\ref{larlf}, $\mu_F(\cal LF=\iy)=0$. Let 
+\[F_n(x)=\mu_F((-\iy, x]\cap \{\cal LF\le n\}).\]
+It is nondecreasing, tends to 0 a $-\iy$, and increases to $F(x)$ as $n\to \iy$, because we've remove a set whose measure tends to 0. (The measure tends to $\mu((-\iy, x]\cap \{\cal L F<\iy\})=0$.)
+
+We claim that $F_n$ is Lipschitz with constant $n$: $F_n(y)-F_n(x)\le n(y-x)$. Indeed, suppose $c\in(x,y]\cap \{\cal LF\leq n\}$. If $(x,y]$ does not intersect $\{\cal LF\le n\}$ then the difference is 0. Else, choose $c$ so that $c\in (x,y]\cap \{\cal LF\le n\}$. Then
+\begin{align*}
+F_n(y)-F_n(x)&=\mu_F((x,y]\cap \{\cal LF\leq n\})\\
+&\le (F(y)-F(x))\\
+&=(F(y)-F(x))-(F(c)-F(x))\\
+&\le n(y-x).
+\end{align*}
+ Then by Lemma~\ref{lipint},
+\begin{align*}
+F_n(x)&=\int_{(-\iy, x]} f_n\\
+F_{n+1}(x)-F_n(x)&=\int_{(-\iy, x]} f_{n+1}-f_n \,d\la\\
+&=\mu_F((-\iy, x]\cap \{n<\cal L F\le n+1\}).
+\end{align*}
+Hence $F_n$ is nonnegative nonincreasing, and by the Monotone Convergence Theorem,
+\[
+F(x)=\lim_{n\to \iy}F_n(X)=\lim_{n\to \iy }\int_{(-\iy,x]} f_n\,d\la=\int_{(-\iy,x]}f\,d\la_{\R}.
+\]
+%For nondec cont.
+\end{proof}
+
+\begin{thm}\label{spns}
+Let $F$ be a bounded, right-continuous, non-decreasing function with $F(-\iy)=0$.
+
+Then $F$ can be decomposed into an absolutely continuous, non-decreasing $F_a$ and a singular, right-continuous, non-decreasing $F_b$:   %$F=F_{\la}+R-]k
+$F=F_{a}+F_{b}$. 
+\end{thm}
+%\begin{lem}
+%\end{lem}
+\begin{proof}
+Define the measures
+\begin{align*}
+\mu_a(\Ga)&=\mu_F(\Ga\cap \{\cal L F<\iy\})\\
+\mu_b(\Ga)&=\mu_F(\Ga\cap \{\cal L F=\iy\})
+\end{align*}
+and let
+\begin{align*}
+\cal F_a(x)&=\mu_a((0,x])\\
+\cal F_b(x)&=\mu_b((0,x])
+\end{align*}
+be the corresponding distribution functions.
+%Now Hence $f_a$ absolutey continuous. By same reasoning $\la (\cal L F-\iy)=0$. Thus 
+%\[
+%\mu_{F_s}(\cal L<\iy)=0\implies \la(\cal L=\iy)=0
+%\]
+Since $\la_{\R}(\cal L F=\iy)=0$, $\mu_b$ is singular to $\la_{\R}$, so by Exercise 2.2.39, the distribution function $F_b$ is singular.
+
+Since $\mu_a(\cal LF_a=\iy)\le \mu_F(\cal LF=\iy)=0$, $F$ is absolutely continuous by Exercise 2.2.38.
+%By Exercise 2.2.28, since $F$ is absolutely continuous, $\mu_F$ is singular with respect to $\la_{\R}$. Since $\la_{\R}(\cal L=\iy)=0$, this gives $\mu_F(\cal LF=\iy)=0$. Hence $F_b$ is singular. 
+%
+%Note $F_a$ is singular since $\la_{\R}(\cal L F=\iy)$, giving $\mu_s(\Ga)=\mu_F(\Ga\cap \{\cal L F=\iy\})$ sincular to $\la_{\R}$.
+%CLARIFY!
+\end{proof}
+
+\begin{lem}
+If $F$ is singular, then $F'$ exists and equals 0 Lebesgue almost everywhere. %($\iy$ velocity at set $F$ can't see.)
+\end{lem}
+\begin{proof}
+Since $F$ is singular, $\mu_F$ is singular to $\la_{\R}$ by Exercise 2.2.38. Thus there exists a set $B$ such that $\mu_F(B)=0$ and $\la_{\R}(B^c)=0$. Let $\{K_n\}$ be closed subsets of $B^c$ such that $K_n\subeq K_{n+1}$ and $\mu_F(B^c\bs K_n)\le \rc n$ for each $n\in \N$.
+Set
+\[F_n(x)=\mu_F((-\iy, x])\cap K_n.\]
+%\mu_F$ regular. 
+%But thm  $K_n\nearrow$ 
+%such that
+%\[\mu_F(B^c\bs K_n)<\rc n.\] 
+For $x\in B$, $x$ is at positive distance away from the closed set $K_n$, so $F_n'(x)=0$. 
+%
+%n not elt of b, not $K_n$.
+%Empty intersection.
+
+%nondecreasing wrt x
+For $x\in B$, $F_n'(x)=0$ for each $n$, so this is true for $F$ as well. 
+%\[
+%F_{n+1}((-\iy,x]\cap (K_{n+1}\bs K_n)).\]
+Now
+\begin{align*}
+\lim_{n\to \iy} F_n(x)&=\mu_F((-\iy, x]\cap B^c).\\
+&=\mu_F((-\iy, x])&(B \text{ has measure 0})\\
+&=F(x).
+\end{align*}
+%Are there some more things to check here?
+\end{proof}
+Any $F$ satisfying the conditions of Lebesgue's differentiation theorem can be written as $F_a+F_b$ as in Theorem~\ref{spns}. Both $F_a$ and $F_b'$ have derivatives except on a set of measure 0, so the theorem follows.
+%5 Change of variables (Jacobi), surface of measure
+%6 Inequalities
+%7 Fourier analysis
+%8 Abstraction 

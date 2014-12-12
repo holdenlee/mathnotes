@@ -1,0 +1,184 @@
+\lecture{Wed. 3/9/11}
+
+\subsection{Convergence}
+\begin{lem}[Cauchy criterion for measurable functions]\label{ccfmf}
+Let $\{f_n:n\ge 1\}$ be (measurable) functions on $(E,\cal B, \mu)$. Then there exists $f$ such that
+\begin{equation}\label{crit1}
+\lim_{n\to \infty} \mu(\sup_{n>m}|f_n-f|\ge \ep)=0\text{ for all }\ep>0
+\end{equation}
+if and only if
+\begin{equation}\label{crit2}
+\lim_{m\to \infty}\mu(\sup_{n>m}|f_n-f_m|\ge \ep)=0\text{ for all }\ep>0.
+\end{equation}
+Moreover
+\begin{enumerate}
+\item
+(\ref{crit1}) implies $f_n\to f$ almost everywhere and in $\mu$-measure.
+\item
+If $\mu(E)<\iy$ then~(\ref{crit1}) holds iff there exists $f$ such that $f_n\to f$ almost everywhere.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+For the ''$\implies$" direction, use the Triangle Inequality to get
+\[
+\mu(\sup_{n>m} |f_n-f_m|\ge \ep)\le
+\mu(\sup_{n>m} |f_n-f|\ge \eph)+\mu_{n>m}(|f-f_m|\ge \eph) \le 2\mu(\sup_{n>m}|f-f_n|\ge \eph).
+\]
+(If the LHS condition holds one of the RHS conditions must hold.)
+
+To prove the reverse direction, we need to show
+\[
+\{x:\lim_{n\to \iy} f_n(x)\text{ does not exist in }\R\}
+\]
+has measure 0; we write this as the union of a countable number of measure 0 sets. Using Cauchy's criterion, it equals
+\[
+\bigcup_{l=1}^{\iy} \bigcap_{m=1}^{\iy} \bigcup_{n>m} \bc{x:|f_n(x)-f_m(x)|\ge \rc{l}}.
+\]
+(The negation of Cauchy's criterion, is that for some $\ep=\rc{l}>0$, and all $m$, there exists $n>m$ such that $|f_n(x)-f_m(x)|>\ep$.) From~(\ref{crit2}), we know that 
+\begin{equation}
+\label{failconvm0}
+\mu\pa{
+\bigcap_{m=1}^{\iy} \bigcup_{n>m} \bc{x:|f_n(x)-f_m(x)|\ge \rc{l}}
+}=0
+\end{equation}
+because the intersection is a smaller set than any one of the sets
+\[
+\{
+\sup_{n>m}|f_n-f_m|\ge \ep
+\}
+\]
+which have measure tending to 0 as $\ep\to 0$.
+Hence~(\ref{failconvm0}) has measure 0. Defining $f=\lim_{n\to \iy} f_n$ where the limit is defined gives the desired function.
+
+Item 1 is clear. 
+%The second item second condition is equiv to (b); 
+Since $\mu(E)=0$ then using the convergence of measure of a decreasing sequence of sets, Proposition~\ref{measure-basic}(5), gives the second item. (Details left to reader!)
+\end{proof}
+Now we have to bring the sup's outside.
+\begin{lem}[Cauchy's criterion, for convergence of measure]\label{cccom}
+Suppose 
+%Cauchy's criterions satisfied in terms of convergence of measure
+\[
+\lim_{m\to \iy}\sup_{n>m} (\mu(|f_n-f_m|)\ge \ep)=0\text{ for all }\ep>0.
+\]
+Then there exists a subsequence $\{f_{n_{\ga}}:\ga\ge 1\}$ such that
+\[
+\lim_{i\to \iy} \mu(\sup_{j>i} |f_{n_j}-f_{n_i}|\ge \ep)= 0\text{ for all }\ep>0,
+\]
+and there exists $f$ so that $f_n\to f$ in $\mu$-measure. (Conversely, if $f_n\to f$ in $\mu$-measure, then $f$ satisfies the Cauchy Criterion and so there exists a subsequence as above.)
+\end{lem}
+I.e. if we have Cauchy's criterion for convergence of measure, then we have a subsequence converging almost everywhere and in $\mu$-measure. This will imply the original sequence converges in measure to the same thing.
+\begin{proof}
+Choose $n_i$ increasing so that 
+\[
+\sup_{n>n_i} \mu( |f_n-f_{n_i}|\ge 2^{-i-1})\le 2^{-i-1},
+\]
+by using the Cauchy criterion. (Note the discepancy in measure and the size of the set where the discrepancy occurs both form convergent series.)
+
+Now
+\[
+\mu(|f_{n_{i+1}}-f_{n_i}|\ge 2^{-i-1})\le 2^{-i-1}
+\]
+This gives the following. 
+(Write $f_{n_j}-f_{n_i}$ as a telescoping series. If the LHS expression is at least $2^{-i}$, then at least on the the inequalities on the RHS must hold. This argument is key!)
+\[
+\mu(\sup_{j>i} |f_{n_j}-f_{n_i}|\ge 2^{-i})
+\le \sum_{k=i}^{j-1}\mu(|f_{n_{k+1}}-f_{n_k}|\ge 2^{-k-1})\le 2^{-i}.
+\]
+
+We've found a subsequence satisfying the desired condition; by Lemma~\ref{ccfmf}, $f_{n_i}\to f$ almost everywhere and in $\mu$-measure. To get a $f_n\to f$ in $\mu$-measure we use the Triangle Inequality:
+\[
+\mu(|f_n-f|\ge \ep) \le \mu(|f_n-f_{n_i}|\ge \eph)+\mu(|f_{n_i}-f|\ge \eph)\to 0.
+\]
+(If a bunch of guys converge to something and we have Cauchy's criterion, everyone gets drawn along.)
+\end{proof}
+
+\begin{thm}[Fatou, v.2]
+If $f_n\ge 0$ almost everywhere and $f_n\to f$ \textbf{in $\mu$-measure} then
+\[
+\int f\,d\mu\le \varliminf_{n\to \infty} \int f_n\,d\mu.
+\]
+\end{thm}
+\begin{proof}
+It suffices to consider $f_n\ge 0$ everywhere. Choose a subsequence $\{f_{n_m}:m\ge 1\}$ such that 
+\[
+\lim_{m\to \iy} \int f_{n_m}\,d\mu=\varliminf_{n\to \iy}\int f_n\,d\mu.
+\]
+Now by Theorem~\ref{cccom} choose a subsequence $\{f_{n_{m_i}}:i\ge 1\}$ such that $f_{n_{m_i}}\to f$ almost everywhere
+ and apply Fatou's Lemma (Theorem~\ref{fatou}) to this subsequence.
+\end{proof}
+
+\begin{thm}
+$L^1(\mu)$ is a complete metric space. In other words, if
+\[
+\sup_{n>m}\nl{f_n-f_m}\to 0\text{ as } n\to \iy
+\]
+then there exists $f\in L^1$ such that $\nl{f_n-f}\to 0$ as $n\to \iy$.
+\end{thm}
+\begin{proof}
+By Markov's inequality
+\[
+\mu(|f_n-f_m|\ge \ep)
+\le \rc{\ep}\nl{f_n-f_m}.
+\]
+Thus by Theorem~\ref{cccom} there exist $f$ such that $f_n\to f$ in $\mu$-measure.
+
+Now we show $f_n\to f$ in the $L^1$ norm. By Triangle,
+\[
+\nl{f_n-f}\le \nl{f_n-f_m}+\nl{f_m-f}\to 0:
+\]
+The first goes to 0 as $n\to \iy$ by hypothesis. By Fatou v.2, since $f_m-f_n\to f_m-f$,
+\[
+\nl{f_m-f}\le \varliminf_{n\to \iy} \nl{
+f_m-f_n
+}
+\le
+\sup_{n\ge m} \nl{f_m-f_n}\to 0
+\]
+by our Cauchy criterion.
+\end{proof}
+
+Now we prove separability (existence of countable dense subset). Let $(E,\cal B, \mu)$ be a finite measure space and suppose $\cal B=\si(\cal C)$ where $\cal C$ is a $\Pi$-space, and $E\in \cal C$. For example, given have a separable metric space, we can find a countable number of balls so every open set is a union of some of the balls. 
+\begin{thm}[Dense subset in $L^1$]
+Suppose $\mu$ is a finite measure.
+Let $S$ be the set of all functions
+%all rational combinations of indicator function.
+\[
+\sum_{m=1}^n q_m1_{C_m}, \quad C_m\in \cal C
+\]
+%Note $S$ is countable. 
+Then $S$ is dense in $L^1(\mu)$, i.e.
+\[
+\ol{S}=L^1(\mu).
+\]
+Thus if $\cal C$ is countable then $L^1(\mu)$ is separable.
+\end{thm}
+\begin{proof}
+It's easy to see that $\ol{S}$ must be a subspace (since the integral is linear), so it suffices to show all nonnegative measurable functions are in $\ol{S}$.
+
+Every nonnegative function in $L^1(\mu)$ can be written as an increasing sequence of simple functions (see construction of Lebesgue integral); these simple functions approach it in $\mu$-measure. Hence it suffices to show that simple functions are in $\ol{S}$, and by our note above, it suffices to show $1_{\Ga}\in \ol{S}^{L^1(\mu)}$ for measurable $\Ga$. But the class of $\Ga$ such that $1_{\Ga}\in \ol{S}$ is a $\La$-system and $\Pi$-system, so by Lemma~\ref{pila}, it is a $\si$-algebra, and hence contains $\cal B$, as needed.
+%Limit result-monotone convergence them.
+\end{proof}
+We can extend this result to $\si$-finite measures.
+\begin{df}
+$\mu$ is $\si$-\textbf{finite} if there exists a set $\{E_m:n\ge 1\}\subeq \cal B$ with
+\[
+E=\sum_{n=1}^{\iy},\quad \mu(E_n)<\iy.
+\]
+\end{df}
+(We can take them to be increasing or disjoint, if we wished.)
+%Ex. \R^n
+
+%This is used to prove the following important result.
+\begin{thm}\label{mufinitedense}
+Let $E$ be a metric space. Let $E_n$ be open sets increasing to $E$ with $\mu(E_n)<\iy$. ($\si$-finite metric space where sets can be chosen to be open) Let $\cal U_n$ be the set of bounded uniformly continuous functions vanishing off of $E_n$. 
+%(Ex. Euclidean space, balls of radius $N$, functions vanishing outside ball.)
+Then
+\[
+\ol{\bigcup_{n=1}^{\iy} \cal U_n}=L^1(\mu).
+\]
+\end{thm}
+\begin{proof}
+Similar argument. Extra step saying you can approximate the indicator function of open set in terms of uniform functions.
+\end{proof}
+%Next time: F increasing, then $F' exists at $\la_{\R}$-everywhere point. (!)

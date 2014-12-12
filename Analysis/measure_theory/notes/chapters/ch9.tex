@@ -1,0 +1,116 @@
+\lecture{Tue. 2/22/2011}
+
+\subsection{Uniqueness}
+\begin{thm}\label{uniqmeas}
+There exists a unique Borel measure $\mu$ such that $\mu(I)=V(I)$ for $I\in \cal R$. $\mu$ is regular, and $\cal L=\overline{\cal B}_E^{\mu}$ and $\overline{\mu}=\tmu|\overline{\cal B}^{\mu}_E$.
+\end{thm}
+\begin{proof}
+We've proved existence; it remains to prove uniqueness.
+%We only need to prove uniqueness. 
+Suppose $\nu$ is another such measure. First suppose $G$ is open; write $G=\bigcup_{m=1}^{\infty} I_m$ (nonoverlapping cover). %(disjoint union). 
+Now
+\[
+\nu(G)\leq \sum_{m=1}^{\infty} \nu(I_m)=\sum_{m=1}^{\infty}\mu(I_m)=
+\mu(G).
+\]
+For each $m$ we can find a rectangle $I_m''\subeq I_m^{\circ}$ with $V(I_m)\leq V(I_m'')+\ep2^{-m}$. The $I_m''$ are in the interiors of disjoint rectangles so are disjoint. By countable additivity,
+\[
+\nu(G)\geq \sum_{m=1}^{\infty}\nu(I_m'')\geq \mu(G)-\ep.
+\]
+This shows that $\mu=\nu$ on open sets. 
+
+Next we show that $\mu=\nu$ on compact sets $K$. Choose open $G$ such that $K\sub G$ and $\mu(G\bs K)$ is finite. Then, since compact sets have finite measure under $\mu$, and both $G$ and $G\bs K$ are open,
+%\[
+%\mu(G)=\mu(G\bs K)+\mu(K)<\infty.
+%\]
+\[
+\nu(K)=\nu(G)-\nu(G\bs K)=\mu(G)-\mu(G\bs K)=\mu(K).
+\]
+
+Next we show that $\mu=\nu$ on closed sets $F$. Write $E=\bigcup_{m=1}^{\infty} I_m$. Now $F_n=F\cap \bigcup_{m=1}^n I_m$ are compact, so $\nu(F_n)=\mu(F_n)$. Then $F_n\nearrow F$ so $\nu(F)=\mu(F)$.
+
+Now take an arbitrary set $\ga\in \cal B_E$. Given $\ep>0$, take $F$ closed and $G$ open so that $F\subeq \Ga\subeq G$ and $\mu(G\bs F)<\ep$. Then
+%Suppose $H$ is a closed set $\mu(H)<\infty$. Then
+%\[
+%\mu(H\cap \Ga)=\nu(H\cap \Ga)
+%\]
+%for all $\Ga\in \cal B_E$. (If two finite measures agree on the whole space and a $\Pi$-system that generates the \sia then they agree on the \sia.) %%Pi-sys gen Borel. Borel set w/ finite measure Agree on Ga Borel set mu measure
+\[
+\mu(\Ga)-\ep\leq \mu(F)=\nu(F)\leq \nu(\Ga)\leq \nu(G)=\mu(G)\leq \mu(\Ga)+\ep
+\]
+so $\mu(\Ga)=\nu(\Ga)$.
+
+%Write $E=\bigcup_{m=1}^nI_m$. $\Ga\cap \bigcup_{m=1}^n I_m$.
+\end{proof}
+\subsection{Invariance of measure}
+\begin{cor}\label{measpresmap}
+Suppose $T:E\to E$ is a map such that $T^{-1}(I)\in \cal R$ (the inverse image of a rectangle is a rectangle) and $V(T^{-1}(I))=V(I)$ for all rectangles. Then $T$ is measurable %(A measurable map is a map such that inverse images of measurable sets are measurable.)
+and $T_*\mu=\mu$, where $T_*\mu(\Ga)=\mu(T^{-1}\Ga)$ (the pushforward measure).
+%Inverse image of union/difference is union/difference.
+\end{cor}
+\begin{proof}
+%Define $\nu(\Ga)=T_*\mu(\Ga)$. 
+Since $\nu=T_*\mu$ is a Borel measure assigning to a rectangle, $V(I)$, by uniqueness $\nu=\mu$.
+\end{proof}
+Let $E=\mathbb R^N$ and $\cal R$ be a rectangle in $\R^N$, and $V(I)=\vol(I)$. Denote this measure (the Lebesgue measure) by $\la_{\R^N}$. Fix $x\in \mathbb R^N$ and let $T_xy=x$. Since $V(T_x^{-1}(I))=V(I)$, by Corollary~\ref{measpresmap} $(T_x)_* \la_{\R^N}=\la_{\R^N}$. 
+\begin{thm}
+If $\mu$ is a translation invariant Borel measure on $\R^N$ and $\mu([0,1]^N)=1$, then $\mu=\la_{\R^N}$.
+\end{thm}
+\begin{proof}
+First, we claim that if $I$ is a rectangle, $\mu(\partial I)=0$. It suffices to prove a prove that a hyperplane has measure 0; it suffices to show that a rectangle of dimension $N-1$ with side length 1 has measure 0. If it has positive measure, then we can put a countable number of translates of them in $[0,1]^N$ and find $[0,1]^N$ has infinite measure, contradiction. 
+
+Now $\mu([0,2^{-n}]^N)=2^{-nN}$ because we can tile $[0,1]^N$ with $2^N$ translates of it; they intersect only at their boundary which has measure 0. But we've showed that any open set can be covered by rectangles of this type, so $\mu$ agrees with $\la_{\R^N}$ on open sets, and by Theorem~\ref{uniqmeas}, $\mu=\la_{\R^N}$.
+\end{proof}
+
+Let $A=[a_{ij}]_{1\leq i,j\leq N}$. Define $T_A$ by $(T_Ax)_i=\sum_{j}a_{ij}x_j.$
+Suppose $A$ is nonsingular (nonzero determinant, $T_A$ is invertible, onto). Note $T_A=T_{A^{-1}}^{-1}$.
+
+\begin{thm}
+%Now we show 
+\[\la_{\R^N}(T_A\Ga)=|\det(A)|\la_{\R^N}(\Ga).\]
+%Invar under transfomations
+\end{thm}
+%Takes B_{\R^N} to self.
+\begin{proof}
+Define $\mu(\Ga)=\la_{\R^N}(T_A\Ga)$. It is a Borel, translation invariant measure. 
+Let
+\[
+\al(A)=\la_{\R^N}(T_A([0,1]^n)).
+\]
+Now $\frac{\mu(\Ga)}{\mu([0,1]^n)}$ is a translation-invariant Borel measure assigning 1 to the unit cube, so 
+\[\la_{\R^n}(\Ga) =\al(A)\la_{R}(\Ga)\]
+Now $\al(A\circ B)=\al(A)\al(B)$.
+
+There are two types of matrices where $\al(A)$ can be easily computed.
+\begin{enumerate}
+\item
+If $A$ is a diagonal matrix $A=\left[\begin{array}{ccc}
+\la_{1} & \cdots & 0\\
+\vdots & \ddots & \vdots\\
+0 & \cdots & \la_{n}\end{array}\right]$
+ then $\al(A)=\la_1\cdots\la_n=|\det(A)|$ because the cube is ``stretched".
+%Now $\Ga_A([0,1]^N$ has 
+\item
+If $A$ is orthogonal then $\al(A)=1$ because it takes the unit ball to itself. 
+\[
+\al(0)\la_{\R^N} (B(0,1))=\la_{\R^N}(B(0,1))\implies \al(0)=1.
+\]
+\end{enumerate}
+If $A$ is symmetric, then we can write $A=O^TDO$ where $O$ is orthogonal and $D$ is diagonal. Hence $\al(A)=|\det(A)|$%,
+%$(AA^T)^{\rc 2}$, $O=A^{-1}(AA^T)^{-1}$.
+%%modulus * phase factor
+
+For general $A$, use the polar decomposition $A=QH$ where $Q$ is orthogonal and $H$ is symmetric to get $\al(A)=|\det(H)|=|\det(A)|$.
+%Then $O=A^{-1}(AA^T)^{\rc 2}$. The polar decomposition is
+%\[
+%O^TDO=(AA^T)^{\rc 2}O^T.
+%\]
+
+If $A$ is singular then $\R^N$ is mapped to a subspace of dimension $n-1$; %which has measure 0. %Cover $\R^{N-1}\times \{0\}$.
+an orthogonal transformation brings into $\R^{N-1}\times \{0\}$, which has measure 0.
+\end{proof}
+%Do we have all subsets?
+%Depends on which god you worship.
+%Axiom of choice?
+%ZFC+limited AoC- get all -exists model Solobev
+%AoC- no.

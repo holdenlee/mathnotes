@@ -1,0 +1,115 @@
+\lecture{Fri. 4/15/11}
+
+\subsection{Transformations on Lebesgue Spaces}
+\begin{pr}
+If $f$ and $g$ are functions on $E_1\times E_2$ and $\rc{p}+\rc{p'}=\rc{q}+\rc{q'}=1$, then
+\[
+\ve{fg}_{L^1}\le \ve{f}_{(p,q)}\ve{g}_{(p',q')}.
+\]
+\end{pr}
+\begin{proof}
+Two applications of H\"older's inequality.
+\end{proof}
+We think of $K:E_2\times E_1\to \R$ as a ``matrix representation" of $\cal K$ if
+Consider the map $\cal K:L(\mu_2)\to L(\mu_1)$ defined by 
+\[(\cal Kf)(x_1)=\int K(x_1,x_2)f(x_2)\,\mu_2(dx_2).\]
+Think of $K$ as a matrix representation of $\cal K$. $K$ is called the kernel. 
+
+Any linear map $f:\R^m\to \R^n$ is continuous: Write $x=\sum_{j=1}^m \an{x,e_j}e_j$; then $f(x)=\sum_{j=1}^n \an{x,e_j}f(e_j)$. However this is not necessarily true for infinite-dimensional spaces.
+
+To check a linear functions it suffices to check continuity at 0. %($\ve{Ax-Ay}=\ve{A(x-y)}$
+Thus to check that $\cal K:L^p(\mu_2)\to L^p(\mu_1)$ is continuous, if suffices to show that
+\begin{equation}\label{lfuncineq}
+\ve{\cal K}_{L^r(\mu_1)}\le C\ve{f}_{L^p(\mu_2)}.
+\end{equation}
+\begin{thm}\label{lspacefuncineq}
+Let $(E_1,\mu_1),(E_2,\mu_2)$ be $\si$-finite measure spaces, and let $p\in[1,\iy]$ and $q\in [1,\iy)$. Let $r$ be so that $\rc{r}=\rc{p}+\rc{q}-1\ge 0$. Define
+\begin{align*}
+M_1&=\sup_{x_2\in E_2} \ve{K(x_1,x_2)}_{L^q(\mu_1)}<\iy\\
+M_2&=\sup_{x_1\in E_2} \ve{K(x_1,x_2)}_{L^q(\mu_2)}<\iy.
+\end{align*}
+Given $f\in L^{q'}(\mu_2)$, define
+\[
+(\cal K f)(x_1)=\int K(x_1,x_2)f(x_2)\,\mu_2(dx_2).
+\]
+(The integral is finite by H\"older.)
+Then
+\[
+\ve{\cal K f}_{L^r(\mu_1)}\le M_1^{\frac qr}M_2^{1-\frac qr}\ve{f}_{L^p(\mu_2)}.
+\]
+\end{thm}
+%Conservation of misery
+\begin{proof}
+First suppose $r=\iy$. Then $p=q'$. Therefore by H\"older's inequality,
+\begin{align*}
+\ab{\int K(x_1,x_2)f(x_2)\,\mu_2}&\le \ve{K(x_1,x_2)}_{L^q(\mu_2)}\ve{f}_{L^{q'}(\mu_2)}\\
+&\le M_2\ve{f}_{L^{p}(\mu_2)}
+%\le M_2^{\frac pq}M_1?
+\end{align*}
+Now take the sup.
+
+Now suppose $p=1$. Then $q=r$. Then by Generalized Minkowski~(\ref{genmink}),
+\begin{align*}
+\ve{\cal K f}_{L^r(\mu_1)}&\le \ve{Kf}_{L^{(1,r)} (\mu_2,\mu_1)}\\
+&\le\ve{Kf}_{L^{(r,1)}(\mu_1,\mu_2)}\\
+&=\int\pa{\int |K(x_1,x_2)|^r |f(x_2)|^r\,\mu_1(dx_1)}^{\rc r}\,\mu_2(dx_2)\\
+&= M_1 \ve{f}_{L^1(\mu_2)}.
+\end{align*}
+Switching order of integration with Minkowski allows $f(x_2)$ to come out as a constant.
+
+Now suppose $r<\iy$, $p>1$. Then $q<r$ and $p\le r$. Let $\al=\frac qr\in (0,1)$. Then $(1-\al)p'=q$. From~(\ref{fpsup}), since $(E_1, \mu_1), (E_2\mu_2)$ are $\si$-finite,
+\[
+\ve{\xi}_{L^r}=\sup\{\ve{\xi \psi}:\psi\in L^{r'}, \ve{\psi}_{r'}\le 1\}.
+\]
+For $g\in L^{r'}(\mu_1)$,
+\begin{align*}
+\ve{g\cal Kf}_{L^1(\mu_1)}&\le 
+\ve{\cal K}_{L^1(\mu_1\times \mu_2)}\\
+& \le \ve{
+(|f||K|^{\al})(|K|^{1-\al} |g|)
+}_1\\
+&\le \ve{|K|^{\al}f}_{%L^
+(r,p)}%(\mu_1\times \mu_2)
+\ve{g|K|^{1-\al}f}_{(r',p')}\\
+&\le \ve{|K|^{\al}f}_{%L^
+(r,p)}%(\mu_1\times \mu_2)
+\ve{g|K|^{1-\al}f}_{L^{(p',r')}(\mu_2,\mu_1)}&\text{by Minkowski}
+\end{align*}
+Now
+\begin{align*}
+\ve{|K|^{\al}f}_{
+(r,p)}&=
+\ba{
+\int
+\pa{\int 
+|f(x_2)|^r |K(x_1,x_2)|^q\,\mu(dx_1)
+}^{\frac pr}\,\mu_2(dx_2)
+}^{\rc p}.\\
+&\le M_1^{\frac qr} \ve{f}_{L^p(\mu_2)}. 
+\end{align*}
+Similarly,
+\[
+\ve{g|K|^{1-\al}}_{(p',r')}\le M_2^{1-\al}\ve{g}_{L^{r'}(\mu_2)}.
+\]
+Combining these two gives the desired result.
+%r>p, r'<p'
+%Free up the variables!
+\end{proof}
+Note in the case of matrices, letting $A=[a_{i,j}]$, 
+\begin{align*}
+M_1&=\max_j \pa{ \sum_{i=1}^n|a_{ij}|^q}^{\rc q}\\
+M_2&=\max_j \pa{ \sum_{j=1}^n|a_{ij}|^q}^{\rc q}
+\end{align*}
+Then
+\[
+M_1^{\frac qr}M_2^{1-\frac qr}\pa{\sum_j |x_j|^p}^{\rc p}.
+\]
+
+Theorem~\ref{lspacefuncineq} gives~(\ref{lfuncineq}), hence continuity of $\cal K$.
+\begin{thm}
+$\cal K$ is continuous.
+\end{thm}
+%\begin{thm}
+%$L^p(\mu_2)\cap L^q(\mu_2)$ is dense in $L^p(\mu_2)$. Gives Lipschitz continuous, so unique continuous extension. ADD DETAILS.
+%%Define on one space, can define on other space, transfer by continuity.
+%\end{thm}

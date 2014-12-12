@@ -1,0 +1,86 @@
+\lecture{Mon. 5/9/11}
+
+If we add the condition that the constant function 1 to our integration theory $\cal I=(E,L,I)$, then it must have come from the integral with respect to some measure. To prove this we have to construct the measure; in order to construct the measure we have to extend the definition of $I$.
+
+Let $E$ be a compact space and $L=C(E,R)$.  Let $I$ be a nonlinear linear functional. If $f$ came from $\mu$ then $I(f)=\int f\,d\mu$. We would like to say the corresponding measure is
+\[
+\mu(\Ga)=I(1_{\Ga}).
+\]
+But $I(1_{\Ga})$ isn't necessarily defined, so we need to extend the definition of $I$.
+
+Let $L_u$ be the set of $f:R\to (-\iy,\iy]$ such that there exist $\ph_n\nearrow f$ where $\{\ph_n\mid n\ge 1\}\subeq L$.
+\begin{clm}
+There is a unique extension of $I$ to $L_u$ such that $I(f)=\lim_{n\to \iy} I(f_n)$ if $\{f_n\mid n\ge 1\}\subeq L_u$ and $f_n\nearrow f$.
+\end{clm}
+\begin{proof}
+This is analogous to the proof that we can extend a Lebesgue integral for nonnegative simple functions to nonnegative measurable functions (Lemma~\ref{extendintwelldef}). Think of $L$ as playing the role of simple functions.
+
+The essential step was to prove that the integral of simple functions satisfied the condition that if $\ph_n\nearrow \psi\in L$, then $\psi\le \lim_{n\to \iy}\ph_n$ implies $I(\psi)\le \lim_{n\to \iy} I(\ph_n)$. 
+\end{proof}
+Define 
+\begin{align*}
+\ol{I}(f)&=\inf\{I(\ph)\mid \ph\in L_u,\,\ph\ge f\}\\
+\ul{I}(f)&=\sup\{-I(\ph)\mid \ph\in L_u,\,-\ph\le f\}
+\end{align*}
+Note that, 
+\begin{align*}
+\ol{I}(\al f)&=\al\ol{I}(f),&\al\ge 0\\
+\ul I(\al f)&=\al\ul I(f), &\al \ge 0\\
+\ol{I}(\al f)&=\al\ul{I}(f),&\al\ge 0\\
+\ul I(\al f)&=\al\ol I(f), &\al \le 0\\
+\ol I(f+g)&\le \ol I(f)+\ol I(g)\\
+\ul I(f+g)&\ge \ul I(f)+\ul I(g).
+\end{align*}
+We're creeping up on linearity. If we look at $f$ such that $\ol{I}(f)=\ul{I}(f)$ then we do in fact have linearity. Define
+\begin{align*}
+\mathfrak M(\cal I)&=\{f\mid \ol I(f)=\ul I(f)\}\\
+L^1(\cal I,\R)&=\{f\in \mathfrak M(\cal I):\ol{I}<\iy\} 
+\end{align*}
+and write $\tilde I(f)=\ol I(f)=\ul I(f)$ if $f\in L^1(\cal I)$.
+\begin{thm}
+$(E, L^1(\cal I, \R), \tilde I)$ is again an integration theory. Moreover, $\tilde I|_L=I|_L$. Finally, if $\{f_n\mid n\ge 1\}\subeq L^1(\cal I,\R)$ and $f_n\nearrow f$, then $f\in L^1(\cal I,\R)$ and $\tilde I(f_n)\nearrow \tilde I(f)$ if $\sup_n f_n(x)<\iy$ for all $x$ if $\tilde I(f)<\iy$.
+\end{thm}
+Note if our original integration theory came from a complete measure, and $L=L^1(\mu, \R)$, then you'll end with the same thing with the construction above, by the Monotone Convergence Theorem.
+
+When can the above be carried out? When $1\in L$. Assume $1\in L$. Define $\si(L)$ to be the smallest $\si$-algebra over $E$ with respect to which every $f\in L$ is measurable:
+\[
+\si(L)=\si(\{\{f>a\}\mid f\in L,\,a\in \R\}).
+\]
+\begin{thm}[Stone]%Father, chief justice of supreme court.
+\[
+\si(L^1(\cal I,\R))=\{\Ga\mid 1_{\Ga}\in L^1(\cal I, \R)\}.
+\]
+Moreover, if $\mu_I(\Ga)=\tilde I(1_{\Ga})$ for $\Ga\in \si(L^1(\tilde I))$ then $\si(I)$ is a finite measure, $L^1(\mu_I)=L^1(\tilde I)$, and $\tilde I(f)=\int f\,d\mu_I$ for $f\in L^1(\mu_I)$.
+\end{thm}
+\begin{proof}
+Suppose $f\in L(\tilde I,\R)$. Then $1_{f>a}\in L^1(\tilde I)$. Consider the functions (in $L^1$),
+\[
+[n(f-f\wedge a)]\wedge 1\nearrow 1_{f>a}.
+\]
+So the indicator function is in $L^1$.
+\end{proof}
+Let $\cal A$ be an algebra $\mu:\cal A\to [0,\iy)$ that is finitely additive and such that $A_n\searrow \phi$ implies $\mu(A_n)\searrow 0$. Let $I(\ph)=\int \ph\,d\mu$. By Stone's theorem, the extension is the measure $\mu_I$.
+
+There is a basic deficiency. We have to have finite measure to carry this process through. (We needed that $1$ is measurable.) With the usual trick, though, we can extend the result to $\si$-finite measures. However, it cannot be extended to wildly infinite measures.
+
+Why would we care about wildly infinite measures? Recall the Hausdorff measure 
+\begin{equation}\label{hauss1}
+H^{N,\de}(\Ga)=\inf \bc{\Om_N\sum_{C\in \cal C}\rad(C)^N:\ve{\cal C}\le \de}
+\end{equation}
+with
+\begin{equation}\label{hauss2}
+H^N(\Ga)=\lim_{\de\searrow 0} H^{N,\de} (\Ga).
+\end{equation}
+We had
+\[
+H^N(\Ga)=\la_{\R^N} (\Ga)=H^{N,\de}(\Ga)\quad \Ga\in \cal B_{\R^N}
+\]
+The problem of Hausdorff measure is that a lot of interesting sets are invisible, for example, any hyperplane has measure 0. But Hausdorff's description of Lebesgue measure gives a generalization that make small sets look visible. Take a lower power of the radius: replace $N$ by some $s<N$ in the definitions above. This is no longer $\si$-finite!
+%Have to wean away from $\si$-finite things!
+
+Why do we care? Because of the theory of fractals. %Stroock: too much publicity.
+They are calibrated using Hausdorff measure. Another motivation is that Hausdorff measure arises in geometric measure theory in differential geometry:
+%Cylinder...
+indeed, $\la_M=H^{N-1}|_M$. 
+%codim 1 / general case
+In general, if $M$ is an $n$-dimensional submanifold in $\R^N$, then $\la_M=H^n|_M$. This is a very powerful observation that allows integration theory in much greater generality than ordinary differential geometry (which has a hard time dealing with things that aren't continuously differentiable). %stuff with corners.

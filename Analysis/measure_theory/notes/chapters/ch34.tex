@@ -1,0 +1,87 @@
+\lecture{Fri. 4/29/11}
+
+\subsection{Fourier Transform, $L^1$}
+For $x\in \R^N$ define
+\[
+e_{\xi}(x)=e^{2\pi i \an{\xi,x}}.
+\]
+%Note on [0,2\pi] we want $\rc{(2\pi)^{\rc 2}}e^{inx}$. We use our convention so 1 appears in nice places.
+
+\begin{df}
+The \textbf{Fourier transform} of $f$ is
+\[
+\hat{f}(\xi)=\int_{\R^N} f(x)e_{\xi}(x)\,dx.
+\]
+Define
+\[
+\check{f}(\xi)=\hat{f}(-\xi).
+\]
+\end{df}
+This is well-defined for $f\in L^1(\la_{\R^N})$. %Not for $L^p,p>1$.
+Note the contrast with Fourier series: For Fourier series we can put in any measurable function, but for Fourier transform we need integrability. We will later extend the definition to functions in $L^2$ through a limiting procedure (through functions in $L^1\cap L^2$).
+
+First, note $\hat{f}$ is continuous by Lebesgue dominated convergence. (The integrand is uniformly bounded and $e_{\xi}$ is continuous in $\xi$.)
+We have $\ve{\hat f}_{\iy}\le \ve{f}_1$. 
+
+We claim $\hat f\in C_0(\R^N,\C)$, i.e. $\lim_{|x|\to \iy} \hat{f}(x)=0$. It suffices to prove this for a dense subset of $L^1$ (continuous functions of compact support) because the set of functions vanishing at $\iy$ is closed.
+By integration by parts,
+\begin{align*}
+\widehat{\Delta f}(\xi)&=\int_{\R^N} \Delta f(x)e_{\xi}(x)\,dx\\
+&=-(2\pi|\xi|)^2\hat{f}(\xi)
+\end{align*}
+which tends to 0 at $\iy$, using $\hat{f}$ is bounded (because it is continuous with compact support).
+%Bounded bc assume smooth compact support.
+
+To what extent can we recover $f$ from $\hat{f}$? Does $\hat{f}$ uniquely determine $f$; i.e. if $\hat{f}$ vanishes everywhere does $f$ vanish a.e.? Defining $P(r,x)=\sum_{n\in \Z} r^{|n|} e_n(x)$, we have
+\[
+\an{P(r,\mathbf{x}),e_n}=r^{|n|}.
+\]
+%Rescale, approximate identity, same arg as in Fourier series case.
+Rescale $g(x)=e^{-\pi |x|^2}$, defining
+\[
+g_t(x)=t^{-\frac{N}{2}}e^{-\frac{\pi|x|^2}{t}}.
+\]
+Noting $\int \rc{(2\pi)^{\rc 2}} e^{-\frac{x^2}{2}}\,dx=1$, by calculation (Fubini)
+\[
+\int_{\R^N} g_t(x)\,dx=1.
+\]
+Now let $\zeta=(\zeta_1,\ldots,\zeta_N)$ and note
+%$\int_{\R^N} e^{2\pi \an{\zeta,x}}g_t(x)$. 
+\[
+t^{-\rc 2} \int_{\R} e^{2\pi \xi x}e^{-{\pi}{x^2}{t}}\,dx=e^{t\pi \xi^2}.
+\]
+(Proof: It suffices to show this for real $\xi$ by the fact that complex analytic functions agreeing on $\R$ agree everywhere. Just complete the square.) %Consider $e^{-\frac{\pi x^2-4t\xi x}{t}}$; complete the square; take out $e^{t\pi \xi^2}$. Left with $\int g_t(x-2t\pi\xi)\,dx$.)
+%Justin: You need measure theory for that though.
+%Stroock: IF YOU DON'T KNOW MEASURE THEORY NOW...
+Then $\hat{g_t}(\xi)=e^{-t\pi |\xi|^2}=t^{-\rc 2}g_{\rc t}(\xi)$. Now
+\[
+(\hat{g_t})^{\vee}(x)=t^{-\rc 2}\hat{g}_{\rc t}(-x)=t^{-\rc 2}e^{-t\pi |x|^2}=g_t(x).
+\]
+%My options are running out... Smaller piece of chalk or hideous yellow.
+
+Now consider %(compare this to $\int_{[0,1]} P(r,x-y) \ph(y)\,dy$ when proving Fourier series)
+\[
+\int \hat{f}(\xi)\ol{g(\xi)}\,d\xi=\iint f(x)\ol{e_{-x}(\xi)g(\xi)}\,dx=\int f(x)\ol{\check{g}(x)}\,dx.
+\]
+%Cell phone! Tsk. At least it wasn't the ninth symphony.
+Since $\hat{f}(\xi)e_{-x}(\xi)=\widehat{f\circ T_x}(\xi)$,
+\begin{align*}
+\int\hat{f}(\xi) e_{-x}(\xi) e^{-t\pi|\xi|^2}\,d\xi&=\int \widehat{f\circ T_x}\ol{\check{g_t}(\xi)}\,d\xi\\
+%Oi!
+&=\int f\circ T_x(y)g_t(y)\,dy\\
+&=\int f(x+y)g_t(y)\,dy\\
+&=\int f(x-y)g_t(y)\,dy\\
+&=f*g_t(x)\xrightarrow{L^1} f.
+\end{align*}
+%Now we use the fact that $f*g_t\to f$ in $L^1$, to get that the a
+Hence the Fourier transform is one-to-one. 
+
+Now $\{\hat{f}:f\in L^1\}$ contains only continuous functions vanishing at $\iy$, but not every continuous function vanishing at $\iy$ is the Fourier transform of a function. There is no good characterization of which ones are. 
+We do know this set is an algebra: We can take products, because $\widehat{f*g}=\hat{f}\hat{g}$.
+
+\subsection{Fourier Transform, $L^2$}
+We want to continuously extend the Fourier transform to $L^2$, i.e. $\cal F:L^2\to L^2$ such that $\cal F f=\hat{f}$ if $f\in L^1\cap L^2$. Note this extension will be unique if it exists because $L^1\cap L^2$ is dense in $L^1$.
+%Estimate with uniform continuity
+We need to show that $\ve{\hat{f}}_2\le C\ve{f}_2$; indeed we will show that $C=1$ works. Then given $f\in L^2$, consider $1_{B(0,R)}f$. We have $\ve{1_{B(0,R_2)}f-1_{B(0,R_1)}f}_2=\pa{\int_{B(0,R_2)\bs B(0,R_1)} |f|^2}^{\rc 2}$ and use the above estimate.
+
+To show $\ve{\hat{f}}_2\le C\ve{f}_2$, we will diagonalize $\cal F$, i.e. find an orthonormal basis ($\an{\tilde{h_m},\tilde{h_n}}=\de_{m,n}$) so that $\tilde{h}_n\in L^1\cap L^2$ and $\hat{h}_n=i^n\tilde{h}_n$---the Hermite functions.

@@ -1,0 +1,158 @@
+\lecture{Wed. 2/16/2011}
+
+\subsection{Constructing measures}
+Let $(E,\rho)$ be a metric space, and $\cal R\subeq \cal P(E)$ be a family of compact subsets. Let $V$ be a map $V:\cal R\to [0,\infty)$. (Keep in mind the model that $E=\R^N$, $\cal R$ is the set of closed rectangles, and $V$ the volume of the rectangles.)
+Suppose the following hold.
+\begin{enumerate}
+\item 
+$\cal R$ is a $\Pi$-system, i.e. if $I,J\in \cal R$ then $I\cap J\in \cal R$.
+\item
+$\phi\in \cal R$ and $V(\phi)=0$.
+\item
+If $I\subeq J$ then $V(I)\leq V(J)$. 
+\item
+Suppose $\{I_1,\ldots, I_n\}\in \cal R$ and $J\in \cal R$.
+\begin{enumerate}
+\item
+If $J\subeq \bigcup_{m=1}^n I_m$ then $V(J)\leq \sum_{m=1}^n V(I_m)$.
+\item 
+If $J\supeq \bigcup_{m=1}^n I_m$ and the $I_m$'s are non-overlapping then $V(J)\geq \sum_{m=1}^n V(I_m)$.
+\end{enumerate}
+\item For all $I\in \cal R$ and all $\ep>0$, there exist $I,I'\in \cal R$ such that $I''\subeq I^{\circ}$, $I\in I'^{\circ}$ and $V(I')\leq V(I'')+\ep$.
+\item For all open $G\in \cal G(E)$ there exists a sequence $\{I_n:n\geq 1\}\subeq \cal R$ nonoverlapping sets such that $G=\bigcup_{m=1}^{\infty} I_n$.
+\end{enumerate}
+%Note that equality happens in condition 4 when $J=\bigcup_{m=1}^n I_m$ and the $I_m$ are nonoverlapping.
+\begin{pr}\label{rectyum}
+These properties hold for $E=\R^N$, $\cal R$ is the set of closed rectangles, and $V$ the volume of the rectangles.
+\end{pr}
+\begin{proof}
+Item 4 holds by Lemma~\ref{coverineq}. Item 5 holds since we can enlarge or shrink $\cal R$ by a tiny bit. For item 6, consider a checkerboard of cubes of side length $2^{-n}$:
+\[
+\{k2^{-n}+[0,2^{-n}]^N:k\in \Z^N\}
+\]
+Take $m<n$ and $Q\in \cal C_m$, $Q'\in \cal C_n$. Either
+\begin{enumerate}
+\item The interiors of $Q,Q'$ intersect, and $Q'\subeq Q$, or
+\item
+%$Q^{\circ}\cap Q'^{\circ}=\phi$ 
+The interiors of $Q,Q'$ do not intersect.
+%$Q^{\circ}\cap Q'^{\circ}=\phi$ 
+\end{enumerate}
+I.e. ``either $Q'$ is a descendant of $Q$ or they are unrelated."
+
+We use a greedy algorithm to stuff cubes in $G$. We show that in fact item 6 can be done with cubes of arbitrarily small length.
+
+By splitting $G$ into bounded parts we may assume $G$ is bounded. Let $\de>0$ be given.
+
+Let $G_0=G$ and define the $G_k,\cal A_k$ inductively as follows.
+Let $n_k$ be the smallest $n$ such that there exist $Q\in \cal C_n$ for $Q\subeq G_k$ and $2^{-n}<\de$. 
+%Eat up as much of $G$ as we can using cubes from this family.
+
+Let $\cal A_k=\{Q\in \cal C_{n_k}:Q\subeq G\}$ and 
+\[G_k=G_{k-1}\bs \bigcup_{Q\in \cal C_{n_k}}Q.\]
+%n_1 first n larger than n_0 with one of its cubes intersect G_1
+%inductively
+%each time add finitely many-- union, countable set.
+Let
+\[\cal A=\bigcup_{n=1}^{\infty}\cal A_n.\]
+It is clear that $\cal A\subeq G$. Take a point $x\in G$. Take $n$ sufficiently large; there's a cube from $\cal C_n$ such that $x\in \cal C_n$. %(cubes can be neighborhoods)
+Either that cube was chosen or one of its ancestors (which contains that cube) was chosen.%--but it's contained in its ancestor.
+\end{proof}
+Our goal is to prove the following.
+\begin{thm}\label{measprogram}
+Given conditions (1)--(6), there exists a Borel measure such that $\mu(I)=V(I)$ for all $I\in \cal R$.
+\end{thm}
+\begin{proof}
+We will proceed in the following steps.
+\begin{enumerate}
+\item Define $\tilde{\mu}$ for all sets $\Ga\subeq E$ by
+\[
+\tilde{\mu}(\Ga)=\inf\bc{
+\sum_{n=1}^{\infty} V(I_n):I_n\in \cal R \text{ and }\Ga\subeq \bigcup_{m=1}^{\infty} I_m
+}.\]
+Then $\tmu$ is subadditive (Lemma~\ref{tmusubadd}).
+\item $\tmu$ of a countable family of nonoverlapping sets $J_l$ of $\cal R$ is just the sum of the volumes $V(J_l)$. (A generalization of the fact that $\tmu$ agrees with $V$.) (Lemma~\ref{tmusum})
+\item Give an alternate characterization of $\tmu$ (Proposition~\ref{tmuinf}):
+\[
+\tilde{\mu}(\Ga)=
+\inf\{\tilde{\mu}(G):G\in \cal G(E)\text{ and }\Ga\subeq G\}.
+\]
+\item Let $\cal L$ be the collection of $\Ga\subeq E$ such that for every $\ep>0$ there exists $G\supeq \Ga$ with $\tilde{\mu}(G\bs \Ga)<\ep$.
+Then $\cal L$ is a $\sigma$-algebra (Theorem~\ref{lsigma}).
+\item $\mu=\tmu|{\cal L}$ is a measure on $\cal L$ (Thereom~\ref{mumeas}).
+\end{enumerate}•
+\end{proof}
+
+\begin{lem}\label{tmusubadd}
+$\tilde{\mu}$ is sub-additive, i.e.
+\[
+\tilde{\mu}\pa{\bigcup_{n=1}^{\infty} \Ga_n}\leq \sum_{n=1}^{\infty} \tilde{\mu}(\Ga_n).
+\]
+\end{lem}
+\begin{proof}
+This is another application of the $2^{-m}\ep$ trick. 
+Given $\ep>0$, for each $m$, choose $\{I_{m,n}:n\geq 1\}\subeq \cal R$ such that
+\[
+\Ga_m\subeq \bigcup_{n=1}^{\infty} I_{m,n}\text{ and }
+\sum_{n=1}^{\infty} V(I_{m,n})\leq \tilde{\mu}(\Ga_m)+2^{-m}\ep.
+\] 
+%by def. w/ inf.
+The collection $\{I_{m,n}:(m,n)\in \N^2\}$ covers $\bigcup_{m=1}^{\infty} \Ga_m$.
+
+Since all terms are nonnegative, we can write the sum as an iterated sum.
+\[
+\sum_{(m,n)\in \N^2} V(I_{m,n})
+=
+\sum_{m\in \N}\sum_{n\in \N} V(I_{m,n})
+\leq
+\sum_{m=1}^{\infty} \pa{\tilde{\mu}(\Ga_m)+\ep2^{-m}}
+\leq \sum_{m=1}^{\infty}\tmu(\Ga_m)+\ep.\]
+%Wonderful property of adding nonnegative numbers: convergence problems never occur! No ambiguity (allow infty)
+%The left-hand side is at most $\tmu(\Ga)$, as needed.
+The lemma follows upon combining this with
+%On the other hand, cover
+\[\sum_{(m,n)\in \Z} V(I_{m,n})\geq \tilde{\mu}\pa{\bigcup_{m=1}^{\infty}I_{m,n}}.\]
+%!!!!!!!!
+\end{proof}
+Now we look for a $\sigma$-algebra $\cal B_{\mu}\subeq \cal B_{E}$ such that $\tilde{\mu}$ on $\cal B_{\mu}$ is a measure. We need to check that $\tilde{\mu}(I)=V(I)$. 
+In fact we check the following stronger statement.
+\begin{lem}\label{tmusum}
+Let $\{J_1,\ldots\}\subeq \cal R$ be a set of nonoverlapping rectangles. Then
+\[
+\tilde{\mu}\pa{\bigcup_{l=1}^{\infty}  J_l}=
+\sum_{l=1}^{\infty} V(J_l).
+\]
+\end{lem}
+\begin{proof}
+First we check that equality holds when there are a finite number of $J_l$, $1\leq l\leq L$.
+%subadditivity + new idea. Equality=2 inequalities. One obviously, other prove.
+Note ``$\leq$" holds because $\tilde{\mu}$ is the infimum over all covers and $J_l$ form a cover for $\bigcup J_l$. We need to show ``$\geq$."
+Let $\{I_m:m\geq 1\}$ with $\bigcup_{l=1}^L J_l\subeq \bigcup_{m=1}^{\infty} I_m$. Choose $I_m'$ containing $I_m$ in its interior so that $V(I_m')\leq V(I_m)+\ep 2^{-m}$ (same trick!). 
+Now $\bigcup_{l=1}^L J_l$ is compact as it is a finite union of compact sets. Since
+\[\bigcup_{m=1}^{\infty} I_m^{\circ}\supeq \bigcup_{l=1}^L J_l,\]
+%finite union compact compact.
+we can take a finite subcover of $\bigcup J_l$:
+\[
+\bigcup_{m=1}^n I_m^{\circ}\supeq \bigcup_{l=1}^L J_l.
+\]
+Consider the cover $I_{l,m} =J_l\cap I_m'$ (so we can change order of summation). Note $I_{1,m},\ldots, I_{L,m}$ are nonoverlapping and $I_m'\supeq \bigcup_{l=1}^L I_{l,m}$. Then by condition 4,
+\[\pa{\sum_{m=1}^n V(I_m)}+\ep\geq \sum_{m=1}^n V_m(I_m')
+\stackrel{4}{\geq} \sum_{m=1}^n\sum_{l=1}^L V(I_{l,m})
+%reverse order of summation for each l if sum over m get st geq j_l. for each l the union over m covers j_l.
+\stackrel{4}{\geq} \sum_{l=1}^L V(J_l). 
+\]
+Now take the infimum to get $\tmu\pa{\bigcup J_l}$ on the left-hand side.
+
+Now we extend to the infinite case. %In fact we check that if we have a set of nonoverlapping rectangles $\{I_1,\ldots, I_n\}\subeq \cal R$ then
+We want 
+\[
+\tilde{\mu}\pa{\bigcup_{l=1}^{\infty}  J_l}=\sum_{l=1}^{\infty} V(J_l)
+\]
+Note ``$\leq$" holds because $\tilde{\mu}$ is the infimum over all covers and $J_l$ form a cover. We need to show ``$\geq$."
+Use the finite case
+\[
+\tilde{\mu}\pa{\bigcup_{l=1}^n  J_l}\geq \sum_{l=1}^{n}V(J_l)
+\]
+and take $n\to \infty$ to get the equation above.
+\end{proof}
+%Master those raw ideas!

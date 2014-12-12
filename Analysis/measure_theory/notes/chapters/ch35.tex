@@ -1,0 +1,132 @@
+\lecture{Mon. 5/2/11}
+
+\subsection{Fourier transform on $L^2$}
+\begin{df}
+Define the \textbf{Hermite polynomials} by
+\[
+H_n(x)=(-1)^n e^{2\pi x^2} \pd{^n}{x^n}e^{-2\pi x^2}.
+\]
+Define the \textbf{Hermite functions} by
+\[
+h_n(x)=e^{-\pi x^2} H_n(x).
+\]
+\end{df}
+Note that $H_n$ is a $n$th degree polynomial with leading coefficient $(4\pi)^n$. Hence $\spn(\{H_m\mid 0\le m\le n\})=\spn(\{x^m\mid 0\le m\le n\})$. Note $h_n(x)$ is integrable.
+
+\begin{lem}
+The $h_n$ form an orthogonal basis for $L^2(\R)$. Indeed,
+\[
+\an{h_m,h_n}=2^{-\rc 2} (4\pi )^n n!\de_{m,n}.
+\]
+\end{lem}
+\begin{proof}
+%For $\xi:\R\to \R$, 
+Define the \textbf{raising operator} and the \textbf{lowering operator} by
+\begin{align*}
+a_+\ph(x)&=2\pi x\ph (x)-\pd{}{x} \ph(x)=-e^{-\pi x^2} \pd{}{x}(e^{-\pi x^2}\ph(x))\\
+a_-\ph(x)&=2\pi x\ph(x)+\pd{}{x}\ph(x).
+\end{align*}
+%Harmonic oscillator
+Note in particular
+\begin{align}
+\label{aplus}
+a_+h_n&=h_{n+1}\\
+\label{aminus}
+a_-h_n(x)&=e^{-\pi x^2} \pd{}{x} H_n\in \spn(\{h_0,\ldots, h_{n-1}\}).
+\end{align}
+Given $\ph,\psi\in C^1$ and $(a_+\ph)\psi,\ph(a_-\psi)\in L^1(\la_{\R};\C)$. Then
+\[
+\int (a_+\ph)\psi=\int \ph(a_-\psi).
+\]
+If one of $\ph,\psi$ has compact support, then integration by parts shows the above. In general, choose a bump function $\eta\in C^{\iy}_c(\R;[0,1])$ such that $\eta(x)=1$ for $x\in[-1,1]$ and $\eta(c)=0$ for $x\nin [-2,2]$. Let $\eta_{R}(x)=\eta(R^{-1}x)$.  Replace $\ph$ with $\eta_R$ and take the limit as $R\to \iy$. (Note $\pd{}{x} (\eta_R \ph)=\rc{R} \eta'(R^{-1} x)\ph+\eta_R\pd{}{x}\ph$.)
+
+Suppose $m\le n$. By~(\ref{aplus}), $h_n=a_+^nh_0$, so
+\[
+\an{h_m,h_n}=\an{h_m,a_+^n h_0}=\an{a_-^nh_m, h_n}.
+\]
+If $n>m$ then $a_-^nh=0$. If $m=n$ then we use $a_-^nh_n=(4\pi)^n n!$ and $\an{h_0,h_0}=2^{-\rc 2}$ to get 
+\[
+\ve{h_n}^2=(4\pi )^n n! 2^{-\rc 2}.
+\]
+\end{proof}
+\begin{lem}
+\[\al_-h_n(x)=4\pi n h_{n-1}.\]
+\end{lem}
+\begin{proof}
+We know that 
+\[
+a_-h_n=\sum_{m=0}^{n-1} \al_m h_m.
+\]
+Taking inner products of $h_k$ and using orthogonality we get
+\[
+\an{h_k,a_-h_n}=\al_k (4\pi)^k k! 2^{-\rc 2}.
+\]
+But
+\[
+\an{h_k,a_-h_n}=\an{h_{k+1},h_n}=(4\pi)^n n! 2^{-\rc 2} \de_{k,n-1}.
+\]
+\end{proof}
+Now we have
+\[
+a_+a_-h_n=a_+(4\pi n h_{n-1})=4\pi nh_n.
+\]
+By definition the LHS is also
+\[
+a_+a_-h_n=(4\pi x)^2 h_n-\pd{^2}{x^2}h_n-2\pi h_n
+\]
+Hence
+\[
+(4\pi x)^2h_n -\pd{^2}{x^2}=2\pi (2n+1)h_n.
+\]
+%Schrodinger mechanics
+
+Adding the following two equations,
+\begin{align*}
+2\pi xh_n-\pd{}{x}h_n&=h_{n+1}\\
+2\pi xh_n+\pd{}{x}h_n&=4\pi n h_{n-1}\\
+4\pi x h_n&=h_{n+1} + 4\pi n h_{n-1}\\
+(4\pi)^2 \int x^2 h_n^2&= (4\pi)^{n+1} (n+1)! 2^{-\rc 2} + (4\pi n)^2 (4\pi)^{n-1} (n-1)! 2^{-\rc 2}.
+\end{align*}
+Let 
+\[
+\tilde{h}_n=\frac{2^{\rc 4} h_n}{((4\pi)^n n!)}^{\rc 2}.
+\]
+Then the $\tilde{h}_n$ is an orthonormal basis, and 
+\[
+\int x^2 \tilde{h}_n^2=\frac{2n+1}{4\pi}.
+\]
+Now
+\[
+\int(1+x^2)\tilde{h}_n^2=1+\frac{2n+1}{4\pi}
+\]
+so using Schwarz's inequality
+\[
+\pa{\int \ab{\tilde{f}_n}}^2=\pa{\int (1+x^2)^{\rc 2}\frac{\tilde h_n}{(1+x^2)^{\rc 2}}}\le ?
+\]
+
+Now back to Frouier transform. %By assumption, \hat{
+
+We show \[\hat h(\xi)=i^n h_m(\xi).\]
+Indeed,
+\begin{align*}
+(a_-)_xe_{\xi}(x)&=i(a_+)_\xi e_{\xi}(x).
+\end{align*}
+Then
+\[
+(2\pi x+i2\pi i \xi)e_{\xi}(x) 
+=i(2\pi \xi -2\pi i x) e_{\xi}(x).
+\]
+But
+%Or generating functions
+\begin{align*}
+\int e_{\xi}(x)h_{n+1}(x) \,dx=
+\int e_{\xi}(x)(a_+)_x h_n (x)\,dx\\
+&=\int ((a_-)_x e_\xi(x)) h_m(x)\,dx\\
+h_{n+1}(\xi)&=i\int (a_+)_{\xi} e_{\xi}(x).
+\end{align*}
+
+Define the Fourier operator
+\[
+\cal F =\sum_{n=0}^{\iy} i^n \an{f,\tilde h_n}\tilde{h}_n.
+\]
+Then $\ve{\cal Fd}=\ve{f}$. For $f\in L^1\cap L^2$, then this agrees with the original definition.

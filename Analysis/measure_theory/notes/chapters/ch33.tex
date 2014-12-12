@@ -1,0 +1,104 @@
+\lecture{Wed. 4/27/11}
+
+\subsection{Fourier Series}
+Consider the Hilbert space $L^2(\la_{[0,1]},\C)$.
+\begin{thm}[Fourier series]
+Define
+\[
+e_m(x)=e^{2\pi i nx}.
+\]
+Then $\{e_n\mid n\in\Z\}$ is an orthonormal basis for $L^2(\la_{[0,1]},\C)$.
+\end{thm}
+%Intersection of many different ways of thinking. Many proofs!
+We give two proofs. From integration $\an{e_m,e_n}=\de_{m,n}$. We need to show that $\ol{\spn(\{e_n:n\in \Z\})}$. 
+\begin{proof}
+To do this we use Theorem~\ref{densperp}: $S\subeq H$ is dense iff $S^{\perp}=\{0\}$. So it suffices to show that if $f\in L^2(\la_{[0,1]},\C)$ is continuous and perpendicular to all the $e_n$, then $f=0$, since the set of continuous functions is dense. 
+We may further assume $f$ is periodic, because we can change it on a set of small measure so that it is.
+
+There is a 1-to-1 correspondence between periodic functions on $[0,1]$ (i.e. with $f(0)=f(1)$) and functions on $S^{1}\pf{1}{2\pi}$ (the circle with radius $\rc{2\pi}$). Thinking of this circle as on the complex plane, the $e_n$ become the functions $z^n$. Now we need to show if we have a function continuous on the circle, and is orthogonal to all the $z^n$, then it must be 0. But the linear span of the $z^n$ is the set of polynomials, which is dense in the set of continuous functions by the Stone-Weierstrass Theorem.
+%Perp to all continuous, so 0.
+\end{proof}
+\begin{proof}
+%We use the Poisson formula. 
+Let 
+\[
+P(r,x)=\sum_{n\in \Z} r^{|n|}e_n(x),\quad r\in [0,1),x\in [0,1].
+\]
+Using the geometric series formula gives
+\[
+P(r,x)=\rc{1-re_1(x)}+\frac{r}{1-re_{-1}(x)}=\frac{1-r^2}{|1-re_{-1}(x)|^2}>0.
+\]
+%Poisson kernel for solving Dirichlet problem in disc.
+Now for $\ph\in C^1([0,1],\C)$, define
+\[
+u_{\ph}(r,x)=\int_{[0,1]}P(r,x-y)\ph(y)\,dy.
+\]
+%1 perp for any diff 0
+We claim that \[u_{\ph}(r,x)\to \ph(x)\] in a uniformly bounded manner. This will mean that any function orthogonal to all $e_n$ has to be orthogonal to $u_{\ph}$ for every continuous periodic function $\ph$ %on the circle 
+and every $r\in[0,1)$. Then that function is perpendicular to every $\ph$, and we will be done.
+
+Now
+\[
+\int_{[0,1]} P(r,x)\,dx=1
+\]
+for all $r\in (0,1)$, so $P(r,x)$. 
+Note $\ve{u_{\ph}}_{\iy}<\ve{\ph}_{\iy}$. Now
+\[
+u_{\ph}(x)-\ph(x)=\int_{[0,1]}P(r,x-y)(\ph(y)-\ph(x))\,dy\to 0
+\]
+because $\ph$ is continuous. (Break up into $|x-y|<\de$ and $|x-y|\ge \de$ to see.)
+%Eraser falls behind blackboard! Make a big dent in MIT's endowment.
+%More constructive way of seeing density result.
+\end{proof}
+\begin{cor}
+The set
+\[
+\{\cos 2\pi nx:n\ge 0\}\cup \{\sin 2\pi nx:n\ge 1\}
+\]
+is an orthonormal basis for $L^2(\la_{[0,1]},\R)$.
+%The set
+%\[
+%\set{\cos \frac{2\pi nx}{L}}{n\ge 0}\cup \set{\sin \frac{2\pi nx}{L}}{n\ge 1}
+%\]
+%is an orthonormal basis for $L^2(\la_{[0,L]},\R)$.
+\end{cor}
+\begin{proof}
+If a function is perpendicular to all the functions above then considering it as a function of $\C$ it is perpendicular to all the $e_n$, so is 0.
+\end{proof}
+\begin{cor}
+%Resolve all functions into waves, waves of different frequencies. Physical intuition.
+For $\ph\in L^2(\la_{[0,1]},\R)$,
+\[
+\ph=\sum_{n\in\Z} \an{\ph,e_n}e_n(x)
+\]
+{\it in the sense of $L^2$}. Hence the partial sums tend to $\ph$ in measure.
+\end{cor}
+%Find a subsequence such that convergence along subsequence almost everywhere.
+%Kolmogorov (cast doubt on almost everywhere convergence)
+%Makes sense for function in $L^1$, can ask whether convergence holds. In some sense. Does it converge almost everywhere? Kolmogorov gave example where diverges for almost every $x$.
+%Until early 60's Linnik-Carleson, if in L^2 then converges almost everywhere.
+%If in $L^p, 1<p<\iy$, then same result true.
+%For most practical purposes, don't need.
+%Fortunate for species.
+%One representative of the species who is approaching intelligence is giving lectures this week.
+Warning: We don't necessarily have pointwise convergence.
+
+If we impose regularity conditions on the function, though, then can easily prove nice convergence. We take advantage of this by integration by parts---bring out properties by differentiation. 
+Suppose $\ph\in C^1([0,1],\C)$. For $n\ne 0$, using integration by parts, (there are no boundary terms by periodicity)
+\[
+\an{\ph,e_n}=(2\pi in)^{-1}\an{\ph',e_n}
+\]
+(the factor out front comes from the integral of $e_n$) which says that $\ph$ is converging absolutely:
+\[
+\sum_{|n|\ge m} \ab{\an{\ph,e_n}}\le \rc{2\pi}\sum_{|n|\ge m} \rc{|n|} |\an{\ph',e_n}|\le \rc{2\pi}\pa{\sum_{|n|\ge m} \rc{n^2}}^{\rc 2}\ve{\ph'}
+\]
+where we used Schwarz's inequality.
+%More delicate versions: Fey\'er.
+%C. Fefferman $L^2(\mu, \C)$
+%\sigma, \mu \si-finite
+\begin{thm}
+Of $\{e_n\}$ is a orthonormal basis for $L^2(\mu,\C)$ and $\{f_n\}$ is an orthonormal basis for $L^2(\nu,\C)$ then $\{e_mf_n\}$ is an orthonormal basis for $L^2(\mu\times \nu,\C)$.
+\end{thm}
+Hence $\{e_m(x)e_n(y)\}$ is an orthonormal basis for $L^2(\la_{[0,1]^2},\C)$. 
+
+We want to know whether there is almost everywhere convergence now. The functions are now indexed by $(m,n)$. If we take partial sum to be $|m|\le N$ and $|n|\le N$ we do have almost everywhere convergence (Fefferman, using a Fubini argument). However Carleson's theorem is false if you take partial sums as $(m^2+n^2)^{\rc 2}\le N$.

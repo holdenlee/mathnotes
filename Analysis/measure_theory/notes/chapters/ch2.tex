@@ -1,0 +1,138 @@
+\lecture{Fri. 2/4/2011}
+
+\subsection{Riemann integrability}
+
+\begin{thm}
+Let $f:J\to \R$ be bounded.
+Then
+\begin{enumerate}
+\item $\lim_{||\cal C||\to 0} \cal U(f, \cal C)=\inf_{\cal C} \cal U(f,\cal C)$.
+\item $\lim_{||\cal C||\to 0} \cal L(f, \cal C)=\sup_{\cal C} \cal L(f,\cal C)$.
+\item 
+ $f$ is Riemann integrable if and only if
+\[
+\inf_{\cal C} \cal U(f, \cal C)=\sup_{\cal C} \cal L(f, \cal C).
+\]
+where the infimum and supremum are taken over all finite exact nonoverlapping coverings.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+%To relate this condition to the proposition in lecture 1, we need the following.
+We use the following.
+\begin{lem}
+Given $\cal C$ and $\ep>0$ there exists $\de$ such that $||\cal C'||\leq \delta$ such that $\cal U(f, \cal C')\leq U(f, \cal C)+\ep$. (Note $\cal C'$ need not be a refinement.)
+
+Similarly, there exists $\de$ such that $||\cal C'||\leq \delta$ such that $\cal L(f, \cal C')\geq L(f, \cal C)-\ep$. (Note $\cal C'$ need not be a refinement.)
+\end{lem}
+\begin{proof}
+Consider $I'\in \cal C'$. Then either
+\begin{enumerate}
+\item
+$I'\subeq I$ for $I\in \cal C$ (the ``good" type) or
+\item 
+$I'$ hits an edge (the ``bad" case).
+\end{enumerate}
+The terms in the first case do not cause a problem---if every $I'$ were of this type then $\cal U(f, \cal C')\leq \cal U(f, \cal C')$.
+
+The rectangles in the second case cannot have a large combined area for $||\cal C'||$ small---they must be in a $\delta$-neighborhood of the edges. In fact
+\[
+\ab{\sum_{I'} (\sup_{I'} f)\vol(I')}\leq 2\de ||f||_uC
+\]
+where $C$ depends on $N$, the cardinality of $\cal C$, and $J$, and the uniform norm is
+\[
+||f||_u=\sup_{x\in J} |f(x)|.
+\]
+\end{proof}
+Choose $\cal C$ so the upper sum is close to the infimum:
+\[
+\cal U(f,\cal C)\leq \inf_{\cal C} \cal U(f,\cal C)+\eph.
+\]
+Then find $\de$ as in the lemma (for $\eph$); for $||\cal C||<\de$, we have \[\cal U(f,\cal C)\leq \inf_{\cal C}\cal U(f, \cal C)+\ep.\]
+%For every $\ep>0$ there exists $\de>0$ such that $||\cal C'||\leq \de$  implies $\cal U(f, \cal C')\leq \inf_{\cal C}\cal U(f, \cal C)+\ep$.
+Item 2 follows similarly. 
+
+Use Proposition~\ref{l1-lequ} to get item 3.
+\end{proof}
+\subsection{Riemann-Stieltjes integral}
+In the Riemann integral we integrate with respect to ``homogeneous density", $dx$ means summing $b_I-a_I$. For the Riemann integral we replace $dx$ with $d\psi$, and sum $\psi(b_I)-\psi(a_I)$ instead of $b_I-a_I$.
+\begin{df}
+The Riemann sum of $\phi$ over $\cal C$ with respect to $\psi$ relative to $\xi$ is
+\[
+\cal R(\ph|_{\psi}, \cal C, \xi)=\sum_{I\in \cal C} \ph(\xi(I))\De_I\psi,\quad \De_I\psi=\psi(b_I)-\psi(a_I).
+\]
+
+$\phi$ is Riemann integrable with respect to $\psi$ if there exists $A\in \R$ such that for every $\ep>0$, there exists $\de>0$ such that for every $||\cal C||\leq \de$ and any $\xi$,
+\[|\cal R(\ph|\psi, \cal C, \xi)-A|<\ep.\]
+Then we write
+\[
+(R)\int_{J} \ph(x)d\psi(x)=A.
+\]
+\end{df}
+\begin{pr}
+For $\ph\in \cal C(J,\R), \psi\in C^1(J,\R)$,
+\[
+(R)\int_J \phi(x) \,d\psi(x)=(R)\int_J \ph(x)\psi'(x)\,dx.
+\]
+\end{pr}
+\begin{proof}
+By the Mean Value Theorem,
+\[
+\psi(b_I)-\psi(a_I)=\psi'(\eta(I))\vol(I).
+\]
+Now use uniform continuity of $\psi'$.
+\end{proof}
+\begin{ex}
+Suppose $a=a_0<a_1<\ldots<a_n=b$, and $\psi$ is constant on $(a_{m-1},a_m)$ for $m=1,\ldots, n$ (a ``step" function with a few naughty points), and $\ph\in C(J;\R)$. Then
+\[
+(R)\int_J \ph\,d\psi
+=
+\sum_{m=1}^{n-1} \ph(a_m)(\psi(a_m+)-\psi(a_m-))+\ph(a)(\psi(a+)-\psi(a))+\ph(b)(\psi(b)-\psi(b-)).
+\]
+\end{ex}
+\begin{proof}
+Consider an interval $I\in \cal C$. We may assume $\cal C$ has a fine enough mesh so no interval contains more than one $a_i$. Then either
+\begin{enumerate}
+\item
+$I\cap \{a_0,\ldots, a_n\}$, i.e. $I\subeq (a_{m-1},a_m)$ for some $m$. (``Good case") Then $\De_I\psi =0$.
+\item
+$a_m\in I^{\circ}$. Then $\De_I\psi=\psi(a_m+)-\psi(a_m-)$.
+\item
+$a_m=a_I$ or $b_I$. Then
+\[
+\De_I\psi=\begin{cases}
+\psi(a_m+)-\psi(a_m),&a_m=a_I\\
+\psi(a_m)-\psi(a_m-),&a_m=b_I
+\end{cases}.
+\]
+\end{enumerate}
+\end{proof}
+\begin{ex}
+\[
+(R)\int_J (\al \ph_1+\be \ph_2)\,d\psi=
+\al \int_J \phi_1\,d\psi +\be \int_J\ph_2\,d\psi.
+\]
+\end{ex}
+\begin{ex}
+Let $J=J_1\cup J_2$ and $J_1^{\circ}\cap J_2^{\circ}=\ph$. Then
+\[
+(R)\int_J \ph\,d\psi=(R)\int_{J_1} \ph\,d\psi+(R)\int_{J_2}\ph\,d\psi.
+\]
+\end{ex}
+\begin{proof}
+%Get Cauchy sequence from
+We want
+\[
+|\cal R(\ph|\psi, \cal C_1,\xi_1)
+-
+\cal R(\ph|\psi, \cal C_1', \xi_1')|<\ep
+\]
+Let $\cal C=\cal C_1\cup \cal C_2$ and $\xi=\xi_1\cup \xi_2$, and similarly with $\cal C'$ and $\xi'$. The difference above equals
+\[
+|\cal R(\ph|\psi, \cal C,\xi)
+-
+\cal R(\ph|\psi, \cal C', \xi')|
+\]
+as needed. 
+
+Choose $\cal C_1,\cal C_2$ so the Riemann sums of the RHS integrals are close to the integral; then glue as above.
+\end{proof}

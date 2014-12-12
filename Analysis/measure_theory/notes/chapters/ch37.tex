@@ -1,0 +1,84 @@
+\lecture{Fri. 5/6/11}
+
+\subsection{}
+Suppose $\mu$ is finite and $\nu$ is $\si$-finite with $\mu\le \nu$. Then $\int \ph\,d\mu\le \int \ph \,d\nu$ for $\ph\ge 0$. We've showed that there exists $f\in L^1(\nu)$ with range in $[0,1]$ such that $\int \ph\,d\mu=\int f\ph \,d\nu$ for all $\ph\in L^1$ (Riesz representation). The Lebesgue decomposition theorem says that there exists unique $\mu_a,\mu_s$ such that $\mu_a\ll v$, $\mu_s\perp \nu$, and $\mu=\mu_a+\mu_s$. 
+\begin{thm}[Radon-Nikodyn]
+There exists $f\in L^1(\nu)$ with $f\ge 0$ and $\int \ph\,d\mu_a=\int \ph f\,d\nu$ for all $\ph \in L^1(\mu)$.
+\end{thm}
+\begin{df}We call $f$ the \textbf{Radon-Nikodyn derivative} and write
+\[
+f=\dr{\mu_a}{\nu}.
+\]
+\end{df}
+%Does not extend to when $\nu$ not $\si$-finite. Consider $\la_{[0,1]}$ with $\nu$ the counting measure.
+\begin{proof}
+No doubt $\mu\le \mu+\nu$. Apply the theorem~(??) to find $\psi$ such that 
+\begin{align*}
+\int \ph \,d\mu&=\int \ph \psi\,d\mu+\int \ph \psi\,d\nu\\
+\int \ph(1-\psi)\,d\mu&=\int \ph\psi\,d\nu.
+\end{align*}
+Let $B=\{\psi=1\}$. Take $\ph=1_B$ to get $\nu(B)=0$. Define $\mu_a(\Ga)=\mu(\Ga\cap B^c)$ and $\mu_s(\Ga)=\mu(\Ga \cap B)$. Clearly, $\mu_s\perp \nu$. We get 
+\[\int\ph \,d\mu_a=\int_{B^c} \ph\,d\mu=\int_{B^c} (1-\psi)\frac{\ph}{1-\psi}\,d\mu=\int_{B^c} \ph \frac{\psi}{1-\psi}\,d\nu\]
+and $f=1_{B^c}\frac{\psi}{1-\psi}$.
+
+Now we prove uniqueness of $f$. Suppose $\mu=\mu_s+\mu_a=\mu'+\mu''$ are two representations; then $\mu_a-\mu'=\mu''-\mu_s$. We show an absolutely continuous measure can't equal a singular measure, unless it's zero. Take $A,A'$ such that $\nu(A)=\nu(A')=0$ and $\mu_s(A^c)=0$ and $\mu''(A'^c)=0$. Take $B=A\cup A'$. Then
+$
+\nu(B)=0$, $\mu_s(B^c)=0$, and $\mu''(B^c)=0$.
+\end{proof}
+At this level of generality~(??) is just an existential statement. But often we 
+want to say $f$ is more than just $L^1$. Recall that $\mu\ll \nu$ if for every $\ep>0$ there exists $\de>0$ such that $\nu(\Ga)<\de$ implies $\mu(\Ga)<\ep$. Suppose we know that $f=\dr{\mu}{\nu}$ is in $L^p$. Then
+\[
+\mu(\Ga)=\int_{\Ga} f\,d\nu
+\le \ve{f}_p\nu(\Ga)^{1-\rc p}.\]
+This is a much more quantitative statement.
+%sued by Daniell's heirs
+%Invented by Riesz.
+%Daniell had a better PR man.
+%Mathematicians bad at branding themselves.
+%Partial explanation for the level of funding they receive.
+%Physicists, WWII
+%Astronomers are remarkable
+%For many people who have no other interest 
+%Half of those people believe in astrology
+%Contribute to little pieces of paper under the constellations
+%No compunctions about taking full advantage.
+%Origins of science
+
+\subsection{Daniell integration}
+%Redonne integration in France. Who cares
+Although it's intuitively appealing to start with a measure and build an integration theory, for technical reasons this isn't the most elegant way to proceed. Instead, we could start with an integration theory and figure out what measure it came from. 
+Sets don't behave well when you put them together: they don't have a vector space structure. But functions do.
+
+Let $E$ be a nonempty set. Let $L$ be a vector lattice of functions $f:E\to \R$. (A vector lattice is a vector space closed under the operations max and min.) Consider an ``integral", a map $I:L\to \R$ such that
+\begin{enumerate}
+\item
+$I$ is linear.
+\item $I(f)\ge 0$ if $f\ge 0$.
+\item If $f_n\in L$ and $f_n\searrow 0$ then $I(f_n)\searrow 0$.
+\end{enumerate}
+For example, consider a measure space $(E,\cal B, \mu)$ with $L=L^1(\mu, \R)$, $I(f)=\int f\,d\mu$. Property 3 is just the Monotone Convergence Theorem. (Finiteness condition holds.) 
+%We will show that this is the only example.
+
+But this is not the only example... 
+Now let $\cal A$ be an algebra of subsets, with $\mu:\cal A\to [0,\iy)$ finitely additive, so $\mu(A_1\cup A_2)=\mu(A_1)+\mu(A_2)$, $A_1\cap A_2=\phi$. Take $L(\cal A)$ to consist of $\cal A$-measurable functions, i.e. functions with finite range, so that the inverse image of any element is in $A$. Define
+\[
+I(\ph)=\int f\,d\mu=\sum_{a}a\mu(\ph=a).
+\]
+(Proof of linearity for simple functions only used finite additivity.)
+However, this does not necessarily satisfy property 3. Property 3 is equivalent to: If $A_n\in \cal A$ and $A_n\searrow \phi$ then $\mu(A_n)\searrow 0$. The forward direction is from applying the property to indicator functions. For the reverse direction, 
+\[I(f_n)\le\ep \underbrace{\mu(f_n\le \ep)}_{\le\ep \mu(E)}+\underbrace{\ve{f_n}_u\mu(f_n\ge \ep)}_{\to 0}.\]
+
+Consider $E$ a compact Hausdorff space. Consider $L=C(E,\R)$. Take $I$ to be a nonnegative linear function on $L$.
+%Nonneg func to nonneg
+%No self-respecting linear function is nonneg on all.
+Then $(E,C(E;\R),I)$ is an integration. We check property 3: Note $|I(f)|\le I(1)\ve{f}_u$. Indeed, $\ve{f}_u-f$ is nonnegative, so $I(1)\ve{f}_u-I(f)\ge 0$. Similarly for the other direction. Second, note $f_n\searrow 0$ implies $\ve{f_n}_u\searrow 0$, Dini's Lemma.
+%Pisa. Statue of Dini, extremely happy person. Good Italian lunch.
+\begin{lem}[Dini]
+Blah above.
+\end{lem}
+\begin{proof}
+For every $x\in E$ there exists $n(x)$ such that $f_n(x)<\ep$ for all $n\ge n(x)$. Therefore, by continuity, for all $x\in E$ we can choose $U(x)$ such that $|f_{n(x)}(x)-f_{n(x)}(y)|\le \ep$ if $y\in U(x)$. Now apply Heine-Borel to see a finite number of $U(x)$ cover the space.
+%\le 2\ep everywhere, by monotonicity ok for larger n.
+%Choose x_1,\ldots, x_l cover. Take N=max n(x_k)1\le k\le l
+%Check done. 2e
+\end{proof}

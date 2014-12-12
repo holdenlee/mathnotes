@@ -1,0 +1,100 @@
+\lecture{Mon. 4/4/11}
+
+\subsection{Surface measure}
+\begin{df}
+%A \textbf{hypersurface} $M$ is a set in $\R^n$ so that for $p\in M$ and $r>0$, there exists $F$ with $|\nabla F|>0$.
+%\[
+%M\cap B(p,r)=\{x\in B(p,r):F(x)=0\}.
+%\]
+%%Define the tangent space $T_p(M)$ to be $\Ga\subeq M$ such that 
+Define a cylindrical neighborhood of a hypersurface $M$ to be
+\[
+\Ga(\rh)=\{x:\exists p\in \Ga,|x-\rh|<\rh,\,x-p\perp T_p(M).\}
+\]
+%Growing perpendicular hair.
+\end{df}
+
+We will define a measure by
+\[
+\la_M(\Ga)=\lim_{\rh\searrow 0} \frac{\la_{\R^N}(\Ga(\rh))}{2\rh}.
+\]
+Now %for $\Ga\in \cal B_M$,
+\[
+%\Ga\cap B(p,r)
+\Ga(\rh)=\bc{q+\xi\frac{\nabla F(q)}{|\nabla F(q)|}:q\in \Ga,\,|\xi|<\rh}.
+\]
+This is measurable because a Lipschitz function maps Lebesgue measurable sets to measurable sets (it maps compact to compact, closed to closed, countable unions of closed to closed; every Lebesgue measurable set differs by at most a set of measure 0 from such a set; by Lipschitz continuity a set of measure 0 goes to a set of measure 0), and $(q,\xi)\mapsto q+\xi\frac{\nabla F(q)}{|\nabla F(q)|}$ is Lipschitz.
+%If we grow the hairs too long they might cross, $\Ga\cap \Ga'=\phi$, so $\Ga\cap \Ga'=\phi$ does not imply $\Ga(\rh)\cap \Ga'(\rh)=\phi$.
+
+\begin{pr}
+For every $p\in M$ there exists $U$ an open neighborhood of $O_{\R^{N-1}}$ and a $\Psi:U\to M$ such that $\Psi(O_{\R^{N-1}})=p$ and there exists $r>0$ such that $\Psi(U)=M\cap B_{\R^N}(p,r)$, and for every $u\in U$
+\[
+\{\partial_{u_1}\Psi(u),\ldots, \partial_{u_{N-1}}\Psi(u)\}
+\]
+is a basis for $T_{\Psi(u)}(M)$.
+($(U,\Psi)$ is a coordinate chart.)
+\end{pr}
+\begin{proof}
+By taking $r$ small enough we may assume without loss of generality that $|\partial_{x_N}F|>0$ on $B_{\R^N} (p,r)$. Define
+\[
+\Phi(x)=\ba{\begin{matrix}
+x_1-p_1\\
+\cdots \\
+x_{N-1}-p_{N-1}\\
+F(x)
+\end{matrix}}.
+\]
+The Jacobian is
+\[
+\pd{\Ph}x=\matt{I_{N-1}}0{\partial_{u_1}F\; \cdots }{\partial_{u_N}F}.
+\]
+Its determinant doesn't vanish so by the Inverse Function Theorem, $F$ admits an inverse in a neighborhood of the origin. Define $\Psi(u)=\Phi^{-1}((u,0))$ on a neighborhood of 0. Note $\Phi^{-1}(O_{\R^{N-1}})=p$, and $\Psi(u)\in M$. Thus the derivative is in the tangent space; each $\partial_{u_i} \Psi(u)$ is in the tangent space. Since they are linearly independent and there are $N-1$ of them, they form a basis. (The $N-1$ column vectors are the first $N-1$ vectors in the Jacobian of $\Phi^{-1}$, which has nonzero determinant.)
+\end{proof}
+Let $(U,\Psi)$  be a coordinate chart at $p$. Define $\tilde{\Psi}$ on $U\times \R$ by
+\[
+\tilde{\Psi}(u,\xi)= \Psi(u)+\xi n(u)
+\]
+where $n(u)$ is the normal at $u$. 
+It parameterize points near the hypersurface by points on the hypersurface and how far to go perperdicularly. %(along a hair). 
+Note
+\[
+(\det A)^2=\det(A^TA)=\det\ba{(v_i,v_j)_{\R^N}}_{1\le i,j\le N}.
+\]
+The Jacobian of $\tilde{\Psi}$  at $(u,0)$ is 
+\[
+J\tilde{\Psi}(u,0)=\sqrt{
+\ba{
+\an{\partial_{u_i}\Psi, \partial_{u_j}\Psi}
+}_{1\le i,j\le N}
+}>0
+\]
+since ???
+\[
+J\tilde{\Psi}(u,0)=(\partial_{u_1}\Psi,\ldots, \partial_{u_{N-1}} \Psi, n \Psi(u)).
+\]
+Thus $\tilde{\Psi}$ is locally invertible.
+FIXFIXFIXFIXFIXFIXFIXFIXFIXFIXFIXFIXFIXFIXFIXFIXFIXFIX
+
+For $\Ga\subeq  M\cap B(p,r)$, 
+by changes of variables, 
+\begin{align*}
+\la(\Ga(p))&=\int_{\tilde{\Psi}^{-1}(\Ga(\rh))} 1_{\Ga(\rh)}(\tilde{\Psi}(u,\xi))\,J\tilde{\Psi}(u,\xi).\\
+&=\int_{\tilde{\Psi}^{-1}(\Ga)\times (-\rh,\rh)} J\tilde{\Psi}(u,\xi)\,d\xi du\\
+&=\int_{\Psi^{-1}(\Ga)}
+\pa{
+J\tilde{\Psi}(u,\xi)\,d\xi
+}\,du.
+\end{align*}
+Divide by $2\rh$ and take the limit as $\rh\to 0$ to get
+\[
+\int_{\Phi^{-1}(\Ga)} J\tilde{\Psi}(u,0)\,du.
+\]
+The limit exists and is given by a measure!
+
+In differential geometry we go in the opposite direction: define a hypersurface (or manifold) to be something which has a coordinate chart at each point. Then define a measure on the hypersurface by using the formula above. We don't usually talk about the relationship to the measure in the ambient space because we use intrinsic descriptions. %we don't talk about geometric structures in an ambient space.
+
+%squeezing!
+If $\R^N\to \R^N$ is Lipschitz continuous $|V(y)-V(x)|\le L|y-x|$ then we can always solve $\frac{d\Phi}{dt}(t,x)=V(\Phi(t,x))$ and $\Phi(0,x)=x$.
+
+Flow property: $\Phi(s+t,x)=\Phi(t,\Phi(s,x))$. (Use uniqueness of solutions.)
+

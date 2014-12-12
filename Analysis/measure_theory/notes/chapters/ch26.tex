@@ -1,0 +1,102 @@
+\lecture{Fri. 4/8/11}
+
+\subsection{Jensen's inequality}
+\begin{df}
+A subset $C\subeq \R^N$ is \textbf{convex} if for all $x,y\in C$ and $0\le t\le 1$, $(1-t)x+ty\in C$. I.e. if it contains two points it contains the line segment joining them.
+
+A function $g:C\to \R$ is \textbf{concave} if $g((1-t)x+ty)\ge (1-t)g(x)+tg(y)$. 
+\end{df}
+\begin{pr}
+$g$ is concave iff $\{(x,\xi):x\in C\text{ and } \xi\le g(x)\}$ is convex in $\R^N\times \R$.
+\end{pr}
+\begin{thm}[Jensen's inequality, discrete version]
+Let $\al_i$ be nonnegative numbers summing to 1. Then
+\[
+g\pa{
+\sum_{k=1}^n \al_kx_k
+}\ge\sum_{k=1}^n \al_kg(x_k).
+\]
+\end{thm}
+\begin{proof}
+$k=2$ case is definition. Induct.
+\end{proof}
+We think of this as a statement about probability measures: Think of the LHS as $\int_C x\,\mu(dx)$, where $\mu=\sum_{k=1}^N\al_k(x)\de_{x_k}(x)$, $\de_{x}$ being the measure assigning 1 to $\{x\}$ and 0 to $\R^N-\{x\}$.
+\begin{thm}[Jensen's inequality, continuous version]
+Let $(E,\cal B, \mu)$ be a probability space (i.e. a measure space with $\mu(E)=1$), $C$ be a closed, convex set in $\R^N$, and $g:C\to [0,\iy)$ be continuous and concave. If $F: E\to C$ is $\cal B$-measurable such that $|F|\in L^1(\mu)$ then $\int F\,d\mu\in C$ and
+\[
+g\pa{\int F\,d\mu}\ge \int g\circ F\,d\mu.
+\]
+\end{thm}
+\begin{proof}
+First assume $F$ only takes a finite number of values, $y_0,\ldots, y_n$. Then $\int F\,d\mu=\sum_{k=0}^n y_k \mu(F=y_k)\in C$, and the inequality holds by discrete Jensen's.
+
+Now we approximate $F$ by simple functions. First we get rid of large values of $F$. Given $m\ge 1$, choose $R_m<\iy$ such that $\int_{|F|\ge R_m}|F|\,d\mu\le \rc{m}$. (Possible since $|F|$ is integrable.) The set $C\cap \ol{B(0,R)}$ is compact so it can be covered with a finite number of balls of radius $\rc{m}$, say as $\bigcup_{k=1}^{n_m} B(y_k,\rc m)$. 
+
+Choose any $y_0\in C$. Define
+\[
+F_m(e)=\begin{cases}
+y_k&\text{if }F(e)\in B\pa{y_k,\rc m}\bs \bigcup_{j=0}^{k-1} B\pa{y_j,\rc m}\\
+y_0&\text{if } |F(e)|>R_m.
+\end{cases}
+\]
+Since $F_m$ is simple, $\int F_m\,d\mu\in C$, and $g\pa{\int F_m\,d\mu}\ge \int g\circ F_m\,d\mu$. Since $\int |F-F_m|\,d\mu\le \frac{2}{m}$ (the integral is at most $\rc m$ on the set where $F(x)\le R_m$ and where $F(x)>R_m$), $\lim_{m\to \iy} \int |F-F_m|\,d\mu=0$. Hence $\int F_m\,d\mu \to \int F\,d\mu$. Since $C$ is closed, $\int F\,d\mu\in C$. Consider
+\[
+g\pa{\int F_m\,d\mu}\ge \int g\circ F_m\,d\mu.
+\]
+The LHS converges to $g\pa{\int F\,d\mu}$ by continuity of $g$ and $\int F_m\,d\mu\to \int F\,d\mu$, and the RHS converges to $\int g\circ F\,d\mu$ by Fatou's lemma.
+\end{proof}
+\begin{thm}
+Let $U$ be open and convex. Then $C=\ol{U}$ is also convex. Suppose $g:C\to \R$ is $C^2$ on $U$. Then $g$ is concave on $C$ if and only if 
+\[
+H_g(x)=\ba{
+\pd{^2g}{x_i\partial y_j}(x)
+}_{1\le i,j\le N}.
+\]
+has all eigenvalues nonpositive, for all $x\in U_i$. 
+\end{thm}
+\begin{proof}
+Suppose $H_g(x)$ has a positive eigenvalue at $e\in \bS^{N-1}$. Then there is $e$ so that $\an{e,H_g(x)e}>0$. Let $u(t)=g(x+te)$. Then
+\[
+\frac{d^2}{dt^2} g(x+te)|_{t=0}=\an{e,H_g(x)e}>0.
+\]
+This implies $g(x+te)+g(x-te)>g(x)$ for small $x$, so $g$ is not concave.
+
+Conversely, note that if $u$ is a $C^2$ function such that $u(0)=u(1)=0$ and $u''(t)\le 0$, then $u(t)\ge 0$ on $[0,1]$. Apply this to $u(t)=g((1-t)x+ty)-(1-t)g(x)-tg(y)$ where $y-x$ ranges over all directions.
+%Then
+%\[
+%\rc{2}\pa{g(x+te)+f(x-te)}-f(x).
+%\]
+%%nonpos. 
+%Suppose $u\in C^2([0,1], \R$, and $u:[0,1]\to \R$ is continuous  such that $u''<0$. 
+%%if below, then achieves ,minimum on internal. But bu 2nd deriv test
+%Consider $u_{\ep}(t)=u(t)+\ep t(1-t)\an{v, H_g v}\le 0$. But $u_{\ep{tP}}$. Now
+%\begin{align*}
+%u(t)&=g((1-t)+ty)-(1-t)g(c)tg)y\\
+%u''(t)&=\an{y-x,H_y(y-x)}. 
+%\end{align*}
+%Note for $A=\smatt abbc$ $A$ has a??  Blah $\tr(A)=\la+\mu\le 0$, $\det A=\mu\ge 0$. 
+\end{proof}
+To apply this in the two dimensional case, note that $A=\smatt abbc$ has all eigenvalues nonpositive iff $\tr(A)\le 0$ and $\det(A)\le 0$.
+
+Suppose $\al\in(0,1)$. Consider $x^{\al}y^{1-\al}$ on $x,y\ge 0$. This is concave on $[0,\iy)^2$. So is $(x^{\al}+y^{\al}) ^{\rc{\al}}$. 
+
+\begin{thm}[Minkowski's inequality]
+Let $(E,\cal B,\mu)$ be a probability space and $f,g:E\to [0,\iy)$ be $\cal B$-measurable. Let $p\in (1,\iy)$. Then
+\[
+\pa{
+\int(f+g)^p\,d\mu
+}^{\rc p}\le \pa{\int f^p\,d\mu}^{\rc p}+\pa{\int g^p\,d\mu}^{\rc p}.
+\] 
+\end{thm}
+\begin{proof}
+Apply Jensen to $(x^{\al}+y^{\al}) ^{\rc{\al}}$.
+\end{proof}
+\begin{thm}[H\"older's inequality]
+Let $p\in (1,\iy)$,  $p'=\frac{p}{p-1}$ (note $\rc{p}+\rc{p'}=1$), 
+\[
+\int fg\le \pa{\int f^p}^{\rc p}\pa{\int g^{p'}}^{\rc{p'}}
+\]
+\end{thm}
+Considering $\frac{\mu}{\mu(E)}$ gives the above inequalities for finite measure spaces. We can extend to $\si$-finite measure spaces too.
+
+We will introduce a norm on $L^p(\mu;\R)$, $\Vert f\Vert_{L^p}=\pa{\int |f|^p}^{\rc p}$. Minkowski's inequality gives that this is a valid norm (triangle inequality holds). Again we look at equivalence classes. 

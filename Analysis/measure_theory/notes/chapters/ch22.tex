@@ -1,0 +1,58 @@
+\lecture{Wed. 3/30/11}
+
+\subsection{Change of variables}
+Suppose $G$ is an open set in $\R^N$, and $\Ph:G\to \R^N$ is $C^1$. Let $\Ph=\ba{\begin{smallmatrix}\Phi_1\\ \vdots \\ \Phi_n\end{smallmatrix}}$ and define
+\begin{align*}
+\pd{\Ph}{x}&=(\partial_{x_1}\Phi,\ldots, \partial_{x_N}\Phi)\\
+J\Ph&=\ab{\det \pd{\Ph}{x}}.
+\end{align*}
+(If $\Phi(x)=Ax$ then $J\Ph=|\det A|$.)
+\begin{thm}
+If $\Phi\in C^2(G;\R^N)$ is 1-to-1 and if $J\Ph>0$, then 
+\[\la_{\R^N}(\Ph(\Ga))=\int_{\Ga} J\Ph \,d\la_{\R^N}.\]
+For $f\ge 0$ is measurable on $\Ph(G)$,
+\[
+\int_G f\circ\Phi \,J\Ph\,d\la_{\R}=\int_{\Ph(G)} f\,d\la_{\R^N}.
+\]
+\end{thm}
+%proof: do linear case, then approx nonlinear with linear things; general procedure in calculus
+\begin{proof}
+We use the inverse function theorem: Let $\Ph\in C^k(G;\R^N)$ with $J\Phi>0$. For $p\in G$ there exists $B(p,r)\subeq G$ such that $\Ph|_{B(p,r)}$ is 1-to-1; moreover $\Ph^{-1}\in C^k(\Ph(B(p,r)),\R^N)$ and $\pa{\pd{\Ph^{-1}}{y}\circ \Ph}\pd{\Ph}{x}=I$.
+As a corollary, $\Ph$ takes open/closed/measurable subsets of $G$ into open/closed/measurable sets. (Each of these is locally true as $\Ph$ is locally a diffeomorphism.)
+
+%Given the conditions in the problem
+We first show that %not assuming f is 1-1 everywhere. Just assume J\Phi\neq 0. Locally 1-to-1, not globally, so ineq.
+\begin{equation}\label{jacobineq}
+\int_{\Ph} f\,d\la\le\int_Gf\circ \Ph J\Ph \,d\la.
+\end{equation}
+If $\Ph$ is 1-to-1 then looking at the inverse would give the opposite inequality:
+\begin{align*}
+\int_G f\circ \Ph\,J\Ph\,d\la&\le\int_{\Phi(G)} f\circ \cancel{\Phi\circ \Phi^{-1}} \,\cancel{J\Phi\cdot J\Phi^{-1}}\,d\la\\
+ \int_{\Ph(G)} f\,d\la&\ge\int_Gf\circ \Ph J\Ph \,d\la.
+\end{align*}
+
+Let $Q(c,r)$ be the cube $\prod_{i=1}^n [c_i-r_i,c_i+r_i]$. Consider what $\Phi$ does to this cube. Let $\Ga^{(\de)}$ be the set of points at most distance $\de$ around $\Ga$. 
+By Taylor's Theorem with remainder,
+\[
+\Ph(x)=\Ph(c)+\pd{\Ph}{x}(c)(x-c)+O(|x-c|^2).
+\]
+There exist constant $L$ and $M$ so that 
+\begin{align*}
+\Ph(Q(c,r))&\subeq \pa{\Ph(c)+T_{\pd{\Ph}{c}(x)}Q(c,r)}^{(Lr^2)}\\
+\pa{T_{\pd{\Ph}{x}(c)}Q(0,r)}^{(Lr^2)}&\subeq T_{\pd{\Ph}{x}(c)}Q(0,(1+Mr)r).
+\end{align*}
+%Jacobian matrix doesn't vanish-> bdd
+Thus taking Lebesgue measure
+\[
+\la_{\R^N} (\Ph(Q(c,r)))\le (1+Mr)^N J\Ph(c)\la_{\R^N}(Q(c,r)).
+\]
+Covering an open set with countably many nonoverlapping cubes $Q$ with radius at most $\de$,
+%\[
+%\la_{\R^N}(H)\le \sum_{Q} (1+M\de)^N J\Phi(c_Q)\la_{\R}(Q).
+%\]
+\[
+\la_{\R^N}(\Ph(H))\le \sum_{Q\in C_{\de}} (1+M\de)^N J\Ph(c_Q)\la_{\R}(Q).
+\]
+Thus $\la(\Ph(H))\le \int_H J\Ph\,d\la$, i.e.~(\ref{jacobineq}) holds for $f$ the characteristic function of an open set, hence for measurable sets. We have the result for characteristic, then simple, then measurable functions.
+%approx integral over G.
+\end{proof}

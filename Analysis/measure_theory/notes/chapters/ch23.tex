@@ -1,0 +1,87 @@
+\lecture{Fri. 4/1/11}
+
+\subsection{Polar coordinates}
+Let $\Phi:\R^N\bs \{0\}\to \bS^{N-1}$ be defined by $\Phi(x)=\frac{x}{|x|}$. Now
+\[
+\la_{\bS^{N-1}}(\Ga)=N\la_{\R^N}(\{x:\Phi(x)\in \Ga\}).
+\]
+\begin{thm}
+\[
+\int \ph \,d\la_{\R} = \int_{(0,\iy)} \rh^{N-1} \pa{\int_{\bS^{N-1}}\ph(\rh \om)\,\la_{\bS^{N-1}}(d\om)}\,d\rh.
+\]
+\end{thm}
+\begin{proof}
+Let $f(r)=\int_{B(0,r)} \ph \,dx$. Then
+\begin{align*}
+f(r+h)-f(r)&=\int_{B(0,r+h)\bs B(0,r)} \ph\, dx\\
+&=\int_{B(0,r+h)\bs B(0,r)}\ph(r\Phi(x))\,\la(dx)
++%\underbrace{
+\int_{B(0,r+h)\bs B(0,r)}(\ph(x)-\ph(r\Phi(x)))\,\la(dx)%}_{o(h)}.
+\\
+%not trying to, succeeding.
+&=\int_{B(0,r+h)}\ph(r\Ph(x))\,dx-\int_{B(0,r)}\ph(r\Ph(x))\,dx+o(h)\\
+&=(r+h)^N\int_{B(0,1)} \ph(r\Ph(y))\,dy-r^N\int_{B(0,1)}\ph(r\Ph(y))\,dy+o(h).
+\end{align*}
+Therefore 
+\[
+f'(r)=\lim_{h\searrow 0}\frac{f(r+h)-f(r)}{h}=Nr^{N-1}\int_{\bS^{N-1}}\ph(r\om) \,\la_{\bS^{N-1}}(d\om).
+\]
+Now integrate from 0 to $\iy$.
+\end{proof}
+
+The polar coordinate formula can be viewed as a special case of surface measure.
+\subsection{Surface measure}
+\begin{df}
+A \textbf{hypersurface} is a set $M\subeq \R^N$ such that for every $p\in M$ there exists $r>0$, $F\in C^3(B(p,r); \R)$, so that $|\nabla F|>0$ and 
+\[M\cap B(p,r)=\{x\in B(p,r):F(x)=0\}.\]
+The tangent space $T_p(M)$  is the set of $v\in \R^N$ such that there exists $\ep>0$ so there exists $\ge\in C^1((-\ep,\ep),M
+)$ such that so that $\ga(0)=p$, $\dot{\ga}(0)=v$. 
+\end{df}
+In the language of manifolds, $M$ is a submanifold of $\R^n$, locally characterized by the fact that the 0 is a regular point of $F$.
+
+\begin{lem}
+\begin{enumerate}
+\item
+$M$ is a countable union of compact sets.
+\item $T_p(M)$ is a $N-1$ dimensional subspace of $\R^N$ and $T_p(M)=\{v\in \R^N:v\perp \nabla F(p)\}$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+For the second part, noting the directional derivative is given by dot product with the gradient,
+\[
+0=\frac{d}{dt}F(\ga(t))|_{t=0}=\an{\nabla F(p),v}.
+\]
+
+Conversly, suppose $\an{\nabla F(p),v}=0$. By ODE theory (existence of solutions), we can find $\ga$ locally so that $\dot{\ga}(0)=v$ and
+%\[
+%\ga'(t)-\frac{\pa{(\nabla F(\ga(t)),y]}}{|\nabla F(\ga(t))|^2}\De F(\ga+x).
+%\]
+\[
+\dot{\ga}(x)=v-\frac{\an{v,\nabla F(x)}}{|\nabla F(\ga(t))|^2}\nabla F(x).
+\]
+%All we need is a Lipschitz consant.
+Now $\frac{d}{dt}F(\ga(t))=\an{\dot{\ga}(t),\nabla F(\ga(t))}=0$.
+
+%%Let $\Ga=\n 
+
+%Let 
+%\[
+%\Ga(\rh)=\{x:\exists p\Ga \,x-p\in \in T_p(M)\text{ and }|x-\rh|<\rh\}.
+%\]
+%
+%%For example, $\Ga(\rh)
+%%Let $\Ga=\{
+%$\la_M(\Ga)=\lim_{\rh\searrow 0}\rc{2\rh} \la_{\R^N}\la_{\R^N}(\Ga(\rh))$.
+%
+%$M=R\times\{0\}$ in $\R^2$; $\Ga=A\times \{0\}$.
+%\begin{align*}
+%\Ga(\rho)&=A\times (-\rh,\rh)\\
+%\frac{\la_{\R^2}^*\Ga(\rh)}{2\rh}&=\la_{\R^1}(
+%A).
+%\end{align*}
+%
+%$\Ga\in \cal B_{\bS^{N-1}}$; then $\Ga(p)=\{r\om: 1-\rh<r<1+\rh,\om\in \Ga\}$.
+%\[
+%\la_{\R^N}(\Ga(\rh))=\int_{1-\rh}^{1+\rh} r^{N-1} \la_{\bS^{N-1}}(\Ga)
+%\]
+\end{proof}

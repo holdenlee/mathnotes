@@ -1,0 +1,101 @@
+\lecture{Mon. 3/28/11}
+
+\subsection{Change of variables}
+Let $(E_1,\cal B_1)$ and $(E_2,\cal B_2)$ be measure spaces and let $\Phi:E_1\to E_2$ be a measurable map. Let $\mu$ be a measure on $(E_1,\cal B_1)$ and consider the measure $\Phi_*\mu=\mu\circ \Phi^{-1}$ on $(E_2,\cal B_2)$.
+%Image or pushforward
+\begin{thm}
+For all nonnegative $\cal B_2$-measurable functions $\ph$,
+\[
+\int_{E_2}\ph\,d(\Phi_*)=\int_{E_1}\ph\circ\Phi\,d\mu. 
+\]
+\end{thm}
+\begin{proof}
+This holds for characteristic functions:
+\[
+\int_{E_2} 1_{\Ga}\,d(\Phi_*\mu)=(\Phi_*\mu)(\Ga)=\int_{E_1}1_{\Ga}\circ\Phi\,d\mu.
+\]
+Hence it holds for simple functions, and by taking monotone limits, all nonnegative monotone functions.
+\end{proof}
+In order for this to be useful, we need a nice expression for $\Phi_*\mu$.
+
+\begin{thm}
+Let $-\iy<a<b<\iy$ and $\mu$ and $\psi:[a,b]\to \R$ a right-continuous non-decreasing function. If $\ph:[a,b]\to \R$ is bounded, then $\ph$ is Riemann-integrable with respect to $\psi$ iff $\ph$ is continuous $\mu_{\psi}$-almost everywhere.
+(Recall $\mu_{\psi}((x,y])=\psi(y)-\psi(x)$.)
+\end{thm}
+%Riemann-Steltjes integrable means $\lim_{\Vert \cal C\Vert} \sum_{I\in \cal C}\ph(\xi(I))\De_I\psi$. 
+%One of the things left hanging at the end of the 19th century is how to characterize Riemann-Steltjes integrable functions.
+%For $\ph=x$ this gives ordinary Riemann integrability. Cont. almost everywhere wrt Lebesgue measure.
+%Lebesgue hadn't stated his theory yet! Classical theory requires modern theory in order to answer a basic question.
+\begin{proof}
+$\ph$ is $\psi$-Riemann integrable iff for every $\ep>0$ there exists $\de>0$ such that for every cover $\cal C$ with $\Vert \cal C\Vert$,
+\begin{equation}\label{reimannintcond}
+\sum_{\scriptsize\begin{array}{c}I\in \cal C,\\
+\sup_I \ph-\inf_I \ph\ge \ep\end{array}}\De_I\psi<\ep.
+\end{equation}
+(Exercise.)
+
+Suppose $\ph$ is $\psi$-Riemann integrable. For $n$, choose $\cal C_n$ such that $\Vert \cal C_n\Vert\le \rc{n}$ and $\psi$ is continuous at each left hand endpoint $I^-$. (There are countably many discontinuities.) Let 
+\[
+\cal C_{m,n}=\{I\in \cal C_n:\sup_I \ph-\inf_I\ph\ge \rc m\}.
+\]
+Let
+\[
+\De=\bigcup_{n=1}^{\iy} \{I^-:I\in \cal C_n\}.
+\]
+Each element of $\De$ is a continuity point of $\psi$, so has measure 0 under $\mu_{\psi}$. Since $\De$ is countable, this implies $\mu_{\psi} (\De)=0$. By definition of continuity
+\[
+\{x\in(a,b]\bs \De:\ph\text{ is not continuous at }x\}\subeq
+\bigcup_{m=1}^{\iy} \bigcap_{n=1}^{\iy}\bigcup \cal C_{m,n}.
+\]
+(There's some $m$ so that nearby points vary at least $\rc m$.)
+Now
+\[
+\mu_{\psi}(\{x\in(a,b]:\ph\text{ is not continuous at }x\}\bs \De\})\le \sum_{m=1}^{\iy} \mu_{\psi}\pa{\bigcup_{n=1}^{\iy} \cal C_{m,n}}=0
+\]
+since
+\[
+\mu_{\psi}\pa{\bigcup_{n=1}^{\iy} \cal C_{m,n}}\le \varliminf_{n\to \iy} \mu_{\psi}(\cal C_{m,n})
+=\varliminf_{n\to \iy} \sum_{I\in \cal C_{m,n}} \De_I\psi= 0
+\]
+by~(\ref{reimannintcond}). The other direction is similar.
+\end{proof}
+\begin{thm}
+Let $(E,\cal B, \mu)$ be a measure space and $f:E\to [0,\iy]$ be $\cal B$-measurable. Then $\mu(f>t)$ (as a function of $t$) is right-continuous and non-increasing.
+
+Suppose $\ph\in C([0,\iy];\R)\cap C^1((0,\iy);\R)$, $\ph$ is non-decreasing, and $\ph(0)=0<\ph(t)$ for $t>0$. Then
+\[
+\int_E \ph\circ f\,d\mu=\int_{(0,\iy)} \ph'(t) \mu(f>t)\,dt.
+\]
+\end{thm}
+This is used in probability (expectation), the continuous version of the following: For $X$ taking values in $\N$, $\mathbb E(X)=\sum_{n=0}^{\iy} P(X>n)$. 
+Indeed, by interchanging order of summation 
+\[E(X)=\sum_{n=0}^{\iy} nP(X=n)=\sum_{n=0}^{\iy}\sum_{m=1}^nP(X=n)=\sum_{m=1}^{\iy} \sum_{n\ge m} P(X=n).\]
+We use the same idea, with integration by parts.
+\begin{proof}
+Note
+\[
+\{f>s\}=\bigcup_{t>s} \{f>t\}
+\]
+so $\{f>t\}\nearrow \{f>s\}$ when $t\searrow s$. Hence $\mu(\{f>t\})\nearrow \mu(\{f>s\})$.
+
+The integral on the RHS is the limit of integrals over $[a,b]$ as $a\to 0$, $b\to \iy$. Then the RHS is an ordinary Riemann integral. $\mu(f>t)$ has at most a countable number of discontinuities so the integrand is Riemann integrable. Evaluate the RHS as a Riemann integral. Integration by parts!
+%Reduce to calculations involving Riemann integrals... but can't easily compute $\mu(f>t)$ in general. But can estimate! (Tail of distributions.)
+\end{proof}
+%\int \ph\circ f\,d\mu, f_*((t,\iy))=\mu(f>t)
+\subsection{Polar coordinates}
+In $\R^N$ let
+\[
+\mathbb S^{N-1}=\{x:|x|=1\}.
+\]
+We look for a measure $\la_{\mathbb S^{N-1}}$ on $\mathbb S^{N-1}$ such that
+\[
+\int_{\R^N} f(x)\,\la_{\R^N}(dx)=
+\int_{(0,\iy)} r^{N-1}\pa{
+\int_{\mathbb S^N} f(r\om)\la_{\mathbb S^{N-1}}(d\om)
+}\,dr.
+\]
+Define $\Phi:\R^N\bs\{0\}\to \mathbb S^{N-1}$ by $\Phi(x)=\frac{x}{|x|}$. Define
+\[
+\la_{\mathbb S^{N-1}}=N\Phi_*\la_{B(0,1)\bs\{0\}}
+\]
+%good bc rotation invariant.\Phi respect rotation.

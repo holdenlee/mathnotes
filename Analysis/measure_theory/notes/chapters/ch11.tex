@@ -1,0 +1,96 @@
+\lecture{Fri. 2/25/2011}
+
+\subsection{Bernoulli measure}
+Let $\Omega=\{0,1\}^{\N}$, i.e. the set of binary sequences. Think of $\Omega$ as containing all possible outcomes of an infinite number of coin tosses. For $S\subeq \N$, let
+\[
+\Om(S)=\{0,1\}^S;
+\]
+think of this as containing all possible outcomes of games played during $S$. Define $\Pi_S:\Om\to \Om(S)$ as the restriction map.
+
+Let
+\[
+\cal A(S)=\{\Pi_S^{-1}(\Ga):\Ga\subeq \Om(S)\},
+\]
+the set of inverse images under the projection (collection of subsets of $\Om$). These are events that can be described entirely by outcomes of flips in $S$.
+%Example: $S=\{1,2\}$, $\eta(1)=0,\eta(2)=1$ Then $\Pi_S^{-1}(\{\eta\})=$ all sequences starting with 01.
+%Example: $S=\{1,2\}$ and $\Ga=\{(0,0),(1,0)\}$; then $\Pi_S^{-1}\Ga=$ sequences beginning with 00 or 01.
+Let $\eta\in \Om(S)$. We assign the probability (probability of heads is $p$, tails is $q=1-p$, independent events)
+\begin{equation}\label{assignp}
+P(\Pi_S^{-1}(\{\eta\}))=p^{\sum_{i\in F}\eta_i}q^{n-\sum_{i\in F} \eta_i}.
+\end{equation}
+If $S$ is infinite this is 0 (assuming $p\in (0,1)$). Hence we restrict our attention to finite subsets first. Let $A\in \cal A(F),\,A=\prod_{F}^{-1}\Ga,\,\Ga\subeq \Om(F)$. 
+Since
+\[
+A=\bigsqcup_{\eta\in \Ga} \Pi_F^{-1}(\{\eta\}),
+\]
+we assign the following probability
+\[
+P(A)=\sum_{\eta\in \Ga}P(\Pi_S^{-1}(\{\eta\}))=\sum_{\eta\in \Ga} p^{\sum_{i\in F}\eta_i}q^{n-\sum_{i\in F} \eta_i}.
+\]
+\begin{thm}
+There exists a measure $\be_p$ such that $\be_p(A)=P(A)$ for $A$ in the form~(\ref{assignp}).
+\end{thm}
+\begin{proof}
+Suppose $F_1,F_2$ are finite subsets of $\N$, $\Ga_1\subeq \Om(F_1), \Ga_2\subeq \Om(F_2)$ and $\Pi_{F_1}^{-1}\Ga_1=\Pi_{F_2}^{-1}\Ga_2$. (For example, $F_1=\{1\},F_2=\{1,2\}$, $\Ga_1=\{1\}$, $\Ga_2=\{(1,0),(1,1)\}$; both $\Pi_{F_1}^{-1}\Ga_1,\Pi_{F_2}^{-1}\Ga_2$ equal the event that we get heads first toss.)
+
+Without loss of generality, $F_1\subeq F_2$, and
+\[
+P(\Pi_{F_1}^{-1}\Ga_1)=\frac{|\Ga_1|}{2^{|F_1|}}
+=\frac{2^{|F_2|-|F_1|}|\Ga_1|}{2^{|F_2|}}
+=\frac{|\Ga_2|}{2^{|F_2|}}
+=P(\Pi_{F_2}^{-1}\Ga_2).
+\]
+Thus $P$ is well-defined on $\cal A=\bigcup_{F\sub\sub \N} \cal A(F)$.
+%Or induct, $|F_2|=|F_1|+1$. (p+q)
+%Ya
+
+Note $\cal A$ is closed under complementation and finite union (i.e. is an algebra). We can verify
+\[
+\beta_{p}(A_1+A_2)=\be_{p}(A_1)+\be_p(A_2):
+\]
+just take $F$ so $A_1,A_2$ depend only on tosses in $F$.
+
+To carry out our program (Theorem~\ref{measprogram} and~\ref{uniqmeas}),
+we need to put a topology on $\Omega$. We want $\om_n\to \om$ if $\om_n(i)\to \om(i)$ for al $i$, so we metrize $\Omega$ with
+\[
+\rho(\om,\om')=\sum_{i\in \N} 2^{-1}|\om(i)-\om'(i)|.
+\]
+Now $(\Om,\rho)$ is compact: just show sequential compactness; given $\om_n,n\geq 1$, by the box principle take a subsequence $\om_{1,n},n\geq 1$ so that $\om_{1,n}(1)$ is constant. Take a subsequence $\om_{2,n}$ so it's constant at time 2, and so on. Then look at the diagonal $\om_{n,n}$.
+(Alternatively, note $\Omega$ is the product topology, and $\Omega$ is complact by Tychonoff's Theorem.)
+
+Then for $F$ finite and $\Ga\subeq \Om(F)$, $\Pi_F^{-1}\Ga$ is closed, and hence compact. %(A sequence converging to a point there 
+But $\Pi_F^{-1}(\Om(F)-\Ga)$ is also closed so $\Pi_F^{-1}\Ga$ is open.
+%stuff in F frozen, never change after some n.
+%Alternatively, n=max_i {i\in F}.
+
+%Now we show extend to $\si(A)$.
+%not countable union b/c can then depend on infinitely many tosses.
+Now we check the assumptions for our program ($V=P$): $\be_p$ is additive for disjoint sets so subadditive on sets. For $V$ there exist $A'^{\circ}\subeq A$ and $A^{\circ}\subeq A''^{\circ}$ with close measure---just take $A=A'=A''$! Every open set can be written as a nonoverlapping (here, disjoint) union of countable number of $A$'s: use the same greedy algorithm as in Proposition~\ref{rectyum}.
+
+Then Theorem~\ref{uniqmeas} applies.
+\end{proof}
+
+$\be_{\rc 2}$ models tossing with a fair coin. Let
+\[
+\Phi(\omega)=\sum_{i\in \N} \frac{\om(i)}{2^i}\in [0,1].
+\]
+For $B\in \cal B_{[0,1]}$,
+\begin{align*}
+\be_{\rc 2}(\{\om:\Phi(\om)\in B\})
+&=\la_{\R}(B)\\
+\be_{\rc 2}(\Phi^{-1}(\Ga)&=\la_{[0,1]}(\Ga)).
+\end{align*}
+%(Next time!)
+(Binary sequences with random coefficient.)
+
+In other words, 
+\[
+\Phi_*\be_{\rc2}=\la_{[0,1]}.
+\]
+Note that $\om$ is not one-to-one, because $\omega(m)=0$ and $\omega(i)=1$ for $i\geq m+1$ gets mapped to the same thing with $\omega(m)=1$ and $\omega(i)=0$ for $i\geq m+1$ instead. So let
+\[
+\hat{\Omega}=\{\om:\om(i)=0\text{ for infinitely many }i{'s}.\}\cup \{\om_{\infty}\}
+\]
+where $\om_{\infty}$ is the all 1's sequence.
+
+See text for more.

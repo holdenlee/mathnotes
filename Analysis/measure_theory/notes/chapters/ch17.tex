@@ -1,0 +1,148 @@
+\lecture{Fri. 3/11/11}
+\subsection{Sunrise Lemma}
+\begin{df}
+A function $g$ is \textbf{upper semicontinuous} if
+\[
+g(x)\geq \varlimsup_{y\to\iy} g(y).
+\]
+\end{df}
+%\begin{pr}
+This is equivalent to $\{x:g(x)<a\}$ being open for all $a$.
+%\end{pr}
+%\begin{proof}
+%
+%\end{proof}
+\begin{lem}[Sunrise lemma]\label{sunrise}
+Suppose $g:\R\to \R$ is upper semicontinuous and right continuous, and that $\lim_{x\to \pm \iy}g(x)=\mp\iy$. Set 
+\[
+G=\{x:\exists y>x, g(y)>g(x)\}.
+\]
+Then $G$ is open, and any nonempty connected open component of $G$ is a bounded interval $(a,b)$ such that $G(b)=G(a)$.
+\end{lem}
+Think of $g$ as mountainous terrain, going up to infinity at the left and down infinitely at the right. The set $G$ is that portion of the terrain which will be in shadow the instant the sun comes over the horizon infinitely far at the right---those points where there's something to the right blocking the sun.
+The Sunrise Lemma says if you look at region in shadow, then is valley surrounded by hills with equal height.
+\begin{proof}
+Openness follows by upper continuity.
+
+Take $c\in (a,b)$. Let
+\[
+x=\sup\{x\ge c:g(x)\ge g(c)\},
+\]
+the point beyond which nothing is higher than $x$. Now $g(x)\ge g(c)$ by upper semicontinuity. (Take $y$'s in the set converging to $x$. Note $x$ is finite since $\lim_{n\to \iy} g(x)=-\iy$.) 
+Then $x\nin G$, because any point to the right of $x$ higher than $g(x)$ would also be greater than $g(c)$, contradicting maximality. This means $b\le x$.
+
+Also $g(c)\le g(b)$. (Draw a picture!) %Suppose the contrary, $g(c)>g(b)$. Now wtf?!
+
+Now $g(x)\le g(b)$ for $x\in (a,b)$. In particular $a>-\iy$. By right continuity, $g(a)\le g(b)$. But if $g(a)<g(b)$, then $b>a$ while $g(b)>g(a)$, and actually $a\in G$, contradiction. Hence $g(a)=g(b)$.
+%This means $a>-\iy$. Now $g(c)\le g(b)$ gives $a>-\iy$? By right continuity $g(a)=\lim_{c\to a^-} g(c)\le g(b)$. $a$ is not in the shaded region so nothing to the right is at a higher leve, and $g(a)\ge g(b)$.
+\end{proof}
+\subsection{Lebesgue's differentiation theorem}
+\begin{df}
+Define the left, right, and two-sided \textbf{Lipschitz constants} of $F$ at $x$ to be
+\begin{align*}
+\cal L_-F(x)&=\sup_{h<0} \frac{F(x+h)-F(x)}{h}\\
+\cal L_+F(x)&=\sup_{h>0} \frac{F(x+h)-F(x)}{h}\\
+\cal LF(x)&=\sup_{|h|>0} \frac{F(x+h)-F(x)}{h}=\max(\cal L_+F(x),\cal L_-F(x)).
+\end{align*}
+\end{df}
+\begin{thm}\label{Lebesgue's differentiation theorem}
+Let $F:\R\to \R$ be a nondecreasing function. %For $\la_{\R}$-almost ever
+For almost all $x\in \R$ (with respect to $\la_{\R}$),
+\[F'(x)=\lim_{h\to 0} \frac{F(x+h)-F(x)}{h}\]
+exists in $\R$.
+\end{thm}
+We can replace monotonicity by bounded variation (since a function of bounded variation is the difference of two monotone functions).
+%START OF PROOF
+%We can just consider $F$ on an interval, so 
+It suffices to prove this in an interval. Thus we can assume $F$ is bounded, and by shifting by a constant, $F(-\iy)=\lim_{x\to -\iy} F(x)=0$. 
+A monotonous function is discontinuous at a countable number of points (a set of measure 0), so by redefining $F$ at these points we may assume $F$ is right continuous.
+The main steps are as follows. We assume $F$ has the properties above.
+\begin{enumerate}
+\item The set of points at which $F$ has large Lipschitz constant is small (Lemma~\ref{hlineq} and Corollary~\ref{larlf}). This is proved with the Sunrise Lemma~(\ref{sunrise}).
+\item If $F$ is a definite integral $\int_{-\iy}^x f(y)\,\la_{\R}(dy)$ then $F'$ exists and equals $f$ almost everywhere (Theorem~\ref{ftoc2}).
+\item If $F$ is Lipschitz then $F$ is a definite integral (Lemma~\ref{lipint}).
+\item Take the Lipschitz constant to $\iy$ to conclude, if $F$ is absolutely continuous then $F$ is a definite integral (Lemma~\ref{abint}), and hence differentiable a.e. by item 2.
+\item If $F$ is singular then $F$ is differentiable a.e., in fact with $F'=0$.
+\item Each $F$ can be written as the sum of a absolutely continuous function and a singular function. From items 4 and 5, $F$ is differentiable a.e.
+\end{enumerate}
+
+\begin{lem}\label{hlineq}
+\[
+\la_{\R}(\{x:\cal LF(x)>R\})\le \frac{2F(\iy)}{R}.
+\]
+%Points at which lip constant large is small.
+\end{lem}
+\begin{proof}
+Consider $g(x)=F(x)-Rx$. It is right continuous and upper semicontinuous ($g$ is increasing so we have upper semicontinuity on the left). Let $G$ be as in the Sunrise Lemma~(\ref{sunrise}). Then
+\[
+G=\{x:\cal L_+F(x)>R\}.
+\]
+Write $G$ as union of disjoint components: $G=\bigcup_{n\ge 1}(a_n,b_n)$. By the Sunrise Lemma, $G(a_n)=G(b_n)$, giving $F(b_n)-F(a_n)=R(b_n-a_n)$. Now
+\begin{align*}
+\la_{\R}(G)&=\sum_{n=1}^{\iy} (b_n-a_n)=\rc R\sum_{n=1}^{\iy} (F(b_n)-F(a_n))\le \frac{F(\iy)}{R}.
+\end{align*}
+Similarly, $\la_{\R}(\{x:\cal L_+F(x)>R\})\le \frac{F(\iy)}{R}$ and the result follows. 
+\end{proof}
+\begin{cor}\label{larlf}
+%$\la_{\R}(\cal LF>R)\le \frac{F(\iy)}{R}$, so 
+$\la_{\R}(\cal L F=\iy)=0$.
+\end{cor}
+We next show a generalization of the fundamental theorem of calculus.
+\begin{thm}\label{ftoc2}
+Suppose that $F(x)=\int_{(-\iy,x]} f(y)\,\la_{\R}(dy)$ where $f\ge 0$ and $f\in L^1$. Then $F'(x)$ exists and equals $f(x)$ $\la_{\R}$-almost everywhere. 
+\end{thm}
+\begin{proof}
+Let $\cal G$ %for good
+be the set of all $f\in L^1(\la_{\R})$ such that 
+\[\lim_{I\searrow \{x\}} \rc{|I|}\int_{I}|f(y)-f(x)|\la_{\R}(dy)=0\text{ almost everywhere.}\]
+($I$ represents an interval.)
+Note in any case the LHS is at least
+\begin{equation}\label{hlineq2}
+\lim_{I\searrow\{x\}} \ab{
+\rc{|I|}\int_I f-f(x)}.
+\end{equation}
+%Contain all $L^1$ continous functions.
+By Theorem~\ref{mufinitedense} the set of continuous functions with compact support in $L^1$ is dense in $L^1$.
+Since continuous functions are in $\cal G$, it suffices to show $\cal G$ is closed under $L^1$-convergence.
+
+Let $f_n\in \cal G$ with and $f_n\to f$ in $L'$. Then
+\begin{align*}
+\la_{\R}\pa{
+\bc{x:\varlimsup_{I\searrow \{x\}} \rc{|I|} \int_I|f-f(x)|\,d\la_{\R} \ge \ep}}
+&\le 
+\la_{\R}\pa{\bc{
+x:\varlimsup_{I\searrow \{x\}} \rc{|I|} \int_{I}|f-f_n|\,d\la_{\R}\ge \ept
+}}\\
+&\quad +
+\la_{\R}\pa{\bc{
+x:\varlimsup_{I\searrow \{x\}} \rc{|I|} \int_{I}|f_n-f_n(x)|\,d\la_{\R}\ge \ept
+}}\\
+&\quad +\la_{\R}(|f_n-f|\ge 1).
+%\{:M(f-f_n)\ge \frac{\ept}{3})+\cancelto{0}\mu\{x:\lim_{I\searrow\{x\}}|f(x)-f_n(x)|\ge \ept\}
+%+\la(\{x:|f_n(x)-f(x)|\ge \ept\}).
+%bdded
+\end{align*}
+By~(\ref{hlineq}) and~(\ref{hlineq2}), the first and third terms are at most $\frac{2\nl{f-f_n}}{\ep}$ and $\frac{\nl{f-f_n}}{\ep}$ and by assumption the second term is 0, so the RHS is at most $\frac{\nl{f-f_n}}{\ep}$, as needed.
+
+%True for every $n$.
+%translation...
+%$a/\ep\nl{f-f_m}$
+%Thus if $F$ is an indefinite integral then $F'=f$.
+%Class of $F$ in... blahs what what?
+%absolutely continous Ff
+%sum singular, absolutely ocntinous, this part, separate arguemtth wuth the sameparty
+%leb gives disapppoints $F'=0$ a.e. ve.c
+%collecting credit forcourse
+%when they go to heaven they can say well i took 125.
+
+%???????????????//
+\end{proof}
+For $f\in L^1$, define the \textbf{Hardy-Littlewood maximal function} of $f$ to be
+\[
+Mf(x)=\sup_{I\ni\{x\}}\rc{|I|} \int_I|f(y)|\la_R(dy)
+\]
+Now by~(\ref{hlineq}),
+\[
+\la_{\R} (Mf>R)\le \frac{2\nl{f}}{R}.
+\]
+(This is the Hardy-Littlewood inequality.)

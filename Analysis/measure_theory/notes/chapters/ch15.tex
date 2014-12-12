@@ -1,0 +1,149 @@
+\lecture{Mon. 3/7/11}
+
+\subsection{Lebesgue dominated convergence}
+Suppose we have a measure space $(E,\cal B, \mu)$. We say that a property holds almost everywhere with to $\mu$ if it holds except on a set of measure 0. %A set that mu cannot see.
+For example, $f=g$ (a.e., $\mu$) means that $\mu(f\neq g)=0$.
+%\lim_{n\to \infty} f_n =f a.e., \mu
+
+\begin{thm}[Lebesgue Dominated Convergence Theorem]
+%A sequence of functions 
+Suppose $\{f_n:n\ge 1\}\cup \{f\}$ is measurable, and there exists $g\in L^1(\mu)$ such that 
+\begin{enumerate}
+\item
+for all $n$, $|f_n|\le g$ almost everywhere w.r.t. $\mu$, and %a.e.,\mu
+\item
+$f_n\to f$ almost everywhere,
+\end{enumerate}
+Then $\ab{\int f_n-\int f}\le \int |f_n-f|\to 0$.
+\end{thm}
+\begin{proof}
+Note
+\[
+\{x:\exists n,\, |f_n(x)|>g(x)\}\cup \{x:f_n(x)\not\to f(x)\}
+\]
+has measure 0 because it is the countable union of measure 0 sets.
+Let $\hat E$ be the set of $x$ such that $f_n(x)\to f(x)$ and $|f_n(x)|\le g$. Then $\mu(E\bs \hat E)=0$, as mentioned above.
+Thus it suffices to show the theorem, without the ``almost everywhere" business.
+
+Now $|f|\le g$ gives $|f_n-f|\le 2g$. By the Fatou Lemma, (using $\ab{\int h}\leq \int | h|$)
+\[
+\varlimsup_{n\to \infty} \int |f_n-f|\le \int \varlimsup_{n\to \iy} |f_n-f|=0.
+\]
+\end{proof}
+Note this is not true without the $|f_n(x)|\le g$ hypothesis. (Consider a ``moving spike.")
+
+\begin{thm}\label{lieb}
+Suppose $\{f_n:n\ge 1\}\cup \{f\}\subeq L^1(\mu;\R)$, and that $f_n\to f$ (a.e., $\mu$). Then
+\[
+\lim_{n\to \iy} \ab{
+\nl{f_n}-\nl{f}-\nl{f_n-f}
+}
+=
+\lim_{n\to \iy}\int \ab{
+|f_n|-|f|-|f_n-f|
+}\,d\mu=0.
+\]
+If $\nl{f_n}\to \nl{f}<\infty$, then $\nl{f-f_n}\to 0$.
+\end{thm}
+\begin{proof}
+Note $\ab{|f_n|-|f|-|f_n-f|}\to 0$ \am{}, and by the Triangle Inequality,
+$\ab{|f_n|-|f|-|f_n-f|}\leq \ab{|f_n|-|f_n-f|}+|f|\le 2|f|$. Thus the right-hand equality holds by Lebesgue's Dominated Convergence Theorem.
+
+By the Triangle inequality,
+\[
+\ab{
+\nl{f_n}-\nl{f}-\nl{f_n-f}
+}
+\leq 
+\int \ab{
+|f_n|-|f|-|f_n-f|
+}\,d\,mu.
+\]
+Taking $n\to \infty$ gives the left-hand equality.
+\end{proof}
+\subsection{Convergence in $\mu$-measure}
+%Suppose $\{f(n):n\ge 1\}\cup \{f\}\subeq L^1(\mu)$ and $f_n\to f$ almost everywhere. Then by Fatou's Lemma, $\int |f|\leq \lim_{n\to \iy} \int |f_n|$. (Set of measure 0 doesn't matter.)
+%%What's a set of measure 0 among friends?
+%
+%We also know $\varliminf_{n\to \infty} |f_n-f|\ge 0$.
+%%Lebesgue dominant.
+%
+%Then
+%\[
+%\lim_{x\to \iy}\ab{
+%\int |f_n-f|-\pa{\int |f_n|-int |f|}}
+%\leq
+%\lim_{n\to \infty} \int |f_n-f|+|f|+|f_n|-0.
+%\]
+%\begin{proof}
+%Note $|f_n-f|-|f_n|+\hat f\le 2 |f|.$ Use the triangle inequatlity.
+%%integrand to 0, integral to 0.
+%\end{proof}
+
+\begin{df}
+A sequence of measurable functions $f_n$ converges to $f$ {\bf in $\mu$-measure} if for every $\ep>0$, 
+\[\lim_{n\to \infty}\mu(|f_n-f|\ge \ep)=0.
+\]
+\end{df}
+By Markov's inequality, if $\nl{f_n-f}\to 0$, then $f_n\to f$ in $\mu$-measure.
+Using the triangle inequality, $f_n$ can only converge to one function $f$.
+
+\textbf{Failure of Fatou}: Just because $\nl{f_n}=\int |f_n|\,d\mu \to 0$ does not mean $\lim_{n\to \infty} f_n=0$. 
+Defining $f_{2^m+l}=1_{[2^{-m}l,2^{-m}(l+1)]}$ (that is, characteristic functions covering smaller and smaller intervals in $[0,1]$), we see $\lim_{n\to \infty} f_n(x)=1$ for every $x$ (because there's infinitely many intervals in the sequence covering it), but $\lim_{n\to \infty}\int_{[0,1]}f_n\,\la_{\R}=0$.
+%Let
+%\[
+%1_{[im, i_m]}\le 1_{m2^-n}ma
+%\]
+%for $0\le m<2^n$. Then $\int f_k\le 2^{-m}$ if 
+%%notion of convergence of tunid[s
+%%eac
+%%funcs conrted by integrals.
+%\[
+%\mu(|f|\ge \la)\le \rc ? 
+%\]
+%Measure set etting smaller and smaller. Plafece where smal 
+%Now $f_n\to f$ in $\mu$-measure means that fo every $\ep>0$
+%\[
+%\lim{n\to \iy}\mu(|f_n\ge q0|\geq c0.
+%\]
+%conclude f to g almost everywhere.
+
+In Fatou's Lemma, Lebesgue's Dominated Convergence Theorem, and Theorem~\ref{lieb}, $f_n\to f$ almost everywhere can be replaced with $f_n\to f$ in $\mu$-measure.
+
+Note when $|E|=n$ with the discrete topology, $L^1(\mu;E)$ is homeomorphic to $\R^n$ via the natural identification.
+
+%Notes here incomprehensible:(. Read the text.
+
+%%Consider the set $[
+%\[\mu(|g-h|\ge h)\le \mu(???\ge |\rc{2k}|)\le \mu(|h-f_n|\ge \rc{2k})\to 9\]
+%%$tria anled r
+%%Colnvlusion (p
+%Now
+%\[
+%\mu(|g-h|\ge h)\nearrow \mu(|f-g|>0).
+%\]
+%Can replace conditions in theorems with blah.
+%
+%$L^1(\mu;E)$. Suppose $1,2, lots $.
+%\[
+%||f||_{L^1(\mu_)}
+%\]
+%Consider $E=\{1,\ldots, n\}$, $m(\{m\}=1$, $1\le m\le n$. Now $L^1(\mu)=\R^n$, $||f||_{m=1}^{\mu}=\sum_{n\-1}^{\infty}|f_m(m)|$
+%Now
+%%ocmparable to Euclidasn notion of lenght
+%\[
+%\pa{\sum_{m=1}^{\infty} a_m^2}^{\rc w}\le \sum_{m=1}^{\infty} \leq n^{\rc 2}\le n^{\rc 2}\sum_{n=1}^{\iy} a_m^2.
+%\]
+%Then follws from Cauchcy-Schwarz.
+%
+%Topology, same as on $\R^n$
+%
+%Norm 
+%%sepble (ctable denseO , complete
+%\begin{enumerate}
+%\item $||f||_{L^1(\mu)}=\int |f|$
+%\item $||\al f||_C=|\al| ||f||_{L^1(\mu)}$
+%\item $\nl{f}=0$ iff $f=0$.
+%\item $\nl{f+g}\le \nl{f}+\nl{g}$.
+%\end{enumerate}•
+%finite dim v space false in this setting. % bounded closed not compact

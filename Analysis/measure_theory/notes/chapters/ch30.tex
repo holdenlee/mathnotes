@@ -1,0 +1,147 @@
+\lecture{Wed. 4/20/11}
+
+\subsection{Convolution}
+Theorem~\ref{lspacefuncineq} gives the following.
+\begin{thm}
+Define
+\[\La_k(f)=\bc{x:\int |K(x_1,x_2)||f(x_2)|\,\mu_2(dx_2)<\iy}.\]
+Then
+\[
+\mu_1(\La_k(f)^c)=0.
+\]
+In addition, defining 
+\[
+(\ol{\cal K}f)(x_1)
+\begin{cases}
+\int K(x_1,x_2)f(x_2)\,\mu_2(dx_2),&x_1\in \La_k(f)\\
+0,&x_1\nin \La_k(f),
+\end{cases}
+\]
+the inequality in~\ref{lspacefuncineq} holds for all $f\in L^p$. Furthermore $\cal \ol{\cal K}$ is the unique map $L^p(\mu_2)\to L^r(\mu_1)$ that equals equals $\cal K$ on $L^p\cap L^{q'}$ and is continuous.
+\end{thm}
+\begin{proof}
+If integrate with respect to $\mu_1$, get something finite, so for almost every $x_1$ the integral is finite.
+
+For the second part note $L^p\cap L^{q'}$ is a dense subset of $L^p$.
+\end{proof}
+\begin{df}
+Suppose $g\in L^q(\la_{\R^N})$ and let $K(x,y)=g(x-y)$. (Then $M_1=M_2=\ve{g}_q$.) %translation invariance of Lebesgue measure
+Let
+\[
+\La(f,g)=\bc{
+\int|f(y)||g(x-y)|\,dy
+}.
+\]
+(Note $\La(f,g)^c$ has measure 0.) Define the {\textbf{convolution}} of $f$ and $g$ to be
+\[
+(f* g)(x)=\begin{cases}
+\int f(y)g(x-y)\,dy&x\in \La(f,g)\\
+0,&x\nin\La(f,g).
+\end{cases}
+\]
+\end{df}
+Note $*$ is commutative ($f*g=g*f$) and bilinear.
+\begin{thm}[Young's inequality]
+For $\rc{r}=\rc{p}+\rc{q}-1$, $p,q\in [1,\iy]$,
+\[
+\ve{f*g}_r\le \ve{f}_p\ve{g}_q.
+\]
+\end{thm}
+There are two cases where this is particularly useful.
+
+One, $p=q'$ and $r=\iy$. The inequality says
+\[
+\ve{f*g}_{\iy}\le \ve{f}_p\ve{g}_{p'}
+\]
+which is H\"older's. %(In fact, the above is true pointwise)
+Convolution gives a continuous function. Stroock: ``if you go to the aquarium they have spines and if they make love they have to rub off some of the spines. Convolution is like rubbing, scraping off the irregularities."
+
+Take $p\in [1,\iy)$. Letting $T_h(y)=y+h$, and letting $T_fh:=f\circ T_h$.
+\begin{lem}
+%Let $f$ be continuous. NOT NEEDED
+Then
+\[
+\lim_{h\to \iy} \ve{T_h f-f}_p=0.
+\]
+\end{lem}
+%Using integration theory to measure size is rather crude. It's quite forgiving.
+\begin{proof}
+First think of a set of $f$'s which are dense in $L^p$ for which this set is true is trivial. Then show the set of $f$ such that the result holds is closed.
+
+Thus it suffices to show this for continuous functions with compact support (dense in $L^p$). The desired set is closed because if $f_n\to f$ in $L^p$ then
+\[
+\ve{T_hf-f}_p\le \ve{T_h(f-f_n)}_p+\ve{T_hf_n-f_n}_p+\ve{f_n-f}_p
+\]
+by the triangle inequality and Minkowski's inequality. Taking the lim sup,
+\begin{align*}
+\varlimsup_{|h|\to 0}\ve{T_hf-f}_p & \le \varlimsup_{|h|\to 0}\ve{T_h(f-f_n)}_p+\varlimsup_{|h|\to 0}\ve{T_hf_n-f_n}_p+\varlimsup_{|h|\to 0}\ve{f_n-f}_p\\
+&\le 2\ve{f-f_n}_p+0+\limsup \ve{f_n-f}_p.
+\end{align*}
+For $p<\iy$ %Take the uniform norm of $T_h(f*g)=\ve{f*g}_u$ to get
+BLAH DARN YOU ERASED THIS.
+If $p=\iy$, $p'=\iy$, do the same thing %(Solomon dance)
+but put on $g$ instead of $n$.
+
+Vitalle's Lemma says if $\la_{\R}(\Ga)\in (0,y)$, then $1_{\Ga}$? $\Ga-\Ga\supeq (-\de,\de)$. We know 
+\[
+u=1_{\Ga}\times 1_{-\Ga}
+\]
+If $u>0$ then $u\in \Ga-\Ga$.
+\end{proof}
+When we convolve we get smoother objects!
+
+%Commutative product
+The other common case is when $q=1, p=r$. Then $f\in L^p$ and $g\in L^1$ give $f*g\in L^p$.
+
+\begin{thm}
+Suppose $p=q'$ and $g\in C^1$, with $g\in L^q$ and $\pd{g}{x_1}\in L^q$. Take $f\in L^p$. Then $\partial_{x_i}(f*g)=f*(\partial_{x_i}g)$.
+\end{thm}
+\begin{proof}
+Write out difference quotients...
+\end{proof}
+Taking $g\in C^{\iy}$, we can keep on passing derivatives through the convolution. Writing $\partial^{\al}=\partial_{x_1}^{\al_1}\cdots \partial_{x_n}^{\al_n}$ where $\al=(\al_1,\ldots, \al_n)\in \N^N$, we have $\partial^{\al}(f*g)=f*(\partial^{\al}g)$. %We have an ubiquitous procedure for smoothing functions.
+
+\begin{thm}
+For $g\in L^1(\la_N)$, define $g_t(x)=t^{-N}g(t^{-1}x)$. (We scale in a way preserving the total interval; for small $t$ it concentrates around the origin.)  Given $\int g=1$ and $f\in L^p$, $f*g_t\to f$ in $L^p$ as $t\searrow 0$.
+\end{thm}
+\begin{proof}
+Making a change of variables,
+\[
+f*g_t(x)=\int(f(x-y)-f(x))g_t(y)\,dy
+=\int (f(x-ty)-f(x))g(y)\,dy.
+\]
+Taking the $L_p$ norm as a function of $x$, %well look
+%think of func as x, y fix t.
+\[\ve{f*g_t(x)}_p
+=\ve{\int (f(x-ty)-f(x))g(y)\,dy}_p
+=\ve{(f(x-ty)-f(x))g(y)}_{(1,p)}.\]
+But we know
+\[
+\ve{T_{-ty}f-f}_p
+\]
+from the previous lemma, so combining these two we get a way of approximating an arbitrary element of $L^p$ by a smooth function. 
+%K.O. Freiedrichs mollification procedure.
+\end{proof}
+%dominates what i put here
+
+We want $g\in C^{\iy}_{c}(B(0,1),[0,\iy))$ such that $\int g=1$. Define
+\[
+\Psi(t)=\begin{cases}
+e^{-\rc t},&t\ge 0\\
+0,&t< 0;
+\end{cases}
+\]
+this is a $C^{\iy}$. %Polynomials times $e^{-\rc t}$, latter wins at 0, so infinitely hard zero at zero.
+Now consider 
+\[
+\Psi(t)=\begin{cases}
+e^{-\rc{1-|x|^2}},&|x|< 1\\
+0,&t\ge 1;
+\end{cases}
+\]
+and normalize it so it has integral 1.
+
+We want $\eta\in C^{\iy}$ with range in $[0,1]$ such that $1_{\Ga}\le \eta\le 1\le 1_{\Ga^{(\ep)}}$. We can let $\eta=g_{\ep}*1_{\Ga}$.
+%Replace jump with smoother neighborhood.
+%Some guy in a pink shirt comes in, says Oh and leaves.
+%Haughty son-of-a-bitch, Stroock says.

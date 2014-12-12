@@ -1,0 +1,127 @@
+\lecture{Fri. 3/18/11}
+
+\subsection{Isodiametric inequality}
+\begin{thm}[Isodiametric inequality]
+\[
+\la_{\R^N}(\Ga)\le \Om_N \rad(\Ga)^N.
+\]
+\end{thm}
+\begin{proof}
+If $-x\in \Ga$ whenever $x\in \Ga$, then $\Ga\subeq B(0,\rad(\Ga))$. Indeed, $x\in \Ga$ implies $2|x|=|x-(-x)|\le 2\rad(\Ga)$. Thus the theorem holds when $\Ga$ is symmetric.
+
+Now we use the technique of Steiner Symmetrization to reduce the general case to the symmetric case.
+%Isoperim by steiner symmetrization.
+%Systematically symmetrize, in one dimension at a time. Choose orthonormal basis for $\R^N$, symmetrize 1st, 2nd, ... coordinate.
+
+\begin{thm}[Steiner symmetrization]
+Let $e$ be a unit vector in $S^{N-1}$. Let
+\[
+P(e)=\{x\in \R^N:x\perp e\}.
+\]
+Given a point $\xi\in P(e)$, look at the straight line passing through $\xi$ in the direction $e$, and consider the intersection of it with $\Ga$. Let $l(\Ga,e,\xi)$ be the one-dimensional Lebesgue measure of that intersection:
+\[l(\Ga,e,\xi)=\la_{\R}(\{t\in \R:\xi+te\in \Ga\}).
+\]
+Define the symmetrization of $\Ga$ with respect to $e$ by
+\[
+S(\Ga,e)=\{\xi+te:|t|<\rc 2l(\Ga,e,\xi)\}.
+\]
+(Think of the set as gooey stuff. Poke a stick through it in the direction $e$ and squoosh the gooey stuff to remove the holes and so that half of the stuff is on each side of $P(e)$.)
+
+%We need to check that
+Then
+\begin{align}
+\rad(S(\Ga,e))&\le \rad(\Ga)\\
+\la_{\R_N}(S(\Ga,e))&=\la_{\R^N}(\Ga).
+\end{align}
+Furthermore, if $T_{\sO}$ is an orthogonal transformation such that  $T_{\sO}\Ga=\Ga$ and $T_{\sO}e=\pm e$ then $S(\Ga,e)=T_{\sO}S(\Ga,e)$.
+The symmetrized object will be invariant under the orthogonal transformation.
+\end{thm}
+\begin{proof}
+We may assume $e=(0,\ldots, 0,1)$; then $P(e)=\R^{N-1}\times \{0\}$. Let
+\[
+f(\xi)=l(\Ga,e,(\xi,0))=\int 1_{\Ga}((\xi,t))\,dt.
+\]
+(Note this is measurable by Lemma~\ref{meas2var}.) Now by Fubini's Theorem ~(\ref{fubini}),
+\[
+\la_{\R}(\Ga)=\int_{\R^{N-1}} f(\xi)\,d\xi=\int_{\R^{N-1}}\int_{\R} 1_{\Ga}((\xi,t))\,dt\,d\la_{\R^{N-1}}.
+\]
+
+For the second part, we may assume $\Ga$ is bounded, and $\Ga$ is closed (since $\ol{\Ga}=\Ga$), hence compact. Suppose $x,y\in S(\Ga,e)$ with $x=(\xi,s)$ and $y=(\eta,t)$. Let
+\begin{align*}
+M^+(x)&=\sup\{\al:(\xi,\al)\in \Ga\}\\
+M^+(y)&=\sup\{\al:(\eta,\al)\in \Ga\}\\
+M^-(x)&=\inf\{\al:(\xi,\al)\in \Ga\}\\
+M^-(y)&=\inf\{\al:(\eta,\al)\in \Ga\}
+\end{align*}
+(The lowest and highest points in $\Ga$ along the direction $e$ from $x$ or $y$.) Note $M^+(x)-M^-(x)\ge 2|s|$. Similarly $M^+(y)-M^-(y)\ge 2|t|$. Now
+\begin{align*}
+\max(M^+(y)-M^-(x),M^+(x)-M^-(y))
+&\ge \frac{M^+(y)-M^-(x)}{2}+\frac{M^+(x)-M^-(y)}{2}\\
+&=\frac{M^+(x)-M^-(y)}{2}+\frac{M^+(y)-M^-(y)}{2}\\
+&\ge |s|+|t|.
+\end{align*}
+Using the distance formula $|y-x|^2\le 4\rad(\Ga)^2$.
+
+The last assertion is clear.
+\end{proof}
+Take an orthonormal basis $e_1,\ldots, e_N$. Let $\Ga_0=\Ga$ and $\Ga_{n+1}=S(\Ga_n,e_{n+1})$. 
+We pick up more and more directions of symmetry until it's completely symmetric. 
+($\Ga_1$ is invariant under reflection in the first coordinate, $\Ga_2$ is invariant under orthogonal transformations changing the first and second coordinate, and so on.)
+Now
+\[
+\la_{\R^N}(\Ga)=\la_{\R^N}(\Ga_N)\le\Om_N \rad(\Ga)^N
+\]
+by the symmetric case, as needed.
+%$
+\end{proof}
+\subsection{Hausdorff's construction}
+\begin{df}
+Given $\de>0$, define
+\[
+%ctable collection of sets
+H^{N,\de} (\Ga)=\inf \bc{
+\sum_{C\in \cal C} \Om_N\rad(C)^N:
+\Ga\subeq \bigcup \cal C\text{ and }\Vert \cal C\Vert \le \de
+}.
+\]
+%the infimum taken over all $C\in \cal C$, 
+Note as a function of delta, this increases as delta decreases. The \textbf{Hausdorff measure} of $\Ga$ is
+\[
+H^N(\Ga)=\lim_{\de\searrow 0} H^{N,\de}(\Ga).
+\]
+\end{df}
+\begin{thm}[Lebesgue and Hausdorff measure coincide for measurable sets]
+If $\Ga\in \cal B_{\R^N}$ then $H^N(\Ga)=H^{N,\de}(\Ga)=\la_{\R^N}(\Ga)$.
+\end{thm}
+\begin{proof}
+The inequality $\la_{\R^N}(\Ga)\le H^{N,\de}(\Ga)$ holds by the Isodiametric Inequality. The opposite inequality uses the following.
+\begin{lem}[Covering lemma]
+Given $G$ open, there exists a sequence $\{B_k:k\ge 1\}$ of closed mutually disjoint balls such that $G\supeq \bigcup_{n=1}^{\iy} B_n$ and
+\[
+\la_{\R^N}\pa{G\bs\bigcup_{k=1}^{\iy} B_k
+}=0.
+\]
+\end{lem}
+I.e. we can cover almost all of $G$ with a countable number of disjoint balls.
+\begin{proof}
+Recall we can write $G$ as a union of a countable number of nonoverlapping cubes $G=\bigcup_{n=1}^{\iy} Q_n$. Put a circle inside each cube; they occupy a volume that is a constant times the volume of the cube. Let these balls be $B_1,\ldots$; take enough of them (a finite number) so they've covered a fixed constant of the volume of $G$. Since we stopped with a finite number, $G\bs \bigcup_{n=1}^{n_1} B_n$ is open. Repeat with this set and keep going.
+\end{proof}
+Then $\la_{\R^N}\ge H^{N,\de}(G)$.
+\end{proof}
+Note we can also define $H^{s,\de}$ for $s\ne N$:
+\[
+%ctable collection of sets
+H^{N,\de} (\Ga)=\inf \bc{
+\sum_{C\in \cal C} \Om_s\rad(C)^s:
+\Ga\subeq \bigcup \cal C\text{ and }\Vert \cal C\Vert \le \de
+}.
+\]
+Unlike before there is dependence of $\de$. 
+Then the $s$-dimensional Hausdorff measure is
+\[
+H^N(\Ga)=\lim_{\de\searrow 0} H^{N,\de}(\Ga).
+\]
+For $s>0$ the measure is identically 0.
+For $s<N$ it's not a finite measure, it's $\iy$ for open sets; it's meaningful for ``$s$-dimensional" stuff.
+They provide generalization of surface measure.
+%H^{N-1}|M=\la_M surface measure

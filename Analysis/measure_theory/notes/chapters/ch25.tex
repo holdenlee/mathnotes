@@ -1,0 +1,91 @@
+\lecture{Wed. 4/6/11}
+
+\subsection{Divergence}
+\begin{df}
+The \textbf{divergence} of $V:\R^N\to \R^N$ is
+\[
+\text{div}(V)=\sum_{i=1}^N\partial_{x_i}V_i.
+\]
+\end{df}
+\begin{thm}[Divergence theorem]
+Let $G$ be a smooth bounded domain in $\R^N$, i.e. it is an open set and its boundary is a hypersurface. Let $V:\R^N\to \R^N$ be a function with two bounded continuous derivatives. Then
+\[
+\int_{G}\text{div}(V)\,dx=\int_{\partial G} \an{V,n}\,d\la_{M}
+\]
+where $n$ is the outward pointing normal.
+\end{thm}
+\begin{proof}
+Let $\Phi$ be the flow of $V$, i.e. $\dot{\Phi}(t,x)=V(\Phi(t,x))$, $\Phi(0,x)=x$. The flow property states that $\Phi(s+t,x)=\Phi(t,\Phi(s,x))$. Thus $I=\Phi(t,\Phi(-t,x))$; the $\Phi(t,\cdot)$'s are bijective, in fact diffeomorphisms. Differentiating $\dot{\Phi}(t,x)=V(\Phi(t,x))$ with respect to $x$,
+\begin{equation}\label{diffxv}
+\partial_t\pd{\Phi}{x}(t,x)=\pd{V}y\Phi(t,x)\pd{\Phi}{x}(t,x).
+\end{equation}
+We are interested in $\partial_t\det\pa{\Phi}$.
+
+For a matrix $A=((a_{ij}))$, $\partial_{a_{ij}}\det(A)=A^{(ij)}$ where $A^{(ij)}$ is the $(i,j)$th cofactor of $A$. From~(\ref{diffxv}), and $\sum_{j=1}^N a_{kj} A^{(ij)}=\det(A)$, 
+%Let $\La((a_{ij}))$; then $\la_{a_{ij}}\det A$ is a cofactor. %Take $i=j$ to get 
+%Then
+Using the chain rule,
+\begin{align*}
+\frac{d}{dt}\det\pa{\pd{\Phi(t,x)}{x}}
+&=\sum_{1\le i,j,k\le N}\pa{\pd{\Phi(t,x)}{x}}^{(ij)}
+\pa{\pd{V}{y}(\Phi(t,x))}_{ik}\pa{\pd{\Phi(t,x)}{x}}_{kj}\\
+&=\text{div}(V)(\Phi(t,x))\det\pa{\pd{\Phi(t,x)}{x}}.
+%\det(\pd{\Phi}{x})&=\sum_{i,k} \pd{\Phi}x^{(i,k)} \partial_t\pf{\Ph}{x}_{ik}\\
+%&=\sum_{i,k} \pa{\pd{\Phi}{x}}\pa{\pd{V}{y}}_{kj} \pa{\pf{\Phi}{x}}_{jk}\\
+%&=\det\pa{\pd{\Phi}{}+}\sum_i\pa{%\fd 
+%Vy}_{i,j}.
+\end{align*}
+Solving this differential equation, and using $\rc{J\Phi(t,x)}=J\Phi(-t,\Phi(t,x))$ gives
+\begin{align*}
+%\text{div} V(\Phi(t,x))\det(\pd{\Phi}x)(t,x)\
+\det\pa{\pd{\Phi}{x}}&=e^{\int_0^t \text{div}(V)(\Phi(t,x))\,dt}\\
+\int\ph\circ \Phi(t,x)%\rc{J\Phi(t,x)}J\Ph(t,x)
+\,dx
+&=\int \ph(y)J\Phi(-t,y)\,dy\\
+&=\int\ph(y)e^{-\int_0^{t}\text{div}(V)(\Phi(-t,y))}\,dt\,dy.
+\end{align*}
+%Now look at difference between stuff already in $G$ and ?
+Now consider
+\begin{align*}
+\la_{\R}(G)-\la_{\R^N}(\Phi(t, G))=\int_G (1-e^{\int_0^{-t}V(\Phi(t,x))\,dt})dx.
+\end{align*}
+So
+\[
+\lim_{t\to 0} \frac{\la_{\R}(G)-\la_{\R^N}(\Phi(H,G))}{t}=?%=\dov FIX!
+\]
+Now we calculate another way.
+\begin{align*}
+\la_{\R}(G)-\la_{\R^N} (\Phi(t,G))
+&=\int 1_{G(x)}-1_{G}(\Phi(t,x))\,dx\\
+&=\int_G 1_{G^c}(\Phi(t,x))\,dx-\int_{G^c} 1_G(\Phi(t,x))\,dx.
+%bdary wo walk around
+\end{align*}
+%%In what rate is %tuffilosing 
+%\[
+%\int_G \text{div}(V)\,d\la_{\R^N}
+%\]
+
+%Now look at $\int_G1_G(\Phi(t,x))\,dx$ Yadayada.
+%Get move at flow so no longer in $G$.
+%$x\in G$ band $x\nin \Phi(t,x)\nin G^c$
+%
+%Something something %wtf am I so tired
+%$x\in(\partial G)^{\Vert V\Vert} r)$
+%\[
+%\an{n(\Phi(t;x)),\Phi(t,x)-p(\Phi(t,x)}\ge 0.
+%\]
+%%The latter can't be any larger than the maximum of $x$ times $t$.
+%%x lies prop to g on bdary
+%Now
+Do something. Then
+\begin{align*}
+\an{n\Phi(t,x),\Phi(t,x)-p\Phi(t,x)}
+&=\an{n(x),\Phi(t,x)-p\Phi(t,x)}+O(t^2)\\
+&=\an{n(x),\Phi(t,x)-x}+\an{n(x), x-p(x)}\\
+&\quad+\an{n(x),p(x)-p(\Phi(t,x))}+O(t^2)\\
+&=t\an{n(x), V(x)}+\an{n(x), x-p(x)}\\
+&\quad+\an{n(x),p(x)-p(\Phi(t,x))}+O(t^2)\\
+&=t\an{n(x), V(x)}+\an{n(x),x-p(x)}+E(t,x).
+\end{align*}
+Note we used $\an{n(x),p(\Phi(t,x))-p(x)}$ is 0 when $t=0$ and the derivative with respect to $t$ is $0$ since the second argument is on the boundary, so its derivative is $t=0$ in the tangent space, perpendicular to $n(x)$, so is $O(t^2)$.
+\end{proof}

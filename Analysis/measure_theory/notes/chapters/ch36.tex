@@ -1,0 +1,110 @@
+\lecture{Wed. 5/4/11}
+
+\subsection{}
+Recall $\{h_n:n\ge 0\}$ is a basis. Given $f\in L^2$ with $f\perp h_n$ for all $n$, i.e. 
+\[
+\int \ph(x) x^n\,dx=0
+\]
+for all $n$. 
+Write $\ph=fh_0$. Summing gives
+\[
+\sum_{n=0}^N  \frac{(2\pi i)^n}{n!} \int x^n \ph(x)\,dx.
+\]
+We will let $N\to \iy$ to get
+\[
+\hat{\ph}=\int e_{\xi} x\ph(x)\,dx=0.
+\]
+However, we need to know that we can pass the limit, i.e. \[\ph(x)\sum_{n=0}^N \frac{(2\pi i\xi)^n}{n!} x^n\rightarrow \xi(x)e_{\xi}(x)\text{ in }L^1.\]
+We produce a Lebesgue dominating function:
+\[
+\an{\ph(x)\sum_{n=0}^N \frac{(2\pi i\xi)^n}{n!} x^n}\le |\xi(x)|(e^{2\pi \xi x}+e^{-2\pi \xi x})^2.
+\]
+The latter is integrable, by Schwarz's inequality:
+\[
+\int |\xi(x)|(e^{2\pi \xi x}+e^{-2\pi \xi x})^2\le \ve{f}_2^2\int h_0(x)^2 (e^{2\pi \xi x}+e^{-2\pi \xi x}).
+\]
+%Reasonable guess extend.
+
+For any function $f$ we know we can write it as
+\[
+f=\sum_{n=0}^{\iy} \an{f,\tilde h_n}_2 \tilde h_n.
+\]
+Since $\hat{h_n}=i^n h_n$, we will define
+\[
+\cal Ff=\sum_{n=0}^{\iy}i^n \an{f,\tilde h_n}_2\tilde h_n.
+\]
+Indeed $\ve{\cal Ff}_2=\ve{f}_2$. The remaining question is whether this definition of $\cal Ff=\hat f$ for $f\in L^1\cal L^2$.
+
+It suffices to prove this for all continuous functions with compact support. Indeed, if $f\in L^p\cap L^q$ we can approximate $f$ with continuous functions with compact support tending to both $f$ in both $L^p$ and $L^q$.
+%Consider $f\in C^{\iy}
+
+Consider $f_n=\sum_{m=0}^n \an{f,\tilde h_n}_2\tilde h_n$. We have $\hat f_n=\sum_{m=0}^n i^n \an{f,\tilde h_n}_2 \tilde h_n$. We need to show $f_n=\sum_{m=0}^n \an{f,\tilde h_n}\tilde h_n$ with $f_n\to f$ in $L^1$. Now $\ve{\tilde h_n}_1\le C(1+n)^{-\rc  2}$. %????????????????
+Now
+\[
+(2\pi x)^2 \tilde{h_n}-\pd{^2}{x^2}{\tilde h_n}=2\pi (2n+1)\tilde.
+\]
+Let
+\begin{align*}
+\cal H^k h_n&=(2\pi(2n+1))^{\frac k2} \tilde{h_n}\\%\hat h_n\\
+\tilde h_n&=-\frac{\cal H^kh_nt}{(2\pi(2n+1))^{\frac k2})}\\
+=&%r\oo *2n+1(H^kh, f)
+\end{align*}
+BLAH BLAH
+\subsection{Radon-Nikodym}
+Recall that given the distribution $F$ corresponding to the measure $\mu$, decomposing $F$ into an absolutely part and singular part $F=F_a+F_s$ gives a decomposition of F as $\mu_F=\mu_a+\mu_s$. Moreover, $\mu_a(\Ga)=\int_{\Ga} f\,d\la_{\R}$.
+
+We generalize this as follows. Given $(E,\cal B)$ with $\mu$ finite and $\nu$ $\si$-finite, we show $\mu$ can be decomposed uniquely as $\mu=\mu_a+\mu_s$ (Lebesgue decomposition) where $\mu_{a}(\Ga)=\int_{\Ga} f\,d\nu$.
+ 
+$f$ is called the~\textbf{Radon-Nikodym form}.
+We want to ``project $\mu$ onto $\nu$ and wee what we get
+
+\begin{thm}
+Suppose $L:H\to G$ is a linear function. Then $L$ is continuous iff there exists $g\in H$ such that $\La(h)=\an{h}=\an{h,g}$%_{\H
+\end{thm}
+\begin{proof}
+$L(x)=\an{x,\theta}$. 
+%Suppose that a linear uf
+Consider, $\ker(\Ga\mid \La(h)=0)$%
+%Continous ifn in ->integral??
+\end{proof}
+
+For $L=H$,  take $h$ go be i, and use the Suppose $L\nsubeq  H$% \blah
+Choose $f\nin L$ and consider $\ph\frac{f-\Pi_L f}{\ve{f-\Pi_n}}$.
+
+Blah %what can we say about action la
+\[
+h-\frac{G(h)\ph}{G(h)}.
+\]
+%n-e-iom subspace. Since...
+\[
+\an{h,\ph}_H =\frac{\Ga(h)}{\Ga(\ph)}
+\]
+$g=\Ga(\ph)\ph$.%... 
+
+%first 
+Given any $\al$, 
+\[\mu_G(\Ga)\le L \la_{\R}(\Ga).\]
+%Inequality
+
+\begin{lem}
+Suppose $\mu\le \nu$. Then there exists a unique $f\in L^1$ such that $\mu(\Ga)=\int_{\Ga} f\,d\nu$ for all $\Ga\in \cal B$. In fact we can choose $f\in[0,1]$. 
+
+%mu-fin? or don't need?
+If suffices to prove for finite (?). Consider $\Ga(\ph)=\int \ph \,d\mu$. Then
+\[
+|\Ga(\ph)|\le\pa{
+\ph^2\,d\mu
+}^{\rc 2}\mu(E)^{\rc 2}.
+\le \mu(E)^{\rc 2} \ve{\ph}_{L^2(\nu)}.
+\] Since $\mu\le \nu$.
+
+By Riesz Representation,
+\[
+\Ga(\xi)=\an{\ph, f}_{L^2(\nu)}=\int \ph f\,d\nu=\int \ph \,d\mu.
+\]
+$\ph$ satisfies this.
+
+Use 
+%0 for suff many gammas, use compare 
+%bc this holds f must take values 0-1 almost?
+\end{lem}

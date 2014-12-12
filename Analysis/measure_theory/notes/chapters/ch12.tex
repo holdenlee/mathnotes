@@ -1,0 +1,112 @@
+\lecture{Mon. 2/28/2011}
+
+\subsection{Lebesgue Integration}
+\begin{df}
+Let $(E,B,\mu)$ be a measure space. $f$ is \textbf{measurable} if 
+\[
+f^{-1}\in \cal B \text{ for all }f\in \cal B_R.
+\]
+\end{df}
+We want to define
+\[
+\int f\,d\mu=\int f(x)\mu(dx).
+\]
+The idea is to carve up the space so $f$ nearly constant on each part. The simplest $f$ are those taking a finite number of values; we can carve up the domain into finitely many pieces.
+\begin{df}
+$f:E\to R$ is \textbf{simple} if $f(E)$ is finite. Then we define
+\[
+\int f\,d\mu=\sum_{a\in f(E)}a\mu(\{f=a\}).
+\]
+\end{df}
+Careful with $\infty$... $\infty-\infty$ gives a problem. So we restrict to $f\geq 0$ for now.
+
+The advantage of Riemann's Theory is that we do carving before looking at $f$, but we cab only integrate a restricted set of $f$'s. Here we do carving afterwards, so properties are less obvious.
+\begin{lem}
+Let $f:E\to [0,\infty)$ be measurable simple and $f=\sum_{l=1}^{\infty}1_{\De_l}$. Then
+\[
+\int f\,d\mu =\sum_{l=1}^n \be_l \mu(\De_l).
+\] 
+%If $\{a_1,\ldots, a_m\}=f(E)$, $\La_k=\{f\in a_ka\}$ and $f=\sum_{k=1}^m a_k$, Particular choice dof sets bete
+\end{lem}
+\begin{proof}
+Chop the domain into little pieces and expand the sums in terms of those little pieces. On each piece the assertion will be trivial.
+\begin{enumerate}
+\item
+Let $f(E)=\{a_1,\ldots, a_m\}$, $\La_k=\{x:f(x)=a_k\}$. Refining the sum on the RHS gives
+\[
+\sum_{l=1}^n \be_l \mu(\De_l)=\sum_{k=1}^m\sum_{l=1}^n \be_l\mu(\De_l\cap \Ga_k).
+\]
+It suffices to focus on one $\Ga_k$, so we may assume $f=a 1_{\Ga}$.
+\item
+The $n$ sets $\De_n$ divide the points of space into $2^n$ categories. Namely, for $\eta\in \{0,1\}$, we define $\De_{\eta}=\bigcap_{l=1}^n \De_l^{n_l}$ where $\De_l^{1}=\De_l$ and $\De_l^0=\De_l^c$. Let $\be_{\eta}=\sum_{l=1}^n \eta_l\beta_l$, i.e. the sum of the $\be_l$'s that contribute to the value on $\De_{\eta}$. Then refining the sum over the $\Delta_{\eta}$,
+\[
+\sum_{\eta\in \{0,1\}^n} \be_{\eta}1_{\De_{\eta}}
+=\sum_{l=1}^n \be_l \mu(\De_l)
+=\al 1_{\Ga}.
+\]
+Since the $\De_{\eta}$ are disjoint, $\be_{\eta}=\al1_{\Ga}$.
+\item Then
+\[
+\sum_{l=1}^n \be_l\mu(\De_l)=\sum_{l=1}^n \be_l\sum_{\{\eta:\eta_l=1\}} \mu(\De_n)=\sum_{\eta\in \{0,1\}^n}=\al\mu(\Ga)=\int_{\Ga} f.
+\]
+\end{enumerate}
+\end{proof}
+\begin{pr}
+For any $\al, \be$,
+\[\int (\al f+\be g)\,d\mu=\al\int f \,d\mu+\be\int g\,d\mu.\]
+\end{pr}
+\begin{proof}
+Just write $f$ and $g$ in the form $\sum_{k=1}^m a_k1_{A_k}$ and $\sum_{k=1}^n b_k1_{B_k}$ and use the lemma.
+\end{proof}
+\begin{comment}
+Now 
+\[f+g
+=
+\sum_{k}^n a_k 1_{\Ga_k}+\sum_{k}^n b_l 1_{\Ga_l}.
+\]
+
+Let $a_1,\ldots a_m$ be distinct values of $f$. $\Ga_k=\{f=a_k\}$. By additivity,
+\begin{align*}
+\sum_{l=1}^n \mu(\De_l)%=
+\sum_{l=1}^n \be_l\sum_k^m \mu(De_l\cap \Ga_k)
+&= \sum_{k=1}^m \sum_{l=1}^n \be_l\mu(\De_k\cap \Ga_k))\\
+\sum_{l=1}^n \be_l \De\cap \Ga_k=a_k1_{\Ga}.\\
+\sum_{k=1}^m \mu(\Ga_k)&= \sum_{i-1}^l \be_l u(\De_l)
+\end{align*}
+Apply k by k add up and apply. 
+\[
+\sum \be_l 1_{\De_k} =a1_{\Ga}\implies \sum \be_l\mu(\De_l)=\mu(\;a)a.
+\]
+Exactly 1 term nonzero.
+We have things thatdon't intersect. We want to break into small disjoint parts that we can. 
+%Atoms.
+
+Consider $\De_1^{\eta_1}\cap \cdots \cap \De_2^{\eta_n}$ each one is the set or each complement. ($\eta_i$ in $\{0,1\}^n$)
+\[
+\De_l^{y_l}=\begin{cases}
+\De_l & \text{ if }by_{\Omega}=1\\
+
+\end{cases}
+\]
+Range over a bunch of disjoint sets
+Rebuild delta sub l by taking union of these sets.
+
+look at
+\begin{align*}
+\sum \be_{\eta} 1_{\De_{\eta}}
+&=\sum_{\eta}1_{\De_y} \sum_l \eta_l\be_l\\
+&=\sum_{l=1}^n \be_l \sum_{\eta} \eta_l 1_{\De_y}\\
+%Sum over etas with comp1 contribte
+&=\sum_{l=1} \be_l 1_{\De_l}=a1_{\Ga}\\
+\end{align*}
+Now only one is zero (alive) at a time so we conclude $\be_{\eta}=a$. Now
+\begin{align*}
+\sum_l \be_l \mu(\De_l)&=\sum_l\be_l\sum_{\eta} \eta_l \mu(\De_{\eta})\\
+&=a\sum_{\eta} \mu(\De_{\eta})\\
+&=a\mu(\Ga).
+%disjoint union comes all the way up to
+\end{align*}
+%reproduce riemann situation, carve finer,
+% one of two fundamental lemmas. Proves linearity for non-neg simple functions.
+%DE_l assumed meas.
+\end{comment}

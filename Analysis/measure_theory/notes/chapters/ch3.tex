@@ -1,0 +1,103 @@
+\lecture{Mon. 2/7/2011}
+
+\subsection{Integration by parts}
+\begin{thm}[Integration by parts]
+Suppose $\ph$ and $\psi$ are bounded functions on $J$. If $\ph$ is Riemann integrable, then $\psi$ is $\ph$-Riemann integrable, and
+\[
+(R)\int_J\psi(x)\,d\xi(x)=[\ph(x)\psi(x)]^b_a-(R)\int_J \ph(x)\,d\psi(x).
+\]
+\end{thm}
+\begin{proof}
+Let $\cal C=\{[\al_{m-1},\al_m]:1\leq leq n\}$ where $a=\al_0<\ldots<\al_n=b$. Take $\ph([\al_{m-1},\al_m])=\beta_m\in [\al_{m-1},\al_m]$. Now
+\begin{align*}
+\cal R(\ph|\psi;\cal C, \ph)&=\sum_{m=1}^n \psi(\be_m)(\ph(\al_m)-\ph(\al_{m-1}))\\
+&=\sum_{m=1}^n \psi(\be_m)\ph(\al_m)-\sum_{m=0}^{n-1} \psi(\beta_{m+1})\ph(\al_m)\\
+&=\psi(\be_n)\ph(b)-\psi(\be_1)\ph(a)-\sum_{m=1}^{n-1} \ph(\al_m)(\psi(\be_{m+1})-\psi(\be_m))
+\end{align*}
+Now we think of the $\be_m$ as the endpoints of intervals and $\al_m$ as the choices. Let $\be_0=a$ and $\be_{n+1}=b$. Rearranging gives
+\[
+\psi(b)\ph(b)-\psi(a)\ph(a)-\sum_{m=0}^n \ph(\al_m)(\psi(\be_{m+1})-\psi(\be_m)).
+\]
+The mesh size of the $\be$-partition is at most twice the mesh size of the $\al$-partition. 
+Since $\ph$ is $\psi$-integrable, this last sum approaches $(R)\int_J \ph(x)\,d\psi(x)$, as needed. 
+\end{proof}
+\begin{cor}[Fundamental Theorem of Calculus]
+Suppose $\ph$ is differentiable. Then
+\[\int_J \frac{d\xi(x)}{dx}\,dx=[\ph(x)]^b_a\]
+\end{cor}
+\begin{proof}
+Take $\psi=1$ and note $\int_J \frac{d\xi(x)}{dx}\,dx=\int_J d\xi(x)$.
+\end{proof}
+\subsection{Riemann-Stieltjes integrability}
+\begin{thm}
+If $\psi$ is increasing, then every $\ph\in C(J;\R)$ is $\psi$-Riemann integrable.
+\end{thm}
+\begin{proof}
+Define $\cal U(\ph|\psi; \cal C)$ and $\cal L(\ph|\psi; \cal C)$. Use uniform continuity.
+\end{proof}
+\begin{pr}
+If $\psi_1,\psi_2$ are increasing, then for every $\ph\in C(J;R)$,
+\[
+(R)\int_J \ph(x)\,d(\psi_1-\psi_2)=(R)\int_J \ph(x)\,d\psi_1-(R)\int_J \ph(x)\,d\psi_2.
+\]
+\end{pr}
+\subsection{Variation}
+\begin{pr}
+%\[
+%\ab{(R)\int_J \ph(x)\,d\psi(x)}\leq ||\ph||_u=\sup_J |\ph|.
+%\]
+If $\psi=\psi_2-\psi_1$,
+\[
+\ab{(R)\int_J \ph(x)\,d\psi(x)}\leq ||\ph||_u(\De_J\psi_1+\De_J\psi_2).
+\]
+\end{pr}
+We can ask the following: for what functions $\psi$ does there exist $K_{\psi}$ such that for every $\ph\in C(J;R)$ $\psi$-integrable and 
+\[\ab{(R)\int \ph\,d\psi}\leq K_{\psi}||\ph||_u?\]
+\begin{thm}
+Only functions that are the difference of two increasing functions.
+\end{thm}
+We give a better description of this criterion.
+\begin{df}
+Let
+\[
+S(\psi,\cal C)=\sum_{I\in\cal C} |\De_I \psi|.
+\]
+The \textbf{variation} of $\psi$ on $J$ is
+\[
+\text{Var}(\psi, J)=
+\sup_{\cal C}
+S(\psi;\cal C).
+\]
+\end{df}
+This measures the amount of ``up-and-down" jiggliness of the function.
+\begin{pr}[Basic properties]
+
+\begin{enumerate}
+\item By the Triangle Inequality, if $\cal C'$ is a refinement of $\cal C$, then 
+$S(\psi;\cal C')\geq S(\psi;\cal C)$.
+\item If $J=J_1\cup J_2$, $\Var(\psi,J)=\Var(\psi,J_1)+\Var(\psi,J_2)$.
+\end{enumerate}
+\end{pr}
+\begin{df}
+For $a\in \R$ let $a_+=\max(a,0)$ and $a_-=\max(-a,0)$. Define
+\begin{align*}
+S_+(\psi;\cal C)&=\sum_{I\in \cal C} (\De_I \psi)^+\\
+S_-(\psi;\cal C)&=\sum_{I\in \cal C} (\De_I \psi)^-\\
+\Var_{\pm} (\psi; \cal C)&=\sup_{\cal C} S_{\pm}(\psi; \cal C).
+\end{align*}
+\end{df}
+Note $a_+-a_-=a$ and $a_++a_-=|a|$, so 
+\begin{align*}
+S_+(\psi,\cal C)-S_-(\psi, \cal C)&=\De_J \psi\\
+S_+(\psi,\cal C)+S_-(\psi, \cal C)&=S(\psi;\cal C)\\
+S_+(\psi,\cal C)&=\rc{2}(\De_J\psi-S(\psi; \cal C))\\
+S_-(\psi,\cal C)&=\rc{2}(\De_J\psi+S(\psi; \cal C))
+\end{align*}
+If approach extreme values for one than for all of them. Statements pass to variations.
+\begin{align*}
+\Var_+(\psi;J)-\Var_-(\psi;J)&=\De_J \psi\\
+\Var_+(\psi,J)+\Var_-(\psi;J)&=\Var(\psi;J)
+%S_+(\psi,\cal C)&=\rc{2}(\De_J\psi-S(\psi; \cal C))\\
+%S_-(\psi,\cal C)&=\rc{2}(\De_J\psi+S(\psi; \cal C))
+\end{align*}
+%Every cont func St integrable and we have this kind of control on the size?

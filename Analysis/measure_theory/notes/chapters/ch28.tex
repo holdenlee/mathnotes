@@ -1,0 +1,121 @@
+\lecture{Wed. 4/13/11}
+
+\subsection{Inequalities, continued}
+\begin{thm}\label{fpsup}
+For $p$ and $p'$ in $(1,\iy)$ such that $\rc p+\rc{p'}=1$,
+\[\ve{fg}_1\le \ve{f}_p\ve g_{p'}.\]
+For $f\in L^p$,
+\[
+\ve{f}_p=\sup\{
+\ve{fg}_1:g\in L^{p'},\,\ve{g}_{p'}\le 1
+\}
+\]
+\end{thm}
+\begin{proof}
+The first equality is just H\"older's inequality. 
+For the second statement, ``$\le$" follows from the first equality. If $\ve{f}_p=0$ then $f$ vanishes except on a set of measure 0 so equality holds. Else, take $g=\frac{|f|^{p-1}}{\ve f_p^{p-1}}$. Then $|g|^{p'}=\frac{|f|^p}{\ve f^p}$ and $|fg|=\frac{|f|^p}{\ve f_p^{p-1}}$. 
+(For $p=1$ take $g=1$.)
+\end{proof}
+The following gives a similar result when it is not {\it a priori} known that $f\in L^p$.
+\begin{thm}
+If $p=1$; or $p\in (1,\iy)$ and either $\mu(|f|>\de)<\iy$ or for every $\de>0$ or $\mu$ is $\si$-finite, then
+\[
+\ve{f}_p=\sup\{
+\ve{fg}_1:g\in L^{p'},\,\ve{g}_{p'}\le 1
+\}.
+\]
+\end{thm}
+\subsection{Mixed Lebesgue spaces}
+\begin{df}
+let $(E_1,\cal B_1,\mu_1)$ and $(E_2,\cal B_2, \mu_2)$ be $\si$-finite.
+Suppose $f$ is $\cal B_1\times \cal B_2$-measurable, $p_1,p_2\in [1,\iy)$. 
+Then define
+\begin{align*}
+\ve{f}_{L^{(p_1,p_2)}(\mu_1\times \mu_2, R)} 
+&=\ve{
+\ve{f(x_1,x_2)}_{L^{p_1}(\mu_1;\R)}
+}_{L^{p_2}(\mu_2;\R)}\\
+&=\ba{
+\int \pa{\int
+|f(x_1,x_2)|^{p_1}\,\mu(dx_1)
+}^{\frac{p_2}{p_1}}\,\mu(dx_2)
+}^{\rc{p_2}}.
+\end{align*}
+\end{df}
+($L^{(p_1,p_2)}$ denotes the space of functions for which the above norm is defined and finition.) Note for $p_1=p_2$ this defined just like in Fubini.
+\begin{thm}[Generalized Minkowski's inequality]\label{genmink}
+If $p_1\le p_2$, then
+\[\ve{f}_{(p_1,p_2)}\le \ve{f}_{(p_2,p_1)}.\]
+\end{thm}
+For example, taking $E_1=\{1,2\}$, $p_1=1$ and $p_2=p$ we get out Minkowski's inequality.
+This will give estimates for linear operators on $L^p$ spaces.
+First we prove need the following lemma.
+\begin{lem}\label{genminkhelper}
+%On a finite measure
+For $\mu_1$ and $\mu_2$ finite, for every $\ep>0$ there exists a function $\psi(x_1,x_2)=\sum_{m=1}^n 1_{\Ga_{1,m}}(x_1)\ph_m(x_2)$ where
+\begin{enumerate}
+\item the $\Ga_{1,m}$'s are mutually disjoint,
+\item the $\ph_m$ are bounded, and
+\item $\ve{f-\psi}_{(p_1,p_2)}<\ep$.
+\end{enumerate}
+\end{lem}
+We want to approximate $f$ on $E_1\times E_2$ by these functions because the fact that the $\Ga_{1,m}$ are mutually disjoint makes it easy to raise $\psi$ to a power:
+\[
+\pa{\sum_{m=1}^n 1_{\Ga_{1,m}}(x_1)\ph_m(x_2)}^p=\sum_{m=1}^n 1_{\Ga_{1,m}}(x_1)\ph_m(x_2)^p
+\]
+\begin{proof}
+By H\"older's inequality with $\frac qp$, $p\le q$, 
+%\[
+%\int |f|^p\,d\mu\le\pa{ \int \ve{f}^p_q\,d\mu}\pa{\mu(E)^{1-\frac pq}}.
+%\]
+\[
+\int _E |f|^p\,d\mu\le \pa{\int_E |f|^{p\cdot \frac qp}\,d\mu}^{\frac pq} \pa{\int_E 1\,d\mu}^{1-\frac{p}{q}}=\pa{\int_E |f|^q\,d\mu}^{\frac pq}\mu(E)^{1-\frac pq}.
+\]
+
+Thus there exists $C$ so that
+\begin{equation}\label{boundbyprod}
+\ve{g}_{(p_1,p_2)}\le C\ve{g}_{L^q(\mu_1\times \mu_2)},
+\end{equation}
+and convergence of functions in $L^q(\mu_1\times \mu_2)$ implies convergence in $L^{(p_1,p_2)}$. 
+We know functions of the form $\sum_{k=1}^l a_j1_{\Ga_{1,j}\times \Ga_{2,j}}$ are dense in $\mu_1\times \mu_2$ since sets of the form $\Ga_1\times\Ga_2$ generate the \sia{} (Theorem~\ref{lpbasic}(4)).
+Let $\eta\in I:=\{0,1\}^l$ and let
+\[
+\Ga_{1,\eta}=\Ga_{1,1}^{(\eta_1)}\cap \cdots \cap \Ga_{1,l}^{(\eta_2)}.
+\] 
+(Define $\Ga^{(1)}=\Ga,\,\Ga^{(0)}=\Ga^c$.) Then
+\begin{align*}
+1_{\Ga_{1,j}}(x_1)&=\sum_{\eta\in I} \eta_j 1_{\Ga_{1,\eta}}(x_1)\\
+\sum_{j=1}^l a_j1_{\Ga_{1,j}\times \Ga_{2,j}}&=\sum_{j=1}^l \sum_{\eta} a_j\eta_j1_{\Ga_{1,\eta}}(x_1) 1_{\Ga_{2,\eta}}(x_2) \\
+&=\sum_{\eta\in I}1_{\Ga_{1,\eta}}(x_1)\underbrace{\sum_{j=1}^l \eta_ja_j1_{\Ga_{2,j}}(x_2)}_{\ph_{\eta}}
+\end{align*}
+\end{proof}
+\begin{proof}(of Theorem~\ref{genmink})
+It suffices to show the finite case since a $\si$-finite measure is the union of subsets of finite measure. By Lemma~\ref{genminkhelper} and~(\ref{boundbyprod}), it suffices to show the result for functions in the above form. 
+
+Now (using Minkowski, noting $p_2\ge p_1$)
+\begin{align*}
+\ve{\psi}_{(p_1,p_2)}
+&=
+\ba{
+\int_{E_2} \pa{
+\sum_{m=1}^n
+\mu_1(\Ga_{1,m})
+|\ph_m(x_2)|^{p_1}\,\mu(dx_1)
+}^{\frac{p_2}{p_1}}\,\mu(dx_2)
+}^{\frac{1}{p_2}}.\\
+&\le \ba{\sum_{m=1}^n \mu_1(\Ga_{1,m})  \ve{\ph_m}^{p_1}_{L^{p_2}}\mu_2(dx_2)}^{\rc{p_1}}\\
+%Skip details.
+%&=\sum_{m=1}^n \mu_1(\Ga_{(1,m)} \ph_m\ve{\xi_m}^{p_1}_{L^{p_2}(d\mu)}\\
+%&\le \ba{
+%\int
+%\sum_{m=1}^n 1_{|Ga)k)1
+%}
+%\end{align*}
+&=\ve{\psi}_{(p_2,p_1)}
+\end{align*}
+\end{proof}
+We investigate linear maps $\cal K:L^p(\mu)\to  L^q(\nu)$. %On a finite dimensional space linear maps are continuous, but in infinite dimensions this isn't always true. 
+%Apply 1-D infinitely many times, blows up in your face.  
+We think of $K:E_2\times E_1\to \R$ as a ``matrix representation" of $\cal K$ if
+\[\cal Kf(x_2)=\int K(x_2,x_1)f(x_1)\,\mu_1(dx_1).\]
+We estimate this in terms of the function $K$ (kernel).

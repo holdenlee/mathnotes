@@ -1,0 +1,76 @@
+\lecture{Fri. 4/22/11}
+
+\subsection{Hilbert spaces}
+Consider $L^2(\mu;\R)$, with norm
+\[
+\ve{f}_2=\pa{\int |f|^2\,d\mu}^{\rc 2}.
+\]
+2 is a particularly nice power to raise a number to, because there is a natural inner product
+\[
+\an{f,g}_{L^2(\mu,\R)}=\int fg\,d\mu.
+\]
+(If $E=\{1,\ldots, n\}$ and $\mu(\{i\})=1$ then $L^2(\mu;\R)\cong \R^n$ naturally: $\an{f,g}_{L^2(\mu,\R)}=\sum_{i=1}^n f(i)g(i)$ and $\ve{f}_{L^2(\mu;\R)}=\pa{\sum_{i=1}^n f(i)}^{\rc 2}$.)
+
+By Cauchy-Schwarz's inequality 
+\[
+|\an{f,g}|\le \ve{f}_2\ve{g}_2
+\]
+%It's Euclid's inequality too.
+%In \R^n, \an{f,g}=\ve{f}_2\ve{g}_2\cos 2\theta.
+This leads to the Triangle Inequality
+\[
+\ve{f+g}_2\le \ve{f}_2+\ve{g}_2.
+\]
+%Also directly from Holder and Minkowski
+%Abstraction
+\begin{df}
+$H$ is a Hilbert space over $\R$ if $H$ is a vector space over $\R$ with an inner product making $H$ a complete metric space.
+
+I.e. there exists a bilinear map $(x,y)\in H^2\to \an{x,y}_H\in \R$ so that
+\begin{enumerate}
+\item
+For all $y$, $x\to \an{x,y}_H$ is linear and symmetric ($\an{x,y}_H=\an{y,x}$).
+\item
+$\an{x,x}_H\ge 0$; equality holds iff $x=0$.
+\item 
+If $\ve{x}_H=\sqrt{\an{x,x}}$ (which is a valid norm by Cauchy-Schwarz $\implies$ triangle inequality), then the metric determined by $\ve{\cdot}_H$ is a complete metric space.
+\end{enumerate}
+
+Over the complex numbers, replace $\R$ and $\C$ and symmetric by Hermitian ($\an{x,y}=\ol{\an{y,x}}$).
+\end{df}
+To prove Cauchy-Schwarz in the complex case, use 
+\[0\le \ve{tx+\rc ty}^2=t^2\ve{x}_H\pm 2\Re\an{x,y}+\rc{t^2}\ve{y}^2.\] 
+Choose $\te$ with $|\te|=1$ so that $\ol{\te}\an{x,y}=\an{x,\te y}>0$.
+%The theory was born 10-15 years before it became essential to physics. Quantum (Schrodinger) mechanics.
+
+The primary example is $L^2(\la_{[0,1]},\R)$. $C([0,1];\R)$ is dense, but not closed because not every element of $L^2$ is continuous.
+
+Let $L$ be a closed linear subspace of $H$.
+\begin{lem}
+For every $x\in H$ there exists a unique $\Pi_Lx\in L$ such that $\ve{x-\Pi_Lx}_H=\min\{\ve{x-y}_H:y\in L\}$.
+\end{lem}
+\begin{proof}
+By Pythagorean this is equivalent to finding $\Pi_Lx\in L$ such that $x-\Pi_L x\perp L$ (i.e. $\an{x-\Pi_Lx,y}=0$ for all $y\in L$): Suppose $y_0\in L$ such that $\ve{x-y_0}=\min_{y\in L}\ve{x-y}_H$. Now $\ve{x-y_0+ty}^2$ has a minimum at $t=0$ and equals $\ve{x-y_0}^2+2t\Re\an{x-y_0,y}+t^2\ve{y}^2$. Use the same trick to get rid of the real part; differentiate and use the first derivative test.
+
+The second formulation makes it clear that the point is unique (if there are 2 points $y_1,y_2$, then $x-y_1,x-y_2\perp L$, and $y_1-y_2\perp L$ and is in $L$, so equals 0).
+
+%Now for $y\in L$ write
+%\[
+%\ve{x-y}^2=\an{x-y_0+(y_0-y)}^2=\an{x-y_0}^2+\an{y-y_0}^2.
+%\]
+For existence, take $y_n$ so that $\ve{x-y_n}$ tends to the minimum distance. We use the parallelogram law
+\[
+\ve{a+b}^2+\ve{a-b}^2=2\ve{a}^2+2\ve{b}^2.
+\]
+We show the $y_n$ are a Cauchy sequence. Take $a=x-y_m$ and $b=x-y_n$ to get
+\begin{align*}
+\ve{2x-y_m-y_n}^2+\ve{y_m-y_n}^2&=2\ve{x-y_m}^2 +2\ve{x-y_n}^2\\
+4\ve{x-\frac{y_m+y_n}{2}}^2+\ve{y_m-y_n}^2&=2\ve{x-y_m}^2 +2\ve{x-y_n}^2\\
+\ve{y_m-y_n}^2&\le2\ve{x-y_m}^2+2\ve{x-y_n}^2-4\de^2\to 0.
+\end{align*}
+Thus by completeness it converges to the point at minimum distance. This proves the generalization that given a closed convex subset of a Hilbert space, there exists a unique point at closest distance.
+(We only need to know $\frac{y_m+y_n}{2}\in L$ which is also true of a convex set.)
+%In finite dim case extract convergent subsequence. $y_n\to y$.
+%Better late than never, maybe not
+\end{proof}
+%If finite dimensional space every subspace is closed.

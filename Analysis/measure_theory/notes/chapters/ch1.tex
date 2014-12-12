@@ -1,0 +1,90 @@
+\lecture{Wed. 2/2/2011}
+
+\subsection{Riemann integration}
+
+To integrate a function $f:J\to R$, where $J=[a_1,b_1]\times\cdots \times [a_N,b_N]$, take a non-overlapping cover $\cal{C}$ of $J$ by nonoverlapping rectangles (i.e. for distinct $I, I'\in \cal C$, $I^{\circ}\cap I'^{\circ}=\phi$). Let $\xi\in \Xi(\cal C)$ be a choice function that assigns to each $I$ an element in $I$ ($\xi(I)\in I$). Let
+\[
+\cal R(f;\cal C, \xi)=\sum_{I\in \cal C} f(\xi(I))\text{vol}(I)
+\]
+where $\vol(I)$ is the product of its sides.
+
+One says that $f$ is Riemann integrable if there exists $A\in \R$ such that for all $\ep>0$, there exists $\delta>0$ such that 
+\[
+|\cal R(f, \cal C, \xi)-A|<\epsilon \text{ for all } \cal C\text{ with }||\cal C||<\delta, \xi\in \Xi(\cal C).
+\]
+where 
+\[
+||\cal C||=\max_I \diam(I).
+\]
+This value of $A$ is denoted by
+\[
+A=(R)\int_J f(x)\,dx
+\]
+
+\begin{thm}
+Any continuous function is Riemann integrable.
+\end{thm}
+\begin{proof}
+Uniform continuity of $f$ (from compactness of domain) gives that approximations get close; completeness of $\R$ gives existence of $A$.
+\end{proof}
+
+\begin{lem}\label{coverineq}
+Suppose that $\cal C$ is any collection of rectangles $I$.
+\begin{enumerate}
+\item 
+If $\cal C$ is non-overlapping and $J\supeq \bigcup \cal C$, then $\vol(J)\geq \sum_{I\in \cal C}\vol(I)$. 
+\item
+If $J\subeq \bigcup \cal C$, then $\vol(J)\leq \sum_{I\in \cal C} \vol(I)$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+Without loss of generality, we may assume $J\subeq \bigcup \cal C$ (just intersect rectangles with $J$), and $I^{\circ}\neq \phi$ for any $I\in \cal C$.
+
+Induct on number of dimensions $N$. Consider $N=1$. Let $I=[a_I,b_I]$.
+
+For the first part, choose $a_J\leq c_0<\cdots <c_l\leq b_J$ such that 
+\[
+\{c_k:0\leq k\leq l\}=\{a_I:I\in \cal C\}\cup \{b_I:I\in \cal C\}.\]
+Let $\cal C_k=\{I\in \cal C:[c_{k-1},c_k]\subeq I\}$.
+Note
+\begin{enumerate}
+\item
+$\vol(I)=\sum_{k, I\in \cal C_k} (c_k-c_{k-1})=b_I-a_I.$
+\item 
+If $\cal C$ is non-overlapping, then $I$ is in at most one $\cal C_k$ (by definition of $c_i$ as endpoints).
+\end{enumerate}
+Then
+\[
+\sum_{I\in \cal C} \vol(I) = \sum_{I\in \cal C} \sum_{k: I\in \cal C_k}(c_k-c_{k-1})
+\leq \sum_{k=1}^l \sum_{I\in \cal C_k} (c_k-c_{k-1})
+\leq c_l-c_0\leq b_J-a_J=\vol(J).
+\]
+
+For the second part, 
+if $J=\bigcup \cal C$ then $c_0=a_J$, $c_l=b_J$, and $\cal C_k\neq \phi$ for any $1\leq k\leq l$. (For this second assertion, consider 2 cases: $c_k$ is the left or right hand endpoint. Argument is the same. For the right endpoint, choose $I$ so that $b_I\geq c_k$ and $a_I\leq a_{I'}$ for every $I'$ such that $b_{I'}\geq c_k$---i.e. left-hand endpoint is as small as possible. Then $a_I\leq c_{k-1}$; else any interval starting at $c_{k-1}$ ends before $c_k$,  %and some interval near $c_k$ isn't covered, 
+contradiction.)
+Now
+\[
+\sum_{I\in \cal C} \vol(I)=\sum_{I\in \cal C} \sum_{k:I\in \cal C_k} (c_k-c_{k-1})\geq \sum_{k=1}^l (c_k-c_{k-1})=b_J-a_J.
+\]
+
+When $N>1$, we can write $I=R_I\times [a_I,b_I]$ where $R_I$ is a $(n-1)$-dimensional rectangle. Apply a similar argument, but with  $R_J=\bigcup_{I\in \cal C_k} R_I$.
+\end{proof}
+
+To ``remove" the choice function we consider the Riemann upper and lower sums.
+\begin{align*}
+\cal U(f;\cal C)&=\sum_{I\in \cal C} (\sup_I f)\vol(I)\geq \cal R(f;\cal C,\xi)\\
+\cal L(f;\cal C)&=\sum_{I\in \cal C} (\inf_I f)\vol(I)\leq \cal R(f;\cal C,\xi)
+\end{align*}
+
+\begin{pr}\label{l1-lequ}
+Let $f:J\to \R$ be bounded. $f$ is Riemann integrable if and only if 
+\[
+\lim_{||\cal C||\to 0}\cal L(f;\cal C)=\lim_{||\cal C||\to 0} \cal U(f;\cal C).
+\]
+\end{pr}
+\begin{proof}
+``$\Leftarrow$"---squeeze theorem. ``$\Rightarrow$"---choose choice function so close to upper/lower sum.
+\end{proof}
+
+The lemma applies when $\cal C_2$ is a refinement of $\cal C_1$, written $\cal C_1\leq \cal C_2$ (every rectangle of $\cal C_2$ is inside a rectangle in $\cal C_1$). Then $\cal U(f;\cal C_1) \geq \cal U(f;\cal C_2)$ and $\cal L(f;\cal C_1) \leq \cal L(f;\cal C_2)$. Since $I_1$ is covered by nonoverlapping intervals of $\cal C_2$; $\vol(I_1)$ is sum of volumes of those intervals.
