@@ -1,0 +1,59 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Entire functions, Hadamard's Theorem}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\section{Jensen's Theorem}
+\begin{thm}[Jensen's formula]
+Let $f$ be holomorphic in $B_R(0)$ with zeros $(z_k)_{k=1}^n$ (with multiplicity) inside. Then
+\[
+\ln |f(0)| = \sum \ln \pf{|z_k|}{R} + \rc{2\pi}\int_0^{2\pi} \ln |f(Re^{i\te})\,d\te.
+\]
+\end{thm}
+%(Note this is true if some of the $z_k$ are on $C_R$ but requires a limiting argument.)
+\begin{cor}[Jensen's inequality]
+Keep the setup. Then
+\[
+|f(0)|\ge \fc{R^n}{\prod_k |z_k|} \max_{|z|=R}f(z).
+\]
+\end{cor}
+\begin{proof}
+\begin{enumerate}
+\item
+Check that if $f,g$ satisfy the theorem then so does $fg$.
+\item 
+For $f$ nonvanishing, apply Cauchy on $\ln f$ (and take the real part).
+\item
+For $f=z-a_k$, we're reduced to showing $\oint \ln |e^{i\te}-a_k|\,d\te=0$. Interpret this as the mean value of a harmonic function, so it's 0.xs
+\end{enumerate}
+\end{proof}
+
+\section{Hadamard's Theorem}
+
+%\input{chapters/1.tex}
+ 
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}
