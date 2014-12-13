@@ -26,14 +26,14 @@
 
 \begin{document}
 \section{Jensen's Theorem}
-\begin{thm}[Jensen's formula]
+\begin{thm}[Jensen's formula]\llabel{thm:jensenC}
 Let $f$ be holomorphic in $B_R(0)$ with zeros $(z_k)_{k=1}^n$ (with multiplicity) inside. Then
 \[
 \ln |f(0)| = \sum \ln \pf{|z_k|}{R} + \rc{2\pi}\int_0^{2\pi} \ln |f(Re^{i\te})\,d\te.
 \]
 \end{thm}
 %(Note this is true if some of the $z_k$ are on $C_R$ but requires a limiting argument.)
-\begin{cor}[Jensen's inequality]
+\begin{cor}[Jensen's inequality]\llabel{cor:jensenC}
 Keep the setup. Then
 \[
 |f(0)|\ge \fc{R^n}{\prod_k |z_k|} \max_{|z|=R}f(z).
@@ -46,11 +46,128 @@ Check that if $f,g$ satisfy the theorem then so does $fg$.
 \item 
 For $f$ nonvanishing, apply Cauchy on $\ln f$ (and take the real part).
 \item
-For $f=z-a_k$, we're reduced to showing $\oint \ln |e^{i\te}-a_k|\,d\te=0$. Interpret this as the mean value of a harmonic function, so it's 0.xs
+For $f=z-a_k$, we're reduced to showing $\oint \ln |e^{i\te}-a_k|\,d\te=0$. Interpret this as the mean value of a harmonic function, so it's 0.
 \end{enumerate}
 \end{proof}
 
 \section{Hadamard's Theorem}
+
+\begin{df}
+The \textbf{order} of an entire function $f$ is 
+\[
+\inf \set{\al}{|f(z)|\precsim e^{|z|^{\al}}}.
+\]
+Let $z_k$ be the zeros of $f$ with multiplicity. The \textbf{genus} is 
+\[
+\inf \set{s}{\sum_k \rc{|z_k|^s}<\iy}.
+\]
+\end{df}
+
+\begin{thm}\llabel{product-development}
+Let $z_n$ be a sequence with $\lim_{n\to \iy} |z_n|=\iy$ (or a finite sequence).
+%\item
+%(Existence) There is an entire function with zeros exactly the $z_n$.
+%\item
+%(Uniqueness) All such $f$ are in the form
+%\[
+%f(z)=z^me^{g(z)} \prod_{n=1}^{\iy} \pa{1-\frac{z}{a_n}}e^{
+%\frac{z}{a_n}+\rc2 \pf{z}{a_n}^2+\cdots +\rc{m_n}\pf{z}{a_m}^{m_n}
+%}.
+%\]
+%\end{enumerate}
+If $f$ is entire with order $\al<\iy$ with zeros $z_1,z_2,\ldots$ (with multiplicity, not including 0), then it has a product formula
+\begin{equation}\llabel{product-formula}
+f(z)=z^re^{g(z)} \prod_{n=1}^{\iy} \pa{1-\frac{z}{z_n}}e^{
+\frac{z}{z_n}+\rc2 \pf{z}{z_n}^2+\cdots +\rc{k}\pf{z}{z_k}^{k}
+},
+\end{equation}
+where
+\begin{itemize}
+\item $k=\fl{\al}$,
+\item $r$ is the order of vanishing of $f$ at 0, and
+\item $g$ is a polynomial of degree at most $a$.
+\end{itemize}
+The product converges uniformly locally. Moreover, 
+\begin{equation}\llabel{num-zeros}
+|\set{k}{z_k<R}|\precsim_{\ep} R^{\al+\ep}.
+\end{equation}
+Conversely, if $a=\fl{\al}$ and $z_k$ is a sequence satisfying~(\ref{num-zeros}), then the RHS of~(\ref{product-formula}) defines an entire function of order at most $\al$.
+\end{thm}
+\begin{proof}
+(Following Stein-Shakarchi. Ahlfors seems shorter but I haven't read it.)
+\begin{enumerate}
+\item Massage Jensen to give us info about the count of zeros (cf. Abel summation). 
+
+(1.2) Let $n(r)$ be the number of zeros in $B_r(0)$. Then $\int_0^R n(r)\fc{dr}{r}=\sum \ln \af{R}{z_k}$.
+
+Proof. Just consier 1 zero, $z-z_k$. Now multiply.
+\item (2) The relationship between order and genus. Let $\rh$ be the order. Then 
+\begin{enumerate}
+\item
+$n(r)\le C_\ep r^{\rh_\ep}$ for some $C$, 
+\item 
+genus$\le \rh$.
+\end{enumerate}
+
+Proof. Plugging 1.2 into Jensen~\ref{thm:jensenC}, we get $\int_0^R n(r)\fc{dr}{r} \le C' R^{\rh'}$. Noting $n(r)$ is increasing, if it's $>C''R^{\rh'}$ infinitely often, summing $\int_R^{2R} C''R^{\rh-1}\,dr$ makes it $\succ R^{\rh'}$.
+\item
+The product is well-defined. (It is a natural guess; the exponential term is to make it converge.)
+\begin{enumerate}
+\item
+(3.2) If $|F_n-1|\le c_n$, $\sum c_n<\iy$, then $\prod_{n=1}^{\iy}=F$ uniformly, $\fc{F'}{F}=\sum \fc{F_n'}{F_n}$.
+\item (4.1) Let $P_k = z+\fc{z^2}2+\cdots +\fc{z^k}{k!}$.
+Let $E_k = (1-z)e^{P_k(z)}$. Then for $|z|\le \rc2$, $|1-E_k|\le C|z|^{k+1}$, $C$ independent of $k$. 
+
+Proof. 
+\[
+|1-E_m|=|1-(1-z)e^{-\ln (1-z)+O(z^{k+1})}|=O(z^{k+1}).
+\]
+\item The Hadamard product converges and has order $\le \al$.
+
+Proof. Use the above criterion and 
+\[
+\sum (1-E_m\pf{z}{z_n}) \le \sum c\af{z}{|z_n|/|z|}^{k+1}
+\]
+finite if $\sum \rc{|z_n|^{k+1}}<\iy$. %Also this goes as $|z|^{k+1}$; the exponential goes as $e^{|z|^{k+1}}$.
+
+To see it's order $\al$: terms for large $|z_n|$ don't contribute much; terms for small $|z_n|$ can contribute $\prod_{\af{z}{z_n}\le \rc2} (C|z| e^{C\pf{z}{z_n}^k})$. The $|z|$ contributes an $\ep$. In the exponent we have by Abel summation
+\[
+\sum_n C\af{z}{z_n}^k = \int^R z^k|z|^{\al-k+\ep} \ub{(\sum_{|z_n|<R} \rc{|z_n|^{s+\ep}})}{\le C}.
+\]
+Exponentiating gives the bound.
+\end{enumerate}
+\item
+Given arbitrary $f$ of order $\rh_0\in [k, k+1)$, look at $\fc{f}{\text{Hadamard product}}$. It's entire and nonvanishing by construction; we need it to have order $\le \rh_0$ as well, so it equals $e^g$. Thus we need a lower bound on the growth of the Hadamard product.
+\begin{enumerate}
+\item 
+(5.2) 
+\[
+E_k \ge\begin{cases}
+e^{-c|z|^{k+1}},&|z|\le \rc2\\
+|1-z|e^{-c'|z|^k},&|z|\ge \rc2.
+\end{cases}
+\]
+
+Proof. 
+For $|z|\le \rc2$, $E_k=e^{-\fc{z^{k+1}}{k+1}+\cdots}$; that first term dominates. For $|z|\ge \rc2$, $|1-z|e^{\bullet}=e^{-\cdots - \fc{z^k}{k}}$; the last term dominates. 
+%The first part follows by (4.1). For the second part, 
+\item (5.3) For any $\rh_0<s<k+1$, $\ab{\prod_{n=1}^{\iy} E_k\pf{z}{z_n}}>e^{-c|z|^s}$ when $z\nin \bigcup_{n}B_{|a_n|^{-k-1}}(a_n)$. 
+
+Proof. Split into 3 products.
+\[
+\prod_{|z_n|\le 2|z|}\ab{1-\fc{z}{z_n}}e^{-c'\af{z}{z_n}^k} \prod_{|z_n|>2|z|} e^{-c\af{z}{z_n}^{k+1}}.
+\]
+\begin{enumerate}
+\item
+First: use the fact that $z$ is not in the balls.
+\item Make $\prod e\to e^{\sum}$, separate out a factor $|z_n|^{-s}$.
+\item Same idea.
+\end{enumerate}
+\item (5.4--5.5) We have $\bigcup B\subeq \set{z}{|z|\in I}$ where $I$ has finite measure. We can apply Cauchy to bound $\ln \pf{f}{\text{Hadamard}}$ on the valid radii, and get it's a poly of degree $\le s$.
+\end{enumerate}
+\end{enumerate}
+
+\end{proof}
 
 %\input{chapters/1.tex}
  
