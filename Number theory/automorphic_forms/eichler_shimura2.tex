@@ -1,0 +1,796 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Eichler-Shimura correspondence}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%1
+\tableofcontents
+\section{Motivation and statement}
+\subsection{$L$-function for modular forms}
+The Eichler-Shimura relation relates the eigenvalues of the Hecke operator with the trace of Frobenius (on an abelian variety; if we take a quotient we can get an elliptic curve). An important corollary is that for every $f\in S_2(\Ga_1(N))$, there exists some elliptic curve $E_f$ for which $L(s,f)=L(s,E_f)$.
+
+First, let's define the $L$-function and explain why we expect $L$-functions of modular forms and elliptic curves to correspond to one another.
+
+\begin{df}
+Let $f\in S_2(\Ga)$ for some congruence subgroup $\Ga\supeq \Ga(N)$. 
+Write $f=\sum_{n\ge 1} a_n e^{{2\pi i \tau}}=\sum_n a_nq^n$ ($q=e^{{2\pi i \tau}}$). \fixme{Note: we can have fractional values of $n$ in the sum?}%\fixme{do we need $/N$ in exponent?} 
+Define the $L$-function of $f$ by
+\[
+L(s,f)=\sum_{n=1}^{\iy}\fc{a_n}{n^s}.
+\]
+\end{df}
+%\fixme{Do we want $f$ to be a newform?}
+Why do we form an $L$-function? Whenever we have an almost-multiplicative function $a_n$, if we let them be coefficients of a Dirichlet series, we get a nice Euler product expansion.
+
+Here, the multiplicativity comes from that of the Hecke operators. Recall that we have for Hecke operators on $M_k(\SL_2(\Z))$, that
+\bal
+T(mn)&=T(m)T(n)\qquad m\perp n,\\
+T(p^\al)&=T(p)T(p^{\al-1})-p^{k-1}T(p^{\al-2}),
+\end{align*}
+and that the Hecke operators commute. (Where the relations come from: The lattices of index $mn$ are the lattices of index $m$ inside the lattices of index $n$, with a correction factor if $m\not\perp n$.)
+If we could treat the $T(m)$ as numbers, then this gives a Euler product expansion
+\[
+\sum_{n=1}^{\iy}\fc{T_n}{n^s} =\prod_{p}\rc{1-T(p)p^{-s}+p^{k-1}p^{-2s}}.
+\]
+We can't do this, but we can ``operate" this on an {\it eigenform} $f$, and the relation on $T_m$'s becomes a relation on the eigenvalues of the $T_m$'s on $f$. Normalizing $f$ so that $a_1=1$, the eigenvalue of $T_m$ on $f$ is just $a_m$. Then we get
+\[
+\sum_{n=1}^{\iy}\fc{a_n}{n^s} =\prod_{p}\rc{1-a_pp^{-s}+p^{k-1}p^{-2s}}.
+\]
+Note two things.
+\begin{enumerate}
+\item
+We'll want Hecke operators on $\Ga_1(N)$ instead of $\SL_2(\Z)$. The relation involving $T_{p^\al}$ will be a bit different (involve the diamond operator). (In general, recall that Hecke operators for a congruence subgroup are defined by $f\mapsto (z\mapsto \sum_{\ga_i}f(\ga z))$ where $\Ga \smatt n001 \Ga=\bigsqcup \Ga \ga_i$.)
+\item
+We'll take $k=2,k-1=1$. In this case, the Euler product really looks like the Euler product for an elliptic curve, which we'll review below.
+\end{enumerate}
+
+\subsection{$L$-functions for elliptic curves}
+\begin{df}
+Let $E$ be an elliptic curve. 
+Define the local $L$-function of $E$ at $p$ by
+\[
+L(E/\F_p,s)=\det(1-\Frob_pt|\vl E^{I_p})^{-1}.
+\]
+This is the familiar $\rc{1-a_pp^{-s}+pp^{-2s}},a_p=\Tr(\Frob_p)=p+1-|E(\F_p)|$ when there is good reduction at $p$ (here reduction is injective on $E[\ell]$, i.e., inertia, which can't change the residue modulo $p$, acts trivially on it). When reduction is bad, it degenerates into a constant or linear term.
+
+Define the $L$-function for $E$ as a product of local $L$-functions
+\[
+L(E,s)=\prod_pL(E/\F_p,s)=\prod_{p\text{ good reduction}}\rc{1-a_pp^{-s}+pp^{-2s}}\prod_{p\text{ bad reduction}}(\cdots).
+\]
+\end{df}
+
+So for the $L$-functions to correspond, we want to relate the eigenvalues of Hecke with the trace of Frobenius.
+\subsection{What does Hecke have to do with Frobenius?}
+The intuition is taken from here: \url{http://mathoverflow.net/questions/19390/intuition-behind-the-eichler-shimura-relation}
+
+The Hecke operator should really be thought of as a correspondence.
+\begin{df}[Take 1]
+Let $A,B$ be sets.
+A correspondence $A\to B$ is a map that takes each $a\in A$ to a finite set $c(a)\sub B$.
+A correspondence $A\to A$ induces a map on functions on $A$: $f\mapsto \pa{z \mapsto \sum_{b\in c(a)}f(b)}$. (We'll actually include a constant factor below.)
+\end{df}
+Here is a more general way to think about it.
+\begin{df}[Take 2]\label{df:correspondence2}
+A correspondence is $(Z,X,\ph,\psi)$ where $Z$ is a set and $\ph,\psi:Z\to X$ are functions. (For instance, $Z$ is the graph of a function, in $X\times X$.) We recover the correspondence as defined above by taking $c=\psi\circ\ph^{-1}$.
+\[
+\xymatrix{
+& Z\ar[ld]_{\ph}\ar[rd]^{\psi}& \\
+X \ar@{-->}[rr]^c& & X.
+}
+\]
+\end{df}
+This defines correspondences on points.
+We'll actually want more structure ($Z$ to be a scheme), but this is the basic idea.%, and we'll defer putting in more structure.
+\begin{df}[Take 3]
+A correspondence is $(Z,X,\ph,\psi)$ where $Z,X$ are schemes, $\ph,\psi:Z\to X$ are morphisms. The correspondence gives a map $X\to \Div(X)$ defined as in the diagram below, and induces a map on the Picard groups (which can be given scheme structure as the Jacobians), notated by the maps below.
+\beq{eq:e-s-pico}
+\xymatrix{
+X\ar[d] & Z\ar[l]_{\ph}\ar[d]\ar[r]^{\psi} & X\ar[d]\\
+\Div X\ar[r]^{\ph^*} & \Div Z\ar[r]^{\psi_*} & \Div X\\
+\Div^0X\ar[u]\ar[r]\ar[d]& \Div^0 Z\ar[r] \ar[u]\ar[d] & \Div^0 X\ar[u]\ar[d]\\
+\Pico X\ar[r]^{\Pic \ph} & \Pico Z\ar[r]^{\Alb \psi} & \Pico X
+}
+\eeq
+\end{df}
+There is a natural map $X\to \Pico X$? \fixme{I think it's $x\mapsto [x]-[x_0]$. Do we need a basepoint, or is it canonical?}
+
+As a correspondence, on the $\Div$ level the Hecke operator for $M_k(\SL_2(\Z))$ is
+\[
+T_n:[\La]\mapsto \sum_{[\La:\La']=n}[\La'].
+\]
+(We get the usual Hecke operator by $(T_nF)(\La) =n^{k-1} \sum_{[\La:\La']=n} F(\La')$, where $F$ is the function on lattices corresponding to $f$, $F(\an{1,\tau})=f(\tau)$.) 
+Now {\it lattices correspond to elliptic curves}, so the pairs $(\La,\La')$ with $[\La:\La']=n$ correspond to pairs of elliptic curves with an isogeny of degree $n$, $\ph:E\to E'$. When $n=p$, we ask: what are the isogenies of degree $p$? There are only 2 possibilities, Frobenius and the dual of Frobenius; the Frobenius occurs once (with the lattice $\La'_0$ that is the kernel of reduction) and the rest are dual of Frobenius.
+
+Some notes.
+\begin{enumerate}
+\item
+Actually, we'll want to look at pairs $(E,P)$ instead of just $E$, so the correspondence is on $X_1(N)$ instead of $X_0(N)$.
+\item
+What is the space $Z$ in the correspondence? We'll have to create another moduli space to parametrize not just elliptic curves but maps $E\to E'$ of degree $p$. We can do this.
+\item
+%Where does the sum $\sum_{[\La:\La']=n}[\La']$ exist? 
+We should think of $T_n$ as acting on the Jacobian, $\Pico X\to \Pico X=\Jac(X_1(N))$. (The Jacobian ``turns a variety into an abelian variety" so we can add on it.) The Frobenius map is defined on the Jacobian, and we relate the eigenvalues of Hecke with the Frobenius on the Jacobian.
+\end{enumerate}
+We'll now go through all of this more rigorously. 
+\begin{enumerate}
+\item
+First, we'll take go through an ``elementary" proof \fixme{(but there may be some holes here due to compatibility, defining varieties over different rings, etc.)} following Rohrlich's Modular Curves in~\cite{CSS97}.
+\item
+Then we'll give a scheme-theoretic proof following Conrad in~\cite{Con}.
+\end{enumerate}
+
+\subsection{Theorem statement}
+
+The theorem we'll prove is the following.
+
+\begin{thm}[Eichler-Shimura, Theorem 5.16 in~\cite{Con}]\label{thm:es}
+On $J_p:=\Pico_{X_0(N)/\Z[\rc N]} (\ol{\F_p})=\Pico X_0(N)/\fpb$, let $F$ be the Frobenius, and let $(T_p)_*$ be the map induced from the Hecke correspondence.\footnote{Note this is not {\it a priori} defined over $\Z[\rc N]$. See~\ref{ss:es-diff-fields} for a discussion of this.}
+
+Then
+\[
+(T_p)_*=F+\an{p}_*F^{\vee}
+\]
+\end{thm}
+The most important corollary is the following. First, some notation.
+\begin{enumerate}
+\item
+Let $T_1(N)$ be the Hecke algebra $\Q(\set{T_p}{p\nmid N},\set{\an{p}}{p\nmid N})$ acting with the $()_*$ action on $\Pico_{X_0(N)/\Z[\rc N]}(\qb)$.\footnote{Alternatively if we define Hecke operators using matrices we can define it as simply generated by $T_A$, $A\in \SL_2(\Z)$.}
+\item Write $\vl(N):=\vl(\Pico_{X_1(N)/\Z[\rc N]}(\qb))$.
+\item Let $\rh_{N,\ell}$ be the representation $G(\qb/\Q)\to \Aut(\vl(N))\cong \GL_2(\ql\ot T_1(N))$. (It is unramified at $p\nmid N\ell$.) (The Hecke operator acts freely because its action on the inner product defined last time is self-adjoint \fixme{and...?}.)
+\end{enumerate}
+Using Eichler-Shimura and the fact about the Atkin-Lehner involution from the last talk,
+\[
+w_{\ze}^{-1}Fw_{\ze}=\an{p}_*^{-1}F,
+\]
+we can prove the following (See Conrad's notes).
+\begin{thm}[Theorem 5.12 in~\cite{Con}]
+The characteristic polynomial $\Frob_\mfp$ on $\vl(N)$ considered as a $\ol{\Q_{\ell}}\ot_{\Q} T_1(N)$-vector space is
+\[
+X^2-(T_p)_*X+\an{p}_*p.
+\]
+\end{thm}
+To get a 2-dimensional representation over $\Q_{\ell}$ instead of the larger algebra $\ol{\Q_{\ell}}\ot_{\Q} T_1(N)$, we do the following: choose a newform $f$ and  mod out by the maximal ideal $\mfp_f\sub T_1(N)$ corresponding to $f$. See the last lecture.
+%%%%%%%%%%%%%%%%%%%%2
+\section{Elementary approach}
+Here we can't quite prove Theorem~\ref{thm:es} the way it's stated because it's not obvious how to define $(T_p)_*$ for $J_p$. We'll prove something in the same spirit, however, basically the statement lifted up to $\Q$ instead of in $\fpb$.
+\begin{thm}[Eichler-Shimura congruence relation]\llabel{thm:es2}
+Let $\si_\mfp\in G(\ol{\Q}/\Q)$ be a Frobenius element at $\mfp$. Then for $\ell\ne p$,
+\[
+T_p=\si_\mfp+p\an{p}\si_\mfp^{-1}
+\]
+as endomorphisms of $J_1(N)[\ell^n]$. (Here $J_1(N)=\Pico X_1(N)/\qb$.)
+\end{thm}
+
+\subsection{Moduli spaces: intro}
+
+Recall
+\begin{align*}
+\Ga(N)&=\set{M\in \SL_2(\Z)}{M\equiv \matt 1001\pmod{N}}\\
+\Ga_1(N)&=\set{M\in \SL_2(\Z)}{M\equiv \matt 1*01\pmod{N}}\\
+\Ga_0(N)&=\set{M\in \SL_2(\Z)}{M\equiv \matt **0* \pmod{N}}
+\end{align*}
+and
+\[
+\Ga(N)\stackrel{N}{\no}  \Ga_1(N)
+\stackrel{\ph(N)=N\prod_{p\mid N}(1-\rc p)}{\no}
+\Ga_0(N)\stackrel{N\prod_{p\mid N}(1+\rc p)}{\subeq} \SL_2(\Z).
+\]
+Define
+\bal
+Y_1(N)&=\cal H/\Ga_1(N)\\
+Y_0(N)&=\cal H/\Ga_0(N)
+\end{align*}
+and let $X_i(N)$ be the compactifications. We need to do several things.
+\begin{enumerate}
+\item
+Understand $Y_1(N),Y_0(N)$ as moduli spaces. Also come up with a moduli space for the $Z$ we'll use in the Hecke correspondence. 
+\item
+Show how a general $\cal H/\Ga$ can be defined as an {\it algebraic} variety, $\Ga$ a congruence subgroup. We understand the $X_i$, $Y_i$ as moduli spaces over any algebraically closed field.
+\item Define the Hecke correspondence $(Z,X,\ph,\psi)$. %(With $Z,X$ being varieties (schemes) and $\ph,\psi$ morphisms, this ensures that the Hecke correspondence is actually a morphism to the Jacobian.)
+\end{enumerate}
+\subsection{Understanding moduli spaces over $\C$}
+We first understand how quotients of $\cal H$ parametrize elliptic curves. This won't be enough for us as we want to work over other fields ($\qb, \fpb$), but is a good starting point for intuition.
+
+We have the following. 
+\begin{enumerate}
+\item $Y_0(1) = \cal H/\SL_2(\Z)$ parametrizes isomorphism classes of elliptic curves over $\C$, via
+\[
+\tau \mapsto \C/\an{\tau,1}.
+\]
+$\SL_2(\Z)$ are exactly the linear transformations that stabilize lattices.
+\item $Y_0(N) = \cal H/\Ga_0(N)$ parametrizes isomorphism classes of elliptic curves over $\C$, along with a cyclic subgroup of order $N$, via
+\[
+\tau \mapsto \C=(\C/\an{\tau,1},\an{\fc{1}{N}}).
+\]
+We check that the stabilizer of any $(\C/\an{\tau,1},\an{\fc{1}{N}})$ is exactly $\Ga_0(N)$. We have
+\[
+\ga(\C/\an{\tau,1},\an{\fc{1}{N}})=
+(\C/\an{a\tau +b,c\tau +d},\an{\fc{c\tau +b}{N}}).
+\]
+This generates the same group of order $N$ exactly when $a\perp N$ and $c\equiv 0 \pmod N$.
+\item $Y_1(N) = \cal H/\Ga_1(N)$ parametrizes isomorphism classes of elliptic curves over $\C$, along with a point of order $N$, via
+\[
+\tau \mapsto \C=\pa{\C/\an{\tau,1},\rc{N}}.
+\]
+Here fewer $\ga\in \SL_2(\Z)$ fix the data: the difference is that $c$ has to be $1\pmod N$ now, and we get $\Ga_1(N)$.
+\item Next we want to parametrize $Y_0(N,p)$, isomorphism classes of $(\ph:E\to E',\an{P})$, $\ph$ of degree $p$ and $\an{P}$ a cyclic subgroup of order $N$ intersecting $\ker\ph$ only trivially.
+
+We claim $Y_0(N,p)=\cal H/\Ga_0(N,p)$ where \[\Ga_0(N,p)=\set{M\in \SL_2(\Z)}{M= \matt *{0\pmod N}{0\pmod p}*}\supset \Ga_0(\gcd(N,p)),\]
+via
+\[
+\tau \mapsto \C=\pa{\C/\an{\tau,1},\an{\rc{p}},\an{\fc{\tau}{N}}}.
+\]
+Indeed, 
+\[
+\ga(\C/\an{\tau,1},\an{\rc{p}},\an{\fc{\tau}{N}})=(\C/\an{a\tau+b,c\tau+d},\an{\fc{c\tau+d}{p}},
+\an{\fc{a\tau+b}{N}}),
+\]
+so $\ga$ fixes the data exactly when $c\equiv 0\pmod p$ and $b\equiv 0\pmod N$.
+
+{Note:
+\hypertarget{e-s/Y0}{} There is something to check here: we hit all possibilities this way. For $N\perp p$, note $\an{\rc p,\fc{\tau}{N}}$ is a cyclic subgroup of order $pN$, so it's the same as specifying an element of order $pN$, and $\SL_2$ acts transitively (fixing the Weil pairing). \fixme{For $p\mid N$, what happens? (I don't think we really need this case.}} 
+%The problem case is $(\C/\an{\tau,1},\an{\rc{p}},\rc{N})$. But in this case we could replace $\rc{N}$ with something in $\an{\tau,1}+\rc{N}$, and replace $\tau$.}
+\item Now we parametrize $Y_1(N,p)$, isomorphism classes of $(\ph:E\to E',P)$, $\ph$ of degree $p$ and $P$ a point subgroup of order $N$, generating a subgroup intersecting $\ker\ph$ only trivially.
+
+We claim $Y_1(N,p)=\cal H/\Ga_1(N,p)$ where \[\Ga_1(N,p)=\set{M\in \SL_2(\Z)}{M= \matt {1\pmod p}{0\pmod N}{0\pmod p}*}\supset \Ga_0(\gcd(N,p)).\]
+The analysis is the same as above except now we need $d\equiv 1\pmod p$, so that $\fc{c\tau+d}{p}$ is the same as $\rc{p}$.
+\end{enumerate}
+Note: we can further mod out by $\{\pm I\}$ if we wish, working inside $\PSL_2(\Z)$ instead of $\SL_2(\Z)$; the only change this makes is to make the action of the quotient group faithful. Also, considering these spaces as quotients of $\cal H/\Ga(N)$ or $\cal H/\Ga(\gcd(N,p))$, we can think of the actions as being of $\SL_2(\Z/N)$ or $\PSL_2(\Z/N)$.
+
+\fixme{Note we have bad reduction at $0,1728,\iy$ because either the automorphism group is greater than $\Z/2$, or the elliptic curve is degenerate. In the first case, different points get identified.}
+\subsection{Galois action on modular forms, Moduli spaces over $K$}
+The above is unsatisfactory for our purposes because we need to define $Y_0(N)$, etc. over different fields $K$ in order to parametrize elliptic curves (and related data) over $K$.
+
+%The main thing we need is that there are ``enough functions" 
+To do this, we will consider the field extension $K(t,E[N])$ of $K(t)\cong K(j)$ and subfield extensions that are fixed by subgroups of $G(K(t,E[N])/K(t))$, for $K$ algebraically closed. We define the moduli spaces as the curves corresponding to these fixed fields. Before we can do anything else, however, we have to compute $G(K(t,E[N])/K(t))$. We do this for $\C$ first, and find that it is ``as large as can be."
+%\begin{thm}
+%Let $E/\C(t)$ be an (universal) elliptic curve with discriminant $t$. Then 
+%\[
+%G(\C(t,E[N])/\C(t))\cong \SL_2(\Z).
+%\]
+%\end{thm}
+
+We know that $\cal H/\Ga_0(N)$ can be defined over $\Q$: its equation is given by the modular polynomial $\Phi_N(X,Y)$ which has coefficients in $\Z$. ($\Phi_N$ is defined as the minimal polynomial of $\C(j(\tau), j(N\tau))$).
+
+How do we do this more generally, make sure all the spaces we work with can be defined over $\Q$, and the morphisms are also defined over $\Q$?
+
+Rather than do something for each space separately, we can get everything in one fell swoop by showing that $\cal H/\Ga(N)$ can be defined over $\Q$, and then using Galois theory.
+
+First note that the theory of elliptic curves over $\C(t)$ is very nice. In fact, the endomorphism ring is the nicest that we can hope for, and we get that the action of Galois on $E[N]$ is exactly the entire $\GL_2(\Z/N)$, no questions asked! When we try to substitute concrete values for $t$, that's where the messy number theory and representation theory come in.
+\begin{thm}
+Let $E$ be an elliptic curve over $\C(t)$ with $j$-invariant equal to $t$. Then there is an isomorphism/representation
+\bal
+\rh: G(\C(t,E[N])/\C(t))&\xrc \SL_2(\Z/N)\\
+G(\C(t,x(E[N])/\C(t))&\xrc \PSL_2(\Z/N)
+\end{align*}
+given by choosing a basis of $E[N]\cong \Z/N\times \Z/N$ and looking at the action of Galois on this basis.
+\end{thm}
+%(Think of a point $E[N]$ as a section $\A_1(\C)\to E$ with order $N$.)
+\begin{proof}
+First, we note the reason for $\SL_2$ rather than $\GL_2$: the Weil pairing is invariant under any Galois group element because the Galois group fixes $\C(t)\supeq \mu_n$. Choosing a basis of $E[N]$, the Weil pairing is just the determinant. The linear transformations that preserve the determinant are the ones in $\SL_2$. Because $\rh$ is determined by its action on $E[N]$, we have an injection $\rh: G(\C(t,E[N])/\C(t))\hra \SL_2(E[N])$. We show it is surjective.
+
+In fact we give an explicit way to construct the field extension in terms of analytic functions: we find the missing field in the following:
+\beq{eq:Ctjt}
+\xymatrix{
+\C(t,x(E[N])) \aq{r}^{\sim} \ar@{-}[d] & ?\ar@{-}[d]\\
+\C(t) \aq{r}^{\sim} & \C(j).
+}
+\eeq
+(It is easier to just work with $x$-coordinates. \fixme{I don't this is necessary... however we only get the correspondence with modular functions if we look at $x$-coordinates.})
+It suffices to consider the elliptic curve
+\[
+y^2=4x^3-\fc{27t}{t-1728}x-\fc{27t}{t-1728}.
+\]
+\fixme{Why?}
+(Any two elliptic curves over a field $K$ that become isomorphic over an algebraic closure are quadratic twists of each other.)
+Here $t$ is the $j$-invariant. 
+Under the isomorphism in~\eqref{eq:Ctjt}, our task now becomes to {\it find analytic functions that map $\tau$ to a point of order $N$ on the curve $y^2=4x^3-\fc{27j(\tau)}{g(\tau)-1728}x-\fc{27j(\tau)}{j(\tau)-1728}$.}
+
+We can parametrize an elliptic curve analytically, if it is in Weierstrass form. Let's put the elliptic curve in Weierstrass form. Firstly, $E$ can be put into the form
+\[
+y^2=4x^3-g_2x-g_3.
+\]
+Recall that the substitution $x\mapsfrom c^2x,y\mapsfrom c^3y$ makes the coefficients change as $A\mapsfrom \fc{A}{c^4},B\mapsfrom \fc{B}{c^6}$. We hence want $c=\sqrt[4]{\fc{27j/(j-1728)}{g_2}}$. But $j=\fc{1728g_2^3}{g_2^3-27g_3^2}$ by definition so $\fc{27j}{j-1728}=\fc{g_2^3}{g_3^2}$, and $\sqrt[4]{\fc{27j/(j-1728)}{g_2}}=\sfc{g_2}{g_3}$. The desired change of variables is
+\[
+x\mapsfrom \fc{g_3}{g_2}x,\qquad y\mapsfrom \pf{g_3}{g_2}^{\fc32}.
+\]
+Then given $\tau$, the map 
+\bal
+\C/\an{\tau,1} &\to (E:y^2=4x^3-g_2(\tau)x-g_3(\tau))\\
+z&\mapsto \pa{\fc{g_2}{g_3}\wp(z; \an{\tau,1}), \pf{g_3}{g_2}^{\fc32}\wp(z; \an{\tau,1})}
+\end{align*}
+parametrizes the elliptic curve corresponding to the lattice $\an{\tau,1}$. To get a point of order $N$ from $\tau$, we evaluate at $(r\quad s)\coltwo \tau1$ to get the functions
+\[
+x_{r,s}(\tau)=\fc{g_2(z)}{g_3(\tau)}\wp\pa{\rc N(r\quad s)\coltwo \tau 1; \an{\tau,1}}.
+\]
+(Let the $y$ function be $y_{r,s}$.)
+We %claim that we 
+%can take the field extension to be
+have
+\[
+\C(t,x(E[N])) \cong \C(j,\set{x_{r,s}}{(r,s)\nequiv (0,0)\pmod N}).
+\]
+%Note we certainly have $\C(j,\set{f_{r,s}}{(r,s)\nequiv (0,0)\pmod N})\subeq \C(t,E[N])$ under the correspondence in~\eqref{eq:Ctjt} because the functions were designed to be $N$-torsion points. \fixme{(It should be automatic that equality holds because there can't be more $N$-torsion points! This makes some of the below stuff unnecessary.)}
+This is an algebraic extension of $\C(j)$ because the functions satisfy
+\[
+P_N\pa{x_{r,s},\fc{27j}{j-1728},\fc{27j}{j-1728}}=0
+\]
+where $P\in \Z[X,A,B]$ is the $N$th division polynomial: $P(w,A,B)=0$ iff $w$ is the $x$-coordinate of a (affine) $N$-torsion point on the elliptic curve $y^2=4x^3+Ax+B$. (We can show, but won't need,  $\C(j,\{x_{(r,s)}\})\cong \C(j,X)/P_N\pa{X,\fc{27j}{j-1728},\fc{27j}{j-1728}}$.)
+
+%\begin{enumerate}
+%\item
+We find $G(\C(j,\set{x_{r,s}}{(r,s)\nequiv (0,0)\pmod N})/\C(j))$ explicitly. For each $A\in \PSL_2(\Z/N)$, define $Af$ by $(Af)(\tau)=f(A\tau)$. 
+
+This action is...
+\begin{enumerate}
+\item
+well-defined because $A\in \Ga(N)$ acts trivially on the $x_{r,s}$ and $-I\in \Ga(N)$ acts trivially because $\wp$ is even, and 
+\item faithful because $\wp(z)=\wp(z')$ iff $z\in\pm z'+\an{\tau,1}$.
+\end{enumerate}
+Hence the Galois group equals $\PSL_2(\Z/N)$.
+\end{proof}
+\begin{rem}
+%\item
+The functions $x_{r,s}$ are modular functions on $\Ga_0(N)$. Indeed, in light of item (a) above the only thing we have to check is that they are holomorphic on cusps. We omit the proof.
+%\item
+
+We have $\C(t,\{x_{r,s}\})=\C(t,x(E[N]))$ by construction of the $x_{r,s}$. We have $G(\C(t,\{x_{r,s}\})/\C(t))=\PSL_2(\Z/N)$. As 
+\[
+%\C(t,\{f_{r,s}\})\hra \C(t,x(E[N])), G(\C(t,x(E[N]))/\C(t))\hra \PSL_2(\Z/N)
+\C(t,\{x_{r,s}\})\hra M(\Ga(N)),\qquad
+%\C(t,x(E[N])), 
+G(M(\Ga(N))/M_0(1))\hra \PSL_2(\Z/N)
+\]
+we conclude that $\cong$ actually holds. %\fixme{Was this last step necessary?} 
+%A little work bootstraps this to $G(\C(t,E[N])/\C(t))=\SL_2(\Z)$. ($-I$ flips the $y$-coordinates.)
+%\end{enumerate}
+\end{rem}
+\begin{cor}
+Over $\Q$, we get instead
+\bal
+G(\Q(t,E[N])/\Q(t))&\cong \GL_2(\Z/N).%\\
+%G(\Q(t,x(E[N])/\Q(t))&\cong 
+\end{align*}
+\end{cor}
+\begin{proof}
+The field extension $\C(t,E[N])\cong \C(j,x_{r,s},y_{r,s})/\C(j)$ can be defined over $\Q(j)$ instead of $\C(j)$ since the polynomial that $j,x_{r,s},y_{r,s}$ satisfy has coefficients in $\Q$.
+
+Note that $\Q(\ze_n)\subeq \Q(t,E[N])$ because any field extension containing $E[N]$ must contain $\ze_n$ (the proof uses the Weil pairing). Now we have 
+\[G(\Q(t,E[N])/\Q(\ze_n,t))\hra \SL_2(\Z/N):\]
+ elements of the Galois group fix $\ze_n$ so fix the Weil pairing, so the image is in $\SL_2(\Z/N)$ rather than $\GL_2(\Z/N)$. Since this is an isomorphism when the field is extended to $\C$, it must be an isomorphism here. Now 
+\[G(\Q(t,E[N])/\Q(t))\hra \GL_2(\Z/N)\]
+and by counting, it must actually be equal.
+\end{proof}
+
+\subsection{Moduli spaces over $K$}
+Now we give a different definition of the moduli spaces so that they still parametrize the correct data even if we change from $\C$ to another algebraically closed field $K$ (we'll need $\qb$ or $\fpb$). We'll show that over $\C$ this is equivalent to the earlier description by giving maps from the compact Riemann surface to the algebraic varieties we'll define here. %)}.
+
+The fundamental result we use is the following.
+\begin{thm}
+Let $K$ be algebraically closed. 
+There is a contravariant equivalence of categories between field extensions of $K(t)$ and curves over $K$.
+\end{thm}
+
+Let $X(N)$ be the curve corresponding to the field extension $K(t,x(E[N]))/K(t)$. We claim outside of points of bad reduction, the points on this curve correspond to an elliptic curve along with a $N$-torsion point, up to automorphism (so for instance $[E,P]=[E,-P]$. \fixme{Warning: we have to exclude $t=\iy$ because the elliptic curve is degenerate there. For $t=0,1728$ the automorphism group is larger so more than just $\pm P$ are identified---this might be a problem (is it?), so exclude these values as well.}
+
+The correspondence is as follows. Consider the universal elliptic curve over $K(t)$, and base-extend to $K(t,E[N])$. The points $x\in X$ correspond to valuations on $K(t,E[N])$ \fixme{(what algebraic geometry fact is this?)}. $K(t)$ simply corresponds to $\Pj^1(K)$. Suppose $t_0'$ lies above $t_0\in \Pj^1(K)$, and $E$ has good reduction at $t_0$. ($t_0\ne 0,1728,\iy$.) 
+\fixme{Not sure about this actually:
+The field extension corresponding to the fiber above $t_0$ is $K(E_{t_0}[N])/K$, and the points are exactly the $N$-torsion points of $t_0$.}
+%Points above $t_0$ correspond to valuations on $K(t,E[N])$ extending the valuation on $K(t)$ given by $t_0$. The residue field at $t_0$ is $K$; the residue field at $t_0'$ also has to be $K$, because $K$ is algebraically closed and the extension has to be finite \fixme{(why?)}. \fixme{Giving a point is supposed to be the same as specifying a valuation of $K(E_{t_0}[N])$ extending that on $K$, and the possibilities are exactly the $N$-torsion points! They are all conjugate...}
+\fixme{Explain bad reduction here.}
+
+%so determine a ring of local functions $\cO_x$ and a maximal ideal $\mm_x$. Assuming $x$ is a point of good reduction for $E$, we can reduce $E$ modulo $\mm_x$
+
+Let $\cal P$ be some data depending on some points $P_i\in E[N]$, for example a single point $P_1$, the cyclic subgroup generated $\an{P_1}$, or a pair $(\an{P_1},P_2)$ where $P_1$ is of order $m_1$, $\an{P_2}\cap \an{P_1}=\phi$, such that $\GL_2(\Z)$ operates transitively on the set of possible data. (It's not worth it to make this precise.)
+Recall that whenever we have a group action $G$ on $S$, then $G/\Stab(s)\xrc \text{Orbit}(s)$. Suppose $H=\Stab(s)$. Letting $X(N)$ be as before, we claim that outside of bad points, $X(n)^H$ parametrizes the data. Indeed, the points above $X(n)^H$ are exactly the orbits of $s$.
+
+We can apply this to the same spaces as in 2.1:
+\begin{enumerate}
+\item
+$X_0(1)$: no data.
+\item
+$X_0(N)$: a subgroup $\an{P_2}$, where the action is on a basis $P_1,P_2$.
+\item
+$X_1(N)$: a point $P_2$ of order $N$, where the action is on a basis $P_1,P_2$.
+\item 
+$X_0(N,p)$: Move to $\GL_2(\Z/\gcd(N,p))$. A group $\an{P_1}$ of order $p$ and a point $P_2$ of order $N$ such that $\an{P_1}\cap \an{P_2}=\{0\}$.
+\item
+$X_1(N,p)$: Move to $\GL_2(\Z/\gcd(N,p))$. A point $P_1$ of order $p$ and a point $P_2$ of order $N$, such that $\an{P_1}\cap \an{P_2}=\{0\}$. \footnote{It's not obvious from this definition that the action is transitive---what if $P_1,P_2$ are multiples of the same point? But the intuition here is wrong because $N\perp p$. For example, we can send $P_1=\fc{1}{3}$ and $P_2=\frac{1}{2}$ to  $P_1=\fc{\tau}{3}$ and $P_2=\frac{1}{2}$ by sending $\rc{6}\mapsto \rc2+\frac23\tau$. See~\hyperlink{e-s/Y0}{Note}.}
+\end{enumerate}
+If $G(K(t,E[N])/K(t))=\GL_2(\Z/N))$ (or $\SL_2(\Z/N)$) then the respective stabilizers are the same as in 2.1 (the $P_1$ here correspond to $\tau$ and $P_2$ here correspond to 1) except that in the case of $\GL_2$ we allow the determinant to be not necessarily 1, and in $\Ga_1(N)$ we allow matrices of the form $\smatt{\pm 1} b * c\pmod N$. \fixme{Check this!} The quotients of $\GL_2(\Z/N)$ induced here are the same as the quotients of $\SL_2(\Z/N)$ induced there. \fixme{Check this!}
+
+When $G$ is smaller than $\GL_2(\Z/N)$, this still works; the subgroups $H$ will be smaller though. 
+\fixme{When not in characteristic 0, we must be careful. We need the fact (not easy) that $X_1(N)$ can be defined over $\Z[\rc N]$. See p. 66 in Conrad for a discussion. For $p\nmid N$, this construction then goes through.}
+%\fixme{What about $\fpb$? The problem: are the equations definable over $\fpb$? Not for $X_i(N,p)$...}
+%\fixme{NONO (The problem isn't For instance, this is the case for $\fpb$. (Algebraically closed is essential because we need $j$-invariants to parametrize iso classes of elliptic curves.) Moreover, the maps are compatible with the reduction maps from the varieties over $\qb$ to over $\fpb$, by looking at the function fields (reducing the field and taking the fixed field commute with one another).}
+
+The parametrized data is the same as in 2.1, without mention to $\tau\in \C$.
+
+%\fixme{Actually, this works for $\qb$ but not $\fpb$, because we need $E[N]\cong \Z/N\times \Z/N$. }
+%IMPORTANT{Couldn't we get it for $\Q$ by just saying that they are $\Q$-points of the varieties over $\C$? When reducing to $\fpb$ we need to be wary of getting new points... but any data mod $p$ must have come from some data in $\Q$. Classes can get merged but no new ones will be created.}
+%We say a compact Riemann surface $X$ can be defined as a algebraic variety (and by abuse of vocabulary, {\it is} a algebraic variety) if there is a isomorphism (complex-analytically) onto a Riemann surface inside $\Pj^n(\C)$ that is an algebraic variety.
+%\begin{pr}
+%$\cal H/\Ga(N)$ is an algebraic variety definable over $\Q$. (Its closure is a projective algebraic variety.)
+%\end{pr}
+%\begin{proof}
+%Given a compact Riemann surface $X$ and $X/G$, if $X/G$ is algebraic 
+%It suffices to find a finite number of holomorphic functions $\{f_j\}$ on $X$ such that $\C(\{f_j\})$ is the field of meromorphic functions on $X$, and $\C(\{f_j\})$ is an algebraic extension defined over $\Q$ of a purely transcendental extension.
+%\cong \Frac\pa{\C[X_1,\ldots, X_n]/I}$ where $I$ is an ideal defined over $\Q$.
+%\end{proof}
+%\fixme{I don't know in what generality these hold.}
+%\begin{pr}
+%Let $G$ be a finite group acting on $X$. 
+%Suppose $X,X/G$ can be defined as (projective) algebraic curves (defined over $\Q$). Let $H\subeq G$. Then $X/H$ can be defined as a (projective) algebraic curve (defined over $\Q$).
+%\end{pr}
+%\fixme{Do I need that the extension of function fields has degree $|G|$?}
+%\begin{proof}
+%Sub-(field extensions) of $\C(X)/\C(X/G)$ correspond to algebraic curves that have a map from $X$ and a map to $X/G$. We have $\C(X/H)=\C(X)^H$ by Galois theory. The function field of $\C(X/H)$ is definable algebraically.
+%\end{proof}
+%\fixme{Do I need to worry about singularities?}
+%From this we conclude that if $\Ga$ is a congruence subgroup, $\cal H/\Ga$ or $\cal H^*/\Ga$ can be defined as an algebraic variety over $\C$ and over $\Q$, and that the projection maps $\cal H/\Ga\to \cal H/\Ga'$ are also defined over $\Q$.
+
+\subsection{Hecke correspondence}
+
+Note that points of $X_0(N,p)$ represent isomorphism classes
+\[
+\ph:E\to E', \an{P},\qquad \deg \ph=p, P\text{ of order }n,\an{P}\cap \ker \ph=\phi
+\]
+We want to define the Hecke correspondence $T_p$ on $X_0(N)$ as taking $[E,\an{P}]$ to all the $[E',\an{P}]$ where there is a map $\ph: E\to E'$ of degree $p$ and $P\nmid \ker \ph$. Putting this in the framework of~\ref{df:correspondence2}, $Z=X_0(N,p)$ and $X=X_0(N)$, we define the correspondence as follows.
+\begin{df}
+Define the \textbf{Hecke correspondence} $(X_0(N,p),X_0(N),\Phi,\Psi)$ by
+\beq{eq:hecke-corr}
+\xymatrix{
+&[\ph:E\to E',\an{P}]\mt{ld}_{\Phi} \mt{rd}^{\Psi} &\\
+[E,\an{P}] & & [E',\an{P}].
+}
+\eeq
+Concretely on $\cal H$, it sends
+\[
+\xymatrix{
+&(\an{\tau,1},\an{\fc{\tau}{p}},\rc{N})\mt{ld}_{\Phi} \mt{rd}^{\Psi}&\\
+(\an{\tau,1},\an{\rc{N}}) & & \pa{\an{\fc{\tau}p,1},\an{\rc{N}}}.
+}
+\]
+Similarly define the Hecke correspondence $(X_1(N,p),X_1(N),\Phi,\Psi)$, but with $P$ instead of $\an{P}$.
+\end{df}
+Note these are maps of algebraic varieties. For $\Phi$ this is clear as it is just the projection map. For $\Psi$ we check that this map corresponds to a field extension. \fixme{We ask: what data stabilizes $(\an{\fc{\tau}{p},1},\an{\rc N})$? It's a group isomorphic (conjugate) to $\Ga_0(N)$, the group fixing $(\an{\tau,1},\an{\rc N})$, so corresponds to a field extension isomorphic to the field extension corresponding to $X_1(N)$. We hence get a map to $X_1(N)$. How does this whole argument actually work?}
+%we need that the map $\tau\mapsto \fc{\tau}{p}$ is algebraic, i.e., for $f$ a meromorphic function on $X_i(N)$, that $f\pf{\tau}{p}$ algebraic over $\C(f)$. 
+%\fixme{How does this go? This reminds me of trying to show $j(N\tau)$ is algebraic over $\C(j)$. There we look at the conjugates $j(N\ga \tau)$. Do we do something here? But we have $\fc{\tau}{p}$ instead of $\tau$ is the multiplication/division correct?}
+%\fixme{Actually, this is clearer from the ``what group fixes the data" perspective. Do this! p. 62.}
+%But this is the same argument to show that 
+
+To get from a correspondence to a map in the form $[P]\mapsto \sum [Q]$, we simply take the map on divisors. This also defines a map on the Jacobians---as a group the Jacobian is just the divisor class group. We have a map $X_0(N)\to \Div(X_0(N))$, which we compute explicitly. It's compatible with the map on Jacobians.
+
+%(A few notes on Jacobians: Given a morphism $f:X\to Y$, we have a map $\Pic f: \Jac(Y)\to \Jac(X)$ and a map $\Alb f:\Jac(X)\to \Jac(Y)$. The map $\Pic f$ on points is just induced by  $f^*: \Div(Y)\to \Div(X)$. We get a map in the forward direction because $\Jac(Y)$ is an abelian variety. 
+%\fixme{You can draw some nice commutative diagrams.}
+%Thinking of sections as functions, the map on sections is $g\mapsto (y\mapsto \sum_{x \in f^{-1}(y)}g(x)$. \fixme{Okay, this is inaccurate because this isn't how you write maps on schemes.})
+
+%Here's a diagram of how this applies to the correspondence. Note $\Pico$ is just $\Jac$ here.
+%\[
+%\xymatrix{
+%X\ar[d]& \ar[l]_\Phi Z \ar[r]^{\Psi}\ar[d] & X\ar[d]\\
+%\Pico X\ar[r]^-{\Alb \Phi} & \Pico Z \ar[r]^{\Pic \Phi} & \Pico X.
+%}
+%\]
+%\fixme{What's the minimal algebraic geometry input we need here? Basically we need to know how to define maps between Jacobians, so that we can view $T_p$ as a map between Jacobians. Here we define $T_p$ in terms of valid morphisms $\Phi,\Psi$, so we're good.} %When is a map between divisor class groups a valid map on the Jacobian?
+
+%We won't need it, but 
+We can compute the explicit action of Hecke. (Sometimes the Hecke operators are defined in this explicit way.)
+
+\begin{pr}
+As maps $X_i(N)\to \Div(X_i(N))$, we have
+\begin{align}
+X_0(N): && T_p(\tau) & = \sum_{i=0}^{p-1} \ba{\fc{\tau+i}{p}}+\begin{cases}
+[p\tau],&p\nmid N\\
+0,&p\mid N.
+\end{cases}\label{eq:Tp-X0}\\
+X_1(N): && T_p(\tau) & = \sum_{i=0}^{p-1} \ba{\fc{\tau+i}{p}}+\begin{cases}
+[p\an{p}\tau],&p\nmid N\\
+0,&p\mid N.
+\end{cases}
+\label{eq:Tp-X1}
+\end{align}
+\end{pr}
+Note the similarity to elliptic curves in that we get more stuff when we have ``good reduction."
+
+\fixme{Note: no ramification in maps $\Phi,\Psi$ outside the cusps? This is important in making all the coefficients 1.}
+\begin{proof}
+We use the description of the Hecke correspondence in~\eqref{eq:hecke-corr}. $T_p$ will take a lattice $\La$ representing an elliptic curve to the lattices $\La'$ containing $\La$ as an lattice of index $p$, such that $\La'$ doesn't intersect $\an{P}$ except trivially. The lattices of super-index $p$ of $\an{\tau,1}$ are $\an{\fc{\tau+i}{p},1}$ and $\an{\rc{p},\tau}$ which is homothetic to $\an{1,p\tau}$ (recall homothetic lattices are identified).
+\[
+[\an{\tau,1}]\mapsto \sum_{i=0}^{p-1} [\an{1,\fc{\tau+i}{p}},\an{\rc N}]+\ub{\ba{\an{\rc p,\tau},\an{\rc N}}}{?}.
+\]
+The last one is valid only if $p\nmid N$, since otherwise the subgroup intersects $\an{\rc p,\tau}$ more than trivially. This gives~\eqref{eq:Tp-X0}. The reasoning for $X_1(N)$ is similar, except now we care about the actual point. We find
+\[
+\ba{\an{\tau,\rc p},{\rc N}}=\ba{\an{p\tau, 1},\fc{p}{N}}.
+\]
+Hence we have to multiply $\tau$ by a matrix of the form $\smatt {p^{-1}}00p\pmod N$ so that $1\mapsto c\tau+d\equiv p\pmod N$; this is exactly the diamond operator. (This didn't appear for $X_0$ because the matrix is in $\Ga_0(N)$ so acts as the identity on $X_0(N)$.) 
+\end{proof}
+We now characterize all isogenies of $E$ over $\F_p$.
+\begin{pr}
+Suppose that $E$ has ordinary reduction at $p$. Let $\ph:E\to E'$ be an isogeny of degree $p$. Then either $E'\cong E^{(p)},\ph=\ph_p$ (the Frobenius) or $\wh{\ph}:E'\to E\cong {E'}^{(p)}$ (so the dual to the Frobenius). 
+\end{pr}
+\fixme{$\cong$ or $=$?}
+\begin{proof}
+Because $E$ is ordinary, $E(\fpb)[p]\cong \Z/p$. 
+%We have $E(\qb)[p]\cong \Z/p\times \Z/p$. Let $\La$ be the kernel of reduction. 
+
+We use the following fact: every isogeny $\ph$ between elliptic curves factors uniquely as $\la \circ \ph_p^r$ where $\la$ is separable and $\ph_p^r$ is the Frobenius (hence totally inseparable). Note $\deg\ph=p^r\deg\la$. Consider 2 cases.
+\begin{enumerate}
+\item
+$\ph: E\to E'$ factors as $\la\circ \ph_p$. Then $\la$ is an isomorphism so $E'\cong E^{(p)}$ and $\ph$ is just $\ph_p$ (under this identification?).
+\item
+$\ph: E\to E'$ is separable. Now $\wh{\ph}\circ \ph=[p]$ is inseparable so $\wh{\ph}$ is totally inseparable. By item 1, it is the Frobenius. $\ph$ is the unique dual to the Frobenius $E'\to E$, the Vershiebung. (Note that there is one possibility for $E'$ up to isomorphism, because they are all isomorphic to $E^{(p^{-1})}$, taking the $p$th root of all the coefficients of $E$.)
+\end{enumerate}
+\end{proof}
+\fixme{We just have this for ordinary -- OK?} 
+Consider $p\nmid N$. Then $T_p$ maps $E$ to $p+1$ curves $E'$. Only 1 of them can have kernel corresponding to the kernel of Frobenius, and the others are duals to Frobenius. 
+
+Claim: if $\ph: E\to E'$ reduces to the Frobenius map iff $\ker\ph=\ker (E(\qb)\to \wt E(\fpb))$. Proof: Let $E$ correspond to $\an{\om_1,\om_2}$ and the map $E\to E'$ correspond to $\C/\an{\om_1,\om_2}\mapsto \C/\an{\om_1,\fc{\om_2}{p}}$. 
+We have maps
+\bal
+\xymatrix{
+E(\qb)\ar[r]^{\ph}\ar[d]& E'(\qb)\ar[r]^{\wh\ph}\ar[d] &E(\qb)\ar[d]\\
+\wt E(\fpb) \ar[r]^{\wt{\ph}} & \wt E'(\fpb)\ar[r]^{\wt{\hat\ph}} & \wt E(\fpb).}
+\end{align*}
+Because $E,E'$ are isogenous, they have the same kind of reduction \fixme{(why?)}, namely ordinary. So taking $p$-torsion points 
+gives
+\bal
+\xymatrix{
+\Z/p\times\Z/p\ar[r]^{(1,p)}\ar[d]& \Z/p\times \Z/p\ar[r]^{(p,1)}\ar[d] &\Z/p\times \Z/p\ar[d]\\
+\Z/p \ar[r]^{\wt{\ph}} & \wt \Z/p\ar[r]^{\wt{\hat\ph}} & \Z/p }
+\end{align*}
+The kernel of the reduction is the same as $\ker\ph$ iff the left map is projection along the first factor. The left map is projection along the first factor iff the middle map is projection along the first factor (the easiest way to see this is to look at $p^2$-torsion points instead. If the left map is $\pi_1$, then we can choose basis for $\Z/p^2\times \Z/p^2$ so it's still $\pi_1$ here. The second factor maps to 0 along either way of the left square, so the middle map is $\pi_1$. If the left map is not $\pi_1$ the argument is similar).
+This is true iff the bottom right map is 0, i.e., $|\ker\wt{\hat{\ph}}|=\deg\wt{\hat{\ph}}$, so $\wt{\hat{\ph}}$ is separable and the bottom left map is purely inseparable, i.e., the Frobenius. 
+\fixme{Working with actual groups is messy here. Working with group schemes is nicer, see the scheme-theoretic proof.}
+
+In all other cases, the map is the dual to Frobenius.
+
+\begin{pr}
+Define $\Ell_1(N)(K)$ as the isomorphism classes of $(E/K,P)$ such that $P$ is a point of order $N$ on $E$. Then for $p\nmid N$ there is a natural reduction map $\Ell_1(N)(\qb)_{\text{good}}\to \Ell_1(N)(\fpb)$ where ``good" means the subset of elliptic curves with good reduction.
+Then
+\[
+\wt{T_p([E,P])}=[\wt E^p,\wt P^p]+p[\wt E^{p^{-1}},p\wt P^{p^{-1}}].
+\]
+\end{pr}
+\begin{proof}
+Of the $p+1$ maps $E\to E'$, one of the maps reduces to Frobenius, namely, the map with $\ker\ph$ equalling the kernel of reduction. The other $p$ map to Vershiebung.
+\end{proof}
+Letting $\si_{\mfp}$ be the map taking $[E,P]\mapsto [E',P']$ where $[E',P']$ is any elliptic curve reducing to $[\wt E^p,\wt P'^p]$. \fixme{Does this actually correspond to the Frobenius map {\it on the Jacobian}?} 
+Let $\Ell_1(N)(\qb)_{\text{ord}}$ be the subset of $\Ell_1(N)(\ol{\Q})_{\text{good}}$ consisting of $[E,P]$ such that $E$ has ordinary reduction at $p$. 
+Then we get \[T_p=\si_\mfp+p\an{p}\si_\mfp^{-1}\]
+as maps
+\[
+\Ell_1(N)(\qb)_{\text{ord}}\to \Div(\Ell_1(N)(\Q)_{\text{ord}})/\ker (\text{red}_{\mfp}).
+\]
+Now the map $T_p$ is computed from the correspondence $(X_1(N,p),X_1(N),\Phi,\Psi)$, so it is compatible with the actual map on Jacobians $\Alb \Psi \circ \Pic \Phi$. %(we get from $X_1(N)\to \Pico X_1(N)$ to $J_1(N)$ by extending to $\Div X_1(N)$, taking the degree 0 part, and modding out by principal divisors).
+
+From this we get Theorem~\ref{thm:es2}.
+
+\section{Scheme-theoretic approach}
+
+
+
+\subsection{Background on group schemes}
+
+We consider $\pat{FCGp/$k$}$ where FCGp stands for ``finite locally free commutative group scheme."
+
+Each such scheme can be decomposed in a canonical way, and the pieces can be identified using an explicit classification of all objects in $\pat{FCGp/$k$}$. We'll apply this to $E[p]$.
+
+\begin{df}
+Let $k$ be any field. %can be char 0 but less interesting.
+Let $G\in \pat{FCGp/$k$}$.
+\begin{enumerate}
+\item
+$G$ is \textbf{infinitesimal} if $G$ is connected. (This is true iff $G_{\ol k}$ is connected, iff $G_{\text{top}}=\{\cdot\}$ (as $G$ has a finite number of points), iff $G_{\ol k,\text{ top}}=\{\cdot \}$.)
+\item
+$G$ is \textbf{multiplicative} (diagonalizable) iff $G^{\vee}$ is \'etale.
+\item
+$G$ is \textbf{bi-infinitesimal} (local-local) iff $G$ and $G^{\vee}$ are infinitesimal.
+\end{enumerate}
+\end{df}
+In summary,
+\begin{center}
+
+\begin{tabular}{|c|c|c|}
+\hline 
+$G\,\backslash\, G^{\vee}$  & \'etale & infinitesimal\tabularnewline
+\hline 
+\'etale & $\chr k\ne p$ & unipotent\tabularnewline
+\hline 
+infinitesimal & multiplicative & bi-infinitesimal\tabularnewline
+\hline 
+\end{tabular}
+\end{center}
+
+(The \'etale-\'etale case cannot happen unless $\chr k\ne p$.)
+
+The classification of FCGp/k of order $p$ \fixme{(I haven't actually defined order)} is easy.
+\begin{pr}
+Let $\chr k=p$.
+The only FCGp/k of order $p$ are the following, where the position in the table corresponds to the classification above.
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\cline{2-2} 
+\multicolumn{1}{c|}{} & $\ul{\Z/p\Z}$\tabularnewline
+\hline 
+$\mu_{p}$ & $\al_{p}$\tabularnewline
+\hline 
+\end{tabular}
+\end{center}
+
+Here 
+\begin{enumerate}
+\item
+$\ul{G}$ is a constant group scheme,
+\item
+$
+\mu_p=\ker([p]:\G_m\to \G_m)
+$
+\item 
+$
+\al_p:=\ker(F_{\G_a}:\G_a\to \G_a).
+$
+\end{enumerate}
+Moreover, $\al_p^{\vee}\cong \al_p$.
+%(Recall addition on $\G_a$ was given by  the map $x\mapsto x\ot 1+1\ot x$.) We have $\al_p=\Spec k[x]/(x^p)$ with the same comultiplication as $\G_a$. %\fixme{(?)}. 
+%Note $\al_p^{\vee}\cong \al_p$ which can be seen by the existence of a perfect pairing 
+%%cannot make sense of 1/p! if p=0.
+%\[
+%\al_p\times \al_p\to \mu_p
+%\]
+%given by 
+%\[
+%(x,y)\mapsto \exp(xy)=1+xy+\cdots +\fc{(xy)^{p-1}}{(p-1)!}.
+%\]
+%\end{ex}
+\end{pr}
+
+The following decomposition is key. 
+\begin{pr}
+Suppose $\chr k=p$ and let $G\in (p\text{-FCGp}/k)$. (That is, some $[p^r]$ is the zero morphism.)
+\begin{enumerate}
+\item
+(Connected-\'etale sequence) 
+There exists a canonical exact sequence
+\[
+0\to G^0 \to G\to G_{\text{\'et}}:=G/G^0\to 0
+\]
+%think of in fppf topology
+where $G^0$ is the connected component of the identity element $e$, $G^0$ is infinitesimal, and $G_{\text{\'et}}$ is \'etale.
+
+The sequence splits.
+\item
+There is a unique decomposition
+\[
+G\cong G_{\text{mult}}\times G_{\text{bi}}\times G_{\text{\'et}}
+\]
+where $G_{\text{mult}}$ is multiplicative (with \'etale dual), $G_{\text{bi}}$ is bi-infinitesimal, and $G_{\text{\'et}}$ is \'etale. We have $G^0=G_{\text{mult}}\times G_{\text{bi}}$.
+\end{enumerate}
+\end{pr}
+The multiplicative part becomes the \'etale part in the dual and vice versa; the bi-infinitesimal part stays the same.
+
+Now we apply this theory to elliptic curves over characteristic $p$. We can not only classify $E[p]$ as {\it groups} (it can be $\Z/p$ or $\{0\}$, in which case we say $E$ is ordinary or supersingular), but classify $E[p]$ as {\it group schemes}
+\begin{pr}
+Let $E$ be an elliptic curve over $k$ of characteristic $p$.
+\begin{enumerate}
+\item
+If $E$ is ordinary, then $E[p]=\mu_p\times \ul{\Z/p}$.
+\item
+If $E$ is supersingular, then $E[p]=\al_p\times \al_p$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+We'll just need the case where $E$ is ordinary, so we prove that. The \'etale part of $E[p]$ is nontrivial because $E[p]^0$ has 1 point while $E[p]$ has $p$ points. 
+Note $E[p]$ has order $p^2$ \fixme{(I haven't defined order)}. An elliptic curve is canonically isomorphic to its dual, so the same is true of $E[p]^{\vee}=E^{\vee}[p]=E[p]$. The \'etale parts of $E,E^{\vee}$ are both nontrivial and they get matched up with the multiplicative parts of $E^{\vee},E$. The only \'etale FCGp/k of order $p$ is $\ul{\Z/p}$, so we get $E[p]=\mu_p\times \ul{\Z/p}$.
+\end{proof}
+
+
+
+\subsection{Relating the different fields}
+\label{ss:es-diff-fields}
+%{$\Q$ and $\F_p$}
+
+At various stages of the proof, we need to think of the Jacobian $\Pico_{X_1(N)/\Z[\rc N]}$ over different fields $\Q,\Q_p,\F_p$. What does working in these different fields accomplish for us?
+
+For greatest generality, we seek the ``smallest" scheme that $X_0(N)$ can be defined over; it is $\Spec \Z[\rc N]$. \fixme{Why?} Then for every scheme $S$ with $S\to \Spec \Z[\rc N]$, we can define the Jacobian over $S$. Notably, we can define the $\F_p$-points because we have $\Spec \ol{\F_p}\to \Spec \Z[\rc N]$ coming from $\Z[\rc N]\to \fpb$. (Basically we can reduce a variety modulo $p$ as long as $p$ doesn't appear in the denominator in the coefficients.)
+
+The problem is that we defined $(T_p)_*$ from the correspondence $(X_1(N,p),X_1(N),\Phi,\Psi)$ and $X_1(N,p)$, as a quotient of $X_1(Np)$ is only defined over $\Z[\rc{Np}]$.
+
+We have a map $\Pico_{X_1(N)/\Z[\rc N]}\to \Pico_{X_1(N)/\Z[\rc N]}$ defined over $\Z[\rc{Np}]$ but not necessarily over $\Z[\rc{N}]$.
+
+\begin{df}[N\'eron models]
+Let $R$ be a Dedekind domain with fraction field $K$. Let $A_K$ be a smooth separated scheme (for instance, an abelian variety) defined over $K$. The \textbf{N\'eron model} of $A$ over $R$ (if it exists) is $A_R$ defined over $R$, satisfying the following. (1) Its generic fiber (basechange to $K$) is $A_K$. (2) If $X$ is smooth separated over $R$ with generic fiber $X_K$ and $\ph:X_K\to A_K$, there is a unique $\ph_R:X_R\to A_R$ making the following commute.
+\[
+%built from es1.hs
+%emptyD -: tr2 (0,0) "X_R" "A_R" "\\Spec R" "\\ph_R" "" "" -: c "s" "-" (-3) -: tr2 (3,-1) "X_K" "A_K" "\\Spec K" "\\ph" "" "" -: ls (a "") [(i+3,i)|i<-[1..3]] 
+\xymatrix{ &  &  & X_K\ar@{->}[llld]^-{}_-{}\ar@{->}[rd]^-{}_-{}\ar@{->}[rr]^-{\ph}_-{} &  & A_K\ar@{->}[llld]^-{}_-{}\ar@{->}[ld]^-{}_-{}\\
+X_R\ar@{->}[rd]^-{}_-{}\ar@{-->}[rr]^-{\ph_R}_-{} &  & A_R\ar@{->}[ld]^-{}_-{} &  & \Spec K\ar@{->}[llld]^-{}_-{} & \\
+ & \Spec R &  &  &  & }
+\]
+\end{df}
+
+\begin{thm}
+Every abelian variety has a N\'eron model.
+\end{thm}
+
+Becuse $\Pico_{X_1(N)/\Z[\rc N]}$ is an abelian variety, it follows we can define $(T_p)_*$ over $\Z[\rc N]$.
+
+Since we don't have a direct definition, though, we need to work in $\qpb$ or $\qb$ rather than $\fpb$. This is fine because $\fpb$-points can always be lifted to $\qpb$. Note also that we don't in fact lose any $\ell^n$-torsion points going from $\qpb$ to $\ol{\Q}$, as $V_{\ell}$ is equal to $\ql^{2g}$ in both cases.
+
+%Our plan is to compute the action of Hecke on $\Pico X_1(N)$ by computing it on the reduction modulo $p$. We first justify that we can reduce modulo $p$.
+
+%\fixme{What do we need to know?}
+%
+%We use the fact we have an isomorphism
+%\[
+%\vl(
+%\]
+\subsection{Proof of Theorem~\ref{thm:es}}
+\begin{enumerate}
+\item
+First, it suffices to check on a Zariski-dense subset. (If $f,g:X\to Y$ agree on a Zariski-dense subset, then they agree on all points. If they agree on all points and $X,Y$ are reduced, then they are equal as morphisms (?).)
+\item
+The ordinary points on $X_1(N)(\fpb)$---points representing $(E,P)$ where $E$ is ordinary---are dense. This is because $E$ is ordinary iff $j(E)\nin \F_{p^2}$, and this excludes finitely many isomorphism classes $[E,P]$'s.
+\item
+We calculate $(F+\an{p}_* F^{\vee}):J_p(\fpb)\to J_p(\fpb)$. This is straightforward using $p=FF^{\vee}=F^{\vee}F$; we get that the map on $\Pico$ is induced by the map on $\Div^0$
+\[
+[E,P]\mapsto [E^{(p)},P^{(p)}]+p[E^{(p^{-1})},pP^{(p^{-1})}].
+\]
+\item 
+For $(T_p)_*$ we can't directly calculate its action on $J_p$ because the definition was indirect. Instead we have to lift to something that can map to $\Spec\Z[\rc{Np}]$.
+
+We calculate on $R:=\Z_p\ur$. \fixme{Why?} First, note that the reduction map $Y_1(N)(R)\tra Y_1(N)(\fpb)$ is surjective because $R$ is henselian (because we chose $R=\Z_p\ur$).
+
+Over $\ol{K}=\qpb$, the points of $X_1(N)$ are classes $[E,P]$ over $\ol{K}$, and $(T_p)_*$ acts as defined by the correspondence: it acts on $\Pico$ as the map induced from $\Div^0$:
+\[
+[E,P]\mapsto \sum_C[E/C,P\pmod C]
+\]
+where the sum is over subgroup-schemes of order $p$, and hence contained in $E[p]$. (\fixme{order again}) 
+{\it Suppose $E$ is ordinary.}
+We claim that exactly one of the $E/C$ is $\mu_p$ and the other $p$ are $\ul{\Z/p}$. 
+\begin{enumerate}
+\item
+We know $E[p]$ has a {\it unique} connected-\'etale sequence $1\to \mu_p\to E[p] \to \ul{\Z/p\Z}$, so exactly 1 term is $[E/\mu_p,P\pmod{\mu_p}]$.
+\item
+The only other possibility is $E/(\Z/p\Z)$ and so appears $p$ times.
+We match this up with 3, by showing $E/\mu_p\cong E^{(p)}$ and $E/\ul{\Z/p}\cong E^{p^{-1}}$.
+
+%Note that $VF=FV=[p]$, $F$ has trivial kernel (on points),
+
+
+\end{enumerate}
+\item
+The only 2 isogenies are the Frobenius and its dual. The Frobenius map $\ph_p:E\to E^{(p)}$ has kernel that is trivial {\it on points}; since it is (finite flat) of degree $p$, the kernel must be $\mu_p$. On points, the Vershiebung map $\ph_p^{\vee}$ has nontrivial kernel (because on points, $[p]$ has nontrivial kernel, and $\ph_p$ has trivial kernel), so it must be $\ul{\Z/p\Z}$. Thus the terms in (a) and (b) in item 4 are
+$[E^{(p)},P^{(p)}]$ and $[E^{(p)},pP^{(p^{-1})}]$. (We get the $P$ from $\ph_p\ph_p^{\vee}=\ph_p^{\vee}\ph_p=[p]$.)
+\end{enumerate}
+Combining 3 and 5, we see that $F+\an{p}_*F^{\vee}$ and $(T_p)_*$ match on the Zariski-dense subset of points corresponding to ordinary elliptic curves, so by (1) they are equal as morphisms.
+
+%\input{chapters/1.tex}
+ 
+\bibliographystyle{alpha}
+\bibliography{\filepath/refs}
+\end{document}
