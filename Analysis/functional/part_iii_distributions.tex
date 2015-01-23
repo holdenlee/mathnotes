@@ -1,0 +1,77 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+%\def\filepath{C:/Users/holden-lee/Dropbox/Math/templates}
+
+\input{\filepath/packages_book.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+\input{\filepath/other.tex}
+\input{\filepath/theorem_num.tex}
+
+\def\name{Distribution Theory and Applications}
+
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Part III}
+\chead{} 
+\rhead{Distribution Theory and Applications} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+%\setlength\textheight{648pt}
+
+\begin{document}
+%\input{\filepath/titlepage.tex}
+%\maketitle
+\title{Distribution Theory and Applications}
+\author{Part III Course}
+\maketitle
+%\tableofcontents
+
+\startcontents
+\printcontents{ }{-1}{}
+
+\chapter*{Introduction}
+Andrew Ashton (acla2@damtp.cam.ac.uk) taught a course on Distribution Theory and Applications at the University of Cambridge in Lent (Winter) 2014. Example sheets are available at  \url{http://damtp.cam.ac.uk/user/examples/indexP3.html}.  
+These are my ``live-\TeX ed'' notes from the course.
+
+Book recommendations (low-tech to high-tech):
+\begin{enumerate}
+\item
+Introduction to Fourier Analysis and Generalized Functions, Lighthill, \cite{Lighthill}
+%nice, fairly nice
+\item
+Introduction to the Theory of Distributions, Friedlander, Joshi, \cite{FJ}
+\item
+The Analysis of Linear Partial Differential Operators, Lars H\"ormander, \cite{Hormander}
+\end{enumerate}
+
+\setcounter{chapter}{-1}
+\input{distribution_chapters/1.tex}
+\input{distribution_chapters/2.tex}
+\input{distribution_chapters/3.tex}
+\input{distribution_chapters/4.tex}
+\input{distribution_chapters/5.tex}
+
+\appendix
+\input{distribution_chapters/a.tex}
+
+\chapter{Review}
+\stopcontents
+
+\startcontents%[chapters]
+\printcontents{ }{-1}{}%[chapters]
+
+\input{review.tex}
+
+\bibliographystyle{plain}
+\bibliography{\filepath/refs}
+
+\printnomenclature
+\printindex
+\end{document}

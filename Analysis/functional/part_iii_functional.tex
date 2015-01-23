@@ -1,0 +1,106 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+%\def\filepath{C:/Users/holden-lee/Dropbox/Math/templates}
+
+\input{\filepath/packages_book.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+\input{\filepath/other.tex}
+\input{\filepath/theorem_num.tex}
+
+\def\name{Functional Analysis}
+
+\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Part III}
+\chead{} 
+\rhead{Functional Analysis} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\title{Functional Analysis}
+\author{Part III Course}
+\date{Michaelmas 2013}
+\maketitle
+
+\tableofcontents
+
+\chapter*{Introduction}
+Andr\'as Zs\'ak (a.zsak@dpmms.cam.ac.uk) taught a course on Functional Analysis at
+the University of Cambridge in Michaelmas (Fall) 2013. The website is \url{http://www.dpmms.cam.ac.uk/\~az10000}.  
+These are my ``live-\TeX ed'' notes from the course.  The template was created by Akhil Mathew.
+
+%\fixme{Questions will be in red.}
+
+%\cpbox{Things to remember will be in boxes.}
+
+%\wrbox{Things to watch out for will also be in boxes.}
+
+We'll cover the main theorems that are useful in many other areas.
+
+Here's an outline of the course.
+\begin{enumerate}
+\item
+Introduction
+\item
+Hahn-Banach Theorem
+\item
+Riesz Representation Theorem (dual of continuous functions in a compact Hausdorff space)
+\item
+Weak topologies (weak and weak*, Banach--Alaoglu, etc.)
+\item
+Convexity and Krein-Milman Theorem
+\item
+Banach algebras
+\item
+Holomorphic functional calculus
+\item
+$C^*$-algebras (a type of Banach algebra)
+\item
+Borel functional calculus and spectral theory
+\end{enumerate}
+Here are some recommended books.
+\begin{enumerate}
+\item
+G. R. Allan: Introduction to Banach Spaces and Algebras, OUP
+\item
+B. Bollobas: Linear Analysis.
+\item
+G. J. Murphy: $C^*$-algebras and operator theory
+\item
+W. Rudin: Real and Complex Analysis, Functional Analysis
+\end{enumerate}
+Prerequisites are linear analysis, complex analysis (section 7), and measure theory (sections 3, 9).
+
+
+\input{functional_chapters/1.tex}
+\input{functional_chapters/2.tex}
+\input{functional_chapters/3.tex}
+\input{functional_chapters/4.tex}
+\input{functional_chapters/5.tex}
+\input{functional_chapters/6.tex}
+\input{functional_chapters/7.tex}
+\input{functional_chapters/8.tex}
+\input{functional_chapters/9.tex}
+\appendix
+
+\input{functional_chapters/a.tex}
+\input{functional_chapters/b.tex}
+\input{functional_chapters/c.tex}
+\input{functional_chapters/summary.tex}
+
+\bibliographystyle{plain}
+\bibliography{\filepath/refs}
+
+\printnomenclature
+\printindex
+\end{document}
