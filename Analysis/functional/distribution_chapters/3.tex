@@ -1,0 +1,289 @@
+\chapter{Fourier analysis and tempered distributions}
+Whenever we do anything significant about distributions, we'll end up doing Fourier analysis. 
+\section{Test functions and distributions}
+The relevant space of test functions to work on when using the Fourier transform is the space of functions with rapid decay.
+\begin{df}\llabel{df:dist3-1}
+The \textbf{Schwartz space} $S(\R^n)$ consists of smooth functions $\ph:\R^n\to \C$ such that 
+\[
+\ve{\ph}_{\al,\be}:=\sup_{\R^n}|x^{\al}\pl^{\be}\ph|<\iy
+\]
+for all multi-indices $\al,\be$. 
+%is this Frechet?
+A sequence $\{\ph_m\}_{m\ge 1}$ in $S(\R^n)$ tends to 0 if $\ve{\ph}_{\al,\be}\to 0$ for all multi-indices $\al,\be$.
+\end{df}
+We can differentiate $\ph$ as many times as we want and multiply by any power of $x$, and this will be bounded; hence the name rapid decay.
+
+So the elements of $S(\R^n)$ decay faster than the reciprocal of any polynomial, as do their derivatives. The archetypal element of $S(\R^n)$ is the Gaussian 
+\[
+\ph(x)=e^{-|x|^2}=e^{-x_1^2-\cdots -x_n^2}.
+\]
+\begin{df}\llabel{df:dist3-2}
+A linear map $u:S(\R^n)\to \C$ is called a \textbf{tempered distribution} if there exists a constant $C,N$ such that
+\[
+\ab{\an{u,\ph}}\le C\sum_{|\al|,|\be|\le N}\ve{\ph}_{\al,\be}
+\]
+for all $\ph\in S(\R^n)$. Denote the space of all such linear maps by $S'(\R^n)$. 
+\end{df}
+We can show an equivalent definition in terms of sequential continuity, i.e., $u\in S'(\R^n)$ iff $\an{u,\ph_m}\to 0$ for all sequences $\{\ph_m\}_{m\ge 1}$ in $S(\R^n)$ that tend to 0.
+
+We can define all the usual operations on tempered distributions, i.e., differentiation, etc. In fact, we can view $S'(\R^n)$ as a subspace of $D'(\R^n)$: %From the test function point of view, $D(\R^n)\subeq S(\R^n)\subeq \cal E(\R^n)$
+\[
+D(\R^n)\hra S(\R^n)\hra \cal E(\R^n)
+\]
+where the inclusions are continuous. The distributions (dual spaces) satisfy
+\[
+\cal E'(\R^n) \hra \cal S'(\R^n)\hra D'(\R^n).
+\]
+(The smaller the spce of distributions, the larger the space of distributions.)
+\section{The Fourier transform on $S(\R^n)$}
+We can now define the Fourier transform.
+\begin{df}\llabel{df:dist3-3}
+For $f\in L^1(\R^n)$, we define the \textbf{Fourier transform} by 
+\[
+\hat f(\la)=\int_{\la\in \R^n} e^{-i\la \cdot x}f(x)\,dx.
+\]
+\end{df}
+So the Fourier transform is well-defined on $S(\R^n)$ since if $\ph\in S(\R^n)$,
+\bal
+\int|\ph(x)|\,dx&= \int (1+|x|)^N |\ph(x)|(1+|x|)^{-N}\,dx\\
+&\le C\sum_{|\al|\le N}\ve{\ph}_{\al,0} \int(1+|x|)^{-N} \,dx\\
+&<\iy
+\end{align*}
+for $N$ sufficiently large.
+%shuffle around func in sch space
+\begin{lem}\llabel{lem:dist3-1}
+If $f\in L^1(\R^n)$ then $\hat f\in C(\R^n)$. 
+\end{lem}
+\begin{proof}
+If $\{\la_n\}_{n\ge 0}$ is a sequence in $\R^n$ such that $\la_n\to \la$, then
+\begin{align}
+\lim_{n\to \iy} \hat f(\la_n)
+&=\lim_{n\to \iy} \int e^{-i\la_n\cdot x}f(x)\,dx\\
+\llabel{eq:dist3-1}
+&=\int \lim_{n\to \iy} e^{-i\la_n\cdot x}f(x)\,dx\\
+&=\int e^{-i\la \cdot x} f(x)\,dx\\
+&=\hat f(\la).
+\end{align}
+In~\eqref{eq:dist3-1} we used the dominated convergence theorem~\ref{thm:dct}, justified since $|e^{-i\la_n\cdot x}f(x)|\le |f(x)|$ and $f\in L^1(\R^n)$. 
+\end{proof}
+This is a general property of the Fourier transform, and one reason it's useful in analysis. It tends to interchange the properties of smoothness/differentiability and decay. 
+easy to check decay. (It's usually more work to check the properties of smoothness than decay.)
+For example, if you know the Fourier transform $\hat f$ is very smooth, we can deduce $f$ decays rapidly. 
+This is exemplified by the following lemma.
+\begin{lem}\llabel{lem:df3-2}
+%1/\la^{\al}
+For $\ph\in S(\R^n)$ we have (remember $D:=-i\pl$, so $D^{\al}=\pa{-i\pdd{x_1}}^{\al_1}\cdots \pa{-i\pdd{x_n}}^{\al_n}$)
+\[
+(D^{\al}\ph)\hat{\,}(\la)=\la^{\al}\hat{\ph}(\la),\qquad 
+(x^{\be}\ph)\hat{\,}(\la)=(-D)^{\be}\hat{\ph}(\la)
+\]
+for all multi-indices $\al,\be$.
+\end{lem}
+\begin{proof}
+We have using \blu{integration by parts}
+\bal
+(D^{\al}\ph)\hat{\,}&=\int e^{-i\la\cdot x} (D_{x}^{\al}\ph)(x)\,dx\\
+&=\int \ph(x)(-D_x)^{\al} e^{-i\la \cdot x}\,dx\\
+&=\int \ph(x)\la^{\al}e^{-i\la\cdot x}\,dx\\
+&=\la^{\al}\hat\ph(\la).
+\end{align*}
+For the second equation, differentiate under the integral sign (justified by the dominated convergence theorem~\ref{thm:dct})
+\[
+(-D_{\la})^{\be}\hat\ph(\la)=\int(-D_{\la}^{\be} e^{-i\la \cdot x} \ph(x)\,dx=\int e^{-i\la \cdot x} x^{\be} \ph(x)\,dx =(x^{\be}\ph)^n(\la).
+\]
+\end{proof}
+
+The following theorem demonstrates why $S(\R^n)$ is the correct space to work on if you want to do Fourier analysis.
+\begin{thm}
+The Fourier transform defines a continuous isomorphism on $S(\R^n)$.
+\end{thm}
+\begin{proof}
+If $\ph\in S(\R^n)$ then we have
+\bal
+|D^{\be} \la^{\al}\hat\ph|&=\ab{
+\int e^{-i \la x} x^{\be}D^{\al}\ph\,dx
+}\\
+&<\iy\qquad \text{since }x^{\be}D^{\al}\ph\in S(\R^n) \text{ for all }\al,\be.
+\end{align*}
+Also, since $x^{\al}\in L^1(\R^n)$ for all $\al$, this implies $D_{\la}^{\al}\hat\ph$ is continuous for all $\al$ (Lemma~\ref{lem:dist3-1}), so $\hat\ph$ is smooth and $\ve{\hat\ph}_{\al,\be}<\iy$ for all multi-indices $\al,\be$, so $\hat{\ph}\in S(\R^n)$.
+
+It is also clear from this that the map $\ph\mapsto \hat\ph$ is continuous. 
+
+To prove the isomorphism, we will use the inverse Fourier transform. We want to prove
+\begin{align}
+\ph(x)&=\rc{(2\pi)^n} \ftla{\hat\ph(x)}\\
+\llabel{eq:dist3-2}
+&=\rc{(2\pi)^n} \ftla{\ba{\int e^{-i\la \cdot y}\ph(y)\,dy}}.
+\end{align}
+We cannot interchange the order of integration\footnote{Fubini's Theorem says that if $\iint |f(x,y)|\,dx\,dy<\iy$ then $\int\,dx\int\,dy \,f(x,y)=\int\,dy\int\,dx\,f(x,y)$.} because $\iint \,dy\,d\la$ is not absolutely convergent, since there is no decay in the $\la$-direction. We need to insert regularisation.
+%we would like to interchange, but not abs conv
+
+By the dominated convergence theorem, 
+\[\int e^{i\la\cdot x}\hat{\ph}\,d\la
+=\lim_{\ep\to 0} \int e^{-i\la \cdot x-\ep|\la|^2}\hat\ph(\la)\,d\la
+\]
+since $|e^{i\la x-\ep|\la|^2}\hat\ph(\la)|\le |\hat\ph(\la)|\in L^1$. We can now interchange the order of integration since the double integral is absolutely convergent for every $\ep>0$.
+
+\blu{lecture 10 Feb}
+
+Equation~\eqref{eq:dist3-2} now becomes
+\begin{align}
+\lim_{\ep\to 0} \rc{(2\pi )^n} \int e^{i\la\cdot x}e^{-\ep|\la|^2} \int e^{-i\la \cdot y}\ph(y)\,dy
+&=
+\lim_{\ep\to 0} \rc{(2\pi )^n} \int \ph(y) \ub{\ba{ \int e^{-i\la \cdot (x-y)-c|\la|^2}}}{A}\,dy.
+\llabel{eq:dist3-3}
+\end{align}
+We have 
+\bal
+A&=\prod_{i=1}^n\int e^{-i\la_i(x_i-y_i)-\ep\la_i^2}\,d\la_i\\
+&=\prod_{i=1}^n e^{-\ep\ba{\la_i-\pf{i(x_i-y_i)}{2\ep}}^2-\fc{(x_i-y_i)^2}{4\ep}}\,d\la_i&\text{completing square}\\
+&=\prod_{i=1}^n e^{-\fc{(x_i-y_i)^2}{4\ep}}\int e^{-\ep(\la_i-i\pf{x_i-y_i}{2\ep})^2}\,d\la_i\\
+&=\prod_{i=1}^n e^{-\fc{(x_i-y_i)^2}{4\ep}}\int e^{-\ep \la_i^2}\,d\la_i\\
+&=\prod_{i=1}^n e^{-\fc{(x_i-y_i)^2}{4\ep}}\sqrt{\fc{\pi}{\ep}}\\
+&=e^{-\fc{|x-y|^2}{4\ep}}\fc{\pi^{n/2}}{\ep^{n/2}}
+\end{align*}
+where we used that (integrating along the rectangle from $-R\to R\to R+\pf{x_i-y_i}{2\ep}i\to -R+\pf{x_i-y_i}{2\ep}i\to -R$),
+\bal
+\oint_{\ga}e^{-\ep \la_i^2}\,d\la_i&=0\\
+\implies \int e^{-\ep(\la_i-\pf{x_i-y_i}{2\ep}i)^2}\,d\la_i&=\int e^{-\ep\la_i^2}\,d\la_i.
+\end{align*}
+
+Then~\eqref{eq:dist3-3} becomes (letting $y'=\fc{x-y}{2\sqrt{\ep}}$)
+\bal
+&\quad \lim_{\ep\to 0}\rc{(2\pi)^n} \int \ph(y)e^{-\fc{|x-y|^2}{4\ep}}\fc{\pi^{n/2}}{\ep^{n/2}}\,dy\\
+&=\lim_{\ep\to 0} \rc{(2\pi)^n}\int \ph(x-2\sqrt{\ep}y')e^{-|y'|^2} \fc{\pi^{n/2}}{\ep^{n/2}}\ep^{n/2}\,dy'.
+\end{align*}
+Taking the limit, justified by dominated convergence~\ref{thm:dct},
+\[
+\rc{(2\pi)^n}\int e^{i\la\cdot x}\hat \ph(\la)\,d\la=\ph(x).
+\]
+So the Fourier transform is injective on $S(\R^n)$, i.e., $\hat{\ph}=0$ implies $\ph=0$. By changing sign of $x$, find
+\[
+\hat \ph(\la)=\int e^{-i\la \cdot x}\ba{
+\rc{(2\pi)^n}\int e^{i\mu\cdot x} \hat{\ph}(\mu)\,d\mu
+}\,dx.
+\]
+So the Fourier transform is also surjective. Hence it is a bijection on $S(\R^n)$.
+\end{proof}
+%riemann-hilbert. Fourier isomorphisms in nonlinear sense.
+A nicer proof is due to Fokas and Gelfand, and uses ``spectral analysis" of PDE, $\pd{\mu}{x}-ik\mu=\ph(x)$. Their proof applies to nonlinear Fourier isomorphisms and PDE's as well.
+%nonlinear PDEs
+
+\section{Fourier transform on $S'(\R^n)$}
+To define the Fourier transform on $S'(\R^n)$, we need the following famous lemma. 
+\begin{lem}[Parseval's Theorem]
+\llabel{lem:dist3-3}
+For $\ph,\psi\in S(\R^n)$, we have
+\[
+\int \hat{\ph}(x)\psi(x)\,dx=\int \ph(x)\hat\psi(x)\,dx.
+\]
+\end{lem}
+%self-adjoint
+\begin{proof}
+The LHS is 
+\bal
+\int \hat \ph(x)\psi(x)\,dx
+&=\int \ba{
+\int e^{-i \la\cdot x} \ph(\la)\,d\la
+}\psi(x)\,dx\\
+&=\int \ph(\la)
+\ba{
+\int e^{-i\la \cdot x}\psi\,dx
+}\,d\la\\
+&=\int \ph(\la)\hat \psi(\la)\,d\la
+\end{align*}
+by Fubini. 
+We can interchange the order of integration because the Schwartz functions $\ph,\psi$ decay fast in the $\la,x$ directions.
+\end{proof}
+If $u\in S(\R^n)$, then we can write Parseval as 
+\[
+\an{\hat u,\ph}=\an{u,\hat\ph},\qquad \ph\in S(\R^n).
+\]
+($\hat{\bullet}$ is self-adjoint.) But the RHS makes sense for any $u\in S'(\R^n)$, since $\ph\in S(\R^n)$ implies $\hat \ph\in S(\R^n)$. This gives rise to the following definition.
+\begin{df}\llabel{df:dist3-4}
+For $u\in S'(\R^n)$ define the Fourier transform $\hat u$ by 
+\[
+\an{\hat u,\ph}:=\an{u,\hat \ph}
+\]
+for all $\ph\in S(\R^n)$. 
+\end{df}
+For instance, we can compute the Fourier transform of $\de_0$.
+\[
+\an{\wh{\de_0},\ph}:=\an{\de_0,\hat{\ph}}=\hat\ph(0)=\int \ph(x)\,dx=\an{1,\ph}.
+\]
+So $\wh{\de_0}=1$. We can take the Fourier transform of a constant.
+\[
+\an{\hat 1,\ph}=\an{1,\hat \ph}=\int 1\cdot \hat \ph(\la) \,d\la =(2\pi)^n \ph(0)=\an{(2\pi)^n\de_0,\ph}
+\]
+by the Fourier inversion theorem. So $\de_0=\rc{(2\pi)^n} \hat 1$. In old-fashioned language, $\de(x)=\rc{(2\pi)^n}\int e^{-i\la \cdot x}\,d\la$.
+
+It is straightforward to show (using duality arguments) that 
+\[
+(D^{\al})\hat{\,} =\la^{\al}\hat u,\qquad (x^{\be})^=(-D)^{\be}\hat u
+\]
+for $u\in S'(\R^n)$. 
+\begin{thm}
+The Fourier transform defines a continuous isomorphism on $S'(\R^n)$.
+\end{thm}
+\begin{proof}
+We check that $\check u=(2\pi)^{-n}(\hat u)\hat{\,}$:
+\[
+\an{\check u,\ph}=\an{u,\check{\ph}}=\ub{\an{u,(2\pi)^{-n} (\hat \ph)\hat{\,}}}{(*)}=\an{(2\pi)^{-n}(\hat u)\hat{\,},\ph}
+\]
+where in $(*)$ we used Fourier inversion
+\[
+\ph(-x)=\rc{(2\pi)^n}\int e^{-i\la\cdot x}\ba{
+e^{-i\la \cdot y} \ph(y)\,dy
+}\,d\la.
+\]
+So we have $u=(2\pi)^{-n}[(\hat u)\hat{\,}]\check{\,}$. Continuity is proved as follows: if $u_m\to u$ in $S'(\R^n)$, ($\an{u_m,\ph}\to \an{u,\ph}$ for all $\ph\in S(\R^n)$), then $\wh{u_m}\to \hat u$, since $\an{\wh{u_m},\ph}=\an{u_m,\hat \ph}\to \an{u,\hat\ph}=\an{\hat u,\ph}$. So the FT is continuous.
+\end{proof}
+
+\section{Sobolev spaces}
+
+One of the main reasons to use FT is that they give a nice way to define Sobolev spaces.
+\begin{df}\llabel{df:dist3-5}
+If $u\in S'(\R^n)$ such that $\hat u(\la)$ is a %(measurable) 
+function and
+\[
+\ve{u}_{H^s}^2:=\int |\hat u(\la)|^2 (1+|\la|^2)^s\,d\la<\iy
+\]
+then we say $u\in H^s(\R^n)$, $s\in \R$.
+\end{df}
+It is handy to use the notation $\an{\la}=(1+|\la|^2)^{\rc 2}$. Then $u\in H^s(\R^n)$ if $\hat u(\la)\an{\la}^s\in L^2(\R^n)$. 
+
+We can also define Sobolev spaces on $X\subeq \R^n$ by localisation: for $u\in D'(X)$, say that $u\in H_{\text{loc}}^s(X)$ if $u\ph\in H^s(\R^n)$ for every $\ph\in D(X)$. 
+\begin{lem}\llabel{lem:dist3-4}
+If $u\in H^s(\R^n)$ and $s>\fc n2$ then $u\in C(\R^n)$.
+%interchange smoothness and decay.
+%give me dist such that FT not too big, then actually continuous.
+\end{lem}
+\begin{proof}
+We will show $\hat u\in L^1(\R^n)$:
+\bal
+\int\ab{\hat u(\la)}\,d\la
+&=\int \an{\la}^{-s} \an{\la}^s |\hat u(\la)|\,d\la\\
+&\le\ub{\pa{\int \an{\la}^{-2s}\,d\la}^{\rc 2}}{(*)} \ub{
+\pa{\int |\hat u(\la)|^2 \an{\la}^{2s}\,d\la}^{\rc 2}
+}{\ve{u}_{H^s}}&\text{C-S inequality}.
+\end{align*}
+Since $s>\fc n2$, write $s=\fc n2+\ep$, $\ep>0$. Then
+\[
+(*)=\int_{S^{n-1}}d\si_n\int r^{n-1}\,dr (1+r^2)^{-\fc n2-\ep}=\int O(r^{n-1-n-2\ep})=\int O(r^{-1-2\pi})<\iy.
+\]
+So we have $\hat u\in L^1(\R^n)$, so 
+\bal
+\an{\hat u, \ph}&=\int \hat u(\la)\ph(\la)\,d\la\\
+&=\int \hat u(\la)\ba{\rc{(2\pi)^n}\int e^{i\la \cdot x} \hat \ph(x)\,dx}\,d\la\\
+&=\int \hat \ph(x)\ba{
+\rc{(2\pi)^n} \int e^{i\la \cdot x}\hat u(\la)\,d\la
+}\,dx\\
+&=\an{u,\hat\ph}
+\end{align*}
+where $u(x)=\rc{(2\pi)^n}\int e^{i\la \cdot x} \hat u (\la)\,d\la$. Since $\hat u\in L^1(\R^n)$, we know that $u\in C(\R^n)$ by Lemma~\ref{lem:dist3-1}.
+\end{proof}
+Given information how quickly FT transform decays, you can say something about the smoothness of the function.
+\begin{cor}
+If $u\in H^s(\R^n)$ for each $s>\fc n2$ then $u\in C^{\iy}(\R^n)$. 
+\end{cor}
+%decay like crazy means correspond to smooth function.

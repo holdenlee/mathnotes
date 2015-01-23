@@ -1,0 +1,251 @@
+\chapter{Summaries and additional notes}
+
+The first ``index card" summaries are here.
+\begin{enumerate}
+\item
+\url{https://dl.dropboxusercontent.com/u/27883775/math\%20notes/index\%20cards/an1.jpg}
+\item
+\url{https://dl.dropboxusercontent.com/u/27883775/math\%20notes/index\%20cards/an2.jpg}
+\item
+\url{https://dl.dropboxusercontent.com/u/27883775/math\%20notes/index\%20cards/an3.jpg}
+\item
+\url{https://dl.dropboxusercontent.com/u/27883775/math\%20notes/index\%20cards/an4.jpg}
+\item
+\url{https://dl.dropboxusercontent.com/u/27883775/math\%20notes/index\%20cards/an5.jpg}
+\end{enumerate}•
+\section{Introduction}
+
+\section{Hahn-Banach Theorem}
+
+\section{Riesz Representation Theorem}
+
+(Note: basics of real measure theory are omitted from this summary.)
+
+Let $K$ be compact Hausdorff. 
+Define (\ref{df:f3-1}) spaces of functions $C(K), C^{\R}(K), C(K)^+$; spaces of functionals $M(K)=C(K)^*$, $M^{\R}(K)=C^{\R}(K)^*$, $M^+(K)$.
+\begin{enumerate}
+\item Basic lemma~\ref{lem:f3-1} on decomposing functionals: we can decompose {\it complex} functionals as $\ph_1+i\ph_2$, $\ph_i\in C^{\R}(K)$ {\it real}; and {\it real} functionals as $\ph=\ph^+-\ph^-$, $\ph^+,\ph^-\in M^+(K)$ {\it positive} with $\ve{\ph}=\ve{\ph^+}+\ve{\ph^-}$.
+\begin{enumerate}
+\item
+For real functionals, it suffices to consider norms over real functions (2). Positive functionals are those who attain their norm at the identity (3). [Proofs are somewhat annoying; omitted.]
+\end{enumerate}
+\item Define \textbf{complex measures},~\ref{df:c-meas}.
+\begin{enumerate}
+\item
+A Borel measure is \textbf{regular} if you can approach it on the inside by compact sets and the outside by open sets.
+\item
+The \textbf{total variation} $|\mu|(X)$ is how big you can make the integral with simple functions on $X$. It is finite: $|\mu|$ is a measure by a ``refining partitions" argument and use $\max_{A\subeq S} \sum_{z\in A}|z|\ge \rc{\pi}\sum_{z\in S}|z|$; if $|\mu|$ diverges, keep peeling off subsets where $|\mu|$ is large and show $\mu$ diverges too.
+%A Borel measure is \textbf{regular} if you can approach it on the inside by compact sets and the outside by open sets.
+\item
+Hahn-Jordan decomposition: A real measure $\mu=\mu^+-\mu^-$ with $|\mu|=\mu^++\mu^-$.
+\end{enumerate}
+\item Riesz Representation~\ref{cor:rr}: (Functionals correspond to measures.) For $\ph\in M(K)$ there exists a unique regular complex Borel measure $\mu$ on $K$ such that $\ph(f)=\int_K f\,d\mu$, and $\ve{\ph}=\ve{\mu}_1$.
+\begin{enumerate}
+\item
+Pf. Consider $\ph\in M^+(K)$ first. We'd like to define $\mu(E)=\ph(1_E)$ but $1_E$ is not continuous; approximate it using Urysohn: $\mu^*(U)=\sup\set{\ph(f)}{f\ll U}$ and $\mu^*(A)=\inf \set{\mu^*(U)}{U\supeq A}$.
+\item
+Countable subadditivity for open sets: use partitions of unity. For arbitrary sets: approximate with opens (the $\sum_n \ep_n=\ep$ trick).
+\item 
+We show superadditivity: $\mu^*(A)\ge \mu^*(A\cap U)+\mu^*(A\bs U)$ for all $A$ and open $U$, to get a measure on all Borel sets.
+\item Show $\ph(f)=\int_K f\,d\mu$ by taking a partition of unity $h_i$ on sets $U_i$ where $f$ is approximately constant, and taking $\ph$ of $f=\sum fh_i$.
+\item For arbitrary $\ph$: Break up $\ph=\ph_1-\ph_2+i\ph_3-i\ph_4$. To show $\ve{\ph}=\ve{\mu}_1$, given $\bigsqcup E_i$, use PoU to get functions on $U_i$ close to $E_i$, and take a linear combination of them.
+\end{enumerate}
+\end{enumerate}
+
+\section{Weak Topologies}
+
+\section{Krein-Milman Theorem}
+
+\section{Banach algebras}
+
+[Index card 6]
+
+\begin{enumerate}
+\item
+A \textbf{Banach algebra} is a complete normed algebra (with the norm submultiplicative). Some basic constructions are unitication, quotienting out by a closed ideal, and completion. We mostly consider unital algebras. 
+\begin{enumerate}
+\item
+Our first task was to understand when we can take inverses. Inverses exist when $\ve{1-x}<1$ (Lemma~\ref{lem:f6-1}). $\bullet^{-1}$ is a homeomorphism (Corollary~\ref{cor:f6-2}). $G(A)=A^{\times}$ is open, and when we approach its complement, inverses blow up; in fact, $x\in \pl G(A)$ has no left/right inverse in any superalgebra.
+\begin{enumerate}
+\item
+The key fact we use in the proof is that we can write down the inverse explicitly $\rc{1-a}=\sum_{n=0}^{\iy} a^{-n}$ when the series converges. (Many facts about power series transfer over to the Banach algebra setting.)
+\end{enumerate}
+\end{enumerate}
+\item The \textbf{spectrum} of $x$ in $A$ is $\si_A(x)=\set{\la\in \C}{\la 1-x\text{ not invertible}}$. 
+\begin{enumerate}
+\item
+$\si_A(x)$ is nonempty and compact (Theorem~\ref{thm:f6-3}). 
+\begin{enumerate}
+\item Compact: %show that its complement is open by showing it's the inverse image under some map of $A^{\times}$ which is open. The map is $\la\mapsto \la 1_A-a$.
+%It is the inverse image of some closed set under some map. 
+It is the inverse image of $A\bs A^{\times}$ which is closed, under the map $\la\mapsto \la 1_A-x$.
+\item Nonempty: If $\si(x)=\phi$ then we can construct an entire function that's bounded (check that it is analytic): 
+\beq{eq:spectrum-eq}
+\la\mapsto \rc{\la1_A-x}\in A^{\times}
+\eeq
+is well-defined. By Liouville, it is constant.
+\end{enumerate}
+\item As a corollary, the only complex unital normed division algebra is $\C$.
+\item (Spectral mapping theorem for polynomials~\ref{lem:f6-5}): $\si(p(x))=p(\si(x))$. (Proof: Factor the polynomial and use $xy$ invertible $\implies x,y$ invertible.)
+\item The spectral radius (Theorem~\ref{thm:f6-6}) is
+\[
+r(x)=\lim_{n\to \iy} \ve{x^n}^{\rc n}=\inf_n \ve{x^n}^{\rc n}
+\]
+\begin{enumerate}
+\item
+Expand $\rc{\la 1-x}=\rc{\la}\sum_{n=0}^{\iy} \pf{x}{\la}^n$ and use the root test to see when it converges.
+%\fixme{The right question to ask is what is the maximum radius of convergence for $g=f(\la^{-1})$? Because we want $f$ to converge for $\la$ big enough, i.e., we want $g$ to converge for $\la$ small enough.
+%The fact that it converges here should tell us $r(a)^{-1}\le\cdots$, or $\cdots \le r(a)$. (Prereq: $g$ is represented by this power series.)}
+\end{enumerate}
+\item When we pass to a subalgebra, the spectrum can only get bigger ($\si_B(x)\supeq \si_A(x)$) but the boundary can only get smaller ($\pl \si_B(x)\subeq \pl \si_A(x)$) (Theorem~\ref{thm:f6-7}). (Proof: it's harder to be invertible; use the characterization of $\pl G$.) 
+\begin{enumerate}
+\item
+In the special case $B=A(x)$, we have $\si_{A(x)}(x)=\wh{\si_A(x)}$ (Theorem~\ref{thm:f6-8}). (Proof: using maximum modulus, $\si_{A}(x)\subeq \si_{A(x)}(x)\subeq\wh{\si_A(x)}\subeq \wt{\si_A(x)}$; use an approximate inverse $p(x)$ of $\la1-x$ and construct $q$ large at $\la$.)
+\item It suffices to consider a maximal commutative subalgebra $C$: $\si_C(x)=\si_A(x)$ (Proposition~\ref{pr:f6-9}). (``Noncommutativity cannot furnish more inverses.") \fixme{Proof?}
+\end{enumerate}
+\end{enumerate}
+\item Commutative Banach algebras are especially nice because we can understand the characters completely. (cf. We can understand characters of commutative algbras easily because the only irreducible representations are 1-dimensional.) 
+\begin{enumerate}
+\item
+Characters are in bijection with maximal ideals, $\Phi_A\cong \cal M_A$, $\ph\mapsto \ker \ph$ (Theorem~\ref{thm:f6-12}). (Proof: Some basic lemmas, plus use Gelfand-Mazur to get $A/M\cong \C$).
+\item
+We can obtain $\si_A(x)$ by evaluating $x$ at all characters: $\si_A(x)=\set{\ph(x)}{\ph\in \Phi_A}$. (Corollary~\ref{cor:f6-13}) (Proof: Show $x\in G(A)\iff \ph(x)\ne 0$ for all $\ph$.) {\it This characterization of $\si_A(x)$ is much easier to work with.} For example, we get facts about $r(x)$ (Corollary~\ref{cor:f6-14}).
+\item The Gelfand topology on $\Phi_A$ is induced from the $w^*$-topology (so is compact Hausdorff).
+Gelfand representation: $A\to C(\Phi_A), x\to \hat x$ is a continuous algebra homomorphism (Theorem~\ref{thm:f6-15}). (It is an isomorphism for c.u. $C^*$ algebras.)
+\end{enumerate}
+\end{enumerate}
+Examples (\ref{ex:f6-1} and \ref{ex:f6-2}): Canonical examples are spaces of functions and spaces of bounded linear operators. 
+\begin{enumerate}
+\item
+For $C(K)$, $K$ compact Hausdorff, and the disc algebra $A(\De)$, analytic functions on the unit disc, the characters are evaluation maps. (Proof: Use compactness. Look at $u(z)=z$ and use the fact polynomials are dense.) For $A\subeq C(K)$, $K\to \Phi_A$, $k\mapsto \de_k$ is an embedding (a homeomorphism if $A=C(K)$) (Lemma~\ref{lem:f6-16}).
+\item The Wiener algebra is functions with $L^1$ Fourier coefficients; characters are evaluations (same proof: trig polys are dense). Wiener's Theorem~\ref{thm:wiener} is a non-obvious theorem that shows how algebra is useful in analysis.
+\end{enumerate}•
+
+% \textbf{uniform algebras} are closed subalgebras of $C(K)$, $K\sub\sub \C$; \fixme{...}
+
+\section{Holomorphic functional calculus}
+[Index card 7]
+
+(Abbreviate commutative unital Banach algebra as cuBa.)
+
+\textbf{Holomorphic functional calculus} (Theorem~\ref{thm:f7-1}) tells us that we can evaluate holomorphic functions at elements of a cuBa, i.e., there is a unique way to define ``$f(x)$," $f\in \cO(U)$, $x\in A$ such that $u(x)=x$, and such that $\te_x(f):=f(x)$ is a continuous unital homomorphism $\cO(U)\to A$. We have
+\begin{enumerate}
+\item
+$\ph(f(x))=f(\ph(x))$ for all characters $\ph\in  \Phi_A$, and such that $u(x)=x$. 
+\item
+$\si$ commutes with $f$: $\si(f(x))=f(\si(x))$.
+\end{enumerate}
+To prove this, we use \textbf{Runge's Theorem} (Theorem~\ref{thm:f7-2}): for compact $K\sub\sub \C$, $R(K)=O(K)$ (analytic functions on an open set can be uniformly approximated by rational functions).
+
+The idea is to define $\te_x(f)=f(x)$ as an integral. (In complex analysis, by Cauchy's Theorem, every holomorphic function can be expressed as an integral. This is how a lot of theorems about analytic functions were proved in the first place: we can manipulate the integral to show that the function is nice. )
+
+\begin{enumerate}
+\item
+Define integration as a Riemann sum, and generalize to integration parametrized by $\ga$ in the usual way. We get Cauchy's Theorem for Banach spaces~\ref{thm:cauchy-Banach}. (Prove using regular Cauchy after applying $\ph\in X^*$.)
+\item
+Define $\te_x(f)=\rc{2\pi i}\int_{\Ga}f(z)(z1-x)^{-1}$, where $\Ga$ winds around everything in $\si(x)$ once and nothing outside of $U$. 
+We check (Lemma~\ref{lem:f7-3})
+\begin{enumerate}
+\item
+$\te_x(f)$ is linear and continuous in $f$: just remember that continuity means with respect to the seminorms on compact $K$
+\item
+$\te_x(1)=1$: By Cauchy's Theorem, since 1 is defined not just on $U$ but the whole space, we can change the contour to circles which wind around each point of $\si(x)$ once; now just expand in power series.
+\item
+$\te_x(r)=r(x)$ for rational functions: by writing
+\[
+\te_x(r)=\te_x(1)r(x)+\ub{\rc{2\pi i}\int_{\Ga}(r(z)-r(x))(z1-x)^{-1}}{=0\text{ by expanding}}.
+\]
+\item
+$\ph(f(x))=f(\ph(x))$: because we can commute $\ph$ with the integral.
+\item
+$\si(f(x))=f(\si(x))$: use $\si(x)=\{\ph(x)\}$.
+\end{enumerate}
+\item This proves Runge's Theorem: For any $f\in O(K)$, $f=\te_x(f)\in R(K)$. $\te_x(f)\in R(K)$, because it is defined as an integral in our algebra $R(K)$. (For a more precise statement, we can restrict to a subalgebra.)
+\item Proof of holomorphic functional calculus: Show $R(U)$ is dense in $\cO(U)$ (Corollary~\ref{cor:f7-5}) (this follows from what we showed for $K$, and the fact the topology is defined in terms of $\ved_K$). $\te_x$ is an algebra homomorphism for rational functions, which are dense.
+\end{enumerate}
+\section{$C^*$-algebras}
+\begin{enumerate}
+\item
+A \textbf{$C^*$-algebra} is a Banach algebra with involution such that $\ve{x^*x}=\ve{x}^2$. Define \textbf{hermitian $h$, unitary $u$, normal} (Definition~\ref{df:hun}). Note this meshes very nicely when $x$ is hermitian or normal. Basic properties~\ref{pr:c*}:
+\begin{enumerate}
+\item $x=h+ik$, $h,k$ hermitian.
+\item $\ve{x^*}=\ve{x}$.
+\item (Commutes with $\bullet^{-1}$, $\si$, and $\ph$ (for commutative $A$)): $(x^*)^{-1}=(x^{-1})^*$, $\si(x^*)=\ol{\si(x)}$, $\ph(x^*)=\ol{\ph(x)}$ (Lemma~\ref{lem:f8-2}).
+\begin{enumerate}
+\item
+Proof: Suffices to show $\ph(h)\in \R$. $h$ acts like a real element, so consider $\ve{h+it}^2$. But on the other hand look at $\ph(h)$; $h$ acting real forces $\ph(h)$ to act real.
+\end{enumerate}
+\end{enumerate}
+\item Results on spectrum (Lemma~\ref{lem:f8-1},~\ref{cor:f8-3}): for $x$ normal, $r(x)=\ve{x}$. (Pf: $\ve{h}^{2^n}=\ve{h^{2^n}}$; $x^*x$ is hermitian.) $\si_A(h)\subeq \R$, $\si_A(u)\subeq \bb T$ (Proof: pass to subalgebra, and use $\si(x)=\{\ph(x)\}$.)
+\begin{enumerate}
+\item
+Note for hermitian and unitary, $\si=\pl \si$, so the subalgebra doesn't matter. For normal $T\in \cal B(H)$, $\si(T)=\si_{\text{ap}}(T)$.
+\end{enumerate}
+\item
+Gelfand-Naimark Theorem~\ref{thm:f8-4}: For cu $C^*$-algebras, the Gelfand transform is an isometric $*$-isomorphism $A\cong C(\Phi_A)$. (Proof: $*$ behaves nicely wrt $\ved$, $\ph$; Stone-Weierstrass for $\rra$.)
+\item
+Applications
+
+\cpbox{To prove decompositions for $T\in A=\cal B(H)$, it helps instead to transfer the problem over to a problem about $C(\Phi_A)$.}
+
+\begin{enumerate}
+\item
+Positive elements have square roots: because positive functions have square roots.
+\item
+Polar decomposition for {\it invertible} elements: $T=RU$, $R\ge 0$. (Pf. Use approximate eigenvalues to see $\si(TT^*)>0$, $T=(TT^*)^{\rc 2}[(TT^*)^{-\rc 2}T]$.)
+\end{enumerate}
+\end{enumerate}
+\section{Spectral theory}
+\llabel{review9}
+The key example to have in mind is that of finite-dimensional matrices (See~\ref{sec:spectral-prelim}). 
+
+A \textbf{resolution of the identity} sends measurable sets to functions in $\cal B(H)$, satisfying compatibility conditions and with $P_{x,y}(E)=\an{P(E)x,y}$ a regular complex Borel measure. Define $L_{\iy}(P)$.
+\begin{enumerate}
+\item
+9.5: Boost $P_{x,y}(E)=\an{P(E)x,y}$ to something defined for {\it functions} rather than sets: \beq{eq:r9-1}\int_K\,dP_{x,y}=\an{\Phi(f)x,y}.\eeq Moreover, $S\in \cal B(H)$ commutes with every $\Phi(f)$ iff it commutes with every $P(E)$.
+
+Proof: ``Simple functions $\implies$ all functions" argument: Define $\Phi$ first for simple functions. Use $\ve{\Phi(s)}=\ve{s}_{\iy}$ to show we can define $\Phi$ for arbitrary $f$ by taking simple $s_n\to f$.
+\item
+Spectral Theorem for commutative $C^*$-algebras: Let $A\subeq \cal B(H)$ be a commutative $C^*$-algebra. There is a unique resolution of the identity $P$ of $H$ over $K=\Phi_A$ such that 
+\[
+T=\int_{K} \wh T\,dP\text{ for all }T\in A.
+\]
+$P(U)\ne 0$ for nonempty open $U$, and $S$ commutes with all $T\in A$ iff $S$ commutes with all $P(E)$.
+\begin{enumerate}
+\item
+We have $\hat{\bullet}:A\xrc C(\Phi_A)$, and we'd like $\Psi:L^{\iy}\to A$. 
+We would like $\Phi(\wh T)=T$ in~\eqref{eq:r9-1}; by Riesz Representation we get a measure $\mu_{x,y}$ for each $x,y$.
+\item Check for $f$, $\int_K f\,d\mu_{x,y}$ is a bounded sesquilinear form of norm $\le\ve{f}_K$, and obtain $\Psi(f)$. Check it is hermitian and respects $*$.
+\item Check $\Psi$ respects multiplication by converting to a problem about measures and using RRT.
+\item Define $P$ from $\Psi$ and verify it is a resolution of the identity. $P$ is unique by RRT.
+\item For $P(U)\ne 0$ use Urysohn to get $f$ for $U$ and write $f=\wh T^2$ using Gelfand-Naimark.
+\item For commutativity, calculate $\an{ST/TSx,y}$; transfer to a problem on measures using RRT.
+\end{enumerate}
+\item Spectral theorem for normal operators: $T=\int_{\si(T)}\la \,dP$. $S$ commutes with every $P(E)$ iff it commutes with $T$.
+\begin{enumerate}
+\item
+Proof: Use $\Phi_A\cong \si(T)$, and pass to subalgebra $\ol{\C[T,T^*]}$. 
+\item
+Uniqueness: RRT and Stone-Weierstrass.
+\item
+Commuting: Lemma (Fuglede-Putnam-Rosenblum) In a $C^*$-algebra, if $x,y$ are normal and $xz=zy$, then $x^*z=zy^*$. Proof: $f(\la)=e^{\la x^*-\ol{\la}x}ze^{\ol{\la}y-\la y^*}$; use Liouville.
+\end{enumerate}
+\item Borel functional calculus: For normal $T$, define for arbitrary $L_{\iy}(\si(T))$, $f(T):=\int_K f\,dP$. It is a unital $*$-homomorphism.
+\item Applications
+\begin{enumerate}
+\item
+Polar decomposition: For normal $T$, $T=RU$. Pf. It's true for $\C$; we have multiplicativity in the integral.
+\item
+Unitary operators can be written as $e^{iH}$. Pf. Apply the functional calculus with the logarithm.
+\item
+$G(\cal B(H))$ is connected. Pf. Find a path to the identity using Polar decomposition and exponentials.
+\end{enumerate}
+\end{enumerate}
+
+%how do these things fail for noncommutative?
+
+section{Miscellaneous questions}
+\begin{enumerate}
+\item
+How does holomorphic functional calculus fail for noncommutative Banach algebras?
+\end{enumerate}•

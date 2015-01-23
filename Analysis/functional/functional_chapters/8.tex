@@ -1,0 +1,260 @@
+\chapter{$C^*$-algebras}
+\section{$*$-algebras}
+\begin{df}
+A \textbf{$*$-algebra} is a complex algebra $A$ with an involution, i.e., a map $*:A\to A$ such that for every $x,y\in A$ for all $\la,\mu\in \C$. 
+\begin{enumerate}
+\item
+$(\la x+\mu y)^*=\ol{\la}x^*+\ol{\mu}y^*$
+\item
+$(xy)^*=y^*x^*$. 
+\item
+$x^{**}=x$.
+\end{enumerate}
+A \textbf{$*$-subalgebra} $B$ is a subalgebra with $x\in B\implies x^*\in B$.
+\end{df}
+%continuous
+Note that if $A$ has an identity 1 then $1^*=1$. 
+\begin{df}
+A \textbf{$C^*$-algebra} is a Banach algebra with an involution (Banach $*$-algebra) such that
+\[
+\ve{x^*x}=\ve{x}^2\text{ for all }x\in A.
+\]
+\end{df}
+This innocent-looking equation is extremely powerful. Note that if $A$ has ean identity $1\ne 0$, then $\ve{1}=1$ so $A$ is then a unital $C^*$ algebra. 
+\begin{ex}
+\begin{enumerate}
+\item
+$C(K)$ with $K$ compact and Hausdorff is a commutative unital $C^*$ algebra with involution $f^*(z)=\ol{f(z)}, z\in K, f\in C(K)$. 
+\item
+$\cal B(H)$ with $H$ a Hilbert space with involution $T^*$ the adjoint of $T$. 
+%collected facts on Hilbert spaces.
+%sesquilinear slightly more general than adjoint
+%6.1-2
+\item
+If $A$ is a closed $*$-subalgebra of a $C^*$-algebra $B$, then $A$ is a $C^*$-algebra. ($A$ is called a \textbf{$C^*$-subalgebra} of $\cal B(H)$.)
+\end{enumerate}
+\end{ex}
+The following describes all $C^*$-algebras.
+\begin{thm}[Gelfand-Naimark]\llabel{thm:g-n}
+\begin{enumerate}
+\item
+If $A$ is a commutative unital $C^*$-subalgebra, then $A$ is isometrically $*$-isomorphic to $C(K)$ for some compact Hausdorff $K$.
+\item
+If $A$ is a (not necessarily commutative) $C^*$-algebra, then $A$ is isometrically $*$-isomorphic to a $C^*$-subalgebra of $\cal B(H)$ for some Hilbert space $H$.
+\end{enumerate}
+\end{thm}
+We will prove the first part of the theorem.
+
+\begin{df}\llabel{df:hun}
+Let $A$ be a $C^*$-algebra and $x\in A$. Then
+\begin{itemize}
+\item
+$x$ is \textbf{hermitian} if $x^*=x$,
+\item
+$x$ is \textbf{unitary} if $x^*x=xx^*=1$,
+\item
+$x$ is \textbf{normal} if $x^*x=xx^*$.
+\end{itemize}
+\end{df}
+For example, projections in a Hilbert space are hermitian. Unitary operators in a Hilbert space are those that are isometric and bijective.
+
+
+There is a process of unitization; it works the same as in Banach algebra except we have to check the $C^*$ relation holds. 
+
+We have the following simple algebraic properties.
+\begin{pr}\llabel{pr:c*}
+Let $A$ be a $C^*$-algebra, $x\in A$. Then
+\begin{enumerate}
+\item
+We can write $x=h+ik$ for unique hermitian $h,k$ ($h=\fc{x+x^*}{2}, k=\fc{x-x^*}{2}$.)
+Then $x$ is normal iff $hk=kh$.
+\item
+$\ve{x^*}=\ve{x}$. Therefore, involution is continuous with respect to the norm.
+\item
+$x\in G(A)$ iff $x^*\in G(A)$, and then $(x^*)^{-1}=(x^{-1})^*$. Hence
+\begin{enumerate}
+\item
+ $\la\in \si(x)$ iff $\ol{\la}\in \si(x^*)$.
+\item
+$\si(x^*)=\set{\ol{\la}}{\la \in \si(x)}$, and
+$r(x^*)=r(x)$.
+\end{enumerate}•
+\end{enumerate}
+\end{pr}
+\begin{proof}
+For 2, note 
+\[
+\ve{x}^2=\ve{x^*x}\le \ve{x^*}\ve{x}
+\]
+so $\ve{x}\le \ve{x^*}$. Hence
+\[
+\ve{x^*}\le \ve{x^{**}}=\ve{x}.
+\]
+\end{proof}
+These propeties will allow us to emulate many constructions in linear algebra, for example positive square roots of postiive operators, and the polar decomposition as a unitary times a positive.
+
+\begin{lem}\llabel{lem:f8-1}
+If $x\in A$ is normal, then $r(x)=\ve{x}$. 
+\end{lem}
+\begin{proof}%3
+First assume $h\in A$ is hermitian. Then $\ve{h^2}=\ve{h^*h}=\ve{h}^2$. By induction, 
+\[
+\ve{h^{2^n}}=\ve{h}^{2^n}\text{ for all }n\in \N.
+\]
+So by Theorem~\ref{thm:f6-6},
+\[
+\lim_{n\to \iy}\ve{h^{2^n}}^{2^{-n}}=\ve{h}.
+\]
+
+Let $x\in A$ be normal. Then $(x^*x)^*=x^*x^{**}=x^*x$, so $x^*x$ is hermitian. Then
+\[
+\ve{x}^2=\ve{x^*x}=r(x^*x)\stackrel{\text{Cor.~\ref{cor:f6-14}}}{\le} r(x^*)r(x)=r(x)^2\le \ve{x}^2.
+\]
+%subadd, submult
+So we have equality all the way through, and $\ve{x}=r(x)$.
+\end{proof}
+%can't do in general, 2\times 2 matrices
+
+We saw that positive linear functionals on compact space take real values on real-valued functions. The $C^*$-algebra equivalent is that positive linear functionals take hermitian elements to real elements.
+%need to be true to character. char are pos lin fls
+\begin{lem}\llabel{lem:f8-2}
+Let $A$ be a commutative $C^*$-algebra. Then $\ph(x^*)=\ol{\ph(x)}$ for all $x\in A$ and all $\ph\in \Phi_A$. 
+\end{lem}
+We see that characters are not just algebra homomorphisms, but also $C^*$-algebra homomorphisms.
+\begin{proof}
+Since $x=h+ik$ for hermitian $h,k$ we have
+\[
+\ph(x^*)=\ph(h-ik)=\ph(h)-i\ph(k).
+\]
+So it suffices to show $\ph(h)\in \R$ for hermitian $h$. Let $\ph(h)=\al+i\be$ for $\al,\be\in \R$. Consider $h+it1$. We have 
+\[
+\ve{h+it1}^2=\ve{(h+it1)^*(h+it1)}
+=\ve{h^2+t^21}\le \ve{h}^2+t^2
+\]
+for $t\in \R$. So using Lemma~\ref{lem:f6-10},
+\[
+|\al+i(\be+t)|^2=|\ph(h+it1)|^2\le \ve{h+it1}^2\le \ve{h}^2+t^2
+\]
+for all $t\in \R$. 
+We deduce $\be=0$. %Write it out; the $t^2$ cancels
+\end{proof}
+The statement of Gelfand-Naimark we will prove is given below.
+\begin{thm}[Gelfand-Naimark]\llabel{thm:f8-4}
+If $A$ is a commutative unital $C^*$-algebra, then $A\cong C(K)$ as $*$-algebras for some compact Hausdorff $K$. More precisely, the Gelfand transform $A\to C(\Phi_A)$, $x\mapsto \wh x$ is an isometric $*$-isomorphism onto $C(\Phi_A)$.
+\end{thm}
+Recall that all our $C^*$-algebras are unital. 
+\begin{cor}\llabel{cor:f8-3}
+Let $A$ be a $C^*$-algebra. 
+\begin{enumerate}
+\item
+If $h\in A$ is hermitian, then $\si_A(h)\subeq \R$. 
+\item
+If $u\in A$ is unitary, then $\si_A(u)\subeq \mathbb T$.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+\begin{enumerate}
+\item
+Let $B$ be the closed subalgebra of $A$ generated by 1, $h$. Then $B$ is a commutative $C^*$-subalgebra of $A$. So %by Corollary~\ref{cor:f6-13},
+\[
+\si_B(h)\stackrel{\text{Cor.~\ref{cor:f6-13}}}{=}\set{\ph(h)}{\ph\in \Phi_B}\stackrel{\text{Lem.~\ref{lem:f8-2}}}{\subeq}\R.
+\]
+So $\si_A(h)\subeq \si_B(h)\subeq \R$ by Theorem~\ref{thm:f6-7}. (Passing to a subalgebra, it's harder to be invertible.)
+\item
+Let $B$ be the closed subalgebra of $A$ generated by $1,u,u^*$. This is a commutative $C^*$-subalgebra of $A$. So $\si_A(u)\subeq \si_B(u)=\set{\ph(u)}{\ph\in \Phi_B}\subeq \mathbb T$, where the last inequality holds because 
+\bal
+1&=\ph(1)=\ph(u^*u)=\ph(u^*)\ph(u)\\
+\implies 1&=\ol{\ph(u)}\ph(u)=\ab{\ph(u)}^2.
+\end{align*}
+\end{enumerate}
+\end{proof}
+\begin{rem}
+\begin{enumerate}
+\item
+Both for $x=h$, $x=u$ above, we have 
+\[
+\si_B(x)=\partial \si_B(x)\stackrel{\text{Thm. \ref{thm:f6-7}}}{\subeq} \partial \si_A(x)\subeq \si_A(x)
+\]
+so we actually have $\si_A(x)=\si_B(x)$.
+\item
+More generally, if $C$ is any $C^*$-subalgebra containing $x$ ($x=h$ or $x=u$ above), then $B\subeq C\subeq A$, so $\si_C(x)=\si_B(x)=\si_A(x)$, so $\pl \si_C(x)=\si_C(x)$. This also holds for normal $x$.
+
+For $\la\in \C$, $\la1-x$ is invertible in $C$ iff $(\la1-x)(\ol{\la}1-x^*)$ is invertible in $C$ (as $\la1-x$, $\ol{\la}1-x^*$ commute). %
+This holds for any $C$, and $(\la1-x)(\ol{\la}1-x^*)$ is hermitian, so its invertibilty does not depend on $C$.
+\item
+This applies to elements of $\cal B(H)$, where $H$ is a Hilbert space. If $T\in \cal B(H)$ is hermitian or unitary, then $\si(T)=\pl \si(T)=\si_{\text{ap}}(T)$.\footnote{The approximate spectrum is defined as follows. $\la$ is an approximate eigenvalue of $T$ if there exists a sequence $(x_n)$ in $X$ with $\ve{x_n}=1$ for all $n\in \N$ such that $(\la I-T)x_n\to 0$ as $n\to \iy$. The \textbf{approximate point spectrum} of $T$ is the set of all approximate eigenvalues of $T$. We use the result that $\si_{\text{ap}}(T)\subeq \si(T)$.}
+If fact, $T$ is normal, then $\si(T)=\si_{\text{ap}}(T)$ as well.
+\end{enumerate}
+\end{rem}
+\begin{proof}[Proof of Gelfand-Naimark Theorem~\ref{thm:f8-4}]
+We know the Gelfand transform $x\mapsto \hat x$ is an algebra homomorphism $A\to C(\Phi_A)$. We check it is...
+\begin{enumerate}
+\item
+$*$-homomorphism: for $x\in A$, by Lemma~\ref{lem:f8-2},
+\[
+\wh{x^*}(\ph)=\ph(x^*)=\ol{\ph(x)}=\ol{\hat{x}}(\ph).
+\]
+\item
+isometric: 
+\[
+\ve{\hat{x}}_{\iy}=\sup\set{|\ph(x)|}{\ph\in \Phi_A}\stackrel{\text{Cor.~\ref{cor:f6-13}}}={r(x)}=\ve{x}
+\]
+by Lemma~\ref{lem:f8-1} ($x$ is normal as $A$ is commutative).
+\item
+onto:
+%closed under complex conj
+Note 
+\begin{enumerate}
+\item
+$\hat{A}=\set{\hat x}{x\in A}$ is a closed subalgebra of $C(\Phi_A)$ that separates points of $\Phi_A$ (if $\ph\ne \psi$ then there exists $x\in A$, $\ph(x)\ne \psi(x)$, i.e., $\hat x(\ph)\ne \hat x(\psi)$). 
+\item
+$\hat A$ contains $1_{\Phi_A}=\hat 1$, and
+\item
+$\hat A$ is closed under complex conjugation (Lemma~\ref{lem:f8-2}), so by Stone-Weierstrass, $\hat A=C(\Phi_A)$.
+\end{enumerate}
+\end{enumerate}
+\end{proof}
+\section{Applications}
+We give two applications.
+
+\subsection{Positive elements and square roots}
+\begin{df}
+An element $a$ of a $C^*$-algebra $A$ is \textbf{positive} if $a^*=a$, $\si_A(a)\subeq \R^+=[0,\iy)$, e.g., $T\in \cal B(H)$ is positive iff $T^*=T$ and $\an{Tx,x}\ge 0$ for all $x\in H$. 
+\end{df}
+\begin{thm}
+Let $A$ be a (not necessarily commutative) $C^*$-algebra and $a$ be positive.
+
+There exists a unique positive $b\in A$ such that $b^2=a$ (the unique positive square root of $a$, denoted by $a^{\rc 2}$.)
+\end{thm}
+\begin{proof}
+Let $B$ the the closed subalgebra generated by $1,a$. This is a commutative $C^*$-subalgebra. Now $\hat a\in C(\Phi_B)$ has $\hat a\ge 0$ so by Theorem~\ref{thm:f8-4}, there exists $b\in B$, $\hat b=(\hat a)^{\rc 2}$. So $b$ is positive, $b^2=a$. (By Remark 1 after Corollary~\ref{cor:f8-3}, $\si_B(a)=\si_A(a)$.)
+
+For uniqueness, suppose $c\in A$ is positive and $c^2=a$. Then $c$ commutes with $a$, so $cp(a)=p(a)c$ for all polynomials $p$. So $cb=bc$.  (By construction above, $b\in \ol{\set{p(a)}{p\text{ polynomial}}}$.)
+%\fixme{something was redundant here? enough to say commutative $C^*$-algebra.}
+Let $C$ be the closed subalgebra of $A$ generated by $1,a,c$, we have that  %$\superset B$
+$C$ is commutative. By Theorem~\ref{thm:f8-4}, $\hat b=\hat c=\hat a^{\rc 2}$, so $b=c$.
+\end{proof}
+
+\subsection{Polar decomposition}
+
+\begin{thm}[Polar decomposition for invertible operators]
+If $T\in \cal B(H)$ is invertible, then there exists a unique positive $R\in \cal B(H)$, unitary $U\in \cal B(H)$ such that $T=RU$. 
+\end{thm}
+
+Compare with complex numbers: a nonzero complex number can be written as a product of a complex number of absolute value 1 and a positive real number.
+\begin{proof}
+Note that $TT^*$ is positive: indeed, it is hermitian, and for $\la<0$, 
+\[
+\ve{(\la I-TT^*)x}\ge\ab{ \an{(\la I-T T^*)x,x}}=\ab{\la-\ve{T^*x}^2}\ge |\la|.
+\]
+This is always bounded away from 0, so $\la\nin \si_{\text{ap}}(TT^*)=\si(TT^*)$. There is no negative number in the spectrum, so the spectrum is positive.
+
+Let $R=(TT^*)^{\rc 2}$. Since $T$ is invertible, so is $R$, and we can set $U=R^{-1}T$. Since $T$ is invertible, so is $R$, and we can set $U=R^{-1}T$. Then $U$ is invertible, 
+\[
+UU^*=R^{-1}TT^*R^{-1} = R^{-1}R^2R^{-1}=I.
+\]
+
+Uniqueness: For $T=RU$, $TT^*=RUU^*R=R^2$, so $R=(TT^*)^{\rc 2}$, $U=R^{-1}T$. 
+\end{proof}
+
+\wrbox{For $a,b$ hermitian, we write $a\le b$ to mean $b-a$ is positive. If $a,b$ are positive, $a\le b$ implies $a^{\rc 2}\le b^{\rc2}$, but $a\le b$ does not imply $a^2\le b^2$. So not everything is true that seems like it should by analogy with $\C$.}

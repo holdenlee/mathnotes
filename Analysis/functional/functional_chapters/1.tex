@@ -1,0 +1,339 @@
+\chapter{Introduction}
+
+
+\section{Normed spaces}
+
+\begin{df}
+A \textbf{normed space} is a pair $(X,\ve{\cdot})$ where $X$ is a real or complex vector space and $\ved$ is a norm on $X$. Most of the time the choice of scalar field makes little difference; for convenience we'll use real scalars. A norm induces a metric: $d(x,y)=\ve{x-y}$. This induces a topology on $X$, called the \textbf{norm topology}. A \textbf{Banach space} is a complete normed space.
+\end{df}
+\begin{ex}
+\begin{enumerate}
+\item (sequences)
+For $1\le p<\iy$, we have $\ell_p=\set{(x_n)\text{ scalar sequence}}{\sum_{n=1}^{\iy}|x_n|^p<\iy}$ with norm $\ve{x}_p=\pa{\sum_{n=1}^{\iy}|x_n|^p}^{\rc p}$. (Minkowski's inequality says that if $x,y\in \ell_p$ then $x+y\in \ell_p$, so $\ve{x+y}_p\le \ve{x}_p+\ve{y}_p$. Then $\ell_p$ is a Banach space.
+\item (convergent sequences)
+$\ell_{\iy}=\set{(x_n)\text{ scalar sequence}}{(x_n)\text{ is bounded}}$ with $\ve{x}_{\iy}=\sup_{n\in N}|x_n|$. Then $\ell_{\iy}$ is a Banach space.
+
+$c_{00}=\set{(x_n)\text{ scalar sequence}}{\exists N\forall n>N, x_n=0}$. Let $e_n=(0,0,\ldots, 0,\ub{1}{n},0,\ldots)$; then $c_{00}=\spn\set{e_n}{n\in \N}$. Note that $c_{00}$ is a subspace of $\ell_{\iy}$ but it's not closed: In $\ell_p, 1\le p<\iy$, $\ell_p=\ol{\spn}\set{e_n}{n\in \N}$. 
+
+$c_0=\set{(x_n)\in \ell_{\iy}}{\lim_{n\to \iy} x_n=0}$ is a closed subspace of $\ell_{\iy}$, $c_0=\ol{\spn}\set{e_n}{n\in \N}$ in $\ell_{\iy}$.
+
+$c=\set{(x_n)\in \ell_{\iy}}{\lim_{n\to \iy} x_n \text{ exists}}$ is a closed subspace of $\ell_{\iy}$. $c_0$ and $c$ are Banach spaces.
+\item (Euclidean space)
+$\ell_p^n=(\R^n,\ved_p), 1\le p\le \iy$.
+\item 
+$K$ is any set, $\ell_{\iy}(K)=\set{f:K\to \R}{f\text{ is bounded}}$ with norm $\ve{f}_{\iy}=\sup_{x\in K}|f(x)|$. This is a Banach space, e.g. $\ell_{\iy}=\ell_\iy(\N)$.
+\item 
+$K$ compact topological space $C(K)=\set{f\in \ell_{\iy}(K)}{f\text{ continuous}}=\set{f:K\to \R}{f\text{ is continuous}}$. $C(K)$ is a closed subspace of $\ell_{\iy}(K)$ because any uniform limit of continuous functions is continuous, and hence it's a Banach space, e.g. $C[0,1]$.
+
+We'll write $C^{\R}(K)$ and $C^{\C}(K)$ for the real and complex versions of $C(K)$, respectively.
+\item 
+Let $(\Om,\Si,\mu)$ be a measure space. Then for $1\le p<\iy$,  \[L_p(\mu)=\set{f:\Om\to \R}{f\text{ is measurable}, \int_{\Om}|f|^p\,d\mu<\iy}\] with norm $\ve{f}_p=\pa{\int_{\Om}|f|^p\,d\mu}^{\rc p}$ is a Banach space (after identifying functions that are equal almost everywhere. 
+
+When $p=\iy$, $L_{\iy}(\mu)=\set{f:\Om\to \R}{f\text{ is measurable and essentially bounded}}$. (``Essentially bounded" means that there exists a null-set $N$ such that $f$ is bounded on $\Om\bs N$.)
+\[
+\ve{f}_{\iy}=\ess\sup|f|=\inf_N\sup_{\Om\bs N}|f|.
+\]
+\item
+Hilbert spaces, e.g. $\ell_2$, $L_2(\mu)$. All Hilbert spaces are isomorphic, but some different representation may be more natural.
+\end{enumerate}
+\end{ex}
+
+\begin{pr}
+Let $X,Y$ be normed spaces, $T:X\to Y$ linear. Then the following are equivalent.
+\begin{enumerate}
+\item
+$T$ is continuous.
+\item
+$T$ is bounded: $\exists C\ge 0$, $\ve{Tx}\le C\ve{x}$ for all $x\in X$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+To think about continuity at $a$, ``translate" to 0 using linearity.
+\end{proof}
+
+\begin{df}
+Let $\cal B(X,Y)=\set{T:X\to Y}{T\text{ is linear and bounded}}$. This is a normed space with the \textbf{operator norm}: $\ve{T}=\sup\set{\ve{Tx}}{\ve{x}\le 1}$. $T$ is an \textbf{isomorphism} if $T$ is a linear bijection whose inverse is also continuous. (This is equivalent to $T$ being a linear bijection and there existing $a>0,b>0$, with $a\ve{x}\le \ve{Tx}\le b\ve{x}$ for all $x\in X$.)
+
+If there exists such $T$, we say $X,Y$ are \text{isomorphic} and we write $X\sim Y$.
+
+If $T:X\to Y$ is a linear bijection such that $\ve{Tx}=\ve{x}$ for all $x\in X$ (i.e. $a=b=1$), then $T$ is an \textbf{isometric isomorphism} and we say $X,Y$ are isometrically isomorphic and write $X\cong Y$\footnote{Some people use $\cong$ for isomorphism. We use it to mean isometric isomorphism.}.
+
+$T:X\to Y$ is an \textbf{isomorphic embedding} if $T:X\to TX$ is an isomorphism. We write $X\hra Y$.
+\end{df}
+\begin{pr}
+If $Y$ is complete, then $\cal B(X,Y)$ is complete. In particular, $X^*=\cal B(X,\R)$, the space of bounded linear functionals, called the \textbf{dual space} of $X$, is always complete.
+\end{pr}
+\begin{ex}
+\begin{enumerate}
+\item
+For $1<p<\iy$, then $\ell^*\cong \ell_q$ where $\rc p+\rc q=1$. The proof uses H\"older's inequality: $x=(x_n)\in \ell_p$, $y=(y_n)\in \ell_q$ then $\sum|x_ny_n|\le \ve{x}_p\ve{y}_q$. This isomorphism is $\ph:\ell_q\to \ell_p^*,y\mapsto \ph_y, \ph_y(x)=\sum x_ny_n$.)
+\item
+$c_0^*\cong \ell_1$, $\ell_1^*\cong \ell_{\iy}$. 
+(Later we will see that $c_0$ cannot be a dual space.)
+%(This gives an alternate proof of completeness.)
+\item 
+If $H$ is a Hilbert space then $H^*\cong H$ (Riesz Representation Theorem).
+\item
+If $(\Om,\Si,\mu)$ is a measure space, $1<p<\iy$, then $L_p(\mu)^*\cong L_q(\mu)$ where $\rc{p}+\rc{q}=1$.
+
+If $\mu$ is $\si$-finite then $L_1(\mu)^*\cong L_{\iy}(\mu)$.
+(Else we only have $L_{\iy}(\mu)\hra L_1(\mu)^*$.)
+\end{enumerate}
+\end{ex}
+
+{\color{blue}Lecture 2}
+
+Recall that if $V$ is a finite-dimensional vector space, then any two norms on $V$ are equivalent. Specifically, if $\ved$ and $\ved'$ are two norms on $V$, then there exist $a,b>0$ such that 
+\[
+a\ve{x}\le\ve{x}'\le b\ve{x}\forall x\in V.
+\]
+In other words, $\Id:(V,\ved)\to (V,\ved')$ is an isomorphism. 
+
+Some consequences are the following.
+\begin{cor}
+\begin{enumerate}
+\item
+If $X,Y$ are normed spaces, $\dim X<\iy$, $T:X\to Y$ is linear, then $T$ is bounded.
+\item
+If $\dim X<\iy$ then $X$ is complete. 
+\item If $X$ is a normed space and $E$ a subspace with $\dim E<\iy$, then $E$ is closed.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+\begin{enumerate}
+\item
+Set $\ve{x}'=\ve{x}+\ve{Tx}$. This is a norm on $X$, so there exists $b>0$, $\ve{x}'\le b\ve{x}$ for all $x$, so $\ve{Tx}\le b\ve{x}$ for all $x\in X$. 
+
+%If $\dim X=\dim Y<\iy$ then $X\sim Y$.
+\item
+By (1), $X\sim \ell_2^n$ where $n=\dim X$.
+\end{enumerate}•
+\end{proof}
+\section{Riesz's lemma and applications}
+The unit ball is compact and this characterizes finite-dimensionality. We use the following.
+\begin{lem}[Riesz's Lemma]
+\llabel{lem:riesz}
+Let $Y$ be a proper closed subspace of a normed space $X$. Then for every $\ep>0$ there exists $x\in X$, $\ve{x}=1$, such that $d(x,Y):=\inf_{y\in Y}\ve{x-y}>1-\ep$.
+%null space, don't have notion as euclidean space, suggests proof that works. Intuition about euclidean space sometimes dangerous because may not work in normed space but in this case works
+\end{lem}
+We'd like to take the some sort of ``perpendicular" vector to $Y$, or the vector which minimizes the distance from a point not on $Y$ to $Y$. Note this is not in general possible since $X$ may not be complete, and hence the ``$\inf$." However, we can come arbitrarily close to that $\inf$, and get an ``almost perpendicular" vector.
+\begin{proof}
+Pick $z\in X\bs Y$ with $Y$ proper. Since $Y$ is closed, $d(z,Y)>0$. There exists $y\in Y$ such that $\ve{z-y}<\fc{d(z,Y)}{1-\ep}$ (WLOG $\ep<1$).
+
+Set $x=\fc{z-y}{\ve{z-y}}$. Then
+\[
+d(x,Y)=d\pa{\fc{z-y}{\ve{z-y}},Y}=\rc{\ve{z-y}}d(z-y,Y)=\fc{d(z,Y)}{\ve{z-y}}> 1-\ep.
+\]
+\end{proof}
+We give two applications. First, some notation. In a metrix space $(M,d)$, write 
+\[
+B(x,r):=\set{y\in M}{d(x,y)\le r},x\in M,r\ge 0
+\]
+for the closed ball of radius $r$ at $x$. In a normed space, 
+\[
+B_X:=B(0,1)=\set{x\in X}{\ve{x}\le 1}, \qquad B(x,r)=x+rB_X.
+\]
+Also, $S_X=\set{x\in X}{\ve{x}=1}$. 
+\begin{thm}
+Let $X$ be a normed space. Then $\dim X<\iy$ iff $B_X$ is compact.
+\end{thm}
+\begin{proof}
+``$\Rightarrow$" We have $X\sim \ell_2^n$ where $n=\dim X$.
+
+``$\Leftarrow$" By compactness there exist $x_1,\ldots, x_n\in B_X$ such that $B_X\subeq \bigcup_{i=1}^n B(x_i,\rc2)$.  Let $Y=\spn\{x_1,\ldots, x_n\}$. For all $x\in B_X$ there exists $y\in Y$ with $\ve{x-y}\le \rc 2$, so $d(x,Y)\le \rc 2$. Thus there do not exist ``almost orthogonal vectors" in the sense of  Riesz's Lemma~\ref{lem:riesz}. This means $Y$ is not a proper subspace of $X$, so $X$ is finite-dimensional. %$Y$ is dense in $X$, so $X=\ol Y=Y$.
+%(We can't find an orthogonal vector to $Y$ in the sense of Riesz's Lemma.)
+\end{proof}
+\begin{rem}
+We showed the following in the proof: If $Y$ is a subspace of a normed space $X$ and there exists $0\le \de<1$ such that for all $x\in B_X$ there exists $y\in Y$ with $\ve{x-y}\le \de$, then $Y$ is dense in $X$.
+\end{rem}
+If we let $\de= 1$ then this statement is trivial. The remark says that if we can do a little better than 1, the trivial estimate, then we can automatically approximate $x$ with much smaller $\ep$.
+
+\begin{thm}[Stone-Weierstrass Theorem]
+Let $K$ be a compact topological space and $A$ be a subalgebra of $C^{\R}(K)$. If $A$ separates the points of $K$ (i.e., for all $x\ne y$ in $K$, there exists $f\in A$, $f(x)\ne f(y)$), and $A$ contains the constant functions, then $A$ is dense in $C^{\R}(K)$.
+\end{thm}
+In this case it does matter whether the field of scalars is $\R$ or $\C$.
+
+The following proof is due to T. J. Ransford.
+\begin{proof}
+First we show that if $E,F$ are disjoint closed subsets of $K$, then there exists $f\in A$ such that $-\rc2\le f\le \rc2$ on $K$ and $f\le -\rc 4$ on $E$ and $f\ge \rc 4$ on $F$.
+
+Fix $x\in E$. Then for all $y\in F$, there exists $h\in A$ such that $h(x)=0$, $h(y)>0$, $h\ge 0$ on $K$. (This is since $A$ separates points, we can shift by a constant, and square the function.) Then there is an open neighborhood of $y$ on which $h>0$.  %finitely many cover $F$ by compactness.
+An easy compactness argument gives that there exists $g=g_x\in A$ with $g(x)=0$, $g>0$ on $F$, 
+%strictly positive on neighborhood, going to be strictly positive on all
+%rescale it so that  
+$0\le g\le 1$ on $K$. 
+Pick $R=R_x\in \N$ such that $g>\fc2R$ on $F$, set $U=U_x=\set{y\in K}{g(y)<\rc{2R}}$. 
+%compact, attain inf
+
+Do this for all $x\in E$.
+%finitely many will cover.
+Compactness gives a finite cover: there exist $x_1,\ldots, x_m$ such that $E\subeq \bigcup_{i=1}^m U_{x_i}$. To simplify notation, set $g_i=g_{x_i}$, $R_i=R_{x_i}$, $U_i=U_{x_i}$, and $i=1,\ldots, m$. For $n\in \N$,  by Bernoulli's inequality,
+\begin{align*}
+\text{on }U_i&&
+(1-g_i^n)^{R_i^n}&\ge 1-(g_iR_i)^n>1-2^{-n}\to 1\text{ as }n\to \iy\\
+\text{on }F&&
+(1-g_i^n)^{R_i^n}&\le \rc{(1+g_i^n)^{R_i^n}}\le \rc{(g_iR_i)^n}<\rc{2^n}\to 0\text{ as }n\to \iy
+\end{align*}
+There exists $n_i\in \N$ such that $h_i=1-(1-g_i^{n_i})^{R_i^{n_i}}$ satisties
+\begin{itemize}
+\item
+on $U_i$, $h_i\le \rc 4$
+\item
+on $F$, $h_i\ge \pf 34^{\rc m}$
+\item
+on $K$, $0\le h_i\le 1$.
+\end{itemize}
+Set $h=h_1h_2\cdots h_m$. Then $h\le \rc 4$ on $E$, $h\ge \fc 34$ on $F$, and $0\le h\le 1$ on $K$. Set $f=h-\rc2$.
+%corresp is at most a quarter, other at most 1, so at most 1/4
+Given $g\in C^{\R}(K)$, $\ve{g}_{\iy}\le 1$, set
+\[
+E=\set{x\in K}{g(x)\le -\rc 4},\,F=\set{x\in K}{g(x)\ge \rc 4}.
+\]
+Let $f\in A$ be as above. Then $\ve{f-g}\le \fc 34$, i.e., $d(g,A)\le \fc 34$. By Riesz's Lemma~\ref{lem:riesz}, $A$ is dense in $C^{\R}(K)$.
+\end{proof}
+%reading math is a sort of computation, info decompression
+\begin{rem}
+The complex version says that if $A$ is a subalgebra of $C^{\C}(K)$ that separates points of $K$ contains the constant functions, and is closed under complex conjugation ($f\in A\implies \ol f\in A$), then $A$ is dense in $C^{\C}(K)$.
+\end{rem}
+\section{Open mapping lemma}
+We'll assume the Baire category theorem and its consequences: principle of uniform boundedness, open mapping theorem (OMT), closed graph theorem (CGT). 
+\begin{df}
+Let $A,B$ be subsets of a metric space $(M,d)$ and let $\de\ge 0$. Say $A$ is \textbf{$\de$-dense} in $B$ if for all $b\in B$ there exists $a\in A$ with $d(a,b)\le \de$.
+\end{df}
+\begin{lem}[Open mapping lemma]\llabel{lem:oml}
+Let $X,Y$ be normed spaces, $X$ complete, $T\in \cal B(X,Y)$. Assume for some $M\ge 0$ and $0\le \de<1$ that $T(MB_X)$ is $\de$-dense in $B_Y$. Then $T$ is surjective. 
+More precisely, 
+%important: have quantitative
+for all $y\in Y$ there exists $x\in X$ such that $y=Tx$ and
+\[
+\ve x\le \fc{M}{1-\de}\ve y,
+\]
+i.e.,
+\[
+T\pa{\fc{M}{1-\de}B_X}\supeq B_Y.
+\]
+Moreover, $Y$ is complete.
+\end{lem}
+\begin{proof}
+The proof involves successive approximations. 
+Let $y\in B_Y$. There exists $x_1\in MB_X$ with $\ve{y-Tx_i}\le \de$. Then $\fc{y-Tx_i}{\de}\in B_Y$. There exists $x_2\in MB_X$, with $\ve{\fc{y-Tx_i}{\de}-Tx_2}\le \de$, i.e., $\ve{y-Tx_1-\de Tx_2}\le \de^2$, and so forth. Obtain $(x_n)$ in $MB_X$ such that 
+\[
+\ve{y-Tx_1-\de Tx_2-\cdots -\de^{n-1} Tx_n}\le \de^n
+\]
+for all $n$. Set $x=\sum_{n=1}^{\iy} \de^{n-1} x_n$. This converges since $\sum_{n=1}^{\iy}\ve{\de^{n-1}x_n}\le M\sum_{n=1}^{\iy}\de^{n-1}=\fc{M}{1-\de}$, and $X$ is complete.\footnote{This kind of geometric sum argument comes up a lot in functional analysis!} 
+So $x\in \fc{M}{1-\de}B_X$ and  by continuity $Tx=\suo \de^{n-1} Tx_n=y$. For the ``moreover" part, let $\hat Y$ be the completion of $Y$, and view 
+%unique banach space of which it is a dense subspace
+$T$ as a map $X\to \hat Y$. Since $B_Y$ is dense in $B_{\hat Y}$, $T(MB_X)$ is $\de'$-dense in $B_{\hat Y}$ for $\de<\de'<1$. By the first part, $T(X)=\hat Y=Y$, so $Y$ is complete.
+\end{proof}
+\begin{rem}
+Suppose $T\in\cal B(X,Y)$, $X$ is complete, and the image of the ball is dense: $\ol{T(B_X)}\supeq B_Y$. Suppose that for all $\ep>0$, $T((1+\ep)B_X)$ is $1$-dense in $B_Y$. Take $M>1,0< \de<1$ so that $1+\ep=\fc{M}{1-\de}$;  lemma~\ref{lem:oml} shows that  $T\pa{(1+\ep)B_X}\supeq B_Y$. It follows that $T(B_X^{\circ})\supeq B_Y^{\circ}$. (For a subset $A$ of a topological space, $A^{\circ}$ or $\text{int}(A)$ denotes the interior of $A$.)
+\end{rem}
+
+{\color{blue} Lecture 3}
+
+\subsection{Applications of the open mapping lemma}
+\begin{thm}[Open mapping theorem]\llabel{thm:omt}
+Let $X,Y$ be Banach spaces, $T\in \cal B(X,Y)$ be onto. Then $T$ is an open map.
+\end{thm}
+\begin{proof}
+Let $Y=T(X)=\bigcup_{n=1}^{\iy} T(nB_X)$. The Baire category theorem tells us that there exists $N$ with $\text{int}(\ol{T(NB_X)})\ne \phi$. Then there exists $r>0$ with
+\[
+\ol{T(NB_X)}\supeq rB_Y.
+\]
+By Lemma~\ref{lem:oml}, for $M=\fc{2N}{r}$, we have $T(MB_X)\supeq B_Y$. Therefore, $U$ is open and $T(U)$ is open.
+\end{proof}
+%say T is open, same as T^{-1} cont.
+\begin{thm}[Banach isomorphism theorem]\llabel{thm-bit}
+If in addition $T$ is injective, then $T^{-1}$ is continuous.
+\end{thm}
+\begin{proof}
+An open map that is a bijection is a homeomorphism.
+\end{proof}
+\begin{thm}[Closed graph theorem]
+Let $X,Y$ be Banach spaces and $T:X\to Y$ be linear. Assume that whenever $x_n\to 0$ in $X$, $Tx_n\to y$ in $Y$, then $y=0$. Then $T$ is continuous.
+\end{thm}
+This is a powerful result. Usually we have to show the sequence converges and show it converges to 0. This says that we only have to check the second part given the first part. %once we show it converges, it automatically converges to 0.
+\begin{proof}
+The assumption says that the graph of $T$
+\[
+\Ga(T)=\set{(x,Tx)}{x\in X}
+\]
+is closed in $X\opl Y=\set{(x,y)}{x\in X,y\in Y}$ with norm, e.g.
+\[
+\ve{(x,y)}=\ve{x}+\ve y.
+\]
+So $\Ga(T)$ is a Banach space. Consider $U:\Ga(T)\to X$, $U(x,y)=x$. $U$ is a linear bijection and $\ve{U}\le 1$. From the Banach isomorphism theorem~\ref{thm-bit}, $U^{-1}$ is continuous, i.e., $x\mapsto (x,Tx)$ is continuous.
+\end{proof}
+We'll give three more applications. The first one is to quotient spaces. Let $X$ be a normed space and $Y$ be a closed subspace. Then $X/Y=\set{x+Y}{x\in X}$ is a normed space with 
+\[
+\ve{x+Y}=d(x,Y)=d(0,x+Y)=\inf\set{\ve{x+y}}{y\in Y}.
+\]
+We need $Y$ closed to ensure that if $\ve{z}=0$ then $z=0$ for $z\in X/Y$.
+\begin{pr}\llabel{pr:5}%5
+Let $X,Y$ be as above. If $X$ is complete, then so is $X/Y$.
+\end{pr}
+%this can be proved directly too.
+\begin{proof}
+Consider the quotient map $q:X\to X/Y$, $q(x)=x+Y$. This is a bounded linear map, $q\in \cal B(X,X/Y)$, so
+\[
+\ve{q(x)}=d(x,Y)\le \ve{x}
+\]
+and $q(B_X^{\circ})\subeq B_{X/Y}^{\circ}$. If $\ve{x+Y}<1$ then there exists $y\in Y$ with $\ve{x+y}<1$ and $q(x+y)=q(x)=x+Y$ so $q(B_X^{\circ})=B_{X/Y}^{\circ}$. So for any $M>1$, $\ol{q(MB_X)}\supeq B_{X/Y}$. %image of some large ball contains ball. 
+By Lemma~\ref{lem:oml}, $X/Y$ is complete.
+\end{proof}
+\begin{pr}
+Every separable Banach space $X$ is (isometrically isomorphic to) a quotient of $\ell_1$.
+\end{pr}
+\begin{proof}
+Let $\set{x_n}{n\in \N}$ be dense in $B_X$. Let $(e_n)$ be the standard basis of $\ell_1$. If $a=(a_n)\in \ell_1$, then $a=\sum_{n=1}^{\iy} a_ne_n$. Define
+\[
+T:\ell_1\to X,\qquad T\pa{\sum_{n=1}^{\iy} a_ne_n}=\sum_{n=1}^{\iy}a_nx_n.
+\]
+This is well defined because the sum converges: $\sum_{n=1}^{\iy} \ve{a_nx_n}\le \suo |a_n|=\ve{a}$. So $T\in \cal B(\ell_1,X)$, $\ve{T}\le 1$. Also $T(B_{\ell_1}^{\circ})\subeq B_X^{\circ}$. 
+We have $T(B_{\ell_1})\supeq \set{x_n}{n\in \N}$, so $\ol{T(B_{\ell_1})}\supeq B_X$.
+
+%checkme
+%This means given $x\in B_X^{\circ}$, there exists a sequence $rx_n\to rx\in B_X$, $rx_n\in  $\ve{rx}=1$. Then $x_n\to x\in B_X^{\circ}$. 
+So $T(B_{\ell_1}^{\circ})=B_X^{\circ}$. We have a unique $\wt T:\ell_1/\ker T\to X$ such that
+\[
+\xymatrix{
+\ell_1\ar[rr]^T\ar[rd]_q & & X\\
+& \ell_1/\ker T\ar[ru]_{\wt T}&
+}
+\]
+commutes, i.e., $T=\wt Tq$ where $q$ is the quotient map.
+%onto from lemma~\ref{lem:oml}
+Moreover, $\wt T$ is a linear bijection
+\[
+\wt T(B_{\ell_1/\ker T}^{\circ})=\wt T(q(B_{\ell_1}^{\circ}))=T(B_{\ell_1}^{\circ})=B_X^{\circ}.
+\]
+So $\wt T$ is an isometric isomorphism, and $X\cong \ell_1/\ker T$.
+\end{proof}
+This suggests that to understand all Banach spaces we just have to understand $\ell_1$. But $\ell_1$ is quite complicated, not as innocent as it looks.
+
+Recall the following definition.
+\begin{df}
+A topological space $K$ is \textbf{normal} if whenever $E,F$ are disjoint closed sets in $K$, there are disjoint open sets $U,V$ in $K$ such that $E\subeq U$, $F\subeq V$. 
+\end{df}
+\begin{lem}[Urysohn's lemma]\llabel{lem:urysohn}
+If $K$ is normal and $E,F$ are disjoint closed subsets of $K$, then $\exists$ continuous $f:K\to [0,1]$ such that $f=0$ on $E$ and $f=1$ on $F$.
+\end{lem}
+This can be used to construct partitions of unity which we'll use in chapter 3.
+\begin{thm}[Tietze's Extension Theorem]
+If $K$ is normal and $L$ is a closed subset of $K$, $g:L\to \R$ is bounded and continuous, then there exists a bounded, continuous $f:K\to \R$ such that $f|_L=g$, $\ve{f}_{\iy}=\ve{g}_{\iy}$. 
+\end{thm}
+\begin{proof}
+Let $C_b(K)=\set{h:K\to \R}{h\text{ bounded, continuous}}$, a closed subspace of $\ell_{\iy}(K)$ in $\ved_{\iy}$ (so it is a Banach space). Consider $R:C_b(K)\to C_b(L)$, $R(f)=f|_L$. We need $R(B_{C_b(K)})=B_{C_b(L)}$ (``$\subeq$" is clear, since $\ve{R}\le 1$.) Let $g\in B_{C_b(L)}$ so $-1\le g\le 1$. Let $E=\set{y\in L}{g(y)\le -\rc{3}}$, $F=\set{y\in L}{g(y)\ge \rc 3}$. Urysohn's lemma gives $\exists f\in C_b(K)$ such that $-\rc 3\le f\le \rc 3$, $f=-\rc 3$ on $E$, and $f=\rc 3$ on $F$.
+
+We have
+\[
+\ve{R(f)-g}_{\iy} \le \fc23 
+\]
+and $\ve f\le \rc 3$. So $R(\rc 3B_{C_b(K)})$ is $\fc 23$-dense in $B_{C_b(L)}$. By the Open Mapping Lemma~\ref{lem:oml}, $R$ is surjective.
+\end{proof}
+\begin{rem}
+The theorem holds in the complex case too.
+\end{rem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

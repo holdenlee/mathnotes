@@ -1,0 +1,610 @@
+\chapter{Banach algebras}
+\section{Banach algebras}
+
+\begin{df}
+Let $A$ be a real or complex algebra. (An algebra is a vector field with multiplication, satisfying associativity and distributivity with scalars.) An \textbf{algebra norm} on $A$ is a norm $\ved$ such that $\ve{ab}\le \ve{a}\ve{b}$. The pair $(A,\ved)$ is a \textbf{normed algebra}. A complete algebra is called a \textbf{Banach algebra}.
+\end{df}
+Note that multiplication in a normed space is continuous: if $a_n\to a$ and $b_n\to b$, then $a_nb_n\to ab$. 
+\begin{df}
+A normed algebra $A$ is \textbf{unital} (normed algebra) if it has an element 1 such that $1a=a1=a$ for all $a\in A$ and $\ve{1}=1$.
+\end{df}
+Note that if $A$ has an identity $1\ne 0$ then {$a\mapsto \sup_{b\in A,\ve{b}\le 1} \ve{ab}$} is an equivalent norm on $A$ on which $A$ is a unital normed algebra.
+\begin{rem}
+\begin{enumerate}
+\item
+A homomorphism between algebras is a linear map $\ph:A\to B$ such that $\ph(ab)=\ph(a)\ph(b)$ for all $a,b\in A$.
+If $A,B$ are unital, then $\ph$ is a unital homomorphism if $\ph(1)=1$.
+\item
+From now on, every algebra is complex.
+\end{enumerate}
+\end{rem}
+\begin{ex}\llabel{ex:f6-1}
+\begin{enumerate}
+\item
+$C(K)$ is compact Hausdorff, with pointwise multiplication and $\ved_{\iy}$ is a commutative, unital Banach algebra.
+\item
+\nomenclature{$A(\De)$}{disc algebra}
+A \textbf{uniform algebra} is a closed subalgebra of $C(K)$ ($K$ compact Hausdorff) such that $1\in A$ and $A$ separates the points of $K$. For example, $\De:=\set{z\in \C}{|z|<1}$ with the \textbf{disc algebra} $A(\De):=\set{f\in C(\De)}{\text{ analytic on }\text{int}(\De)}$. 
+
+\nomenclature{$P(K)$}{closure of space of polynomials of $K$}
+\nomenclature{$R(K)$}{closure of space of rational functions without poles in $K$}
+\nomenclature{$O(K)$}{functions analytic on some open neighborhood of $K$}
+\nomenclature{$A(K)$}{functions analytic on $\text{int}(K)$}
+%\nomenclature{$C(K)$}{}
+More generally, for a compact $K\subeq \C$, we have
+\[
+%\cal 
+P(K)\subeq %\cal 
+R(K)\subeq %\cal 
+O(K)\subeq A(K)\subeq C(K)
+\]
+where $P(K), R(K), O(K)$ are the closures in $C(K)$ of respectively, polynomials, rational functions (without poles in $K$), functional analytic on some open neighborhood of $K$, and 
+\[
+A(K)=\set{f\in C(K)}{f\text{ analytic on }\text{int}(K)}.
+\]
+
+Later we will see
+\begin{align*}
+P(K)&=R(K)\iff \C\bs K\text{ is connected.}\\
+R(K)&=O(K)\text{ always}\\
+R(K)&\ne A(K)\text{ in general}\\
+A(K)&=C(K) \iff \text{int}(K)\ne \phi.
+\end{align*}
+\item
+$L_1(\R)$ with the product $(f*g)(x)=\int_{\R}f(g)g(x-y)\,dy$ (convolution) is a commutative Banach algebra without an identity. This is studied in harmonic analysis.
+\item
+If $X$ is a Banach space, then $B(X)$ is a unital Banach algebra, and noncommutative (unless $\dim(X)=1$). The special case $B(H)$, $H$ a Hilbert space, is important. For example, $M_n(\C)\cong B(\ell_2^n)$.
+\end{enumerate}
+\end{ex}
+We give some standard constructions.
+\begin{enumerate}
+\item
+A subalgebra of a normed algebra is a normed algebra. The closure of a subalgebra of a normed algebra is a subalgebra. A closed subalgebra of a Banach algebra is a Banach algebra.
+If $A$ is a unital algebra, then a \textbf{unital subalgebra} is a subalgebra $B$ of $A$ that contains the identity of $A$.
+\nomenclature{$A_+$}{unitication of $A$}
+\item (\textbf{unitication}) Let $A$ be an algebra. We let $A_+=A\opl \C$ with multiplication
+\[
+(a,\la)(b,\mu)=(ab+\mu a+\la b,\la\mu),\qquad a,b\in A, \qquad \la,\mu\in \C.
+\]
+Identifying $A$ with $\set{(a,0)}{a\in A}$, we have $A\triangleleft A_+$ ($A$ is an ideal in $A_+$). Setting $1=(0,1)$, we have $1x=x1=x$ for all $x\in A_+$. When $A$ is a normed algebra, we define $\ve{(a,\la)}=\ve{a}+|\la|$. Then $A_+$ is a unital normed algebra, and $A$ is a closed ideal of $A_+$. If $A$ is a Banach algebra, then so is $A_+$.
+\item
+If $A$ is a normed algebra, and $J\triangleleft A$ is a 2-sided ideal, then $\ol J\triangleleft A$. If $J$ is a closed ideal in $A$, then $A/S$ is a normed algebra in the quotient norm. When $A$ is unital and $J\ne A$, $A/J$ is unital. ($\ve{1+J}=1$ will follow from Lemma~\ref{lem:f6-1}.) When $A$ is a Banach algebra, so is $A/J$.
+\item
+The completion $\ol A$ of a normed algebra $A$ is a Banach algebra. Given $a,b\in \ol A$, let $(a_n),(b_n)\in A$ such that $a_n\to a$, $b_n\to b$, and define $ab=\lim_{n\to \iy}a_nb_n$.
+\item
+If $A$ is a unital normed algebra, define for $a\in A$ $L_a:A\to A$ by $L_a(b)=ab$. The map $a\mapsto L_a:A\to B(A)$ is an isometric isomorphism. So {\it every Banach algebra is the closed subalgebra of $B(X)$ for some Banach space $X$.}
+\end{enumerate}
+
+\subsection{Units and inverses}
+\begin{lem}\llabel{lem:f6-1}
+Let $A$ be a unital Banach algebra, $x\in A$. If $\ve{1-x}<1$, then $x$ is invertible, and $\ve{x^{-1}}\le \fc{1}{1-\ve{x}}$.
+\end{lem}
+We construct the inverse by writing down a geometric series, and showing it converges.
+\begin{proof}
+We have
+\[
+\sum_{n=0}^{\iy}\ve{1-x}^n \le \rc{1-\ve{1-x}}
+\]
+since $\ve{1-x}<1$, so $\sum_{n=0}^{\iy} (1-x)^n$ converges absolutely. If it t converges to $z$, say, then
+\begin{align*}
+xz&=\lim_{n\to\iy} \sum_{k=0}^n x(1-x)^n=\lim_{n\to \iy} (1-(1-x))(1-x)^n\\
+&=\lim_{n\to \iy}(1-(1-x)^{n+1})=1.
+\end{align*}
+since $\ve{(1-x)^n} \le\ve{1-x}^n\to 0$ as $n\to \iy$. Similarly, $zx=1$.
+\end{proof}
+\nomenclature{$G(A)$}{set of units of $A$}
+\begin{df}
+For a unital algebra $A$, we let $G(A)$ be the set of units, i.e., invertible elements of $A$.
+\end{df}
+\begin{cor}\llabel{cor:f6-2}
+Let $A$ be a unital Banach algebra. Then 
+\begin{enumerate}
+\item
+$G(A)$ is open in $A$.
+\item
+$x\mapsto x^{-1}:G(A)\to G(A)$ is continuous (so $G(A)$ is a topological group).
+\item
+If $x_n\in G(A),n\in \N$, $x_n\to x\in A\bs G(A)$, then $\ve{x_n^{-1}}\to \iy$ as $n\to \iy$. 
+\item
+\nomenclature{$\pl A$}{boundary of $A$, $\ol A\bs A^{\circ}$} If $x\in \partial
+G(A)$, then there exist $z_n\in A,n\in \N, \ve{z_n}=1, z_nx\to 0, xz_n\to 0$ as $n\to \iy$. In particular, $x$ has no left or right inverse, even in a normed algebra $B$ that contains $A$ as a closed subalgebra.\footnote{Here $\pl A$ denotes the boundary of a set $A$ in a topological space $X$: $\pl A=\ol A\bs A^{\circ}$.}
+\end{enumerate}
+\end{cor}
+\fixme{There are some errors I here I haven't gotten around to fixing. For now, please see \url{https://www.dpmms.cam.ac.uk/~az10000/resume-on-hilbert.pdf}.}
+\begin{proof}
+\begin{enumerate}
+\item
+Let $x\in G(A)$. Assume $\ve{y-x}\le \rc{\ve{x^-1}}$. We have $\ve{1-x^{-1}y}=\ve{x^{-1}(x-y)}\le \ve{x^{-1}}\ve{x-y}<1$, so by Lemma~\ref{lem:f6-1}, $x^{-1}y\in G(A)$ and so $y=x(x^{-1}y)\in G(A)$, so $B\pa{x,\rc{\ve{x^{-1}}}}\subeq G(A)$.
+\item Let $x,y\in G(A)$. Consider $y^{-1}-x^{-1}=x^{-1}(x-y)y^{-1}$. Assume $\ve{y-x}<\rc{\ve{x^{-1}}}$. Then $\ve{1-x^{-1}y}$. Then $\ve{1-x^{-1}y}<1$, so $x^{-1}y$ is invertible, so $\ve{y^{-1}x}<\rc{1-\ve{1-y^{-1}x}}$ by Lemma~\ref{lem:f6-1}. Now 
+\[\ve{y^{-1}-x^{-1}}\le \ve{x^{-1}}\ve{x-y}\ve{y^{-1}x^{-1}}\le \ve{x^{-1}}^2 \ve{x-y}\rc{1-\ve{x^{-1}}\ve{x-y}}\to 0\text{ as }y\to \iy.\]
+\item For all $n$, $x\nin B(x_n,\rc{\ve{x_n^{-1}}})$ by proof of (1), so $\ub{\ve{x-x_n}}{\to 0 \text{ as }n\to \iy}\ge \rc{\ve{x_n^{-1}}}$, so $\ve{x_n^{-1}}\to \iy$ as $n\to \iy$. 
+\item
+There exists $x_n\in G(A)$ such that $x_n\to x$. Set $z_n=\fc{x_n^{-1}}{\ve{x_n^{-1}}}$, $n\in \N$. Then $\ve{z_n}=1$ for all $n$. We get
+\[
+z_nx=\fc{x_n^{-1}}{\ve{x_n^{-1}}} (x_n-(x_n-x))=\rc{\ve{x_n^{-1}}}-\fc{\ve{xx_n}}{\ve{x_n^{-1}}}\to 0.
+\]
+Similarly, $xz_n\to 0$ as $n\to \iy$. If say, there exists $w\in B$ suchthat $x_w=1_B$ then $z_n=z_nxw\to 0$.
+\end{enumerate}
+\end{proof}
+%%%%%%
+
+\blu{20 Nov.}
+\section{Spectra}
+
+\nomenclature{$\si_A(x)$}{spectrum}
+\begin{df}
+Let $A$ be a unital Banach algebra, $x\in A$. The \textbf{spectrum} of $x$ in $A$ is the set $\si(x)=\si_A(x)=\set{\la\in\C}{\la1-x\text{ is not invertible}}$. If $A$ is non-unital, then we define $\si_A(x)$ to be $\si_{A_+}(x)$, where $A_+$ is the unitization of $A$. Note that in this case, for any $x\in A$, $0\in\si_A(x)$.
+\end{df}
+\begin{ex}
+\begin{enumerate}
+\item
+$A=M_n(\C)$: $\si_A(x)$ is the set of eigenvalues of $x$. 
+\item $A=C(K)$: $\si_A(f)=f(K)$. 
+\end{enumerate}•
+\end{ex}
+\begin{thm}\llabel{thm:f6-3}
+Let $A$ be a Banach algebra, $x\in A$. Then $\si(x)$ is a non-empty, compact subset of $\set{\la\in\C}{|\la|\le\ve{x}}$. 
+\end{thm}
+\begin{proof}
+WLOG $A$ is unital. 
+If $|\la|>\ve{x}$ then $\ve{\fc{x}{\la}}<1$, so $1-\fc{x}{\la}\in G(A)$ by Lemma~\ref{lem:f6-1}, so $\la\pa{1-\fc{x}{\la}}=\la 1-x$ is invertible, so $\la\nin \si_A(x)$. The function $\C\to A$, $\la\mapsto \la 1-x$ is continuous. $G(A)$ is open, so $\si_A(x)$ is closed, and so compact.
+
+\nomenclature{$\rh_A(x)$}{resolvent set}
+\index{resolvent set}
+Let $\rh_A(x)=\C\bs \si_A(x)$ (the \textbf{resolvent set}). Consider
+\bal
+R:\rh_A(x)&\to A\\
+R(\la)&=(\la 1-x)^{-1}\\
+R(\la)-R(\mu)&=(\mu1-x)^{-1}((\mu1-x)-(\la1-x))(\la 1-x)^{-1}\\
+&=(\mu-\la)R(\la)R(\mu)\\
+\implies \fc{R(\la)-R(\mu)}{\la-\mu}&=-R(\la)R(\mu)\to -R(\mu)^2\text{ as }\la \to \mu.
+\end{align*}
+Thus $R$ is analytic. For $|\la|>\ve{x}$, 
+\[
+\ve{R(\la)}=\rc{|\la|}\ve{\pa{1-\fc{x}{\la}}^{-1}}\le \rc{|\la|}
+\rc{1-\ve{\fc{x}{\la}}}
+=\rc{|\la|-\ve{x}}\to 0\text{ as }|\la|\to \iy.
+\]
+If $\si_A(x)=\phi$, then $R$ is an entire function and bounded, so by vector-valued Liouville's Theorem~\ref{thm:vv-liouville}, $R$ is constant, so $R=0$, contradiction.
+\end{proof}
+\begin{ex}
+Let $A$ be an algebra of complex-valued functions on some set $K$. Assume there exists a Banach algebra norm $\ved$ on $A$. Then all functions in $A$ are bounded. 
+
+Indeed, for $f\in A$, $x\in K$, if $f(x)\ne 0$, then $f(x)\in \si_A(f)$. So $|f(x)|<\ve{f}$. 
+\end{ex}
+\begin{pr}\llabel{pr:xy-inverse}
+If $A$ is an algebra with $1\ne 0$, $x,y\in A$, $xy=yx$, and $xy$ is invertible, then $x,y$ are invertible.
+\end{pr}
+\begin{proof}
+Suppose $xy$ has inverse $w\in A$,
+\[
+w(xy)=(xy)w=1.
+\]
+Then
+\[
+x(yw)=1,\quad (yw)x=ywx(yxw)=y\blu{wxy}xw=yxw=xyw=1.
+\]
+\end{proof}
+\begin{cor}[Gelfand-Mazur Theorem]\llabel{cor:f6-4}
+If $A$ is a complex unital normed division algebra, then $A\cong \C$.
+\end{cor}
+\begin{df}
+A \textbf{division algebra} is an algebra $A$ such that if $x\in A$ and $x\ne 0$, then $x$ is invertible.
+\end{df}
+\begin{proof}
+Let $x\in A$. Let $B$ be the completion of $A$. We can pick $\la\in \si_B(x)$ as this is nonempty by Theorem~\ref{thm:f6-3}. So $\la 1-x$ is not invertible in $B$, and hence {\it a fortiori} is not invertible in $A$. Since $A$ is a division algebra, $\la 1-x=0$, i.e., $x=\la 1$.
+\end{proof}
+\begin{thm}[Spectral mapping theorem for polynomials]
+\llabel{lem:f6-5}
+Let $A$ be a unital Banach algebra, $x\in A$. Then for a polynomial $p$, 
+\[
+\si(p(x))=\set{p(\la)}{\la \in \si(x)}.
+\]
+\end{thm}
+\begin{proof}
+The result is clear for constant polynomials. Suppose $n:=\deg(p)>1$. For $\la\in \C$, we have by the Fundamental Theorem of Algebra that 
+\[
+\la-p(t)=c\prod_{k=1}^n (\mu_k-t)
+\]
+for some $c,\mu_1,\ldots, \mu_n\in \C$ and $c\ne 0$, so $\la1-p(x)=c\prod_{k=1}^n (\mu_k1-x)$. 
+We show:
+\begin{enumerate}
+\item $\la\nin \si(p(x))\implies \la\nin p(\si(x))$:
+If $\la\nin \si(p(x))$, then $\la 1-p(x)$ is invertible. Because the elements $\mu_k1-x$ pairwise commute, by Proposition~\ref{pr:xy-inverse}, $\mu_k1-x$ is invertible for all $k$, i.e. $\mu_k\nin \si(x)$ for all $k$. So there does not exist $\mu\in \si(x)$ such that $\la=p(\mu)$. 
+\item $\la\nin p(\si(x))\implies \la\nin \si(p(x))$:
+Conversely, if $\la\ne p(\mu)$ for any $\mu\in \si(x)$, then $\mu_k1-x$ is invertible for all $k$, so $\la1-p(x)$ is also invertible. So $\la\nin \si(p(x))$.
+\end{enumerate}
+\end{proof}
+\cary{One can prove, using this lemma plus some convergence estimates, the following: for any analytic function $f$ defined (as a power series) on a disc containing $\si(x)$, we have $\si(f(x))=f(\si(x))$. To get a result on the domain of $f$ and not just a disc, we need the holomorphic functional calculus; see Theorem~\ref{thm:7-1}.}
+\nomenclature{$r_A(x)$}{spectral radius}
+\begin{df}
+Let $A$ be a Banach algebra, $x\in A$. The \textbf{spectral radius} of $x$ in $A$ is
+\[
+r(x)=r_A(x):=\sup\set{|\la|}{\la\in \si_A(x)}.
+\]
+\end{df}
+By Theorem~\ref{thm:f6-3}, this is well-defined, and $r(x)\le \ve{x}$.
+
+\begin{thm}[Spectral radius formula]\llabel{thm:f6-6}
+Let $A$ be a Banach algebra, $x\in A$. Then $r(x)=\lim_{n\to \iy}\ve{x^n}^{\rc n}=\inf_n\ve{x^n}^{\rc n}$. 
+\end{thm}
+\cary{The idea is basically uses the ``root test": the radius of convergence of $\sum a_nz^n$ is $\lim_{n\to \iy}|a_n|^{-\rc n}$. Some care is needed: (1) we need to compose with $\La\in A^*$, (2) we need to pass from the result for $\La\circ R$,~\eqref{eq:srf1}, to the result $R$; one way is the result on weak boundedness implying norm boundedness.}
+\begin{proof}
+WLOG $A$ is unital. For $n\in \N$, $\la\in \si(x)$, $\la^n\in \si(x^n)$ by Lemma~\ref{lem:f6-5}, so $|\la^n|\le \ve{x^n}$. If follows that $r(x)\le \ve{x^n}^{\rc n}$. Hence $r(x)\le \inf_n\ve{x^n}^{\rc n}$. 
+
+Consider
+\bal
+R:\rh_A(x)=\C\bs \si_A(x)&\to A\\
+R(\la)&=(\la1-x)^{-1}=\rc{\la}\pa{1-\fc{x}{\la}}^{-1}\text{ for }\la \ne 0.
+\end{align*}
+Fix $\La\in A^{*}$. Then $\La\circ R$ is analytic on $\rh_A(x)$:
+\[
+\rh_A(x)\supeq \set{\la\in \C}{|\la|>r(x)} \supeq \set{\la \in \C}{|\la|>\ve{x}}
+\]
+so $\La\circ R$ has Laurent expansion on $\set{\la\in \C}{|\la|>r(x)}$. For $|\la|>\ve{x}$, 
+\[\La\circ R(\la)=\La\pa{\sum_{n=0}^{\iy}
+\fc{x^n}{\la^{n+1}}}
+=\sum_{n=0}^{\iy} \fc{\La(x^n)}{\la^{n+1}}.
+\]
+%(See proof at comment.)
+This is also an expansion of $\La\circ R$ on $\set{\la \in \C}{|\la|>r(x)}$.\footnote{We used the following fact about analytic functions: the radius of convergence of its power series around a point is exactly the radius of the largest disc inside which the function is defined.} Fix $|\la|>r(x)$. We have $\fc{\La(x^n)}{\la^{n+1}}\to 0$ as $n\to \iy$, so in particular there exists $c>0$ such that $\ab{\La(x^n)}{\la^{n+1}}\le C$ for all $n$. It follows that $\limsup_{n\to \iy}|\La(x^n)|^{\rc n}\le |\la|$. Hence 
+\beq{eq:srf1}
+\limsup_{n\to \iy} |\La(x^n)|^{\rc n}\le r(x). 
+\eeq
+\cary{We want the LHS to not have $\La$, to transfer this ``weak" bound to a bound involving $\ve{x}$. To do anything we want to look at something that converges; fortunately, to prove a lower bound on $r(x)$ is the same as proving a lower bound on all $K>r(x)$.}  
+Fix $K>r(x)$, so $\limsup_{n\to \iy} \ab{\fc{\La(x^n)}{K^n}}^{\rc n}<1$. Hence $\pa{\La\pf{x^n}{K^n}}_{n=1}^{\iy}$ is bounded. So 
+\[
+\set{\fc{x^n}{K^n}}{n\in \N}
+\]
+is weakly bounded and by Proposition~\ref{pr:f4-6} it is norm bounded. There exists $M\ge 0$ with $\ve{\fc{x^n}{K^n}}\le M$ for all $n\in \N$, so $\limsup_{n\to \iy}\ve{x^n}^{\rc n}\le K$. Hence 
+\[\limsup_{n\to \iy}\ve{x^n}^{\rc n}\le r(x)\le \inf_n \ve{x^n}^{\rc n}\le  \liminf_{n\to \iy}\ve{x^n}^{\rc n}.\]
+\end{proof}
+\begin{thm}\llabel{thm:f6-7}
+Let $A$ be a unital Banach algebra and $B$ be a closed unital subalgebra of $A$. Then for $x\in B$, we have
+\bal
+\si_B(x)&\supeq \si_A(x)\\
+\pl \si_B(x)&\subeq \pl \si_A(x).
+\end{align*}
+It follows that $\si_B(x)$ is the union of $\si_A(x)$ together with some of the bounded components of $\C\bs \si_A(x)$.
+\end{thm}
+\begin{proof}
+It is clear that $\si_B(x)\supeq \si_A(x)$. Let $x\in \pl \si_B(x)$. There exists $\la_n\to \la$ such that $\la_n\nin \si_B(x)$ for all $n$. We have 
+\[
+\ub{\la_n 1-x}{\in G(B)}\to \ub{\la 1-x}{\nin G(B)}
+\]
+so $\la1-x\in \pl G(B)$. By Corollary~\ref{cor:f6-2}(4), $\la1-x\nin G(A)$, so $\la\in \si_A(x)$. Since $\la_n\nin \si_A(x)$ for all $n$, $\la\in \pl \si_A(x)$.
+\end{proof}
+\nomenclature{$\wt K$}{$K\cup (\text{all bounded components of }\C\bs K)$}
+Let $K$ be a non-empty, compact subset of $\C$. We use the temporary notation
+\[
+\wt K:=K\cup (\text{all bounded components of }\C\bs K).
+\]
+\nomenclature{$\wh K$}{polynomial hull of $K$}
+\begin{df}
+The \textbf{polynomial hull} of $K$ is
+\[
+\wh K=\set{z\in \C}{|p(z)|\le\ve{p}_K\text{ for all polynomials }p}
+\]
+where $\ve{p}_K=\sup_{\la \in K}|p(\la)|$.
+\end{df}
+It is easy to check $K\subeq \wh K$ and $\wh K$ is compact.\footnote{It is bounded by taking $p=1$. %note it is inside the convex hull, which is equal to $\set{z\in \C}{|p(z)|\le \ve{p}_K\text{ for all linear }p}$, so it is bounded. 
+It is closed as it can be written $\bigcap_{\text{polynomial }p}\set{z\in \C}{|p(z)|\le \ve{p}_K}$. Note the convex hull is $\set{z\in \C}{|p(z)|\le \ve{p}_K\text{ for all linear }p}$.}
+\begin{df}
+We say $K$ is \textbf{polynomially convex} if $K=\wh K$. In general $\wh K$ is the smallest polynomially convex compact set containing $K$. 
+\nomenclature{$A(x)$}{closed unital subalgebra of $A$ generated by $x$}
+\end{df}
+For a unital Banach algebra $A$, $x\in A$, let $A(x)$ be the closed unital subalgebra of $A$ generated by $x$, 
+\[
+A(x)=\ol{\set{p(x)}{p\text{ polynomial}}}.
+\]
+\begin{thm}\llabel{thm:f6-8}
+If $A$ is a unital Banach algebra and $x\in A$, then
+\begin{enumerate}
+\item
+$\si_{A(x)}(x)=\wh{\si_A(x)}=\wt{\si_A(x)}$.
+\item
+If $K$ is a nonempty compact subset of $\C$, then $\wt K=\wh K$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item
+By the maximum modulus principle\footnote{Let $K$ be a compact subset of $\C$. Let $f$ be an analytic function. Then the $\sup_K|f|$ is obtained on the boundary of $K$.}, 
+\[
+K\subeq \wh K\subeq \wt K.
+\]
+(Indeed, if $z\in \wh K$ then $p(z)<\ve{p}_{\pl \wh K}\le \ve{p}_{K}$.)
+From Theorem~\ref{thm:f6-7},
+\[
+\si_{A}(x)\subeq \si_{A(x)}(x)\subeq\wh{\si_A(x)}\subeq \wt{\si_A(x)}.
+\]
+Assume $\la \nin \si_{A(x)}(x)$; we show that $\la\nin \wt{\si_A(x)}$. We have that $\la 1-x$ is invertible in $A(x)$. So there exists a polynomial $p$ such that \[\ve{p(x)(\la1-x)-1}<\rc 2,\] say. Consider $q(t)=p(t)(\la-t)-1$. If $\mu\in \si_A(x)$ then $q(\mu)\in \si_A(q(x))$ by Lemma~\ref{lem:f6-5} (spectral mapping theorem), so $|q(\mu)|\le \ve{q(x)}$ (Theorem~\ref{thm:f6-3}) and $\ve{q(x)}<\rc 2$ so \[\ve{q}_{\si_A(x)}\le\ve{q(x)}<\rc 2.\] But by plugging in, $|q(\la)|=1$, so $\la \nin \wt{\si_A(x)}$, so $\wh{\si_A(x)}\subeq \si_{A(x)}(x)$, and hence 
+\[\si_{A(x)}(x)=\wh{\si_A(x)}=\wt{\si_A(x)}.\]
+
+\item Let $A=C(K)$, $x(z)=z, z\in K$. Then $\si_A(x)=K$. By part (1), $\wh K=\wt K$.
+\end{enumerate}
+\end{proof}
+\begin{pr}\llabel{pr:f6-9}
+Let $A$ be a unital Banach algebra and $C$ be a maximal commutative subalgebra. Then $\si_C(x)=\si_A(x)$ for all $x\in C$.
+\end{pr}
+Note that $C$ is closed and unital by its maximality.
+\begin{proof}
+\fixme{Proof? missing}
+\end{proof}
+
+\section{Commutative Banach algebras}
+\subsection{Characters and maximal ideals}
+Let $A$ be a Banach algebra.
+\index{character}
+\begin{df}
+A \textbf{character} on $A$ is a nonzero algebra homomorphism $\ph:A\to \C$.
+\end{df}
+\nomenclature{$\Phi_A$}{set of character on $A$}
+If $A$ has $1\ne 0$, then $\ph(1)=1$. We let $\Phi_A$ be the set of all characters on $A$. 
+\begin{lem}\llabel{lem:f6-10}
+Let $A$ be a Banach algebra, $\ph\in \Phi_A$. Then $\ve{\ph}\le1$ (so $\ph$ is continuous). Moreover, if $A$ is unital, then $\ve{\ph}=1=\ph(1)$.
+\end{lem}
+\begin{proof}
+First consider the unital case. If $x\in A$ and $\ve{x}\le 1<|\ph(x)|$, then $\ve{\fc{x}{\ph(x)}}<1$, so $1-\fc{x}{\ph(x)}$ is invertible (Lemma~\ref{lem:f6-1}): there exists $z\in A$ such that $z\pa{1-\fc{x}{\ph(x)}}=1$. Apply $\ph$ to both sides:
+\[
+\ph(z)\ph\pa{
+1-\fc{x}{\ph(x)}
+}=\ph(1)=1
+\]
+so $\ph(1-\fc{x}{\ph(x)})\ne 0$. This is a contradiction.
+
+Hence $\ve{\ph}\le 1$. Also $\ph(1)=1$, $\ve{\ph}\le 1$, so $\ve{\ph}=1$.
+
+If $A$ is nonunital, define $\ph_+:A_+\to \C$ by 
+\[
+\ph_+(x+\la 1)=\ph(x)+\la, \quad x\in A,\la \in \C.
+\]
+Then $\ph_+\in \Phi_{A_+}$, so $\ve{\ph}\le \ve{\ph_+}= 1$.
+\end{proof}
+\begin{ex}
+Consider the disc algebra $A(\De)$. Let $A_0=\set{f\in A(\De)}{f(0)=0}$ and the character $\ph(f)=f(z)$. Then $\ph\in \Phi_{A_0}$. We get $\ve{\ph}=\ab{z}$ by Schwarz's Lemma. (Schwarz's Lemma: If $f(z)$ is analytic for $|z|<1$ and satisfies $|f(z)|\le 1$, $f(0)=0$, then $|f(z)|\le |z|$.)
+\end{ex}
+\begin{lem}\llabel{lem:f6-11}
+Let $A$ be a unital Banach algebra and let $J$ be a proper ideal ($J\ne A$). Then $\ol J$ is also a proper ideal. In particular, it follows that maximal ideals are closed.
+\end{lem}
+\begin{proof}
+Since $J$ is proper ($J\ne A$), $J\cap G(A)=\phi$. By by Corollary~\ref{cor:f6-2}, $G(A)$ is open, so $\ol J\cap G(A)=\phi$.
+
+If $M$ is a maximal ideal, then $M$ is proper, so $\ol M$ is also proper and $M\subeq \ol M$, and by maximality $M=\ol M$. 
+\end{proof}
+\nomenclature{$\cal M_A$}{maximal ideals of $A$}
+Let $\cal M_A$ be the set of all maximal ideals of $A$.
+
+\begin{thm}\llabel{thm:f6-12}
+Let $A$ be a commutative unital Banach algebra. Then
+\bal
+\Phi_A&\to \cal M_A\\
+\ph&\mapsto \ker \ph 
+\end{align*}
+is a bijection.
+\end{thm}
+\begin{proof}
+We check that it is...
+\begin{enumerate}
+\item
+\ul{well-defined:} For $\ph\in \Phi_A$, $\ker\ph$ is a proper ideal, since $\ph\ne 0$ and $\ph$ is a homomorphism. Also $\ph$ is a linear functional, so $\ker \ph$ is 1-codimensional in $A$, so $\ker\ph\in \cal M_A$.
+\item
+\ul{injective:} If $\ker \ph=\ker \psi$, then for $x\in A$, $x-\ph(x)1\in \ker \ph=\ker \psi$ so $\psi(x-\ph(x)1)=0$, giving $\psi(x)=\ph(x)$, so $\ph=\psi$.
+\item
+\ul{onto:} If $M\in \cal M_A$, then $A/M$ is a unital Banach Algebra (using the fact that $M$ is closed and proper) and $A/M$ is also a field. In particular it is a division algebra. By Gelfand-Mazur (Corollary/Theorem~\ref{cor:f6-4}), $A/M\cong \C$ so the quotient map $q:A\to A/M$ ``is" a character. Of course $\ker q=M$.
+\end{enumerate}
+\end{proof}
+\begin{cor}\llabel{cor:f6-13}
+Suppose $A$ is a commutative unital Banach algebra. Then
+\begin{enumerate}
+\item
+for $x\in A$, $x\in G(A)$ iff $\ph(x)\ne 0$ for all $\ph\in \Phi_A$.
+\item
+for $x\in A$, $\si_A(x)=\set{\ph(x)}{\ph\in \Phi_A}$
+\item
+for $x\in A$, $r(x)=\sup\set{|\ph(x)|}{\ph\in \Phi_A}$.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+For (1)$\implies$, if there exists $z\in A$, $zx=1$ then $\ph(z)\ph(x)=\ph(1)=1$ for all $\ph\in \Phi_A$ so $\ph(x)\ne 0$ for all $\ph\in \Phi_A$. 
+
+For (1)$\Leftarrow$, if $x\in G(A)$, then $J=\set{ax}{a\in A}$ is a proper ideal, with $x\in J$. By Zorn, there exists $M\in \cal M_A$ such that $J\subeq \cal M$. By Theorem~\ref{thm:f6-12}, there exists $\ph\in \Phi_A$, $\ker\ph=M$, so $\ph(x)=0$.
+
+(2) and (3) follow easily.
+\end{proof}
+\begin{cor}\llabel{cor:f6-14}
+Let $A$ be a Banach algebra (not necessarily commutative). Let $x,y\in A$ which commute $xy=yx$. Then $r(x+y)\le r(x)+r(y)$, and $r(xy)\le r(x)r(y)$. 
+\end{cor}
+\begin{proof}
+WLOG, $A$ is unital. Replacing $A$ with a maximal commutative subalgebra containing $x,y$, WLOG we can assume $A$ is commutative. By Corollary~\ref{cor:f6-13}, $r(x+y)=\sup\set{|\ph(x+y)|}{\ph\in \Phi_A(x)}$ and clearly
+\bal
+r(x+y)&\le \sup\set{|\ph(x)|}{\ph\in \Phi_A}+\sup\set{|\ph(y)|}{\ph\in \Phi_A}\\
+r(x+y)&\le r(x)+r(y)
+\end{align*}
+and similarly we obtain $r(xy)\le r(x)r(y)$.
+\end{proof}
+\begin{ex}\llabel{ex:f6-2}
+\begin{enumerate}
+\item
+$A=C(K)$, $K$ compact Hausdorff. For $k\in K$, let $\de_k(f)=f(k)$. Clearly $\de_k\in \Phi_A$ for all $k\in K$. 
+Let $M$ be a maximum ideal of $C(K)$. If for all $k\in K$, there exists $f\in M$ such that $f(k)\ne 0$, then an easy compactness argument shows that there exists $f\in M$, $f(k)\ne 0$ for all $k\in K$. So $f\in G(A)$, contradiction.
+
+So there exists $k\in K$ with $M\subeq \ker(\de_k)$. But $M$ is maximal, so $M=\ker(\de_k)$. Hence $\Phi_{C(K)}=\set{\de_k}{k\in K}$. 
+\item Disc algebra $A(\De)$. For any $\al \in \De$, $\de_{\al}\in \Phi_A$. Let $\ph\in \Phi_A$. Let $u(z)=z$, $z\in \De$. Put $\al=\ph(u)$. Then $|\al|=|\ph(u)|\le \ve{u}=1$. %arrow with ``sup"?
+So $\al \in \De$, $\de_{\al}(u)=\ph(u)$. So $\de_{\al}(p)=\ph(p)$ for all polynomials $p$. Polynomials are dense in $A(\De)$, so $\de_{\al},\ph$ agree on a dense subspace and hence $\de_{\al}=\ph$. In conclusion,
+\[
+\Phi_{A(\De)}=\set{\de_{\al}}{\al\in \De}.
+\]
+\item For $K\subeq \C$, $K\ne \phi$ compact, it's easy to show (exercise) 
+\[
+\Phi_{R(K)}=\set{\de_k}{k\in K}.
+\]
+\item
+\nomenclature{$W$}{Wiener algebra}
+Define the \textbf{Wiener algebra} to be
+\[
+W=A(\mathbb T)=\set{f\in C(\mathbb T)}{\sum_{n\in \Z}|\wh f_n|<\iy}.
+\]
+%missing line here?
+Let $\ve{f}_1=\sum_{n\in \Z} |\wh f_n|$ for $f\in A(\mathbb T)$. Then $(A(\bb T),\ved_1)$ is a (commutative, unital) Banach algebra with pointwise multiplication. It is isometrically isomorphic to $(\ell_1(\Z),\ved_1)$ with convolution, $a=(a_n)_{n\in \Z}$, $b=(b_n)_{n\in \Z}\in \ell_1(\Z)$ where $(a*b)_n=\sum_{r+s=n}a_rb_s$ via 
+\bal
+A(\bb T)&\to \ell_1(\Z)\\
+f&\mapsto (\hat f_n)_{n\in \Z}\\
+\pa{
+\sum_{n\in\Z} a_ne^{int}
+}&\mapsfrom (a_n)_{n\in \Z}.
+\end{align*}
+\end{enumerate}
+\end{ex}
+\blu{25th Nov}
+We compute the characters of $A(\mathbb T)$. For all $a\in \bb T$, $\de_{\al}\in \Phi_W$. Conversely, let $\ph\in \Phi_W$, $u(z)=z$. For $z\in \mathbb T$, we have $u\in W$, and in fact $u\in G(w)$, $u^{-1}(z)=\rc z$. So $\al=\ph(u)\ne 0$ and $|\al|\le \ve{u}=1$. We have $\ve{\rc{\al}}=|\ph(u^{-1})|\le \ve{u^{-1}}=1$, so $\al\in \mathbb T$. If $p(z)=\sum_{n=-N}^N \la_nz^n$ is a trigonometric polynomial, then $p=\sum_{n=-N}^N\la_n u^n$, so $\ph(p)=\sum_{n=-N}^N\la_n\al^n=p(\al)=\de_{\al}(p)$. The trigonometric polynomials are dense in $W$, so $\ph=\de_{\al}$. Hence
+%\[
+%\Phi_W=\set{\de_{\al}}{\al\in \bb T}.
+%\]
+%Applying Corollary~\ref{cor:f6-13}(1), we get
+%\end{ex}
+%\end{proof}
+%25 Nov.
+%\begin{df}
+%Define the \textbf{Weiner algebra} to be
+%\[
+%A(\mathbb T)=W=\set{f\in C(\mathbb T)}{\sum_{n=-\iy}^{\iy}|\wh f_n|<\iy}.
+%\]
+%This is a unital, commutative Banach algebra with pointwise multiplication and $\ve{f}_1=\sum_{n=-\iy}^{\iy}|\wh f_n|$. It is isometrically isomorphic to $(\ell_1(2),\ved)$ with convolution $(a_i)+(b_i)=\pa{\sum_{r+s=n} a_i b_i}_n$.
+%\end{df}
+%We compute the characters of $A(\mathbb T)$. For all $\al \in \bb T$, $\de_{\al}\in \Phi_W$ let $\ph\in \Phi_{W}$, $u(z)=z$, $z\in \bb T$. We have $u\in W$, and in fact $u\in G(W)$, $u^{-1}(z)=\rc z$. So $\al=\ph(u)\ne 0$ and $|\al|\le \ve{w}=1$, $\ab{\rc{\al}}=|\ph(a^{-1})|\le \ve{u^{-1}}=1$. So $\al\in \mathbb T$. If $p(z)=\sum_{n=-N}^N \la_nz^n$ is a trigonometric polynomial, then $p=\sum_{n=-N}^N \la_nu^n$ so $\ph(p)=\sum_{n=-N}^N \la_n\al^n=p(\al)=\de_{\al}(p)$. The trigonometric polynomials are dense 
+%%in sup norm but also wrt 1 norm
+%in $W$, so $\ph\in S_{\al}$. So 
+\[\Ph_W=\set{\de_{\al}}{\al\in \bb T}.\] Applying Corollary~\ref{cor:f6-13}(1) we get the following.
+\index{Wiener's Theorem}
+\begin{thm}[Wiener's Theorem]\llabel{thm:wiener}
+If $f\in C(\mathbb T)$ has absolutely summable Fourier coefficients, and $f(z)\ne 0$ for all $z\in \mathbb T$, then $\rc f$ also has absolutely summable Fourier coefficients.
+\end{thm}
+This theorem was proved in the 1930's, and generated a lot of interest in algebraic methods in analysis.
+
+\subsection{Gelfand representation}
+Let $A$ be a commutative unital Banach algebra. Then
+\bal
+\Phi_A&=\set{\ph\in A^*}{\ph(ab)=\ph(a)\ph(b)\,\forall a,b\in A,\ph\ne 0}\\
+&=\set{\ph\in B_{A^*}}{\ph(ab)=\ph(a)\ph(b)\,\forall a,b\in A,\ph(1)=1}&\text{Lemma~\ref{lem:f6-10}.}
+\end{align*}
+%(homomorphism is automatically continuous
+This is a $w^*$-closed subset of $B_{A^*}$, since $\ph\mapsto \ph(ab)-\ph(a)\ph(b)$, $a,b\in A$ and $\ph\mapsto \ph(1)$ are $w^*$-continuous on $A^*$. So $\Phi_A$ with the relative $w^*$-topology is a compact Hausdorff space. 
+%what did we use to conclude this? Closed in compact set - Banach-Alaoglu
+It is called the \textbf{spectrum} of $A$ (or \textbf{character space} or \textbf{maximal ideal space} of $A$). The relative $w^*$-topology on $\Phi_A$ is the \textbf{Gelfand topology}.
+
+For $x\in A$, define $\wh x:\Phi_A\to \C$ by $\wh x(\ph)=\ph(x)$ for $\ph\in \Phi_A$. (This is the restriction to $\Phi_A$ of the canonical embedding of $x$ into $A^{**}$.) Note that $\wh x\in C(\Phi_A)$. 
+\index{Gelfand representation}
+\begin{thm}[Gelfand's Representation Theorem]\llabel{thm:f6-15}
+Let $A$ be a commutative unital Banach algebra. Then the map $A\to C(\Phi_A)$, $x\mapsto \wh x$, is a continuous algebra homomorphism called the \textbf{Gelfand representation}. For $x\in A$, 
+\bal
+\ve{\wh x}_{\iy}&=\sup\set{\ab{\ph(x)}}{\ph\in \Ph_A}=r(x)\le \ve{x}\\
+\si_{C(\Ph_A)}(\wh x)&=\set{\ph(x)}{\ph\in \Ph_A}=\si_A(x).
+\end{align*} 
+so $\wh x\in G(C(\Phi_A))$ iff $x\in G(A)$. 
+\end{thm}
+\nomenclature{$J(A)$}{Jacobson radical of $A$}
+\index{Jacobson radical}
+\index{semisimple algebra}
+In general, the Gelfand representation need not be injective or surjective. The kernel is given by
+\bal
+\set{x\in A}{\si_A(x)=\{0\}}&=\set{x\in A}{r(x)=\lim_{n\to \iy} \ve{x^n}^{\rc n}=0}\\
+&=\bigcap_{\ph\in \Ph_A} \ker\ph = \bigcap_{\mm \in M_A} M=J(A),
+\end{align*}
+the \textbf{Jacobson radical} of $A$. $A$ is called \textbf{semisimple} if $J(A)=\{0\}$, i.e., if the Gelfand representation is injective.
+%spectrum with underlying compact is homeo.
+\begin{lem}\llabel{lem:f6-16}
+Let $K$ be a compact Hausdorff space, $A$ be a subalgebra of $C(K)$ that separates the points of $K$ and $1\in A$. Assume that $A$ is given some Banach algebra norm. Then $k\mapsto \de_k$ is a homeomorphism of $K$ onto a closed subset of $\Ph_A$.
+\end{lem}
+Note that letting $\ved$ be the Banach algebra norm on $A$, $\ved_{\iy}\le \ved$. Indeed, $f(k)\in \si_A(f)$ for all $f\in A$ and all $k\in K$. 
+\begin{proof}
+We show $k\mapsto \de_k$ is continuous: given $f\in A$, the composite of $k\mapsto \de_k$ with evaluation at $f$ is $k\mapsto f(k)$ i.e., it is $f$ which is continuous as $f\in A\subeq C(K)$. (This is enough as we're using the $w^*$-topology on $\Phi_A$.)
+
+$k\mapsto \de_k$ is injective since $A$ separates the points of $K$.
+
+The image is a closed subset of $\Phi_A$, as it is the continuous image of a compact set in Hausdorff space.  
+$k\mapsto \de_k$ is a continuous bijection from a compact to a Hausdorff space, hence a homeomorphism.
+\end{proof}
+\begin{ex}
+We have seen that the above map is onto $\Ph_A$ for the following algebras. 
+\begin{itemize}
+\item
+$A=C(K)$, $K$ compact Hausdorff
+\item
+$A=A(\De)$ disc algebra
+\item
+$A=W$ Weiner algebra
+\item 
+$A=R(K)$, $K\subeq \C$ nonempty and compact
+%underlying compact set. The Gelfand representation is the inclusion map.
+(the closure in $C(K)$ of rational functions without poles in $K$)
+\end{itemize}
+\end{ex}
+Identifying $\Phi_A$ with the underlying compact set ($K,\De, \bb T$ as appropriate), the Gelfand representation is just inclusion.
+We get
+\[
+C(K)\to C(K),\quad A(\De)\to C(\De), \quad W\to C(\bb T),\quad R(K)\to C(K).
+\]
+So all these algebras are semisimple. 
+These give examples when the Gelfand representation is not surjective (the last three), or when the image is not even closed (the Weiner algebra $W$ is not closed; it's dense in $C(\bb T)$). 
+\begin{ex}
+Let $V=L_1[0,1]$ with $\ved_{L^1}$ and the multiplication being ``chopped off" convolution:
+\[
+(f*g)(x)=\int_0^xf(t)g(x-t)\,dt,x\in [0,1].
+\]
+$V$ is a commutative Banach algebra with no identity. Let $A=V_+$ be the unitization of $V$. If $f\in V$, $f=0$ on $[0,\ep]$ for some $\ep>0$, then $f*f=0$ on $[0,2\ep]$, etc., so there exists $n$ such that $f^n=0$, and $f\in J(A)$. However, the set of these $f$ is dense in $V$, so $J(A)=V$. 
+
+So there is only 1 maximal ideal, and hence only 1 character, $\ph(x+\la 1)=\la$, $x\in V,\la \in \C$.
+%gives nothing on $V$. 
+\end{ex}
+The Gelfand representation will be useful for studying $C^*$-algebras. As we will see in the Gelfand-Naimark Theorem~\ref{thm:f8-4}, for a commutative unital $C^*$-algebra, the Gelfand transform is an isometric isomorphism.
+
+%continuous functional calculus
+
+\section{Spectral theory for linear operators}
+We now specialize to the case $A=\cal B(X)$ where $X$ is a (non-zero) complex Banach space. We have that the spectrum of $T\in \cal B(X)$ is
+\[
+\si(T)=\set{\la\in \C}{\la I-T\text{ not invertible}}.
+\]
+Recall that $\si(T)$ is a non-empty compact subset of $\set{\la\in \C}{|\la|\le \ve{T}}$ (Theorem~\ref{thm:f6-3}), and the spectral radius $r(T)$ satisfies 
+\[
+r(T)=\sup_{\la\in \si(T)}|\la|=\lim_{n\to \iy} \ve{T^n}^{\rc n}
+\]
+(Theorem~\ref{thm:f6-6}).
+
+For $A=\cal B(X)$, we can draw upon our knowledge of eigenvalues for finite-dimensional operators to give intuition for spectra. In particular, we can define eigenvalues. When $X$ is finite-dimensional, the spectrum of a linear operator is exactly its eigenvalues. For infinite-dimensional operators, this is not quite true anymore.
+\begin{df}
+Let $X$ ba a complex Banach space and $T\in \cal B(X)$. 
+\begin{enumerate}
+\item
+We say that $\la$ is an \textbf{eigenvalue} for $T$ if there exists $x\in X$ (an \textbf{eigenvector}) such that 
+\[
+(\la I-T)x=0.
+\]
+The \textbf{point spectrum} of $T$ is the set of eigenvalues of $T$, denoted $\si_p(T)$.
+\item
+We say $\la$ is an \textbf{approximate eigenvalue} of $T$ if there exists a sequence $(x_n)$ in $X$ with $\ve{x_n}=1$ for all $n\in \N$ such that
+\[
+(\la I-T)x_n\to 0\text{ as } n\to \iy.
+\]
+The sequence $(x_n)$ is an \textbf{approximate eigenvector} for $\la$. The \textbf{approximate point spectrum} of $T$ is the set of all approximate eigenvalues of $T$, and is denoted by $\si_{\text{ap}}(T)$.
+\end{enumerate}
+\end{df}
+One clearly has
+\[
+\si_p(T)\subeq \si_{\text{ap}}(T)\subeq \si(T).
+\]
+In general, these inclusions can be strict and the point spectrum can be empty (unlike the spectrum). However, we have the following result. 
+\begin{thm}
+We have $\pl \si(T)\subeq \si_{\text{ap}}(T)$. In particular, $\si_{\text{ap}}(T)\ne \phi$.
+\end{thm}
+\begin{proof}
+\fixme{Add me.}
+\end{proof}
+\begin{df}
+Let $T\in \cal B(X)$. We say $T$ is \textbf{compact} if whenever $U$ is bounded, $T(U)$ is relatively compact (has compact closure).
+\end{df}
+\fixme{Example of a compact operator that's not finite-rank?}
+\begin{thm}
+Let $T\in \cal B(X)$ be a compact operator. Let $\la \in \si_{\text{ap}}(T)$ and $\la\ne 0$. Then $\la$ is an eigenvalue of $T$.
+\end{thm}

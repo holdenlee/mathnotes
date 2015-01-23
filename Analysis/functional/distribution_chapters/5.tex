@@ -1,0 +1,475 @@
+\chapter{Oscillatory integrals}
+\section{Introduction}
+A the beginning of the course we played cavalier with some seemingly ill-defined integrals like
+\[
+\int e^{-i\la x}\,d\la.
+\]
+This is an example of an \textbf{oscillatory integral}. We will make sense of these creatures. We study very general objects of the form 
+\[
+\int e^{i\Phi(x,\te)}a(x,\te)\,d\te
+\]
+where $\Phi$ is called a \textbf{phase function} and $a$ belongs to a class of functions called \textbf{symbols}. These integrals are not defined in a classical sense (Riemann/Lebesgue) because we will allow all the functions $a(x,\te)$ to become large as $|\te|\to \iy$. (For example, $a$ could be polynomial in $\te$.)
+%doesn't exist in classical sense. math formalism that tells us what we mean.
+The key will be to make sure $a(x,\te)$ does not oscillate quickly enough to cancel the effects of the $e^{i\Phi(x,\te)}$ term.
+
+We first develop some intuition. Why do oscillations help us?
+%Riemann-Lebesgue lemma: Fourier transform tends to 0.
+Recall the Riemann-Lebesgue Lemma (Example sheet 2). 
+\begin{lem}[Riemann-Lebesgue lemma]\llabel{lem:rl}
+If $f\in L^1(\R^n)$ then 
+\[
+\int e^{-i\la\cdot x}f(x)\,dx=o(1) \text{ as }|\la|\to \iy.
+\]
+\end{lem}
+If $f$ is nice, the real/imaginary parts of $e^{-\la x}f(x)$ will look like
+
+\fixme{figure 1}
+
+Making the frequency large, the area of a positive blob will be almost exactly the same as the area of an adjacent negative blob. 
+
+\fixme{figure 2}
+
+As $\la$ increases, the areas above and below graph cancel, so the integral gets smaller.
+%inside the integral we get lots of cancellation.
+Mathematically, {\it oscillations mean we want to integrate by parts.}\\
+
+\cpbox{\hypertarget{cpt:ibp_for_oscillatory}{(IbP for oscillatory)}
+To estimate an oscillatory integral, integrate by parts.}
+
+\vskip0.15in
+
+To show the integral $\int e^{-i\la x}f(x)\,dx$ is small for large $\la$, we should integrate by parts: assuming $f$ is nice, 
+\beq{eq:dist5-1}
+\int e^{-i\la x}f(x)\,dx=\rc{i\la} \int e^{-i\la x}f'(x)\,dx.
+\eeq
+%cf Abel summation.
+So when dealing with oscillatory integrals,
+\[
+\int e^{i\Phi(x,\te)}a(x,\te)\,d\te,
+\]
+we expect to gain control of this object by integration by parts. In~\eqref{eq:dist5-1} we wrote
+\[
+\int e^{-i\la x}f(x)\,dx =\int\rc{\ddd x(-i\la x)}\ddd x(e^{-i\la x})\ph(x)\,dx
+%\int_{\ddd x(-i\la x)} \ddd x(e^{-i\la x})f(x)\,dx
+\]
+%lots of IbP argument.
+So for oscillatory integrals, we expect to do something similar. In particular, we will get away with this trick unless $\pl_{\te}\Phi=0$. So we expect to get major contributions from points satisfying $\pl_{\te}\Phi=0$. These are called points of \textbf{stationary phase}, an idea which goes back to Lord Kelvin.
+%don't get decay when rate of change of phase vanishes.
+We will prove the stationary phase lemma.
+
+\blu{Lecture 5 Mar}
+Recap
+\begin{itemize}
+\item
+Noted that if $\ph\in D(\R)$ then integral $\int e^{-i\la x}\ph(x)\,dx$ decays rapidly using integration by parts $\int\rc{\ddd x(-i\la x)}\ddd x(e^{-i\la x})\ph(x)\,dx$. 
+\item Want to make sense of $\int e^{-i\Phi (x,\te)}a(x,\te)\,d\te$.
+%defined as distributions
+\end{itemize}
+These integrals will be defined as distributions.
+\begin{lem}[Stationary phase]\llabel{lem:dist5-1}
+Let $\Phi\in C^{\iy}(\R)$ such that $\Phi'(\te)\ne 0$ on $\R\bs \{0\}$ and $\Phi(0)=\Phi'(0)=0$ and $\Phi''(\te)\ne 0$ for all $\te$. Then for $\chi\in D(\R)$ we have
+\[
+\ab{
+\int e^{i\la \Phi(\te)}\chi(\te)\,d\te
+}\precsim |\la|^{-\rc 2},\quad |\la|\to \iy.
+\]
+\end{lem}
+\begin{proof}
+%something special happens at $\te=0$, isolate the point
+The statement of the lemma suggests that we split the integral 
+\bal
+\int e^{i\la \Phi(\te)}\chi(\te)\,d\te
+&=\int e^{i\la \Phi(\te)}\chi(\te)\rh\pf{\te}{\de}\,d\te + \int e^{i\la \Phi(\te)}\chi(\te)\pa{1-\rh\pf\te\de}\,d\te\\
+&=:I_1(\la)+I_2(\la)
+\end{align*}
+%de gets small, support closes down on a ball of radius $\ep$.
+where $\rh\in D(\R)$ is such that $\rh=1$ on $|\te|<1$ and $\rh=0$ on $|\te|>2$. Note that $\rh\pf\te\de=0$ on $|\te|>2\de$. It is easy to estimate $I_1(\la)$:
+\[
+|I_1(\la)|\le\int |\chi(\te)\rh\pf\te\de|\,d\te\precsim \de.
+\]
+Why have we tried to estimate our integral by splitting into $I_1,I_2$? Recall that to show an oscillatory integral is small, we integrate by parts. On the integral $I_2$ we can integrate by parts because the derivative doesn't vanish.
+
+To estimate $I_2(\la)$ we will need a very generic trick: by defining the differential operator
+\[
+L=\rc{i\la \Phi'(\te)}\ddd{\te}
+\]
+we see that $Le^{i\la \Phi}=e^{i\la \Phi}$, and more generally $L^Ne^{i\la \Phi}=e^{i\la \Phi}$ for $N\ge 1$. The (formal) adjoint of $L$ is 
+\[
+L^*=-\ddd{\te}\rc{i\la \Phi'(\te)}=-\rc{i\la \Phi'(\te)}\ddd{\te}+\fc{\Phi''(\te)}{i\la \Phi'(\te)^2}.
+\]
+In particular, since $|\Phi'(\te)|\succsim |\te|$ on $\Supp(\chi)$ (since $\Phi''(\te)\ne 0$), we have
+\[
+L^*=-\rc{i\la \Phi'(\te)}\ddd{\te}+O(\la^{-1}|\te|^{-2}).\footnote{The $O$ here not only means that the function is $O(\cdots)$, but all its derivatives are $O(\pl\cdot)$, i.e., we can differentiate inside the $O$. This is an important technicality.}
+\]
+where we used $\ab{\rc{\Phi'(\te)}}=\rc{|\Phi'(\te)|}\precsim\rc{|\te|}$. By integration by parts,
+\bal
+I_2(\la)&=\int (L^N e^{i\Phi})\chi(\te) \pa{1-\rh\pf\te\de}\,d\te\\
+&=\int e^{i\Phi} (L^*)^N \pa{\chi(\te)\pa{1-\rh\pf\te\de}}\,d\te.
+%abs values inside
+\end{align*}
+We estimate the integrand
+\[
+\ab{(L^*)^N \pa{1-\rh\pf\te\de}\chi(\te)} \precsim \max
+\{
+\la^{-N}|\te|^{-2N},\de^{-N}\la^{-N}|\te|^{-N}
+%bring out te/de
+\}.
+\]
+%switch off when \te<\de
+To see this, note that when apply derivatives, by the product rule we will be applying derivatives to $\chi(\te)$ or $1-\rh\pf{\te}{\de}$. 
+\begin{enumerate}
+\item For $\chi(\te)$, $\te$ can be small so the main contribution is from the $O(\la^{-1}|\te|^{-2}$). 
+\item 
+For  $\rh\pf\te\de$, every time we differentiate we get a factor of $\rc{\de}$. 
+\end{enumerate}
+Thus
+\[
+\int_{|\te|>\de}
+\ab{
+(L^*)^N \pa{1-\rh\pf\te\de}\chi(\te)
+}\,d\te
+\precsim \max\{
+\la^{-N}\de^{-2N+1},\de^{-N}\la^{-N}\de^{-N+1}
+\}
+\precsim \la^{-N}\de^{-2N+1}.
+\]
+So we have
+\[
+\ab{\int e^{i\Phi(\te)\la}\chi(\te)\,d\te}\precsim
+\de+\la^{-N}\de^{-2N+1}.
+\]
+Take $\de=|\la|^{-\rc2}$. Then $\de^{-2N+1}\la^{-N}=\la^{-\rc2}$, so $\ab{\int e^{i\la \Phi(\te)} \chi(\te)\,d\te}\precsim|\la|^{-\rc 2}$.
+\end{proof}
+%ocean over long period of time, waves escape 
+This result is optimal: there exist test functions and $\Phi$ that achieves $\sim|\la|^{-\rc2}$. Compare with $\int e^{-i\la x}$; here $\Phi(x)=x,\Phi'(x)=1\ne 0$; and our estimate on rapid decay was not optimal because we can continue to integrate by parts. 
+But the second you let the derivative vanish, you only get decay of order $|\la|^{-\rc2}$. Moral: we get large contributions when the phase has a derivative that vanishes.
+
+Lord Kelvin studied these integrals in the context of ocean waves.
+
+This highlights an important point: we expect oscillatory integrals
+\[
+\int e^{i\Phi(x,\te)}a(x,\te)\,d\te
+\]
+to be ``bad" at points $x$ for which there exist $\te$ such that $\nabla_\te\Phi(x,\te):=\pa{\pd{\Phi}{\te_1},\ldots, \pd{\Phi}{\te_k}}$ vanishes. 
+We can now define symbols and phase functions.
+\begin{df}\llabel{df:dist5-1}
+Let $X\subeq \R^n$ be open. A smooth function $a(x,\te):X\times \R^k\to \C$ is called a \textbf{symbol} of order $N$ if for each compact $K\subeq X$ and each pair of multi-indices $\al,\be$, 
+\[
+\ab{D_x^{\al}D_{\te}^{\be} a(x,\te)}\precsim_{K,\al,\be}
+\an{\te}^{N-|\be|}
+\]
+for $(x,\te)\in K\times \R^n$. We call the space of all such symbols $\text{Sym}(X,\R^n;N)$. 
+%how large get for large $\te$.
+%just bring the order of it down
+%poly in \te, coeff are smooth functions of x.
+\end{df}
+We just care how how large the functions get for large $\te$. For example, $a$ could be a polynomial in $\te$ whose coefficients are smooth functions in $x$.
+%; the definition says we can just bring the order of it down
+%poly in \te, coeff are smooth functions of x.
+%a grow like polynomial.
+In particular, $a(x,\te)=P(\te)$, $P$ a polynomial, defines a symbol. In general we will only care about the large $|\te|$ behavior of $a(x,\te)$, 
+as we can always isolate what's going on in a compact set by introducing a bump function.
+\[
+\int e^{i\Phi(x,\te)}a(x,\te)\,d\te=\int e^{i\Phi(x,\te)} \rh(\te)a(x,\te)\,d\te
++\int e^{i\Phi(x,\te)}(1-\rh(\te))a(x,\te)\,d\te.
+%properties of that integral.
+\]
+Now we define phase functions.
+\begin{df}
+A real-valued function $\Phi:X\times \R^k\to \R$ is called a \textbf{phase function} if
+\begin{enumerate}
+\item
+$\Phi(x,\te)$ is continuous on $X\times \R^k$ and homogeneous of degree 1 in $\te$. (This means $\Phi(x,t\te)=t\Phi(x,\te)$, $t>0$.)
+\item
+$\Phi(x,\te)$ is smooth on $X\times (\R^k\bs \{0\})$. 
+\item
+%derivative of this $\Phi$. 
+\[d\Phi:=\nabla_x\Phi\cdot dx+\nabla_{\te}\Phi\cdot d\te
+=\sum_{i=1}^n \pd{\Phi}{x_i}\,dx_i+\sum_{j=1}^k \pd{\Phi}{\te_j}d\te_j
+\] is nonvanishing on $X\times (\R^k\bs \{0\})$. 
+\end{enumerate}
+\end{df}
+Whenever you're given a very general definition or statement, it's good to find a very specific example to build intuition. A simple example of a phase function is $\Phi(x,\te)=x\cdot \te$. We see that $\nabla_x\Phi=0$ so $d\Phi$ is nonvanishing if $\te\in \R^k\bs \{0\}$. This means that 
+\[
+D^{\al}\de_0(x)
+\qeq \rc{(2\pi)^n}\int \te^{\al}e^{ix\cdot \te}\,d\te
+\]
+is precisely of the form
+\[
+\int e^{i\Phi(x,\te)}a(x,\te)\,d\te
+\]
+with $a(x,\te)=\te^{|\al|}$ a symbol of order $|\al|$ and phase function $\Phi(x,\te)=x\cdot \te$.
+%H\"ormander found this useful, deveop math formalism
+\begin{lem}\llabel{lem:dist5-2}
+We have:
+\begin{enumerate}
+\item
+If $a\in \text{Sym}(X,\R^k;N)$ then $D_x^\al D_\te^\be a(x,\te)\in \text{Sym}(X,\R^k;N-|\be|)$.
+If $a_1,a_2$ belong to $\text{Sym}(X,\R^k;N_1)$ and $\text{Sym}(X,\R^k;N_2)$ respectively then $a_1a_2\in \text{Sym}(X,\R^k;N_1+N_2)$. 
+\end{enumerate}•
+\end{lem}
+Differentiating with respect to $\te$ reduces the order of the symbol.
+
+Thus symbols work just like polynomials in $\te$, except we allow smooth $x$ dependence. Next time we will define oscillatory integrals as distributions, and we rely heavily on Lemma~\ref{lem:dist5-2} for doing so.
+
+
+\blu{Lecture 10 Mar}
+We want to make sense of
+\[
+\int e^{i\Phi(x,\te)}a(x,\te)\,d\te.
+\]
+by introducing the linear functional defined by
+\[
+\ph\mapsto \an{I_{\Phi}(a),\ph}=\iint e^{i\Phi(x,\te)} a(x,\te)\ph(x)\,dx\,d\te.
+\]
+%We have to be careful: We can't interchange the order of integration with Fubini's Theorem because there's no decay in the $\te$ direction; the integral is not absolutely convergent. 
+This definition is cumbersome because the double integral fails to be absolutely convergent (there's no decay in the $\te$ direction), so we cannot apply Fubini. It is better to consider the limit $I_{\Phi}(a)=\lim_{\ep\searrow 0} I_{\Phi,\ep}(a)$ where 
+\[
+I_{\Phi,\ep}(a)=\int e^{i\Phi(x,\te)} a(x,\te)\chi(\ep\te)\,d\te
+\]
+where $\chi\in D(\R^n)$ is fixed with $\chi=1$ on $|\te|<1$. For each $\ep>0$, $\chi(\ep\te)$ has compact support, so $I_{\Phi,\ep}(a)$ makes sense classically.
+\begin{thm}\llabel{thm:dist5-1}
+If $\Phi$ is a phase function and $a\in \Sym(X,\R^k;N)$ then $I_{\Phi}(a):=\lim_{\ep\searrow0} I_{\Phi,\ep}(a)$ belongs to $D'(X)$ and has order no greater than $N+k+1$.
+%method of stationary phase. To understand that stationary phase integral, we need an integration by parts trick.
+\end{thm}
+To prove this theorem we will need to find an  \hyperlink{cpt:ibp_for_oscillatory}{integration by parts trick} similar to that used in the proof of Lemma~\ref{lem:dist5-1}.
+\begin{lem}\llabel{lem:dist5-3}
+There exists a differential operator of the form
+\[
+L=\sum_{j=1}^k a_j(x,\te) \pdd{\te_j} +\suj b_j(x,\te)\pdd{x_j} +c(x,\te)
+\]
+where $a_j\in \Sym(X,\R^k;0)$ and $b_j,c\in \Sym(X,\R^k;-1)$ such that $L^*e^{i\Phi}=e^{i\Phi}$. Here
+\[
+L^*=\sum_{j=1}^k - \pdd{\te_j}(a_j(x,\te)\bullet) +\suj\pdd{x_j}( b_j(x,\te)\bullet) +c(x,\te)
+\]
+\end{lem}
+\begin{proof}
+Note that
+\[
+\pdd{\te_j} e^{i\Phi} =i\pd{\Phi}{\te_j} e^{i\Phi},\qquad \pdd{x_j}e^{i\Phi}=i\pd{\Phi}{x_j}e^{i\Phi}.
+\]
+Then
+\bal
+\pa{
+-i\sum_{j=1}^k |\te|^2\pd{\Phi}{\te_j}\pdd{\te_j}-i\suj \pd{\Phi}{x_j}\pdd{x_j}
+}e^{i\Phi}
+&=\pa{\sum_{j=1}^k |\te|^2\ab{\pd{\Phi}{\te_j}}^2 +\suj \ab{\pd{\Phi}{x_j}}^2
+}e^{i\Phi}\\
+&=(|\te|^2|\nabla_\te\Phi|^2+|\nabla_x\Phi|^2)e^{i\Phi}\\
+&=\rc{\pi(x,\te)}e^{i\Phi}
+\end{align*}
+where 
+\[
+\rc{\pi(x,\te)}=|\te|^2|\nabla_\te\Phi|^2+|\nabla_x\Phi|^2.
+%-2, 2, homog degree 0 for large te acts like constant. 
+%if \te=0, vanishes,...? bad when $\te$ is near 0, if nonzer safe, phase function, can't have both vanishing, deriv nonvanish away from orig
+\]
+Note that since $\Phi$ is a phase function,
+\[
+\ub{\pdd{x_j}\Phi(x,t\te)}{t\pdd{x_j}\Phi(x,\te)}=\pd{\Phi}{x_j}(x,t\te),\qquad\text{i.e., $\pd{\Phi}{x_j}$ is homogeneous of degree 1}
+\]
+so $|\nabla_x\Phi|^2$ is homogeneous of degree 2.
+%-2, 1 homog -1, 1/\te , symbol order -1
+Also
+\[
+t\pdd{\te_j} \Phi(x,\te)=\pdd{\te_j}\Phi(x,t\te) = t\pd{\Phi}{\te_j} (x,t\te),
+\]
+i.e., $\pd{\Phi}{\te_j}$ is homogeneous of degree 0, so $|\te|^2|\nabla_\te \Phi|^2$ is homogeneous of degree 2. So $\pi(x,\te)$ is $C^{\iy}(X\times (\R^k\bs \{0\}))$ and is homogeneous of degree $-2$. Write
+\[
+\wt L^*=\pi(x,\te)\pa{
+-i\sum_{j=1}^k |\te|^2 \pd{\Phi}{\te_j}\pdd{\te_j}-i\suj \pd{\Phi}{x_j}\pdd{x_j}
+},
+\]
+so clearly $\wt L^*e^{i\Phi}=e^{i\Phi}$. However the coefficients of $\wt L^*$ can blow up near $\te=0$ so for fixed $\rh\in D(\R^k)$ write $L^*=(1-\rh(\te))\wt L^*+\rh(\te)$ with $\rh=1$ in a neighborhood of $\te=0$.
+%away from 0, \rh is nothing, left with original, has property.
+%L^*e...=e...
+%keep going back to what symbol of degree n is.
+%apply l to symbol. diff dec order by 1
+%whole first part of $L$ operator decrease order by 1. diff wrt $x_j$ doesn't change. Will reduce order by 1. Same with $c(x,\te)$, because order -1, reduce order by 1. Collect up all that information, simply decrease the order of the symbol by 1. These are the things that can get large, keep on decreasing the order of the symbol.
+Then $L^*$ has the desired properties. 
+\end{proof}
+We see that the operator $L$ lowers the order of a symbol by 1, i.e., if $a\in \Sym(X,\R^k;N)$ then $L(a)\in \Sym(X,\R^k;N-1)$. More generally, for $\ph\in D(X)$,
+\[
+L^M(a(x,\te)\ph(x))=\sum_{|\al|\le M} a_{\al} (x,\te)\pl^\al \ph(x)
+\]
+where each $a_\al$ belongs to $\Sym(X,\R^k;N-M)$ (by a quick inductive proof). %remaining terms, things affect order is only multiplication, if expand, will get derivs; remaming things order $N-M$. quick inductive proof. 
+This is important. 
+\begin{proof}[Proof of Theorem~\ref{thm:dist5-1}]
+For each $\ep>0$,
+\bal
+\an{I_{\Phi,\ep}(\te),\ph}&=\iint e^{i\Phi(x,\te)}a(x,\te)\chi(\ep\te)\ph(x)\,dx\,d\te\\
+&=\iint (L^*)^M e^{i\Phi} a(x,t) \chi(\ep\te)\ph(x)\,dx\,d\te\\
+&=\iint e^{i\Phi(x,\te)}L^M(a(x,\te)\chi(\ep\te)\ph(x))\,dx\,d\te.
+\end{align*}
+Note the simple estimate (given $0<\ep\le 1$)
+\[
+\ab{
+\pdd{\te^\al }[\chi(\ep\te)]
+}=\ep^{|\al|}|(\pl^\al \chi)(\ep\te)|\precsim_{\al}\ep^{|\al|}\an{\ep \te}^{-|\al|}\precsim_\al \an{\te}^{-|\al|}
+%taking lim ep to 0, just get constant, rivial when constant.
+\]
+This is uniform in $\ep$. So $\chi(\ep\te)$ can be treated as a symbol of order 0 uniformly in $\ep$ (we mean the estimates in the definition are independent of $\ep$). Consequently, 
+\[
+L^M(a(x,\te)\chi(\ep\te)\ph(x))=\sum_{|\al|\le M}a_\al(x,\te;\ep)\pl^\al\ph(x)
+\]
+where the $a_\al$ are symbols of order $N-M$. %all left to do is choose $M$ sufficiently large so all symbols are absolutely integrable.
+Choose $M$ sufficiently large so that the $\te$-integral is absolutely convergent, i.e., $N-M<-k$ iff $M>N+k$, then the dominated convergence theorem~\ref{thm:dct} implies 
+\[
+\an{I_{\Phi}(a),\ph} =\iint e^{i\Phi(x,\te)} L^M(a(x,\te)\ph(x))\,dx\,d\te.
+\]
+This defines a distribution of order $\le N+k+1$. Now it is straightforward to see $I_\Phi(a)\in D'(X)$ and has order no larger than $N+k+1$.
+%approx grow like...
+%math abstraction strange. 
+%symbols being nice polys.
+\end{proof}
+
+\blu{Lecture 12 Mar}
+Now we know that $I_\Phi(a)$ defines an element of $D'(X)$, it is natural to ask when this distribution can be identified with a smooth function. When are they nice smooth functions and when are they bona fide distributions?
+
+We will use the concept of singular support, written $\ssupp$.
+\begin{df}\llabel{df:sing-supp}
+The \textbf{singular support} of a distribution is defined to be the complement of the union of all the open sets on which the distribution is smooth:
+\[
+\ssupp(u)=\pa{\bigcup \set{U\text{ open}}{u\text{ smooth on }U}}^c.
+\]
+%bad when $\te$ derivatives vanish. $\te$ deriv of phase vanish. distributions def by osc inte. sing supp cont where te vanish.
+\end{df}
+For example, 
+\[\ssupp (\de_x)=\{x\}.\]
+We expect from previous discussion that the distribution defined by $I_{\Phi}(a)$ will be worst at $x=x_0$ for which $\nabla_\te \Phi(x_0,\te)=0$ for some $\te\in \R^k$. We can make this more precise, but we need a simple lemma.
+\begin{lem}\llabel{lem:dist5-4}
+If $\Phi$ is a phase function and $a\in \Sym(X,\R^k;N)$ then the function 
+\[
+x\mapsto \int e^{i\Phi(x,\te)}a(x,\te)\rh(\te)\,d\te
+\]
+is smooth for any $\rh\in \cal D(\R^k)$.
+%cut off support using $\rh$
+\end{lem}
+\begin{proof}
+Exercise.
+\end{proof}
+This makes sense as it is the large $\te$ behavior that matters for the oscillatory integral. %not inside compact support, what happens big. 
+If we cut off outside some compact set, then we get a nice %function. everything else is trivial.
+\begin{thm}\llabel{thm:dist5-2}
+If $\Phi$ is a phase function and $a\in \Sym(X,\R^k;N)$ then $\ssupp I_{\Phi}(a)\subeq M(\Phi)$ where 
+\[
+M(\Phi)
+=
+\set{x}{\nabla_\te\Phi(x,\te)=0\text{ for some }\te\in (\R^k\bs \{0\})\cap \Supp[a(x,\te)]}
+\]
+\end{thm}
+We only have $\te$'s in the support of $a$, because if $a$ is switched off can do whatever. We also remove $\te=0$, because recall $a$ is homogeneous of degree 1 in $\te$, so bad things can happen to the derivative at the origin.
+%diff geo link.
+%lagrangian submanifolds in phase space.
+There's a nice link to differential  geometry, Lagrangian submanifolds in phase space. See the example sheet.
+\begin{proof}
+We may assume without loss of generality that $a(x,\te)$ vanishes inside $|\te|<1$, since 
+\[
+I_{\Phi}(a)=\int e^{i\Phi(x,\te)} a(x,\te) \rh(\te)\,d\te +\int e^{i\Phi(x,\te)}a(x,\te)(1-\rh(\te))\,d\te
+\]
+for $\rh\in D(\R^k)$ with $\rh=1$ on $|\te|\le 1$.
+
+Because we're interested in $\ssupp$, the only term we're interested is the second part. (The first term is smooth by Lemma~\ref{lem:dist5-4}.) Fix $x_0\in X$ such that $|\nabla_\te\Phi(x_0,\te)|\ne 0$ for any $\te\in \R^k\bs \{0\}$. Since $\nb_\te\Phi$ is homogeneous of degree 0 and continuous in $|\te|>1$, the same must be true in a small neighborhood $N(x_0)$ about $x_0$., and on this neighborhood we have
+\[
+|\nb_\te\Phi(x,\te)|\succsim 1,\qquad |\te|>1.
+\]
+%uniform estimate in $\te$ outside
+ %compactness argument.
+%exactly what it is on surface.  
+%nbd of pt can identify osc with smooth func
+Fix $\psi\in D(X)$ with $\Supp(\psi)\subeq N(x_1)$. Consider 
+\bal
+\psi(x)I_\Phi(\wt a)
+&=\int e^{i\Phi(x,\te)} a(x,\te)\psi(x)\,d\te\\
+&=\int e^{i\Phi(x,\te)} \wt a(x,\te) \,d\te
+\end{align*}
+where $\wt a(x,\te)$ is a symbol of same order as $a$, and $|\nb_\te\Phi|\succsim 1$ on $\ssupp \wt a$. So the differential operator
+\[
+L=-i\rc{|\nb_\te \Phi|^2} \sum_{j=1}^k \pd{\Phi}{\te_j}\pdd{\te_j}
+\]
+is well-defined on $\Supp \wt a$ and $Le^{i\Phi}=e^{i\Phi}$. (We can get away with doing less work than in Theorem~\ref{thm:dist5-1}, because know $|\nb_\te \Phi|$ doesn't vanish.) We have
+\bal
+\an{\psi I_{\Phi}(a),\ph}
+&=\lim_{\ep\to 0} \iint e^{i\Phi(x,\te)}\wt a(x,\te) \chi(\ep\te) \ph(x)\,dx\,d\te\\
+&=\lim_{\ep\to 0} \iint [L^M e^{i\Phi(x,\te)}]\wt a(x,\te) \chi(\ep\te)\ph(x)\,dx\,d\te\\
+&=\lim_{\ep \to 0} \iint e^{i\Phi(x,\te)} (L^*)^M (\wt a(x,\te)\chi(\ep\te)\ph(x))\,dx\,d\te\\
+%only act on \te coord dnd on $x$
+&=\lime \iint e^{i\Phi(x,\te)}\ph(x)(L^*)^M (\wt a(x,\te)\chi(\ep\te))\,dx\,d\te
+%symbol uniformly  in \te.
+%N
+%same form of do again lower order of symbol
+\end{align*}
+since $L$ only acts on $\te$-coordinates. Again $(L^*)^M$ just lowers the order of the symbol $\wt a(x,\te)\chi(\ep\te)$ by $M$. Choose $M$ large enough so that the $\te$-integral becomes absolutely convergent. Then by dominated convergence~\ref{thm:dct}, 
+\[
+\an{\blu{\psi I_{\Phi}(a)},\ph}
+=\int \ph(x)\blu{
+\pa{
+\int e^{i\Phi(x,\te)}(L^*)^M (\wt a(x,\te))\,d\te
+}
+}\,dx
+\]
+so $\psi I_{\Phi}(a)$ can be identified with
+\[
+x\mapsto \int e^{i\Phi(x,\te)} (L^*)^M (\wt a(x,\te))\,d\te
+\]
+and by choosing $M$ as large as we like, we can differentiate under the integral sign to show the function is smooth.
+\end{proof}
+Summary: if we go to a point $x_0$ tht isn't inside $M(\Phi)$, then looking at the distribution in a small neighborhood, it can be identified with a nice smooth funciton. If $x$ is not in this set, it is not in $\ssupp$. 
+
+This is useful in quantum field theory, in the theory of finite propagators. But unfortunately none of the integrals converge. Use distribution theory to make sense of them!\footnote{Mathematical physicists are some of the bravest mathmos; they don't care about $\iy$, singularities. 
+It's sad that at Cambridge students are ``separated at birth," pure or applied. It's a false dichotomy; if you get to do more, you get to see the uses of analysis. Some of the hardest problems in analysis come from mathematical physics.
+We still can't put QFT on a rigorous level---and QFT was initiated by Feynman, a long time ago.}
+
+\begin{ex}
+If we consider $X=\R^n$ and $k=n$, then we have a simple oscillatory integral
+\[
+u=\rc{(2\pi)^n} \int e^{ix\cdot \te} \te^{\al}\,d\te
+\]
+We know 
+\bal
+\ssupp(u)&\subeq \set{x}{\nb_\te (x\cdot \te)=0,\,\te\in \R^k\bs\{0\}}\\
+&=\{0\},%\set{x}{x=0}.
+\end{align*}
+i.e., $\ssupp(u)\subeq \{x=0\}$. This is not surprising since $u=D^\al \de_0$.
+\end{ex}
+Here is a more involved example.
+\begin{ex}We solve the wave equation
+\bal
+\rc{c^2}\pdt{E}{t}-\De_xE&=0&&(x,t)\in \R^n\times \R_+\\
+E=0,\qquad \pd Et&=\de_0(x)&&\text{when }t=0.
+\end{align*}
+By Fourier transform in the $x$-variable,
+\bal
+\rc{c^2} \pdt{\wh E}t +|\la|^2 \wh E&=0,&&(\la,t)\in \R^n\times \R_+\\
+\wh E=0,\qquad \pd{\wh E}t&=1&&\text{when }t=0.
+\end{align*}
+We quickly find
+\bal
+\wh E(\la, t)&=\fc{\sin(c|\la|t)}{c|\la|}=\rc{2ic|\la|}(e^{ic|\la|t}-e^{-ic|\la|t}),\\
+\implies
+E(x,t)&=
+\rc{(2\pi)^n}\int \rc{2ic|\la|}(e^{ic|\la|t}-e^{-ic|\la|t})e^{i\la\cdot x}\,d\la\\
+%\rc{(2\pi)^n} (e^{i(x\cdot \te +c|\te|t)}-e^{i(x\cdot \te -c|\te|t)}\,d\te\\
+%&=\rc{(2\pi)^n} (e^{i(x\cdot \la +c|\la|t)}-e^{i(x\cdot \la -c|\la|t)}\,d\te\\
+%look like oi. split up problem with origin. isolate origin
+&=\rc{(2\pi)^n} \pa{\int\rh(\te)(e^{\cdots}-e^{\cdots})\,d\te
++
+\int e^{i(x\cdot \la +c|\la|t)}a_+(\te)\,d\te
++
+\int e^{i(x\cdot \la -c|\la|t)}a_-(\te)\,d\te}
+\end{align*}
+where
+\bal
+a_+(\te)&=\rc{2ic|\te|} (1-\rh(\te))\\
+a_-(\te)&=-\rc{2ic|\te|}(1-\rh(\te)).
+\end{align*}
+where $\rh \in D(\R^n)$ with $\rh=1$ on $|\te|<1$. We see that
+\bal
+\ssupp E& \subeq \set{(x,t)}{\nb_\te(\te\cdot x\pm c|\te|t)=0,\,\te\in \R^n\bs\{0\}}\\
+%prop at speed c.
+&=\set{(x,t)}{x\pm c\fc{\te}{|\te|}t=0,\te\in \R^n\bs \{0\}}\\
+%only sing light on light cone
+&=\set{(x,t)}{|x|=c|t|}.
+\end{align*}
+This is the forward and backward light cone.
+\end{ex}

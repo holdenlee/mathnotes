@@ -1,0 +1,821 @@
+\chapter{Applications of the Fourier transform }
+
+\section{Elliptic regularity}
+We will be interested in the solution to PDE's of the form
+\[
+P(D)u=f\qquad (D\equiv -i\pl)
+\]
+where $u,f$ are distributions and $P$ is a polynomial, e.g., if $P(\la)=\la_1^2+\la_2^2+\cdots +\la_n^2$ then $P(D)=-\De$.
+
+We're not interested in writing down explicit solutions; we're interested in {\it regularity} properties of the solution. \\
+
+\prbox{\begin{prb*}Given we know how smooth $f$ is, can we deduce how smooth $u$ must be without solving the PDE?
+\end{prb*}}
+\vskip0.15in
+Given $f$ is $k$ times differentiable, we might expect that $u$ is $n+k$ times differentiable if $P$ has degree $n$. This isn't true, but we will answer the question for a large class of elliptic differential operators known as elliptic operators.
+
+Context: One of the millennium problems is to establish regularity properties of solutions. the Navier-Stokes equations. Knowing regularity is important because you know how hard you have to work to approximate a solution. If a solution is wildly bad, then you need a cleverer numerical routine. Thus these are problems of practical interest.
+
+\begin{df}\llabel{df:dist4-1}
+A $N$th order partial differential operator (PDO) is
+\[
+P(D)=\sum_{|\al|\le N}c_{\al}D^{\al}, %\qquad \{c_{\al}\}
+\]
+where $c_\al$ are constants. It has \textbf{principal symbol} $\si_P(\la)$, defined by 
+\[
+\si_P(\la)=\sum_{|\al|=N}c_{\al}\la^{\al}.
+\]
+We say that $P(D)$ is \textbf{elliptic} if $\si_P(\la)\ne 0$ for any $\la\ne 0$.
+\end{df}
+We know regularity is related to how quickly Fourier transforms decay.  Pretending for a moment that we can take Fourier transforms, we get $\hat u=f/P$, so we care about how big $P(\la)$ gets. 
+
+Here are some examples of PDO's.
+\begin{ex}
+\begin{enumerate}
+\item
+The \textbf{Laplacian}
+\bal
+P(\la)&=\la_1^2+\cdots +\la_n^2\\
+\si_P(\la)&=\la_1^2+\cdots + \la_n^2.
+\end{align*}
+\item
+The \textbf{Cauchy-Riemann operator}
+\bal
+P(\la)&=i\la_1-\la_2\\
+\si_P(\la)&=i\la_1-\la_2.
+\end{align*}
+\end{enumerate}
+An example of a non-elliptic PDO is the heat operator $\pdd t-\De$.
+\end{ex}
+\begin{lem}\llabel{lem:dist4-1}
+If $P(D)$ is an elliptic, $N$th order PDO then there exist constants $C,R>0$ such that $|P(\la)|\ge C\an{\la}^N$ for all $|\la|>R$. 
+\end{lem}
+From now on, if there exist $C>0$ such that $f\le Cg$ then we write $f\precsim g$. The implied constants from one time to another are subject to change. 
+%$A\precsim B$ means $A\le cB$ and $
+
+For $N$ sufficiently large $|P(\la)|\succsim \an{\la}^N$. 
+\begin{proof}
+Since $|\la_p(\la)|>0$ on $S^{n-1}=\set{\la\in \R^n}{|\la|=1}$, and $S^{n-1}\subeq \R^n$ is compact, it follows that $|\si_P(\la)|$ attains minimum on $S^{n-1}$, so 
+\beq{eq:dist4-1}
+|\si_P(\la)|\succsim 1\text{ on }S^{n-1}.
+\eeq
+Now for general $\la\in \R^n$ we can write 
+\bal
+|\si_P(\la)|=\ab{\sum_{|\al|=N}c_{\al}\la^{\al}}&=|\la|^N\ab{
+\sum_{|\al|=N} c_{\al} \fc{\la^{\al}}{|\la|^N}
+}\\
+&=|\la|^N \ub{\ab{
+\sum_{|\al|=N}c_{\al}\pf{\la}{|\la|}^{\al}
+}}{\succsim 1 \text{ by~\ref{eq:dist4-1}, since }\fc{\la}{|\la|}\in S^{n-1}}.
+\end{align*}
+So we have
+\[
+|\si_P(\la)|\succsim |\la|^N,\qquad \la\in \R^n.
+\]
+By the triangle inequality,
+\[
+|\si_P(\la)|\le |\si_P(\la)-P(\la)|+|P(\la)|
+\]
+so 
+\bal
+|P(\la)|&\ge |\si_P(\la)|-|P(\la)-\si_P(\la)|\\
+&\succsim \Big(
+1-\ub{\fc{P(\la)-\si_P(\la)}{|\la|^N}}{(**)}
+\Big)|\la|^N.
+\end{align*}
+In $(**)$ note that $P(\la)-\si_P(\la)$ is a polynomial of order $<N$. Consequently, one can make $(**)$ arbitrarily small by choosing $|\la|$ sufficiently large. Hence
+\[
+|P(\la)|\succsim |\la|^N\succsim \an{\la}^N
+\]
+for $|\la|$ sufficiently large.
+\end{proof}
+To prove regularity properties of solutions to PDE's, the natural space to work on is the Sobolev spaces. If $P(D)u=f$ in $X$, we want to know about $u$ away from the boundary of $X$, so we work with local Sobolev spaces $H^s_{\text{loc}}(X)$. ($u\in D'(X)$ belongs to $H^s_{\text{loc}}(X)$ if $\ph u\in H^s(\R^n)$ for all $\ph\in D(X)$.) \\
+
+%Right now we're not interested in boundary conditions. We just care about things that happen on interior of sets.
+
+\thmbox{[Elliptic regularity]\llabel{thm:dist4-1}
+%naive feeling
+Let $P(D)$ be a $N$th order partial differential operator that is elliptic. If $u\in D'(X)$ satisfies $P(D)u=f$ and $f\in H_{\text{loc}}^s(X)$, then $u\in H_{\text{loc}}^{s+N}(X)$. 
+}
+\vskip0.15in
+\begin{cor}\llabel{cor:dist4-1}
+If $P(D)u\in C^{\iy}(X)$ then $u\in C^{\iy}(X)$.
+\end{cor}
+We'll first prove a much easier version when $u\in D'(\R^n)$ and has compact support. We do this by constructing a parametrix for $P(D)$.
+\begin{df}
+A distribution $E\in D'(\R^n)$ is called a \textbf{parametrix} for $P(D)$ if
+\[
+P(D)E=\de_0+\om
+\]
+where $\om\in \cal E(\R^n)$.
+\end{df}
+It's like a Green's function, but with an extra term $\om\in \cal E(\R^n)$ allowed.
+\begin{lem}\llabel{lem:dist4-2}
+Every elliptic PDO has a parametrix belonging to $S'(\R^n)$.
+\end{lem}
+\begin{proof}
+Since $P(D)$ is $N$th order elliptic, we know $|P(\la)|\succsim \an{\la}^N$ for $|\la|$ sufficiently large ($|\la|>R$, say). Introduce $\chi_R\in D(\R^n)$ with $\chi_R=1$ in $|\la|\le R$ and $\chi_R=0$ in $|\la|>R+1$. Consider the function
+\[
+\hat E(\la)=\fc{1-\chi_R(\la)}{P(\la)}.
+\]
+Take the inverse FT to get
+\[
+P(D)E=\de_0+\om
+\]
+where $\hat{\om}=-\chi_R$. Then $\om\in S(\R^n)\subeq \cal \cal E(\R^n)$, so $E$ is a parametrix.
+%smooth away from the origin.
+
+To show that $E$ is smooth away from the origin, consider
+\bal
+|(D^{\al}(x^{\be}E))\hat{\,}(\la)|&=|\la^{\al}D^{\be} \hat E(\la)|\\
+&=\ab{\la^{\al}D^{\be}\prc{P(\la)}}&\text{ for }|\la|>R+1\\
+&\precsim |\la|^{|\al|-|\be|-N}&\text{(exercise: induction)}.
+\end{align*}
+%multiply by arbitrary number of $x$'s to remove singularities at the origin.
+So  for each $\al$, the FT of $D^{\al}(x^{\be}E)$ is in $L^1(\R^n)$ if we choose each $|\be|$ sufficiently big. So $D^{\al}(x^{\be}E)$ is continuous for each $\al$, with $\be$ chosen sufficiently large. Hence $E$ is smooth away from the origin.
+\end{proof}
+We get an easy version of Theorem~\ref{thm:dist4-1}: if $P(D)u=f$, $u\in D'(\R^n)$ has compact support and $f\in H^s(\R^n)$, then
+\bal
+u=\de_0*u&=(P(D)E-\om)*u\\
+&=P(D)E*u-\om*u\\
+&=E*P(D)u-\om*u\\
+&=E*\ub{f}{\in H^s(\R^n)}-\ub{\om*u}{\in S(\R^n)}.
+\end{align*}
+Since $u\in D'(\R^n)$ has compact support, $\om*u\in S(\R^n)$. To get regularity of $E*f$, take the FT
+%to see how bad this creature behaves
+\[
+|(E*f)\hat{\,}(\la)|=|\hat E(\la)\hat f(\la)|=\ab{\fc{\hat f(\la)}{P(\la)}}\precsim \an{\la}^{-N} \hat f(\la).
+\]
+using $|\la|>R+1$ in the second inequality.
+So $E*f\in H^{s+N}(\R^n)$. 
+%We'll localise this argument. %bootstrap
+
+\blu{Lecture 17 Feb}
+Now
+\bal
+\ve{E*f}_{H^{s+N}(\R^n)}^2
+&=\int \an{\la}^{2s+2n}\ve{(E*f)\wh{\,}(\la)}^2\,d\la\\
+&\precsim \int \an{\la}^{2s+\cancel{2N}}\cancel{\la}^{-2N} |\wh f(\la)|^2\,d\la\\
+&=\ve{f}_{H^s(\R^n)}^2<\iy.
+\end{align*}
+\begin{proof}[Proof of Theorem~\ref{thm:dist4-1}]
+Use the following elementary facts about Sobolev spaces.
+\begin{enumerate}
+\item
+If $u\in \cal E(\R^n)$, then $\exists t\in \R$ such that $u\in H^t(\R^n)$.
+\item
+If $u\in H^s(\R^n)$, then $D^{\al}u\in H^{s-|\al|}(\R^n)$. 
+\item
+If $s>t$ then $H^s(\R^n)\subeq H^t(\R^n)$. 
+\end{enumerate}
+(See example sheet 2.)
+We'll use a ``bootstrap" argument.
+(Have a go at proving this theorem. If you set out trying to avoid the bootstrap argument, you'll find yourself having to fudge things until you are basically doing a bootstrap argument.)
+
+We want to show that $\ph u\in H^s(\R^n)$ for arbitrary $\ph\in D(X)$. Fix $\ph\in D(X)$ and introduce test functions $\psi_0,\psi_1,\ldots, \psi_M\in D(X)$ such that
+\[
+\Supp(\ph)\subeq \Supp(\psi_M)\subeq \cdots \subeq \Supp(\psi_0)
+\]
+and also that $\psi_{i-1}=1$ on $\Supp\psi_i$. Here's the picture.
+
+\fixme{Figure (see math post-it).}
+
+Consider $\psi_0u$. By (1) $\exists t\in \R$ such that $\psi_0u\in H^t(\R^n)$. Now consider $\psi_1u$. We have 
+\begin{align}
+P(D)(\psi_1u)&=\psi_1P(D)u+P(D)(u\psi_1)-\psi_1P(D)u\\
+%&=\psi_1f+[P(D),\psi_1](u),\qquad [A,B]:=AB-BA\\
+\llabel{eq:dist4-2} &=\psi_1f+[P(D),\psi_1](\psi_0u).
+\end{align}
+The final step is allowed because $\psi_0=1$ on $\Supp\psi_1$. 
+%this is where the bootstrap comes in.
+%hit it with diff op of order $n-1$.
+The final step is allowed because $\psi_0=1$ on $\Supp(\psi_1)$. From~\eqref{eq:dist4-2} we have 
+\[
+P(D)(\psi_1u)=\ub{\psi_1f}{\in H^s(\R^n)} +
+\ub{[P(D),\psi_1](\psi_0u)}{\in H^{t-N+1}(\R^n)}
+\]
+by property (2). So 
+\[P(D)(\psi_1u)\in H^{\wt{A_1}}(\R^n),
+\qquad \wt{A_1} =\min\{S,t-N+1\}.
+\]
+By the ``easy" version of elliptic regularity for $H^m$, 
+\[
+\psi_1u\in H^{A_1}(\R^n),\qquad A_1=\wt A_1+N=\min\{s+N,t+1\}.
+\]
+Now apply the same idea to $\psi_2u$. We have
+\bal
+P(D)(\psi_2u)&=\psi_2P(D)u+[P(D),\psi_2](u)\\
+&=\psi_2 P(D)u+[P(D),\psi_2](\psi_1u),
+\end{align*}
+%replace $t$ with $A_1$
+%replaces the condition 
+the second equality follows from the fact $\psi_1=1$ on $\Supp(\psi_2)$. So we find
+\[
+\psi_2 u\in H^{A_2}(\R^n),\qquad A_2=\min\{s+N,A_1+1\}
+\]
+since we replaced condition $\psi_0u\in H^t(\R^n)$ with $\psi_1u\in H^{A_1}(\R^n)$. 
+
+By associativity of the min-function,
+\bal
+A_2&=\min\{s+N,A_1+1\}\\
+&=\min\{s+N,\min\{s+N,t+1\}+1\}\\
+&=\min\{s+N,s+N+1,t+2\}\\
+&=\min\{s+N,t+2\}.
+\end{align*}
+Carrying on like this we find $\psi_Mu\in H^{A_M}(\R^n)$ where 
+\[
+A_M\equiv \min \{s+N,t+M\}.
+\]
+Choose $M>s-t+N$. We have $A_M=s+N$, i.e., $\psi_Mu\in H^{s+N}(\R^n)$. But since $\psi_M=1$ on $\Supp\ph$, it follows that $\ph u\in H^{s+N}(\R^n)$. Since $\ph\in D(X)$ was arbitrary, we conclude that $u\in H_{\text{loc}}^{s+N}(X)$.
+\end{proof}
+
+\begin{ex}[Laplace equation]
+If $\De u=0$ in $X$, i.e.,
+\[
+\pdt{u}{x_1}+\pdt{u}{x_n}=0
+\]
+then $u$ is smooth in $X$ by elliptic regularity.
+
+On the other hand the wave equation
+\[
+\pdt{u}{x_1}-\pdt{u}{x_2}=0
+\]
+is not elliptic. We can show any locally integrable function $F(x_1,x_2)=f(x_1-x_2)$ will solve the wave equation.
+\end{ex}
+
+\section{Fundamental solutions}
+In this section we again look at PDE's
+\[
+P(D)u=f
+\]
+where $f,u\in D'(\R^n)$. We will solve it by constructing a fundamental solution for $P(D)$, otherwise known as \textbf{Green's functions}.
+\begin{df}
+A distribution $E\in D'(\R^n)$ is called a \textbf{fundamental solution} for $P(D)$ if 
+\[
+P(D)E=\de_0.
+\]
+\end{df}
+Fundamental solutions can be used to solve $P(D)u=f$ if $f\in \cal E^1(\R^n)$. Since
+\bal
+P(D)(E*f)&=(P(D)E)*f\\
+&=\de_0*f=f,
+\end{align*} 
+i.e., $u=E*f$ satisfies $P(D)u=f$.
+\begin{lem}
+Let $P(D)$ be given by the Cauchy-Riemann operator 
+\[
+\pdd{\ol z}:=\rc2\pa{\pdd{x_1}+i\pdd{x_2}}
+\]
+(where $z=x_1+ix_2$ using $\C\cong \R^2$).
+Then $E=\rc{\pi z}$ is a fundamental solution.
+\end{lem}
+\begin{proof}
+By definition, for $\ph\in D(\R^2)$, 
+\bal
+\an{\pdd{\ol z}E,\ph}&=-\an{E,\pd{\ph}{\ol z}}\\
+&=-\int E\pd{\ph}{\ol z}\,dx&dx:=dx_1\,dx_2\\
+&=-\lim_{\ep\to 0}\int_{|z|>\ep} E\pd{\ph}{\ol z}\,dx.
+&\quad (E\sim\rc z=O\prc R,dx\sim R\,dR\,d\te).
+\end{align*}
+Since $\pd{E}{\ol z}=0$ on $|z|>\ep$ (as $E$ is analytic there), we have this equals
+\bal
+&=-\lim_{\ep \to 0}\int_{|z|>\ep}\pdd{\ol z}(\ph E)\,dx\\
+&=\rc{2i}\oint_{|z|=\ep} \ph E\,dz,&dz:=dx_1+idx_2
+\end{align*}
+where we used Green's Theorem
+\[
+\iint_A\pa{\pd{P}{x_1}-\pd{Q}{x_2}}\,dx_1\,dx_2=\int_{\pl A}P\,dx_2+Q\,dx_1.
+\]
+Continuing,
+\bal
+&=\lim_{\ep\to 0}\rc{2i}\int_0^{2\pi} \ph(\ep e^{i\te}) \rc{\pi \ep e^{-i\te}}i\ep e^{i\te}\,d\te\\
+&\quad\pat{used $z=\ep e^{i\te},0<\te\le 2\pi$ to parameterize integral}\\
+&=\rc{2\pi}2\pi \ph(0).
+\end{align*}
+So $\an{\pd E{\ol z},\ph}=\ph(0)=\an{\de_0,\ph}$, so $\pd{E}{\ol z}=\de$.
+\end{proof}
+\begin{lem}\llabel{lem:dist4-4}
+Let $P(D)=\pdd t-\De_x$ be the heat operator. Define the function
+\[
+E(x,t)=
+\begin{cases}
+(4\pi t)^{-\fc n2}\exp\pf{-|x|^2}{4t},&t>0\\
+0,&t\le 0.
+\end{cases}\]
+Then $P(D)E=\de_0$.
+\end{lem}
+\begin{proof}
+For $\ph\in D(\R^{n+1})$ we have
+\bal
+\an{(\pl_t-\De_x)E,\ph}
+&=-\an{E,\pl_t\ph+\De_x\ph}\\
+&=-\int_0^{\iy}\,dt\int \,dx \,E(x,t)(\ph_t+\De_x\ph)\\
+&=-\lim_{\ep\to 0}\int_{\ep}^{\iy} \,dt\int\,dx\,E(\ph_t+\De_x\ph)\\
+&=-\lim_{\ep\to 0}\int_{\ep}^{\iy}\,dt\int\,dx \ba{
+(E\ph)_t-\ub{(E_t-\De_xE)\ph}{=0\text{ for }t>0}
+}\\
+&=\lim_{\ep\to 0}\int E(x,\ep)\ph(x,\ep)\\
+&=\ph(0)
+\end{align*}
+by substituting $x'=2\sqrt{\ep}x$ (calculations omitted).% For each $t>0$, $E_t-\De_xE=0$.
+\end{proof}
+\blu{13 Feb}
+Recap
+\begin{itemize}
+\item
+We defined fundamental solutions for $P(D)$: $E\in D'(\R^n)$ such that $P(D)E=\de_0$. 
+\item
+Let $E=\rc{\pi z}$, $z=x_1+ix_2$ is the fundamental solution for the Cauchy-Riemann operator $\pdd{\ol z}=\rc2\pa{\pdd{x_1}+i\pdd{x_2}}$.
+\item
+$E(x,t)=\begin{cases}
+(4\pi t)^{-\fc n2}\exp\pf{-|x|^2}{4t},&t>0\\
+0,&t\le 0.
+\end{cases}$ is the fundamental solution for $P=\pdd t-\De_x$.
+\end{itemize}
+We would like to construct the fundamental solution for arbitrary $P(D)$. A good first guess would be to define 
+\[\ph\mapsto \rc{(2\pi)^n}\int \fc{\hat{\ph}(-\la)}{P(\la)}\,d\la\stackrel ?=\an{E,\ph},\qquad \ph\in D(\R^n).\]
+In that case, 
+\bal
+\an{P(D)E,\ph}&:=\rc{(2\pi)^n}\an{E,P(-D)\ph}=\rc{(2\pi)^n}\int \fc{[P(-D)\ph]^n(-\la)}{P(\la)}\,d\la\\
+&=\rc{(2\pi)^n}\int \fc{P(\la)\wh{\ph}(-\la)}{P(\la)}\,d\la=\rc{(2\pi)^n}\int \wh{\ph}(-\la)=\ph(0)=\an{\de_0,\ph}.
+\end{align*}
+The problem is that the function $\la\mapsto \rc{P(\la)}$ may not be locally integrable! We will avoid the zeros of $P(\la)$ by instead integrating over ``H\"ormander's staircase," rather than $\R^n$. We need the following lemma.
+\begin{lem}\llabel{lem:dist4-5}
+For $x\in \R^n$ write $x=(x',x_n)\in \R^{n-1}\times \R$. Then for $\ph\in D(\R^n)$ the function $\hat{\ph}(\la',z)$ is complex analytic in $z\in \C$ for each $\la'\in \R^{n-1}$ and
+\[
+|\hat{\ph}(\la',z)|\precsim_m(1+|z|)^{-m}e^{\de |\Im z|},\qquad m\in \N_0.
+\]
+for some $\de>0$, where the implied constant depends on $m$ but not on $\la'\in \R^{n-1}$.
+\end{lem}
+\begin{proof}
+By definition of the Fourier Transform,
+\[
+\hat{\ph}(\la',z)=\int\ba{\int e^{-izx_n}\ph(x',x_n)\,dx_n}e^{-i\la'\cdot x'}\,dx'.
+\]
+We can see that $z\mapsto \hat\ph (\la',z)$ is complex analytic (e.g., differentiate with respect to $z$ under the integral, or use Morera, etc.). We also have for $m\in \N_0$ that
+\bal
+|z^m\hat\ph (\la',z)|&=\ab{
+\int \bc{
+\int \ba{\pa{-i\pdd{x_n}}^me^{-izx_n}}\ph(x',x_n)\,dx_n
+}e^{-i\la'\cdot x'}\,dx'}\\
+&= \ab{\int \ba{
+\int e^{-izx_n}\pd{{}^m\ph}{x_n^m}(x',x_n)\,dx_n
+}e^{-i\la'\cdot x'}\,dx'}&\text{IbP}\\
+&\le \int e^{\de |\Im z|}\pd{{}^m\ph}{x_n^m}\,dx\\
+%checkme
+&\qquad \text{ where $\de>0$ is such that $\ph\equiv 0$ on $|x_n|>\de$}\\
+&\precsim_me^{\de|\Im z|}
+\end{align*}
+as desired. 
+\end{proof}
+We can now prove the celebrated Malgrange-Ehrenpries theorem.
+\begin{thm}\llabel{thm:dist4-2}
+Every non-zero, constant coefficient partial differential operator has a fundamental solution.
+\end{thm}
+\begin{proof}
+By a rotation of coordinates, we can assume that our PDO takes the form
+\[
+P(\la',\la_n)=\la_n^M+\sum_{i=0}^{M-1}a_i(\la')\la_n^i
+\]
+where the $a_i(\la')$ are polynomials in $\la'$. We want to construct distributions of the form
+\[
+\an{E,\ph}=\int_{\Ga} \fc{\hat\ph(-\la)}{P(\la)}\,d\la
+\]
+where $\Ga$ avoids the zero set of $P(\la)$. Fix $\mu'\in \R^{n-1}$. Then we can write 
+\[
+P(\mu',\la_n)=\prod_{i=1}^M(\la_n-\tau_i(\mu'))
+\]
+so the $\tau_i(\mu')$ are the roots of the polynomial $\la_n\mapsto P(\mu',\la_n)$. We claim that there is a horizontal line $\Im\la_n=c$ in the complex $\la_n$-plane, with $|\Im\la_n|\le M+1$ such that 
+\[
+|\Im(\la_n-\tau_1(\mu'))|>1
+\]
+for $i=1,\ldots, M$.
+Indeed, inside $|\Im\la_n|\le M+1$, there are $2M+2$ strips of width 1, and since each of the $M$ roots can lie in at most 1 strip, there must be two adjacent strips containing no roots. By choosing the horizontal line that separates these strips, we have the desired estimate $|\Im(\la_i-\tau_i(\mu'))|>1$ for all $i=1,\ldots, M$ on $|\Im \la_n|=c$. By a simple continuity argument, the same result holds for $\la'$ in a small neighborhood $N(\mu')$ of $\mu'$. Since this argument works for any $\mu'\in \R^{n-1}$, we can cover $\R^{n-1}$ with %the closure of 
+open 
+sets $N(\mu')$ such that on $\Im \la_n=c(\mu')$, we have
+\[
+|P(\la',\la_n)|=\ab{
+\prod_i^M (\la_n-\tau_i(\la'))
+}\ge
+\prod_{i=1}^M|\Im(\la_n-\tau_i(\la'))|>1.
+\]
+Because any open cover of a compact set contains a finite subcover and $\R^{n-1}$ is locally compact, we can extract a countable, locally finite subcover\footnote{this means that only finitely many cover any compact set} $N_1=N(\mu_1),N_2=N(\mu_2),\ldots$ of $\R^{n-1}$ and we know for $\la'\in N_p$ we can choose $c_i\equiv c(\mu_i)$ such that $|P(\la',\la_n)|>1$ when $\la'\in N_i$ and $\Im\la_n=c_i$. To make sets disjoint, write $\De_i=N_i\bs \bigcup_{j=1}^{i-1} \ol{N_j}$. Then  the $\{D_i\}_{i\ge 1}$ are disjoint, and their closures form a locally finite cover of $\R^{n-1}$, $\bigcup \ol{\De_i}=\R^{n-1}$. In particular,
+\[
+\int_{\R^n}\,d\la'=\sum_{i=1}^{\iy} \int_{\De_i} \,d\la'.
+\]
+Now define $E\in D'(\R^n)$ via
+\[
+\an{E,\ph}=\rc{(2\pi)^n}\sum_{i=1}^{\iy} \int_{\De_i}\,d\la'\int_{\Im \la_n=c_i}\,d\la_n\,\fc{\hat\ph(-\la_1'-\la_n)}{P(\la)}.
+\]
+(Exercise: $E\in D'(\R^n)$.) Then 
+\bal
+\an{P(D)E,\ph} &=\rc{(2\pi)^n}\sum_{i=1}^{\iy} \int_{\De_i} \,d\la' \int_{\Im \la_n=\ph} \,d\la_n \hat\ph(-\la_1'-\la_n)\fc{\cancel{P(\la)}}{\cancel{P(\la)}}\\
+&=\rc{(2\pi)^n}\suiy \int_{\De_i}\,d\la'\int \hat\ph(-\la_1'-\la_n)\,d\la_n&\text{using Cauchy's Theorem and Lemma~\ref{lem:dist4-5}}\\
+&=\rc{(2\pi)^n}\int_{\R^n} \hat\ph(-\la)\,d\la\\
+&=\ph(0)=\an{\de_0,\ph}.
+\end{align*}
+So $E$ is a fundamental solution of $P(D)$. 
+\end{proof}
+\blu{24 Feb}
+
+Recap 
+\begin{itemize}
+\item
+We constructed H\"ormander's staircase.
+
+We defined $E\in D'(\R^n)$ with
+\[
+\an{E,\ph}:=\sum_{i=1}^{\iy} \int_{\De}\int_{\Im \la_n=c}\fc{\ph(-\la)}{P(\la)}\,d\la.
+\]
+This stays away from all the zeros of $P(\la)$. 
+\end{itemize}
+%(Note $\De_i$, $\bigcup \ol{\De_i}=\R^{n-1}$.)
+
+Let's focus on the case where $P=P(D)$ is an ordinary differential operator. In this case, H\"ormander's construction shows that there is always a fundamental solution for $P(D)$ of the form $Hu$ where $u$ is a classical solution to $P(D)u=0$ and $H$ is the Heaviside function.
+
+We follow our nose. As in the previous theorem, define 
+\[\an{E,\ph}:=
+\int_{\Im\la=c} \fc{\ph(-\la)}{P(\la)} \,d\la
+\]
+where $c\in \R$ is chosen so that $\Im\la=c$ lies below all the roots of $P(\la)=0$. (In 1 dimension, we can avoid all the bad bits by swooping underneath them all.) It is easy to see that $P(D)E=\de_0$. Consider the cases $x>0$ and $x<0$ separately. We have
+\begin{align}
+\an{E,\ph}&=\int_{\Im \la=c} 
+\fc{\wh{\ph}}{P(\la)}\,d\la\\
+&=\lim_{R\to \iy} \int_{-R-ic}^{R+ic} \fc{\wh{\ph}(-\la)}{P(\la)}\,d\la
+\llabel{eq:dist4-3}
+\\
+&=\lim_{R\to \iy}\int_{-R-ic}^{R+ic} \rc{P(\la)}\ba{
+\int e^{i\la x}\ph(x)\,dx
+}\,d\la\\
+&=\lim_{R\to \iy}\int \ph(x)\ba{
+\int_{-R-ic}^{R+ic} \fc{e^{i\la x}}{P(\la)}\,d\la
+}\,dx
+\llabel{eq:dist4-4}
+\end{align}
+where~\eqref{eq:dist4-3} follows by Dominated Convergence~\ref{thm:dct} and~\eqref{eq:dist4-4} follows from Fubini.
+\begin{itemize}
+\item
+If $x<0$, close contours in the lower half of the $\la$-plane:
+\fixme{figure 3}
+\[
+\int_{-R+ic}^{R+ic}=\iint_{\ga_R}+\int_{\cup}.
+\]
+By Cauchy's Theorem, $\iint_{\ga_R}=0$. Also since $x<0$, 
+\[
+|e^{i\la x}|=e^{-x\Im \la}\to 0
+\]
+along the lower semicircle of radius $R$ as $R\to \iy$.
+So 
+\[
+\lim_{R\to \iy}\int_{-R-ic}^{R+ic}\fc{e^{i\la x}}{P(\la)}\,d\la=0
+\]
+when $x<0$.
+\item
+If $x>0$, instead close in upper half plane \fixme{figure 4}
+\[
+\int_{-R+ic}^{R+ic}=\iint_{\ga_R}+\int_{\cap}.
+\]
+By the residue theorem, for $R$ sufficiently large, 
+\[
+\iint_{\ga_R}=2\pi i\sum \Re s\pf{e^{i\la x}}{P(\la)}.
+\]
+We have $\int_{\cap}\to 0$ as $R\to \iy$ since $|e^{-i\la x}|=e^{-x\Im \la}\to 0$ as $R\to \iy$. Hence
+\[
+E=\begin{cases}
+0,&x<0\\
+2\pi i \sum \Res\ba{\fc{e^{i\la x}}{P(\la)}},&x>0.
+\end{cases}
+\]
+Since each term in the sum satisfies $P(D)u=0$, we conclude $E=Hu$, as desired.
+\end{itemize}
+This shows that H\"ormander's proof can be used to get explicit fundamental solutions (Green's functions).
+
+\section{Structure theorem for $\cal E'(X)$}
+We already know that if $f\in C(X)$, then $\pl^{\al}f$ defines elements of $D'(X)$ via
+\[
+\an{\pl^{\al}f,\ph}:=\an{f,(-1)^{|\al|}\pl^{\al}\ph},\qquad \ph\in D(X).
+\]
+A natural question to ask is\\
+
+\prbox{\begin{prb*}
+Do all distributions (in $D'(X)$) arise as a linear combination of derivatives of continuous functions?
+I.e., if $u\in D'(X)$ does there exist $\{f_{\al}\}$ of continuous functions such that $u=\sum_{\al}\pl^{\al}f_{\al}$ in $D'(X)$? 
+\end{prb*}}
+\vskip0.15in
+
+We will answer for distributions of compact support.
+
+We will use properties of the Fourier Transform of elements of $\cal E'(\R^n)$. We can define Fourier Transform of $u\in \cal E'(\R^n)\subeq S'(\R^n)$ by
+\[
+\hat u(\la)=\an{u(x),e^{-i\la\cdot x}},\qquad \la\in \R^n.
+\]
+This coincides with the usual definition of the Fourier Transform on $S'(\R^n)$:
+\bal
+\an{\hat u,\ph}&=\an{u(x),\hat{\ph}(x)}\\
+&=\an{u(x),\int e^{-i\la x}\ph(\la)\,d\la}\\
+%take angle brackets and put inside integral
+&\stackrel{?}{=}\int \an{u(x),e^{-i \la\cdot x}\ph(\la)}\,d\la\qquad \forall\ph\in S(\R^n),
+\end{align*}
+%checkme
+where $\stackrel{?}{=}$ is left as an exercise (example sheet 2). By differentiating under $\an{\cdot,\cdot}$ brackets, we see that $u(\la)$ is a smooth function of $\la\in \R^n$. Also by definition~\ref{df:dist2-3}, there exist constants $C,N$ and compact $K\subeq \R^n$ such that
+\bal
+|\hat u(\la)|&=\ab{\an{u(x),e^{-i\la \cdot x}}}\\
+&\le C\sum_{|\al|\le N} \sup_K |\pl^{\al}_x(e^{-i\la \cdot x})|\\
+&\precsim \an{\la}^N.
+%handy in practical sense. finite sum of deriv of cont func. It's nicer to deal with cont func than 
+\end{align*}
+So $\hat u(\la)$ is a smooth function that has polynomial growth.
+\begin{thm}[Structure theorem for $\cal E'(X)$]\llabel{thm:dist-structure}
+If $u\in \cal E'(X)$ then there exists a collection $\{f_{\al}\}$ in $C(X)$ with $\Supp f_{\al}\subeq X$ such that $u=\sum_{\al}\pl^{\al}f_{\al}$ in $\cal E'(X)$.
+\end{thm}
+There is also a structure theorem for $D'(X)$. The structure theorem is handy in a practical sense, because it's easier to deal with continuous functions than distributions.
+
+\begin{proof}
+Given $u\in \cal E'(X)$, fix $\rh\in D(X)$ with $\rh=1$ on $\Supp(u)$. Then for arbitrary $\ph\in \cal E(X)$,
+\[
+\an{u,\ph}=\an{u,\rh\ph}.
+\]
+By extension by zero, we can treat $\ph\rh$ as an element of $D(\R^n)$. Since $D(\R^n)\subeq S(\R^n)$, we can write $\rh\ph=(\hat{\psi})\hat{\,}$ for some $\psi\in S(\R^n)$. Hence
+\bal
+\an{u,\ph}&=\an{u,(\hat{\psi})\hat{\,}}\\
+&=\an{\hat{u},\hat{\psi}}.
+\end{align*}
+%test fun of ft of ft ??%get ft involved
+%decay out at infinity, get ft of continuity
+Using the Laplacian $\De=\sum_i \fc{\pl^2}{\pl x_i^2}$ we can always write
+\bal
+\hat{\psi}(\la)&=\an{\la}^{-2m}\an{\la}^{2m}\hat{\psi}(\la)\\
+&=\an{\la}^{-2m} ((1-\De)^m \psi)\hat{\,}(\la)\\
+\an{u,\ph}&=\an{\hat u(\la),\an{\la}^{-2\la}((1-\De)^m\psi)\hat{\,}(\la)}\\
+&\stackrel1=\an{\an{\la}^{-2m}\hat u(\la),((1-\De)^m\psi)\hat{\,}(\la)}.
+\end{align*}
+By choosing $m$ sufficiently large, we can guarantee that $\an{\la}^{-2m}\hat u(\la)\in L^1(\R^n)$. So we can define a continuous function $f=f(x)$ via
+\bal
+\check f(x)&=(2\pi)^n(\an{\la}^{-2m}\hat u)\hat{\,}(x)\\
+&=(2\pi)^n \int e^{-i\la \cdot x}\an{\la}^{-2m}\hat u(\la)\,d\la.
+\end{align*}
+Continuing the calculation,
+\bal
+&\stackrel1=\an{(\an{\la}^{-2m}\hat u)\hat{\,}(x),(1-\De)^m \psi(x)}\\
+&\stackrel2=\an{(2\pi)^n \check f,(1-\De)^m\psi}.
+\end{align*}
+Note that because $\rh\ph=(\check{\psi})\check{\,}$, we have $\psi=(2\pi)^{-n}(\rh\ph)\check{\,}$ by inverse Fourier transform. So
+\bal
+&\stackrel2=\an{\cancel{(2\pi)^n}\check f,(1-\De)^m (\rh\ph)\check{\,}\cancel{(2\pi)^{-n}}}
+&\stackrel3=\an{f,(1-\De)^m(\rh\ph)}.
+\end{align*}
+By expanding out the derivative, $(1-\De)^m(\rh\ph)=\sum_{\al}(-1)^{|\al|}\rh_{\al} \pl^{\al}\ph$ where $\Supp(\rh_{\al})\subeq X$. 
+\bal
+&\stackrel3= \an{f,\sum_{\al}(-1)^{|\al|}\rh_{\al}\pl^{\al}\ph}\\
+&=\an{\sum_{\al}\pl^{\al}(\rh_{\al}f),\ph}\\
+&=\an{\sum_{\al}\pl^{\al}f_{\al},\ph}.
+\end{align*}
+where each $f_{\al}$ is continuous and $\Supp f_{\al}\subeq X$.
+%outside, switch off
+%constructive proof
+%throw constructive proof out , then Hahn-Banach in 2 lines.
+\end{proof}
+Note this is a constructive proof. If we're willing to just have an existence proof, Hahn-Banach offers a much shorter proof.
+%throw constructive proof out , then Hahn-Banach in 2 lines.
+
+\blu{26 Feb}
+Recap
+\begin{itemize}
+\item
+Proved that if $u\in \cal E'(X)$ then there exists $\{f_{\al}\}$ continuous with $\Supp(\rh_\al)\subeq X$ such that $u=\sum \pl^{\al}f_\al$ in $\cal E'(X)$. 
+\item
+\fixme{Missed factor of $(2\pi)^{-n}$ in definition of $E$ in Malgrange-Ehrenpries Theorem.}
+\end{itemize}
+
+\section{The Paley-Wiener-Schwartz Theorem}
+The theorem was originally proven by Paley and Wiener. Schwartz extended it to distributions. This is useful in applied math: sometimes we have more unknowns than equations, 
+%3 equations, 4 unknowns
+but we can show that 1 equation tells you more than 1 equation, almost 2. For example, in acoustics, was ask
+what happens when you fire waves at a plank? Some bounce off, some keep going, and some are lost in the shadow. We get one equation in two unknowns. We use an idea like the PWS theorem (Weiner-Hoftakster (?)) to solve the equation.
+
+We saw in the previous section that if $u\in \cal E'(\R^n)$ then the Fourier Transform $\hat u(\la)=\an{u(x),e^{-i\la \cdot x}}$ was a smooth function of $\la\in \R^n$. We can extend this definition for complex $z\in \C^n$. The complex function $z\mapsto \hat u(z)$ is called the Fourier-Laplace transform of $u$. This function is an entire function of $z\in \C^n$ (complex analytic everywhere). See this from the Cauchy-Riemann equations
+\[
+\pdd{\ol{z_i}} \an{u(x),e^{-iz\cdot x}}=0
+\]
+for $i=1,\ldots, n$ and Hartog's Theorem: a complex analytic function in each variable $z_i$ is complex analytic in $z=(z_1,\ldots, z_n)$. Thus, we can think of $\hat u$ not just as a function of $\la\in \R^n$, but also $z\in \C^n$. We can also estimate the size of $\hat u(z)$ for large $|z|$.
+
+\begin{lem}\llabel{lem:dist4-6}
+If $u\in \cal E'(\R^n)$ and $\Supp(u)\subeq \ol{B_{\de}}=\set{x\in \R^n}{|x|\le \de}$ then there exists $N\ge 0$ such that 
+\[
+|\hat u(z)|\precsim (1+|z|)^Ne^{\de|\Im z|}
+\]
+for each $z\in \C^n$. 
+\end{lem}
+\begin{proof}
+Fix $\psi\in \cal E(\R)$ such that
+\[
+\psi(x)=
+\begin{cases}
+0,&\tau\le -1\\
+1,&\tau\ge -\rc2.
+\end{cases}.
+\]
+Now for each $\ep>0$ define $\ph_{\ep}$ via $\ph_\ep(x)=\psi(\ep(\de-|x|))$, so that
+\[
+\ph_\ep(x)=\begin{cases}
+\psi(x),&|x|\le \de+\rc{2\ep}\\
+0,&|x|\ge\de+\rc{\ep}.
+\end{cases}
+\]
+ Since $\ph_\ep=1$ on the $\Supp(u)$, we can write 
+\[
+\hat u(z)=\an{u(x),\ph_\ep(x)e^{-iz\cdot x}}.
+\]
+Now since $u\in \cal E'(\R^n)$, there exists $N\ge 0$ and compact $K\subeq \R^n$ such that 
+\bal
+|\hat u(z)|&=|\an{u(x),\ph_\ep(x)e^{-iz\cdot x}}|\\
+&\le \sum_{|\al|\le N} \sup_K |\pl_x^\al (\ph_\ep (x)e^{-iz\cdot x})|,
+\end{align*}
+We will expand out the bracket using the Leibniz rule. 
+By the chain rule,
+\[
+|\pl_x^{\be}\ph_{\ep}(x)|\precsim |\ep|^{|\be|}
+\]
+%\ph with respect to $|x|$.
+and we also have (noting the expression is 0 off the support of $\ph_{\ep}$)
+%dead unless stay support of $\ph_{\ep}$. Only interested when $x$ is on the support 
+\[
+|\pl_x^\ga e^{-iz\cdot x}|\precsim |z|^{|\ga|} |e^{-iz\cdot x}|
+=|z|^{|\ga|} e^{\Im z\cdot x}\le |z|^{|\ga|} e^{(\de+\rc{\ep})|\Im z|}
+\]
+on $\Supp(\ph_{\ep})$. So by Leibniz product rule,
+\[
+|\hat u(z)|\precsim \sum_{|\be|+|\ga|\le N} |z|^{|\ga|}\ep^{|\be|}e^{(\de+\rc{\ep})|\Im z|}.
+\]
+Set $\ep=|z|$, in which case \fixme{What happened to the $\rc{2\ep}$ in the exponent?}
+\[
+|\hat u(z)|\precsim e^{\de |\Im z|}\sum_{|\be|+|\ga|\le N} |z|^{|\ga|+|\be|} \precsim (1+|z|)^N e^{\de|\Im z|}.
+\]
+\end{proof}
+So we know that if $u\in \cal E'(\R^n)$, $\Supp u\subeq \ol{B_{\de}}$, then $\hat u(z)$ is entire and
+\beq{eq:dist4-5}
+|\hat u(z)|\precsim (1+|z|)^N e^{\de|\Im z|},\qquad z\in \C^n,\text{ some }N\ge 0.
+\eeq
+The Paley-Wiener-Schwartz theorem is about the converse: if $U=U(z)$ is an entire function of $z\in \C^n$ and $|U(z)|\precsim (1+|z|)^N e^{\de|\Im z|}$ for some $N\ge 0$ and $\de>0$, then is $U=\hat u$ for some $u\in \cal E'(\R^n)$ with $\Supp(u)\subeq \ol{B_{\de}}$? Yes.
+% Given an entire function that satisfies~\ref, is it the Fourier transform of something contained in a closed ball of radius $\de$?
+%complex analytic functions easier than dealing with nasty distributions. Can just take Fourier transform of whatever we're interested in, and we're not losing information. %know that taken FT of compact support
+%convex hull
+We can generalize to supports in convex sets; see H\"ormander's book.
+\begin{thm}[Paley-Wiener-Schwartz Theorem]
+\llabel{thm:dist4-4}
+\begin{enumerate}
+\item
+If $u\in D(\R^n)$ and $\Supp(u)\subeq \ol{B_{\de}}$ then $\hat u(z)$ is entire and
+\beq{eq:dist4-6}
+|\hat u(z)|\precsim_N (1+|z|)^{-N} e^{\de|\Im z|},\qquad N\in \N_0.
+\eeq
+Conversely, if $U=U(z)$ is an entire function and satisfies an estimate of the form~\ref{eq:dist4-6}, then $U=\hat u$ where $u\in D(\R^n)$ with $\Supp(u)\subeq \ol{B_{\de}}$. 
+\item
+If $u\in \cal E'(\R^n)$ and $\Supp(u)\subeq \ol{B_{\de}}$ then $\hat u(z)$ is entire and there exists $N>0$ such that
+\beq{eq:dist4-7}
+|\hat u(z)|\precsim (1+|z|)^N e^{\de|\Im z|}.
+\eeq
+Conversely, if $U=U(z)$ is entire and satisfies an estimate of the form~\eqref{eq:dist4-7} then $U=\hat u$ where $u\in \cal E'(\R^n)$ with $\Supp(u)\subeq \ol{B_{\de}}$. 
+\end{enumerate}
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item
+If $u\in D(\R^n)$ then
+\bal
+|z^{\al}\hat u(z)|
+&=\ab{
+\int (D^{\al}u) (x)e^{-iz\cdot x}\,dx
+}&\text{IbP}\\
+%paley died in a ski accident at 26.
+&\le \int |D^{\al}u(x)|e^{x\cdot \Im z}\,dx\\
+&\precsim_{|\al|} e^{\de|\Im z|}&\text{since }\Supp(u)\subeq \ol{B_\de}.
+\end{align*}
+Thus
+\[
+|\hat u(z)|\precsim_N (1+|z|)^{-N} e^{\de|\Im z|},\qquad N\in \N_0.
+\]
+If $U=U(z)$ is entire and satisfies~\eqref{eq:dist4-6} then $U(\la)$ decays rapidly as $|\la|\to \iy$ in $\R^n$, so the function 
+\[
+u(x)=\rc{(2\pi)^n}\int e^{i\la \cdot x}U(\la)\,d\la
+\]
+%keep imag part constant, u decays quickly as $la\to \iy$.
+is smooth. It remains to prove that $\Supp(u)\subeq \ol{B_{\de}}$. Since $U(\la)$ is entire and $|U(\la+i\eta)|\to 0$ rapidly if $|\la|\to \iy$ and $\eta\in \R^n$ is fixed. By using Cauchy's Theorem in each of the $\la_i$-integrals, we can shift the contour of integration onto the line $\la_j+i\eta_j$, $\eta_n=$constant, $-\iy<\la_j<\iy$. So
+\[
+u(x)=\rc{(2\pi)^n}\int e^{i(\la+i\eta)\cdot x} U(\la+i\eta)\,d\la.
+\]
+%allow to shift up and down by Cauchy's theorem.
+\fixme{2-26 figure 1}
+So we have 
+\bal
+|u(x)|&\precsim \int e^{-\eta\cdot x}|e^{i\la \cdot x}||U(\la+i\eta)|\,d\la\\
+&\precsim_N
+e^{-\eta\cdot x}e^{\de|\eta|} \int (1+|\la+i\eta|)^{-N}\,d\la\\
+&\precsim e^{\de|\eta|-\eta\cdot x}.
+\end{align*}
+Set $\eta=t\fc{x}{|x|}$, where $t>0$ then
+\[
+|u(x)|\precsim e^{t(\de-|x|)}.
+\]
+If $|x|>\de$, we can take $t\to \iy$ to conclude $u(x)=0$ if $|x|>\de$, i.e., $\Supp(u)\subeq \ol{B_\de}$.
+\item
+By Lemma 4.6, the first part is already proved. For the converse, if $U=U(z)$ is entire and satisfies~\eqref{eq:dist4-7}, the $U(\la)$ is polynomially bounded on $\R^n$, in particular it defines an element of $S'(\R^n)$. Since the Fourier tansform is an isomorphism on $S'(\R^n)$ we can write $U=\hat u$ for some $u\in S'(\R^n)$. To show $\Supp(u)\subeq \ol{B_\de}$, fix $\ph\in D(\R^n)$ such that $\int \ph\,dx=1$ and $\Supp(\ph)\subeq B_1$. Set $\ph_\ep(x)=\ep^{-n} \ph\pf x{\ep}$, so $\Supp(\ph_\ep)\subeq \ol{B_{\ep}}$. Consider regularization $u_{\ep}=\ph_\ep*u$. Then we can show (example sheet 2) that
+\[
+\wh{u_\ep}(\la)=\wh{\ph_\ep}(\la)\hat u(\la)=\hat{\ph_\ep}U(\la).
+\] 
+By~\eqref{eq:dist4-6} and~\eqref{eq:dist4-7},
+\[
+|\wh{ u_\ep}(z)|\precsim_N(1+|z|)^{-N} e^{\ep|\Im z|}e^{\de|\Im z|}.
+\]
+So by the first part, $\Supp(u_\ep)\subeq \ol{B_{\de+\ep}}$. But $\ph_\ep\to \de_0$ in $S'(\R^n)$, so $u_\ep\to u$ in $S'(\R^n)$, and we have $\Supp(u)\subeq \ol{B_\de}$.
+\end{enumerate}
+\end{proof}
+Ex. class Monday 2-3, MR11
+
+\blu{Lecture 3 Mar}
+
+Why is the Paley-Wiener-Schwartz Theorem useful? Suppose an applied maths problem came down to
+\[
+G(\la)+H(\la)+F(\la)=0,\qquad \la\in \C.
+\]
+One equation in 3 unknowns is bad news. 
+Obey some growth estimate than Fourier transform of some function in ball of radius $\de$. A similar proof shows that if $|e^{i\la a}U(\la)|\precsim (1+|\la|^N)e^{\de|\Im \la|}$, then it is the Fourier transform of some function in a ball of radius $\de$ around $a$.
+Suppose $G, H, F$ obey some estimate with some $a_1,a_2,a_3$. If the balls are disjoint, their supports are disjoint and they must all be 0.
+
+%The equation 
+%It's not that we don't understand the physics. 
+%Wiener-Hopf
+
+\section{Aside: Can we take $K=\Supp(u)$ in the definition of $\cal E'$?}
+
+Recall (Definition~\ref{df:dist2-3}) that a linear map $u:\cal E(X)\to \C$ was a distribution of compact support if there exist constants $C,N$ and a compact set $K\subeq X$ such that 
+\[
+|\an{u,\ph}|\le C\sum_{|\al|\le N} \sup_K|\pl^{\al}\ph|
+\]
+for all $\ph\in \cal E(X)$.
+
+We wonder whether it is okay to take $K=\Supp(u)$ in this definition. Certainly $\Supp(u)\subeq K=\phi$, then $\an{u,\ph}=0$. If this was the case, then Lemma~\ref{lem:dist4-6} would have been trivial. %invent test functions.
+In general, the answer is \ul{no}.
+
+We give a famous counterexample due to L. Schwartz. 
+
+\begin{ex}\llabel{ex:supp-counterex}
+Define the linear map $u:\cal E(\R)\to \C$ by 
+\[
+\an{u,\ph}:=\lim_{n\to \iy} \an{u_n,\ph}
+\]
+where $u_n\in \cal E'(\R)$ is defined by 
+\[
+\an{u_n,\ph}:=\sum_{m=1}^n \ph\prc m-\ph(0)n-\ph'(0)\ln n.
+\]
+To check $u\in \cal E'(X)$, it suffices to check that $\an{u_n,\ph}$ exists for all $\ph\in \cal E(\R)$ (Theorem~\ref{thm:dist1-1} says that pointwise convergence is enough).
+For $\ph\in \cal E(\R)$ we can write by Taylor's Theorem
+\[
+\ph(x)=\ph(0)+x\ph'(0)+x^2\psi(x)
+\]
+where $\psi$ is an appropriate smooth function. Then
+\bal
+\an{u_n,\ph}&=\an{u_n,\ph(0)+x\ph'(0)+x^2\psi(x)}\\
+&=\sum_{n=1}^m\ba{\ph(0)+\rc m\ph'(0)+\rc{m^2} \psi\prc m}-\ph(0)n-\ph'(0)\ln n\\
+&=\ba{
+\sum_{m=1}^n \rc m-\ln n
+}\ph'(0) +\sum_{m=1}^n \rc{m^2}\psi\prc m.
+\end{align*}
+Then it is clear that the limit $n\to \iy$ exists, since $\psi\prc m$ will be bounded and $\sum\rc{m^2}$ exists. So $u$ is a distribution and clearly
+\[
+\Supp(u)=\{0\}\cup \{1,\rc2,\rc3,\rc4,\ldots\},
+\] %whitney embedding: Taylor expansions of nice functions . If support is nice enough: boundary nice, then can get away can get away.
+which is compact. Now suppose that there exist $C,N$ such that
+\beq{eq:dist4-ex}
+|\an{u,\ph}|\le C\sum_{|\al|\le N} \sup_{\Supp(u)}|\pl^{\al} \ph|.
+\eeq
+Consider sequences of smooth test functions $\{\ph_k\}$ in $\cal E(\R)$ with 
+\[
+\ph_k(x)=\begin{cases}
+\rc{\sqrt k},&x\ge \rc k\\
+0,&x\le \rc{k+1}.
+\end{cases}
+\]
+Note that $\ph_k$ is constant on $x\ge \rc k$ and $x\le \rc{k+1}$ so by continuity, all derivatives of $\ph_k$ vanish at $x=\rc k, \rc{k+1}$.
+
+In particular, derivatives all vanish on $\Supp(u)$, so
+\[
+\sum_{|\al|\le N} \sup_{\Supp(u)}|\pl^{\al} \ph_k| 
+=\sup_{\Supp(u)}|\ph_k|=\rc{\sqrt k}\to 0
+\]
+as $k\to \iy$.
+
+However, we can evaluate $\an{u,\ph_k}$ explicitly:
+\bal
+\an{u,\ph_k}
+&=\lim_{n\to \iy}\sum_{m=1}^n \ph_k\prc m-n\ph_k(0)-\ln n \ph_k'(0)\\
+&=\lim_{n\to \iy} \sum_{m=1}^n \ph_k\prc m\\
+&=\sum_{m=1}^k \ph_k\prc m\\
+&=\sum_{m=1}^k \rc{\sqrt k} =\sqrt k\to \iy.
+\end{align*}
+So~\eqref{eq:dist4-ex} cannot be true.
+\end{ex}
+%baire argument
+
+Whitney (of the embedding theorem) studied Taylor expansions of nice functions. If support is nice enough---that is, the boundary is nice in a definable way---then can get away can get away with setting $K=\Supp(u)$.
+

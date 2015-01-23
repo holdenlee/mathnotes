@@ -1,0 +1,534 @@
+\chapter{Motivation}
+
+%We'll see lots of analysis in action.
+\section{Dirac delta function}
+
+What is the derivative of the Dirac delta?
+
+You may have seen the mysterious ``\textbf{Dirac delta function}" defined by 
+\beq{eq:dist0-1}
+\int_{-\iy}^{\iy} \de(x-x_0)f(x)\,dx=f(x_0), \qquad \de(x)=0,\,x\ne 0.
+\eeq
+This emerged from Fourier's classical treatise on heat. It was there implicitly in his work. Cauchy and Dirac noticed it. It is used in math, applied math, physics, engineering.
+%does the job we're asking it
+
+But there is no function in any sense of the word that does this job! It makes no mathematical sense!
+
+%Let's look at~\eqref{eq:dist0-1} in an abstract sense. 
+However, looking at~\eqref{eq:dist0-1} in an abstract sense, the ``process" which takes $\de(x-x_0)$ and the ``nice" function $f(x)$, and spits out $f(x_0)$ is well-defined.
+%There's some $\de(x-x_0)$, given $f(x)$, some process happens and spits out $f(x_0)$. 
+
+However, people don't just talk about the delta function, they also talk about its derivative! Trying to differentiate something that doesn't exist...? %We'll put on our applied maths hat on and try to define the derivative.
+
+How can we define the derivative $\de'(x-x_0)$? A first attempt might be (assuming $f$ is nice)
+\begin{align}
+\nonumber
+\int \de'(x-x_0)f(x)\,dx&=\lim_{h\to 0} \int 
+\pf{\de(x-x_0+h)-\de(x-x_0)}{h}f(x)\,dx\\
+\nonumber
+&=\lim_{h\to 0} \fc{f(x_0-h)-f(x_0)}{h}\\
+\nonumber
+&=-f'(x_0)\\
+\llabel{eq:dist0-2}
+&=-\int \de(x-x_0)f'(x)\,dx.
+\end{align}
+The equality~\eqref{eq:dist0-2} suggests that we could have simply integrated by parts
+\[
+\int \de'(x-x_0)f(x)\,dx=-\int \de(x-x_0)f'(x)\,dx+\ub{\text{boundary term}}{0}.
+\]
+This function that doesn't exist seems to follow the usual rules of calculus! 
+This suggests there is a way of interpreting all the integrals in a consistent way
+We can make all this rigorous using the theory of distributions. %looks like the usual rules of integral calculus can be applied to $\de(x-x_0)$.
+
+\section{Fourier transforms of polynomials}
+
+The \textbf{Fourier transform} is defined by (abbreviate $\int:=\iiy$)
+\[
+\cal F:f\mapsto \wh f(x)=\int e^{-i\la x}f(x)\,dx.
+\]
+This makes sense if $f$ is absolutely integrable:
+\[
+\ab{
+\int e^{-i\la x}f(x)
+}\le \int |e^{-i\la x}f(x)|\,dx=\int |f(x)|\,dx<\iy.
+\]
+What if $f\nin L^1$, in particular, what if $|f|\not\to 0$ as $|x|\to \iy$? You may have seen
+\beq{eq:dist0-3}
+\de(\la)=\rc{2\pi}\int e^{-i\la x}\,dx.
+\eeq
+There is a way of interpreting this so that it makes sense. This seems to suggest that the Fourier transform of $\rc{2\pi}$ is equal to $\de(\la)$. What if $f(x)=x^n$? Can we take the Fourier Transform?
+\bal
+\int e^{-i\la x}x^n\,dx&=\int \pa{i\pd{}{\la}}^n e^{-i\la x}\,dx\\
+&=\pa{i\pd{}{\la}}^n \int e^{-i \la x}\,dx\\
+&=2\pi e^{-i \pi n/2}\de^{(n)}(\la).
+\end{align*}
+If we can make sense on the derivatives of $\de$, then we can define the Fourier transform of polynomials.
+
+An alternative way of defining Fourier transform of $f(x)=x^n$ would be to use Parseval's Theorem, which states
+\beq{eq:dist0-4}
+\int f(x)\wh g(x)\,dx =\int \wh f(\la)g(\la)\,d\la
+\eeq
+for all ``nice" functions $f$ and $g$. We could define $\hat f(\la)$ where $f(x)=x^n$, as the function for which
+\beq{eq:dist0-5}
+\int x^n\hat g(x)\,dx=\int \hat f(\la)g(\la)\,d\la\text{ for all nice functions } g
+\eeq
+we could say that $\hat f(\la)$ is the Fourier transform of $f(x)=x^n$. Note $\hat g(x)$ decays quickly, so this makes sense. This can be done rigorously using the theory of distributions. %If we can find $\hat f(x)$
+
+``Everything's easy when you know the answer." It's only perfectly natural when you've been shown its perfectly natural. To prove consistency is not quite so easy.
+
+\section{Discontinuities to Differential Equations}
+%we want to see things like that happen.
+
+There are some important genuinely important physical scenarios in which we would like a solution to a PDE to have discontinuities. For example, in acoustics we want the pressure $p(x,t)$ to solve the wave equation
+\beq{eq:dist0-6}
+p_{xx}-p_{tt}=0,
+\eeq
+but for $p$ to jump either side of a shock wave.
+%propagate out?
+%pavilion g
+
+Is there any meaningful way to say that the function 
+\[
+u(x,y)=\al(x-y)+\be(x+y)
+\]
+is a solution to the wave equation $u_{xx}-u_{yy}=0$ if $\al,\be \nin C^2$? Assume $\al,\be\in C^2$ and $u_{xx}-u_{yy}=0$ so that for any nice function $f(x,y)$ (say $f=0$ when $x^2+y^2$ is sufficiently large),
+\bal
+0&=\int\int f(x,y)\pa{\pd{{}^2u}{x^2}-\pd{{}^2u}{y^2}}\,dx\,dy\\
+&=\int\int u(x,y) \pa{\pd{{}^2}{x^2}-\pd{{}^2f}{y^2}}\,dx\,dy
+\text{integration by parts twice}.
+\end{align*}
+If we can find $u(x,y)$ such that
+\beq{eq:dist0-7}
+\int\int u(x,y) \pa{\pd{{}^2}{x^2}-\pd{{}^2f}{y^2}}\,dx\,dy=0
+\text{ for all nice functions }f,
+\eeq
+we say that $u=u(x,y)$ is a \textbf{weak solution} to the PDE $u_{xx}-u_{yy}=0$. We can use distribution theory to study weak solutions to PDE's.
+%3 reasons want formalize
+
+\section{Summary}
+
+In each motivating example we introduced a family of ``nice" functions that allowed us to extend classical definitions to a wider class of problems. This is the underlying idea in distribution theory. Given a vector space $V$ of ``nice" functions we define the distributions on $V$ to be the topological dual $V^*$, which consists of all the continuous linear forms $V\to \C$. 
+
+For example, if $V=C(\R)$ then we can define Dirac delta by the linear form\footnote{You may be more familiar with the notation $\an{x,y}=x\cdot y$ for finite-dimensional vector spaces.}
+\beq{eq:dist0-8}
+\an{\de_{x_0},f}=f(x_0).
+\eeq
+%linear map.
+In general, any $u\in V^*$ is linear, so $\an{u, \al f+\be g}=\al\an{u,f}+\be \an{u,g}$ for arbitrary constants $\al,\be$ and $f,g\in V$. We need functional analysis because we require continuity. (The algebraic dual is too big to be interesting. Hence we supplement $V$ with a topology, i.e. a notion of convergence $f_n\to V$ in $V$. This is the motion of $w^*$-convergence, $\an{u,f_n}\to \an{u,f}$.
+
+\blu{Lecture 2}
+\chapter{Distributions}
+
+Recap:
+\begin{itemize}
+\item
+Delta function doesn't make sense.
+\item
+Way to define distributions is to first define a ``nice" space of functions $V$ (having all the properties we want it to have) and define distributions as continuous linear maps from $V$ to $\C$. 
+\end{itemize}
+%V has all properties we want it to have.
+
+We'll always work with continuous functions, so we can define continuity of functions $V\to \C$ very explicitly.
+
+\section{Notation and preliminaries}
+
+An element of $\R^n$ will be written $x,y,z,\ldots$ so that 
+\[
+x=(x_1,x_2,\ldots, x_n)
+\]
+and we will use $dx=dx_1\,dx_2\,\cdots \,dx_n$ to denote the volume element in $\R^n$. Capitals $X,Y,Z$ will always denote open subsets of $\R^n$ and $K$ will always denote a compact (closed and bounded) subset of $\R^n$. Integrals over all $\R^n$ or over $X\subeq \R^n$ will be denoted by $\int [\cdot]\,dx$ and $\int_X[\cdot]\,dx$, respectively.
+We will use multi-index notation $\al,\be,\ga$ (Greek letters) will denote multi-indices $\al=(\al_1,\ldots, \al_n)\in \Z_+^n=\{0,1,2,3,\ldots\}^{\times n}$. Multi-index notation reads as follows.
+\bal
+\pl^{\al} &\equiv\pa{\pdd{x_1}}^{\al_1}\cdots \pa{\pdd{x_n}}^{\al_n},&x^{\al}&\equiv x_1^{\al_1}\cdots x_n^{\al_n}\\
+\al!&\equiv \al_1!\cdots \al_n!&|\al|&\equiv \al_1+\cdots +\al_n.
+\end{align*}
+%functions for which it's switched on.
+We will often write $\pl^{\al}_x$ to make it clear what we're differentiating with respect to. We will also use $D=-i\pl$ when we do Fourier analysis. Define the \textbf{support} of a function $f$ by 
+\[
+\Supp(f)=\ol{\set{x\in \R^n}{f(x)\ne 0}}.
+\]
+We will often want to take limits inside integrals. To do this we refer to the dominated convergence theorem: (See for instance~\url{https://dl.dropboxusercontent.com/u/27883775/math\%20notes/18.125.pdf}, Theorem 15.1.)
+\begin{thm}[Dominated convergence theorem]\llabel{thm:dct}
+Given a sequence of absolutely integrable functions $\{f_m\}_{m\ge 1}$ such that $f_m(x)\to f(x)$ for each $x$ and $|f_m(x)|\le g(x)$, where $g$ is absolutely integrable, then 
+\[
+\lim_{m\to \iy}\int_Xf_m(x)=\int_X\ba{\lim_{m\to \iy} f_m(x)}\,dx=\int_X f(x)\,dx.
+\]
+\end{thm}
+If $f$ is absolutely integrable on $X$, i.e.,
+\[
+\int_X |f|\,dx<\iy,
+\]
+we say that $f\in L^1(X)$.
+
+\section{Test functions and distributions}
+We need to define our first vector space of test functions.
+\begin{df}
+The space $D(X)$ consists of all the smooth functions from $X$ to $\C$ that have compact support. We say that a sequence $\{\ph_m\}_{m\ge1}$ tends to zero in $D(X)$ if there exists some compact set $K\subeq X$ such that $\Supp(\ph_m)\subeq K$ and $\pl^{\al}\ph_m\to 0$ uniformly for each multi-index $\al$.
+
+The space $D(X)$ is often written $C^{\iy}_c(X)$.
+\end{df}
+(For convergence, the function is not allowed to have its mass moving away to infinity.)
+%integrate by parts, evaluated on the boundary, derivatives shift to the other side.
+
+Since the functions in $D(X)$ vanish at the boundary of $X$, we have
+\[
+\int_X\ph \pl^{\al}\psi\,dx=(-1)^{\al}\int_X\psi\pl^{\al}\ph\,dx,
+\qquad \ph,\psi\in D(X)
+\]
+by integration by parts $|\al|$ times. We have Taylor's Theorem to any order
+\beq{eq:taylor}
+\ph(x+h)=\sum_{|\al|\subeq N}\fc{h^{\al}}{\al!} \pl^{\al}\ph(x)+R_N(x,h)
+\eeq
+where the remainder is $o(|h|^N)$ uniformly in $x$. %treat it as  ncice polynomial plus remainder.
+
+%we have space of tests. distributions will be defined as linear maps. We want them to be continuous. $u(\ph)\equiv \an{u,\ph}\in \C$. If $\ph_m\to 0$ in $D(X)$, $\an{u,\ph_m}\to 0$ in $\C$.
+\begin{df}\llabel{df:distribution}
+A linear map $u:D(X)\to \C$ is a \textbf{distribution} (on $X$) if
+for each compact $K\subeq X$, there exist $C,N$ such that 
+\beq{eq:dist1-1}
+|\an{u,\ph}|\le C\sum_{|\al|\le N} \sup|\pl^{\al}\ph|
+\eeq
+%vs sequential continuity. 
+for each $\ph\in D(X)$ with $\Supp(\ph)$ with $\Supp(\ph)\subeq K$. The space of all such maps is denoted $D'(X)$. If we can use the same $N$ for all $\ph\in D(X)$, we call the least such $N$ the order of $u$, denoted $\ord(u)$.
+\end{df}
+%in the back of mind have this example, go back to familiar example.
+\begin{rem}
+Thinking of $D(X)$ as a locally convex space (in fact, Fr\'echet space) with seminorms defined by $\sup|\pl^{\al}\ph|$, we have $D'(X)=D(X)^*$. See Example 2.2.4 in Functional Analysis\footnote{\url{https://dl.dropboxusercontent.com/u/27883775/math\%20notes/part_iii_functional.pdf}}.
+The example there is actually a larger space ($\cal E(X)$ of the next chapter), but it contains our $D(X)$.
+\end{rem}
+
+\begin{ex}
+\begin{enumerate}
+\item
+We check that the Dirac delta $\de_x$ is a distribution. $\de_x$ is defined by
+\[
+\an{\de_x,\ph}=\ph(x)\qquad\ba{\int \de(x-y)\ph(y)\,dy=\ph(x)}.
+\]
+We want to check if~\eqref{eq:dist1-1} holds:
+\[
+\ab{\an{\de_x,\ph}}=|\ph(x)|\le \sup|\ph|
+\] 
+so~\eqref{eq:dist1-1} holds with $C=1$, $N=0$,  no matter what $\ph$ we choose. So $\de_x$ is a distribution of order 0.
+\item
+Here is a more useful example. Consider the linear map $T$ on $D(X)$ defined by 
+\[
+\an{T,\ph}:=\sum_{|\al|\le M} \int_X f_{\al}\pl^{\al} \ph\,dx,
+\]
+$f_{\al}\in C(X)$. Now for $\ph\in D(X)$, with $\Supp(\ph)\subeq K$. By definition of $T$, 
+\bal
+|\an{T,\ph}|&=\ab{
+\sum_{|\al|\le M}\int_K f_{\al} \pl^{\al}\ph\,dx
+}\\
+&\le \sum_{|\al|\le M} \int_K |f_{\al}||\pl^{\al} \ph|\,dx\\
+&\le \sum_{|\al|\le M} \sup_{|\al|\le M}|\pl^{\al}\ph| \int_K |f_{\al}|\,dx\\
+&\le \pa{\max_{\al}\int_K |f_{\al}|\,dx}\sum_{|\al|\le M} \sup |\pl^{\al} \ph|
+\end{align*}
+Note that the test functions have compact support, so it doesn't matter if $f_{\al}$ blows up at the boundary. So we have estimate~\eqref{eq:dist1-1} with 
+\[
+C=\max_{|\al|\le M}\int_K |f_{\al}|\,dx,\qquad N=M.
+\]
+Note that $C=C_K$. We could have done this only assuming that $\{f_{\al}\}$ were locally integrable on $X$ (integrable on every compact subset of $X$), written $f_{\al}\in L_{\text{loc}}^1(X)$.
+
+Note here the constant $C$ depends on the support test function. $N$ can also depend on it.
+%$N$ can also depend on the support of the test function.
+\end{enumerate}
+\end{ex}
+\begin{lem}\llabel{lem:dist1-1}
+A linear map $u:D(X)\to \C$ belongs to $D'(X)$ if $\an{u,\ph_m}\to 0$ for every sequence $\{\ph_m\}_{m\ge 1}$ in $D(X)$ that tends to 0.
+\end{lem}
+\blu{Lecture 3 (27 Jan)} 
+\begin{rem}
+That Definition~\ref{df:distribution} and Lemma~\ref{lem:dist1-1} are equivalent conditions for continuity is a special case of Lemma 2.2.5 in the functional analysis notes.
+\end{rem}
+\begin{proof}
+\begin{itemize}
+\item
+$\implies$: If $u\in D(X)$ and $\ph_m\to 0$ in $D(X)$ then
+\[
+|\an{u,\ph_m}|\le \sum_{|\al|\le m} \sup|\pl^{\al} \ph_m|\to 0.
+\]
+\item
+$\Leftarrow$: Assume not, so there exists a compact set $K\subeq X$ such that estimate~\eqref{eq:dist1-1} does not hold for any $C,N$. In particular, it doesn't hold for $C=N=m$. So there exist $\phi_m\in D(X)$ such that $|\an{u,\phi_m}|>m\sum_{|\al|\le m}\sup |\pl^{\al} \phi_m|$. WLOG, we can assume that $\an{u,\phi_m}=1$, by setting $\wt{\phi_m}=\fc{\phi_m}{\an{u,\phi_m}}$. This implies
+\bal
+\implies \sum_{|\al|\le m} \sup|\pl^{\al}\phi_m|&<\rc m\\
+\implies \sup|\pl^{\al}\phi_m|&<\rc m,&|\al|\le m\\
+\implies \phi_m\to 0& \text{ in }D(X).
+\end{align*}
+But this is a contradiction.
+\end{itemize}
+\end{proof}
+\section{Limits in $D'(X)$}
+Often we have  sequence of distributions $\{u_m\}_{m\ge 1}$. If there exist some $u\in D'(X)$ such that $\an{u_m,\ph}\to \an{u,\ph}$ for all $\ph\in D(X)$, then we say that $u_m\to u$ in $D'(X)$.
+
+Limits in $D'(X)$ often look strange. 
+\begin{ex}
+For instance, define the distribution $u_m\in D'(\R)$ by the locally integrable function
+\[
+u_m(X):=\sin (mx).
+\]
+Then $u_m\to 0$ in $D'(\R)$. 
+
+%compact support, ibp no boundary terms.
+Proof: We have using \blu{integration by parts}
+\bal
+\an{u_m,\ph}&=\int \sin(mx)\ph(x)\,dx\\
+&=\rc{m} \int \cos(mx)\ph'(x)\,dx
+\end{align*}
+Hence $u_m\to 0$ in $D'(\R)$. 
+\end{ex}
+%think about Fourier expansion of $\ph$
+\begin{thm}[Closure under pointwise convergence]\llabel{thm:dist1-1}
+If $u_m\in D'(X)$ is such that $\lim_{m\to \iy}\an{u_m,\ph}$ exists for every $\ph\in D(X)$, then the linear map
+\[
+\an{u,\ph}:=\lim_{m\to \iy}\an{u_m,\ph}
+\]
+is an element of $D'(X)$. 
+\end{thm}
+It's obvious that the LHS will satisfy the estimate or the definition. Use the principle of uniform boundedness (See the Banach-Steinhaus Theorem, 4.2.7 in FA notes).
+
+\section{Basic operations}
+
+\subsection{Differentiation and multiplication by smooth functions} 
+If $u\in C^{\iy}(X)$, then $\pl^{\al}u$ defines an element of $D'(X)$ for every multi-index $\al$ by
+\bal
+\an{\pl^{\al}u,\ph}&=\int_{X}\pl^{\al}u\ph\,dx\\
+&=(-1)^{|\al|} \int_X u\pl^{\al} \ph\,dx&\text{integration by parts}\\
+&=\an{u,(-1)^{|\al|}\pl^{\al}\ph}.
+\end{align*}
+%add in f
+%Makes sense for any distribution, so it's a good definition.
+The RHS is well-defined for any $u\in D'(X)$. We arrive at the following.
+\begin{df}\llabel{df:dist1-3}
+For $f\in C^{\iy}(X)$, $u\in D'(X)$ and any multi-index $\al$ we define $\pl^{\al}(fu)$ by 
+\[
+\an{\pl^{\al}(fu),\ph}:=\an{u,(-1)^{|\al|} f\pl^{\al}\ph}.
+\]
+We call $\pl^{\al}u$ the \textbf{distributional derivatives} of $u$.
+\end{df}
+\begin{ex}
+Take the Dirac delta $\de_x$. Then $\pl^{\al}\de_x$ is defined by
+\[
+\an{\pl^{\al}\de_x,\ph}:=\an{\de_x,(-1)^{|\al|} \pl^{\al}\ph} = (-1)^{|\al|} \pl^{\al}\ph(x).
+\]
+
+Consider the Heaviside function
+\[
+H(x)=\begin{cases}
+1,&x>0\\
+0,&x\le 0.
+\end{cases}
+\]
+Then this defines an element of $D'(\R)$. We compute $H'$:
+\[
+\an{H',\ph}:=\an{H, -\ph'}=\int_0^{\iy} -\ph'(x)\,dx = -\ph|^{\iy}_0=\ph(0)=\an{\de_0,\ph}.
+\]
+Hence $H'=\de_0$. In general if $\an{u,\ph}=\an{v,\ph}$ for all $\ph\in D(X)$ then we say $u=v$ in $D'(X)$. 
+%gradient infinite.
+\end{ex}
+Now we ask: how does the calculus for normal functions carries over to calculus for distributions?
+\begin{lem}
+If $u'=0$ in $D'(\R)$ then $u$ is a constant.
+\end{lem}
+\begin{proof}
+Note that $u'=0$ means 
+\[0=\an{u',\psi}=-\an{u,\psi'}.\]
+%every function that is a total derive.
+%{\it Note that }
+
+{\it \blu{Idea: we'd like to say that given $\ph$, we can write $\ph=\ddd x\int_{-\iy}^x \ph(y)\,dy=\psi'$, and use the above to conclude $0=\an{u,\ph}$, so $u$ is constant. The problem is that when we integrate a test function, we don't necessarily get a test function. We need to adjust our function so that the integral is 0 for large $x$.}}
+
+Fix $\te\in D(\R)$ with $\an{1,\te}=\int \te\,dx=1$. For arbitrary $\ph\in D(\R)$ write 
+\bal
+\ph&=(\ph-\an{1,\ph}\te)+\an{1,\ph}\te\\
+&\equiv \ph_A+\ph_B
+\end{align*}
+Then 
+\[
+\an{1,\ph_A} =\an{1,\ph}-\an{1,\ph}\an{1,\te}=0.
+\]
+This is helpful because 
+\[
+\psi_A(x)=\int_{-\iy}^x \ph_A(y)\,dy\in D(\R).
+\]
+%
+We have $\ph_A=\psi_A'$. So 
+\bal
+\an{u,\ph}&=\an{u,\ph_A}+\an{u,\ph_B}\\
+&=\an{u,\psi_A'}+\an{1,\ph}\ub{\an{u,\te}}b=0+c\an{1,\ph} =\an{c,\ph}.
+\end{align*}
+This implies that $u$ is a constant.
+\end{proof}
+\subsection{Reflection and translation}
+\begin{df}
+For $\ph\in D(\R^n)$ then we can define its \textbf{translation} by $h\in \R^n$ by 
+\[
+(\tau_h\ph)(x):=\ph(x-h)
+\]
+and \textbf{reflection}
+\[
+\check \ph(x)=\ph(-x).
+\]
+\end{df}
+(Motivation: $\an{u,\ph}=\int u\ph\,dx$ gives
+$\an{\tau_h u,\ph}=\int u(x-h)\ph(x)\,dx=\int u(x)\ph(x+h)\,dx=\an{u,\tau_{-h}\ph}$.) By duality, the definitions of these operations on $u\in D'(\R^n)$,
+\bal
+\an{\tau_hu,\ph}&:= \an{u,\tau_{-h}\ph}\\
+\an{\check u,\ph}&:=\an{u,\check{\ph}}.
+\end{align*} 
+\begin{lem}\llabel{lem:dist1-3}
+For $u\in D'(\R^n)$ define
+\[
+v_h=\fc{\tau_{-h} u-u}{|h|}.
+\]
+Then $v_h\to n\cdot \pl u$, where $\lim_{h\to 0} \fc{h}{|h|}=n\in S^{n-1}$. 
+\end{lem}
+\begin{proof}
+We have
+\bal
+\an{v_h,\ph}&=\an{\fc{\tau_{-h}u-u}{|h|},\ph}\\
+&=\an{u,\fc{\tau_h\ph-\ph}{|h|}}.
+\end{align*}
+By Taylor's Theorem,
+\bal
+\tau_h \ph(x)-\ph(x)&=-h\pl \ph(x)+\ub{R(x,h)}{o(|h|)\text{ in }D(\R^n)}\\
+\an{u,\fc{\tau_h\ph-\ph}{|h|}}&=\an{u,-\fc{h}{|h|}\pl \ph}+\ub{\an{u,\fc{(R(\cdot ,h))}{h}}}{\to 0\text{ as $|h|\to 0$}}\\
+&=n\cdot \an{\pl u, \ph}.
+\qedhere
+\end{align*}
+\end{proof}
+This shows the distributional derivative coincides with the normal notion of derivative as difference quotient.
+
+\blu{Lecture 4 (29 Jan)}
+
+\subsection{Convolution between $D(\R^n)$ and $D'(\R^n)$}
+If we combine the operations of reflection and translation, we get 
+\[
+(\tau_x\check{\ph})(y)=\check{\ph} (y-x)=\ph(x-y).
+\]
+If $u\in D(\R^n)$, we define the \textbf{convolution} of $u$ and $\ph\in D(\R^n)$ with
+\[
+(u*\ph)(x):=\int u(x-y)\ph(y)\,dy=\int \ph(x-y)u(y)\,dy=(\ph*u)(x).
+\]
+Using $\tau_h$ and $\check{\bullet}$, we can write 
+\[
+u*\ph(x)=\an{u,\tau_x \check{\ph}}.
+\]
+This is well defined for all $u\in D'(\R^n)$.
+\begin{df}\llabel{df:dist1-5}
+For $u\in D'(\R^n)$ and $\ph\in D(\R^n)$, define their convolution by 
+\[u*\ph(x)=\an{u,\tau_x\check{\ph}}.\]
+\end{df}
+It is clear that $u*\ph(x)$ is just some function of $x\in \R^n$. It is actually smooth.
+\begin{lem}\llabel{lem:dist1-4}
+Define $\Phi_x(y)=\phi(x,y)$ where $\phi\in C^{\iy}(\R^n\times \R^n)$ and $\phi(\cdot, y)=0$ for $y$ outside some compact $K\subeq \R^n$. Then for $u\in D'(\R^n)$, 
+\[
+\pl_x^{\al} \an{u,\Phi_x}=\an{u, \pl^{\al}_x \Phi_x}.
+\]
+\end{lem}
+We can take the derivatives inside the bracket.
+\begin{proof}
+By Taylor's theorem,  
+%left with is linear map on $H$.
+%use defn of $D'$
+\[
+\Phi_{x+h}(y)-\Phi_x(y)=\sum_i h_i \pd{\phi}{x_i} (x,y)+R_x(y,h)
+\]
+It is not difficult to show that $R_x(y,h)=o(|h|)$ in $D(\R^n)$ for each $x\in \R^n$. Hence
+\[
+\an{u,\Phi_{x+h}}-\an{u,\Phi_x}=\sum_i h_i \an{u,\pl{\Phi_x}{x_i}}+\an{u,R_x(\cdot, h)}.
+\]
+%sequence of test functions tend to 0, then continuity means $u$ acting on that sequence tends to 0.
+Since $R_x(\cdot, h)=o(|h|)$ in $D(\R^n)$, dividing by $|h|$ and taking $h\to 0$ gives ($u=\fc{h}{|h|}$)
+\[
+n\cdot \an{u, \Phi_x}=n\cdot \an{u,\pl_x\Phi}.
+\]
+So the result follows.
+\end{proof}
+\begin{cor}\llabel{cor:dist1-1}
+If $u\in D'(\R^n)$ and $\ph\in D(\R^n)$ then $u*\ph$ is smooth and $\pl^{\al}(u*\ph)=u*\pl^{\al}\ph$. 
+\end{cor}
+\begin{proof}
+By Lemma~\ref{lem:dist1-4}, $\pl^{\al}(u*\ph)=\pl^{\al}_x\an{u,\tau_x \check{\ph}}=u*\pl^{\al}\ph$.
+\end{proof}
+%dist are normal functions, just take a derivative at the end.
+\subsection{Density of $D(\R^n)$ in $D'(\R^n)$}
+We have just seen the following.\\
+
+\cpbox{
+If $u\in D'(\R^n)$ and $\ph\in D(\R^n)$ then $u*\ph$ is smooth.}
+\vskip0.15in
+This is extremely useful. No matter how wild $u$ is, $u*\ph$ is nice. For this reason, $u*\ph$ is often called a  \textbf{regularisation} of the distribution $u$.
+%wild creatures. give me any wild distribution, convolute with anything, get a smooth function. This is what we'll use to prove the density result.
+We will use this fact to prove $D(\R^n)$ is dense in $D'(\R^n)$, i.e., for each $u\in D^1(\R^n)$ there exists a sequence of test functions $\{\ph_m\}_{m\ge 1}$ in $D(\R^n)$ such that $\ph_m\to u$ in $D'(\R^n)$, i.e., $\an{\ph_m,\te}\to \an{u,\te}$ for all $\te\in D(\R^n)$.
+
+\blu{How to apply this: Suppose we have a problem about a distribution we don't know anything about. We know for some sequence of $\phi_m$, $\ph_m=u*\phi_m\to u$. We replace $u$ with $\ph_m$, do manipulations there, run the argument and take a limit.}
+
+
+We need a technical lemma.
+\begin{lem}\llabel{lem:dist1-5}
+For $\ph,\psi\in D(\R^n)$ and $u\in D'(\R^n)$ we have
+\[
+(u*\ph)*\psi=u*(\ph*\psi).
+\]
+%insert dummy var
+\end{lem}
+\begin{proof}
+The LHS is
+\bal
+(u*\ph)*\psi(x)&=\int (u*\ph)(x-y)\psi(y)\,dy\\
+&=\int \an{u,\tau_{x-y} \wh \ph}\psi(y)\,dy\\
+&=\int\an{u(z),\ph(x-y-z)\psi(y)}\,dy&\text{$z$ is ``dummy" variable}\\
+&=\lim_{h\to 0} \sum_{m\in \Z^n}\an{u(z), \ph(x-z-hm)\psi(hm)h^n}&\text{Riemann sum}\\
+&=\lim_{h\to 0}\an{u(z), \sum_{m\in\Z^n}\ph(x-z-hm)\ph(hm)h^n}
+\end{align*}
+(We want to take the $\int$ inside the $\an{\cdot}$, and we do this by turning it into a Riemann sum. Note the sum only has finitely many terms for each $m$, so this is legal.)
+%sum eventually dead, only finitely many terms.
+It is not hard to show that 
+\[
+\sum_{m\in \Z^n}\ph(x-hm)\psi(m)h^n\to \ph*\psi(x)\text{ in }D(\R^n)\text{ as }h\to 0.
+\]
+Continuing the above calculation,
+\bal
+&=\an{u(z),\ph*\psi(x-z)}\\
+&=\an{u,\tau_x (\ph*\psi)\check{\,}}\\
+&=u*(\ph*\psi)(x).
+\end{align*}
+%compact support, LHS has compact support, by fixed compact set, can differentiate
+\end{proof}
+\begin{thm}\llabel{thm:dist1-2}
+$D(\R^n)$ is dense in $D'(\R^n)$. 
+\end{thm}
+We would like to say
+\[
+u(x)=\int\de(x-y)u(y)\,dy\stackrel?= \lim_{m\to \iy} \int \de_m(x-y)u(y)\,dy
+\]
+The $\de_m(x)$ are such that $\int \de_m(x)\,dx=1$ and get squashed closer and closer to $\de$. %(``a family of good kernels").
+\begin{proof}
+Fix $\psi\in D(\R^n)$ with $\int \psi\,dx=1$ and set
+\[
+\phi_m(x)=m^n \psi(mx)\qquad \pa{\int \phi_m\,dx=\int \psi\,dx=1}.
+\]
+%convolution of look-like de with original
+Also introduce the bump function $\chi\in D(\R^n)$ with $\chi=1$ on $|x|<1$ and $\chi=0$ on $|x|>1$. Now set $\chi_m\pf xm$ and
+\[
+\ph_m=\pur{\chi_m(x)}(u*\phi_m)(x).
+\]
+%why can't $\ph$ of this guy?
+(The purpose of $\pur{\chi_m(x)}$ is to make $\ph_m$ have compact support.)
+Choose $\an{\ph_m,\te}$ for $\te\in D(\R^n)$ arbitrary, giving
+\bal
+\an{\ph_m,\te}&=\an{u*\phi_m, \chi_m\te}\\
+&=(u*\phi_m)*(\chi_m\te)\check{\,}(0)\\
+%&=u*\check{\ph}(0)\\
+&=u*(\phi_m*(\chi_m \te)\check{\,})(0)\\
+\phi_m*(\chi_m\te)\check{\,}(x)&=\int\phi_m (x-y)\chi_n(-y)\te(-y)\,dy\\
+&=\int m^n \phi(m(x-y))\chi\pf{-y}{m}\te(-y)\,dy& y'=m(x-y)\implies y=x-\fc{y'}m\\
+%Make the substitution 
+&=\int\phi(y)\chi\pa{\fc y{m^2}-\fc xm}\te\pa{\fc ym -x}\,dy\\
+&=\te(-x)+\ub{\int \phi(y)\chi\pa{\fc y{m^2}-\fc xm}\ba{
+\te\pa{\fc ym-x}-\te(-x)
+}\,dy}{=:R_m(-x)}\\
+&=(\check{\te}+\check{R_m})(x).
+\end{align*}
+We can show $R_m\to 0$ in $D(\R^n)$. So \[\an{\ph_m,\te}=\an{u,\te}+\ub{\an{u,R_m}}{\to 0\text{ as }m\to \iy}.\] Hence $\an{\ph_m,\te}\to \an{u,\te},\te\in D(\R^n)$, giving $\ph_m\to u$ in $D'(\R^n)$ i.e. $D(\R^n)$ dense in $D'(\R^n)$. 
+\end{proof}

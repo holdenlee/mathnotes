@@ -1,0 +1,257 @@
+\chapter{Holomorphic functional calculus}
+
+\llabel{ch:hfc}
+
+\section{Holomorphic functional calculus}
+
+Let $U$ be a nonempty open subset of $\C$. Recall from Chapter 2 that $\cO(U)$ is the space of holomorphic (i.e., analytic functions) 
+\[
+\cO(U)=\set{f:U\to \C}{f\text{ analytic}}.
+\]
+This is a LCS with seminorms 
+\[\ve{f}_K=\sup_{z\in K}|f(z)|,\]
+where $K\subeq U$ is compact. It is an algebra with pointwise multiplication, which is continuous with respect to the topology. The topology on $\cO(U)$ is the topology of local uniform convergence. It's metrizable but it is not a Banach algebra\footnote{See remark after Theorem~\ref{thm:f6-3}: any algebra of complex analytic functions that is a Banach algebra has to be bounded. However there are analytic functions on an open set that are not bounded.}; it's a Fr\'echet algebra.
+
+\begin{thm}[Holomorphic Functional Calculus]\llabel{thm:f7-1}
+Let $A$ be a commutative, unital Banach algebra $x\in A$, $U$ an open subset of $\C$ with $\si(x)\subeq U$. Let $u(z)=z, z\in U$ be the identity map\footnote{as opposed to the identity $e(z)=1$}.
+
+Then there's a unique, continuous, unital homomorphism $\te_x:\cO(U)\to A$ such that $\te_x(u)=x$. Moreover, $\ph(\te_x(f))=f(\ph(x))$ for all $\ph\in \Phi_A$ and all $f\in \cO(U)$, so $\si(\te_x(f))=\set{f(\la)}{\la\in \si(x)}$.
+\end{thm}
+This is a generalization of the spectral mapping theorem for analytic functions, not just polynomials (Theorem~\ref{lem:f6-5}).
+
+(We will write $f(x)=\te_x(f)$, $\ph(f(x))=f(\ph(x))$, and
+%some Taylor expansion. The topology is local uniform convergence. By continuity, would be the sum. Taylor expansion can substitte. This is more general because U is arbitrary open.
+$\si(f(x))=f(\si(x))$.) 
+
+For example, if $U=\set{z}{|z|<R}$, $f\in \cO(U)$ has Taylor expansion $f=\sum_{n=0}^{\iy} a_nz^n$, then $f(x)=\sum_{n=0}^{\iy} a_nx^n$, since $\sum_{n=0}^{\iy} a_nz^n$ converges locally uniformly to $f$.
+\begin{thm}[Runge's Theorem]
+\llabel{thm:f7-2}
+If $K\ne \phi$ is a compact subset of $\C$, then  $R(K)=O(K)$, i.e., every analytic function on an open set containing $K$ can be uniformly approximated on $K$ by a rational function with no poles in $K$.
+
+More precisely, suppose $\La$ contains exactly one point from each bounded component of $\C\bs K$, then if $f$ is analytic on some open neighborhood of $K$, then for every $\ep>0$ there exists a rational function $r$ with poles in $\La$ such that $\ve{f-r}_K<\ep$.
+\end{thm}
+\begin{rem}
+If $\C\bs K$ is connected, then $\La=\phi$, so we have a polynomial approximation theorem, $O(K)=P(K)$.
+\end{rem}
+The idea of the proof of Theorem~\ref{thm:f7-1} is the following analogue for Cauchy's integral theorem for Banach algebras: 
+\[
+f(x)=\rc{2\pi i}\int_{\Ga} f(z)(z1-x)^{-1}\,dz.
+\]
+%It's like Cauchy's integral function, extend Banach algebra of analytic functions
+
+There are two ingredients to the proof, given in the next two subsections. 
+\subsection{Cycles and winding numbers}
+First, a definition.
+\index{cycle}\index{winding number}
+\nomenclature{$n(\Ga,w)$}{winding number of cycle $\Ga$ around $w$}
+\nomenclature{$[\Ga]$}{points in a cycle}
+\begin{df}
+A \textbf{cycle} consists of paths $\ga_1,\ldots, \ga_n$ (where $\ga_k:[a_k,b_k]\to \C$ is continuously differentiable) such that there exists a permutation $\pi$ such that
+\[
+\ga_k(b_k)=\ga_{\pi(k)}(a_{\pi(k)})\text{ for all }k.
+\]
+We define the \textbf{winding number} of a cycle to be ths sum of the winding numbers of the paths:
+\[
+n(\Ga,w)=\sum_k n(\ga_k,w)=\sum_k \rc{2\pi i}\int_{\ga_k} \fc{dz}{z-w}\in \Z,\] and denote
+\[[\Ga]=\bigcup\set{\ga_k(t)}{a_k\le t\le b_k}\subeq U\bs K.\]
+\end{df}
+
+Let $K\sub U\sub \C$ with $K$ compact and $U$ open. Then there exists a cycle $\Ga$ in $U\bs K$ such that 
+\[
+n(\Ga,w)=\begin{cases}
+1,&\text{for all }w\in K,\\
+0,&\text{for all }w\nin K.
+\end{cases}
+\]
+%where $n(\Ga,w)$ is the winding number of $\Ga$ about $w$. 
+%picture.
+\subsection{Integration on Banach spaces}
+We need to generalize integration to Banach spaces.
+\begin{df}
+\begin{enumerate}
+\item (Integration on $[a,b]$)
+For $[a,b]\subeq \R$, $X$ a Banach space, $f:[a,b]\to X$ continuous, define $\int_a^b f(t)\,dt$ as follows (basically a Riemann sum). For $n\in \N$, take a dissection $D_n$ of $[a,b]$,
+\[
+a=t_0^n<t_1^n<\cdots <t_{k_n}^n=b
+\]
+such that
+\[
+\max\set{t_k^n-t_{k-1}^n}{1\le k\le k_n}\to 0\text{ as }n\to \iy.
+\]
+Define
+\[
+\int_a^b f(t)\,dt=\lim_{n\to \iy} \sum_{k=1}^{k_n} (t_k^n-t_{k-1}^n) f(t_k^n).
+\]
+\end{enumerate}
+This exists and is independent of $D_n$ (use the uniform continuity of $f$). 
+%I guess we're restricting to continuous $f$.
+It is immediate from the definition that for all $\ph\in X^*$, 
+\[\ph\pa{\int_a^b f(t)\,dt}=\int_a^b \ph(f(t))\,dt.\]
+\begin{enumerate}
+\item[2.] (Integration on $\ga$)
+If $\ga:[a,b]\to \C$ is continuously differentiable, and
+\[
+f:[\ga]=\set{\ga(t)}{t\in [a,b]}\to X
+\]
+is continuous, then define
+\[
+\int_{\ga}f(z)\,dz=\int_a^b f(\ga(t))\ga'(t)\,dt.
+\]
+\end{enumerate}
+\end{df}
+The usual theorems in complex analysis generalize.
+\begin{thm}[Cauchy's Theorem for Banach spaces]
+\llabel{thm:cauchy-Banach}
+Let $U\subeq \C$ with $U$ open and $f:U\to X$ \textbf{analytic}, i.e.,
+\[
+\lim_{z\to w} \fc{f(z)-f(w)}{z-w}
+\]
+exists for all $w\in \C$. Let $\Ga$ be a cycle in $U$. Then, provided $n(\Ga,w)=0$ for all $w\nin U$,
+\[
+\int_{\Ga} f(z)\,dz=0.
+\] 
+\end{thm}
+\begin{proof}
+We have by scalar Cauchy that
+\[
+\ph\pa{\int_{\Ga}f(z)\,dz}=\int_{\Ga}\ph(f(z))\,dz=0.
+\]
+This is true for all $\ph\in X^*$, so by Hahn-Banach, $\int_{\Ga}f(z)\,dz=0$.
+\end{proof}
+\section{Proof}
+\begin{lem}\llabel{lem:f7-3}
+Let $A,x,U$ be as in Theorem~\ref{thm:f7-1}. Fix a cycle $\Ga$ in $U\bs \si(x)$ such that 
+\[
+n(\Ga,w)=\begin{cases}
+1,&\text{for all }w\in \si(x),\\
+0,&\text{for all }w\nin U.
+\end{cases}
+\]
+\cary{It winds around everything in $\si(x)$ exactly once.}
+Define $\te_x:\cO(U)\to A$ by 
+\[\te_x(f)=\rc{2\pi i} \int_{\Ga} f(z)(z1-x)^{-1}\,dz.\]
+Then
+\begin{enumerate}
+\item
+$\te_x$ is linear and continuous.
+\item
+If $r$ is a rational function with no poles in $U$, then $\te_{\al}(r)=r(\al)$ in the usual sense. 
+\item
+$\ph(\te_x(f))=f(\ph(x))$ for all $f\in \cO(U)$, for all $\ph\in \Phi_A$. So $\si(\te_x(f))=f(\si(x))$. 
+\end{enumerate}
+\end{lem}
+\begin{proof}
+First we show $\te_x$ is well-defined: $[\Ga]\subeq U\bs \si(x)$ so $z1-x$ is invertible for all $z\in [\Ga]$. Moreover, $z\mapsto f(z)(z1-x)^{-1}$ is continuous by Corollary~\ref{cor:f6-2}(2).
+
+\begin{enumerate}
+\item
+$\te_x$ is clearly linear. Since $[\Ga]$ is compact, there exists $M\ge0$ such that $\ve{(z1-x)^{-1}}\le M$ for all $z\in [\Ga]$. ($[\Ga]$ is compact as a finite union of images of compact sets). So
+\[
+\ve{\te_x(f)}\le \rc{2\pi}\text{length}(\Ga)\cdot \ve{f}_{[\Ga]}\cdot M,
+\]
+and hence $\te_x$ is continuous by Lemma~\ref{lem:f2-9}.
+\item
+Let $e(z)=1$ for all $z\in U$, i.e., $e$ is the identity of $\cO(U)$. We'll show that $\te_x(e)=1\in A$. 
+
+Fix $R>0$ large enough so that $\si(x)\cup [\Ga]\subeq \set{z\in \C}{|z|<R}$ and $R>\ve{x}$.  By Cauchy's Theorem, \[\te_x(e)=\rc{2\pi i}\int_{|z|=R} (z1-x)^{-1} \,dz.\]
+For $|z|=R\ge\ve{x}$, \[(z1-x)^{-1}=\suo \fc{x^n}{z^{n+1}}\] converges uniformly on $|z|=R$, where the equality was shown in the proof of Lemma~\ref{lem:f6-1}.
+
+So we can integrate it term-by-term to get 
+\[
+\te_x(e)=\sum_{n=0}^{\iy}\pa{\rc{2\pi i}\int\fc{dz}{z^{n+1}}}x^n=1\in A.
+\]
+Let $r$ be a rational function with no poles in $U$, i.e., $r\in \cO(U)$. So $r=\fc pq$, where $p,q$ are polynomials, and $q$ has no zeros in $U$. By Lemma~\ref{lem:f6-5}, 
+\[
+\si(q(x))=\set{q(\la)}{\la\in \si(x)}.
+\]
+So $0\nin \si(q(x))$, so $q(x)$ is invertible.
+
+So we can define $r(x)=p(x)q(x)^{-1}$, and we can write (by putting $r(z),r(x)$ over a common denominator)
+\[
+r(z)1-r(x)=(z1-x)\sum_{k=1}^m s_k(z)t_k(x)
+\]
+where $s_k,t_k$ are rational functions with no poles in $U$. So
+\begin{align*}
+\te_x(r)&= \rc{2\pi i}\int_{\Ga} r(z)(z1-x)^{-1} \,dz\\
+&=\rc{2\pi i}\int_{\Ga} (z1-x)^{-1} r(x)\,dz+\rc{2\pi i}\int_{\Ga} \sum_{k=1}^m s_k(z)t_k(x)\,dz\\
+&=\te_x(e)r(x)+0\\
+&=r(x)
+\end{align*}
+using Cauchy's Theorem and the above.
+\item Since for all $\ph\in \Phi_A$, $\ph((z1-x)^{-1})=\rc{\ph(z1-x)}=\rc{z-\ph(x)}$,
+\[
+\ph(\te_x(f))=\rc{2\pi i}\int_{\Ga}f(z)(z-\ph(x))^{-1}\,dz=f(\ph(x))
+\]
+by Cauchy's integral formula  and $n(\Ga,\ph(x))=1$. (Note $f$ has no poles inside of $U$, and we assumed $\Ga$ winds 0 times around anything in $U$.)
+
+Finally, use the characterization $\si(x)=\{\ph(x)\}$ (Corollary~\ref{cor:f6-13}).
+\end{enumerate}
+\end{proof}
+\begin{rem}
+If $A$ is semisimple, then $\te_x$ is an algebra homomorphism. Indeed, for every $\ph\in \Phi_A$,
+\[
+\ph(\te_x(fg)-\te_x(f)\te_y(f))=(fg)(\ph(x))-f(\ph(x))g(\ph(x))=0.
+\]
+\cary{Now we use the fact that for semisimple algebras, $\ph(a)=0$ for all $\ph\in \Phi_A$ implies $a=0$.}
+%key: can take the $\ph$ inside!
+\end{rem}
+\begin{proof}[Proof of Runge's Theorem~\ref{thm:f7-2}]
+Suppose $K\ne \phi$ is compact, and $K\subeq \C$. Let $A=R(K)$. Assume $f:U\to \C$ is analytic for some open $U\supeq K$. %obvious?
+Let, as usual, $u\in \cO(U)$ be $u(z)=z$ for all $z\in U$. Let $x=u|_K\in A$.  Note $\si(x)=K$ %\fixme{(?)} 
+and $\Phi_A=\set{\de_k}{k\in K}$. Apply Lemma~\ref{lem:f7-3} to get $\te_x:\cO(U)\to A$. What is $\te_x(f)$? We have
+\[
+\te_x(f)(k)=\de_k(\te_x(f))=f(\de_k(x))=f(k)
+\]
+for all $k\in K$. So 
+\[
+\te_x(f)=f|_K\in R(K).
+\]
+This shows $R(K)=O(K)$; i.e., for all $\ep>0$, there exists $r$ a rational function without poles in $K$, such that $\ve{f-r}_K<\ep$. %\fixme{How does this last statement follow?}
+
+\blu{29 Nov.} Now we prove the ``more precisely part," where we only allow rational functions with poles in $\La$, where $\La$ a set consisting of exactly one point from each bounded component of $\C\bs K$. Set $B$ to be the closed subalgebra of $A$ generated by 1, $x$, $(\la 1-x)^{-1},\la\in \La$. Then $\si_B(x)=\si_A(x)\cup S$ where $S$ is the union of some bounded components of $\C\bs \si_A(x)=\C\bs K$ (Theorem~\ref{thm:f6-7}). If $V$ is a bounded component of $\C\bs K$, then there exists $\la\in \La\cap V$, so $(\la 1-x)^{-1}\in B$, i.e., $\la\nin \si_B(x)$, so $V\cap \si_B(x)=\phi$. Hence $S=\phi$. This shows 
+\[\si_B(x)=\si_A(x)=K.\]
+%look over me
+Lemma~\ref{lem:f7-3} gives the same $\te_x:\cO(U)\to B$. So $\te_x(f)=f|_K\in B$. But $B$ is the closure in $C(K)$ of rational functions all of whose poles lie in $\La$.
+\end{proof}
+
+
+%What is missing is that it is an algebra homomorphism. 
+
+
+
+%We have half-proved the holomorphic functional calculus.
+
+\begin{cor}\llabel{cor:f7-4}
+If $\C\bs K$ is connected, then for every analytic function $f$ on some neighborhood of $K$ for every $\ep>0$, there exists a polynomial $p$ such that $\ve{f-p}_K<\ep$.
+%cf. Stone-Weierstrass?
+\end{cor}
+\begin{proof}
+Here $\La=\phi$.
+\end{proof}
+%convergence wrt seminorms: sup norm on cpt subset
+\begin{cor}\llabel{cor:f7-5}
+Let $U$ be a nonempty open subset of $\C$. Then the set of rational functions without poles in $U$ is dense in $\cO(U)$ (in the topology of local uniform convergence).
+\end{cor}
+The difference between this and Runge's Theorem~\ref{thm:f7-2} is that here we're looking at functions defined on $U$, not on a compact $K$. 
+\begin{proof}
+Given $f\in \cO(U)$, compact $K\sub U$, $\ep>0$, we need a rational function $r\in \cO(U)$ such that $\ve{r-f}_K<\ep$. Let
+\[
+\wt K_U=K\cup \bt{all bounded components of $\C\bs K$}{that are contained in $U$}.
+\]
+%
+Clearly, $K\subeq \wt K_U\subeq U$, so $\wt K_U$ is compact. The bounded components of $\C\bs \wt K_U$ are those bounded components $V$ of $\C\bs K$ such that $V\bs U\ne \phi$. We can pick $\la_v\in V\bs U$.
+%pt from each bounded compnent.
+Let $\La$ be the set of all $\la_v$'s. By Theorem~\ref{thm:f7-2}, there exist rational functions $r$ all of whose poles lie in $\La$, such that $\ve{r-f}_{\wt K_u}<\ep$.
+\end{proof}
+\begin{proof}[Proof of Theorem~\ref{thm:f7-1}]
+%rat funcs takes expected value
+%commutes with characters, so spectrum 
+\ul{Existence:} Lemma~\ref{lem:f7-3} gives $\te_x:\cO(U)\to A$ satisfying (1), (2), and (3). All that is left to prove is that $\te_x(fg)=\te_x(f)\te_x(g)$ for all $f,g\in \cO(U)$.\footnote{If $A$ is semisimple, this already follows from (3), as remarked.} This holds for rational functions $f,g\in \cO(U)$. Since the rational functions are dense in $\cO(U)$ (Corollary~\ref{cor:f7-5}) and $\te_x$ is continuous (Lemma~\ref{lem:f7-3}(1)), we're done.\\
+%\footnote{There is also an integral definition of $\te_x$.}
+%if semisimple, already follows from (3)
+
+\ul{Uniqueness:} Suppose $\te:\cO(U)\to A$ is a continuous, unital algebra homomorphism such that $\te(u)=x$. Then $\te(p)=p(x)$ for all polynomials $p$ and hence $\te(r)=r(x)$ for all rational functions $r\in \cO(U)$. So $\te=\te_x$ on a dense set, and they must be equal.
+\end{proof}
+See the examples sheet for some applications (existence of idempotents, etc.).
+
+%cor 5 is almost runge.

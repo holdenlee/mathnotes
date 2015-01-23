@@ -1,0 +1,282 @@
+\chapter{Problems 3}
+Progress: 
+
+Done: 2, 3, 5, 7
+\section{Problems}
+\begin{enumerate}
+\item ({\it The Swiss Cheese: a compact set $K\subeq \C$ such that $R(K)\ne A(K)$.}) Let $\De$ be the closed unit disc in $\C$. Show that one can choose a sequence $(D_n)$ of non-overlapping open discs in the interior of $\De$ such that $\sum_n\diam(D_n)<\iy$ and $\bigcup_n D_n$ is dense in $\De$. Set $K=\De\bs \bigcup_n D_n$. ($K$ is the Swiss cheese.) Show that the formula
+\[
+\te(f)=\int_{\pl \De} f(z)\,dz-\sum_{n=1}^{\iy} \int_{\pl D_n} f(z)\,dz
+\]
+defines a nonzero, bounded linear functional on $C(K)$. Deduce that $R(K)\ne A(K)$.
+\item Let $p$ be an idempotent element of a Banach algebra $A$ (which means that $p^2=p$). Show that if $p$ is in the closure of an ideal $J$ of $A$, then $p$ does in fact belong to $J$.
+\item Let $K$ be an non-empty compact subset of $\C$. Verify that the only characters of $R(K)$ are the point evaluations $\de_z$ with $z\in K$.
+\item 
+\item Give an example of $2\times 2$ matrices $x,y$ with $r(xy)>r(x)r(y)$ and $r(x+y)>r(x)+r(y)$.
+\item
+\item
+Let $A$ be a Banach algebra such that every element of $A$ is nilpotent: for each $x\in A$ there exists $n(x)\in \N$ such that $x^{n(x)}=0$. Prove that there exists $N\in \N$ such that $x^N=0$ for all $x\in A$.
+\end{enumerate}
+\section{Solutions}
+\begin{enumerate}
+\item %\fixme{I don't know how to bound the sum of diameters. Maybe this will help~\url{http://en.wikipedia.org/wiki/Descartes'_theorem}. I tried to find a function $S$ such that $S(r_1,r_2,r_3)>r_1+r_2+r_3-\sqrt{r_1r_2+r_2r_3+r_3r_1}+
+%\sum_{\text{cyc}} S(r_1,r_2,r_1+r_2+r_3-\sqrt{r_1r_2+r_2r_3+r_3r_1})$.}
+
+\begin{enumerate}
+\item
+{\it Choosing the discs.} Enumerate the rational points $Q_j$ in the disc. For each $Q_j$, if $Q_j$ is not already covered  by (or on the boundary of) a disc, put a disc of radius $r_j<\rc{2^j}$ around $Q_j$ not intersecting any previous disc. For convenience, relabel so that the discs are $D_n$ with radius $r_n$.
+
+We have $\sum_{n=1}^{\iy} r_n<1$. The discs are dense in $\De$ because $\De\cap \Q^2$ is dense in $\De$.
+\item
+{\it Non-zero, bounded linear functional.} The functional is clearly linear. To see it's nonzero, let $f(z)=\ol z$. Then for a disc $D$ with center $a$ and radius $r$,
+\[
+\int_{\pl D} f(z)\,dz\stackrel{z=a+e^{2\pi it}}{=}\int_{0}^1(\ol a+re^{-2\pi i t})2\pi ie^{2\pi i t}\,dt=2\pi i r.
+\]
+Thus
+\[
+\te(f)=\int_{\pl \De}f(z)\,dz-\sum_{n=1}^{\iy} \int_{\pl D_n} f(z)\,dz=2\pi i - 2\pi i\sum_{n=1}^{\iy} r_n>0.
+\]
+
+$\te$ is bounded because $\te(f)\le \ve{f}(2\pi + 2\pi \sum_{n=1}^{\iy}r_n)$.
+\item
+{\it $R(K)\ne A(K)$.} Because $K$ has empty interior, $A(K)=C(K)$. Hence $\te\in C(K)\bs R(K)=A(K)\bs R(K)$.
+%\end{align*}
+ 
+\end{enumerate}
+
+\fixme{Pick rational points, one-by-one, if covered, done. If not, put in another disc. $r^2$ not rational. 
+Choose sufficiently small.
+
+Estimate of integrals. $z\mapsto \sum \ph(z_i)$.
+
+Checking nonzero: $z\mapsto \ol z$.  Assume $\sum \ell(\pl D_n)<1$. Otherwise multiply by something. 
+
+$R(K)\ne A(K)=C(K)$.}
+\item
+Idea: the set of units is open, and $p$ acts ``like" a unit.
+
+\ul{Solution:} Consider the ideal $pAp$. This is an algebra, and $p=ppp$ is the identity element of $pAp$, since $p(pap)=pap$. Note $G(pAp)$ is open in $pAp$.
+
+If $p\in \ol J$, then there is a sequence 
+\[a_n\to p\text{ with }a_n\in J,\] 
+and hence
+\[pa_np\to p\text{ with }pa_np\in pJp.\]%\subeq pAp$. 
+Since $p\in G(pAp)$ is open in $pAp$, we get that $pJp$ intersects $G(pAp)$, and hence $pJp=pAp$. Thus $p\in J$.
+\item
+Suppose $\ph$ is a character. Let $u(x)=x$. Suppose $\ph(u)=a$. If $a\in K$, then $\ph(u-a)=0$, contradicting the fact that $\rc{u-a}\in R(K)$. Hence $a\nin K$. For any $f(x)=\prod (x-a_i)\prod\rc{x-b_i}$ we have 
+\[
+\ph(f)=\prod (a-a_i)\prod\rc{a-b_i}=f(a).
+\]
+Since $\ph(f)=f(a)$ for any rational function $f$ and $\te_x$ is continuous, we get $\ph(f)=f(a)$ for any $f\in R(K)$, i.e., $\ph=\de_a$.
+\item 
+Let $f_n\in A$ and $f_n\to f\in C(\De)$. Let $g_n\in A(\De)$ with $g_n|_{\mathbb T}=f_n|_{\mathbb T}$. 
+
+By the {\it maximum modulus principle}, $\ve{f_n-f_m}_{\mathbb T}=\ve{g_n-g_m}_{\mathbb T}=\ve{g_m-g_n}_{\De}$ so $g_n$ is Cauchy in $A(\De)$, and $g_n\to g$. So $g|_{\mathbb T}=f|_{\mathbb T}$. 
+
+%more than contained, complemented
+Define $\pi:A\to A(\De)\subeq A$ by letting $\pi(f)$ be the unique $g\in A(\De)$ with $g|_{\mathbb T}=f|_{\mathbb T}$. (It is unique by the maximum modulus principle.) If $f\in A(\De)$, then $\pi(f)=f$. $\pi$ is a projection and algebra homomorphism.
+
+Now 
+\[
+A=A(\De)\opl B, \qquad B:=\set{f\in C(\De)}{f|_{\pi}=0}.
+\]
+For all $z\in \De$, $\de_z\circ \pi\in \Phi_A$, then $\de_z\circ \pi\ne \de_z$ if $z\nin \mathbb T$.
+For all $z\in \De$, $\de_z\in \Phi_A$. 
+We check there are no others. For $\ph\in \Phi_A$, 
+\[
+B\opl \C1=\set{f\in C(\De)}{f|_{\pi}\text{ is constant}}\cong C(\bS^2).
+\]
+%constant on boundary, identify it to single point. 
+Thus $\ph|_{B\opl \C 1}=\de_z$, and $\ph|_{A(\De)}=\de_w$. If $z\in \mathbb T$, then $\ph=\de_w\circ \pi$. What if $z\ne w, z\nin \mathbb T$. This can't happen, because letting $f\in B$ with $f(z)=1$, 
+\bal
+\ph((u-f)^2)&=\ph(u^2-2uf+f^2)=w^2-2zf(z)+f^2(z)=w^2-2z+1\\
+\ph(u-f)^2&=(w-1)^2=w^2-2w+1.
+\end{align*}
+Hence $w=z$.
+
+We get $\De\sqcup \De \Ph_A$. 
+Onto, continuous (weak): valuation at $f$. Agree on the boundary so it factors through
+\[
+\ctri{\De\sqcup \De}{\Phi_A}{\De\sqcup \De/\pi}{\te}{}{}{q}{}{\ol{\te}}.
+\]
+Continuous bijection from compact to Hausdorff. 
+
+$\Phi_A$ consists of 2 discs glued together at the edge, i.e., a sphere.
+%restrict to $B$ along with constant functions?
+
+\item Let $x=\smatt2102$ and $y=\smatt 0220$. We have $r(x)=r(y)=2$, $r(x)r(y)=r(x)+r(y)=4$. But $xy=\smatt 2440$ and $r(xy)=1+\sqrt{17}>4$.
+
+Easier: Let $x=\smatt 0100$ and $y=\smatt 0010$. Then $r(x)=r(y)=0$. But the sum is $\smatt 0110$ and the product is $\smatt 1000$, with $r(x+y)=r(xy)=1$.
+\item Suppose $\la\ne 0$ and $\la\nin \si(xy)$. Then $\la-xy$ is invertible, we have to show $\la-yx$ is likewise invertible. Let $z=(\la-xy)^{-1}$. $(\la-yx)y=y(\la-xy)$. Take $y$ out on other side. $(\la-yx)yz=y$. $(\la-yx)yzx=yx-\la+\la$.
+We get
+\[
+(\la -yx)(yzx+1)=\la\ne 0\implies (\la-yx)^{-1}=\rc{\la}(yzx+1).
+\] 
+so we're done.
+
+If $xy-yx=\la 1$ for $\la \ne 0$, then $\si(xy)=\si(yx+\la 1)=\si(yx)+\la$. This contradicts the first part. %(not quite...). 
+\item Let $C_n:=\set{x}{x^n=0}$. Because $A$ is nilpotent,
+\[
+\bigcup_{n\in \N} C_n=A.
+\]
+However, the Baire category theorem says that a complete metric space is not a countable union of nowhere dense sets. Hence $C_n$ (since it is closed) has nonempty interior for some $n$. %Since $C_n$ is a subspace, $C_n=A$.
+There exists $x_0\in A$ such that $x_0+rB_A\subeq C_n$. In the commutative case we are done, because if $x\in C_n$ then $\la x\in C_n$, and if $xy=yx$ then $x+y\in C_{2n}$ (expand by the binomial theorem). Hence $C_{2n}=\spn C_n$, and hence $C_{2n}=A$.
+%\rc r ((x_0+rx)-x_0)
+
+Take the continuous path $p(t)=(x_0+t(x-x_0))^N$, there exists $\de$ such that for all $t$, $|t|<\de$, $p(t)=0$. Then $p\equiv 0$, $p(1)=x^N=0$. To apply this complex result to Banach algebras, apply a functional and use Hahn-Banach.
+\item 
+\begin{enumerate}
+\item
+This definition makes sense because $\ve{\fc{x^n}{n!}}\le \fc{\ve{x}^n}{n!}$, so the sum converges absolutely. 
+\item
+When $x,y$ commute, multiply $e^xe^y$ out, rearrange terms (legal since the series converge absolutely), commute, and collect terms using the binomial theorem to see that it equals $e^{x+y}$.
+\item 
+$\si(e^x)=e^{\si(x)}$ follows from holomorphic functional calculus applied to $e^x$. (Recall that if we take $C$ to be the maximual commutative subalgebra containing $x$, then the spectrum over $C$ is the same; we proved this using characters.) %\ph(e^x) 
+\item
+First note $e^x\in G_0$ as $t\mapsto e^{tx},0\le t\le 1$ is a path from 1 to $e^x$; $G_0$ is closed under multiplication since if $g,h\in G_0$, then there is a path $\ga(t)$ from 1 to $g$, and $\ga(t)h$ is a path from $h$ to $gh$. Hence $\an{e^x:x\in A}\subeq G_0$. 
+
+Conversely, note $e^x$ is invertible on a neighborhood of identity, since its inverse is
+\[
+\ln(x-1)=x-\rc 2x^2+\rc 3x^3-\cdots 
+\]
+
+For $y\in H$ such that $\ve{y-z}<\rc{\ve{y^{-1}}}$, $\ve{zy^{-1}-1}<1$, spectrum contained in ball of radius 1, but $\si(zy^{-1})\subeq B(1,1)=\set{z\in \C}{|z-1|<1}$. Use 10(ii). (Analytic branch of log.) $zy^{-1}=e^x$, 
+\[z=e^xy.\]  
+Then $y\in H\iff z\in H$.
+$G\bs H$ open is the same argument. 
+%$\rc{y^{-1}}$. 
+Then $H=\set{e^x}{x\in A}$ is connected and both open and closed, and so must be $G_0$.
+%$\set{e^x}{x\in A}\subeq G_0$ since $
+\end{enumerate}
+\item We have
+\bal
+\Te_x(f)\Te_x(g)&=\prc{2\pi i}^2 \int_{\Ga}f(z)(z1-x)^{-1} \,dz\int_{\Ga'}g(u)(u1-z)^{-1}\,du\\
+&=\prc{2\pi i}^2\int_{\Ga}\int_{\Ga'} \fc{f(z)g(w)}{z-w}(w1-x)^{-1}\,dw\,dz-\prc{2\pi i}^2\int_{\Ga}\int_{\Ga'} \fc{f(z)g(w)}{z-w}(z1-x)^{-1}\,dw\,dz\\
+&=\int_{\Ga'}\pa{\int_{\Ga}\fc{f(z)}{z-w}\,dz} g(w)(w1-x)^{-1}
++\rc{2\pi i}\int_{\Ga}f(z)g(z)(z1-x)^{-1}\,dz. 
+%analytic inside, 0 by cauchy
+\end{align*}
+using (in the second line)
+\[
+\fc{(z1-w)^{-1}(z-w)(w1-x)^{-1}}{z-w}=\fc{(w1-x)^{-1}-(z1-x)^{-1}}{z-w}.
+\]
+\item  
+\begin{enumerate}
+\item
+Suppose $\si(x)=U\cup V$. Consider $\Te_x(1_U)$, we have $p^2=p$. Then $\si(p)=\{0,1\}$. 
+
+nontrivial invariant subspaces.
+
+%commutes with operator
+Invariant subspace problem.
+\item Take a branch of the logarithm $e^{\ln z}=z$, $z\in \C\bs(-\iy,0]$. $u=\Te_x(\ln)$ $\sum_{n=0}^{\mu}\fc{L(z)^n}{n!}\to z$. $\sum_{n=0}^{\mu} \fc{y^n}{n!}\to x$.
+
+Power series converge locally uniformly.
+
+\end{enumerate}
+\item No. %Take a sequence of compact sets. %On each branch cut log. Approx by polynomial. 
+On the unit disc, take the line at $\rc n$, take the function that is 0 $<\rc n$, 1 on $>\rc{2n}$, $P_n$ approximates within $\rc n$ on these compact sets. $P_n$ converges to the function 0 $\le 0$ and 1 $>0$. (Runge's Theorem)
+%blow up at roots of unity.
+\item %12
+We have
+\[
+\ve{f(\la)}\le Kr(e^{-\la x}ye^{-\la x})=K.
+\]
+(amplification!)
+Liouville: Bounded, so constant. Putting $\la=0$, constant must be $y$. $ye^{\la x}=e^{\la x}y$ for all $x$, so $yx=xy$. 
+\item Take a closed ball $\ol B(z,r)\subeq U$, $\ve{f}=\sup_{z\in B(z,r)}|f(z)|$.
+\item %The first part is standard: first look at the action on $u(x)=x$; suppose $\ph\in \Phi$ and $\ph(u)=a$. It follows that $\ph(p)=p(a)$ for all polynomials.
+\begin{enumerate}
+\item
+$C(\R)$, $\Phi=\set{\de_x}{x\in \R}$, $\ph\in \Ph$. $a=\ph(u)$. 
+
+For any $f\in C(\R)$, $\ph(f)\in \im f$. Else $g:=\ph(f)1-f$ is invertible, contradiction because $\ph(g)=0$. %$\ph(f)=f(b)$.
+
+cf. restriction of analytic functions to boundary.
+$g=(f-\ph(f))^2+(u-a)^2$. $\ph(g)=0$, so $g$ is not invertible. There exists $x$ such that $g(x)=0$.  In other words, $x=a$. $f(a)=\ph(f)$, so we're done.
+%algebra!
+%here we have all functions
+\item
+$A=C(\R)$. $(A,\ved)$, $B$ the completion. $\Phi_B=\Phi_C$. %set of evaluations.
+We can map $\Phi_B=\Phi_C\to \R$ by $\ph:\mapsto \ph(u)$. This is a homeomorphism onto its image. Compact space, so compact image.
+$\Phi_c=\set{\de_x}{x\in K}$.
+\item
+%nonvanishing on these points, but can elsewhere
+Take a function $g$ that is 1 on $K$, and 0 away from $K$. Then $g$ is invertible in $B$. Now take any function $f$ which doesn't vanish but vanishs on $\Supp(g)$. Then $fg=0$, so $f=0$, contradiction.
+%continuous extends uniformly, gives character.
+\end{enumerate}
+\item %15
+Like multiplying out.
+\begin{enumerate}
+\item Use $D^n(ab)=\sum\binom nk D^k(a)D^{n-k}(b)$. 
+\[
+\sum_n\rc{n!}D^n(ab)=\sum_n\rc{n!} \sum \binom nk D^k(a)D^{n-k}(b)=\sum_k \rc{k!}D^k(a)\sum_{l}\rc{l!}D^{l}(b).
+\]
+(Careful: $e^D(a)\ne e^{D(a)}$.
+$e^D(ab)=e^D(a)e^D(b)$. 
+Isomorphism in the linear sense. 
+%Aut in alg sense.
+\item %Holomorphic functional calculus.
+multiple also derivation.
+\item
+Fix $x,\ph$, $\la\mapsto \ph(e^{\la D}(x))$ bounded by $\ve{x}$ as $\ph(e^{\la D})$ is a character. By Liouville it's constant. 
+\item %Differentiating is continuous?
+Assume $\ved$ is a Banach algebra norm on $C^{\iy}[0,1]$. Look at $D(f)=f'$. If this was continuous, using the previous, maps into Jacobson radical, not possible because the derivative of $x$ is 1. 
+
+Why is it continuous? 
+eval at pt char%, eval func in spec
+If $f_n\to 0$, $f_n\to g$ in $\ved$, in $\ved_{\iy}$ by the Closed Graph Theorem. (useful!)
+
+Use $\ved_{\iy}\le \ved$. $\de x\in \Phi$ for all $x\in [0,1]$.  
+\end{enumerate}
+\item %16
+Apply 20(b).
+spec radius norm form for herm op Plug in 1
+
+$\ve{x}^2=\ve{x^*x}=r(x^*x)=\ve{x^*x}'=\ve{x}'^2$. %(Radius doesn't care about the norm.)
+\item %17
+\item %18
+\begin{enumerate}
+\item
+SWAP: $(L_1L_2,R_2R_1)$. 
+We have
+\bal
+\ve{L(a)}^2&=\ve{L(a)^*L(a)}=\ve{R(L(a)^*)a}&
+\le \ve{R}\ve{L(a)}\ve{a}\\
+\ve{L(a)}&\le \ve{R}\ve{a}\\
+\implies \ve{L}\le \ve{R}.
+\end{align*}
+\end{enumerate}
+We get 
+\[
+\ve{L}=\sup_{\ve b=1}\ve{L(b)}=\sup_{\ve{a}=\ve{b}=1}\ve{aL(b)}.
+\]
+\item %19
+$A^+\to A\opl \C$ in the sense of question 17. $x+\la\mapsto (x+\la,\la)$. LHS new unit, RHS old unit. If $A$ unital, $M(A)=A$, $(\id,\id)$. If unital $=(L_1,R_1)$. Unit belongs to $A$ thus $M(A)$. When unital doesn't help unitize. Sitting outside, add that. 
+
+$A$ nonunital: $A^+\to M(A)$, $x+\la\mapsto x+\la$ (the respective units) $*$-homomorphism, pull back norm.
+\item %20
+This is a remarkable theorem becuase algebraic conditions imply continuity.
+bollobas linear analysis, uniqueness of norm result. All operators on Banach space, unique. Map between certain banach with alg condition imposed.
+Automatic continuity theory.
+\begin{enumerate}
+\item The characters of $A$ are evaluations, so $\Phi_K\cong K$. %we're interested in the continous ones. 
+$(A,\ved_1)$. complete $B$.
+
+$L=\set{y\in K}{\de_{\eta}\text{ is continuous w.r.t.}\ved_1}=\Phi_B$. Claim: $\ol L=K$. $\ve{f}_1\ge r_B(f)=\sup_{y\in L} |f(y)|=\ve{f}$. 
+
+If not, take $x\nin \ol L$. Compact Hausdorff space normal, put a neighborhood around it: there exists $V$ of $x$, $\ol V\cap \ol L=\phi$. Let $g=1$ on $\ol L$ and 0 on $\ol V$. $g$ is invertible in $B$ because applying the character, we get something nonzero. Take $f=1$ at $x$, $0$ on $K\bs V$, $gf=0$, $f=0$, contradiction.
+\item By unitization we can assume $A,B,\te$ are unital. (In 18 and 19 we checked that $C^*$ algebras have unitization. This is not trivial.) 
+We have $\te_B(\te(x))\subeq \si_A(x)$. We have
+\[
+\ve{\te(x)}^2=\ve{\te(x)^*\te(x)}=\ve{\te(x^*x)}
+=r_B(\te(x^*x))\subeq r_A(x^*x)=\ve{x^*x}=\ve{x}^2.
+%image of te may not be closed
+\]
+%nondec auto continuous. inj auto cont
+%restrict te on that, if isom for every x, isom.
+Given $x$, let $C$ be the subalgebra generated by $1, x^*x$, a $C^*$-subalgebra. $B|_C:C\to B$: if $\te|_C$ isometric then $\ve{\te(x)}^2=\ve{\te(x^*x)}=\ve{x^*x}=\ve{x}^2$. WLOG $A$ is commutative.
+
+$\te:C(K)\to B$ is injective, unital $*$-homomorphism, we can define $\ve{f}_1=\ve{\te(f)}_1\ge \ve{f}$ by Kaplansky.
+\end{enumerate}
+\end{enumerate}

@@ -1,0 +1,430 @@
+\chapter{Hahn-Banach Theorem}
+\section{Hahn-Banach Theorem}
+For a normed space $X$, the dual space $X^*$ is the space of bounded linear functionals with the operator norm
+\[
+\ve{f}=\sup_{x\in B_X}|f(x)|,\qquad f\in X^*.
+\]
+This gives
+\[
+\forall f\in X^*,\forall x\in X,\qquad |f(x)|\le \ve{f}\ve{x}.
+\]
+We will use the notation $\an{x,f}$ for $f(x)$ to remind us of inner products.
+\begin{ex}
+\begin{enumerate}
+\item
+$\ell_p^*\cong \ell_q$ where $1<p,q<\iy$, $\rc p+\rc q=1$
+\item
+$c_0^*\cong \ell_1$
+\item
+$\ell_1^*\cong \ell_{\iy}$
+\item
+$H^*\cong H$ (conjugate linear in the complex case) %$H$ is basically $\ell^2$)).
+\end{enumerate}
+\end{ex}
+First we need to show this space is not trivial. 
+%generalize to top v s can happen except when have local convexity.
+We will give 3 versions of the Hahn-Banach Theorem. The first is purely algebraic, with no topology.
+
+\begin{df}
+Let $X$ be a real vector space. A map $p:X\to \R$ is
+\begin{enumerate}
+\item
+ \textbf{positively homogeneous} if $p(tx)=tp(x)$ for all $x\in X$ and all $t\ge 0$,
+\item
+\textbf{subadditive} if $p(x+y)\le p(x)+p(y)$ for all $x,y\in X$.
+\end{enumerate}
+\end{df}
+For example, a norm has these properties.
+\begin{thm}[Hahn-Banach Theorem]\llabel{thm:hb1}
+Let $X$ be a real vector space and $p:X\to \R$ positively homogeneous and subadditive. Let $Y$ be a subspace of $X$ and $g:Y\to \R$ a linear map dominated by $p$ on $Y$: $g(y)\le p(y)$ for all $y\in Y$.
+
+Then $g$ extends to a linear map $f:X\to \R$ which is dominated by $p$ by $X\to \R$:
+\[
+f|_Y=g,f(x)\le p(x)\quad\forall x\in X.
+\]
+\end{thm}
+We can always extend by 1 dimension. Then we use transfinite induction/axiom of choice/Zorn's lemma.
+
+A \textbf{poset} is a pair $(P,\le)$ where $P$ is a set, $\le $ is a partial order on $P$ (reflexive, antisymmetric, transitive). A \textbf{chain} is a subset $C$ of $P$ linearly ordered by $\le$, i.e., $\forall x,y\in C$, either $x\le y$ or $y\le x$. $x\in P$ is a maximal element if for all $y\in P$, $x\le y\implies x=y$. A subset $A$ of $P$ is \textbf{bounded above} if there exists $x\in P$ such that for all $a\in A,a\le x$.
+\begin{lem}[Zorn's lemma]\llabel{lem:zorn}
+A nonempty poset in which every chain is bounded above has a maximal element.
+\end{lem}
+\begin{proof}[Proof of~\ref{thm:hb1}]
+Let 
+\[
+P=\set{(Z,h)}{Z\text{ is a subspace of }X,Z\supeq Y, h:Z\to \R\text{ linear}, h|_Y=g, h(z)\leq p(z)\forall z\in Z}.
+\]
+For $(Z_1,h_1),(Z_2,h_2)\in P$, $(Z_1,h_1)\leq (Z_2,h_2)$ iff $Z_1\subeq Z_2, h_2|_{Z_1}=h_1$. This is a partial order on $P$. Note $P\ne \phi$ since $(Y,g)\in P$.
+
+If $C\subeq P$ is a nonempty chain, say $C=\set{(Z_i,h_i)}{i\in I}$, then let $Z=\bigcup Z_i$. This is a subspace of $X$, $Y\subeq Z$. Define $h:Z\to \R$ as follows: for $x\in Z$, there exists $ i\in I$ such that $x\in Z_i$. 
+Let $h(x)=h_i(x)$. The definition is independent of $i$ by the way we defined a chain.  So $(Z,h)\in P$ and $(Z_i,h_i)\le (Z,h)\forall i\in I$. So by Zorn's lemma~\ref{lem:zorn} $P$ has a maximal element $(Z,f)$. We need $Z=X$.
+
+Assume not. Pick $x_0\in X\bs Z$. Let $Z_1=\spn\{Z\cup \{x_0\}\}$. We choose $\al\in \R$ and define $f_1:Z_1\to \R$ by $f_1(z+tx_0)=f(z)+\al t$ for $z\in Z,t\in \R$. We have $f_1$ is linear and $f_1|_{Z_1}=f$.
+
+We want to choose $\al$ such that 
+\beq{eq:fa1}
+f_1(z+tx_0)=f(z)+t\al\le p(z+tx_0)\quad\forall z\in Z, t\in \R.  
+\eeq
+(Then $(Z_1,f_1)\in P$, $(Z,f)< (Z_1,f_1)$, contradiction.) Note~\eqref{eq:fa1} holds for $t=0$. Considering $t>0,t<0$ and using positive homogeneity,~\ref{eq:fa1} is equivalent to
+\bal
+f_1(z+x_0)&=f(z)+\al\le p(z+x_0)\quad\forall z\in Z\\
+f_1(z-x_0)&=f(z)-\al\le p(z-x_0)\quad\forall z\in Z,
+\end{align*}
+i.e. 
+\[f(z_1)-p(z_1-x_0)\le \al \le p(z_2+x_0)-f(z_2)\forall z_1,z_2\in Z.
+\]
+Such an $\al$ exists iff 
+\beq{eq:f2}
+\sup_{z_1\in Z}(f(z_1)-p(z_1-x_0)) \le \inf_{z_2\in Z}[p(z_2+x_0)-f(z_2)].\eeq
+We have
+\[
+f(z_1)+f(z_2)=f(z_1+z_2)\le p(z_1+z_2)=p(z_1-z_0+z_2+x_0)\le p(z_1-x_0)+p(z_2+x_0).
+\]
+So~\eqref{eq:f2} holds.
+\end{proof}
+This is a result over $\R$. To extend to $\C$, we need $p$ to be a seminorm.
+\begin{df}
+A \textbf{seminorm} on a real or complex vector space $X$ is a function $p:X\to \R$ such that
+\begin{enumerate}
+\item
+$p(x)\ge 0\quad\forall x\in X$.
+\item
+$p(\la x)=|\la|p(x)\quad \forall x\in X$ and any scalar $\la$.
+\item
+$p(x+y)\le p(x)+p(y)\quad\forall x,y\in X$.
+\end{enumerate}
+\end{df}
+Note that a norm is a seminorm, and a seminorm is postively homogeneous and subadditive. The additional condition is nonnegativity.
+\begin{thm}[Hahn-Banach Theorem for seminorms]\llabel{thm:hb2}
+Let $X$ be a real or complex vector space $p:X\to \R$ a seminorm on $X$, $Y$ a subspace of $X$, $g$ a linear functional on $Y$ such that $|g(y)|\le p(y)\forall y\in Y$. Then $g$ extends to a linear functional $f$ on $X$ such that $|f(x)|\le p(x)\forall x\in X$.
+\end{thm}
+\begin{proof}
+The real case follows from Theorem~\ref{thm:hb1}: $g(y)\le |g(y)|\le p(y)$ for all $y\in Y$. By Theorem~\ref{thm:hb1}, there exists $f:X\to \R$ linear such that $f(x)\le p(x)$ for all $x\in X$. So $-f(x)=f(-x)\le p(-x)=p(x)$. So $|f(x)|\le p(x)$ for all $x\in X$.
+
+For the complex case, we note when you have a complex space and a complex linear function, you can take the real part and apply the real case. When you have a real linear map on a complex space, it is the real part of a unique complex map.
+
+Let $g_1(y)=\Re g(y)$, $g_2(y)=\Im g(y),y\in Y$. Then $g_1,g_2$ are real linear functionals on $Y$. We have
+\begin{align*}
+g(iy)&=g_1(iy)+ig_2(iy)\\
+g(iy)&=ig(y)=ig_1(y)-g_2(y)
+\end{align*}
+so $g_2(y)=-g_1(iy)$. So $g(y)=g_1(y)-ig_1(iy)$. Have $|g_1(y)|\le |g(y)|\le p(y)$ for all $y\in Y$. By the real case there exists a real linear functional $f_1$ on $X$ such that $f_1|_Y=g_1$ with $|f_1(x)|\le p(x)$ for all $x\in X$. Define $f(x)=f_1(x)-if_1(ix)$. Clearly $f$ is $\R$-linear, and $f(ix)=f_1(ix)-if_1(-x)=if(x)$. So $f$ is $\C$-linear. 
+For all $y\in Y$, 
+\[
+f(y)=f_1(y)-if_1(iy)=g_1(y)-ig_1(iy)=g(y).
+\]
+So $f|_Y=g$. Given $x\in X$, choose $\te\in \R$ such that $|f(x)|=e^{i\te}f(x)$. Then
+\[
+|f(x)|=f(e^{i\te}x) =f_1(e^{i\te}x)\le p(e^{i\te}x) =p(x).
+\]
+\end{proof}
+\begin{cor}\llabel{cor:hb}
+Let $X,p$ be as in Theorem~\ref{thm:hb2}. Let $x_0\in X$. Then there exists a linear functional $f$ on $X$ such that $|f(x)|\le p(x)$ for all $x\in X$, and $f(x_0)=p(x_0)$.
+\end{cor}
+\begin{proof}
+Let $Y=\spn \{x_0\}$, define $g(\la x_0)=\la p(x_0)$ and apply Theorem~\ref{thm:hb2}.
+\end{proof}
+\begin{thm}[Hahn-Banach Theorem (existence of norming functionals)]
+\llabel{thm:hb3}
+Let $X$ be a normed space.
+\begin{enumerate}
+\item
+(Hahn-Banach extension theorem) If $Y$ is a subspace of $X$, $g\in Y^*$, then $\exists f\in X^*$ such that $f|_Y=g$ and $\ve{f}=\ve{g}$.
+\item
+For all $x_0\in X$, $x_0\ne 0$, $\exists f\in S_{X^*}$ such that $f(x_0)=\ve{x_0}$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item
+For all $y\in Y$, $|g(y)|\le \ve{g}\ve{y}$. Apply Theorem~\ref{thm:hb2} with $p(x)=\ve{g}\ve{x}$, $x\in X$.
+\item
+Apply Corollary~\ref{cor:hb} with $p(x)=\ve{x}$, $x\in X$.
+\end{enumerate}
+\end{proof}
+\begin{rem}
+\item
+By (2), $\forall x\ne y$ in $X$, $\exists f\in X^*$ such that $f(x)\ne f(y)$. In other words, the dual space ``separates points"; it is rich.
+\item
+(1) is a kind of linear version of Tietze's extension theorem. (Recall that Urysohn says that for a compact Hausdorff space, for any two points $x,y$ there is a continuous function distinct at $x$ and $y$; we can actually do this with disjoint closed sets.) Later we will see the Hahn-Banach separation theorem: given two convex sets we can separate them by a hyperplane.
+\item
+$f$ in (2) is called a \textbf{support functional at} $x_0$ or a \textbf{increasing functional at} $x_0$.
+\end{rem}
+\fixme{[A picture here]}
+
+$x_0\in S_X,f\in S_{X^*}, f(x_0)=\ve{x_0}=1$. Note $f$ is not unique.
+
+We give some applications. 
+\begin{df}
+The \textbf{second dual} or \textbf{bidual} of a normed space $X$ is $X^{**}:=(X^*)^*$.
+\end{df}
+\begin{thm}
+The canonical map $X\to X^{**}$, $x\mapsto \hat x$ where $\hat x(f)=f(x)$ is an isometric embedding into $X^{**}$. 
+\end{thm}
+\begin{proof}
+$\hat x$ is linear, $|\hat x(f)|=|f(x)|\le \ve{f}\ve{x}$, so $\hat x\in X^{**}$ and $\ve{\hat x}\le \ve{x}$. Clearly, $x\mapsto \hat x$ is a linear map. By Theorem~\ref{thm:hb3}, 
+\[\ve{\hat x}=\sup_{f\in B_{X^*}}|\hat x(f)|=\sup_{f\in B_{X^*}}|f(x)|=\ve{x}.\]
+\end{proof}
+\begin{rem}
+\begin{enumerate}
+\item
+For $x\in X$, $f\in X^*$, $\an{x,f}=f(x)=\hat x(f)=\an{f,\hat x}$. (Note $x\in X$, $f\in X^*$, $\hat x\in X^{**}$.)
+\item
+$\hat X=\set{\hat x}{x\in X}$ is closed in $X^{**}$ iff $X$ is complete. In general, the closure in $X^{**}$ of $\hat X$ is a Banach space of which $\hat X$ is a dense subspace. (\fixme{Why?}) We have proved the existence of completions.
+\end{enumerate}
+\end{rem}
+\begin{df}
+$X$ is \textbf{reflexive} if $\hat X=X^{**}$. 
+\end{df}
+\begin{ex}
+The following are reflexive.
+\begin{enumerate}
+\item
+For $\ell_p,1<p<\iy$ ($\ell_p^{**}\cong \ell_q^*\cong \ell_p$ for $\rc p+\rc q=1$).
+\item
+Any Hilbert space $H$ ($H^*\cong H$)
+\item $L_p(\mu), 1<p<\iy$.
+\item
+Any finite-dimensional space.
+\end{enumerate}
+Warning: $X\cong X^{**}$ does not imply $X$ is reflexive. The canonical map has to be an isomorphic isomorphism. For example, the James's space have codimension 1 in its second dual.
+
+Thus in the examples, we have to check that the given isomorphism is in fact the embedding.
+
+Note $c_0$ is not reflexive; $c_0^{**}=\ell_{\iy}$ and $\ell_{\iy}$ is non-separable. $\ell_0,\ell_{\iy}$ are also not reflexive. Note $X^*$ reflexive implies $X$ reflexive.
+\end{ex}
+
+{\color{blue}Lecture 5}
+\begin{df}
+Let $X,Y$ be normed spaces and $T\in \cal B(X,Y)$. The dual operator $T^*:Y^*\to X^*$ is defined by
+\[
+T^*(g)=g\circ T,
+\]
+i.e., $T^*(g)(x)=g(Tx)$ or $\an{x,T^*g}=\an{Tx,g}$ for $x\in X,g\in Y^*$.
+\end{df}
+One checks that $T^*$ is well-defined, linear, and bounded. For boundedness, we have
+\begin{align*}
+\ve{T^*}&=\sup_{g\in B_{Y^*}} \ve{T^*g}\\
+&=\sup_{g\in B_{Y^*}} \sup_{x\in B_X}|T^*(g)(x)|\\
+&=\sup_{x\in B_X}\ub{\sup_{g\in B_{Y^*}}|g(Tx)|}{=\ve{Tx}\text{ by Theorem~\ref{thm:hb3}(2)}}\\
+&=\ve{T}.
+\end{align*}
+\begin{pr}
+We have the following properties.
+\begin{enumerate}
+\item
+$(\Id_X)^*=\Id_{X^*}$.
+\item
+If $S,T\in \cal B(X,Y)$ and $\la,\mu$ are scalars, then $(\la S+\mu T)^* =\la S^*+\mu T^*$. (Note there is no complex conjugation.)
+
+So $T\mapsto T^*$ is an isometric isomorphism of $\cal B(X,Y)$ into $\cal B(Y^*,X^*)$. 
+\item
+If $S\in \cal B(X,Y)$, $T\in \cal B(Y,Z)$, then $(TS)^*=S^*T^*$. So if $X\sim Y$ then $X^*\sim Y^*$. (The converse is false.)
+\item
+For $T\in \cal B(X,Y)$ the following diagram commutes.\footnote{In other words, $\hat{}$ is a natural transformation from $\Id$ to ${\,}^{**}$.}
+\[
+\commsq{X}{Y}{X^{**}}{Y^{**}}{\hat{\,}}{T}{\hat{\,}}{T^{**}}
+\]
+\end{enumerate}
+\end{pr}
+\begin{proof}
+We just show the last statement. Let $x\in X,g\in Y^*$. Taking $T$ to the other side and using the definition of $\hat{\,}$,
+\[
+\an{g, \wh{Tx}}=\an{Tx,g}=\an{x,T^*g}=\an{T^*g,\hat x}=\an{g,T^{**} \hat x}.
+\]
+\end{proof}
+\begin{ex}
+For $X=\ell_p$, $1\le p<\iy$ or $c_0$, $Y=X^*=\ell_q$, or $\ell_1$, respectively, where $\rc p +\rc q=1$, if $T:X\to X$ is the right shift $T(x_1,x_2,\ldots)=(0,x_1,x_2,\ldots)$, then $T^*:Y\to Y$ is the left shift $T(x_1,x_2,\ldots)=(x_2,\ldots)$.
+\end{ex}
+\begin{thm}
+If $X^*$ is separable, then so is $X$.
+\end{thm}
+\begin{proof}
+Let $\set{f_n}{n\in \N}$ be dense in $S_{X^*}$. For all $n\in \N$ there exists $x_n\in B_X$ such that $|f_n(x_n)|>\rc2$. Let $Y=\ol{\spn\set{x_n}{n\in \N}}$.
+
+We claim that $Y=X$; then we're done. Suppose not. Then $X/Y\ne 0$, so applying Hahn-Banach Theorem~\ref{thm:hb3}(2) to a nonzero vector in $X/Y$, there exists a $h\in S_{(Y/X)^*}$ with $\ve{h}=1$. Let $f=h\circ q$, where $q:X\to X/Y$ is the quotient map. We have
+\[
+f(B_X^{\circ})=h(q(B_X^{\circ}))=h(B_{X/Y}^{\circ}).
+\]
+So 
+\[
+\ve{f}=\sup_{\ve{x}<1,x\in X} |f(x)|=\sup_{\ve{z}<1,z\in X/Y} |h(z)|=\ve{h}=1.
+\]
+Note $Y\subeq \ker f$ since $Y\subeq \ker q$. There exists $n\in \N$ such that $\ve{f-f_n}<\rc{10}$. Then $\rc2<|f_n(x_n)|=|f_n(x_n)-f(x_n)|<\rc{10}$, contradiction.
+\end{proof}
+\begin{thm}\llabel{thm:embed-liy}
+Every separable space embeds $X\hra \ell_{\iy}$ isometrically. 
+\end{thm}
+\begin{proof}
+Let $\set{x_n}{n\in \N}$ be dense in $X$. For all $n$ there exists $f_n\in S_{X^*}$ such that $f_n(x_n)=\ve{x_n}$ (Theorem~\ref{thm:hb3}(2)), WLOG $x_n\ne 0$.
+
+For all $x\in X$, $(f_n(x))_{n=1}^{\iy}\in \ell_{\iy}$ and $|f_n(x)|<\ve{x}$ for all $n$. We have a bounded linear map $T:X\to \ell_{\iy}$, $Tx=(f_n(x))_{n=1}^{\iy}$ and $\ve{Tx}\le \ve{x}$ for all $x\in X$. Given $x\in X,\ep>0$, there exists $n$ such that $\ve{x-x_n}<\ep$. Then
+\bal
+\ve{Tx}&\ge|f_n(x)|\ge |f_n(x_n)|-|f_n(x_n-x)|=\ve{x_n}-|f_n(x_n-x)|\\
+\ve{x}-\ve{x-x_n}-\ve{x-x_n}&>\ve{x}-2\ep.
+\end{align*}
+Since $\ep>0$ was arbitrary, $\ve{Tx}\ge\ve{x}$.
+\end{proof}
+We have the following questions.
+\begin{enumerate}
+\item
+Does there exist separable $Z$ such that every separable $X\hra Z$ isomorphically? Isometrically? Yes, we'll do this later with $Z=C[0,1]$. (Note that $\ell^{\iy}$ is not separable.)
+\item
+Does there exist a reflexive $Z$ such that every separable reflexive $X\hra Z$? Yes, trivially, take the direct sum of all reflexive subspaces of $\ell_{\iy}$. What if we require $Z$ to be separable? The answer is no, but this is harder.
+\end{enumerate}
+\begin{thm}[Vector-valued version of Liouville's Theorem]\llabel{thm:vv-liouville}
+Let $X$ be a complex Banach space and $f:\C\to X$ be a bounded analytic function. Then $f$ is constant.
+\end{thm}
+\begin{proof}
+$f$ is bounded, i.e., there exists $M\ge 0$ such that $\ve{f(z)}\le M$ for all $z\in \C$. $f$ is analytic, i.e., $\lim_{z\to w}\fc{f(z)-f(w)}{z-w}$ exists for every $w\in \C$. (Convergence is in norm.)
+
+Fix $\La\in X^*$. Consider $\La\circ f:\C\to \C$. This is bounded since
+\[
+|\La\circ f(z)|\le \ve{\La}\ve{f(z)}\le M\ve{\La}\qquad \forall z\in \C
+\]
+This is analytic (by linearity), so by scalar-valued Liouville, $\La\circ f$ is constant. We get
+\[
+\La\circ f(0)=\La \circ f(z)\qquad \forall z\in \C, \forall \La\in X^*.
+\]
+By Hahn-Banach (Theorem~\ref{thm:hb3}(2)), $f(0)=f(z)$ for all $z\in \C$.
+\end{proof}
+%dual space separates points
+%get back to \C.
+
+We need to generalize from normed spaces to more general spaces. The wider context is topological vector spaces though we won't cover this. 
+
+
+\section{Locally convex spaces}
+\begin{df}
+A \textbf{locally convex space} (LCS) is a pair $(X,\cal P)$ where $X$ is a real or complex vector space and $\cal P$ is a family of seminorms on $X$ that separate points of $X$, i.e., $\forall x\in X,x\ne 0,\exists p\in \cal P$ such that $p(x)\ne 0$. $X$ carries a topology defined as follows.
+
+$U\subeq X$ is open iff for all $x\in U$ there exists $n\in \N$, $p_1,\ldots, p_n\in \cal P$, $\ep>0$ such that
+\[
+\set{y\in X}{p_i(y-x)<\ep\text{ for }1\le i\le n}\subeq U.
+\]
+(I.e., these sets form a neighborhood base.)
+%all the $p_i$ are continuous.
+\end{df}
+\begin{rem}
+\begin{enumerate}
+\item
+It is easy to check addition and scalar multiplication are continuous.
+\item If $Y$ is a subspace of $X$ then $Y$ is a LCS with seminorms $\set{p|_Y}{p\in \cal P}$. The topology on $Y$ is the subspace topology. 
+\item
+The topology on $X$ is Hausdorff. It's metrizable iff there exists a family $Q$ of seminorms on $X$ which is equivalent to $\cal P$ (yields the same topology) which is countable. 
+%a countable family of metric spaces has a metrizable product.
+\end{enumerate}
+\end{rem}
+\begin{df}
+A complete metrizable LCS is a \textbf{Fr\'echet space}.
+\end{df}
+\begin{ex}
+\begin{enumerate}
+\item
+A normed space $(X,\ved)$ is a LCS with $\cal P=\{\ved\}$.
+\item
+Let $U \sub \mathbb{C}$ open and $\cO(U) = \set{ f :U \to \mathbb{C} }{f \text{ is analytic} }$.
+
+For $K\subeq U$, $K$ compact, let $p_K(f)=\sup_{z\in K}|f(z)|$, $f\in \cO(U)$, $\cal P=\set{p_K}{K\subeq U,K\text{ compact}}$. So $(\cO(U),\cal P)$ is a LCS. The topology is the topology of local uniform convergence.
+
+It's metrizable: there exists compact $K_n\subeq U$, $n\in \N$ such that $U=\bigcup_{n=1}^{\iy} K_n$, and $K_n\subeq \text{int}(K_{n+1})$ for all $n$. We have a countable family of seminorms $\set{p_{K_n}}{n\in \N}$ equivalent to $\cal P$, so $(\cO(U),P)$ is metrizable. It is in fact a Fr\'echet space. 
+
+Note $\cO(U)$ is not normable. There does not exist a single norm $\ved$ equivalent to $\cal P$. (Hint: Use Montel's Theorem on normal families.)\footnote{\begin{thm*}[Montel's Theorem] (\url{http://en.wikipedia.org/wiki/Montel's_theorem})
+A uniformly bounded family of holomorphic functions defined on an open subset of $\C$ is normal. A family is  \textbf{normal} if every sequence has a subsequence which converges uniformly on every compact subset. 
+\end{thm*}}
+\end{enumerate}
+\end{ex}
+{\color{blue}Lecture 6}
+\begin{ex}
+Let $\Om$ be an open subset of $\R^n$. Let
+\[
+C^{\iy}(\Om)=\set{f:\Om\to \R}{f\text{ is infinitely differentiable}}.
+\]
+For $\al=(\al_1,\ldots, \al_n)\in \N_0^{n}$ let $D^{\al}=\pa{\pd{}{x_1}}^{\al_1}\cdots \pa{\pd{}{x_n}}^{\al_n}$. For compact $K\subeq \Om$, $\al\in \N_0^{n}$, define $\rh_{\al,K}(f)=\sup_{x\in K}|(D^{\al}f)(x)|$ and 
+\[
+\cal P=\set{\rh_{\al,K}}{\al \in \N_0^n,\text{ compact }K\subeq \Om}.
+\]
+Then $(C^{\iy}(\Om),\cal P)$ is a locally convex space. This is a Fr\'echet space, not normable. This arises in the theory of distributions.
+%metrizable and complete in that metric
+%For each fixed $\al, K$, can pass to a subsequence converging uniformly on $K$ 
+\end{ex}
+
+%loc cpt spaces, for cpt spaces
+\begin{lem}\llabel{lem:f2-9}
+Let $(X,\cal P)$, $(Y,\cal Q)$ be locally convex spaces, and $T:X\to Y$ be linear. The following are equivalent.
+\begin{enumerate}
+\item
+$T$ is continuous at 0.
+\item
+$T$ is continuous.
+\item
+For all $q\in Q$, there exists $n\in \N$, $p_1,\ldots, p_n$, $C\ge 0$ such that $q(Tx)\le C\max_{1\le i\le n} p_i(x)$. 
+\end{enumerate}
+\end{lem}
+\begin{proof}
+(1)$\iff$(2) follows from continuity of addition in a LCS.
+
+(3)$\implies$(1): given a neighborhood $V$ of 0 in $Y$, there exists $m\in \N$, $q_1,\ldots, q_m\in Q$, $\ep>0$ such that 
+\[
+\set{y\in Y}{q_j(y)\le \ep\forall j}\subeq V.
+\]
+For each $1\le j\le m$, there exist $n_j\in \N$, $p_{j1},\ldots, p_{jn_j}$ in $\cal P$, $c_j\ge 0$ such that $q_j(Tx)\le C_j\max_{1\le i\le n_j}p_{ji}(x)$. 
+Then $U=\set{x\in X}{p_{j_i}(x)\le \fc{\ep}{C_j}\text{ for }1\le j\le m,1\le i\le n_j}$ is a neighborhood of 0 in $X$, and $T(U)\subeq V$. 
+
+(1)$\implies$(3) Given $q\in Q$, there exists a neighborhood $U$ of 0 in $X$ such that $T(U)\subeq \set{y\in Y}{q(y)\le 1}$  
+
+%rescale so image in that set. can do even when p_i(x) are 0
+There exists $n \in \N$, $p_1,\ldots, p_n\in \cal P$, $\ep>0$ such that $\set{x\in X}{p_i(x)\le \ep\forall i}\subeq U$.
+Given $x\in X$, if $\max_ip_i(x)>0$, then $\fc{\ep x}{\max_i p_i(x)}\in U$ so $q\pf{\ep T(x)}{\max_i p_i(x)}\le 1$ and therefore we have $q(Tx)\le \rc{\ep}\max_i p_i(x)$. 
+
+If $\max_i p_i(x)=0$, then $\la x\in U$ for all scalars $\la$, so $|\la|q(Tx)\le 1$ for all scalars $\la$, so $q(Tx)=0$, so $q(Tx)\le \rc{\ep}\max_ip_i(x)$ holds.
+\end{proof}
+\begin{df}
+For a LCS $X$, we let $X^*$ be the space of all continuous linear functionals on $X$.
+\end{df}
+\begin{thm}[Hahn-Banach Theorem for LCSs]\llabel{thm:hb-lcs} \fixme{4-10} Let $(X,\cal P)$ be a LCS. Then 
+\begin{enumerate}
+\item
+If $Y$ is a subspace of $X$, $g\in Y^*$ then there exists $f\in X^*$ such that $f|_Y=g$.
+\item (Separation of points) For every $x_0\in X,x_0\ne 0, \exists f\in X^*$ such that $f(x_0)\ne 0$.
+\end{enumerate}
+\end{thm}
+The proof will be fairly easy since we have done most of the work. This is the analogue for LCS of Theorem~\ref{thm:hb3}.
+\begin{proof}
+\begin{enumerate}
+\item
+By Lemma~\ref{lem:f2-9}, $\exists n\in \N,p_1,\ldots, p_n\in \cal P,C\ge 0$ such that
+\[
+|g(y)|\le C\max_{1\le i\le n}p_i(y)\forall y\in Y.
+\]
+Let $p(x)=C\max_{1\le i\le n}p_i(x)$, $x\in X$. Then $p$ is a seminorm on $X$, $|g(y)|\le p(y)\forall y\in Y$. By Theorem~\ref{thm:hb2}, $g$ extends to a linear functional $f$ on $X^*$ such that $|f(x)|\le p(x)$ for all $x\in X$. By Lemma~\ref{lem:f2-9}, $f\in X^*$. 
+\item
+If $x_0\ne 0$, then there exists $p\in \cal P$ such that $p(x_0)\ne 0$. By Corollary~\ref{cor:hb} there exist linear functional $f$ on $X$ such that $|f(x)|\le p(x)$ for all $x\in X$ and $f(x_0)=p(x_0)$. By Lemma 9, $f\in X^*$.
+\end{enumerate}
+\end{proof}
+\begin{thm}\llabel{thm:f2-11}
+%saw for normed space already.
+Let $(X,\cal P)$ be a LCS, $f$ be a linear functional on $X$. Then $f\in X^*$ iff $\ker f$ is closed.
+\end{thm}
+\begin{proof}
+$\implies$: Clear.
+
+$\Leftarrow$: Let $Y=\ker f$, WLOG $Y\ne X$. Pick $x_0\in X\bs Y$. Since $Y$ is closed, there exists $n\in \N$, $p_1,\ldots, p_n\in \cal P,\ep>0$ such that setting
+\[
+U=\set{x\in X}{p_i(x)\le \ep \forall i},
+\]
+we have $(x_0+U)\cap Y=\phi$.
+
+For all $x\in U$ and all scalars $\la, |\la|\le 1$, $\la x\in U$. Since $f$ is linear, $\forall z\in f(U)$ and all scalars $\la,|\la|\le 1$, $\la z\in f(U)$. 
+%nbhd around, disjoint
+So if $f(U)$ is unbounded, then it's the entire scalar field, and hence so is $f(x_0+U)$, contradiction, as $0\nin f(x_0+U)$. So there exists $|f(x)|\le C$ for all $x\in U$. By usual argument, $|f(x)|\le \fc{C}{\ep}\max_{1\le i\le n}p_i(x)$ for all $x\in X$. 
+
+By Lemma~\ref{lem:f2-9}, $f$ is continuous. 
+\end{proof}
+
+
+
+
+
+
+

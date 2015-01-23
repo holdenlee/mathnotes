@@ -1,0 +1,142 @@
+%%%%%%%%%%%%%%%%
+%CHAPTER 2
+\chapter{Distributions of compact support}
+\blu{Lecture 6 (3 Feb)}
+
+To talk about distributions of compact support, we need a different space of test functions, and a new notion of convergence.
+
+For $u\in D'(X)$, we say that $u$ vanishes on $Y\subeq X$ if $\an{u,\ph}=0$ for all $\ph\in D(Y)$; it kills test functions supported on $Y$.
+
+\begin{df}\llabel{df:dist2-1}
+For $u\in D'(X)$, we define the \textbf{support} of $u$, written $\Supp(u)$, as the complement of the largest open set on which $u$ vanishes.
+\end{df}
+The definition looks a little cumbersome, but in practice it is very easy to establish $\Supp(u)$. Usually we have a guess, and we just verify it. For example, $\Supp(\de_x)=\{x\}$. Note that as in the case of normal functions, $\Supp(u)$ is closed.
+
+\section{Test functions and distributions}
+We can now define a new space of test functions. 
+\begin{df}\llabel{df:dist2-2}
+The space $\cal E(X)$ consists of smooth functions from $X$ to $\C$. We say a sequence $\{\ph_m\}_{m\ge 1}$ tends to 0 in $\cal E(X)$ if $\pl^{\al}\ph_m\to 0$ uniformly on compact subsets of $X$, for each multi-index $\al$. 
+\end{df}
+Note {\it we haven't mentioned the support!} The functions don't have to vanish outside the compact set. We have little control on what it does in the limit. Thus it makes sense that for continuous linear maps on $\cal E(X)$, we have to say something about the support of those maps.
+
+\begin{df}\llabel{df:dist2-3}
+A linear map $u:\cal E(X)\to \C$ belongs to $\cal E'(X)$ if there exist constants $C,N$ and a compact set $K\subeq X$ such that 
+\[
+|\an{u,\ph}|\le C\sum_{|\al|\le N} \sup_K|\pl^{\al}\ph|
+\]
+for all $\ph\in \cal E(X)$. They are called \textbf{distributions of compact support}.\footnote{Warning: we can't take $K=\Supp(u)$. See Example~\ref{ex:supp-counterex}.}
+\end{df} 
+%%%
+%\begin{rem}
+%Thinking of $\cal E(X)$ as a locally convex space (in fact, Fr\'echet space) with seminorms defined by $\sup_K|\pl^{\al}\ph|$, we have $\cal E'(X)=\cal E(X)^*$. See Example 2.2.4 in Functional Analysis\footnote{\url{https://dl.dropboxusercontent.com/u/27883775/math\%20notes/part_iii_functional.pdf}}.
+%\end{rem}
+%%%
+Since $\cal E(X)$ is bigger than $D(X)$, we expect $\cal E'(X)$ to be smaller than $D'(X)$.
+\begin{lem}\llabel{lem:dist2-1}
+A linear map $u:\cal E(X)\to \C$ belongs to $\cal E'(X)$ iff $\an{u,\ph_m}\to 0$ for every sequence $\{\ph_m\}_{m\ge 1}$ that tends to 0 in $\cal E(X)$. 
+\end{lem}
+\begin{proof}
+Same as the $D'(X)$ case.
+\end{proof}
+\begin{lem}\llabel{lem:dist2-2}
+For each $u\in \cal E'(X)$, $u$ restricted to $D(X)$ defines a distribution of compact support and finite order. Conversely, if $u\in D'(X)$ has compact support, then there exists a unique $\wt u\in \cal E'(X)$ such that $u=\wt u$ in $D'(X)$. 
+\end{lem}
+In other words, we can think of $\cal E'(X)\sub D'(X)$; it is the subspace of distributions with compact support.
+\begin{proof}
+Since $D(X)$ is contained in $\cal E(X)$ the restriction is well-defined. There exist constants $C,N$ and a compact set $K\subeq X$ such that 
+\[
+|\an{u,\ph}|\le C\sum_{|\al|\le N}\sup_K|\pl^{\al}\ph|\text{ for all }\ph\in D(X).
+\]
+So $u$ certainly has finite order, and $\ord(u)\le N$. And $\Supp(u)$ is contained inside $K$, since $\an{u,\ph}=0$ for $\ph$ supported outside $K$.
+
+If $u\in D'(X)$ has compact support, define $\wt u$ by \[\an{\wt u,\ph}:=\an{u,\rh \ph}\quad \forall \ph\in \cal E(X).\]
+where $\ph\in D(X)$ is such that $\rh=1$ on $\Supp(u)$. Since $u\in D'(X)$ we have
+\[
+|\an{\wt u,\ph}|=|\an{u,\rh \ph}|\le C\sum_{|\al|\le N} \sup|\pl^{\al} (\rh\ph)| \le C'\sum_{|\al|\le N} \sup_{\Supp(\rh)} |\pl^{\al}\ph|,\ph\in \cal E(X).
+\]
+(We expanded the derivatives.) So $\wt u\in \cal E'(X)$. For uniqueness, suppose $\wt v$ is another extension of $u$ such that $\wt u=\wt v$ on $D(X)$. Write
+\[
+\ph=\rh\ph +(1-\rh)\ph=: \ph_1+\ph_2,
+\]
+where $\rh\in \cal E(X)$ and $\ph\in D(X)$ with $\rh=1$ on $\Supp(u)$. 
+%act on arb func same
+We get
+\begin{align}
+\an{\wt v,\ph}&=\an{\wt v,\ph_1}+\an{\wt v,\ph_2}\\
+\llabel{eq:dist2-1}
+&=\an{\wt u,\ph_1}+0\\
+&=\an{\wt u,\ph_1+\ph_2}\\
+&=\an{\wt u,\ph}.
+\end{align}
+In~\eqref{eq:dist2-1} we use the fact that if $\wt u$ vanishes on $Y\subeq X$, then so does $\wt v$ since for arbitrary $\ph\in D(Y)$, so we have $\an{\wt v,\ph_2}=\an{\wt u,\ph_2}=0$. 
+So $\wt u=\wt v$ in $\cal E'(X)$.
+\end{proof}
+%This gives us permission to treat a linear map in $\cal E'(X)$ as linear maps on $D(X)$ with compact support.
+We can define differentiation and multiplication by smooth functions just as we did for $D'(X)$. 
+
+\begin{rem}
+We know $D(X)\sub \cal E(X)$; in fact $D(X)\hra \cal E(X)$, meaning $D(X)$ is continuously embedded in $\cal E(X)$, i.e., if $\{\ph_m\}_{m\ge 1}$ in $D(X)$ tends to 0 in $D(X)$, then $\ph_m\to 0$ in $\cal E(X)$ also. From this one can show $\cal E'(X)\hra D'(X)$.
+\end{rem}
+
+\section{Convolution between $D'(\R^n)$ and $\cal E'(\R^n)$}
+Just as in definition~\ref{df:dist1-5}, we can define convolution between $\cal E'(\R^n)$ and $\cal E(\R^n)$ via
+\[
+u*\ph(x):=\an{u,\tau_x\check{\ph}},\qquad \ph\in \cal E(\R^n).
+\]
+Again this is smooth and $\pl^{\al} (u*\ph)=u*\pl^{\al}\ph$. If $\ph\in D(\R^n)$ then we also have $u*\ph\in D(\R^n)$, where $u\in \cal E'(\R^n)$. This is true because $u*\ph(x)$ vanishes unless $x-y\in \Supp(\ph)$ for some $y\in \Supp(\ph)$, i.e., 
+\[
+\Supp(u*\ph)\subeq \Supp(u)+\Supp(\ph).
+\]
+So $\Supp(u*\ph)$ is compact.
+%or directly...
+\begin{df}
+If $u_1$ and $u_2$ are distributions on $\R^n$, one of which has compact support, then we can define $u_1*u_2$ to be the unique $u\in D'(\R^n)$ such that
+\[
+u_1*(u_2*\ph)=u*\ph\quad \forall \ph\in D(\R^n).
+%u_2 cpt support, then $u_2*\ph$ has compcat support. So this definition is good.
+\]
+\end{df}
+This definition makes sense, since $u_2*\ph\in D(\R^n)$ if $\Supp(u_2)$ is compact and $u_2*\ph\in \cal E(\R^n)$ otherwise.
+%checkme
+\begin{lem}
+For $u_1,u_2$ distributions on $\R^n$, one of which has compact support, we have
+\[
+u_1*u_2=u_2*u_1.
+\]
+%easy and obv for normal functions, but not for dist
+\end{lem}
+\begin{proof}
+For $\ph,\psi\in D(\R^n)$ we have
+\bal
+(u_1*u_2)*(\ph*\psi)&=u_1*(u_2*(\ph*\psi))\\
+&=u_1*((u_2*\ph)*\psi)\\
+&=u_1*(\psi*(u_2*\ph))\\
+&=(u_1*\psi)*(u_2*\ph).
+\end{align*}
+Computing $(u_2*u_1)*(\ph*\psi)=(u_2*u_1)*(\psi*\ph)$ we find 
+\[
+(u_1*u_2)*(\ph*\psi)-(u_2*u_1)*(\ph*\psi)=0.
+\]
+Set $u_1*u_2-u_2*u_1:=u$. Then 
+\bal
+0&=u*(\ph*\psi)\\
+&=(u*\ph)*\psi&\text{by Lemma~\ref{lem:dist1-5}}\\
+\an{u*\ph,\psi}&=(u*\ph)*\check{\psi}(0)=0\\
+\implies u*\ph&=0\quad \forall \ph\in D(\R^n)\\
+\implies u&=0\text{ in $D'(\R^n)$, i.e, }u_1*u_2=u_2*u_1.
+\end{align*}
+\end{proof}
+%alternative approximate: which limits are allowed.
+
+\blu{Lecture 7 (5 Feb)}
+
+As an example take $\de_0$ and arbitrary $u\in D'(\R^n)$. Because $\de_0$ has compact support we can take their convolution. So $u*\de_0=\de_0*u$ is defined by $(u*\de_0)*\ph:=u*(\de_0*\ph)$ for all $\ph\in D(\R^n)$. We have that
+\bal
+\de_0*\ph(x)&:= \an{\de_0,\tau_x\check{\ph}}\\
+&=(\tau_x\check{\ph})(0)\\
+&=\check{\ph} (0-x)\\
+&=\ph(x),
+\end{align*}
+i.e., $\de_0*\ph=\ph$. (Going back to old, nonrigorous language, $u(x)=\int \de(x-y)u(y)\,dy$.)
+So we find $(u*\de_0)*\ph=u*\ph$, giving $u*\de_0=u$ for all $u\in D'(\R^n)$. 
+This is exactly how we hope convolution with $\de_0$ would work. 

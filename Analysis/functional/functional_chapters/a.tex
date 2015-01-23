@@ -1,0 +1,161 @@
+\chapter{Problems}
+\fixme{I took these down very quickly during the examples class, so these are probably unreadable right now. Need to fix!}
+
+\begin{enumerate}
+\item
+Show that for all $x\in K$ there exists $f_x\in A$ such that $f_x(x)\ne 0$. There exists a neighborhood $U_x$ of $x$, $f_x\ne 0$ on $U_n$. There exists $x_1,\ldots, x_n$, $\bigcup_{i=1}^n U_{x_i}=K$, $f=\sum_{i=1}^n f_{x_i}^2\in A$, $f>0$ on $K$. Write $B=A\opl \C 1$, $\ol B=C(K)$. Given $\ep>0$ there exists $a\in A$, $\la\in \C$, $\ve{(a+\la)-\rc f}<\ep$. (Replaced $f$ by $\fc{f}{\ve{f}}$. $\ve{(af+\la f)-1}<\ep$. So $\ol A=C(K)$.
+\item
+$q:X\to X/Y$ $q(B_{X}^{\circ})$, so $q$ is an open map.
+%biggest that makes it continuous.
+Assume $q^{-1}(U)$ is open in $X$, and $U=q(q^{-1}(U))$ is open in the norm topology. $q$ is continuous, so $\ved$-topology is weaker than quotient topology.
+%cont map onto top space, open, top on image space is quotient top
+
+Take a Cauchy sequence. $x_n+Y$ is Cauchy in $X/Y$, so $x_n+Y\to x+Y$. For all $n$, there exists $y_n\in Y$ such that $\ve{x_n-x+y_n}<\ve{x_n-x+Y}+2^{-n}$. The difference tends to 0, so $y_n$ is Cauchy, so $y_n\to y$, and $x_n\to x+y$.
+
+\item
+Factor $T:X\to Y$ with $X\to X/\ker T\xra{\wt T} Y$. $E\subeq X/\ker T$ is closed and bounded. Say $\ve{x}<C$ for all $x\in E$. Then $q(q^{-1}(E)\cap CB_X)=E$ by definition of the quotient norm. (lift by arbitrary small amount)
+Then $\wt T(E)=T(q^{-1}(E)\cap CB_X)$. 
+we've kept our property. So WLOG $T$ is injective.
+%Interset with ball size bound on $E$.
+
+Suppose $Tx_n\to y$. Then $y\in \ol{T(E)}$, $E=\ol{\set{x_n}{n\in \N}}$. If bounded set, image is closed, so $y\in T(E)$, and we're done. Assume $E$ is unbounded. Then $F:=\ol{\set{\fc{x_n}{\ve{x_n}}}{n\in \N}}\subeq S_X$ is closed. Then $0\in \ol{T(F)}=T(F)$.
+
+(The injective step isn't essential, but instead of normalize you perturb by members of the kernel, it's slightly messier.)
+\item 
+(Grothendieck) We'll use this theorem when we study compact operators.
+
+Pick a finite number of points around which balls of radius 1 cover $K$. 
+%Find a sequence of coverings of translates of $K$. 
+(There exist finite $F_1\subeq K$ such that $K\subeq F_1+B_X$.) 
+Then compact $K_1=\bigcup_{x\in F_1} (K-x)\cap B_X\subeq F_z+\rc 4B_X$. (There exist $F_2\subeq K_1$.)
+Let $K_n=\bigcup_{x\in F_n}[(K_{n-1}-x)\cap \rc{4^{n-1}}B_X]\subeq F_n+\rc{4^{n-1}}$.
+
+%now in quarter ball. 
+
+For $x\in K$, can keep approximating, $x-x_1-x_2-x_3-\cdots$, so $x=\suo x_n$ where $x_n\in F_n$.  $x=\suo \rc{2^n} (2^nx_n)$. Infinite convex combination of these points.
+
+Then $y\in F_n$ implies $\ve{y}\le \rc{4^{n-2}}$ for $n\ge 2$. Then $2x,x\in F_1$, $2^nx,x\in F_{n}$, is a null sequence; its closed convex hull covers $K$.
+
+\item Start with $\set{f_n}{n\in\N}$ dense in $Y$. For all $n$ there exists $(x_{n_i})_i\subeq S_X$ with $f_n(x_{n_i})\to \ve{f_n}$ as $n\to \iy$. Let $Z=\ol{\spn}\set{x_{n_i}}{n,i\in \N}$ separable. $Y\to Z^*$, $f\mapsto f|_Z$. Take $y^*\in Y$, $\ep>0$, there exists $n$ such that $\ve{y^*-f_n}<\fc{\ep}{3}$. There exists $k\in \N$ such that $f_n(x_{nk})>\ve{f_n}-\fc{\ep}{3}$. Use the triangle inequality to show $|y^*(x_{nk})|>\ve{y^*}-\ep$.
+\item $T:X\to Y$, $T(X)=Y$. By the open mapping theorem there exists $C>0$ such that $T(CB_X)\supeq B_Y$. 
+%If we come up with $Z$ such that when we restrict it's a bijection, then we're done. 
+Choose dense $\{y_n\}\subeq B_Y$. Pick $x_n$ such that $Tx_n=y_n$. Let $Z=\ol{\spn\set{x_n}{n\in \N}}$. 
+$T|_Z:Z\to Y$, $\ol{T|_Z(CB_Z)}\supeq B_Y$. By Open mapping lemma, $T|_Z$ is onto.
+%We need the $x_n$ to lie in an open ball. 
+%take the quotient, have isomorphism, can assume quotient.
+%open mapping lemma you want to use
+\item
+ $f:X\to \R$ factors as $X\to X/\ker f\xra{\wt f} \R$. We have $\ve{\wt{f}}=\ve{f}=1$. We have $|f(x)|=|\wt f(x+\ker f)|=\ve{x+\ker f}=d(x,\ker f)$. %mod f(x) is norm in quotient space
+
+Use fact $\ker f$ is 1-D space, so copy of reals, just multiplication by scalar. So for some $\la$, $\wt f(x+\ker f)=t\la$. There exist $\wt f\in S_{(X/Y)^*}$ such that $\wt f(x_0+Y)=\ve{x_0+Y}$ by Hahn-Banach. Let $f=\wt f\circ q$.
+
+(You can do without quotient maps just by writing inequalities, but this is neater.)
+\item
+Unit sphere is compact in finite-dimensional space.
+Consider $Y\cap Z$. Define... $d(S_F,Y\cap Z)=d(x,Y\cap Z)>0$ for some $x\in S_F$. Projection onto $Y\cap Z$ is continuous. In finite dimension everything is continuous. By triangle inequality we have the bound on the RHS.
+
+Or let $f=0$ on $Y\cap Z$ and $f(y_i)=1$, $f(y_j)=0$ for all $j\ne 1$, $f(z_i), f(w_i)=0$. Check continuous functional by checking kernel is closed, you do the same work.
+
+For example, to prove if $C[0,1]\sim \set{f\in C[0,1]}{f(1)=0}$.)
+Sufficiently nasty Banch spaces are not isomorphic to their 1-codimensional subspaces.
+\item  Hahn-Banach allows us to extend the functionals. 
+Consider $Y$. Consider $a,b$ with $a|||y|||\le \ve y\le b|||y|||$. Check with the operator norms induced by this. We get 
+\[
+aB_Y^{\ved}\subeq B_Y^{|\ved|}\subeq bB_Y^{\ved}.
+\]
+so 
+\[
+a\ve{y^*}\le |\ve{y^*}|\le b\ve{y^*}.
+\]
+and we get
+\[
+bB_Y^{|\ved|}\subeq B_{Y^*}^{\ved}\subeq aB_Y^{|\ved|}.
+\]
+For all $f\in B_{Y^*}^{|\ved|}$ let $\wt f$ be a Hahn-Banach extension to $X$ such that $\ve{\wt f}=\ve{f}$. 
+Define something that we'll show is a norm on the whole space.
+\[
+|\ve{x}|'=\sup\pa{
+\set{|\wt f(x)|}{f\in B_{Y^*}^{|\ved|}}\cup 
+\rc bB_{X^*}
+}=\sup\set{|f(x)|}{f\in S}.
+%bounded set because norm at most constant times triple bound norm
+%equivalent because at most some const multiple of ball. 
+\]
+$y\in Y, |\ve{y}|'=|\ve{y}|$.
+$\rc bB_{X^*} \subeq S\subeq \rc a B_{X^*}$. $\set{f|_Y}{f\in S}=B_{Y^*}^{|\ve{\cdot}|}$.
+
+OR Define a convex symmetric set, using the Minkowski functional. Let $C=\set{conv}{B_Y^{|\ved|}\cup aB_X^{\ved}}$. We will define $\mu_C$. $C\cap Y=B_Y^{|\ved|}$. 
+
+OR Zorn---a more ``helpful" version of Hahn-Banach, 1 dimension at a time.
+\item 
+\begin{enumerate}
+\item
+$\ol{\spn} A=(A^{\perp})_{\perp}$. 
+\begin{enumerate}
+\item
+$\subeq$: From definition, $\subeq$ is clear.
+\item
+$\supeq$: 
+ The RHS is a closed linear subspace because it is a intersection of kernels. ($B_{\perp}=\set{x\in X}{b(x)=0\forall b\in B}=\bigcap_{b\in B}\ker b$.) 
+
+What might go wrong? There might not be enough functionals, so maybe if we take all $f$ such that $f(A)=0$, there might be stuff outside the $\ol{\spn}(A)$ such that $f(x)=0$ as well. But there {\it are} enough functionals, by Hahn-Banach. (Whenever we worry about lack of functionals, use Hahn-Banach!)
+
+Pick $y\nin \ol{\spn}(A)$. By Hahn-Banach, there exists $f\in X^*$ such that $f\equiv 0$ on $\spn(A)$\footnote{Since $\spn(A)$ is a subspace, $f(\spn(A))$ is  a subspace of $\R$ and hence 0} and $f(y)=1$. Now $f\in A^{\perp}$ so $y\nin (A^{\perp})_{\perp}$. 
+\end{enumerate}
+\item $\ol{\spn}B\stackrel ?=(B_{\perp})^{\perp}$
+%by HB can extend
+\begin{enumerate}
+\item
+$\subeq$: 
+We have $\ol{\spn}(B)\subeq (B_{\perp})^{\perp}$. 
+\item
+$\fixme{\supeq}$: NOT NECESSARILY. We try to emulate the above proof. What goes wrong? Take $f\nin \ol{\spn}(B)$. By Hahn-Banach, there exists $F\in X^{**}$ such that $F(f)=1$, $ F(B)=\{0\}$. Uh-oh: if $F=\wh x$ we get $f(x)=1,\set{f(y)}{y\in B}=\{0\}$ and $f\nin (B_{\perp})^{\perp}$.
+
+{\it So what goes wrong is that we're trying to do the above with $X^*$ in place of $X$, but maybe $X\ne X^{**}$!}
+
+\fixme{(?) So to disprove this, take $Y$ not reflexive, for instance, $Y=\ell_{\iy}$, $B=c_0$. Then $B_{\perp}=\ell_1$ but $(B_{\perp})^{\perp}=\ell_{\iy}$. }
+\end{enumerate}
+Question: How can we modify this statement to be true?
+
+Take weak star closure: $\spn^{w^*} B=(B_{\perp})^{\perp}$. See Problem 7 in Example sheet 2.
+%cf. Mazur's Theorem.
+%weak closure same b/c Mazur's theorem
+%Note that in the case where $B$
+\end{enumerate}
+
+\item
+$X^*/Y^{\perp}\to Y^*$ by mapping $f+Y^{\perp}\mapsto f|_Y$. Use Hahn-Banach.
+
+Start with $R:X^*\to Y^*$, $R(f)=f|_Y$. $R(B_{X^*})=B_{Y^*}$. 
+Exact quotient map.
+%Every extension has ... norm the same
+$\ker R=Y^{\perp}$. So this factors through 
+%when do things factor through
+$X^*\to X^*/Y^{\perp}\xra{\wt R} Y^*$. 
+
+$(X/Y)^*\to Y^{\perp}$ Take composite of $f$ and quotient map $f\mapsto f\circ q$ where $q:X\to X/Y$ is the quotient map. This is well defined because $q$ dies on $Y$. This is the fact that $q(B_X^{\circ})=B_{X/Y}^{\circ}$. Map open ball to same thing so same norm. Onto because everything dies on $Y$ factors through quotient map. $g:X\to \R$ and $\ker g\supeq Y$, then $X\xra q X/Y\xra{\exists g}\R$.
+%$Y^{\perp}\to (X/Y)^*$. 
+\item 
+Suppose $x_n$ is continuous for all $n$. Form $y=\fc{x_n}{2^n\ve{x_n}}$. It's a finite sum $\sum_{y\in F}\la_yy$ where $F$ is finite. We get $\ep_{x_n}(y)=\rc{2^n\ve{x_n}}$ for all $n$, this is 0 for large $n$, get a contradiction.
+%Suppose BWOC a sequence of $x_n$ with continuous coordinates, $\sum \fc{x
+
+Using Zorn can construct continuous functional.
+
+Kernels are closed, intersection of kernels $\bigcap_n \ker \ep_{x_n}$. The quotient is also complete. $X/Y$ has countable basis. $x_n+Y$ is a basis. There is no Banach space with countable basis.
+\item
+%Zorn's lemma $(C,D)$ convex dense disjoint elements. 
+Maximal element must have $C\cup D$ to be the whole space. Can take discontinuous functional, kernel is dense.
+
+$\{f>0\}$, $\{f\le 0\}$. $\ker f$ is dense. 1-codimensional. Kernel dense, translate of kernel dense.
+
+Need Zorn to get discontinuous functional. 
+
+``When you use Zorn in hidden way usually right."
+\item
+Take $Z=C[0,1]$. A finite-dimensional space imbeds isometrically into $\ell_{\iy}$. $T:F\hra \ell_{\iy}$. Embed almost isometrically? $P_N\circ T:H\hra c_{\iy}$, $1+\ep$ for all $\ep>0$. There exists an $\ep$-net in $S_F$ with $x_1,\ldots, x_n$ there exists $N$ such that $\ve{x_i-P_Nx_i}<\ep$ for all $i$. ($P_N(a_i)=(a_1,\ldots, a_N,\ldots)$)
+$c_{00}$
+
+There are countably many norms, so we can approximate every norm. 
+Look at $M_n=\{(\R^n,\ved)\}$, $d$ Banach. %mazur
+$M_n$ is compact, so separable. Take a countable dense set, do it for every $n$. Thus there exists a sequence $F_1,F_2,\ldots, $ of fintie dimensional spaces so that every finite-dimensional space is close to one of these. For all $\ep$ there exists $n$ such that $d(F,F_n)<1+\ep$. Take $\pa{\bigoplus f_n}_{\ell_2}$. Each is reflexive.
+\end{enumerate}

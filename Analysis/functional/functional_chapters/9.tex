@@ -1,0 +1,264 @@
+\chapter{Spectral Theory}
+\section{Spectral Theory}
+Throughout, $H$ is a Hilbert space, $K$ is a compact Hausdorff space, $\cal B$ is a Borel $\si$-field on $K$. 
+\begin{df}\llabel{df:res-id}
+A \textbf{resolution of the identity} of $\cal B(H)$ over $K$ is a function $P:\cal B\to \cal B(H)$ such that
+\begin{enumerate}
+\item
+$P(\phi)=0$, $P(K)=I$.
+\item
+$P(E)$ is an orthogonal projection for all $E\in \cal B$. 
+\item
+If $E\cap F=\phi$, then $P(E\cup F)=P(E)+P(F)$. 
+\item
+$P(E\cap F)=P(E)P(F)$ for all $E,F\in \cal B$
+\item
+For all $x,y\in H$, $P_{x,y}:\cal B\to \C$, $P_{x,y}(E)=\an{P(E)x,y}$ is a regular complex measure.
+\end{enumerate}
+\end{df}
+\begin{ex}
+Let $H=L_2[0,1]$, $K=[0,1]$, $P(E)(f)=1_Ef$.
+\end{ex}
+Here is a list of simple properties.
+\begin{pr}
+\begin{enumerate}
+\item
+$P(E)$, $P(F)$ commute for all $E,F$. 
+\item
+$E\cap F=\phi$ implies $P(E)P(F)=0$.
+\item
+For $x\in A$, $P_{x,x}(E)=\an{P(E)x,x}=\ve{P(E)x}^2$, so $P_{x,x}$ is a positive measure and $P_{x,x}(K)=\ve{x}^2$. 
+\item
+$P$ is finitely additive (Definition~\ref{df:res-id}(3)), but in general, $P$ is not countably additive (if $P(E)\ne 0$ then $\ve{P(E)}=1$). 
+\item
+For $x\in H$, $E\mapsto P(E)(x)$ is countably additive. (Use Definition~\ref{df:res-id}(5).) Informally, $P$ is a projection-valued mesure which is weakly countably additive.
+\end{enumerate}
+\end{pr}
+From (5), if $P(E_n)=0$ for all $n\in \N$,  then $P\pa{\bigcup_{n=1}^{\iy} E_n}=0$. 
+\begin{df}
+For a Borel function $f:K\to \C$, say $f$ is \textbf{$P$-essentially bounded} if there exists $E\in \cal B$, $P(E)=0$, 
+\[
+\ve{f}_{\iy}=\inf\set{\ve{f}_{K\bs E}}{P(E)=0}.
+\]
+Let $L_{\iy}(P)$ be the space of all $P$-essentially bounded functions.
+\end{df}
+It is easy to see that $L_{\iy}(P)$ is a commutative unital $C^*$-algebra.
+
+The first theorem is that we can integrate with respect to this.
+\begin{thm}
+Let $H, K, P$ be as above. Then there exists an isometric $*$-isomorphism $\Phi:L_{\iy}(P)\to \cal B(H)$ such that 
+\begin{enumerate}
+\item
+$\an{\Phi(f)x,y}=\int_K f\,dP_{x,y}$.
+\item
+$\ve{\Phi(f) x}^2=\int_K|f|^2\,dP_{x,x}$.
+\item
+$S\in \cal B(H)$ commutes with all $\Phi(f)$, $f\in L_{\iy}(P)$ and $S$ is commutes with all $P(E)$, $E\in \cal B$.
+\end{enumerate}
+\end{thm}
+\section{Reading guide}
+Please see~\url{https://www.dpmms.cam.ac.uk/\~az10000/spectral-theory.pdf} for the rest of the notes. Here I'll instead put notes I took while reading.
+
+\subsection{Preliminaries}
+\llabel{sec:spectral-prelim}
+Before reading this chapter, it's good to recall facts about finite-dimensional linear operators. This is because the spectral theorem will be a generalization of the spectral theorem from linear algebra (although at first glance there seems to be so much measure-theoretic notation that this is not clear). In general, in functional analysis we draw intuition from finite-dimensional linear algebra and prove structure theorems about function spaces.
+
+\prbbox{
+Do the following. (If you prefer, think of $T$ as a matrix.) Everything is over $\C$.
+\begin{enumerate}
+\item (The spectral theorem)
+State the spectral theorem for normal operators on a finite-dimensional vector space.
+\begin{enumerate}
+\item
+Be sure to state the entire thing---i.e., with the ``resolution of the identity."
+\item
+What are some important classes of normal operators, and what happens in those cases? 
+\end{enumerate}
+\item (Operators as functions on their spectra)
+\begin{enumerate}
+\item
+Let $T$ be a finite-dimensional diagonalizable linear operator. Consider the algebra $\C[T,T^*]$. Describe $\hat T$.
+\item
+Let $A$ be the algebra of linear operators on a finite-dimensional $V$ that are diagonalizable with respect to a fixed basis. Describe the Gelfand transform $\hat{\bullet}$.
+\end{enumerate}
+\item (Commuting linear operators) When do two diagonalizable linear operators commute? Prove this.
+\item (Defining functions on linear operators) Let $T$ be normal, and $f$ be a function.
+\begin{enumerate}
+\item
+When does it make sense to define $f(T)$? How do we define it?
+\item
+Why do we restrict to $T$ normal?
+\end{enumerate}
+\end{enumerate}
+}
+\begin{enumerate}
+\item
+The most compact version of the spectral theorem is probably the following.
+\begin{thm}[Spectral theorem, I]
+Let $T$ be a normal operator on a finite-dimensional Hilbert space $H$ (vector space with inner product). Then $T$ is unitarily diagonalizable, i.e., there exist $U$ unitary and $D$ diagonal so that
+\[
+T=UDU^{-1}.
+\]
+If $T$ is unitary, then $T$ and hence $D$ has eigenvalues on the unit circle $\mathbb T$. If $T$ is hermitian, then $T$ and hence $D$ has real eigenvalues.
+\end{thm}
+The ``expanded" version of the spectral theorem involves several more statements---all of which are relatively easy to derive from the above, so that we often forget about them. But they are important because they will suggest the right way to state the spectral theorem in the infinite-dimensional case.
+\begin{thm}[Spectral theorem, II]
+Let $T$ be a normal operator on a finite-dimensional Hilbert space $H$. Let $\si(T)$ denote the eigenvalues of $T$. Let $E_{\la}$ be the eigenspace of $T$ with eigenvalue $\la$, and  $P_{\la}$ be the orthogonal projection onto $E_{\la}$ (so that $P_{\la_1}P_{\la_2}=0$ for $\la_1\ne \la_2$). Then the following hold.
+\begin{enumerate}
+\item
+(Diagonalizability)
+$H=\bigoplus_{\la\in \si(T)}E_{\la}$, where the eigenspaces $E_{\la}$ are mutually orthogonal.
+\item
+(Resolution of the identity)
+$
+I=\sum_{\la \in \si(T)}P_{\la}
+$
+%{\it (This is equivalent to the fact that $T$ is diagonalizable.)}
+\item
+(Spectral decomposition of $T$)
+$
+T=\sum_{\la \in \si(T)}\la P_{\la}
+$
+\end{enumerate}
+%Equivalently, $P_{\la_1}P_{\la_2}=0$ for $\la_1\ne \la_2$.
+\end{thm}
+It is not hard to see that in this finite-dimensional case, (a), (b), and (c) are just different ways of saying the same thing.
+\item
+The characters correspond to eigenspaces $E$ of $T$: $\ph_E(T')$ is the eigenvalue of $T'$ on $E$. Thus $\hat T:\Phi_A\to \C$ is simply the function sending the character corresponding to $E_{\la}$, to $\la$:
+\[
+\hat T(\ph_{E_{\la}})=\la.
+\] 
+For (b), the $\ph$ correspond to basis elements $v$; $\hat T$ is the function sending $\ph_v$ to the eigenvalue of $v$.
+\item
+$A,B$ commute when they are simultaneously diagonalizable. One way is to find a simultaneous eigenbasis step by step. Another is to write the spectral decomposition as in (1) and see that $B$ has to commute with the projections to the eigenspaces of $A$. (This is actually the criteria we'll use in the infinite-dimensional case.)
+\item
+$f$ needs to be defined at the eigenvalues of $T$. Writing $T=UDU^{-1}$, we define $f(T)=Uf(D)U^{-1}$. In other words, if the spectral decomposition of $T$ is $\sum_{\la\in \si(T)}\la P_{\la}$, we define
+\[
+f(T):=\sum_{\la\in \si(T)}f(\la)P_{\la}.
+\]
+cf. (b) and (c) in (1), where $f(x)=1, x$ respectively.
+We restrict to $T$ normal so that we have a spectral decomposition of $T$.
+(Nothing really goes wrong if $T$ is diagonalizable but not normal.)
+%WRONG What goes wrong if $T$ is diagonalizable but not normal (e.g., doesn't have a orthonormal eigenbasis)? Nothing goes wrong in the construction, but we have the subtle point that we no longer have $(fg)(T)=f(T)g(T)$, becuase the projections are not orthogonal, and $P_{\la_1}P_{\la_2}\ne 0$ in general.
+
+Note that $f(T)g(T)=(fg)(T)$: this is since we multiply termwise \[\sum_{\la\in \si(T)}f(\la)P_{\la}\sum_{\la\in \si(T)}g(\la)P_{\la}=\sum_{\la\in \si(T)}(fg)(\la)P_{\la},\]
+using $P_{\la_1}P_{\la_2}=0$ for $\la_1\ne \la_2$.
+\end{enumerate}
+Combining (1) and (2), we can write the spectral decomposition in a fancy way:
+\[
+T=\sum_{\la\in \si(T)}\hat{T}(\ph_{E_{\la}})P_{\la}.
+\]
+Or identifying $\ph_{E_{\la}}$ with $\la$,
+\beq{eq:f9b-1}
+T=\sum_{\la\in \si(T)}\hat{T}(\la)P_{\la}.
+\eeq
+(We wouldn't actually want to do this, but stretching your brain for what's coming up...)
+
+\subsubsection{Preparing for infinite dimensions}
+
+Things we have to consider:
+\begin{enumerate}
+\item
+There may be an infinite number of eigenspaces. Everything seems to fall apart: how do we write our space as a direct sum of eigenspaces? How do we write $I$ as a sum of projections? How do we write $T$ as a sum of functions that are nonzero only on eigenspaces?
+\item
+In the finite-dimensional case, an eigenspace is $\la$ such that $T-\la I$ is not invertible, or equivalently, it's not injective. In the infinite-dimensional case, $T-\la I$ may be not invertible, and still injective. \fixme{difference something to do with discrete/continuous spectrum?}
+\end{enumerate}
+To solve (1), we have to take an integral rather than a sum!
+\begin{enumerate}
+\item[3.] How do we take an integral of {\it operators}? What is the measure space?
+\end{enumerate}
+We'll have to address these questions!
+\subsection{Reading notes}
+
+See Section~\ref{review9} for a possibly more coherent summary.
+
+As a quick example, consider $H=C[0,1]$, %$L^2$-integrable
+continuous functions on $[0,1]$. Given $f$, consider the linear operator on $H$ that is simply multiplication by $f$. Can you ``see" that $f$ is like a diagonal matrix? Think of functions on $[0,1]$ as functions with an infinite number of components, one for each $x\in [0,1]$; multiplication by $f$ multiplies the $x$-component by $f(x)$.\footnote{What if $H=L^2[0,1]$? We aren't allowed to evaluate at a point anymore.} Then $\si(f)$ is simply the image of $f$.
+
+When we have a sum it makes sense to isolate points, but when we have an integral it doesn't---so we don't really want to just define $P_{\la}=P_{E_{\la}}$ for $\la\in \si(T)$. We want to define $P(E)$ where $E$ is a {\it subset} of $\si(T)$.
+
+Thus we define resolution of the identity \blu{(9.1)} where (iii)-(v) describe how the different $P(E)$ relate to one another. Think of $K$ as being $\si(T)$; the formulation here is more general. Now we want to be able to say that $P$ is a measure in some sense; however $P$ is a function with image $\cal B(H)$; thus instead we say $P_{x,y}$ is a regular complex Borel measure for all $K$.
+
+Returning to our example, see \blu{(9.2)}.
+
+\blu{(9.3)} Note (i) is by 9.1(iii), (ii) is by 9.1(ii) and (iv), (iii) is by taking $x=y$ in 9.1(v) and noting $P(K)=I$.
+\fixme{Still haven't resolved 9.3(iv)-(v).} (iii) is important: we don't just have a complex measure here, we have a positive measure.
+
+\blu{(9.4)} Compare this with the notation $L_{\iy}(\mu)$ for a measure $\mu$. The only difference is we're dealing with $P$ which is an ``operator-valued measure."
+
+\blu{(9.5)} Given $f$, $\int_K f\,dP_{x,y}$ looks like it should be bilinear in $x,y$, so we should be able to write it as $\an{\Phi(f)x,y}$. This gives us a different way to express the integral. (For the proof, we will actually show how to ``calculate" what $\Phi(f)$ is, as opposed to just saying it exists.)
+
+Proof: Try to define $\Phi$ for simple functions first. It is easy to show that $\Phi$ is a {\it unital $*$-homomorphism} on simple functions using the properties of $P$, since we are only dealing with finite sums.
+
+In order to pass from the finite to the infinite case, we need to deal with convergence, i.e., we need a bound on $\ve{\Phi(s)}$. We find we actually have an equality $\ve{\Phi(s)}=\ve{s}_{\iy}$, so $\Phi$ is isometric on simple functions. Now knowing how $\Phi$ respects norms for simple functions, we find $\Phi(s_n)$ is Cauchy for $s_n$ Cauchy, and extend the definition in a straightforward way to all $f$. (iii) is a again a ``true for simple functions, hence true for all functions" argument.
+
+Important remark \blu{(9.6)}: given $P$ we can determing $\Phi$. $\Phi$ is such that (i) holds. We have $\an{\Phi(1_E)x,y}=\int_K1_E\,dP_{x,y}=P_{x,y}(E)$, so $\Phi(1_E)=P(E)$. $\Phi$ as an extension of $P$ to non-simple functions, in the way that an integral generalizes a measure in a unique way.
+
+\blu{(9.8)} Stare at~\eqref{eq:f9b-1} for a few seconds, and this will make sense. 
+
+Think of $\hat T$ as crystallizing what $T$ does on various eigenspaces $E_{\la}$, as separating $T$ along its various components; we just have to combine them with an integral to get $T$. %($\wh T$ is defined as a function on characters because there's a clear topology there!)
+
+Proof: 
+\begin{enumerate}
+\item
+Our main tool for dealing with the integral is 9.5(i). 9.5(i) tells us that given a resolution of the identity there is $\Psi$ such that
+\[
+\Psi(\hat T)=\int_K \hat T\,dP;
+\]
+actually, 9.5(i) defines $T$ for {\it all} $f\in L_{\iy}(P)$, not just $C(\Psi_A)\cong A$:
+\[
+\Psi(f)=\int_K f\,dP.
+\]
+Summarizing, $\hat{\bullet}:A\xrc C(\Phi_A)$, and we'd like $\Psi:L^{\iy}\to A$. We want $\Psi(\hat T)=T$, $\Psi$ is like an inverse Gelfand transform. 
+
+Note here, however, we don't know what $P$ is yet. (The whole point of the spectral theorem is to get a resolution of the identity!) So we'd like to define $\Psi$ such that $\Psi(\hat T)=T$, and then get $P$ out of it. We'd like to reverse 9.5. The key to getting a measure from a functional is the Riesz Representation Theorem; we get a family $P_{x,y}$, and then check these come from a single $P$.
+
+That's the motivation. Let's do everything in order now: in order to define $\Psi$ on $L^{\iy}(K)$ extending $\hat T\mapsto T$, i.e. define a nice map when we know the map for continuous functions, 
+\begin{enumerate}
+\item
+we use RRT to express $\hat T\mapsto \an{Tx,y}$ as an integral wrt $\mu_{x,y}$,
+\item
+then define $\Psi(f)$ using the integral (using sesquilinearity).
+\end{enumerate}
+ We make sure $\Psi$ is well-behaved by looking at norms. (Review chapter 3 if you need help on the total variation norm.) (Some comments here: the norm of $(x,y)\mapsto \int_K f\,d\mu_{x,y}$ is by definition $\max \pf{\int_K f\,d\mu_{x,y}}{\ve x\ve y}$.
+
+We have defined $\Psi$ now.
+\item
+We show that $\Psi(fg)=\Psi(f)\Psi(g)$. We think about what this is saying in terms of measures: 
+\bal
+\an{\Psi(fg)x,y}&=\int fg\,d\mu_{x,y}\\
+\an{\Psi(f)\Psi(g)x,y}&=\an{\Psi(g)x,\Psi(f)^*y} =\int g\,d\mu_{x,\Psi(f)^*y}
+\end{align*}
+(I'm trusting that it's easier to move the $\Psi(f)$ first. Or maybe it doesn't matter.)
+ So we need $f\,d\mu_{x,y}=d\mu_{x,\Psi(f)^*y}$.  To test equality of measures, by uniqueness in RRT it suffices to test equality of measures by looking at integrals of continuous functions; $\hat T$ are all the continuous functions on $\Phi_A$ so we test using those. This is the 2 lines of calculations on the bottom of page 3. (We're basically trying to take $\wh{ST}=\wh S\wh T$ and turn it into $\Phi(fg)=\Phi(f)\Phi(g)$.)
+\item Define $P$ from $\Psi$. As remarked in 9.6 above, we should have $P(E)=\Psi(1_E)$. We do need to verify $P$ is a resolution of the identity (because we're going the opposite way around from 9.5); this is straightforward. Now 9.5 applies immediately. 
+\item Uniqueness: simple RRT.
+\item
+Moreover: Use Urysohn. Note $\hat T$ is real (i.e., $T$ is Hermitian). (This is an example of when it's easier to look at the Gelfand transform---we can treat $T$ like a function!) 
+\item
+(ii) Two options: use 9.5(iii), and uniqueness in RRT, or do it directly by calculating $\an{STx,y}$ and using uniqueness in RRT.
+\end{enumerate}
+
+(9.10) Note $\la x^*-\ol{\la}x$ is has $\si()\subeq i\R$ because $a\ol b-\ol ab\in i\R$. \fixme{Why is $f$ bounded analytic?} Idea: ``complete" into 1-parameter group.
+
+(9.11) 
+Proof: We want to apply 9.8. The difference is that the integral is over $\si(T)$ not $K$. The thing to note is that $\Phi_A$ is homeomorphic to $\si(T)$: we have 
+\[
+\set{\ph(T)}{\ph\in \Phi_A}=\si(T)
+\]
+so consider the map $\ph\mapsto \ph(T)$. Since $\Phi_A$ separates points of $\ol{\C[T,T^*]}$, this is a bijection; since it is a continuous map between compact Hausdorffs, it is a homeomorphism.
+(Note that for normal operators, $\si(T)$ doesn't get bigger when we restrict the algebra.)
+
+Uniqueness: use uniqueness in RRT and Stone-Weierstrass.
+
+Commutating: use the lemma.
+
+9.12 cf. Problem 4. Note that for normal operators, we can define $f(T)$ for $f$ not necessarily analytic! Before, we could only define it for $f$ analytic. 
+
+(iv) follows from Lemma 1(iii). \fixme{Why do we have equality in (ii)?}
+
+9.13 This is ingenious! From the fact for $\C$, and noting we have multiplicativity in the integral just like in Problem 4, the result follows immediately.
+
+9.14 Unitary is $e^{iH}$: Apply the functional calculus with the logarithm, remembering to show that $e^{\ln}$ converges.
+
+9.15 Connectedness of $G(\cal B(H))$: find a path to the identity.

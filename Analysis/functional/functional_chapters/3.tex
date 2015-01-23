@@ -1,0 +1,431 @@
+\chapter{Riesz Representation Theorem}
+Our aim is to describe the dual space of $C(K)$ where $K$ is a compact Hausdorff space.
+\section{Functions $K\to \C$ or $\R$}
+\begin{df}\llabel{df:f3-1}
+%Throughout this chapter we
+\nomenclature{$C^{\R}(K)$}{real continuous functions on $K$}
+\nomenclature{$C^{+}(K)$}{positive continuous functions on $K$}
+\nomenclature{$M(K)$}{$C(K)^*$}
+\nomenclature{$M^{\R}(K)$}{real linear functionals on $C(K)$}
+\nomenclature{$M^+(K)$}{positive linear functionals on $C(K)$}.
+Let $C(K),C^{\R}(K)$ be the complex, real Banach space of all continuous functions $f:K\to \C, K\to \R$ with the sup norm, respectively. Write $\ve{f}=\sup_{x\in K}(f(x))$ and let 
+\[
+C^+(K)=\set{f:K\to \R}{f\text{ continuous}, f(x)\ge 0\quad\forall x\in K}.
+\]
+Let $M(K)=C(K)^*$, \[M^{\R}(K)=\set{\ph\in M(K)}{\ph(f)\in \R\quad\forall f\in C^{\R}(K)}\sub M(K).\] It is a real subspace of $M(K)$. (Note its definition is not $C^{\R}(K)^*$, but we will see it is isomorphic below.) \index{positive linear functionals} Let
+\[
+M^+(K)=\set{\ph:C(K)\to \C}{\ph \text{ linear},\ph(f)\ge 0\quad\forall f\in C^+(K)}.
+\]
+I.e., functions take nonnegative real numbers on nonnegative functions. The elements of $M^+(K)$ are called \textbf{positive linear functionals}.
+\end{df}
+The relationship between these spaces is given by the following lemma.
+\begin{lem}\llabel{lem:f3-1}
+\begin{enumerate}
+\item
+For all $\ph\in M(K)$ there exists a unique $\ph_1,\ph_2\in M^{\R}(K)$ such that $\ph=\ph_1+i\ph_2$.
+\item
+For $\ph\in M^{\R}(K)$, $\ve{\ph}=\sup\set{|\ph(f)|}{f\in C^{\R}(K),\ve{f}\le 1}$. So $\ph\mapsto \ph|_{C^{\R}(K)}$ is an isometric real-linear isomorphism $M^{\R}(K)\to C^{\R}(K)^*$.
+\item $M^+(K)\subeq M^{\R}(K)$ and moreover 
+\[M^+(K)=\set{\ph \in M(K)}{\ve{\ph}=\ph(1)}.\]
+\item
+For all $\ph\in M^{\R}(K)$ there exist unique $\ph^+,\ph^-\in M^+(K)$ such that 
+\[
+\ph=\ph^+-\ph^-,\qquad \ve{\ph}=\ve{\ph^+}+\ve{\ph^-}.
+\]
+\end{enumerate}
+\end{lem}
+\begin{proof}
+\begin{enumerate}
+\item
+For $\ph\in M(K)$, define $\ph^*(f)=\ol{\ph{(\ol{f})}}$ for any $f\in C(K)$. Then $\ph^*\in M(K)$, $\ve{\ph^*}=\ve{\ph}$. We have $\ph^*=\ph$ iff $\ph\in M^{\R}(K)$. The map $\ph\mapsto \ph^*$ is conjugate linear. 
+
+For uniqueness, if $\ph=\ph_1+i\ph_2$ for $\ph_1,\ph_2\in M^{\R}(K)$, then $\ph^*=\ph_1-i\ph_2$. Then 
+\beq{eq:f3-1}\ph_1=\rc 2(\ph+\ph^*),\qquad\ph_2=\rc{2i}(\ph-\ph^*)\eeq
+
+For existence, define $\ph_1,\ph_2$ using~\eqref{eq:f3-1} and check it works.
+\item Let $\ph\in M^{\R}(K)$. Clearly, $\ve{\ph}\ge \sup \set{|\ph(f)|}{f\in C^{\R}(K),\ve{f}\le 1}=:\ve{\ph}_r$. Given $f\in C(K)$ with $\ve{f}\le 1$, choose $\te\in \R$ such that $|\ph(f)|=e^{i\te}\ph(f)$. Let $f_1=\Re(e^{i\te}f)$, $f_2=\Im(e^{i\te}f)$. Then
+\[
+|\ph(f)|=\ph(f_1)+i\ph(f_2)\in \R
+\]
+and $\ph(f_1),\ph(f_2)\in \R$. So $\ph(f_2)=0$, and $|\ph(f)|=\ph(f_1)\le \ve{\ph}_r\ve{f_1}\le \ve{\ph}_r$. Taking sup over all such $f$ gives $\ve{\ph}\le \ve{\ph}_r$. 
+
+Finally, given $\psi\in C^{\R}(K)^*$, define $\ph(f)=\psi(\Re f)+i\psi(\Im f)$, $f\in C(K)$. Then $\ph\in M^{\R}(K)$ and $\ph|_{C^{\R}(K)}=\psi$.
+\item 
+Given $\ph\in M^+(K)$, for $f\in C^{\R}(K)$ we can write $f=f_1-f_2$, $f_1,f_2\in C^+(K)$, for instance, $f_1=f\vee 0$ and $f_2=(-f)\vee 0$, and $\ph(f)=\ph(f_1)-\ph(f_2)\in\R$.
+%2nd for show norm taken over real only.
+
+Given $f\in C^{\R}(K)$ with $\ve f\le 1$ (so $-1\le f\le 1$), we have $1\pm f\ge 0$, so $\ph(1\pm f)\ge 0$. It follows that $|\ph(f)|\le \ph(1)$. So $\ve{\ph}=\ph(1)$. Suppose $\ph\in M(K)$, $\ve{\ph}=\ph(1)$. WLOG $\ph(1)=1$. Given $f\in C^+(K)$, $0\le f\le 1$, let $\ph(f)=\al+i\be$ with $\al,\be\in \R$. Consider for $t\in \R$, (using the fact $f$ is real valued) \[\ve{f+i\be t}^2=\ve f+\be^2t^2\le 1+\be^2t^2\] and
+\[
+|\ph(f+i\be t)|=\al^2+\be^2(1+t)^2.
+\]
+We have $2\be t\le 1-\al^2-\be^2$ for all $t\in \R$, so $\be=0$. We have
+\[
+\ph(1-f)=1-\ph(f)\le \ve{1-f}\le 1,
+\]
+so $\ph(f)\ge 0$. 
+\item
+For existence, define for $f\in C^+(K)$, $\ph^+(f)=\sup\set{\ph(g)}{0\le g\le f,g\in C^+(K)}$. Note $\ph^+(f)\ge 0\vee \ph(f)$. Let $f_1,f_2\in C^+(K)$. Then whenever $0\le g_i\le f_i$, $i=1,2$, we have $0\le g_1+g_2\le f_1+f_2$, so $\ph^+(f_1+f_2)\ge \ph(g_1+g_2)=\ph(g_1)+\ph(g_2)$. Taking sup over all such $g_1,g_2$, 
+\[
+\ph^+(f_1+f_2)\ge \ph^+(f_1)+\ph^+(f_2).  
+\]
+Conversely, given $0\le g\le f_1+f_2$, we have $0\le g\wedge f_1\le f_1$ and $0\le g-g\wedge f_1\le f_2$. So $\ph^+(f_1)+\ph^+(f_2)\ge \ph(g\wedge f_1)+\ph(g-g\wedge f_1)=\ph(g)$. Taking the sup over $g$,
+\[
+\ph^+(f_1)+\ph^+(f_2)\ge \ph^+(f_1+f_2).
+\]
+So $\ph^+$ is additive on $C^+(K)$. Also $\ph^+(tf)=t\ph^+(f)$ for all $f\in C^+(K)$ and $t\ge 0$. 
+
+We now define $\ph^+(f)=\ph^+(f_1)-\ph^+(f_2)$ where $f\in C^{\R}(K)$, $f=f_1-f_2$, $f_1,f_2\in C^+(K)$. This is well-defined, extends $\ph^+$, and it's real linear. Finally, for $f\in C(K)$, define $\ph^+(f)=\ph^+(\Re f)+i\ph^+(\Im f)$. This extends the definition of $\ph^+$ and $\ph^+\in M^+(K)$. Set $\ph^-=\ph^+-\ph\in M^+(K)$ ($\ph^+(f)\ge \ph(f)$ for all $f\in C^+(K)$) and $\ph=\ph^+-\ph^-$. Of course, $\ve{\ph}\le \ve{\ph^+}+\ve{\ph^-}$. By (3), $\ve{\ph^+}=\ph^+(1)$. Since $\ep>0$, $\exists g\in C^+(K),0\le g\le 1$ such that $\ph^+(1)\le \ph(g)+\ep$. We have 
+\bal
+\ve{\ph^+}+\ve{\ph^-}&=\ph^+(1)+\ph^-(1)\le 2\ph(g) +2\ep-\ph(1)\\
+&=\ph(2g-1)+2\ep \le \ve{\ph}+2\ep
+\end{align*}
+since $-1\le 2g-1\le 1$. Here $\ep>0$ was arbitrary, so we're done.
+
+For uniqueness, assume $\ph=\psi^+-\psi^-$, and $\ve{\ph}=\ve{\psi^+}+\ve{\psi^-}$ for some $\psi^+,\psi^-\in M^+(K)$. If $f,g\in C^+(K)$, $0\le g\le f$, then $\ph(g)\le \psi^+(g)\le \psi^+(f)$. It follows that $\ph^+(f)\le \psi^+(f)$, and hence $\ph^-(f)\le \psi^-(f)$, and so $\psi^+-\ph^+, \psi^--\ph^-\in M^+(K)$.
+(Thus $\ph^+$ is the smallest possible thing you can try when you have such a decomposition; this motivates our definition of $\ph^+$.)
+%Motivation of how to define $\phi^+$.
+%linear on $C^+(K)$ in the sense
+%take to be max of ...
+
+We have \[\ve{\ph}=\ve{\psi^+}+\ve{\psi^-}=\psi^+(1)+\psi^-(1)
+\ge\ph^+(1)+\ph^-(1)=\ve{\ph^+}+\ve{\ph^-}=\ve{\ph}.\]
+So $\psi^+(1)=\ph^+(1)$ and $\psi^-(1)=\ph^-(1)$. So $\ve{\psi^+-\ph^+}=(\psi^+-\ph^+)(1)=0$, and then $\psi^+=\ph^+$ and $\psi^-=\ph^-$.
+\end{enumerate}
+\end{proof}
+We will see that positive linear functionals are given by a measure.
+
+First we need some topological and measure theoretic preliminaries.
+\begin{enumerate}
+\item
+A compact Hausdorff space $K$ is normal: if $E$ and $F$ are disjoint closed subsets of $K$, then there exist disjoint open sets $U,V$ such that $E\subeq U,F\subeq V$. Equivalently, if $E\subeq U$, $E$ is closed and $U$ is open then there exists open $V$ such that $E\subeq V\subeq \ol V\subeq U$. 
+\item \index{Urysohn's Lemma}
+Urysohn's Lemma: if $E,F$ are disjoint closed subsets of a normal space $K$, then there exists continuous $f:K\to [0,1]$ such that $f=0$ on $E$ and $f=1$ on $F$.
+\item \nomenclature{$\prec$}{$E\prec f\prec U$ means $f=1$ on $E$ and 0 outside of $U$}
+Notation: $E\prec f$ will mean that $E$ is a closed subset of $K$, $f:K\to [0,1]$ continuous, and $f\equiv 1$ on $E$. 
+
+$f\prec U$ means that $U$ is an open subset of $K$, $f:K\to [0,1]$ is continuous, and $\Supp(f)=\ol{\set{x\in K}{f(x)\ne 0}}\subeq U$.
+
+Thus, think of $E\prec f\prec U$ as saying, ``$f$ moves from being 1 on $E$, decreasing in the middle $U\bs E$, until it's 0 outside of $U$."
+\end{enumerate}
+Note Urysohn gives that if $E\subeq U$, $E$ closed, and $U$ is open then there exists $f,E\prec f\prec U$.
+\index{partition of unity}
+\index{shrinkage lemma}
+\begin{lem}[Partitions of unity]\llabel{lem:f3-2}
+Let $E$ be a closed set in $K$ and assume $E\subeq \bigcup_{i=1}^nU_i$, $U_i$ is open for all $i$.
+\begin{enumerate}
+\item (Shrinkage lemma)
+There exist open sets $V_i$ such that $E\subeq \bigcup_{i=1}^n V_i$, and $\ol{V_i}\subeq U_i$ for all $i$.
+\item (Existence of partition of unity)
+There exists $f_i$ such that $f_i\prec U_i$ for all $i$, $\sum_{i=1}^n f_i=1$ on $E$, and $0\le \sum f_i\le 1$ on $K$. 
+%squeeze an open set between them
+\end{enumerate}
+\end{lem}
+\begin{proof}
+\begin{enumerate}
+\item
+Induct on $n$. For $n=1$, see remark 1 above. ($E\subeq V_1\subeq \ol{V_1}\subeq U_i$.)
+
+For $n>1$, $E\bs U_n\subeq \bigcup_{i=1}^{n-1}U_i$, so there exist open sets $V_i$, $1\le i\le n-1$ such that $E\bs U_n\subeq \bigcup_{i=1}^{n-1} V_i$, $\ol{V_i}\subeq U_i$ for $1\le i\le n-1$.
+
+$E\bs \bigcup_{i=1}^{n-1} V_i\subeq U_n$ so there exists an open $V_n$ such that $E\bs\bigcup_{i=1}^{n-1} V_i\subeq V_n\subeq \ol{V_n}\subeq U_n$.
+\item
+Use (1) to get open $V_i,1\le i\le n$, $E\subeq \bigcup_{i=1}^n V_i$, $\ol{V_i}\subeq U_i$ for all $i$. Let $U_0=K\bs \bigcup_{i=1}^n \ol{V_i}$. This is an open subset of $K$. Note $K=\bigcup_{i=0}^n U_i$. 
+
+%There exists $g_i,0\le i\le n$ such that $E\bs \bigcup_{i=1}^n V_i\prec g_0\prec U_0$, $\ol{V_i}\prec g_i\prec U_i$, $1\le i\le n$. (See remark 2.)
+
+%Note $g_0=0$ on $E$. Let $g=\sum_{i=0}^n g_i$. Then $g>0$ on $K$. Set $f_i=\fc{g_i}{g}$ for $1\le i\le n$. We have $0\le \sum_{i=1}^n f_i\le 1$ on $K$, $\sum_{i=1}^n f_i=1$ on $E$.
+%%positive on all V_i, hence on unit, so contain
+%%pos so can diide by G
+
+
+
+Urysohn gives there exists $g_0$ such that  $K\bs \bigcup_{i=1}^n V_i\prec g_0\prec K\bs E$, and $\ol{V_i}\prec g_i\prec U_i$, $1\le i\le n$. 
+Then $g=\sum_{i=0}^n g_i>0$ on $K$ and $g_0\equiv 0$ on $E$. Setting $f_i=\fc{g_i}{g}$, $1\le i\le n$, we get $\sui f_i\equiv 1$ on $E$, $0\le \sui f_i\le 1$ on $K$, as needed.
+%g_0 doesn't vanish
+\end{enumerate}
+\end{proof}
+\section{Review of measure theory}
+\index{measure theory}
+We give some measure theoretic preliminaries. 
+\begin{df}
+A \textbf{measure space} is a triple $(X,\cal F, \mu)$ where
+\begin{enumerate}
+\item
+$X$ is a set
+\item
+$\cal F$ is a \textbf{$\si$-field (or $\si$-algebra)} on $X$, i.e., $\cal F\subeq \cal PX$, $\phi\in \cal F$, and where $A\in \cal F\implies X\bs A\in \cal F$, and $A_n\in \cal F$ for $n\in \N$ implies $\bigcup_{n=1}^{\iy}A_n\in \cal F$.
+\item
+$\mu$ is a measure on $(X,\cal F)$: $\mu:\cal F\to [0,\iy]$ with $\mu(\phi)=0$ and $\mu\pa{\bigcup_{n=1}^{\iy} A_n}=\suo \mu(A_n)$ for $A_n\in \cal F$, $n\in\N$, pairwise disjiont.
+\end{enumerate}
+\end{df}
+\begin{ex}
+If $X$ is a topological space, the \textbf{Borel $\si$-field} $\cal B$ on $X$ is the $\si$-field generated by the family $\cal G$ of open subsets of $X$ (i.e., $\cal B$ is the smallest $\si$-field in $X$ that contains $\cal G$). Elements of $\cal B$ are \textbf{Borel sets}.
+
+A \textbf{Borel measure on $X$} is a measure $\mu$ on $(X,\cal B)$. $\mu$ is regular if $\mu(E)<\iy$ for every compact set $E\subeq X$ ($X$ is Hausdorff), and
+\begin{align*}
+\mu(A)&=\inf \set{\mu(U)}{U\in \cal G,U\supeq A},A\in \cal B\\
+\mu(U)&=\sup \set{\mu(E)}{E\subeq U,E\text{ is compact}},U\in \cal G.
+\end{align*}
+\cary{The nice thing about a regular Borel measure is that knowing the measure on compact sets, or the measure on open sets, determines it completely.} 
+If $X$ is compact Hausdorff, then $\mu$ is regular iff \[\mu(A)=\inf\set{\mu(U)}{U\text{ open }U\supeq A}=\sup\set{\mu(E)}{E\text{ closed, }E\subeq A}, A\in \cal B.\]
+
+For example, on $\R$, $\la$ is the Lebesgue measure, $\la([a,b])=b-a$.
+%There is no nice description of Borel sets
+\end{ex}
+The following will be helpful in constructing measures.
+\begin{df}
+$X$ is now any set. An \textbf{outer measure} on $X$ is  function $\mu^*:\cal PX\to [0,\iy]$ such that
+\begin{align*}
+\mu^*(\phi)&=0\\
+\mu^*(A)&\le \mu^*(B)\text{ if }A\subeq B\\
+\mu^*\pa{\bigcup_{i=1}^{\iy} A_i}&\le \sum_{i=1}^{\iy} \mu^*(A_i).
+\end{align*}
+(The last condition is called \textbf{countable subadditivity}.)
+
+Call $A\subeq X$ \textbf{$\mu^*$-measurable} if \[\mu^*(B)-\mu^*(B\cap A)=\mu^*(B\bs A)\text{ for all }B\subeq X.\] 
+\end{df}
+Here, $\le$ is clear from subadditivity; one only needs to check $\ge$. 
+
+We have the following.
+\begin{pr}
+Let $\mu^*$ be an outer measure. $\cal M=\set{A\subeq X}{A\,\mu^*\text{-measurable}}$ is a $\si$-field on $X$ and $\mu=\mu^*|_{\cal M}$ is a measure on $\cal M$.\end{pr}
+
+{\color{blue}Lecture 8}
+We now review integration. Suppose we have a measure space $(X,\cal F, \mu)$. Say that $f:X\to \R$ (or $\C$) is \textbf{measurable} if $f^{-1}(B)\in \cal F$ for every Borel set $B$. This is the analogue in measure theory of what continuous functions are in topology. 
+\begin{ex}
+\begin{enumerate}
+\item
+Simple functions, i.e., functions of the form $\sum_{i=1}^n a_i1_{A_i}$ where $a_i$ are scalars, the $A_i\in \cal F$. Here $1_A(x)=\begin{cases}0,&x\nin A\\1,&x\in A\end{cases}$.
+\item
+If $X$ is a topological space and $\cal F$ is the Borel $\si$-field on $X$, then every continuous function $X\to \R$ (or $\C$) is measurable. 
+\end{enumerate}
+\end{ex}
+If $f\ge0$ is a simple function, i.e., $f=\sum_{i=1}^n a_i1_{A_i}$ where $a_i\in [0,\iy)$ for all $i$ and $A_i\in \cal F$ for all $i$, then define
+\[
+\int_X f\,d\mu=\sui a_i\mu(A_i).
+\]
+(The convention is that $0\cdot \iy=0=\iy\cdot 0$. If $f\ge 0$ is measurable, then $\int_Xf\,d\mu=\sup\set{\int_X g\,d\mu}{0\le g\le f,g\text{ simple}}$.)
+
+If $f:X\to \R$ is measurable, we say $f$ is integrable if $\int_X|f|\,d\mu<\iy$. Set
+\[
+\int_X f\,d\mu = \int_Xf_+\,d\mu-\int_X f_-\,d\mu.
+\]
+(Here $f_+=f\vee 0$ and $f_-=(-f)\vee 0$.) If $f:X\to \C$ is measurable, set $\int_X f\,d\mu=\int_X\Re f\,d\mu +i\int_X \Im f\,d\mu$.
+
+\begin{pr}
+\begin{enumerate}
+\item
+(Linearity) If $f\ge 0$, $g\ge 0$ is measurable, $\al,\be\ge 0$ scalars, then $\int_X(\al f+\be g)\,d\mu=\al\int_X f\,d\mu+\be\int_Xg\,d\mu$. If $f:X\to \C,g:X\to \C$ are integrable, $\al,\be\in \C$, then $\int_X (\al f+\be g)\,d\mu=\al\int_X f\,d\mu+\be \int_X g\,d\mu$. 
+\item
+If $f:X\to \C$ is integrable, then $\ab{\int_X f\,d\mu}\le \int_X|f|\,d\mu$.
+\item
+(\fixme{Monotone} {\color{blue}convergence}) If $0\le f_n$ are measurable, $n\in \N$, and $f_n\fixme{\nearrow} {\color{blue}f}$, then $\int_X f_n\,d\mu\fixme{\nearrow} {\color{blue}\int_X f\,d\mu}$.
+\item
+(\fixme{Dominated} {\color{blue}convergence}) If $f_n,n\in \N$ are measurable, $g$ is integrable, \fixme{$|f_n|\le g$} for all $n$ and if ${\color{blue}f_n\to f}$ pointwise, then $f$ is integrable and ${\color{blue}\int_X f_n\,d\mu\to \int_X f\,d\mu}$.
+\end{enumerate}
+\end{pr}
+\nomenclature{$|\mu|$}{total variation measure}
+\nomenclature{$\ve{\mu}_1$}{total variation}
+\begin{df}\llabel{df:c-meas}
+Let $X$ be any set and $\cal F$ be a $\si$-field on $X$. A \textbf{complex measure} on $\cal F$ is a function $\mu:g\to \C$ such that $\mu(\phi)=0$, $\mu\pa{\bigcup_{i=1}^{\iy}A_i}=\sum_{i=1}^{\iy} \mu(A_i)$ whenever $A_i\in \cal F$ for all $i$, $A_i\cap A_j=\phi$ for all $i\ne j$. The total variation measure $|\mu|$ of $\mu$ is defined as follows. 
+\[
+|\mu|(A)=\sup\set{\sui |\mu(A_i)|}{n\in \N,%A_1,\ldots, A_n\text{ is a partition of }A
+A=\bigsqcup_{i=1}^n A_i,A_i\in \cal F\forall i}\text{ for }A\in \cal F.
+\]
+Then $|\mu|$ is a measure on $\cal F$. The \textbf{total variation} $\ve{\mu}_1$ of $\mu$ is $\ve{\mu}_1=|\mu|(X)$. 
+\end{df}
+\begin{thm}
+The total variation of a complex measure $|\mu|$ is a positive finite measure: for every set $X$, $|\mu|(X)<\iy$. 
+\end{thm}
+\begin{proof}
+Rudin~\cite[Theorem 6.2, 6.4]{RCA}.\footnote{Summary:
+\begin{enumerate}
+\item
+$|\mu|$ is a measure by a ``refining partitions" argument.
+\item
+That $|\mu|$ is finite rests on the lemma that for $S$ finite,
+\[
+\max_{A\subeq S} \sum_{z\in A}|z|\ge \rc{\pi}\sum_{z\in S}|z|.
+\]
+Prove by taking those $z$ that are within $90^{\circ}$ of some $\te$; average over $\te$ to find there's one $\te$ for which the sum is large.
+
+Now if $|\mu|(E)=\iy$, then there's some subset where $|\mu|(A)$ is much larger than $\mu(E)$, and use the lemma to show we can write $E=A\sqcup B$ with $|\mu(A)|>1$ and $\mu(B)=\iy$; iterate; we get divergence.
+\end{enumerate}}
+\end{proof}
+
+A \textbf{signed measure} on $\cal F$ is a complex measure $\mu:\cal F\to \R$.
+\begin{thm}[Hahn-Jordan decomposition of $\mu$]\llabel{thm:hahn-jordan} There exists a unique measure $\mu^+,\mu^-$ such that $\mu=\mu^+-\mu^-$ and $|\mu|=\mu^++\mu^-$.
+\end{thm} 
+\begin{proof}[Proof sketch.]
+Show $\sup\set{\mu(A)}{A\in \cal F}<\iy$ is attained by some $P\in \cal F$.\footnote{Let $s$ be the sup. Take $A_1\subeq A_2\subeq \cdots$ with $\mu(A_i)>(1-\rc{2^i})s$. Now consider $\bigcap_{i\ge n}A_i$. Use the formula $\mu(A)+\mu(B)-\mu(A\cap B)=\mu(A\cup B)\le s$ to show their measures converge.} Let $\mu^+(A)=\mu(A\cap P),\mu^-(A)=\mu(A\cap N)$, $N=X\bs P$.
+\end{proof}
+Let $\mu:\cal F\to \C$ be a complex measure. A measurable function $f:X\to \C$ is integrable if $\int_X|f|\,d|\mu|<\iy$. Then define
+\[
+\int_X f\,d\mu = \int_X f\,d\mu_1^+-\int_Xf\,d\mu_1^-+i\int_Xf\,d\mu_1^+-i\int_X f\,d\mu_2^-
+\]
+where $\mu_1=\Re \mu$, $\mu_2=\Im \mu$, and $\mu_1=\mu_1^+-\mu_1^-,\mu_2=\mu_2^+-\mu_2^-$ are the Hahn-Jordan decompositions of $\mu_1,\mu_2$, respectively. The previous properties (linearity, dominated convergence, etc.) hold in this more general setting. In the special case when $X$ is a topological space, $\cal F$ is the Borel $\si$-field on $X$, then if $\mu:\cal F\to \C$ is a complex measure (called a complex Borel measure on $X$), then any bounded continuous function $f:X\to \C$ is integrable, $\ab{\int_X f\,d\mu}\le \int_X|f|\,d\mu$.
+
+It follows that $C_b(X)=\set{f:X\to \C}{f\text{ bounded, continuous}}\to \C$, $f\mapsto \int_X f\,d\mu$ is a bounded linear functional with norm is at most $\ve{\mu}_1:=|\mu|(X)$.  (We are using the norm $\ve{\cdot}_{\iy}$ on $C_b(X)$.) 
+The complex measure $\mu$ is \textbf{regular} if $|\mu|$ is regular.
+%example of nonregular measure?
+
+\section{Riesz Representation}
+\index{Riesz representation}
+\begin{thm}[Riesz Representation Theorem]
+Let $K$ be a compact Hausdorff space, and let $\ph\in M^+(K)$. Then there exists a unique regular, finite %($\mu(K)<\iy$) 
+Borel measure $\mu$ on $K$ such that 
+\[
+\ph(f)=\int_K f\,d\mu \text{ for all } f\in C(K).
+\]
+\end{thm}
+(In Lemma~\ref{lem:f3-1} we showed it's sufficient to describe $M^+(K)$, and we'll understand all functionals.)
+
+\cary{The idea is we'd like to define $\mu(E)=\ph(1_E)$. We can't do this because $\ph$ is only defined on continuous functions. We'll use Urysohn to approximate $1_E$ with continuous fnctions.} 
+\begin{proof}
+\ul{Uniqueness:}
+Suppose $\mu_1,\mu_2$ both represent $\ph$ in the sense of the theorem. To show $\mu_1=\mu_2$, it's enough to show that they agree on closed sets, by regularity. Let $E$ be a closed set. Then by Urysohn's Lemma, for any open $U\supeq E$, there exists $f$, $E\prec f\prec U$, and
+\[
+\mu_1(E)\le \int_K f\,d\mu_1=\int_Kf\,d\mu_2\le \mu_2(U).
+\]
+$\mu_2$ is regular, so taking $\inf$ over all open $U\supeq E$, $\mu_1(E)\le \mu_2(E)$. Reversing the roles of $\mu_1,\mu_2$ gives $\mu_1(E)=\mu_2(E)$.\\
+
+\noindent \ul{Existence:} We define $\mu^*:\cal PK\to [0,\iy)$ as follows.
+%set of mu-star measurable sets is a $\si$-field, show that the $\si$-field is large enough to contain all Borel sets.
+For $U\in \cal G$ (the family of all open subsets of $K$), define
+\[
+\mu^*(U)=\sup\set{\ph(f)}{f\prec U}.
+\]
+%less than or equal to that of char func of U.
+%Like saying things in M^{\R}(K) can be written as difference of two things in $M^+(K)$.
+For arbitrary $A\subeq K$, define \[\mu^*(A)=\inf\set{\mu^*(U)}{U\supeq A,U\in \cal G}.\]
+Note $\mu^*(\phi)=0$, $\mu^*(K)=\ph(1)=\ve{\ph}$, the two definitions of $\mu^*$ agree on $\cal G$, and $\mu^*(A)\le \mu^*(B)$ whenever $A\subeq B\subeq K$. We need to check:
+\begin{enumerate}
+\item
+{\it $\mu^*$ is countably subadditive on $\cal G$.} Let $U_n\in \cal G$, $n\in \N$, $U=\bigcup_{n=1}^{\iy} U_n$. To get subadditivity we need to get a function $f$ on $U$ and ``break it up."
+
+Given $f\prec U$, by compactness there exists $n\in \N$, $\Supp f\subeq \bigcup_{i=1}^n U_i$. By Lemma~\ref{lem:f3-2}(2), there exists $h_i\prec U_i$ such that $\sui h_i=1$ on $\Supp f$, and $\sui h_i\in [0,1]$ on $K$. Then $f=\sui fh_i$ and $fh_i\prec U_i$ for all $i$. So
+\[
+\ph(f)=\sui \ph(fh_1)\le \sui \mu^*(U_i) \le \sui \mu^+(U_i).
+\]
+Take the sup over all $f\prec U$, to get $\mu^*(U)\le \suo \mu^*(U_n)$.
+\item
+{\it $\mu^*$ is countably subadditive on $\cal PK$.} Given $A_i\subeq K$, $i\in \N$, given $\ep>0$, choose open $U_i\supeq A_i$ such that $\mu^*(U_i)<  \mu^*(A_i)+\fc{\ep}{2^i}$. Then
+\[
+\mu^*\pa{\bigcup_{i=1}^{\iy} A_i}\le \mu^*\pa{\bigcup_{i=1}^{\iy}U_i} \le \suo \mu^*(U_i)<\suo \mu^*(A_i)+\ep.
+\]
+Now 
+\[
+\cal M=\set{A\subeq K}{A\text{ is }\mu^*\text{-measurable}}
+\]
+is a $\si$-field on $K$, and $\mu^*|_{\cal M}$ is a measure on $\cal M$.
+\item
+{\it $\cal M$ is large enough to contain all Borel sets.} Since the Borel sets are generated by the open sets, it suffices to show $\cal G\subeq \cal M$. Let $U\in \cal G$. We need to show
+\[
+\mu^*(A)\ge \mu^*(A\cap U)+\mu^*(A\bs U) \quad \forall A\subeq K.
+\]
+To show subadditivity we had to take $f$ on $U$ and ``break it up"; to show superadditivity here we have to do the reverse: take functions on the subsets and add them up.
+\begin{enumerate}
+\item
+First consider $A=V\in \cal G$. Given $\ep>0$, choose $f\prec V\cap U$ such that $\mu^*(V\cap U)<\ph(f)+\ep$. Let $g\prec V\bs \Supp(f)$. Then $f+g\prec V$. So
+\[
+\mu^*(V)\ge \ph(f+g)=\ph(f)+\ph(g)>\mu^*(V\cap U)-\ep+\ph(g).
+\]
+The sup over $g$ is 
+\[
+\mu^*(V)\ge \mu^*(V\cap U)-\ep+\mu^*(V\bs \Supp(f))
+\ge \mu^*(V\cap U)+\mu^*(V\bs U)-\ep
+\]
+since $V\bs \Supp(f)\supeq V\bs U$.
+\blu{Lecture 9}
+\item
+For arbitrary $A\subeq K$, we take an open set $V\supeq A$, then
+\[
+\mu^*(V) \ge \mu^*(V\cap U)+\mu^*(V\bs U) \ge \mu^*(A\cap U)+\mu^*(A\bs U)
+\]
+since $V\cap U\supeq A\cap U$ and $V\bs U \supeq A\bs U$. Taking the inf over all such $V$ gives $\mu^*(A)\ge \mu^*(A\cap U)+\mu^* (A\bs U)$.  %It remains to prove that 
+\end{enumerate}
+We have $\cal M$, the $\mu^*$-measurable sets, contains $\cal G$ and hence $\cal B$, the Borel $\si$-field. Moreover, $\mu=\mu^*|_{\cal B}$ is a Borel measure on $K$. It's finite since $\mu(K)=\ph(1)$, and $\mu$ is regular.
+\item{\it $\ph(f)=\int_K f\,d\mu$ for all $f\in C(K)$. }
+
+It's sufficient to consider $f\in C^{\R}(K)$ and then it's enough to show that $\ph(f)\le \int_K f\,d\mu$. (Applying this to $-f$ gives the reverse inequality.) 
+\cary{To do this, we might think to approximate $f$ with a simple function $\sum y_i 1_{A_i}$, and get that the integral of $f$ is roughly a linear combination of measure of sets. The problem with this is that, as before, is that $\ph$ is not defined on indicator sets, so we break $f$ up using a partition of unity with respect to $U_i\supeq A_i$.}
+
+Choose $a<b$ in $\R$ such that $(a,b]\supeq f(K)$. Given $\ep>0$, choose $a=y_0<y_1<\cdots <y_n=b$ such that 
+\beq{eq:rr1}y_i-y_{i-1}<\ep\text{ for all }i=1,\ldots, n.\eeq
+
+Let $A_i=f^{-1}((y_{i-1},y_i])$, $i=1,\ldots, n$, $A_i\in \cal B$, $A_1,\ldots, A_n$ is a partition of $K$, $\sui \mu(A_i)=\mu(K)=\ph(1)$. On $A_i$, $f\ge y_{i-1}$. Next choose open sets $U_i\supeq A_i$ such that 
+\beq{eq:rr2}\mu(U_i\bs A_i)<\fc{\ep}{n}\eeq and 
+\beq{eq:rr3}f<y_i+\ep\text{ on }U_i.\eeq By Lemma~\ref{lem:f3-2}(2), there exist $h_i\prec U_i$ such that $\sui h_i\equiv 1$ on $K$. Note $\ph(\sum h_i)=\sum \ph(h_i)=\ph(1)=\mu(K)$, $fh_i\le (y_i+\ep)h_i$ for $i=1,\ldots, n$ by~\eqref{eq:rr3}.  Hence
+\[\ph(f)=\sui \ph(fh_i)\le \sui (y_i+\ep)\ph(h_i)\text{ for }\ph\in M^+(K).\] As a technicality we need to consider when $y_i$ could be negative, so choose $|a|$ such that $|a|+y_i+\ep>0$ for each $i$. Then
+\bal
+\ph(f)&=\sui \ph(fh_i)\le \sui (y_i+\ep)\ph(h_i)\\%\ph\in M^+(K)\\
+&=\sui (|a|+y_i+\ep)\ph(h_i)-|a|\mu(K)\\
+&\le\sui (|a|+y_{i-1}+2\ep)\pa{\mu(A_i)+\fc{\ep}{n}} -|a|\mu(K)&(\mu(U_i)\ge \ph(h_i) \text{ by definition of }\mu)\\
+%cancelling
+&=\ub{\sui y_{i-1}\mu(A_i)}{\int_K\sui y_{i-1}1_{A_i}\,d\mu}+\ep(|a|+|b|+2\mu(K)+2\ep)\\
+%the y_i's are at most b, so y_{i-1}\ep/h gives |b|
+&\le \int_K f\,d\mu + \ep(|a|+|b|+2\mu(K)+2\ep). 
+\end{align*}
+Note $\ep$ was arbitrary, so we're done.
+\end{enumerate}
+\end{proof}
+
+\begin{cor}\llabel{cor:rr}
+Given $\ph\in M(K)=C(K)^*$, there exists a unique regular complex Borel measure $\mu$ on $K$ such that 
+\[
+\ph(f)=\int_K f\,d\mu
+\]
+for all $f\in C(K)$. Moreover, $\ve{\ph}=\ve{\mu}_1$. 
+\end{cor}
+\begin{proof}
+By lemma~\ref{lem:f3-1}(1) and (4), $\ph=\ph_1-\ph_2+i\ph_3-i\ph_4$ where $\ph_j\in M^+(K),j=1,2,3,4$. By Lemma~\ref{lem:f3-1} there exists finite regular measures $\mu_j$, $1\le j\le 4$, that represent $\ph_j$. Set $\mu=\mu_1-\mu_2+i\mu_3-i\mu_4$, and get $\ph(f)=\int_K f\,d\mu$ for all $f\in C(K)$. 
+%coregular if total variation measure is regular.
+Note that $|\mu|\le\mu_1+\mu_2+\mu_3+\mu_4$, so $|\mu|$ is $K$-regular.  
+
+Uniqueness will follow from the ``moreover" part, which we now show.
+%Difference represents 0, 0 is norm of $\mu-\mu'$, so $\mu=\mu'$.
+%cna be written as difference of 2 positive linear functionals.
+
+We have 
+\[
+|\ph(f)|=\ab{\int_K f\,d\mu} \le \int_K |f|\,d|\mu|\le \ve{f}|\mu|(K),
+\]
+so $\ve{\ph}\le \ve{\mu}_1$. For the reverse inequality, we need to show: for any Borel subsets $A_1,\ldots, A_n$ of $K$ that partition $K$,
+\[
+\sui |\mu(A_i)|\le \ve{\ph}.
+\]
+Given $\ep>0$, by regularity of $\mu$, there exist closed sets $E_i\subeq A_i$ such that $|\mu|(A_i\bs E_i)<\fc{\ep}{n}$. The $E_i$'s are pairwise disjoint because the $A_i$'s are. By regularity, there exist open sets $U_i$ such that $E_i\subeq U_i\subeq K\bs \bigcup_{j\ne i}{E_j}$.and $|\mu|(U_i\bs E_i)<\fc{\ep}{n}$. 
+
+By Lemma~\ref{lem:f3-2}(2), there exist $h_i\prec U_i$ such that $\sui h_i\equiv 1$ on $\bigcup_{i=1}^n E_i$ and $0\le \sui h_i \le 1$ on $K$. 
+
+%That condition says $h_i$ identically 1 on $E_i$
+
+This implies that $E_i\prec h_i\prec U_i$. 
+
+Choose $\la_j\in \C$, $|\la_j|\le 1$ such that $|\mu(E_j)|=\la_j\mu(E_j)$, $1\le j\le n$. Set $f=\sum_{j=1}^{n} \la_jh_j$. Note that by the triangle inequality, $\ve{f}\le 1$. 
+
+We have
+\[
+\ab{
+|\mu(E_j)|-\int_K\la_jh_j \,d\mu
+} = 
+\ab{
+\mu(E_j)-\int_K h_j\,d\mu
+}\le |\mu|(U_j\bs E_j)<\fc{\ep}{n}.
+\]
+So 
+\[
+\suj |\mu(A_j)|\le \suj |\mu(E_j)| +\ep
+\le \ub{\ab{
+\int_K \suj \la_j h_j\,d\mu
+}}{\ph(f)}+2\ep
+\le \ve{\ph}+2\ep.
+%real subspace of M(K) real linear isom
+\]
+\end{proof}
+%Now we put everything together to describe the dual space.
+%problem is that they develop just noughmachinery, so it's not flexible knowledge
+\begin{rem}
+If $\ph\in M^{\R}(K)\cong C^{\R}(K)^*$, the corresponding $\mu$ is a regular Borel signed measure. The space of regular, Borel complex measures on $K$ with $\ved_1$ is a complex Banach space isometrically isomorphic to $M(K)$. 
+Similarly the space of regular, Borel signed measures on $K$ with $\ved_1$ is a real Banach space isometrically isomorphic to $M^{\R}(K)$. 
+\end{rem}

@@ -1,0 +1,170 @@
+\chapter{Examples 1}
+
+\begin{enumerate}
+\item
+Let 
+\[
+f(x)=\begin{cases}
+e^{-\rc{x^2}}e^{-\rc{(1-x)^2}},&0<x<1\\
+0,&\text{else}.
+\end{cases}
+\]
+Let $g(x)=f\pf{|x|}{\ep}$.
+\item
+\begin{enumerate}
+\item
+Choose $h$ so that the neighborhood $N_{2h}(\Supp(\ph))\sub X$, possible since $K$ is compact and $X$ open. Then if $x\nin N_h(\Supp(\ph))$, we have $\ph(x+th)=0$ for all $0\le t\le 1$, so $R_N=0$.
+\item
+Choosing $h$ as above, on $B=\ol{N_h(\Supp(\ph))}$ we have $\sup_B|\pl^{\ga}\ph|=c_{\ga}$ for some $c_{\ga}$. 
+We have 
+\bal
+\lim_{|h|\to 0} \pf{\sup_x|\pl^{\al}R_N|}{|h|^N}
+&=
+\lim_{|h|\to 0} \sum_{|\be|=N+1}\fc{h^{\al}}{\al!|h|^N} (N+1)\int_0^1(1-t)^N (\pl^{\al+\be}\ph)(x+th)\,dt\\
+&=
+\lim_{|h|\to 0} \sum_{|\be|=N+1}\fc{h^{\al}}{\al!|h|^N} (N+1)\int_0^1(1-t)^N c_{\al+\be}\,dt\\
+&=
+\lim_{|h|\to 0} \sum_{|\be|=N+1}\fc{|h|}{\al!} (N+1) c_{\al+\be}\,dt\\
+&=0.
+\end{align*}
+\end{enumerate}
+\item 0. First consider the 1-dimensional case. A function can be represented by power series iff it is analytic. If it is analytic and has compact support, it is 0 on $X\bs \Supp(f)$, so by uniqueness of analytic continuation it is 0.
+
+Induct on the number of dimensions. Each $(n-1)$ dimensional slice is 0 by the induction hypothesis, so the function is 0.
+\item
+ Let $\chi=1$ on $N_{\ep}(K)$. Now take $\chi*\de_{\ep}$ for $\de_{\ep}$ supported on $[-\eph,\eph]$ with unit weight and maximum at 0.
+%
+
+(Remark:This is useful in differential geometry to construct metrics on manifolds. We use it to paste together charts with a partition of unity.)
+\item
+We have for some $C, N$,
+\[
+\an{\pl^{\al}T,\ph}=(-1)^{|\al|}\an{T,\pl^{\al}\ph}
+\le C\sum_{|\ga|\le N} \sup \pl^{\ga}\pl^{\al}\ph
+\le C\sum_{|\be|\le N+|\al|}\sup \pl^{\be}\ph.
+\]
+Thus $\ord(\pl^{\al}T)=m+|\al|$. (Need to check that it's $=$ not just $\le$, but it's not hard.)
+\item We first check $|\al|=1$. 
+\bal
+\an{\pl_x (Tf),\ph}&\stackrel?= \an{(\pl_x T)f,\ph}+\an{(\pl_xf)T,\ph}\\
+\Leftarrow -\an{Tf,\pl_x\ph}&=\an{T,\pl_x(f\ph)}-\an{T,(\pl_xf)\ph}
+\end{align*}
+by the normal product rule.
+Now induct in the flavor of the multinomial theorem.
+\item We have $u_{\al}=\pl^{\al}\sum_{k=1}^{\iy} (-1)^{|\al|} \de_{x_k}$. Only a finite number of $x_k$ are inside a given compact $K$, so on $K$ this reduces to a finite sum. The order is $|\al|$.
+\item
+\begin{enumerate}
+\item
+\ul{Solution 1:}
+Let $\te$ be so that $\int \te=1$. Let $\Phi\in D(\R)$ be so that $\Phi'=\ph-\te\an{1,\ph}=\ph-\te\int \ph$, i.e., $\Phi=\int_{-\iy}^x \ph-\te\an{1,\ph}\,dx$. Let $c=\an{u,\ph}$. Then
+\bal
+\an{u,\ph}&=\an{u,\ph-\te\an{1,\ph}}+\an{1,\ph}\an{u,\ph}\\
+&=-\an{u',\Phi}+\an{1,\ph}\an{u,\ph}\\
+&=-\int\Phi+\an{c,\ph}\\
+&=-\int_{-\iy}^{\iy} \int_0^x (\ph-\te\int \ph)\,dz\,dx+\an{c,\ph}\\
+&=-\int_{-\iy}^{\iy} -x(\ph-\te\int \ph)\,dx+\an{c,\ph}\\
+&=\int x\ph-\int x\te\int \ph+c\int \ph\\
+&=\int (x+c_2)\ph.
+\end{align*}
+So $u=x+c_2$ for some $c_2$.
+
+\ul{Solution 2:} The space of solutions is $x+\ker(')=\{x+c\}$ since $x$ is a particular solution.
+
+\item $\de_0$ is a solution:
+\[
+\an{x\de_0',\ph}=\an{\de_0',x\ph} =\an{\de_0,\ph+x\ph'}=\ph(0)=\an{\de_0,\ph}.
+\]
+Let $\check H=(x\le 0)$. Now $A=\ker(\check H\opl 1)$ is 2-codimensional, as we can find $\te_1,\te_2$ so that the image of $\te_1,\te_2$ under $\check H\opl1 $ is $(1,0),(0,1)$. If $\ph\in A$ then $\an{x,\ph}=\an{xu',\Phi=\fc{\int_{-\iy}^x \ph(y)\,dy}{x}}$ so $u$ agrees with $\de_0$ on $A$.
+
+There's no requirement on $\spn(\te_1,\te_2)$. Hence
+\[
+u=\de_0+c_1H+c_2.
+\]
+\item 
+Let's state something general (of which (b) is a special case). Suppose $L$ is a linear operator such that $\an{u,L\ph}=0$ and $D(\R)\xra L D(\R)\xra T V\to 0$ is exact. Then the general solution of $\an{u,L\ph}=c$ is $u_{\text{part}}+(0\opl f)$ where we think of $D(\R)=\im L\opl (\im L)^{\perp}$. %\fixme{Do I need the image to be closed?}
+
+Here $T=(({\fc{\int_{n}^{n+1} \ph}{e^{2\pi i x}-1}},)_{n\in \Z},\int\ph)$ so the general solution is 
+\[
+\sum_{n\in \Z}b_n\chi_{[n,n+1]}+c%\sum_{k\in \Z}c_k\de_k
+\]
+
+%\ul{Alternate solution:} Note $\Supp(u')\subeq \Z$ and if $\Supp(u)\cap \Z=\phi$, then $\an{u',\ph}=0$.
+\end{enumerate}
+\item
+Calculate
+\bal
+\an{\pl_x^2 u-\pl_y^2 u,\ph}
+&= \an{u,\pl_x^2 \ph}-\an{u,\pl_y^2\ph}\\
+&= \int_{x\ge y} \pl_x^2\ph-\int_{x\ge y} \pl_y^2\ph\\
+&=\int_{-\iy}^{\iy} -\pl_x \ph(y,y)\,dy-\int_{-\iy}^{\iy} -\pl_y \ph(x,x)\,dx\\
+&=-\int_{-\iy}^{\iy} \grad\cdot \ph(t,t)\,dt\\
+&=-\ddd t\int_{-\iy}^{\iy}\ph(t,t)\,dt=0.
+\end{align*}
+\item 
+Note $|x|^{2-n}$ is locally integrable (surface area scales as $|x|^{n-1}$, their product $|x|$ is integrable) and hence a distribution.
+\item
+This is a good kernel as $\int \rc{\pi}\fc{k}{(kx)^2+1}\,dx=1$ (so it's $L^1$ and has constant mass), and for any $c$, $\lim_{k\to \iy}\int_{|x|>c}\cdots\to 0$.
+ \begin{enumerate}
+\item
+Integration by parts gives
+\[
+\an{k^2 xe^{-k^2x^2},f}=
+\an{-\rc2 e^{-k^2x^2}, f}
+\to 0\text{ as }k\to 0.
+\]
+\item Integration by parts 3 times gives
+\[
+\an{k^3e^{ikx},f}=-\an{e^{-ikx},f'''}.
+\]
+Now $\lim_{k\to \iy} e^{-ikx}=0$ as a distribution. Indeed this is the Fourier analysis fact that $\lim_{\om\to 0}\wh f(\om)\to 0$ when $f$ is smooth (once differentiable is enough; this is proved by a single integration by parts).
+\item
+Write $f=f(0)\chi_{\ep}+g(x)$ where $\chi_{\ep}$ is a symmetric bump function around 0 with support in $[-\ep,\ep]$. (Take $\chi_{\ep}=\chi\pf{x}{\ep}$.) Now $\fc{g(x)}x$ is a $C^{\iy}_0$ function so $\an{\fc{\sin kx}{\pi x},g}\to 0$ (again since $\wh h\to 0$ for $h$ once differentiable, or by integration by parts). But
+\[
+\int_{-\ep}^{\ep} \fc{\sin kx}{\pi x}f(0)\,dx=\int_{-k\ep}^{k\ep} \fc{\sin y}{\pi y} f(0)\chi_{\ep}\pf yk\,dx.
+\]
+We can bound the error term from $(1-\chi_{\ep})$ (it's not going to contribute more than $\int_{r_1x}^{r_2x}\rc x\,dx=\ln r_2/r_1$), so we get $\int_{-\iy}^{\iy}\fc{\sin x}{\pi x}=1$, so the answer is $\de_0$.
+\end{enumerate}
+\item Expand $f$ into Fourier series as $\rc2+\sum_{m>0} a_m\cos(\pi mx)+b_m\sin (\pi mx) $ (it converges since $f$ is $C^{\iy}$). Then 
+\[
+\lim_{k\to \iy} \an{\rc2+\sum_{m=1}^k \cos(\pi mx),f}=\rc2 c+\sum_{m=1}^{\iy} a_m=f(0).
+\]
+So it's $\de_0$.
+(Note pointwise convergence is enough.)
+\item 
+\begin{enumerate}
+\item
+We have \bal
+\lim_{\ep\to 0}\int_{|x|>\ep} \fc{\ph(x)}{x}\,dx
+&=\ub{\int_{|x|>1}\fc{\ph(x)}{x}\,dx}{\le \mu(K)\sup|\ph|}+\int_{1>|x|>\ep} \ub{\fc{\ph(0)}{x}}0+\ub{\fc{\ph(x)-\ph(0)}{x}}{=\ph'(y) \text{ for some $y$}}\,dx
+\end{align*}
+using the mean value theorem. 
+\item
+\bal
+\ab{\int_{|x|>\ep'}\pa{\rc{x-i\ep}-\rc x}\ph(x)\,dx}
+&=\ab{\int_{|x|>\ep'} \fc{i\ep}{x(x-i\ep)}\ph(x)}\\
+&\le \ab{\int_{|x|>\ep'} \fc{i\ep}{x^2}\ph(x)}\\
+&\le \ep \int_{|x|>\ep'} \rc{x^2} \sup|\ph|\\
+&\le \fc{\ep}{\ep'}\sup|\ph|
+\to 0\text{ as }r:=\fc{\ep}{\ep'}\to 0.\\
+\int_{|x|\le \ep'}\rc{x-i\ep}&=\ln (x-i\ep)|^{\ep'}_{-\ep'} =\ln \fc{1-ir}{-1-ir} \to {{i\pi}}\\
+\int \rc{\sqrt{|x|^2+\ep^2}}&\le\sinh^{-1}\pf x{\ep}|^{\iy}_{-\iy}\le 2
+\end{align*}
+so for fixed $r$, $\rc{x-i\ep}$ is (almost---up to some error) a good kernel. Therefore
+\[
+\lim_{\ep \to 0}\prc{x-i\ep}=p.v.\prc x+\lim_{r\to 0} \ln \fc{\ep(1/r-i)}{\ep(1/r+i)} =p.v.\prc x+i\pi \de_0.
+\]
+\end{enumerate}
+\item We have 
+\[
+\int\ln|x|f\,dx=\int (x\ln|x|-x)f'
+\]
+with $x\ln|x|-x$ locally bounded, so $\ln |x|$ is a distribution. (Or: it is locally integrable, so it is a distribution.)
+Now
+\[
+\int \ln |x|f\,dx=\lim_{\ep\to 0}\int_{|x|>\ep}\ln |x|f\,dx
+\]
+and we can differentiate the latter to get $\int_{|x|>\ep}pv\prc x\,dx$.
+\item 
+\item
+\end{enumerate}
+%\fixme{Is $D(\R)$ dense in $\cal E(\R)$? It seems so... Are the seminorms on $\cal E(\R)$ the restriction of the seminorms on $D(\R)$?}

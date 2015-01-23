@@ -1,0 +1,673 @@
+\chapter{Problems 2}
+
+\section{Problems}
+\section{Solutions}
+
+I will write up motivations and ideas for the solutions before the solutions themselves. (If you just want to see the solution, jump to \ul{Solution}; everything before is just motivation.)
+
+Complete: 1, 2, 3, 4, 5, 6, 7, 10, 13, 14, 16, 17
+
+Incomplete: 8, 9, 11, 12, 15, 18, 19, 20, 21, 22.
+
+Need solutions to:
+
+\begin{enumerate}
+\item 
+By definition,
+\begin{itemize}
+\item
+$f_n$ is weakly null if for all $F\in C(K)^*$, $F(f_n)\to 0$.
+\item
+$f_n$ is pointwise null if for all $x\in K$, $f_n(x)\to 0$.
+\end{itemize}
+Idea: The first is a statement about $C(K)^*$. Recall that we described $C(K)^*$ in terms of measures by Riesz Representation. We use this to transfer (a) to a statement about measures, and then apply our knowledge of measure theory.
+
+\cpbox{Riesz representation characterizes $C(K)^*$ completely in terms of measures.}
+
+Proof:
+\begin{enumerate}
+\item
+If $(f_n)$ is weakly null, then it is pointwise null by applying the evaluation-at-a-point functionals $\de_k(f)=f(k),k\in K$.
+\item
+Suppose $(f_n)$ is pointwise null. 
+
+We want to show $F(f_n)\to 0$ for all $F\in C(K)^*$. By the Riesz Representation Theorem, functionals in $C(K)^*$ correspond to regular complex Borel measures $\mu$. Thus is suffices to show
+\beq{eq:fex2-1}
+\lim_{n\to \iy}\int f_n\,d\mu=0\text{ for all regular complex Borel }\mu.
+\eeq
+
+But $(f_n)$ is bounded (say $|f_n|\le C$), so $|f_n|$ is bounded by a $\mu$-integrable function (namely $C\in L_1(\mu)$) for any regular complex Borel measure $\mu$. 
+%$f_n\to 0$ pointwise, $\ve{f_n}_{\iy}\le R$ for all $n$. For any $\mu\in M(K)$, $R\cdot 1\in L_1(\mu)$.
+By Lebesgue's dominated convergence theorem, we obtain~\eqref{eq:fex2-1}.
+\end{enumerate}
+
+\item 
+\ul{Solution 1:} Idea: Use the definition of a weakly open/closed set and Urysohn's Lemma.
+\begin{lem*}[Urysohn's Lemma]
+A normal space $X$ is (completely) regular, i.e., for given a closed subset $A\subeq X$ and a point $x\nin A$ and $a,b\in \R$, there exists a continuous function such that $f(A)=\{a\}$ and $f(x)=b$. 
+\end{lem*}
+{\it What does it mean for $C$ to be weakly closed and $p\nin C$?} It means there is a (basic) open neighborhood around $p$ not intersecting $C$, i.e., there are $f_1,\ldots, f_k$ and open $U\subeq C$ such that letting $f=(f_1,\ldots, f_k):A\to \R^k$, $f(p)\in U$ but $f(C)$ doesn't intersect $U$. (Make sure you see this.) In other words, letting $Z=\R^k\bs U$, 
+\[
+f(C)\subeq Z, \text{ $Z$ closed},\qquad f(p)\nin Z.
+\]
+%By definition of weakly closed, there exist separating functionals $f_1,\ldots ,f_k$ such that letting $f=(f_1,\ldots, f_k):A\to \R^k$, 
+%$f(p)\nin f(C)$. Each $f_i$ is a closed map (as it is a quotient map of a topological group) so $f$ is a closed map. Hence $f(C)$ is closed. 
+{\it Now we can apply Urysohn's lemma, not on our original space $X$, but on $\R^k$} (which is in fact a metric space). We get a function $g$ on $\R^k$ separating $f(C)$ and $f(p)$. Now take $g\circ f$.
+
+\ul{Solution 2:} We define the function explicitly. As before, we have a basic open $U(x_1^*,\ldots, x_n^*,\ep,p)=\set{y\in X}{|x_i^*(y)-x_i^*(p)|\le \ep}$ disjoint from $C$. Let 
+\[f(x)=\min\pa{\ep,\max_i|x_i^*(x)-x_i^*(p)|}.\] 
+At $p$ this is 0, and on $C$ is $\ep$. Now compose with linear map to get it to equal 1 and 0 on $\{p\}$ and $C$, respectively.
+
+\item Why is this not obvious? $q:X\to X/Y$ is an open map with respect to the usual topology, and it would remain an open map still if we weaken the topology of $X/Y$, but {\it not necessarily if we weaken the topology of $X$!}
+
+Let's write it out. Let's first check $q$ of a sub-basic open set is open.
+\[
+q(\set{x}{f(x)\in U})=\set{q(x)}{f(x)\in U};
+\]
+we need to show the RHS can be replaced by $g(q(x))\in U$ for some $g\in (X/Y)^*$. Assume $U\ne \phi$. The difficulty is that $f$ may not be constant on $Y$.
+
+But we ask, {\it how could it act on $Y$}? There are {\it only} two cases, since $f$ is linear!
+\begin{enumerate}
+\item
+$f(Y)=0$. Then we are done; $f$ factors through $q$.
+\item
+$f(Y)\ne \{0\}$: $f$ is linear so the image of $f(Y)$ is a subspace of $\R$, i.e., $f(Y)=\R$. Then $\set{q(x)}{f(x)\in U}=X/Y$: indeed, given $\ol x\in X/Y$, choose any lift $x\in X$, then $f(x+Y)=\R$ so there exists $y\in Y$ with $f(x+y)\in U$.
+\end{enumerate}
+
+We're not done, because those were subbasic open sets, and in general $q(A\cap B)\ne q(A)\cap q(B)$. 
+
+{\it Those were subbasic opens; we need all basic opens!}
+
+\ul{Solution:} We follow the same idea; the proof is just slightly more complicated. Let $f=(f_1,\ldots, f_k)$, where $f:X\to \R^k$ and $U\subeq \R^k$ is open. We know $f(Y)$ is a subspace; by the same idea as (b) above (given $\ol x\in X/Y$, choose any lift $x\in X$, then $f(x+Y)=f(x)+f(Y)$), we have
+\[
+q(\set{x}{f(x)\in U})=\set{q(x)}{f(x)\in U}=\set{q(x)}{f(x)\in U}+Y.
+\]
+%Let $v_1,\ldots, v_i$ be basis vectors for 
+Consider the map $X\xra{f} \R^k\xra{p} \R^k/f(Y)$. Then because $Y=\ker q\subeq \ker (p\circ f)$, this map factors
+%$q$ factors injectively through
+\[
+X\xra{q} X/Y\xra{g} \R^k/f(Y).
+\]
+But $p:\R^k\to \R^k/f(Y)$ is open (because it is a quotient of topological groups, or you can check this directly), so $p(U)$ is open; the $q(U)=g^{-1}(p(U))$ is open.
+
+%Zsak's solution
+%WLOG $n$ is minimal such that $x_1^*,\ldots, x_n^*\in Y^*$ such that $\spn\{x_{m+1}^*,\ldots, x_n^*\}\cap Y^{\perp}=\{0\}$. $F=\spn(x_1^*,\ldots, x_n^*)$, basis $y_1^*,\ldots, y_m^*$ of $F\cap Y^{\perp}$. Extend to basis $y_1^*,\ldots, y_{n'}^*$ of $F$. Choose $\de>0$ small suchthat $|y_i^*(x)|<\de$ for all $i$, so $|x_i^*(x)|<\ep$ for all $i$. 
+%Assume $m<n$. By minimality of $n$, there exists $|x_i^*(x)|<\ep$... $Y\to \R^{m-n}$ is onto.
+%If not there exists $(a_i)_{m<i\le n}$. 
+
+%cf. Goldstine's theorem proof
+
+%$X\xra{q}X/Y$. $U\subeq X$ $w$-open, is $q(U)$ $w$-open?
+%if annihilate $Y$, then done. 
+
+%(Why does $q$ preserve intersection?)
+
+%$x\in U$ want $q(U)$ $w$-neighborhood of $q(x)$. $U(x_1^*,\ldots, x_n^*,\ep,x)\subeq U_Y$. $q$ preserves intersections so WLOG $n=1$.
+%}
+\item
+\ul{Solution:} Let
+\[
+K:=\bigcap \ker g_i.
+\]
+Consider
+\[\bullet|_{K}:X^*\to K^*.\] 
+If $f$ then $f|_{K}$ of norm at most $\ep$. By Hahn-Banach there exists $h\in X^*$ such that $h|_{K}=f|_K$ and $\ve{h}\le \ep$.
+\[
+\xymatrix{
+f\ar@{|->}[r] & f|_K\\
+h\ar@{|->}[ru]& 
+}
+\]
+Now $h-f|_{K}=0$ so by Lemma, $f-h\in \spn\{g_1,\ldots ,g_n\}$, so $d(f,\spn(g_1,\ldots, g_n))\le \ep$.
+%11 on last sheet
+\item  
+Two ideas on why $X$ should not be metrizable.
+\begin{enumerate}
+\item
+In an infinite-dimensional normed space, the weak neighborhoods are unbounded in the usual metric. We want to use this in some way.
+\item
+A metric space has a countable neighborhood base. We don't know if $X$ has a countable neighborhood base, but somehow if it were a metric space, maybe balls with radius going to 0 fail to capture this topology.
+\end{enumerate}
+
+\ul{Solution:} Assume that the w-topology is metrizable. Let $x_n\in B(0,\rc n)$ such that $\ve{x_n}>n$, where the ball $B$ is with respect to the metric, and $\ve{\bullet}$ is the usual norm. But $x_n\xra w 0$, contradicting the fact that weakly convergent sequences are norm-bounded (Proposition~\ref{pr:norm-bounded}).
+
+Similarly, if the $w^*$-topology is metrizable, let $x_n^*\in B(0,\rc n)$, $\ve{x_n^*}>n$. We get a contradiction from Proposition~\ref{pr:norm-bounded} again, {\it noting that this time $X$ is required to be complete}. 
+
+\ul{Solution 2:} 
+We start with the definition of what it means for topologies to be equivalent. 
+\begin{enumerate}
+\item
+In one direction we have \[B\pa{0,\rc n}\supeq U(F_n,\ep,0)\supeq \cap_{y^*\in F_n}\ker y^*,\] for $F_n$ some finite subset of $X^*$. (Notation: $U(F,\ep,x):=\set{y}{|f(y-x)|<\ep\text{ for all }f\in F}$.)
+\item
+In the other direction, given $x^*$, there is some $n$ such that
+\[
+\boxed{U(x^*,1,0)\supeq B\pa{0,\rc n}}\supeq U(F_n,\ep_n,0)\supeq \bigcap_{y^*\in F_n} \ker y^*.
+\]
+\end{enumerate}
+
+%\fixme{
+%If $x^*\in X^*$ then $U(x^*,1,0)\supeq U(F_n,\ep_n,0)\supeq \bigcap_{y^*\in F_n} \ker y^*$. If a functional is bounded on a subspace then it's 0 (?).} 
+
+So for every $x^*$, we have for some $n$ that $\ker x^*\supeq \bigcap_{y^*\in F_n}\ker y^*$, so $x^*\in \spn F_n$. Thus \[X^*=\spn \bigcup F_n.\] This is a contradiction. %(By the Baire category theorem, a complete metric space is not a countable union of sets with empty interiors, and finite-dimensional subspaces have empty interior. Alternatively, 
+($X^*$ as an infinite-dimensional complete space, can't have a countable spanning set.) %(finite dimensional, empty interior, $\bigcup \spn F_n=X^*$.
+
+The proof for $X^*$ is analogous. This time, we need $X$ to be complete; before we automatically had $X^*$ complete. %to apply the Baire category theorem, or to use the 
+
+%Idea: In a metric space, compact implies separable by the following argument: Cover the set with shrinking balls (say of radius $\ep_n\to 0$), and take as the countable dense set the center of these balls. Here we don't have balls, so we take open neighborhoods. We need enough functionals defining these neighborhoods, to make them small enough.\fixme{ Can't work!}
+%
+%First, note $X$ is norm bounded, because otherwise we could find sets $\set{x}{e_{n_i}(x)\in (-N_i,N_i)}$ that don't provide a finite subcover. Suppose it's bounded by $R$.
+%
+%Consider the countable collection of functionals %(considered in $\ell_1=\ell_{\iy}^*$) $e_i$ and 
+%$(1,\rc{2RN},\rc{(2RN)^2},\ldots)$. [Motivation for second set: we need to control a possibly infinite tail for points in $\ell_{\iy}$.]
+%Let $F$ be a finite collection of these functionals. Consider the $(F,\ep)$-neighborhoods
+%\[
+%U_{F,\ep,a}=\set{x}{f(x)\in a+(-r,r)\forall f\in F}.
+%\]
+%Let $\ep_n\to \iy$. Then for each $F,n$ a countable number of $U_{F,\ep_n,a}$ cover, say for $a\in A_{n,F}$. We claim
+%\[
+%S=\bigcup_{n,F}A_{n,F}
+%\]
+%cover.
+%
+%Given $\ep$, consider $F=\{e_1,\ldots, $
+%
+%We need to assume $X$ is infinite-dimensional. (If $X$ is finite-dimensional then it is the usual topology.)
+%
+%%Under these topologies open sets are unbounded, so $B_X^{\circ},B_{X^*}$ are not open sets
+\item
+Idea:
+
+\cpbox{To show $a\nin A$ where $A$ is convex compact, use Hahn-Banach separation to find $f$ such that $\sup f(x)<f(a)$. Then take norms to obtain a contradiction.}
+
+Suppose $(1-\ep)B_X\nsubeq \oconv{A}$. Take $x\in (1-\ep)B_X\bs \oconv{A}$. Because $(1-\ep)B_X$ is closed, we can require $\ve{x}<1-\ep$, say $\ve{x}=1-\ep-\ep_1$.
+
+By HB separation we get $f$ such that $f(x)>\sup_{\oconv{A}} f$. By scaling assume $\ve{f}=1$. 
+Choose $y\in B_X$ such that  $f(y)>\fc{\ep}{\ep+\ep_1}$, i.e. $(\ep+\ep_1)f(y)>\ep\ve{y}$.
+ \footnote{(Can we make it $=\ve{y}$ always? Probably infinite-dimensionality ruins this.)} %and $f(y)\le \ve{y}$ for all $y$. %\fixme{Why can we do this? It seems we're mixing HB and HB separation.} 
+Why is this a contradiction? We show that this means some point of $B_X$ is far away from a point of $A$, so $A$ is not maximally $\ep$-separated.
+
+%Let $\hat x=\fc{x}{\ve{x}}$. 
+Because $x\in (1-\ep)B_X$, we have (by the triangle inequality) $x+(\ep+\ep_1)y\in B_X$. We get
+\[
+f(x+(\ep+\ep_1) y)=f(x)+\ep>\sup_{\oconv A}f+\ep.
+\]
+Thus for any $a\in A$,
+\[
+\ve{x+\hat x\ep -a}\ge f(x+\hat x\ep)-f(a)>\ep
+\]
+Thus $x+\hat x \ep$ is too far away from $A$, contradiction. 
+
+\fixme{
+Simplification of my argument (?) $1-\ep\ge x^*((1-\ep)x)>\sup_{y\in \oconv A}\an{y,x^*}\ge \sup_{y\in A}|\an{y,x^*}|\ge 1-\ep$.
+
+Nina: cf. Riesz's lemma. There exists $a_0\in A$, $\ve{x-a_0}<\ep$, $(1-\ep)x=\sum_{n=0}^{\iy} \ep^na_n$, $x=\sum_n^{\iy} \fc{\ep^n}{1-\ep}a_n\in \oconv A$.
+}
+\item  
+{} [N.B. Typo: should be $\ol{\spn}$ not $\conv$.]
+\begin{enumerate}
+\item[(0)]
+$\ol{\spn}^{w^*}(B)=(B_{\perp})^{\perp}$: 
+\begin{enumerate}
+\item
+$\subeq$: Clearly $B\subeq (B_{\perp})^{\perp}$. Note $(B_{\perp})^{\perp}$ is a vector subspace, and it is $w^*$ closed because it is the intersection of kernels of evaluation maps, and such kernels are $w^*$-closed by definition.
+\item $\bullet^c\subeq \bullet^c$.
+Now we proceed as in Question 1.10. Take $x\nin \ol{\spn}^{w^*}(B)$. %By definition of $w^*$ closure $x\in X$ such that $f(x)=1,\set{f(y)}{y\in B}=\{0\}$ and $f\nin (B_{\perp})^{\perp}$.
+We seek to find $\ph\in B_{\perp}$ such that $\ph(x)\ne 0$. Then $x\nin (B_{\perp})^{\perp}$.
+
+%\fixme{Do we need Hahn-Banach? 
+%There exists $w^*$-continuous $\ph:X^*\to \R$ with $\ph|_{\ol{\spn}^{w^*}B}=0$, $\ph(x^*)=1$, 
+We can define a linear map $\ph:\spn(\{x^*\}\cup \ol{\spn}^{w^*} B)\to \R$ with $\ph|_{\ol{\spn}^{w^*}B}=0$, $\ph(x^*)=1$. This is a $w^*$-continuous map because $\ker \ph=\ol{\spn}^{w^*}(B)$ is $w^*$-closed.  Now extend $\ph$ to $B$ by Hahn-Banach. Then $\ph\in B_{\perp}$ is the desired map.
+\end{enumerate}
+\item[(i)]
+We have
+\bal
+\ker T&=\set{x}{T(x)=0}\\
+T^*(Y^*)_{\perp}&=\set{f\circ T}{f\in Y^*}_{\perp}=\set{x}{f\circ T(x)=0\forall f\in Y^*}
+\end{align*}
+The RHS are equal because of Hahn-Banach~\ref{thm:hb3} (existence of norming functionals) For the second part, note
+\[
+\ker T^*=\set{f}{f\circ T=0}=\set{f}{f\circ T(X)=\{0\}}=T(X)^{\perp}.
+\]
+\item[(ii)]
+We use Question 1.10 and the 0th part.
+\bal
+\ker(T^*)_{\perp}&=(T(X)^{\perp})_{\perp}\stackrel{1.10}=\ol{T(X)}\\
+\ker(T)^{\perp}&=(T^*(Y^*)_{\perp})^{\perp}\stackrel{(0)}=\ol{T^*(Y^*)}^{w^*}
+\end{align*}
+
+\end{enumerate}•
+\item 
+\fixme{incomplete}
+%If $T^*$ is onto, then $T$ is into by Hahn-Banach (existence of separating functionals). If $T$ is into then for $f\in X^*$ define $g=f\circ T^{-1}$, we have $T^*g=f$. It is well-defined since $T$ is into, and bounded as $T$ is bounded.
+\begin{enumerate}
+\item
+%By the previous problem, %$T$ into iff $\ker T=0$ iff $T^*(Y^*)_{\perp}=0$. $T^*$ onto iff $T^*(Y^*)=X^*$. 
+%\begin{gather*}
+%T\text{ imbedding}\iff \ker T=0\text{ and }T(X)\text{ closed}\iff T(X)^{\perp}=0\text{ and }T(X)\text{ closed}\\
+%T^*\text{ surjective}\iff T^*(Y^*)=0
+%\end{gather*}
+%
+%Equivalence follows since $T^*(Y^*)$ is $w^*$ closed.
+%\item 
+%\begin{gather*}
+%T^*\text{ imbedding}\iff \ker T^*=0\text{ and }T^*(Y^*)\text{ closed}\iff T(X)^{\perp}=0\text{ and }T^*(Y^*)\text{ closed}\\
+%T\text{ surjective}\iff T(X)=Y
+%\end{gather*}
+%For $\Leftarrow$ use Hahn-Banach; for $\implies$ use previous problem. %the fact that $T(X)$ is closed (we're assuming $T(X)$ is an imbedding). 
+$\Leftarrow$ is HB. $\implies$: given $f\in X^*$, it is the image of $f\circ T^{-1}$, okay since imbedding.
+
+\fixme{$\Leftarrow$: If $T$ is onto then $T(B_X)\supeq \de B_Y$ by Open Mapping Theorem. 
+\[\ve{T^*y^*}=\sup_{x\in B_X} \ab{\an{x,T^*y^*}}
+=\sup_{x\in B_X}|\an{Tx,y^*}|\ge \sup_{y\in \de B_Y}|\an{y,y^*}|=\de\ve{y^*}.
+\]
+Or use Q7, it doesn't give a quantitative version---it gives injective but don't get isomorphism.
+
+$\implies$: Assume $\ve{T^*y^*}\ge \de\ve{y^*}$ for all $y^*\in Y^*$.
+
+Claim: $TB_X\supeq \de B_Y$. Enough to show $\ol{T B_X}\supeq \de B_Y$. (Open mapping theorem) If not then by Hahn-Banach there exists $y\in B_Y$, $y^*\in B_{Y^*}$, $y^*(\de y)>\sup_{y\in \ol{TB_X}}|\an{y,y^*}|$. 
+We get \[\de\ge y^*(\de y)>\sup_{x\in B_X}|\an{Tx,y^*}|=\ve{T^*y^*}\ge \de.\]
+}
+\item
+$\Leftarrow $ if clear. $\implies$: by first part, $T^{**}$ is onto. The preimage of $\hat{y}$ must be $\hat{x}$ for some $x$ since \fixme{why?}
+\fixme{$\Leftarrow$: $T^*$ onto gives $T^{**}$ into isomorphism, $T=T^{**}|_X$. 
+
+$\implies$: Assume $T$ is into isomorphism. Say $\ve{Tx}\ge \de\ve{x}$ for all $x$. Given $x^*\in X^*$, tell how to define $y^*$ on the image of $T$. Define $y^*:TX\to F$ ($F$ scalars) by $y^*(Tx)=x^*(x)$. Then $y^*\in (TX)^*$, $\ve{y^*}\le \rc{\de}\ve{x^*}$. Done by Hahn-Banach.}
+\item
+For $\implies$, just use the same argument as in 3, but with $\ker T$ instead of $Y$.
+For $\Leftarrow$, look at the inverse image of a ball and use Mazur's Theorem, that the closure of a convex set is the same in the usual and weak topologies. So a closed ball contained in the preimage is also a weak closed ball.
+
+\fixme{
+Factor through
+\[
+\xymatrix{
+X\ar[r]^T\ar[rd]^{\wt T} & Y\\
+& TX\ha{u}_J.
+}
+\quad\xra{\bullet^*}
+\quad
+\xymatrix{
+X^* & Y^*\ar[l]_{T^*}\sj{d}^{J^*}\\
+& \ol{TX}^*\ar[lu]^{\wt T^*}
+}
+\]
+$TX$ is closed gives $\wt T$ onto, so $\wt T^*$ is an into isomorphism. $J^*$ is onto as $J$ is an into isomorphism. $T^*(Y^*)=\wt T^*(\ol{TX}^*)$ is closed.
+
+Suppose $T^*(Y^*)$ is closed. Use Q7. So $\wt T^*(\ol{TX}^*)$ is closed. $\ker \wt T^*=(\wt TX)^{\perp}=\{0\}$. Now use the fact this is injective. By the inversion/isomorphism thereom, $\wt T^*$ is an into isomorphism.
+}
+\end{enumerate}
+\item \fixme{incomplete} 
+TFAE. \fixme{??}
+\begin{enumerate}
+\item
+$T:X\to Y$ is continuous.
+\item
+$T:Y^*\to X^*$ is continuous w.r.t. to the usual %or the $w^*$ topology 
+
+\end{enumerate}
+
+\fixme{$T:X\to Y$. $w$-$w$ continuous iff for all $y^*\in Y^*$, $x\mapsto \an{Tx,y^*}=\an{x,T^*y^*}$ is in $X^*$. If $T$ is continuous, then $T^*y^*\in X^*$. If $\set{\an{Tx,y^*}}{x\in B_X}$ bounded, so $\set{Tx}{x\in B_X}$ is weakly bounded, so norm-bounded. 
+
+Alternate solution: $T:Y^*\to X^*$ is $w^*$-$w^*$ continuous. $y^*\to \an{x,T^*y^*}$ is $w^*$-continuous so there exists $Sx\in Y$ such that $\an{x,T^*y^*}=\an{Sx,y^*}$ for all $y^*$. %flipping backwards and forwards. 
+$\ve{S}=\sup_{x\in B_X,y^*\in B_{Y^*}}\an{Sx,y^*}=\ve{T^*}<\iy$ and $S^*=T$. 
+
+
+}
+\item
+\begin{enumerate}
+\item
+Not norm compact: this is an isolated set of points (take a ball of radius $\rc2$ around each).
+\item
+Weakly compact: $\ell_{\iy}^*=\ell_1$. A functional $f$ is dot product by $(a_1,a_2,\ldots)$. $f^{-1} (U)$ where $0\in U$ (this is why we throw in 0) is $\set{e_n}{a_n\in U}$; note $a_n\to 0$ so this contains $e_n$ for $n$ large enough. So one open set contains $e_n$ for all $n$ large enough. 
+
+\wrbox{
+$\ell_{\iy}^*\ne \ell_1$! 
+}
+%$e_n\xra{w}0$, $c_0^*\cong \ell_1$, $g\mapsto (g(e_n))$, $Y\subeq X$.
+
+$f|_{c_0}\in \ell_1$, so $f(e_n)=a_n\to 0$.
+
+$\ell_{\iy}$ commutative unital $C^*$-algebra, so is $C(K)$ where $K=\be \N$. One way to define Stone-\v Cech  compactifiction. So $\ell^{\iy}$ is measures on $K$.
+%ultrafilters
+\end{enumerate}
+cf. $\{\rc{n}\}\cup\{0\}$.
+\item \fixme{incomplete}
+%By Pr. 16 it suffices to show weakly metrizable, weakly separable, 
+%Mazur: countable dense - one direction obvious.
+\fixme{
+It suffices to show $\ell_{\iy}^*$ is $w^*$ separable. Then it is norm separable by Pr. 16.
+
+$\ell_{\iy}^*$ is $w^*$-separable by Goldstine's Theorem ($\ol{\ell_1}^{w^*} =\ell_{\iy}^*=\ell_1^{**}$). (? $\ell_1$ isn't separable though)
+So $(K,w)$, weakly compact, is metrizable. So $(K,w)$ is $w$-metrizable. There exists $(x_n)\subeq K$ such that $\ol{\set{x_n}{n\in \N}}=K$.
+We have $\ol{\set{x_n}{n\in \N}}^w=K$. $\oconv{\set{x_n}{x\in \N}}=\oconv^w\set{x_n}{x\in \N}\supeq K$. So $\oconv{\set{x_n}{x\in \N}}$ is norm-separable.}
+\item \fixme{incomplete}
+What might make a weakly convergent sequence not norm-convergent? If it {\it isn't} norm-convergent, such as $(1,0,\ldots),(0,1,\ldots), (0,0,1,\ldots),\ldots$. But a norm-Cauchy sequence should somehow {\it be} convergent. And we shouldn't be able to have $x_n$ converge to different things under the norm vs. the weak topology! We just have to unravel this argument so we aren't going in circles.
+
+\ul{Solution 1:} Note the weak topology is Hausdorff (given 2 points, there is a functional separating them) so $x_n$ can only converge to 1 point in the weak topology. If it converges in the norm topology it must converge to the same point.
+
+Let $\ol X$ be the completion of $X$. Given $x\in \ol X$ the limit of a Cauchy sequence, we have $x_n\to y$ in the weak topology for some $y\in X$. Hence by the above, $x=y\in X$.
+
+
+\fixme{What is this mess? $(x_n)$ is Cauchy. WLOG $\ve{x_n-x_{n+1}}<2^{-n-1}$ so $\ve{x_n-x_m}<2^{-n}$ for all $m>n$. We have $x_n\xra{w}x$, say given $\ep>0,N$ 
+\[
+\ab{\sum_{i=1}^n \la_ix_i-x_i}<\ep.
+\]
+Note $\sum_{i=1}^n \la_ix_i\approx x_N$. Get convergent subsequence.}
+
+\cpbox{``convex combinations trick"---\fixme{what is this?}}
+
+\fixme{
+For all $n\ge m$, $x_n\in x_m+ \ep B_X$, convex, so $w$-closed, so $x=\text{w}\lim x_n\in x_m+\ep B_X$. 
+}
+\item
+Idea: ``for all $B_{X^*}$" and the inequality condition suggest that we'll cover $B_{X^*}$ by open sets where the condition holds for various $n$ and then choose a finite subcover by Banach-Alaoglu.
+
+\ul{Solution:} For a given $i$ let
+\[
+U_i=\set{x^*\in B_{X^*}}{|x^*(x_i)|<\ep}.
+\]
+By definition of weak convergence, for all $x^*\in B_{X^*}$ there exists $i>m$ such that $|x^*(x_i)|< \ep$. %prove can uniformly bounded
+Thus
+\[
+\bigcup_{i>m}U_i=B_{X^*}.
+\]
+Note each $U_i$ is $w^*$-open (by definition). By Banach-Alaoglu, $B_{X^*}$ is $w^*$-compact, so there exists $n>m$, $\bigcup_{m<i<n} U_i=B_{X^*}$. %can choose n uniformly. 
+\item
+Suppose BWOC that $(x_n)$ is norm null but not weakly null.  %Then there exists $\ep>0$ and $n_1<n_2<\cdots$ such that $\ve{x_{n_i}}>\ep$. Then by Hahn-Banach there exists $x_{n_i}^*\in B_{\ell_1^*}$ such that $x_{n_i}^*(x_{n_i})=\ve{x_{n_i}}>\ep$. 
+%
+%If we can find some convergent subsequence of $x_{n_i}^*$ then we have a contradiction. We know $B_{X^*}$ is $w^*$-compact.\fixme{Eberlain-\v Smulian doesn't seem to work: it gives sequential compactness for the w-topology, not the $w^*$-topology.}
+%%But we can: we know $B_{X^*}$ is $w^*$-compact, and so by Eberlain-\v Smulian, it is sequentially $w^*$-compact.
+%is it $w$-compact?
+
+By passing to a subsequence, we may assume $|x_n|>\ep$ for all $n$. We seek to define $x^*\in \ell_{1}^*=\ell_{\iy}$ such that $x^*(x_n)\not\to 0$. 
+Idea: if the $x_n$ concentrate near beginning terms, then we are okay, since we reduce to finite dimensions. Otherwise, they get more and more spread out, and we can define $x^*$ term by term (thinking of it in $\ell_{\iy}$) to make sure $x^*(x_n)$ is large for infinitely many $n$.
+
+For $x=(a_1,a_2,\ldots)$, define $x|_n=(a_1,\ldots, a_n)$ and
+\[
+\ve{x|_n}:=|a_1|+\cdots +|a_n|.
+\]
+Define $i_k:\R^k\hra \ell_{\iy}$ by $i_k(b_1,\ldots, b_n)=(b_1,\ldots, b_n,0,\ldots)$.
+
+Choose any $n_1$, and consider $x_{n_1}$. Choose $k_1$ so that 
+$\ve{x_{n_1}|_{k_1}}>\fc 45\ve{x_{n_1}}$. Define $y_1\in \R^{k_1}\subeq \ell_{\iy}$ so that 
+\[
+y_1(x_{n_1})=\ve{x_{n_1}|_{k_1}}.
+\]
+We inductively show the following: 
+\begin{clm*}
+For each $i$, one of the following holds.
+\begin{enumerate}
+\item
+There is $y^*$ so that $y^*(x_n)\not \to 0$, or 
+\item
+There exists $k_i$ and $y_i\in \R^{k_i}\sub \ell_{\iy}$ and  the following hold.
+\begin{enumerate}
+\item
+($k_i$ is large enough to capture most of $x_{n_i}$) 
+\beq{eq:fex2-14}
+\ve{x_{n_i}|_{k_i}}\ge \fc 45\ve{x_{n_i}}.
+\eeq
+\item
+($y_i^*(x_{n_i})$ is large)
+\beq{eq:fex2-14-2}
+\ve{y_i^*(x_{k_i})}\ge \fc 35\ve{x_{k_i}}\ge \fc 35 \ep.
+\eeq
+\item (Compatibility) $y_i|_{k_j}=y_j$ for $j<i$.
+\end{enumerate}
+\end{enumerate}
+\end{clm*}
+\begin{proof}
+Suppose this holds for $i$. Consider 2 cases.
+\begin{enumerate}
+\item
+(Concentration near beginning)
+For all $m>n_i$, $\ve{x_m|_{k_i}}\ge \fc 15\ve{x_{n_i}}\ge\rc5 \ep$. Then for each $m>n_i$ there exists $z_m^*\in [-1,1]^{k_i}$ such that
+\[
+z_m^*(x_m)\ge\rc5\ve{x_{m}}.
+\]
+Now by sequential compactness of $[-1,1]^{k_i}$, some subsequence $z_{i_j}^*$ has a limit point $z^*$. Then for any $0<\ep'$ there exists $m$ so that
+\[
+z^*(x_m)\ge \pa{\rc{5}-\ep'}\ve{x_{m}}>\pa{\rc{5}-\ep'}\ep.
+\]
+\item
+(Spreading out)
+For some $m>n_i$, $\ve{x_m|_{k_i}}< \fc 15\ve{x_{n_i}}$. Let $n_{i+1}$ be this value. Choose $k_{i+1}$ such that~\eqref{eq:fex2-14} holds for $i+1$. Now choose $y_{i+1}$ so that $y_{i+1}|_{k_i}=y_i$, and~\eqref{eq:fex2-14-2} holds. This completes the induction.
+\end{enumerate}
+\end{proof}
+If case (b) holds in all cases, define $y$ so that $y|_{k_i}=y_i$. Then~\eqref{eq:fex2-14} and~\eqref{eq:fex2-14-2} imply 
+\[
+|y^*(x_{n_i})|\ge \fc35\ve{x_{k_i}}-\pa{y^*(x_{n_i}-x_{n_i}|_{k_i})}\ge\fc25\ep.
+\]
+
+%Idea: $k_1=1$, $x_{k_1}\to 0$, pick large $N_1$ so that rest is small.
+%$\ve{u_n-x_{k_n}}<\ep_n$ for all $n$.
+%$k_2>k_1$, $N_2$ $\ve{u_n-x_{k_n}}<\ep_n$.
+%$u_n=\sum_{i=p_n}^{q_n}a_ie_i$, $f_i=\sgn(a_i)$. for all $i\in \bigcup_n [p_n,q_n]$, 0 else.
+
+\cpbox{This is called the ``gliding hump" argument.}
+
+\ul{Remarks:}
+\begin{enumerate}
+\item I wanted to do the sequential compactness argument in case (a) above directly, but compactness does not imply sequential compactness in general. (We have $w^*$-compactness by Banach-Alaoglu, but not sequential compactness.) Indeed, such abstract arguments can't work because the statement does not hold for general $X$, so we have to use stuff about $\ell_1$.  
+\item
+This shows that w-convergent sequences are exactly norm-convergent sequences in $\ell_1$ (there is nothing special about the point 0), but the topologies are clearly not the same! So sequences very much fail to determine the topology. Does this mean $\ell_1$ is non-sequential? See \url{http://math.stackexchange.com/questions/44907/whats-going-on-with-compact-implies-sequentially-compact}, \url{http://en.wikipedia.org/wiki/Sequential_space},  \url{http://en.wikipedia.org/wiki/Sequentially_compact_space}.  cf. how the set of ultrafilters is very weird. 
+\item
+Here is another fact that uses the ``gliding hump" argument.
+
+In $\ell_p$, if $x_n\xra{w}0$, but $x_n\not \to 0$, then there exist $k_1<k_2<\cdots$ such that $(x_{k_n})$ is like $(e_n)$, i.e., $\ve{\sum a_kx_{k_n}}\approx \pa{\sum_n |a_n|^p}^{\rc p}$. 
+
+%Again choose $\ve{x_{k_n}-u_n}<\ep_n$, $\sum \ep_n<1$. Then $\ve{\sum a_nu_n}_p=\pa{|a_n|^p\ve{u_n}^p}^{\rc p}$. $0<a<\cdots <b$.
+\fixme{For any subspace of $\ell^p$, you can find a subspace isomorphic to $\ell^p$ and complemented in $\ell^p$;
+there exists a norming functional in $\ell^q$ such that $x=\sum_n a_ne_n\to \sum_n \an{x,v_n}u_n$.} 
+%projection
+%%bounded below by norm. 
+\end{enumerate}
+\item %15 
+\fixme{incomplete}
+Use Proposition~\ref{pr:f4-6}. (Recall that this was because $x_n\in X\subeq X^{**}=\cal B(X^*,\R)$, $x_n\to 0$ pointwise.
+
+\begin{enumerate}
+\item
+\fixme{
+The dual of $\ell_2$ is $\ell_2$. Take a subsequence so that the dot product between 2 elements in the subsequence is quite small, say $|\an{x_m,x_n}|<2^{-\min (m,n)}$ for all $m\ne n$.
+
+($(x_n)$ is bounded, WLOG by 1.) 
+Then $\rc{N^2}\ve{\sum_{n=1}^N x_n}^2\le \sum_{m,n=1}^N |\an{x_m,x_n}|\le \rc N(1+o(1))$.
+
+$\ve{u_n-x_{k_n}}<\ep_n$, $\ve{u_n}\le 2$ for all $n$.
+
+$\ve{\rc n\sum_{i=1}^n u_i}^2=\rc{n^2} \sum_{i=1}^n \ve{u_i}^2\to 0$. so $\rc{n}\sum u_i-x_{k_i}\to 0$.
+}
+\item \fixme{fixme} 
+The sequence $e_n$ is such that $\rc n\sum_{i=1}^n e_i\not\to 0$. We claim it is not weakly null. (This is tricky!)
+
+(a) Define the \textbf{Schreier family}
+\[
+S=\set{A\subeq \N}{|A|\le \min A}\cup \{\phi\}.
+\]
+\fixme{Not generalize Ramsey's Theorem to coloring all finite subsets $n$???}
+Then $\ve{(x_n)}=\sup_{A\in S} \sum_{n\in A} |x_n|$. 
+
+Now $S\subeq \cal P\N=\{0,1\}^{\N}$ is a closed subset. %(Somewhere there's a first one, but that means that 1 has to be in all the seq, control the size) 
+We can embed $X\to C(S)$, $x\mapsto \hat x$. $\hat x=\sum_{n\in A}x_n$, $\rc 2 \ve{x}\le \ve{\hat x}_{\iy}\le \ve{x}$; so this is an isomorphic embedding.
+
+Now $\wh{e_n}\to 0$ pointwise. $\ve{\wh{e_n}}\le 1$ for all $n$. By Riesz Representation Theorem, by LDCT, $\wh{e_n}\xra w0$ in $C(S)$, so $e_n\xra{w}0$.
+
+%define funny norms.
+(b) $X$ is \textbf{$c_0$-saturated}: every infinite-dimensional closed subspace contains a subspace isomorphic to $c_0$.
+
+Now if $e_n\not \to 0$ weakly, there exists $f\in X^*$, $\ep>0$ and an infinite $M\subeq \N$, $f(e_n)>\ep$ for all $m\in M$. 
+
+Choose $F_n\in S$, $F_n\subeq M$, $F_1<F_2<\cdots$, where $A<B$ means $\max A<\min B$. The size grows rapidly ($\ep$'s): $|F_1|\ll |F_2|\ll \cdots$. Take $x_n=\rc{|F_n|}\sum_{i\in F_n}e_i$. Schreier set, norm and get 1. $\ve{x_n}=1$. $f(x_n)>\ep$. Adding them together, $\ve{\sum_{i=1}^N x_i}\approx 1$. $f\pa{\sum_{i=1}^N x_i}>\fc 1{\ep}$. Where does the Schreier set start? Number of elements at most max of $x_3$. Can make later ones flatter.
+\end{enumerate}
+\item %16
+We use the characterization given by Theorem~\ref{thm:4-19}: $X$ is reflexive iff $(B_X,w)$ is compact.
+\begin{enumerate}
+\item The theorem gives that $B_X$ is weak compact. 
+A closed subset of a compact set is compact, so $B_Y$ is weak compact. 
+The image of a compact set is compact, so $B_{X/Y}$ is weak compact. (Recall that $B_X\rra B_{X/Y}$ by a Hahn-Banach argument.) Now use the theorem in the other direction.
+%Note that $X\to X/Y$ is closed because it is a quotient map between topological groups, so $B_X\to B_{X/Y}$ is closed. 
+
+%!
+%B_{X/Y}=\ol{\int B_{X/Y}}\subeq q(B_X).
+%Y^{\perp}$
+\item
+We're given that $B_Y, B_{X/Y}$ are compact, and we need to show $B_X$ is compact.
+\[
+B_Y\hra B_X\rra B_{X/Y}.
+\]
+Let $q$ be the second map. 
+We might think to write $B_X=B_Y\times B_{X/Y}$, and then use the fact that products of compact sets are compact; unfortunately, this sequence doesn't necessarily split (does it?). Instead we imitate the proof that products of compact sets are compact. Recall that one way to prove this is to use the ``tube lemma." (See Munkres, Topology.) Here we'll want our ``tube" to be around $x_0+Y$.
+
+\includegraphics{diagrams/2-16}
+
+Given $x_0$, we have that 
+\bal
+A_{x_0}:=\set{x_0+y}{y\in Y, x_0+y\in B_X}&\hra (1+|x_0|)B_Y\\
+x&\mapsto x-x_0
+\end{align*}
+injectively, by the triangle inequality. The latter is compact by assumption; $A_{x_0}$ is a closed subset of a compact set so compact.
+
+Consider an open cover of $B_X$. \blu{By compactness of $B_X$,} there is a finite subcover for $A_{x_0}$, say $\{U_{x_0,i}\}$. Let $U_{x_0}=\bigcup_i U_{x_0,i}$.
+%The intersection $U_{x_0}:=\bigcap_i q(U_{x_0,i})$ is open.
+%Now the open sets $U_{x_0}$ are open and hence 
+%Now consider the function $f$ on $A_{x_0}$ defined by
+%\[
+%f(x)=\max\set{\ep}{\ep B_X(x_0)\cap B_X\subeq U_{x_0}}$.
+%\]
+%It is easy to verify that $f$ is continuous. Since $f$ is defined on a compact set, it attains minimum (which is $>0$), say $\ep$. We claim $q^{-1}(\fc{\ep}{2}B_{X/Y}(x_0+Y))\subeq U_{x_0}$. Indeed, if $x_0'+y'$ is in this inverse image, then $|x_0'-x_0|<\fc{\ep}{2}$, so 
+
+\begin{lem}
+Let $K$ be a compact set in a topological set and $U_i$ be open sets such that $U_1\supeq U_2\supeq \cdots \supeq K$ and $\bigcap_i \ol{U_i}=K$. Let $U$ be an open set containing $K$. Then there exists $n$ such that $U_n\subeq U$.
+\end{lem}
+\begin{proof}
+Consider $\ol{U_n}-U$. If $U_n\nsubeq U$ for all $n$, then these sets are nonempty. These sets are closed and have the finite intersection property. Suppose $a\in \bigcap \ol{U_n}-U$. Since $\bigcap_i U_i=K$, we have $a\in K$. But $K=\bigcap_i \ol{U_i}$, so $K$ does not intersect $\ol{U_n}-U$, contradiction.
+
+Hence $U_n\subeq U$ for some $n$.
+\end{proof}
+%We have $q(U_{x_0,i})$ is open. (Proof: $X\to X/Y$ is open because it is a quotient map between topological groups, so $B_X\to B_{X/Y}$ is open.) 
+
+Apply the lemma to the open sets
+\[
+f^{-1}(B_{X/Y,\ep}(x_0+Y)),\qquad \ep=\rc n
+\]
+to get that there exists $\ep(x_0)>0$ such that $f^{-1}(B_{Y,\ep(x_0)}(x_0+Y))\subeq U_{x_0}$. Now the sets $B_{Y,\ep(x_0)}(x_0+Y)$ form an open cover for $B_{X/Y}$, so \blu{by compactness of $B_{X/Y}$}, there is a finite subcover.
+%The intersection $U_{x_0}:=\bigcap_i q(U_{x_0,i})$ is open.
+
+\fixme{Alternate solution:} \fixme{incomplete} $Y=Y^{**}\cong (X^*/Y^{\perp})^*\cong Y^{\perp\perp}$. $X/Y=(X/Y)^{**}\cong (Y^{\perp})^*\cong X^**/Y^{\perp}$. You need to show these are the right isomorphisms though.
+
+We have a short exact sequences with canonical embeddings.
+\[
+\xymatrix{
+0\ar[r] & Y \ar[r]^i\sj{d} & X\ar[r]^q\ar[d] & X/Y\ar[r]\sj{d} & 0\\
+0\ar[r] & Y^**\ar[r]^{i^{**}}& X^{**} \ar[r]^{q^{**}}& (X/Y)^{**}\ar[r] & 0.
+}
+\]
+Use the 5-lemma to get the middle map is onto.
+
+Does taking the dual preserve short exact sequences? Yes, by question 8. %kernel closed. injective and image closed, good. 
+\bal
+0\to X\xra{S} Y \xra{S} Z\to 0\\
+0\to Z^*\xra{T^*} Y^* \xra{S^*} X^*\to 0.
+\end{align*}
+$\ker T=\im S$ closed, $S$ injective, so $S$ is an into isomorphism. $\ker S^*=(\im S)^{\perp}=(\ker T)^{\perp} =\ol{\im T^*}^{w^*}$ by question 7. But because $T^*$ is into, image is $w^*$ closed. Why? Note $T^*(B_{Z^*})$ is $w^*$-compact. $T^*$ into, $T^*(B_{Z^*})\supeq \de B_{T^*(Z^*)}$. Use 19, part 3.
+\end{enumerate}
+\item %17
+We have $px+(1-p)y\in X\implies pT(x)+(1-p)T(y)$, using bijectivity of $T$.
+
+For the second part, suppose $y\in \Ext(T(C))$. Now $T^{-1}(y)\cap C$ is a closed subspace of $C$, so compact. %(It is a face.) 
+Hence it has an extreme point $x$. We claim $x$ is also an extreme point of $C$. Suppose $x=px_1+(1-p)x_2$. Then $y=pT(x_1)+(1-p)T(x_2)$, so by $y\in\Ext(T(C))$,  $T(x_1)=T(x_2)=y$; since $x\in \Ext(T^{-1}(y)\cap C)$; $x_1=x_2=x$. 
+Hence $y=T(x)\in T(\Ext(C))$. 
+\item %18
+\fixme{incomplete}
+
+First we claim the extreme points are $(\pm a, \pm a,\ldots)$.
+
+We can approximate within $\fc{a}{2^{k-1}}$ by 
+\[
+\sum_{j=1}^{2^k}\rc{2^k} ((a_i\ge j)a+(a_i<j)(-a)).
+\]
+where we use the notation $(P)=\begin{cases}
+1,&P\text{ true}\\
+0,&P\text{ false}.
+\end{cases}$.
+%more generally, $x\in B_{\ell_{\iy}}$, there exist $\N=\bigsqcup A_i$ with $a_i\in [-1,1]$ , $\ve{\sum_{i=1}^n a_i1_{A_i}-x}<\ep$.  $\diam I_j<\ep$. $A_j=\set{n\in \N}{x_j\in I_j}$. $(a_1,\ldots, a_n)\in \conv \{\pm 1\}^n$. 
+
+Extremal points are $\{\la \de_k\}$. We claim that Lebesgue measure $\la$ is not in the convex hull.
+\[
+\la \nin \oconv\set{\pm \de_k}{k\in [0,1]}.
+\]
+Take a function that spikes.
+\item \fixme{incomplete}
+Take $U$ an open neighborhood of 0. There exists a finite $F_0$ such that 
+\[
+\set{x^*\in B_{X^*}}{x^*(x)\le 1\text{ for all }F_0}\subeq U.
+\]
+%normalize by change $F_n$ by constant. That's where the problem is, they might be too big.
+Can we do better? We claim that there exists finite $F_1\subeq B_X$ such that
+\[
+\set{x^*\in 2B_{X^*}}{x^*(x)\le 1\text{ for all }F_0\cup F_1}\subeq U.
+\]
+(With the condition on $F_1$ it's not obvious.) This is a compactness argument. If not, for all finite $F\subeq B_X$, $\set{x^*\in 2B_{X^*}}{|x^*(x)|\le 1\forall x\in F_0\cup F}\bs U\ne \phi$. Note $K_{F}\cap K_{F'}=K_{F\cup F'}$. %These sets satisfy the finite intersection property. %take away a weakly open set.
+The $K_F$'s are $w^*$-compact with the FIP (finite intersection property), so there exists $x^*\in \bigcap K_F, \ve{x^{**}}\le 1$. So $x^*\in U$ by choice of $F_0$. Continue inductively. For all $n$, there exists $F_n\subeq \rc{2^{n-1}}B_X$ such that
+\[
+\set{x^*\in 2^n B_{X^*}}{|x^*(x)|\le 1\forall x\in F_0\cup F_1\cup \cdots \cup F_n}\subeq U.
+\]
+Similar to show that if you have a linear function that is $w^*$ continuous, must be evaluation, factor through...
+
+Difference here is factoring through infinite sequence space.
+%stronger than $w^*$ top.
+\begin{enumerate}
+\item
+Assume $\ph:X^*\to \R$ is $\si$-continuous. There exists $x_n\to 0$ such that
+\[
+\set{x^*\in X^*}{|x^*(x_n)|<1\forall n}\implies |\ph(x^*)|<1.
+\]
+finite set, factor through $\R^n$. This time the obvious map to look at is through $c_0$!
+\[
+\xymatrix{
+X^*\ar[rr]^{\ph}\ar[rd]_T&& \R\\
+&c_0&
+}
+\]
+We get $T^*(x^*)=0$, so $T^*(\la x^*)=0$ for all $\la$. We get $|\ph(\la x^*)|<1$ for all $\la$, so $\ph(x^*)=0$. We can factor through
+\[
+\xymatrix{
+X^*\ar[rr]^{\ph}\ar[rd]_T&& \R\\
+&\im T\ha{d}\ar[ru]_{\wt{\ph}}&\\
+& c_0 &
+}
+\]
+We have $|\wt{\ph}(T(x^*))|<1$ if $\ve{(Tx^*)}_{\iy}<1$, so $\ve{\wt{\ph}}\le 1$. $\wt{\ph}$ extends to $c_0$ by Hahn-Banach, so there exists $(a_n)\in \ell_1\cong c_0^*$. We get $\wt{\ph}(y_n)=\sum_n a_n y_n$. $\ph(x^*)=\sum a_n x^*(x_n)=x^*(\sum a_nx_n)$, so $\ph$ is $w^*$-continuous.
+
+%w^* continuous are exactly evaluations.
+
+%Alternate solution (Stefan): use 4. 
+
+%w-closed same as norm-close. have the same continuous linear functionals.
+\item  \fixme{incomplete}
+$B_Y$ is $w^*$-compact. $C$ convex implies ($C$ is $w^*$-closed iff $C$ is $\si$-closed).
+\item\fixme{incomplete}
+
+To show $Y$ is $w^*$-closed, it suffices to show it's $\si$-closed. So if $S$ is bounded, then $S\cap Y=S\cap NB_Y$ for some $N$. ($w^*$-closed in $S$.)
+\end{enumerate}
+\item \fixme{incomplete} Counterexample: $\ell_1$ $e_1, -e_1,e_2,-e_2,\ldots$.  
+\item \fixme{incomplete} Consider $X\xra{T}Y$ where $T$ is 1-to-1. $w^*$ dense, so separating set, we want $T^*(Y^*)$ not 1-norming. Any such thing will work. $c_0\to \ell_1$, with $1/2,-1/2$, next row $0,1/4,-1/4$, and so forth. 
+\item %22
+\fixme{incomplete}
+\begin{enumerate}
+\item
+We have $T^{**}:X^{**}\to Y^{**}$ with $T^{**}(B_{X^{**}})=T^{**}(\ol{B_X}^{w^*})\subeq \ol{T^{**}(B_X)}^{w^*}=\ol{T(B_X)}^{w^*}=\ol{T(B_X)}\subeq Y$
+by Goldstine and $w^*$ continuity of $T$.
+$w^*$ topology to $X$ get $w$ topology.
+
+Look at $y^*\mapsto \an{x^{**}, T^*y^*}$.
+$w^*-w$ continuous.  Is $w^*$ continuous on $y^*$? $\an{T^{**}x^{**},y^*}$ $w^*$-continuous.
+
+(ii)$\implies$(iii): $T^*(B_{Y^*})$ is $w$-compact.
+
+(iii)$\implies$(i): $\ol{T(B_X)}\subeq \ol{T^{**}(B_{X^{**}})}$. 
+%w^*-w continuous
+
+Weakly compact means weakly closed.
+\end{enumerate}
+\end{enumerate}

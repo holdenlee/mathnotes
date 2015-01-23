@@ -1,0 +1,189 @@
+\chapter{Krein--Milman Theorem}
+%Convexity and the 
+\section{Krein-Milman Theorem}
+\begin{df}
+Let $X$ be a real (or complex) vector space. Let $K\subeq X$ be convex. An \textbf{extreme point} of $K$ is a point $x\in K$ such that if $x=(1-t)y+tz$ for $y,z\in K$, $t\in (0,1)$, then $y=z=x$.
+%corner of the set
+
+Let $\Ext(K)$ be the set of extreme points of $K$.
+\end{df} 
+
+\begin{ex}
+\begin{enumerate}
+\item
+$B_{\ell_1^2}$: $\Ext(B_{\ell_1^2})=\{\pm e_1,\pm e_2\}$.
+\item
+$B_{\ell_2^2}$: $\Ext(B_{\ell_2^2})=S_{\ell_2^2}$.
+\item
+$B_{C_0}$: $\Ext(B_{C_0})=\phi$. (!) Given $x=(x_n)\in B_{C_0}$, there exists $n$ such that $|x_n|<\rc2$. Let
+\[
+y_m=
+\begin{cases}
+x_m,&m\ne n\\
+x_n+\rc 2,&m=n
+\end{cases},
+\qquad
+z_n=
+\begin{cases}
+x_m,&m\ne n\\
+x_n-\rc2,&m=n
+\end{cases}.
+\]
+We have $y=(y_m),z=(z_m)\in B_{C_0}$. Then $y\ne z$ and $x=\fc{y+z}2$; every point is in the middle of a line segment.
+\end{enumerate}
+\end{ex}
+
+A natural question is, when do the extreme points determing the topology? They do in the first two examples but not the third.
+
+\begin{thm}[Krein-Milman Theorem]\llabel{thm:krein-milman}
+Let $(X,\cal P)$ be a LCS. Let $K$ be a compact, convex set in $X$. Then $K=\ol{\text{conv}}(\Ext(K))$. In particular, if $K\ne \phi$, then $\Ext(K)\ne \phi$.
+\end{thm}
+\begin{cor}
+For a normed space $X$, $B_{X^*}=\ol{\conv}^{w^*}(\Ext(B_{X^*}))$. In particular, if $K\ne \phi$, then $\Ext(K)\ne \phi$.
+\end{cor}
+The set of extreme points makes sense without any topology, so in a sense this theorem connects algebra and topology.
+
+How do we find any extreme points to start with? We might as well take a continuous functional (from Hahn-Banach). Slice this convex set, and shift the affine hyperplane to the edge. Take another functional and push it to the boundary. In 2-D we're done, but in general we need to take infinitely many hyperplanes and use Zorn's lemma.
+
+Let $X$ and $K$ be as in Theorem~\ref{thm:krein-milman}, $K\ne \phi$. A \textbf{face} of $K$ is a nonempty compact convex $F\subeq K$ such that for all $y,z\in K$ for all $t\in (0,1)$, if $(1-t)y+tz\in F$, then $y,z\in F$. (For example, a face of a square is an edge.)
+
+We start with the following preliminary observations. 
+\begin{enumerate}
+\item
+For $x\in K$, $x\in \Ext(K)$ iff $\{x\}$ is a face of $K$.
+\item
+Given $f\in X^*$, let $\al=\sup_Kf$. Then $F=\set{x\in K}{f(x)=\al}$ is a face of $K$. We check
+\begin{enumerate}
+\item
+$F\ne \phi$: $K$ is compact and $f$ is continuous.
+\item
+$F$ is convex ($f$ is linear).
+\item
+$F$ is compact ($f$ is continuous so $F$ is a closed subset of a compact set).
+\item
+If $y,z\in K$, $t\in (0,1)$, $(1-t)y+tx\in F$, then 
+\[
+\al=f((1-t)y+tz)=(1-t)f(y)+tf(z)\le \al,
+\]
+so we have equality throughout, i.e., $f(y)=f(z)=\al$, so $y,z\in F$.
+\end{enumerate}
+\item
+If $F$ is a face of $K$, $E$ is a face of $F$, then $E$ is a face of $K$.
+\end{enumerate}
+\begin{proof}[Proof of Theorem~\ref{thm:krein-milman}]
+First we show that every face contains a minimal (with respect to inclusion) face. Let $F$ be a face of $K$. The set $P$ of all faces $E$ of $K$ with $E\subeq F$ is partially ordered by reverse inclusion: $E_1\ge E_2\iff E_1\sub E_2$. Note $P\ne \phi$, since $F\in P$. Given $E_i,i\in I$ in $P$ ($I\ne \phi$) a chain, let $E=\bigcap_{i\in I}E_i$, it's easy to check $E\in P$, and clearly $E\ge E_i$ for all $i$. So by Zorn's lemma $P$ has a maximal element.
+
+Our next step is that every minimal face is a singleton. Assume $F$ is a face and $|F|>1$. Let $x\ne y$ be in $F$. By Hahn-Banach for LCS (Theorem ~\ref{thm:hb-lcs}), there exists a separating functional $f\in X^*$ such that $f(x)\ne f(y)$, WLOG $f(x)<f(y)$. Let $\al=\sup_F f$. Then $E=\set{z\in F}{f(z)=\al}$ is a face of $F$ (and hence of $K$ by observation 3) and $E\subsetneq F$ since $x\in F\bs E$, from $f(x)<f(y)\le \al$. 
+
+So $\Ext(K)\ne \phi$. Let $L=\ol{\conv}(\Ext(K))$. Clearly $L\subeq K$. Assume there exists $x_0\in K\bs L$. By Hahn-Banach Separation~\ref{thm:f4-10}(2), (take $A=L,B=\{x_0\}$), there exists $f\in X^*$ such that $\sup_L f<f(x_0)$. Let $\al=\sup_K f$. Then $E=\set{x\in K}{f(x)=\al}$ is a face of $K$ so there exists $x\in E\cap \Ext(K)$. However $E\cap L\ne \phi$, contradiction.
+%We have $\Ext(B_{C(K)^*})=\set{\pm \de_k}{k\in K}$.
+%Compute for particular case 
+%weak convex hull
+\end{proof}
+
+\begin{lem}[Slices form a subbase]\llabel{lem:f5-3}
+Let $(X,\cal P)$ be a LCS, $K$ be a compact set, $x\in K$. Then for every neigborhood $U$ of $x$ in $K$, there exists $n\in \N$, $f_1,\ldots, f_n\in X^*$, $\al_1,\ldots, \al_n\in \R$ such that 
+\[
+x\in\set{y\in K}{f_i(y)<\al_i\text{ for all }i}\subeq U
+\]
+%
+\end{lem} 
+Recall that the topology of a LCS is defined by seminorms. The lemma says we can find a neighborhood that is defined as intersection of half-spaces.
+
+Note the statement is clearly true in the weak topology because seminorms are given by functionals.
+\begin{proof}
+WLOG $U=V\cap K$ where 
+\[
+V=\set{y\in X}{p_i(x-y)<\ep,1\le i\le m}\text{ for some }m\in \N,p_1,\ldots, p_n\in \cal P,\ep>0.
+\]
+$V$ is convex open, so by Hahn-Banach Separation (Theorem~\ref{thm:f4-9}), for every $z\in K\bs U=K\bs V$ there exists $f_z\in X^*$, $\la\in \R$ such that $f_z(y)<\la=f_z(z)$ for all $y\in V$. So $f_z(y)<\la\le f_z(z)$ for $\al_z\in \R$, $f_z(x)<\al_z\le f_z(z)$. Since $K\bs U$ is compact, there exists $n\in \N$, $z_1,\ldots, z_n$ such that $K\bs U\subeq \bigcup_{i=1}^n \set{y\in K}{f_{z_i}(y)>\al_{z_i}}$.
+
+Set $f_i=f_{z_i}$, $\al_i=\al_{z_i}$, we have 
+\[
+x\in \set{y\in K}{f_i(y)<\al_i\forall i}\subeq U.
+\]
+\end{proof}
+A \textbf{slice} of a set $K$ in a LCS $(X,\cal P)$ is a nonempty subset of $K$ of the form $\set{y\in K}{f(y)<\al}$ for some $f\in X^*,\al\in \R$. 
+\begin{lem}[Slices form a neighborhood base]\llabel{lem:f5-4}
+Let $(X,\cal P)$ be a LCS, $K$ convex, compact, $x\in \Ext(K)$. Then the slices of $K$ containing $x$ form a neighborhood base at $x$ in $K$. 
+\end{lem}
+\begin{proof}
+Let $U$ be a neighborhood of $x$ in $K$. By Lemma~\ref{lem:f5-3}, WLOG \[U=\set{y\in K}{f_i(y)<\al_i,1\le i\le k}\] for some $n\in \N$, $f_1,\ldots, f_n\in X^*$, $\al_1,\ldots, \al_n\in \R$. Set $K_i=\set{y\in K}{f_i(y)\ge\al_i}$. So $\bigcup_{i=1}^n K_i=K\bs U$. Each $K_i$ is convex and compact. 
+\[
+\conv\pa{\bigcup_{i=1}^n K_i}=\set{\sui t_ix_i}{t_i\ge 0\text{ for all }i,\sui t_i =1, x_i\in K_i\text{ for all }i}.
+\] 
+This is compact since it is the continuous image of the compact set $K_1\times K_2\times \cdots \times K_n\times S$ where $S=\set{(t_i)_{i=1}^n\in \R^n}{t_i\ge 0\text{ for all }i,\sui t_i=1}$. Since $x\in \Ext(K)$, $x\nin \conv\pa{\bigcup_{i=1}^nK_i}$. By Theorem~\ref{thm:f4-10}(2), there exists $f\in X^*$, $\al\in \R$ such that $f(x)<\al<\inf_{\conv\bigcup_{i=1}^n K_i}$. So $x\in \set{y\in K}{f(y)<\al}\subeq U$.
+\end{proof}
+
+\begin{thm}[Partial converse of Krein-Milman]\llabel{thm:f5-5} Let $(X,\cal P)$ be a LCS, $K\ne \phi$, convex and compact. Assume $K=\ol{\conv}(S)$ for some $S\subeq K$. Then $\ol S\supeq \Ext(K)$. 
+\end{thm}
+\begin{rem}
+\begin{enumerate}
+\item
+We need $\ol S$, for example consider a disc in $\R^2$ with one point on the boundary removed.
+\item $\Ext(K)$ need not be closed. Consider a vertical line segment connected to a horizontal circle. 
+\end{enumerate}
+\end{rem}
+\begin{proof}
+Suppose not. Suppose there exists $x\in \Ext K$, $x\nin S$. Then $K\bs \ol S$ is a neighborhood of $x$. Hence, by lemma~\ref{lem:f5-4}, there exists $f\in X^*$, $\al\in \R$ such that $x\in \set{y\in K}{f(y)<\al}\subeq K\bs \ol S$. Then $K=\ol{\conv}S\subeq \set{y\in K}{f(y)\ge \al}\ne K$. ($K$ is convex and compact.)
+\end{proof}
+Note that in the complex case, a slice would be $\Re f(y)<\al$. Everything goes through in $\C$ except with using $\Re f$ when needed.
+
+We use this to compute the set of extreme points in the dual of balls for certain Banach spaces.
+%HB same except put $\Re$
+
+\begin{pr}\llabel{pr:f5-6}
+Let $K$ be a compact Hausdorff space $X=C(K)$. Then $\Ext(B_{X^*}) = \set{\pm \de_k}{k\in K}$ where $\de_k(f)=f(k)$, $f\in X=C(K)$. (In the complex case, $\Ext(B_{X^*})=\set{\la \de_k}{k\in K,|\la|=1}$.)
+\end{pr}
+\begin{proof}
+Let $S=\set{\pm \de_k}{k\in K}$. The map $k\mapsto \de_k:K\to (B_{X^*},w^*)$ is continuous and injective (In the complex case, take $(k,\la)\mapsto \de_k:K\times S^1\to (B_{X^*},w^*)$.), so $K$ is homeomorphic to $\set{\de_k}{k\in K}$. If follows that $S$ is compact.
+
+We show 
+\beq{eq:f5-1}
+\ol{\conv}^{w^*}(S)=B_{X^*}.\eeq
+ If not then $\ol{\conv}^{w^*}(S)\subsetneq B_{X^*}$, so fix $\ph\in B_{X^*}\bs \ol{\conv}^{w^*} S$. 
+By Hahn-Banach Separation (Theorem~\ref{thm:f4-10}(2)), there exists $f\in X$ such that 
+\[
+\sup_{\ol{\conv}^{w^*}S}f<\ph(f).\]
+\fixme{Why can we get $f\in X$, rather than something in $X^{**}$? Is $C(K)$ reflexive?}
+But then
+\[
+\ve{f}_{\iy}\le  \sup_{k\in K} (\pm \de_k(f))\stackrel{\pm\de_k\in S}{\le}\sup_{\ol{\conv}^{w^*}S}f< \ph(f)\stackrel{\ph\in B_{X^*}}{\le} \ve{f}_{\iy},
+\]
+%$\sup_{\oconv^{w^*} S}\ge \sup_{k\in K} (\pm \de_k(f))=\ve{f}_{\iy}$, but $\ph(f)\le \ve{f}_{\iy}$. 
+%take union
+contradiction. This shows~\ref{eq:f5-1}.
+
+By the converse to Krein-Milman (Theorem~\ref{thm:f5-5}), $\ol S=S\supeq \Ext(B_{X^*})$. Fix $k\in K$. By Urysohn's Lemma, for every open neighborhood $U$ of $k$, there exists $f_n:K\to [0,1]$ continuous, $f_U(k)=1$,$f_U\equiv 0$ on $K\bs U$.
+
+The map $\ph\mapsto \ph(f_U)$ is a $w^*$-continuous functional on $X^*$, whose supremum on $B_{X^*}$ is 1 (Take $\ph=\de_k$). So $\set{\ph\in B_{X^*}}{\ph(f_U)=1}$ is a face of $B_{X^*}$. So 
+\[F=\bigcap_{U\text{ open neighborhood of }k} \set{\ph\in B_{X^*}}{\ph(f_U)=1}\]
+is also a face of $B_{X^*}$. So there exists an extreme point in $F$, i.e., there exists $\ell\in K$ such that $\de_{\ell}$ or $\de_{-\ell}$ is in $F$. If $\ell\ne k$, there exists an open neighborhood $U$ of $k$ such that $\ell\nin U$, so $\de_{\ell}(f_U)=0$. So $\de_k$ is this extreme point. %($\de_{k}(f_U)=-1$ for all $f_U$.)
+%face is weak star compact nonempty set. Is an extreme point of dual ball
+%exteme poitn subset of X
+%-\de_k are also extreme points.
+\end{proof}
+\begin{thm}[Banach, Stone]\llabel{thm:f5-7}
+Let $K,L$ be compact Hausdorff spaces. Then $C(K)\cong C(L)$ iff $L$ is homeomorphic to $K$.
+\end{thm}
+%$*$ is a contravariant functor
+\begin{proof}
+\begin{enumerate}
+\item
+$\Leftarrow$: If $\ph:L\to K$ is a homeomorphism, then $\ph^*:C(K)\to C(L)$, $f\mapsto f\circ \ph$ is an isometric isomorphism.
+\item
+$\implies$: 
+\cary{The idea here is that $T^*$ will send $\de_{\ell}$ to $\pm \de_{\ph(\ell)}$ for some $\ph$; then $\ph$ will be the desired homeomorphism.}
+
+Let $T:C(K)\to C(L)$ be an isometric isomorphism. Then $T^*:C(L)^*\to C(K)^*$ is also an isometric isomorphism. So 
+\[T^*(\Ext(B_{C(L)^*}))=\Ext(B_{C(K)^*}).\]
+Hence, for every $\ell\in L$, $T^*(\de_{\ell})=\ep(\ell)\de_{\ph(\ell)}$ for some $\ep(\ell)\in \{-1,1\}$, $\ph(\ell)\in K$. \cary{We need to ``get rid" of $\ep$; we do this by showing $\ep$ is continuous.} We have
+\[
+\ep(\ell)=\ep(\ell)\de_{\ph(\ell)} (1_K)=(T^*\de_{\ell})(1_K)=T(1_K)(\ell),
+\]
+i.e., $\ep=T(1_K)$ is continuous. We get $\ell\mapsto \ep(\ell)T^*(\de_{\ell})=\de_{\ph(\ell)}$ is also continuous ($T^*$ is $w^*$-$w^*$ continuous, which can be checked by the universal property). Since $k\mapsto \de_k$ is a homeomorphism between $K$ and $\set{\de_k}{k\in K}$, it follows that $\ell\mapsto \ph(\ell)$ is continuous. Since $T^*$ is injective, and $T^*(\Ext(B_{C(L)^*}))=\Ext(B_{C(K)^*})$, $\ph$ is a bijection. Finally, a continuous bijection from a compact to a Hausdorff space is a homeomorphism
+%inj - can't get same $\de_k$ twice, $\ph$ ... onto because $T^*$ maps onto every extre pt
+\end{enumerate}
+\end{proof}
+Theorem~\ref{thm:f5-7} tells us $C(K)$ has all the topological information about $K$. So to study compact Hausdorff space, we can study this class of Banach spaces, or actually Banach algebras, or actually commutative $C^*$-algebras. Generalizing, we can study noncommutative $C^*$-algebras; we call this field \textbf{noncommutative geometry}.
+%$K$-theory, 
