@@ -1,0 +1,592 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Statistics}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\tableofcontents
+\section{Introduction}
+\subsection{Probability distributions}
+
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+Name & Distribution & Mean & Variance & MGF & Notes\tabularnewline
+\hline 
+Normal & \textbf{$\frac{1}{\sqrt{2\pi}}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}$} & $\mu$ & $\sigma^{2}$ &  & \tabularnewline
+\hline 
+Exponential & $\lambda e^{-\lambda x}$ & $\frac{1}{\lambda}$ & $\frac{1}{\lambda^{2}}$ &  & \tabularnewline
+\hline 
+Gamma & $\frac{\beta^{\alpha}}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}$ & $\frac{\alpha}{\beta}$ & $\frac{\alpha}{\beta^{2}}$ & $(1-\frac{t}{\beta})^{-\alpha}$ & \tabularnewline
+\hline 
+Beta & $\frac{\Ga(\al)+\Ga(\be)}{\Ga(\al+\be)}{x^{\alpha-1}(1-x)^{\beta-1}}$ & $\frac{\alpha}{\alpha+\beta}$ & $\frac{\alpha\beta}{\alpha+\beta-2}$ &  & \tabularnewline
+\hline 
+Binomial & $\binom{n}{k}p^{k}(1-p)^{n-k}$ & $pn$ & ${p(1-p)n}$ &  & $\to N(pn,{p(1-p)n})$\tabularnewline
+\hline 
+Poisson & $\frac{\lambda^{k}e^{-\lambda}}{k!}$ & $\lambda$ & $\lambda$ &  & \tabularnewline
+\hline 
+ &  &  &  &  & \tabularnewline
+\hline 
+\end{tabular}
+
+The moment generating function is defined as $\E(e^{tX})=\int e^tx\,d\mu$. Here is a sketch of uniqueness.
+\begin{thm}[Billingsley, Theorem 30.1]
+\begin{enumerate}
+\item
+Let $\mu$ be a probability measure
+ with moments of all orders:
+\[
+\al_k=\int_{-\iy}^{\iy} x^k\,d\mu.
+\]
+If $\sum_{k\ge 0}\frac{\al_kr^k}{k!}$ has a positive radius of convergence, then $\mu$ is the only probability measure with those moments.
+\item If the MGF of $\mu$ is $g$ and $g$ is analytic at 0, then $\mu$ is the unique probability measure with MGF $g$.
+\end{enumerate}
+\end{thm}
+\begin{proof}[Proof sketch]
+To see (1) from (2), note $g^{(k)}(0)=\al_k$.
+
+\begin{enumerate}
+\item We have uniqueness of characteristic functions (if we took $\E(e^{itX})$ instead) basically by the theorem for Fourier transforms.
+\item
+Let $\be_k = \int_{-\iy}^{\iy} |x|^k\,d\mu$ and suppose the series converges at radius $r$. Show that $\frac{\be_kr^k}{k!}=0$.
+\item 
+We want to show the moments determine the characteristic function. Letting $\ph$ be the characteristic function $\ph$ of $\mu$, we would like it to be true that
+\[
+\ph(t+h)=
+\sum_{k=0}^\iy \frac{h^k}{k!}\int_{-\iy}^{\iy} (ix)^k e^{itx}\,d\mu ,\qquad |h|\le r.
+\]
+as the sum comes from just expanding $e^{itx}$ in power series. Show the partial sums converge by bounding by $\be_{n}$'s.
+
+For $\ph^{(k)}(0)$ give the moments, and we get uniquenes son an interval $(-r,r)$. Repeat near the boundary of the interval. 
+\end{enumerate}
+\end{proof}
+
+Like characteristic functions (Fourier transforms), MGF's turn convolution (addition of random variables) into multiplication.
+
+Some notes about the distributions.
+\begin{enumerate}
+\item The normal distribution is ubiquitous because by the central limit theorem, the sum of many (nice) iid random variables is close to normal.
+\item The exponential distribution is memoryless.
+\item The sum of gamma random variables $(\al_n,\be)$ is $(\sum\al_n,\be)$ because MGF's turn addition of rv's into multiplication.
+\item The Poisson distribution can be derived from the following axioms. It is the probability that $k$ events occur in an interval of length 1 when
+\begin{enumerate}
+\item
+events occurring in disjoint intervals are independent and 
+\item 
+equal for intervals of the same length.
+\item
+the probability of an event occurring $I$ of length $\to 0$ goes $\to 0$.
+\end{enumerate}
+The probability of $k$ events in an interval of length 1 is then 
+\[
+\lim_{n\to \iy}\binom nk \pf{\la}{n}^k\pa{1-\frac{\la}{n}}^{n-k}= \frac{\la^k e^{-n}}{k!}.
+\]
+\end{enumerate}
+
+\subsection{Statistical distributions}
+
+Here are distributions common in statistics. They'll be explained later.
+
+\begin{tabular}{|c|c|c|c|}
+\hline 
+Name & is distribution of... & Notes & \tabularnewline
+\hline 
+\textbf{$\chi_{n}^{2}=\Ga(\fc k2,\rc2)$} & $\sum_{i}Z_{i}^{2},\, Z_{i}\sim N(0,1)$ &  & \tabularnewline
+\hline 
+$t_{n}$ & $\frac{X}{\sqrt{\rc nS}},\,X\sim  N(0,1), \,S\sim \chi_{n}^{2}$ &  & \tabularnewline
+\hline 
+$F_{m,n}$ & $\frac{A/m}{B/n},\,A\sim \chi_{m}^{2},\,B \sim\chi_{m}^{2}$ &  & \tabularnewline
+\hline 
+ &  &  & \tabularnewline
+\hline 
+ &  &  & \tabularnewline
+\hline 
+\end{tabular}
+
+\subsection{Multidimensional normal distribution}
+
+For $A\in \Mat_{n\times n}(\R)$, if $x$ is iid standard normal, then $Ax$ is defined to have distribution $N(0,AA^T)$. Note that if the covariance of $x$ is $D$ ($D=I_n$ here), then the covariance of $Ax$ is $ADA^T$, so the covariance.
+
+Why is this well-defined? (I.e., if $AA^T=BB^T$ then $Ax,Bx$ are identically distributed.) Assume $A$ is full rank (else we need to restrict to a subspace) We calculate the distribution. By change of variables it's
+\[
+\rc{(2\pi)^{\fc n2}|\det A|}e^{-\frac{|A^{-1}x|^2}{2}}\,dx = 
+\rc{(2\pi)^{\fc n2}|\det A|}e^{-\frac{x^T(AA^T)^{-1}x}{2}}\,dx.
+\]
+
+Define the shifted distribution $N(\mu,A),\mu\in \R^n$ in the obvious way.
+
+\subsection{Statistics}
+
+In statistics, we want to estimate some function\footnote{``statistic." For instance, mean, standard deviation} of a distribution $F$\footnote{$F$ refers to cdf, $f$ refers to pdf} parameterized by $\te'\in \Te$, given that $F\in \cal F$ (some family), when we observe samples drawn from $F$.
+
+\begin{enumerate}
+\item
+If $\cal F$ (i.e., $\Te$) is finite-dimensional, we're doing parametric statistics. (For example, we assume $F$ is normal---normal distributions are parametrized by $(\mu,\si)\in \R\times \R_{\ge0}$.)
+\item
+If $\cal F$ is infinite-dimensional, we're doing nonparametric statistics.
+\end{enumerate}
+
+The two kinds of statistics are\footnote{for simplicity, suppose we're dealing with $\cal F$ finite; for $\cal F$ infinite (as is usually the case), replace $\Pj$ with probability density and $\sum$ with $\int$.}
+\begin{enumerate}
+\item Bayesian: We assume a distribution on priors. Roughly speaking, given observed event (ex. the sample drawn) $B$, the likelihood that it came from distribution $F\in \cal F$ is 
+\[
+\Pj(F|B) = \frac{\blu{\Pj(F)} \Pj(B|F)}{\Pj(B)}.
+\]
+Our best guess for $F$ is $\arg\max_F \Pj(F|B)$. We can calculate the expected value for $\te(F)$; it will be $\sum_F \Pj(F|B) \te(F)$.
+\item Frequentist: We assume no distribution on priors $\Pj(F)$ is known. In this case we simply maximize
+\[
+\Pj(B|F).
+\]
+\end{enumerate}
+
+Frequentist vs. Bayesian axioms:
+
+\noindent
+\begin{tabular}{|c|c|c|}
+\hline 
+ & Frequentist & Bayesian\tabularnewline
+\hline 
+Probability is  & limiting relative frequency. & degree of belief.\tabularnewline
+\hline 
+Parameters  & are fixed unknown constants. & can be talk about probabilistically.\tabularnewline
+\hline 
+Statistical procedures & good long run frequency properties. & involve a distribution on $\theta$.\tabularnewline
+\hline 
+\end{tabular}
+
+``To combine prior beliefs with data in a principled way, use Bayesian inference.
+To construct procedures with guaranteed long run performance, such
+as confidence intervals, use frequentist methods. Generally, Bayesian methods
+run into problems when the parameter space is high dimensional."
+
+\section{Basic inference}
+Suppose $(X_1,\ldots, X_n)$ is the observed sample, and our estimate for the statistic $\te$ is $\wh{\te_n}=g(X_1,\ldots, X_n)$. (Example: $\te$ is one component of $\te'$. For example, $\te'=(\mu,\si)$ and $\te$ is just $\mu$ or $\si$.)\footnote{This is suboptimal notation, but $\te$ is used for both in the whole parameter and a function of it in the literature, and that's confusing.}
+
+
+\subsection{Estimators}
+
+
+
+\subsubsection{Error}
+
+\begin{df}
+Define the \textbf{standard error} by \[\se=\sqrt{\Var_\te(\wh{\te_n})}.\]
+Note we can't find this directly because we don't know the actual distribution $F$ so don't know $\te(F)$. 
+Suppose $\se=s(\te)$. The \textbf{estimated standard error} comes from estimating $F$ (i.e., $\te$) first and plugging that value of $\te$ into the formula for se: $\hse = s(\hten)$.
+
+Define \textbf{bias} by\footnote{Warning: $\E_\te$ means average given $\te$, not over $\te$.}
+\[
+\bias(\wh{\te_n})=\E_\te(\wh{\te_n})-\te.
+\]
+(Note we must be given the actual value of $\te$ to calculate the bias, so this is a function of $\te$.)
+
+The \textbf{mean standard error (MSE)} is 
+\bal
+\E_\te[ (\wh{\te_n}-\te)^2] 
+&= (\ol{\wh{\te_n}}-\te)^2 + \E_\te (\hten-\ol{\te_n})^2\\
+&= \bias(\hten)^2 + \Var_{\te}(\hten)
+\end{align*}
+\end{df}
+Bias measures how much the average estimate is from the actual value, the second part measures how much the estimate is from the average estimate.
+
+\begin{ex}
+\begin{enumerate}
+\item
+Bernoulli($p$). $\se=\sfc{p(1-p)}{n}$ and $\hse = \sfc{\wh p (1-\wh p)}{n}$ where $\wh p = \rc n \sum_i X_i$.
+\item
+$N(\mu,\si)$. $\se=\sfc{n-1}{n}\si$ and $\hse = \sfc{n-1}n \hat{\si}=\sfc{n-1}n\sfc{n}{n-1}\sqrt{\E\Var_\te\{X_1,\ldots,X_n\}} =\sqrt{\E\Var_\te\{X_1,\ldots,X_n\}} = \fc{\sum(X_i-\ol X)^2}{n-1}$.
+
+If we knew $\se$, then the distribution of $\wh\mu$ is
+\[
+\fc{\wh \mu - \mu}{\se}\sim N\pa{0,\fc{\si}{\sqrt n}}.
+\]
+However, if we use $\hse$ instead of $\se$ we get a $t$-distribution rather than a normal distribution. For $n$ large, the $t$-distribution is approximately the same.
+\end{enumerate}
+\end{ex}
+
+\subsubsection{Properties}
+What properties do we want for an estimator?
+\begin{enumerate}
+\item
+Unbiased: For every $F\in \cal F$, $\E_{X_1,\ldots, X_n\sim \cal F}\wh{\te_n}=\te$. (This is actually not so important!)
+\item Consistent: $\wh{\te_n}\xra{P}\te$ as $n\to \iy$.
+\item Asymptotically normal (stronger than consistent): $\fc{\wh{\te_n}-\te}{\se}\leadsto N(0,1)$. \fixme{Warning: sometimes we care about this quantity with $\hse$!}
+\item Asymptotic optimal/efficient: among all well-behaved estimators, the MLE has smallest variance.
+%or \rightsquigarrow
+\end{enumerate}
+
+\begin{exr}
+Explain why the sample variation is given by $\wh{\si}^2=\frac{\sum (X_i-\ol X)^2}{N-1}$.
+\end{exr}
+\begin{proof}[Solution.]
+This is an unbiased estimator, while $\frac{\sum (X_i-\ol X)^2}{N}$ is a biased estimator.
+
+For simplicity, consider the discrete case. Let $(X_i)_{i=1}^n$ denote the sample. We have (see exercise below)
+\bal
+\E \Var((X_i)) &= \E(X_i^2)-(\E(X_i))^2\\
+&= \frac{\sum X_i^2}{n} - \frac{\sum X_i^2}{n^2} - \frac{\sum_{i\ne j} X_iX_j}{n^2}\\
+&= \fc{n-1}{n} \pa{\frac{\sum X_i^2}{n}-\frac{\sum_{i\ne j} X_i X_j}{n(n-1)}}\\
+&= \frac{n-1}{n} (\E (X_i^2)-(\E X_i)^2) = \frac{n-1}{n}\Var\{X_1,\ldots,X_n\}.
+\end{align*}
+\end{proof}
+
+\subsection{Maximal likelihood estimators}
+
+\begin{df}
+Let $\te$ be the parameter for a distribution and $x^n=(x_1,\ldots,x_n)$ the sample. The \textbf{likelihood} of $x^n$ given $\te$ is
+\[
+\cal L(\te) :=\Pj(x^n|\te) =\prod_{i=1}^n f(x_i;\te)
+\]
+where $f(x;\te)$ is the probability density of $x$ given $\te$.
+The \textbf{log-likelihood} is
+\[
+\ell(\te):= \ln \Pj(x^n|\te) = \sum_{i=1}^n \ln f(x_i;\te).
+\]
+(We usually aren't too careful with constants, and may drop them.)
+The \textbf{maximal likelihood estimator} is
+\[
+\arg_{\te}\max \cal L(\te) = \arg_{\te}\max \ell(\te).
+\]
+\end{df}
+\subsubsection{Examples}
+We calculate the MLE for several distributions.
+\begin{enumerate}
+\item
+Bernoulli. Here each $X_i$ is 0 or 1. We have
+\[
+\cal L(\te) = p^{\sum_i X_i} (1-p)^{n-\sum_i X_i}, \qquad \ell(\te) = (\sum X_i) \ln p + (n- \sum X_i)\ln (1-p).
+\]
+Setting $\pdt{p}=0$ gives $\wh p=\frac{\sum X_i}{n}$ as MLE.
+\item
+Normal. Finding the MLE for $\mu$ means maximizing $\ell(\mu,\si)=C-\sum \frac{(x_i-\mu)^2}{2\si^2}$, which is minimizing the sum of squares 
+\[
+\sum (x_i-\mu)^2.
+\]
+The MLE is $\wh{\mu} = \rc n \sum x_i$.\footnote{It does NOT make sense to find the MLE for $\si$, which is $\iy$.}
+\item 
+(Uniform distribution)
+Given $\cal F=\{U_{[0,l]}\}$, the estimated $l$ is $\min\{X_1,\ldots, X_n\}$. (Suppose the buses in an unknown city are labeled 1 to $N$. Assuming no knowledge of a prior distribution on number of buses, and you see buses numbered $b_1,\ldots, b_n$, your best guess for the number of buses is $\max\{b_1,\ldots, b_n\}$.)
+\item
+Linear regression. We assume $x_i$ are fixed, and $y_i=\be_0+\be_1x_i+\ep$ where $\ep\sim N(0,\si^2)$ is error. Then we want to minimize
+\[
+\sum_i (y_i-\be_0-\be_1x_i)^2
+\]
+(minimize least squares). Setting $\pdt{\be_0}=\pdt{\be_1}=0$ gives the system $\matt{n}{\sum X_i}{\sum X_i}{\sum X_i^2}=\coltwo{\sum Y_i}{\sum Y_iX_i}$ which has solution
+\[
+\be_1 = \frac{\ol{XY}-\ol X\cdot\ol Y}{\ol{X^2}-\ol{X}^2}\qquad \be_0=\ol Y-\be_1\ol X.
+\]
+\item Multivariate linear regression. Here $Y=X\be + \ep$ where $X$ is $n\times p$. The MLE is again given by least squares, which is given by the projection $\wh \be = (X^TX)^{-1}X^TY$ (assume $X$ has full rank; this is necessary).
+\end{enumerate} 
+
+
+%\subsection{Examples}
+%
+%\begin{enumerate}
+%\item
+%(Uniform distribution)
+%Given $\cal F=\{U_{[0,l]}\}$, the estimated $l$ is $\min\{X_1,\ldots, X_n\}$. (Suppose the buses in an unknown city are labeled 1 to $N$. Assuming no knowledge of a prior distribution on number of buses, and you see buses numbered $b_1,\ldots, b_n$, your best guess for the number of buses is $\max\{b_1,\ldots, b_n\}$.)
+%\item 
+%(estimate for normal distribution)
+%Let $\wh\mu=\rc n\sum X_i$ and $\wh{\se}=\wh\si = \frac{\sum (X_i-\ol X)^2}{n-1}$. 
+%\end{enumerate}•
+
+\subsubsection{Properties of MLE}
+Define some quantities first.
+\begin{df}
+\begin{enumerate}
+\item
+\textbf{KL distance}
+\[
+D(f,g)=\int f(x)\ln \pf{f}{g}\,dx.
+\]
+Why do we care about this? Maximizing $\ell_n(\te)$ is equivalent to maximizing 
+\[
+M_n(\te)=\rc n\sum_i\ln \fc{f(X_i;\te)}{f(X_i;\te_*)}
+\]
+which has the nice property that the maximum is 0. (Without the $\rc n$ it would blow up.) By LLN the expected value of this is exactly $-D(\te_*,\te)$.
+\item 
+\textbf{score function} $s(X;\te)=\pd{\ln f}{\te}$.
+
+Important property: $\E s=\int_{-\iy}^{\iy} s(X;\te) f\,dx=(\int_{-\iy}^{\iy}f\,dx)_{\te}=0$. 
+\item
+\textbf{Fisher information} $I(\te)=\Var_\te(s(X;\te))$, $I_n(\te)=nI(\te)$.
+I.e., $I(\te)=-\E((\ln f)_{\te\te})$.
+\end{enumerate}
+\end{df}
+
+\begin{enumerate}
+\item
+\begin{thm}[Convergence of MLE]
+Suppose 
+\begin{enumerate}
+\item
+$\sup_{\te\in \Te}|M_n(\te)-M(\te)|\xra{P}0$,
+\item
+for all $\ep>0$, $\sup_{|\te-\te_*|\ge\ep} M(\te)<M(\te_*)$.
+\end{enumerate}
+Then the MLE $\wh{\te_n}\xra P\te_*$.
+\end{thm}
+\begin{proof}
+First show that $M(\te_*)-M(\wh{\te_n})\xra P0$. Then use continuity of $M$.
+\end{proof}
+\item
+\begin{thm}[Asymptotic normality of MLE]
+\begin{enumerate}
+\item
+$\se\sim \sfc1{nI(\te)}$ and $\fc{\wh{\te_n}-\te}{\se}\to N(0,1)$.
+\item \fixme{$\wh{\se}=\sfc{1}{nI(\wh{\te_n})}$: why are we redefining $\wh{\se}$? We defined it a different way before. Do these definitions coincide?}
+$\fc{\wh{\te_n}-\te}{\wh{\se}}\to N(0,1)$.
+\end{enumerate}•
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item
+Linearize to find that
+\[
+\ell'(\wh \te)-\ell'(\te)\approx (\wh \te-\te)(\ell''(\te))\implies -\fc{\ell'}{\ell''}(\te)\approx \wh{\te}-\te.
+\]
+Now
+\[
+\sqrt n(\wh{\te_n}-\te)=\fc{\rc{\sqrt n}\ell'(\te)}{-\rc n\ell''(\te)}\to \fc{N(0,I(\te))}{I(\te)}\to N(0,1),
+\]
+the top in distribution, the bottom in probability. (The top uses CLT on $\sum (\ln f)_\te$; the bottom uses LoLN on $\sum -(\ln f)_{\te\te}$.)
+\item
+Show that $\sfc{I(\wh{\te_n})}{I(\te)}\xra P 1$.
+\end{enumerate}
+\end{proof}
+\item Think of this as a chain rule.
+\begin{thm}
+If $\tau=g(\te)$ and $g'(\te)\ne 0$, then $\fc{\wh{\tau_n}-\tau}{\wh{\se}(\wh{\tau})}\to N(0,1)$ where $\wh{\tau_n}=g(\wh{\te_n}),\wh{\se}(\wh{\tau_n})=|g'(\wh{\tau})|\wh{\se}(\wh{\tau_n})$.
+\end{thm}
+Proof: just expand $g$ using $g'$.
+\item (Equivariance) If $\tau=g(\te)$ is 1-to-1, then $\wh{\tau_n}=g(\wh{\te_n})$. Follow definitions!
+\end{enumerate}
+
+Write $x^n\lra y^n$ if $f(x^n;\te)=cf(y^n;\te)$ as functions of $\te$. $T$ is sufficient if $T(x^n)=T(y^n)\implies x^n\lra y^n$.
+$T$ is minimally sufficient if it is also a function of every other sufficient statistic. Factorization gives that $f(x^n;\te)=g(t(x^n);\te)h(x^n)$.
+
+\fixme{Some stuff on exponential families at end of \S9}.
+\section{Hypothesis testing}
+
+%Let $\cal B$ be the space of possible $B$ (ex. samples). We look for a region $\cal A\subeq \cal B'$ for which 
+%\[
+%\Pj(B|\te\in\Te)\le \al,
+%\]
+%the probability that we observe $B$ given $\te \in \Te$ is small. This way, if we observe 
+
+We are given hypothesis $H_0:\te\in \Te_0$ and $H_1:\te\in \Te_1=\Te_0^c$ and want to know which is true. (For example, $H_0=\{\te_0\}$ and $H_1=\R\bs \{\te_0\}$.) $H_0$ is the \textbf{null hypothesis}; we reject or fail to reject it. In other words, we have a decision function $\de$ that given $X^n$ gives 0 or 1.
+There are two kinds of errors:
+\begin{enumerate}
+\item reject ($\de=1$) when $H_0$ is true
+\item fail to reject ($\de = 0$) when $H_1$ is true.
+\end{enumerate}
+
+\begin{df}
+The \textbf{power} is 
+\[
+\be(\te) = \Pj(\de=1|\te),
+\]
+the probability of rejecting given $\te$. We want to maximize power for $\te\in H_1$ (i.e., minimize $1-\be(\te)$, which is the type 2 error).
+
+The \textbf{size} is
+\[
+\sup_{\te\in H_0}\be(\te) = \sup_{\te\in H_0}\Pj(\de=1|\te).
+\]
+The is the maximum probability of a false rejection (type 1 error). For example, when $H_0$ is $\{\te_0\}$ this is just $\Pj(\de=1|\te_0)$.
+We say a test has level $\al$ if it has size $\ge \al$.
+
+Given rejection regions $R_\al$ of size $\al$, the \textbf{$p$-value} is $\inf\set{\al}{T(x^n)\in R_{\al}}=\sup_{\te\in \Te_0}(\Pj_{X^n}(T(X^n)\ge T(x^n)|\te))$ where $T$ is the statistic used in the test. 
+\end{df}
+
+\subsection{Basic tests}
+
+\prbox{
+\begin{exr}
+\begin{enumerate}
+\item
+Give a hypothesis test for the normal distribution (z and t test).
+\item
+Give a hypothesis test for comparing 2 means of normal variables when 
+\begin{enumerate}
+\item
+2 groups are independent
+\item 
+the elements are paired.
+\end{enumerate}
+Do the same for Bernoulli.
+\item Compare the variances of 2 normal distributions.
+\end{enumerate}
+\item Give a test comparing 2 variances of normal distributions.
+\end{exr}
+}
+
+Let $z_{\al}$ be the value of $z$ such that $\int_z^{\iy}N(x)\,dx=\al$ where $N$ is the standard normal.
+
+For the examples below we take $H_0$ consisting of a single point, so the tests are double-tailed. For $H_0=\{\te\le \te_0\}$ and $\{\te\ge \te_0\}$ we use single-tailed tests.
+\begin{enumerate}
+\item
+For the normal distribution:
+\begin{enumerate}
+\item
+We know that $\lim_{n\to \iy}\fc{\wh{\mu_n}-\mu_0}{\wh{\se}}\to N(0,1)$. Thus we can use the $z$-test which of size $\al$:\footnote{It really doesn't matter for these approximate tests whether we use $\wh{\si}$ or $\wh{\se}=\sfc{n-1}n\wt{\si}$ because $\sqrt{n-1}\sim \sqrt{n}$. For the exact tests we have to make the distinction.}
+\[
+\sqrt{n}\af{\wh\mu-\mu_0}{\wh{\si}}
+>z_{\al/2}.
+\]
+The power is approximately $1-\Phi(\fc{\mu_0-\mu}{\wh{\si}}+z_{\al/2})+\Phi(\fc{\mu_0-\mu}{\wh{\si}}-z_{\al/2})$. 
+% or n-1?
+\item
+That is only an approximation, good when $n$ large. The real distribution is the $t$-distribution with $n-1$ degrees of freedom. 
+
+Now we use:
+\begin{lem}
+Let $X_1,\ldots, X_n\sim N(0,1)$. Then 
+\[
+\sqrt{n-1}\fc{\wt{\mu}}{\wh\si} \sim t_{n-1}.
+\]
+\end{lem}
+\begin{proof}
+$\sqrt n\wh{\mu}=(\rc{\sqrt n}\ldots \rc{\sqrt n})x$. Let $A$ be an orthogonal matrix with first row $A_1=(\rc{\sqrt n}\ldots \rc{\sqrt n})$. Let $y=Ax$. We have $y^Ty=x^Tx$ so 
+\[n\wh{\si}=x_1^2+\cdots +x_n^2-\ub{y_1^2}{n\ol{X}^2}=y_2^2+\cdots +y_n^2.\]
+This is distributed as $\chi^2_{n-1}$ and independent of $y_1$. Thus the distribution is $\sqrt{n-1}\fc{N(0,1)}{\chi_{n-1}^2}=t_{n-1}$.
+\end{proof}
+In summary we have
+\[
+\sqrt{n-1}\fc{\wh\mu-\mu_0}{\wh{\si}} = 
+\sqrt{n-1} \cdot 
+\ub{\fc{\sqrt n(\wh{\mu}-\mu_0)}{\si}}{\sim N(0,1)}
+/ \ub{\fc{\sqrt n \wh{\si}}{\si}}{\sim \chi_{n-1}^2} \sim t_{n-1}.
+\]
+
+The more accurate test is
+\[
+\sqrt{n-1}\af{\wh\mu-\mu_0}{\wh{\si}}>t_{n-1,\al/2}.
+\]
+\end{enumerate}
+\item Let $\mu_x=\E_{i=1}^m X_i$ and similarly for $y$.
+\begin{enumerate}
+\item
+First, the normal approximation. We have $\fc{\wh{\mu_x}-\mu_x}{\wh{\si_x}}\approx N(0,1)$ and similarly for $y$; clear denominators, add, and divide by standard deviation (noting variances add) to get
+\[
+\fc{\wh{\mu_x}+\wh{\mu_y}-\mu_x-\mu_y}{\sqrt{n\wh{\si_x}^2+m\wh{\si_y}^2}} \approx N(0,1);
+\]
+do the $z$-test.
+
+For an exact test, we find
+\[
+\fc{\wh{\mu_x}+\wh{\mu_y}-\mu_x-\mu_y}{\sqrt{n\wh{\si_x}^2+m\wh{\si_y}^2}} = \fc{N(0,\fc{\si_x^2}{m})+N(0,\fc{\si_y^2}{n})}{\sqrt{\si_x^2\chi_{m-1}^2+\si_y^2\chi_{n-1}^2}}
+\]
+which simplifies only when $\si_x=\si_y$ (assumption of equal variances) to get
+\[
+\sfc{m+n}{mn}\fc{N(0,1)}{\sqrt{\chi_{m+n-2}^2}}.
+\]
+Thus test
+\[
+\ab{\sfc{mn(m+n-2)}{m+n}\fc{\wh{\mu_x}+\wh{\mu_y}}{\sqrt{n\wh{\si_x}^2+m\wh{\si_y}^2}}}>t_{m+n-2,\al}
+\]
+For unequal variances, use the Satterthwaite approximation (see 18.443 lecture 7).
+\item
+Use the $t$-test on the pairs $x_i-y_i$.
+\end{enumerate}
+For Bernoulli, let $\wh{\si}=\sfc{\wh p (1-\wh p)}{m}$ and use the normal approximation to the binomial to test.
+\item
+Suppose we have $m$, $n$ samples respectively. Now if both variances equal $\si^2$,
+\[
+\fc{\wh{\si_m}^2}{\wh{\si_n}^2}\sim \fc{\rc m\chi_{m-1}^2}{\rc n\chi_{n-1}^2}.
+\]
+So take
+\[
+\frac{m(n-1)}{n(m-1)}\fc{\wh{\si_m}^2}{\wh{\si_n}^2}
+\]
+as the $F$-test statistic.
+\end{enumerate}
+\subsection{$\chi^2$ goodness of fit}
+
+%\prbox{
+%\begin{exr}
+%\item
+%Give Pearson's $\chi^2$ test.
+%\item
+%Give 
+%\end{exr}
+%}
+
+\begin{enumerate}
+\item
+How to test multinomial distributions? Use the following
+\[
+\sum_{j=1}^r \fc{(X_j-E_j)^2}{E_j}
+\]
+as a test statistic for $\chi_{r-1}^2$, where $E_j=np_j$ is the expected number in category $j$.
+\begin{proof}
+The covariance matrix $A$ for the variables $\pf{X_i-np_i}{\sqrt{np_i}}_i$ has diagonal $(1-p_i)_i$ and off-diagonal entries $-\sqrt{p_ip_j}$. Note that $(\sqrt{p_i})_i$ spans the kernel. Note $A-I$ has rank 1 so all other eigenvectors have value 1. Let $U$ diagonalize $A$; let $y=Ux$. Then 
+\[
+\sum_j \fc{(X_j-E_j)^2}{E_j} = x^Tx = y^Ty.
+\]
+Because $y$ has covariance matrix $\matt 000{I_{r-1}}$, this is $\chi_{r-1}^2$.
+\end{proof}
+\item
+For goodness-of-fit of a sample to a distribution $f$, split the domain of $f$ into intervals (where $\int f=\rc{n}$, say), and run Pearson's test on them.
+
+Careful: here $\wh{p_j}$ should be the MLE for the grouped distribution, the maximum for $\arg_\te\max \Pj(I_1|\te)^{v_1}\cdots$, rather than the MLE for the distribution, then grouped. (See 18.443 L12.)
+
+The degrees of freedom should be $r-\dim(\Te)-1$.
+
+\item
+Give tests for independence and homogeneity.
+
+These are the same!
+
+Suppose there are $N_{ij}$ observations for $(i,j)$. We want $\max \prod p_i^{N_{i\bullet}}\prod_j q_j^{N_{\bullet j}}$. Take logs; the gradient should be in the span of $(1,\ldots,1,0,\ldots,0)$ and $(0,\ldots,0,1,\ldots,1)$ (Lagrange multipliers) so all the $N_{i\bullet}/p_i$ are the same, and similarly for $q$.  df$=ab-(a-1)-(b-1)-1=(a-1)(b-1)$.
+
+\end{enumerate}
+
+\subsection{Nonparametric testing}
+
+For any distribution, let $F_n(x)$ be the estimated distribution function after getting $n$ samples. By LLN, for a particular $x$, $F_n(x)\to F(x)$: $\sqrt{n}(F_n(x)-F(x))\xra d N(0,F(x)(1-F(x)))$.
+
+The basis of nonparametric tests using $F_n$ is the following: 
+\begin{thm}
+$\sup|F_n-F|$ does not depend on $F$. 
+\end{thm}
+\begin{proof}
+Let $y=F_n(x)$ so that $x=F_n^{-1}(y)$; putting things in terms of $y$ makes this into the problem for the uniform distribution. (Warning: some finesse is required because $F_n$ can have jumps.)
+\end{proof}
+
+The Kolmogorov-Smirnov test uses
+\[
+\Pj(\sqrt n\sup_{x\in \R} |F_n(x)-F(x)|\le t)\to H(t)=1-2\sum_{i=1}^{\iy} (-1)^{i-1} e^{-2i^2t}.
+\]
+There are variations; see L14.
+
+\subsection{Multiple testing}
+
+If we do $N$ tests at level $\al$, we can expect $pN$ false rejections. We can test at level $\fc{\al}N$ but often this is too stringent. A better way in practice is to order $p$-values from smallest to largest. If the $i$th $p$-value falls below $\fc{i\al}{m}$ then reject all tests below that.
+
+\section{Bayesian statistics}
+
+%\input{chapters/1.tex}
+ 
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}
