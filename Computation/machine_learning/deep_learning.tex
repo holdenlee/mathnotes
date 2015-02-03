@@ -1,0 +1,226 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Deep learning}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\section{Backpropagation}
+\url{http://arxiv.org/pdf/1411.6191.pdf}
+
+We'll go through backpropagation in too much detail. 
+\begin{enumerate}
+\item It's 30 years old.
+\item It's the workhorse of deep learning.
+\item It's a large contributor to state-of-the-art.
+\item It's dead simple: gradient descent (computing derivatives) plus the chain rule.
+\item But the brain doesn't use it. Neuroscientists have tried for 50 years to find evidence of backprop in the brain and are pretty convinced it's not there.
+\end{enumerate}
+Backprop is more complicated than the brain; %; it has to compute re. A
+it has feedforward and feedbackward output. The brain seems to be working better. So we take another look and ask, can we simplify backprop?
+
+\subsection{Learning algorithm with linear outputs}
+
+Given a weight vector $\mathbf w$, an input $\mx$, output $\an{\mathbf w,\mx}$. We are given a loss function, for example the \textbf{mean squared error}
+\[
+\ell(\an{\mathbf w,\mx},y)=\rc 2(y-\an{\mathbf w,\mx})^2.
+\]
+Minimizing it is doing linear regression.
+Other loss functions are logistic and linear loss. This is studied most in online learning (Elad Hazan). We'll use MSE because it's simplest.
+
+We won't use a neural network to minimize linear loss, but the quantity naturally comes up.
+%why linear loss in online? nature will tell prices. make profit or loss.
+
+We need a learning rule. 
+\[
+\mathbf w_{t+1}=\mathbf w_t + \eta \nb_{\mathbf w} \ell_{\mathbf w}.
+\]
+If loss is convex, this converges.
+
+The only problem is that the class of functions is very restricted, so we would like to extend this to more complicated outputs than just dot products. The standard answer is to build a neural network.
+
+Consider a neural network. The hidden nodes (rectlinear/rectifiers) have the following form
+\[
+S_{\mathbf w^j}(\mx) = \max\{0,\an{\mathbf w^j,\mx}\}.
+\]
+This is the closest we can get to linear. If we didn't have nonlinear functions, we'd just get linear functions, and there would be no advantage to a network.
+Leshno showed that $\spn\set{S_w(x)}{w\in \R^d}$ is dense in $\R^d$.
+%As long as not a polynomial.
+Assume the output layer is linear (but it doesn't matter). We have a loss $\{\text{output loss}\}\times \{\text{labels}\}\to \R$.
+
+We have a function $F_{\mathbf W}(x)$ computed by the neural net. To update $\mathbf w$, set
+\[
+\mathbf w_{t+1}^j = \mathbf w_t^j + \eta \nb_{\mathbf w^j} \ell (F_{\mathbf w^j}(x),\text{label}).
+\]
+Here $F_{\mathbf w}$ is not convex so we're not guaranteed to find a global minimum, but it's good enough.
+%\ell=loss
+
+We'll deconstruct backprop and find hidden degrees of freedom. 
+%recover backprop from gradient descent.
+
+Applying the chain rule, 
+\bal
+ \nb_{\mathbf w^j} \ell (F_{\mathbf w^j}(x),\text{label})
+&= \ub{\nb_{\mx^{\text{out}}} \ell(\mx^{\text{out}},\text{label})}{1\times d}
+ \cdot 
+\ub{(\nb_{\mx^j} x^{\text{out}})}{d\times 1}
+\cdot \ub{(\nb_{\mathbf w^j} x^j)}{n_j}
+\end{align*}
+The scalar that's the product of the first 2 vectors is written $\de^j$. Our goal is to simplify this.
+
+%dot products and maxes in between. 
+We compute $\nb_{x^j} \mx^{\text{out}}=?$. 
+Compute derivative of $S_{\mathbf w^j}(\mx)=\max(0,\an{\mathbf w,\mx})$, 
+\[
+\pd{S_{\mathbf w}(x)}{x_L}= \begin{cases}
+w_i,& \an{\mathbf w,\mx}>0\\
+0,&\text{else}.
+\end{cases}=w_i\one_{j}
+\] 
+where $\one_j$ is 1 if node $j$ is active and 0 else.
+
+Hence $\nb_{\mx} S_{\mathbf w^j}(\mx)=\mathbf w\one_j$.
+We get
+\[
+\nb_{x^j} \mx^{\text{out}}= \sum_{\set{k}{j\to k}} w^{jk} \one_k \pa{\sum_{\set{l}{k\to l}} w^{kl}\one_l\pa{\sum\cdots}}=\sumr{\text{active paths}}{\text{from $j$ to $x^{\text{out}}$}} (\text{weights on path}). 
+\]
+Go through every layer, add the weights if they acted.
+
+Define $\mathbf \pi^j=\nb_{x^j} \mx^{\text{out}}= \sum_{\text{active paths}}\pat{weights}$, the influence.
+%how much amplified.
+
+We don't care about $\nb \ell$; this is the business end (interaction of neural network with data). We care about the structure of the neural network, $\nb_{x^j}\mx^{\text{out}}$, how the neural network communicates with itself. %how the output layer is connected.
+This is difficult to do in hardware. Why? You have a system with 2 regimes: input flows forwards, then backpropagate error. Feedforward phase and feedback phase, with a global clock. You need massive synchrony. It's not realistic to build an organism which does this.
+
+It's hard to simplify derivatives and chain rule. We need a new angle. Instead of thinking about it as a giant organism, we'll see each node has its own loss and is doing a learning algorithm.
+
+\subsection{Each node is a learning algorithm}
+
+We have 
+\[
+\nb_{\mathbf w^j} x^j = \mx \one_{j}
+\]
+(recall $x^j=S_{w^j}(\mx)=\max(0,\an{\mathbf w^j,\mx})$.
+
+Let's take a step back. 
+
+Consider backpropagtion for 1 node. 
+%gets $\de_j$.
+It does the following.
+\begin{enumerate}
+\item
+Receive input.
+\item
+Output.
+\item 
+Receive backpropagated error.
+\item Update weights.
+\end{enumerate}
+
+%
+\begin{tabular}{|c|c|}
+\hline 
+Step & Quantity\tabularnewline
+\hline 
+Receive input & $\mathbf{\phi}^{j}$\tabularnewline
+\hline 
+Output & $\max\{0,\an{\mathbf w^j, \mathbf \phi^j}\}$\tabularnewline
+\hline 
+backpropagated error & $\de^j$\tabularnewline
+\hline 
+update weights & $\mathbf w_{t+1}^j=\mathbf w_t^j + \eta^j \de^j\phi^j\one^j$\tabularnewline
+\hline 
+\end{tabular}
+
+Define the rectilinear loss
+\[
+\ell_{\text{RL}}(\mathbf w,\mathbf \phi,\de)=\begin{cases}
+\de\an{\mathbf w,\mathbf \phi},& \text{ if node is active}\\
+0,&\text{else}.
+\end{cases}
+\]
+This is not convex but it is selectively convex. Every node either does nothing $\an{\mathbf w^j,\mathbf \phi^j}<0$ or minimizes a linear loss using gradient descent.
+
+This lets you prove error and generalization loss, even in adversarial settings. We get nice generalization bounds on the nodes.
+
+How can we use this to simplify backprop? $\de$ is computed by backprop. We can imagine replacing $\de$ by another number. Let's mess with $\de$; replace it with something easier to compute. (Obviously you have to be careful, as $\de$ was chosen to minimize global loss.)
+
+Consider the special case where the output layer has 1 node and \[\nb_{w^j}\ell(NN,\text{label}) = \nb_{x^{\text{out}}}(\sum\pat{weights on active paths})(\nb_{\mathbf w^j} x^j).\]
+The first 2 quantities are scalars; multiplying gives $\de^j$. 
+
+We'll do something naive which works. 
+
+$\mathbf\pi^j=\sum_{\text{all active paths}}$, $\tau^j = \sum_{\text{all active paths of length 1}}\pat{weight on path} = \sum_{\set{k}{j\to k}} w^{jk} \one_k$. As the network gets bigger, $\tau^j$ gets easier and easier relative to $\pi^j$.
+
+We define a new algorithm called kickback.
+\bal
+\text{BP} &= \ell_{\text{RL}}(\mathbf w^j, \mathbf\phi^j,\de)\\
+\text{KB} &= \ell_{\text{RL}}(\mathbf w^j,\mathbf \phi^j,(\nb_{\mx^{\text{out}}}\pat{Poss})\tau^j).
+\end{align*}
+
+The analogue in biology is neural modulators. They are diffuse signals received by a large part of the brain. 
+
+We have a global scalar, $\nb_{x^{\text{out}}}\pat{loss}$. Node $j$ just looks at adjacent nodes, and asks which one was active after I was active; sum up the weights to compute $\tau$. $\tau^j$ is easy to compute because it's completely local information. Plus we get global information: whether we overshot or undershot. This is biologically plausible.
+
+Kickback is no longer gradient descent, so we have no guarantee of error reduction. There is an easy way to fix this.
+\begin{df}
+A node is \textbf{coherent} if $\tau^j>0$.
+
+A network is \textbf{coherent} if $\tau_j>0$ for all $j$.
+\end{df}
+%excitatory.
+We need a condition for consistency: the effect of a neuron is always positive or always negative. All the positive rectifiers have positive weights and all the negative rectifiers have negative weights. This is a property of the network. The price you pay for throwing away backprop is constraint on the network.
+
+Take a NN, initialize weights randomly, change the weights to be consistent, and forgot about it, without worrying about coherency. It worked.
+
+Conclusion: Coherent initialization and kickback give results almost identical to backprop. %nonparametric regression.
+RPROP was invented in 90's to speed up optimization; RMS-PROP  is a more complicated version with many batches. Compute $\de^j$, and throw away everything except for the sign. It's a hack that works surprisingly well. About half of deep learning papers rely on RMS-PROP.
+
+Coherency: Starting it at 1, it typically went down to .9; backprop didn't seem to care (it moved everywhere). Backprop both doesn't need and doesn't preserve coherence. Kickback needs and seems to preserve coherence. 
+When it's not initialized for coherence, often it doesn't work (blows up), or does weird oscillations. 
+
+Everything about kickback is simpler than the brain except coherency. Excitatory neurons behave as they should, but inhibatory neurons don't work the way they should; if we can fix this then we have a plausible biological algorithm.
+
+%N's are the problem, $-\max(0,a)$, 
+
+
+This only works with binary classification. Multiple classification is hard. ``I'm interested in reinforcement learning, excited about 
+TD-error, a scalar."
+
+Mixture version of gradient descent. Each part on one computer?
+Kickback is more parallelizable.
+
+It's not faster (only marginally faster) in software; it's faster in hardware.
+
+%It doesn't know the product along the path. My effect might be small because the 
+
+%suppose  only rectifying, only pos outputs.
+%coherence is that black-black pos, black-white neg?
+
+
+
+%\input{chapters/1.tex}
+ 
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}
