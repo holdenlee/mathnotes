@@ -1,0 +1,263 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Harmonic analysis}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\section{Hardy-Littlewood Maximal Function}
+%Real-variable theory
+Throughout we work in $\R^n$.
+\begin{df}
+Given a function $f$, define the \vocab{maximal function} as the maximal average of absolute value over balls centered at $f$.
+\[
+Uf(x)=\sup_{r>0} \rc{m(B(x,r))} \int_{B(x,r)} |f(y)|\,dy.
+\]
+\end{df}
+\begin{thm}[Maximal inequality]\label{thm:max-ineq}
+\begin{enumerate}
+\item
+For all $\al>0$, 
+\[
+m(\set{x}{Mf(x)>\al})\precsim \rc{\al}\int |f|\,dx.
+\]
+This essentially says that if $f\in L^1$, then $Mf\in L^{1,\iy}$. 
+\item If $f\in L^p$ and $1<p\le \iy$, then $Mf\in L^p$, and 
+\[
+\ve{Mf}_{L^p}\precsim \ve{f}_{L^p}.
+\]
+\end{enumerate}
+\end{thm}
+To prove this we need the covering lemma. 
+\begin{lem}[Vitali covering lemma]\label{lem:covering}
+Let $E$ be a nonempty measurable set, covered by balls $B_1,\ldots, B_M$. There exists a subcollection $\{B_1,\ldots, B_N\}$ that is mutually disjoint and
+\[
+\sum_{k=1}^N m(B_k) \ge 3^n m(E).
+\]
+\end{lem}
+%We can choose a disjoint subcollection that gives us some control over the original collection.
+
+Suppose we have some weird set $E$. If we can cover it by a finite collection of balls, we can find a disjoint subcollection that still tells us something about the measure of $E$.
+
+\begin{proof}
+Use the greedy method (``analysis is being greedy").
+Let $B_1\in \{B_\al\}$ have the largest radius. Let $B_2$ be the ball disjoint from $B_1$ which has largest radius, and so forth.
+
+They are mutually disjoint by construction. Suppose $B\in \{B_\al\}$ which is not one of $B_1,\ldots, B_N$. Then for some $l$, $B\cap B_\ell\ne \phi$. Suppose $B_l$ is the largest (first) ball that it intersects. Then $r(B_l)>r(B)$ because otherwise $B$ would have been chosen instead of $B_l$ at that stage. Then the dilation of $B_l$ by a factor of 3 covers $B$: $B\subeq 3B_l$. 
+
+Then $3B_1,\ldots, 3B_N$ cover $E$, so
+\[
+m(E)\le \sum_{k=1}^N m(3B_k)=3^n \sum_{k=1}^N m(B_k).
+\]
+\end{proof}
+\begin{proof}[Proof of maximal inequality~\ref{thm:max-ineq}]
+Define the \vocab{uncentered maximal function} by 
+\[
+\wt M f(x)=\sup_{B\ni x} \rc{m(B)} \int_B|f(y)|\,dy.
+\]
+It's clear that $Mf(x)\le \wt Mf(x)$.
+
+It suffices to prove the theorem for $\wt Mf$.
+
+Set
+\[
+E_\al = \set{x}{\wt Mf(x)>\al}.
+\]
+For all $x\in E_\al$, there exists $B_x\ni x$ such that 
+\[
+\rc{m(B_x)}\int_{B_x} |f(y)|\,dy>\al,
+\]
+i.e. $m(B_x)\le \rc{\al}\int_{B_x}|f(y)|\,dy$. Let measure of $E$ can be made arbitrarily close to that of $E_\al$ because of inner regularity.)
+Let  $\{B_x\}_{x\in E_\al}$ be a collection of balls 
+ that cover $E_\al$. %(It suffices to look at compact subsets because $E_\al$ is measurable.) 
+By compactness we can choose a finite number $B_1,\ldots, B_M$ that cover $E$. By the Covering Lemma~\ref{lem:covering} we can choose $B_1,\ldots, B_N$ mutually disjoint and $\sum_{k=1}^N m(B_k)\ge 3^{-n} m(E)$. We have an upper bound on this already:
+\bal
+m(E)&\le 3^n \sum_{k=1}^N m(B_k)\\
+&\le \fc{3^n}{\al} \sum_{k=1}^N\int_{B_f}|f(y)|\,dy\\
+&\le \fc{3^n}{\al}\int |f|\,dx\\
+\implies m(E_\al)&\precsim \rc{\al} \int|f|\,dx.
+\end{align*}
+%Inner regular (compact)
+\end{proof}
+The norm is independent of the dimension.
+
+\begin{df}
+Let $f$ be measurable. The \vocab{distribution function} of $f$ is a function $\la_f(\al):[0,\iy)\to [0,\iy)$ given by
+\[
+\la_f(\al)=m(\{|f(x)|>\al\}).
+\]
+\end{df}
+This gives us useful information. For example, 
+\[
+\int|f|^p\,dx=p\int_0^{\iy} \al^{p-1}\la_f(\al)\,dx.
+\]
+``Cut the cake" horizontally.
+\begin{proof}[Proof of part 2 of Theorem~\ref{thm:max-ineq}]
+Let $f\in L^p$, $1<p<\iy$. Then
+\[
+\int|\wt Mf(x)|^p\,dx=
+p\int_0^{\iy} \al^{p-1}m\pa{\set{x}{\wt Mf(x)>\al}}\,dx
+\le 
+p\int_0^{\iy} \al^{p-1}m\pa{\set{x}{\wt Mg(x)>\fc{\al}2}}\,dx.
+\]
+where
+\[
+g(x):=\begin{cases}
+|f(x)|,&|f(x)|>\fc{\al}{2}\\
+0,&\text{otherwise}.
+\end{cases}
+\]
+We show the last inequality.
+The new function $g$ contains all the information we need.
+We know
+\bal
+|f(x)|&\le \max\{g(x),\fc{\al}{2}\}\\
+&\le |g(x)|+\fc{\al}2.
+\end{align*}
+This translates to the maximal function.
+\bal
+\wt Mf(x)&\le \wt Mg(x)+\fc{\al}{2}\\
+\wt Mf(x)>\al&\implies \wt Mg(x)>\fc{\al}2\\
+\{\wt Mf(x)>\al\}&\subeq \{\wt M g(x)>\fc{\al}2\}.
+\end{align*}
+%only supported where $f$ is large, so we can use the first inequality. $g\in L^1$. The only it can fail is by blowing up somewhere. But $p>1$.
+We have
+\bal
+\int|\wt Mf(x)|^p\,dx&\precsim \int_0^{\iy} \al^{p-1}\rc{\al}\pa{\int_{\R^n}|g(x)|\,dx}\,d\al\\
+&=\int_0^{\iy} \al^{p-2} \pa{\int_{\set{x}{|f(x)|>\fc{\al}2}}|f(x)|\,dx}\,d\al\\
+&=\int_{\R^n} |f(x)|\pa{\int_0^{2|f(x)|}\al^{p-1}\,d\al}\,dx \precsim \int|f|^p\,dx.
+\end{align*}
+\end{proof}
+Let's build up what we need for the Calderon-Zygmund decomposition. First we need another (more annoying) covering lemma.
+
+We can cover the complement of a closed set with cubes, where the diameter of the cube is proportion to the distance from the cube to the set. 
+\begin{lem}[Whitney decomposition]\label{lem:whitney}
+Let $F$ be a nonempty closed set. There exists a sequence of almost disjoint cubes (intersecting only on a set of measure 0, i.e., their boundary) $\{Q_k\}$ such that 
+\[
+F^c=\bigcup Q_k,
+\]
+and there exists $C>0$ such that 
+\[
+\diam(Q_k)\le d(Q_k,F)\le C\diam(Q_k).
+\]
+\end{lem}
+\begin{proof}
+%Consider cubes 
+Let $M_0$ be cubes of unit side length with vertices in $\Z^n$.
+
+Define $M_{k}$ by bisecting each cube in $M_{k-1}$, so that $M_k$ consists of cubes with side length $2^{-k}$, vertices $2^{-k}\Z^n$. (This is the ``dyadic decomposition.")
+
+Let $\Om=F^c$; set
+%bands around the original set
+\[
+\Om_k = \set{x\in \R^n}{C2^{-k}\le d(x,F)\le 2C2^{-k}},
+\] 
+where $C$ is a constant to be chosen. Think of them as bands around the original set.
+
+For $Q\in M_k$, include $Q\in \cal F$ if $Q\cap \Om_k\ne \phi$.
+We need a lower bound of the distance of the cube to the original set $F$. Let $x\in Q$. Then 
+\bal
+d(x,F)&\ge C2^{-k}-\ub{\diam(Q)}{\sqrt n2^{-k}}\\
+&=(C-\sqrt n) 2^{-k} \ge \sqrt n 2^{-k} =\diam(Q).
+\end{align*}
+where we take $C=2\sqrt n$. This gives one direction.
+
+For the other, 
+\bal
+d(Q,F)&\le 2C2^{-k}&\text{since it intersects the band}\\
+&=2\cdot 2\sqrt{n}2^{-k}\\
+&=4d(Q).
+\end{align*}
+For all $Q\in \cal F$, we have
+\[
+\diam (Q)\le d(Q,F)\le 4\diam(Q).
+\]
+We also have to remove redundant cubes. Proof omitted. %any cube in collection that contains it can only be so large. Get small cube by bisecting fixed number of times; get rid of smaller cubes.
+
+\end{proof}
+
+\begin{thm}[Calderon-Zygmund decomposition]
+Let $f\in L^1$. Fix $\al>0$. Then there exists a decomposition $f=g+\sum_{k}b_k$ and a sequence of almost disjoint cubes $\{Q_k\}$ such that 
+\begin{enumerate}
+\item
+(the good part is bounded) $|g(x)|\le \al$,
+\item $\Supp(b_k)\subeq Q_k$, $\int_{Q_k} b_k=0$, and $\int|b_k(x)|\precsim \al\cdot m(Q_k)$,
+\item $\sum m(Q_k)\precsim \rc{\al}\int |f|\,dx$.
+\end{enumerate}
+\end{thm}
+Bounds ($\precsim$) depend only on the dimension.
+
+This is very useful. To construct $g,b_k$, it's tempting to just cut off $f$ at $\al$. But the correct thing to do is to cut off the maximal function at $\al$. %gives us more control.
+
+Idea: The bad set will be covered by a bunch of cubes; if you dilate the cubes by a fixed factor it intersects the good set, so you have a bound on the maximal function.
+\begin{proof}
+%apply whitney decomp to compl?
+We cutoff where $\wt Mf(x)>\al$. Let $E_{\al}=\set{x}{\wt Mf(x)>\al}$. $E_{\al}^c$ is closed (WLOG nonempty and not all of $\R^n$). Apply Whitney decomposition~\ref{lem:whitney} to cover $E_\al$ by $\{Q_k\}$. Set
+\[
+g(x)=\begin{cases}
+|f(x)|,&x\in E_\al^c\\
+\rc{m(Q_k)}\int_{Q_k} f(y)\,dy,&x\in Q_k\\
+0,&\text{elsewhere.}%edges where intersect, for consistency.
+\end{cases}
+\]
+%The remaining piece will have 0 average.
+On $E_\al^c$ we have $|f(x)|\precsim |\wt Mf(x)|\le \al$. %Lebesgue differentiation theorem, have it almost everywhere.
+\begin{clm*}
+We have $|g(x)|\precsim \al$ almost everywhere.
+\end{clm*}
+If $x\in Q_k$ (This is a set completely contained in the bad region, but we can blow it up so that it overlaps the good region.),
+\bal
+|g(x)|&\le \rc{m(Q_k)}\int_{Q_k}|f(y)|\,dy \\
+&\le \fc{4^n}{m(Q_k^*)}\int_{Q_k^*} |f(y)|\,dy&Q_k^*:=4Q_k\\
+&\precsim\al.
+\end{align*}
+Let 
+\[
+b_k(x)=\chi_{Q_k}(x)\pa{
+f(x)-\rc{m(Q_k)}\int_{Q_k} f(y)\,dy
+};
+\]
+note that $\int b_k(x)=0$; we have $f=g+\sum b_k$.
+%Notice that if you integrate over $Q_k$, this will give you 0.
+
+Now we need to estimate the $L^1$ norm of each. We find (the ``$\le \al$" comes from taking $x\in Q_k^*\cap E_\al$ and noting $\rc{m(Q_k^*)}\int_{Q_k^*}|f(y)|\,dy\le \wt Mf(x)$  by definition of $\wt Mf$)
+\bal
+\int |b_k(x)|\,dx&\le 2\int_{Q_k} |f(y)|\,dy\\
+& \le \int_{Q_k^*}|f(y)|\,dy \\
+&=m(Q_k^*)\cdot \ub{\rc{m(Q_k^*)} \int_{Q_k^*} |f(y)|\,dy
+}{\le \al}\\
+&\precsim \al m(Q_k^*)\precsim \al m(Q_k)\\
+\sum m(Q_k)
+%cover bad set 
+&=m(\set{x}{\wt Mf(x)>\al})\\
+&\precsim \rc{\al}\int|f|\,dx.
+\end{align*}
+
+\end{proof}
+What can you do with this decomposition? You can estimate in singular integrals. This comes up in $L^p$ elliptic regularity results for Laplace's equation. There's an integral kernel that can be estimated using Calderon-Zygmund.
+%get all exponents in between for interpolation. Adjoint: get between 1 and $\iy$ for free.
+%\input{chapters/1.tex}
+ 
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}
