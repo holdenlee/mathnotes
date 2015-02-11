@@ -218,6 +218,184 @@ It's not faster (only marginally faster) in software; it's faster in hardware.
 %coherence is that black-black pos, black-white neg?
 
 
+\section{}
+
+Preparation
+\begin{itemize}
+\item
+Use softmax regression for multi-class classification.
+\item
+Weight decay (regularization).
+\end{itemize}
+Autoencoders do dimension reduction.
+
+
+\subsection{Intriguing properties of neural networks}
+
+\begin{itemize}
+\item
+Activation of a hidden unit is a meaningful feature. Try to find $x'=\arg_{x\in \text{image set}}\max\an{\phi(x),e_i}$. But randomly choosing a vector $v$ 
+\end{itemize}
+
+Adversarial example. Why do they exist? The mappings are discontinuous to a significant extend. Cross model generalization: Adversarial examples trained against A may make (different architecture) B fail. Cross training-set generalization: even if B trained with different data.
+
+Minimize $\ve{r}_2$ subject to $f(x+r)=l$.
+
+Adversarial examples are universal. Back-feeding may improve generalization of model. 
+
+\fixme{Are the adversarial examples robust? Are the adversarial examples islands, or do they have a lot of area around them?}
+How much Gaussian noise to get same error as adversarial perturbation?
+
+The opposite direction: unrecognizable images that make the DNN believe with high confidence.
+
+Use evolutionary algorithms. Multidimensional: if the prediction score is higher than current highest score of any class, keep it. (Each class is a niche.)
+
+Indirect encoding: regular images with meaningful patterns. Compositional pattern-producing network. Images artificial for humans but NN can recognize it.
+
+Have another category, ``none of the above."
+
+Regular images that fool MNIST network. ex. 1 has vertical strokes.
+
+ImageNet: most classes aren't fooled, a few are. Indirect encoding also give high confidence. (It fails for dogs and cats because there are too many classes for cats and dogs.)
+
+ImageNet: regular images.
+%indirect encoding means regular images.
+
+Fool closely related classes. Different runs of the algorithm give completely different images: there are many ways to fool the DNN. 
+
+Repetition of patters increases confidence. DNN learn low/mid-level patterns rather than global structure. Many natural images do have multiple copies.
+
+3. Train with fooled images help it resist? Retraining does not help in terms of worst-case adversarily. \fixme{But is the probability smaller?}
+%maybe now harder generate?
+
+%adversarial
+
+The problem is the way we use the neural nets?
+
+4. Why do adversarial examples exist? Extreme nonlinearity, insufficient model averaging/regularization.
+
+But linear behavior in high-dimensional spaces is sufficient to cause adversarial examples.
+
+Perturbation is meaningless if $\ve{\eta}_{\iy}<\ep$. Adversarial exmaple $\wt x=x+\eta$. Get $w^T\eta$. Increase of activation is $\ep m n$, activation increases as dimension.
+(I.e., $\ved_{2}^2\le n \ved_n$.)
+%\iy bounded but $\ved_2$ not.
+%\[
+%\al J(\te, x,y)+(1-\al)J(
+%\]
+
+%does smearing out help?
+
+Adversarial training of linear models, deep nets helps.
+
+Why do they generalize? When different models misclassify, they often agree with each other.
+
+Hypothesis: neural networks trained all resemble the linear classifier learned on the same training set.
+
+%can you generte everything, or just special type?
+Just one type of adversarial example?
+%
+
+Note: ImageNet much better than MNIST.
+
+Just use gaussian fooling. Previous papers overkill. 
+
+\section{Neural Turing machines}
+
+Motivation: most machine learning algorithms try to learn a static mapping and it has been elusive to incorporate memory in the learning.
+
+Before Turing invented Turing machines, they build circuits without memory. Turing realized that memory can encode the state; it's more powerful than a functional mapping. You can do more complicated stuff. A Turing machine works for all sizes of inputs.
+
+3 papers: 
+\begin{enumerate}
+\item
+Learning to execute (recursive neural net). (NN encodes in hidden states.)
+\item
+QA memory network. 
+\item
+Neural Turing machine.
+\end{enumerate}
+
+Unlike CNN, in RNN the output relies on the hidden state of the previous time stem. LSTM is a special case of RNN that is made to store long term memory easily.
+
+
+\begin{enumerate}
+\item
+Learning to execute: Can LSTM learn to execute python code?
+
+Operators: addition, subtraction, multiplication, variable assignments, if statements, and for loops but not double loops.
+
+Length parameter: constrain the integer in a maximal length. Nesting parameter: constrain the number of times to combine operations. \fixme{How did they generate the programs?} \fixme{`(' is 1 character; ``if" is one unit? Only binary operations.}
+
+They use \vocab{curriculum learning} (cf. Winston's arch learning): gradually increase the difficulties of training examples. 4 methods:
+\begin{enumerate}
+\item baseline: training examples with length $a$ and nesting $b$.
+\item naive: gradually increase.
+\item mix: pick random lengths and nesting.
+\item combined: combination of naive and mix.
+\end{enumerate}
+Teacher forcing: when predicting the $i$th digit, provide it with correct $i-1$ digits. 
+\fixme{I think the experimenters did too much ``feeding."}
+\item QA memory networks: Instead of using a recurrent matrix to retain information through time, build a memory directly. Train the model to operate effectively with the memory component.
+
+Framework:
+\begin{enumerate}
+\item
+input feature map
+\item generalization
+\item output feature map
+\item response.
+\end{enumerate}
+Learn the parameters of $U_O,U_R$ where the scoring function is $S(x,y)=\Phi(x)^TU^TU\Phi(y)$, using gradient descent.
+
+Knowledge database only, interaction between computation resources and memory is limited.
+\item NTM.
+Attention as parameters.
+\bal
+\text{Read: }\ve{w_t}_1&=1\\
+r_t&\lar w_t\cdot M_t\\
+\text{Write: }\wt{M_t}&\lar M_{t-1}.\cdot (1-e_tw_t)\\
+M_t&\lar\wt{M_t}+a_tw_t.
+\end{align*}
+Addressing mechanisms
+\begin{enumerate}
+\item
+content-based: cosine similarity. (weight by $e^{\be_tK(k_t,M_t(i))}$)
+\item 
+interpolation
+\item 
+shifting and sharpening \fixme{shift attention?} Weightings get soft so sharpen them.
+\end{enumerate}
+Only fuzziness from convolution?
+3 modes
+\begin{enumerate}
+\item
+weights chosen by content system without modification of location system
+\item weights from content system can be chosen and shifted
+\item weights from the previous time step can be rotated without any input from content addressed. Allows iteration.
+\end{enumerate}
+How to model controller network: FNN, RNN (better: mix info across time. controller is the CPU, memory is RAM, hidden states are CPU).
+%cf quantum?
+
+Output is not binary.
+
+\fixme{Stopping time is hardwired; otherwise there would cause a discontinuity. (Alternative - have fixed zero probability of leaving stopping time?)}
+%128 locations
+
+Tasks
+\begin{enumerate}
+\item
+copy
+\item repeated copy (fails to figure out where to end. use another memory location to help switch back the pointer to the start). \fixme{should teach it to count first! can we do subroutines?}
+\item associative recall (given sequence AB...A, return A). (method: write something to memory afterwards. network do content-based lookup, shift memory by 1.)
+\item priority sort (write weightings, read weightings) \fixme{content-based important for last 2?}
+\end{enumerate}
+\fixme{coerce to Turing machine without weights?}
+\fixme{go backwards?}
+\fixme{on this computational mode...}
+
+parse video?
+\end{enumerate}
+
 
 %\input{chapters/1.tex}
  

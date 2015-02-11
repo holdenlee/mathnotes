@@ -1,0 +1,1 @@
+LaTeX files require templates at https://github.com/holdenlee/templates.
