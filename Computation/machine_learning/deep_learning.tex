@@ -396,6 +396,59 @@ copy
 parse video?
 \end{enumerate}
 
+\section{Deep learning for NLP}
+Sentiment, word sense (which meaning), semantic similarity.
+
+How does deep learning relate? NLP has sequential learning tasks.
+
+Popular tasks
+\begin{itemize}
+\item
+predict next word given context
+\item word similarity, disambiguation
+\item analogy, question answering
+\end{itemize}
+
+Papers
+\begin{enumerate}
+\item
+Bengio (2003): word vectors. Find a statistical languge model and find word vectors.
+
+Ex. infer things about cats from dogs given they are similar. Fight curse of dimensionality with continuous word vectors and probability distributions.
+
+Load $n-1$ previous word into input to try and predict word. First learn the vectors then the function.
+\item
+Hinton (2009)
+\item
+Mikolov (2010-2014): word-to-vec: get word vectors which behave nicely, can compose. 
+\ite
+Quoc Le (2014)
+\item 
+Socher (2010-2014): sentiment analysis: is it a positive or negative sentence? He depends on sentence structure. You can't tell from individual words.
+
+Neural tensor networks.
+
+(We look at simpler models instead. A simpler model can make use of more data and learn it faster.)
+\end{enumerate}
+
+Stndard NLP techniques
+\beg
+in{itemize}
+\item
+bag-of-words (order-agnostic), continuous bag-of-words
+\item
+word-context matrices (LSA): where field started. throwback. Columns are contexts (proximity to another word, $x$ beat $y$ at football). Matrices typically sparse, so have take log-probabilities and SVD/nonnegative matrix factorization. They're tuned, not learned. 
+\item topic modeling (latend Dirichlet allocation)
+\item $n$-grams.
+\end{itemize}
+
+Common metrics
+\begin{itemize}
+\item
+\vocab{perplexity}: exponential of average log likelihood; geometric average of inverse of $\Pj(w|\text{previous }n)$.
+\item
+BLEU
+\end{itemize}•
 
 %\input{chapters/1.tex}
  
