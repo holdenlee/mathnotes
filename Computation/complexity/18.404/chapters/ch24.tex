@@ -1,0 +1,250 @@
+\lecture{Thu. 12/6/12}
+
+The final exam is Wednesday December 19, 9-12 in Walker. It is open book, notes, and handouts. It covers the whole semester with emphasis on the 2nd half. It is a 3-hour version of the midterm with some short-answer questions.
+
+Handout: sample questions.
+
+Last time we showed $\text{EQ}_{\text{ROBP}}\in BPP$ and today we'll talk about
+\begin{itemize}
+\item
+Interactive Proofs
+\item
+IP
+\end{itemize}
+%1st half serve as examples for the 2nd half.
+%electronic version of book.
+
+
+\subsection{Interactive proofs}
+
+\subsubsection{Example: Graph isomorphism}
+
+We'll move into the very last topic, an amazing idea: the interactive proof system. %It's amazing in any way. 
+It's a probabilistic version of NP, the same way BPP is a probabilistic version of P. Another amazing thing is that it goes against the intuition of NP we built up during the term: If a problem is in NP, it has short certificates, so a prover can convince a verifier about a certain fact, membership in the language.
+
+Using the idea of interactive proof, a prover can convince a verifier about a certain fact even though there are no short certificates. 
+
+We'll start this off with a famous example: testing whether or not graphs are isomorphic:
+\[
+\text{ISO}=\set{\an{G_1,G_2}}{G_1,G_2\text{ graphs},G_1\equiv G_2}.
+\]
+Two graphs are \textbf{isomorphic} iff we can match up the nodes so that edges go between corresponding nodes.
+It is clear ISO$\in$NP: just give the matching.
+It is one of the rare (combinatorial) problems in NP that is neither known to be in P nor NP-complete. Almost every other problem is either known to be in P or NP-complete, except for bunch of problems related to number theory.
+
+The graph isomorphism is the most famous such problem. There is a huge literature trying to prove it one way or other, with no success yet.
+Define NONISO$\in\ol{\text{ISO}}$.
+
+Is NONISO$\in$NP? Not known. Its seems one has to astronomically search through all permutations to determine non-isomorphism. 
+Is there a short certificate, or do you essentially have to go through same process again?
+
+There is way for you to convince me of the fact provided you have sufficient computational power at your disposal. Here is a whimsical version of interactive proof system: The prover has unlimited computational power but is not trustworthy. The verifier checks the prover. The prover is like army of slaves, also called graduate students. The verifier is the king, sometimes called the professor. The grad students (slaves) stay up all night, and have unlimited computational power.
+The professor only operates in probabilistic polynomial time. The professor has a research problem: are these graphs isomorphic? The grad students get to work, with their fancy computers. They find: Yes, they're isomorphic! The professor knows that grad students basically honest folks, but they have lots of other things worry about, like XBox. The prof needs to be convinced, and be sure what answer is. If the grad students say yes, the professor says: convince me, and the grad students give the isomorphism. Suppose the grad students say the graphs are nonisomorphic. The professor asks for a proof.
+
+There is a simple protocol they can go through with the professor to  convince this professor that the graphs are non-isomorphic. This was established back in mid-1980's. Laszlo Babi, a leading expert in graph isomorphism, was flabbergasted.
+
+Both the professor and students have access to the 2 graphs.
+The professor takes 2 graphs, turns around secretly, chooses one of $G_1,G_2$ at random, and randomly permutes the vertices. The professor asks, ``Is the graph I picked $G_1$ or $G_2$?" If the grad students can answer reliably, then they must be nonisomorphic. If they are isomorphic, it could have come from either one, and there is no way to tell which one the prof picked; the best thing one can do is guess.
+If the graphs really were different, the students can use a supercomputer to guess which one professor the picked: The graph can only be isomorphic to one of $G_1,G_2$.
+
+The professor does this several times. If the students can answer the question 100 times correctly in a row, either they are legitimately doing the protocol, or they're incredibly lucky.
+%fast algorithm clueless about isomorphism. Generally speaking don't know how do in poly time. Using interactive proof system, can make protocol, prover side can convince up to small possibility of error.
+
+In fact, interactive proof systems can show formulas are unsatisfiable. The proof is more complicated. This gives all of coNP doable with interactive proof system!
+
+We know ISO$\in$NP, but we don't know whether NONISO$\in$NP. But we can convince someone of non-isomorphism if we have enough computational power. We extend NP to a bigger class, where we can convince a verifier of membership in languages beyond NP.
+
+%prof randomly scrambles, only gives scrambled version: which one did it come from?
+%easy version of st harder we'll be doing.
+%not assuming reliability of grad student.
+
+%If fail to get it right, reject. Have to get right all of time. Extremely lucky, or protocol. 
+%if iso, how know? Prover unlimited computational power.
+%NP in terms of prover/verifier
+%producer make satisfying assignment
+%magically comes up with proof
+%not measure computation
+Interactive proof systems play a big role in cryptography: here the prover is limited in some way, but has special information (a password), and has to convince someone that he has the password without revealing the password.
+%convince have password without revealing password.
+
+\subsubsection{Formal model of interactive proofs}
+We write down a formal model.
+
+\begin{df}
+Let $P$ be a prover with unlimited computational power. Let $V$ be a verifier with probabilistic polynomial time computational power.
+Let $(P\lra V)$ be an interaction where $P$ and $V$ exchange polynomially many messages (both given input $w$) until $V$ says accept or reject.
+
+We say that $A\in$IP if there are $V$ and $P$ where for every $w$, $w\in A$, 
+\[
+\Prob[(P\lra V)=\text{accept}]\ge \fc 23
+\]
+and for $w\nin A$, for every $\wt P$,
+\[
+\Prob[(\wt P\lra V)=\text{reject}]\ge \fc 23.
+\]
+\end{df}
+To show a language is in IP, we set up a verifier and prover. For every string in the language, working together, the prover gets the verifier to accept with high probability. If the string is not in language, then no matter what prover you choose ($\wt P$ is cheating prover trying to make the verifier accept when she shouldn't), rejection is the likely outcome.
+
+\begin{thm}
+NONISO$\in$IP.
+\end{thm}
+
+\begin{proof}
+We write the NONISO protocol with this setup in mind. On input $\an{G_1,G_2}$,
+\begin{enumerate}
+\item[V:] Choose $G_1$ or $G_2$ at random. Then randomly permute and send result to $P$.
+\item[P:] Replies: which $G_i$ did $V$ choose?
+\end{enumerate}
+Repeat twice.
+\begin{enumerate}
+\item[V:] \ul{Accept} if $P$ is correct both times.
+
+\ul{Reject} if $P$ is ever wrong.
+\end{enumerate}
+If $G_1\nequiv G_2$ then 
+%honest P, arbitrary P
+\[
+\text{Prob}[(V\lra P)\text{ accepts}]=1
+\]
+The honest prover can tell which $G_i$ the verifier picked by detecting whether it is isomorphic to $G_1$ or $G_2$.
+
+The honest prover only in play when $\an{G_1,G_2}$ is in the language. Now the sneaky prover steps in: I'll take a shot at it. If $G_1\nequiv G_2$, then the sneaky prover (pretending $G_1\equiv G_2$) can't do anything, can only guess. The probability it guesses right twice is $\rc4$.
+
+Thus if $G_1\equiv G_2$, then for any $\wt P$,
+\[
+\text{Prob}[(V\lra \wt P)\text{ accepts}]\le\rc4.
+\]
+This shows NONISO$\in$P.
+\end{proof}
+
+\begin{pr}
+NP$\subeq$IP.
+
+BPP$\subeq$IP
+\end{pr}
+\begin{proof}
+For NP$\subeq$IP, 
+the prover sends the certificate to the verifier. This is just a 1-way conversation. The verifier checks the certificate.
+
+For BPP, the verifier doesn't need the prover. The verifier can it do all by his or her lonesome self.
+\end{proof}
+%test iso without find
+%in np has to be short certificate.
+%prover can brute forcer all certificate.
+%prover search whole space. Don't charge for.
+
+\subsection{IP$=$PSPACE}
+Now we'll prove the amazing theorem. This blew everything away when it came out, I remember that.
+\begin{thm}
+IP$=$PSPACE.
+\end{thm}
+What does this mean? Take the game of chess, some game where you can test in polynomial space which side has a forced win. It takes an ungodly amount of time to go through the search tree, but in relatively small space you can show (say,) white has a forced win. There is probably no short certificate, but if Martians with supercomputers have done all computations, they could convince mere probabilistic time mortals like us that white has a forced win without us going through the entire game tree.
+
+We'll prove a weaker version, coNP$\subeq$IP. This was discovered first, contains pretty much all the ideas, and is easier to describe. The full proof of IP$=$PSPACE is in the textbook.
+
+It's enough to work with satisfiability, show the prover can convince the verifier that a formula is not satisfiable.
+
+The amazing thing is the technique. We'll use arithmetization as we did before.
+
+\subsubsection{Aside}
+Every few months I get a email or letter claiming to prove P$=$NP. The first thing I look is whether P$=$NP. If the person claims P$=$NP, I don't even look at it. It is probably some horrible algorithm with accompanying code.
+
+I tell them, then you can factor numbers. Here's a website with various numbers known to be composite, where no one knows the factorization. Just factor one of them. That usually shuts them up, and I never hear from them again.
+
+If P$\ne$NP, then almost without exception, their proof goes like this. They claim, clearly any algorithm for SAT, etc. has to operate in the following way... Then they give a long analysis that shows it has to be an exponential algorithm. The silly part is the ``clearly." That's the whole point. How do you know you can't do something magical; plug the input through a Fourier transform and do some strange things, and have the answer pop out.
+
+You have to prove no such crazy algorithms exist.
+
+The cool thing about the IP protocol is that it does something crazy and actually works. %This gives a coNP algorithm.
+
+\subsubsection{coNP$\subeq$IP}
+\begin{proof}[Proof of coNP$\subeq$IP]
+For a formula $\phi$ let $\#\phi$ be the number of satisfying assignments of $\phi$.
+%compute 0 know it's not satisfiable. 
+Note $\#\phi$ will immediately tell you whether $\phi$ is satisfiable.
+
+Define \textbf{number-SAT} (sharp-SAT) by
+\[
+\#\text{SAT}:=\set{\an{\phi,k}}{\#\phi=k}.
+\]
+This is not known to be in NP. (It would be in NP for small $k$. However, if there are exponentially many satisfying assignments, naively we'd need an exponential size certificate.) However, we show
+\[
+\#SAT\in \text{IP}.
+\]
+We'll set up a little notation. Fix $\phi$. Let 
+\[
+\phi(x_1,\ldots, x_m)=\begin{cases}
+0,&\text{unsatisfying}\\
+1,&\text{satisfying}
+\end{cases}
+\]
+Let
+\[
+T()=\sum_{x_i\in \{0,1\}}\phi(x_1,\ldots, x_m).
+\]
+Note $T()=\#\phi$ is the number of satisfying assignments. Add 1 every time satisfying, 0 if not satisfying assignments.
+
+Define
+\[
+T(x_1,\ldots, x_j)=\sum_{x_i\in \{0,1\},\,i>j} \phi(x_1,\ldots, x_m).
+\]
+We are preseting some of the values of the formula, and counting the number of satisfying assignments subject to those presets. Thus
+\[
+T(x_1,\ldots, x_j)=\#\phi_{x_1,\ldots, x_j}
+\]
+where $\phi_0=\phi$ with $x_1=0$, $\phi_{01}=\phi$ with $x_1=0$, $x_2=1$, and so forth.
+%T count num of sat assignments if preset var. 
+In particular, since we assign values to all of the $x_i$ values, $T(x_1,\ldots, x_n)$ is 0 or 1.
+
+We have the following relations.
+\begin{align*}
+T()&=\#\phi\\
+T(x_1,\ldots, x_m)&=\phi(x_1,\ldots, x_m)\\
+T(x_1,\ldots, x_j)&=T(x_1\ldots x_j0)+T(x_1\ldots x_j1).
+\end{align*}
+To see the last equation, note the number of satisfying assignments with $x_1,\ldots, x_j$ is the sum of the number of satisfying assignments additionally satisfying  $x_{j+1}=1$ and the number of satisfying assignments additionally satisfying $x_{j+1}=0$, because one of these has to be true.
+
+We set up the $\#$SAT protocol. (Our first version will have a little problem, as we will see.)
+Suppose the input is $\an{\phi,k}$. The prover is supposed to make the verifier accept with high probability. %No prover can make the verifier accept with high prob when not.
+%Very unlikely convince verifier of something false.
+\begin{enumerate}
+\item[0.] P: Sends $T()$, $V$ checks $k=T()$.
+%prover doing count him/herself.
+%prover make claim: this is value of count, agree with input
+(Reject if things don't check out.)
+%if not k, reject.
+%prover knows whole input
+\item 
+%convince verifier
+P: Sends $T(0)$ and $T(1)$. %Send total number of satisfying assignments. 
+$V$ checks that $T()=T(0)+T(1)$.
+\item
+P: Sends $T(00),T(01),T(10),T(11)$. $V$ checks $T(0)=T(00)+T(01)$ and $T(1)=T(10)+T(11)$. (This is exponential, which is a problem. But humor me.)
+
+$\vdots$
+
+\item[$m$.] P: Sends $T(0\ldots 0),\ldots, T(\underbrace{1\ldots 1}_{m})$. V checks $T(\ub{0\ldots 0}{m-1})=T(\ub{0\ldots 0}{m-1}0)+T(\ub{0\ldots 0}{m-1}1)$, $\ldots$, $T(\ub{1\ldots 1}{m-1})=T(\ub{1\ldots 1}{m-1}0)+T(\ub{1\ldots 1}{m-1}1)$.
+\item[$m+1$.] V checks $T(0\ldots 0)=\phi(0\ldots 0)$, $\ldots$, $T(1\ldots 1)=\phi(1\ldots1)$, and accepts if all these are equal.
+\end{enumerate}
+Think of this as a tree. 
+
+\ig{24-1}{1}
+
+This algorithm might seem trivial, but it's important to understand the motivations.
+
+An honest prover sends correct input. Suppose we have a dishonest prover: If $k$ is wrong, the prover tries to convince the verifer to
+ accept anyway. The prover sends wrong value for $T()$. %Has to lie about $t$. Crooked value for $T$.
+
+This is like asking a kid questions, trying to ferret out a lie. One lie lead to other lies. (But to the kid things may look locally consistent...) There must be a lie on at least one of two branches. At least one lie must propagate down at each step, 
+all the way to a lie at the bottom, which the verifier catches.
+%two correct values can't add up to a lie.
+
+The only problem is the exponential tree. You can imagine trying to do something probabilistic. Instead of following both branches, let's pick a random branch to follow. You're a busy parent. You can't check out all possible things your kid is saying. Pick one. Choose one branch. But you want a high probability of detecting the cheating. If you a pick random branch, with 50-50 chance, as soon as you get off the lying side we get to the honest side, prover is saved. The prover thinks, ``You're not going to catch me now," and behaves honestly all the way down.
+
+The dishonest prover should only make the verifier accept with low probability.
+
+Instead we pick non-boolean values. We arithmetize the whole setup, and reduce to one randomly chosen non-boolean case. We only have to follow a single line of these non-boolean values down. Again we rely on the magic of polynomials.
+
+%Lie happening earlier, then 
+If the prover lied, then in almost all of the non-boolean values we could pick, there will be a lie. A lie leads to another lie almost certainly. The rest of the protocol is set up in terms of arithmetization. Arithmetize everything and everything just works. We finish next time.
+\end{proof}

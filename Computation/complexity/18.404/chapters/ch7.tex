@@ -1,0 +1,302 @@
+\lecture{Thu. 9/27/12}
+
+Last time we talked about
+\begin{itemize}
+\item
+TM variants
+\item
+Church-Turing Thesis
+\end{itemize}
+Today we'll give examples of decidable problems about automata and grammars.
+
+\subsection*{Hints}
+
+Problem 1: Prove some language not context-free. Use the pumping lemma! The trick is to find the right string to use for pumping. Choose a string longer than the pumping length, no matter how you try to pump it up you get out of the language.
+The first string you think of pump may not work; probably the second one will work. 
+
+Problem 2: Show context-free.
+Give a grammar or a pushdown automata. At first glance it doesn't look like a context-free language. Look at the problem, and see this is a language written in terms of having to satisfy two conditions, eahc of which seems to use the condition. The problem seems to be if you use the stack for the first condition it's empt for the second condition. Instead of thinking of it as a AND of two conditions , think of it as an OR of several conditions.
+
+Problem 3 and 4: easy. 4 about enumerator.
+
+Problem 5: variant of a Turing machine. Practice with programming on automaton.
+
+Problem 6: (4.17 in the 2nd edition and 4.18 in the 3rd edition) Let $C$ be a language. Prove that $C$ is Turing-recognizable iff a decidable language $D$ exists such that 
+\[
+C=\set{x}{\text{for some }y,\,\an{x,y}\in D}.
+\]
+We'll talk about this notation below.
+
+\subsubsection{Encodings}
+
+%Given a finite automaton and input, it is a decidable problem. This is a different kind of problem, because we've been doing string problems. But we're at a higher level now, 
+We want to feed more complicated objects into Turing machines---but a Turing machine can only read strings.
+
+If we want to feed a fancy object into a program we have to write it as a string. We need some way of encoding objects, and  we'd like some notation for it.
+
+For any formal finite object $B$, for instance, a polynomial, automaton, string, grammar, etc., we use $\an{B}$ to denote a reasonable encoding of $B$ into a binary string. $\an{B_1,\ldots, B_k}$ encodes several objects into a string.
+
+For example, to encode an automaton, write out the list of states and list of transitions, and convert it into a long binary string, suitable for feeding in to a TM.
+
+Problem 6 links recognizability and decidability in a nice way. You can think of it as saying: ``The projection of a recognizable language is a decidable language."
+Imagine we have a coordinate systems, $x$ and $y$. Any point corresponds to some $(x,y)$. 
+%Intentionally notation designed to be almost invisible. Really we're just thinking of pairs of objects. (Need to rep as single string but conceptually pairs.)
+
+Look at all $x$ such that for some $y$, $\an{x,y}$ is in $D$. So $C$ consists of those points of $x$ underneath some element of $D$. We're taking all the $(x,y)$ pairs  and remove the $x$.
+Shrinks 2-d shape into 1-d shadow; %(imagine a light at infinity projecting the shape); 
+this is why we call it the projection. This will reappear later on the course when we talk about complexity theory!
+
+You need to prove an ``if and only if." Reverse direction is easy. If $D$ is decidable, and you can write $C$ like this, we want $C$ to be recognizable. We need to make a recognizer for $C$. It accepts for strings in the language but may go on forever for strings not in the language. 
+
+Accept if in $C$ but don't know what $y$ is. Well, let's not give it away more!
+
+The other direction is harder. Given T-recognizable $C$, show that $D$ is decidable, we don't even know what $D$ is! We have to find an ``easier" language, so $y$ sort-of helps you determine whether $x\in C$. If $C$ were decidable easy, just ignore $y$. Which $y$ should you use? Make it a decidable test. 
+
+The $y$ somehow proves that $x\in C$. For each $x\in C$ there has to be some $y$ up there somewhere. Wht does $y$ do? The nice thing about $y$ in $C$, is that if the proof fails, the decider can see that the proof fails. (Whatever I  mean by proof. Conceptually. Test for validity.) Go from recognizer to decider. Nice problem!
+\subsection{Examples of decidable problems: problems on FA's}
+By the Church-Turing Thesis~\ref{church-turing}, algorithms are exactly captured by Turing machines. We'll talk about algorithms and Turing machines interchangeably (so we'll be a lot less formal about putting stuff in Turing machine language).
+
+\begin{thm}\llabel{thm:ADFA}
+Let 
+\[
+A_{\text{DFA}}=\set{\an{B,w}}{B\text{ is a DFA and $B$ accepts} w}.
+\]
+Then $A_{\text{DFA}}$ is decidable. 
+\end{thm}
+The idea is to just run the DFA! We'll do some easy things to start.
+\begin{proof}
+We'll %talk about state diagrams, etc. 
+give the proof in high level descriptive language (like pseudocode), rather than explicitly draw out state diagrams. We'll write the proof in quotes to emphasize that our description is informal but there is a precise mathematical formulation we can make.
+
+Let $C$=``on input string $x$ 
+\begin{enumerate}
+\item
+Test if $x$ legally encodes $\an{B,w}$ for some DFA $B$ and $w$. Does it actually encode a finite automata and string? If not,  reject (it's a garbage string).
+\item  Now we know it's of the correct form.
+Run $B$ on $w$. We'll give some details. We'll use a multi-tape Turing machine.
+
+\ig{7-1}{1}
+
+Find the start state, and write it on the working tape. Symbol by symbol, read $w$. At each step, see what the current state is, and transition to the next state based on the symbol read, until we get to end of $w$.  Look up the state in $B$ to see whether it is an accept state; if so accept, and otherwise reject.
+\item Accept if $B$ accepts. Reject if $B$ rejects."
+\end{enumerate}
+\end{proof}
+
+Under the high-level ideas, the details are there. From now on, we'll just give the high-level proof. This is the degree of formality that we'll provide and that you should provide in your proofs.
+
+Brackets mean we agree on some encoding. We don't go through the gory details of spelling out exactly what it is; we just agree it's reasonable. 
+
+We go through some details here, so you can develop a feeling for what intuition can be made into simulations.
+Each stage should be obviously doable in finite time. 
+
+Turing machines are ``powerful" enough: trust me or play around with them a bit to see they have the power any programming language has.
+
+%lots of board space.
+
+We'll do a bunch of examples, and then move into some harder ones.  Let's do the same thing for NFA's.
+\begin{thm}
+Let 
+\[
+A_{\text{NFA}}=\set{\an{B,w}}{B\text{ is a NFA and $B$ accepts } w}.
+\]
+Then $A_{\text{NFA}}$ is decidable. 
+\end{thm}
+We can say exactly what we did before for NFA's instead of DFA's. However, we'll say it a slightly different way, to make a point.
+\begin{proof}
+We're going to use the fact that we already solved the problem for DFA's.
+
+Turing machine $D=$``on input $\an{B,q}$, 
+(By this we mean that we'll check at the beginning whether the input is of this form, and reject if not.)
+\begin{enumerate}
+\item
+Convert the NFA $B$ to an equivalent DFA $B'$ (using the subset construction).
+
+All of those constructions can be implemented with Turing machines. 
+\item Run TM $C$ (from the proof of Theorem~\ref{thm:ADFA}) on input $\an{B',w}$. 
+\item Accept if $C$ accepts, reject if $C$ rejects. 
+\end{enumerate}
+\end{proof}
+%Because all constructions show equivalence.
+We see that in this type of problem, it doesn't matter whether we use NFA or DFA, or whether we use CFG or PDA, because each in the pair recognizes the same class of languages. In the future we won't spell out all all equivalent automata; we'll just choose one representative (DFA and CFG).
+
+Let's do a slightly harder problem.
+\begin{thm}\llabel{EDFA}
+Let 
+\[E_{\text{DFA}}=\set{\an{B}}{B\text{ is DFA and }L(B)=\phi}.
+\]
+Then $E_{\text{DFA}}$ is decidable.
+\end{thm}
+This is the emptiness testing problem for DFA's: Is there one string out there that the DFA accepts?
+\begin{proof}
+How would you test if a DFA $B$ has am empty language?
+Naively we could test all strings. That is not a good idea, because this is not something we can do in finite time.
+
+%Let's test up to certain length.
+
+Instead we test whether there is a path from the start state to any of the accept states: Mark the start state, mark any state emanating from a previously marked state, and so forth, until you can't mark anything new. We eventually get to all states that are reachable under some input.
+
+If we've marked all reachable states, and haven't marked the accept state, then $B$ has empty language.
+
+\ig{7-2}{1}
+
+With this idea, let's describe the Turing machine that decides $E_{\text{DFA}}$.
+
+Let $S$ =`` on input $\an{B}$.
+%complementary: switch accept and non-accept states.  
+\begin{enumerate}
+\item
+Mark the start state.
+\item
+Repeat until nothing new is marked: Mark all states emanating from previously marked states.
+\item
+Accept if no accept state is marked. Reject otherwise.
+\end{enumerate}
+\end{proof}
+This is detailed enough for us to build the Turing machine if we had the time, but high-level enough so that the focus is on big details and not on fussing with minor things. (This is how much detail I expect in your solutions.)
+
+Note this applies to NFA's as well because we can convert NFA's to DFA's and carry out the algorithm we just desribed.
+\begin{thm}[Equivalence problem for DFA's]\llabel{EQDFA}
+\[
+EQ_{\text{DFA}}=\set{\an{A,B}}{A,B\text{ DFA's and }L(A)=L(B)}
+\]
+\end{thm}
+\begin{proof}
+%run both a and b on strings. But don't want to go forever. Can actually construct a bound, related to one of homework problems. Test all strings up to length that is product of sizes. This requires a lemma. We'll avoid this.
+
+Look at all the places where $L(A)$ and $L(B)$ are not the same. Another way to phrase the equivalence problem (is $L(A)=L(B)$) is as follows: Is the shaded area below, called the {\it symmetric difference}, empty?
+\[
+A\triangle B=(L(A)\cap \ol{L(B)})\cup (\ol{L(A)}\cap L(B))
+\]
+
+\ig{7-3}{1}
+
+Let $E=$`` on input $\an{A,B}$.
+\begin{itemize}
+\item
+Construct a DFA $C$ which recognizes $A\triangle B$. Test if $L(C)=\phi$  using the TM $S$ that tested for emptiness (Theorem~\ref{EDFA}).
+\item
+Accept if it is $\phi$, reject if not.
+\end{itemize}•
+\end{proof}
+
+\subsection{Problems on grammars}
+
+Let's shift gears and talk about grammars.
+\begin{thm}\llabel{ACFG}
+Let 
+\[
+A_{\text{CFG}}=\set{\an{G,w}}{G\text{ is a CFG and }w\in L(G)}.
+\]
+Then $A_{\text{CFG}}$ is decidable.
+\end{thm}
+\begin{proof}
+We want to know: does $G$ generate $w$?
+
+We need an outside fact. We can try derivations coming from the start variable, and see if any of them lead to $w$. Unfortunately, without extra work, there are infinitely many things to test. For example, a word $w$ may have infinitely many parse trees generating it, if we had a rule like $R\to \ep|R$.
+
+%For a particular $w$ only finitely ma ny trees? Problem: need to know what bound is.
+
+\begin{df}
+A CFG is in \textbf{Chomsky normal form} if all rules are of the form $S\to \ep$, $A\to BC$, or $A\to a$, where $S$ is the start variable, $A,B,C$ are variables, $B,C$ are not $S$, and $a$ is a terminal.
+\end{df}
+%Use Chomsky normal form: all rules look like $S\to \ep$, $A\to BC$, and $A\to a$. 
+The Chomsky normal form assures us that we don't have loops (like $R\to R$ would cause). A variable $A$ can only be converted to something longer, so that the length can only increase.
+
+We need two facts about Chomsky normal form.
+\begin{thm}\llabel{chomsky-nf}
+\begin{enumerate}
+\item
+Any context-free language is generated by a CFG in Chomsky normal form. 
+\item
+For a grammar in Chomsky normal form, all derivations of a length $n$ string have at most a certain number of steps, $2n-1$. 
+\end{enumerate}
+\end{thm}
+
+%Two facts: we can convert every CFG into one in Chomsky normal form (see the book). 
+%$n-1$ steps to grow to length $n$ and $n$ steps to convert to variables.
+
+Let $F=$``on $\an{G,w}$.
+\begin{enumerate}
+\item
+Convert $G$ to Chomsky normal form.
+\item
+Try all derivations with $2n-1$ steps where $n=|w|$.
+\item 
+Accept if any yield $w$ and reject otherwise
+\end{enumerate}•
+\end{proof}
+\begin{cor}\llabel{CFL-decidable}
+Every CFL is decidable. 
+\end{cor}
+This is a different kind of theorem from what we've shown. We need to show {\it every} context-free language is decidable, and there are infinitely many CFL's.
+\begin{proof}
+Suppose $A$ is a CFL generated by CFG $G$. We build a machine $M_G$ (depending on the grammar $G$) deciding $A$: $M_G$=``on input $w$, %(Machine depends on grammar, emphasizing point.)
+%
+%Let $M_G=$``on input $w$.
+\begin{enumerate}
+\item
+Run TM $F$ deciding $A_{\text{CFG}}$ (from Theorem~\ref{ACFG}) on $\an{G,w}$. Accept if $F$ does and reject if not. 
+\end{enumerate}
+%Build turing machine around grammar. Using now given algorthm for test a CFG.
+%
+%We don't construct $G$. Every CFG has by definition a $G$. We use it to build our $M_G$. All we need to do to show it's decidable is to show $M_G$ exists. We just know it exists; it's enough to show $M_G$ is decidable. 
+%constructiveness.
+\end{proof}
+
+\begin{thm}[Emptiness problem for CFG's]\llabel{EQCFG}
+\[
+%EQ_{\text{CFG}}=\set{\an{A,B}}{A,B\text{ CFG's and }L(A)=L(B)}
+E_{\text{CFG}}=\set{\an{A}}{L(A)=\phi}
+\]
+is decidable.
+\end{thm}
+\begin{proof}
+Define a Turing machine by the following. ``On input $\an{G}$,
+\begin{enumerate}
+\item
+First mark all terminal variables
+\bal
+S&\to \dot{a}S\dot{b}|T\dot{b}\\
+T&\to \dot{a}|T\dot{a}.
+\end{align*}
+\item
+Now mark all variables that go to a marked variable:
+\bal
+S&\to \dot{a}S\dot{b}|\dot{T}\dot{b}\\
+\dot{T}&\to \dot{a}|\dot{T}\dot{a}.
+\end{align*}
+and repeat until we can't mark any more
+\bal
+\dot{S}&\to \dot{a}\dot{S}\dot{b}|\dot{T}\dot{b}\\
+\dot{T}&\to \dot{a}|\dot{T}\dot{a}.
+\end{align*}
+\item
+If $S$ is marked at the end, accept, otherwise reject.
+\end{enumerate}• 
+\end{proof}
+
+
+\cpbox{
+Turing machines can decide a lot of properties of DFA's and CFG's  because DFA's and PDA's have finite memory. Thus we may can say things like, ``mark certain states/variables, then mark the states/variables connected to them, and so on, and accept if we eventually get to..."
+}
+\vskip0.15in
+In contrast to the previous theorems, however, we have the following.
+\begin{thm}[Equivalence problem for CFG's]\llabel{EQCFG}
+\[
+EQ_{\text{CFG}}=\set{\an{A,B}}{A,B\text{ CFG's and }L(A)=L(B)}
+\]
+is {\it undecidable}.
+\end{thm}
+(Note that the complement of $EQ_{\text{CFG}}$ is recognizable. 
+Decidability is closed under complement but not recognizability. In fact, the class of recognizable languages isn't closed under intersection or complement.)
+
+We will prove this later. We also have the following theorem.
+\begin{thm}[Acceptance problem for TM's]
+\[
+A_{\text{TM}}=\set{\an{M,w}}{\text{TM }M\text{accepts }w}
+\]
+is {\it undecidable}. However it is $T$-recognizable.
+\end{thm}
+To see that $A_{\text{TM}}$ is $T$-recognizable, let $U=$`` on $\an{M,w}$. Simulate $T$ on $w$." Note this may not stop. %Otherwise continue simulating. 
+
+This is a famous Turing machine. It is the ``universal machine," and the inspiration for von Neumann architecture. It is a machine that one can program, without having to rewire it each time, so it can do the work of any other machine.

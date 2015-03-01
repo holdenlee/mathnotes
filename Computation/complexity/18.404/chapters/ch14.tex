@@ -1,0 +1,234 @@
+\lecture{Tue. 10/30/12}
+
+Last time we talked about
+\begin{itemize}
+\item
+NTIME$(t(n))$
+\item
+NP
+\end{itemize}
+Today we'll talk about NP-completeness.
+
+\subsection{P vs. NP}
+
+Recall that P is the class of problems (languages) where we can {\it test} membership quickly (in polynomial time in the size of the input). NP is the class of problems where we can {\it verify} membership quickly. We verify via a ``short certificate" or a ``short proof." The verifier would be convinced that the string is in the language.
+Hamiltonian path is a good example: membership is easily verified by giving the path. Nonmembership is trickier: No one knows whether there is a way to exhibit short proof for non-existence of a Hamiltonian path. The complement of HAMPATH is not known to be in NP. 
+
+We can always flip the answer in P. However, we can't do so easily in NP: the acceptance structure can't be complemented easily in nondeterministic Turing machine. \\
+
+\wrbox{
+The complement of a language in P is in P (coP$=$P). However, the complement of a language in NP may not be in NP, because a NTM {\it can't easily do the opposite} of what another NTM does.
+}
+\vskip0.15in
+The big problem in theoretical computer science is \textbf{P versus NP}. Most people believe P$\ne$NP: there is a larger class of languages that can be verified in polynomial time than can be solved in polynomial time. The other alternative is that $P=NP$.
+We've seen that SAT, HAMPATH, CLIQUE, etc. are in NP.
+
+\ig{14-1}{1}
+
+This problem was posed in the early 1970's, though it had precursors in the literature 10--15 years prior. There is an amazing letter Kurt G\"odel sent to John von Neumann in 1955--1956 about the problem, using different language: Do we have to look for proofs by brute force or is there some quicker way?
+The problem has spread outside the computer science community to the math community. P vs. NP is one of Millenium problems, put together by a committee in 2000 as the analogue to Hilbert's problems in 1900. Langton Clay put in prize money for a solution: one million dollars.
+\subsection{Polynomial reducibility}
+Early progress on the P vs. NP problem gave the amazing theorem.
+\begin{thm}\llabel{thm:sat-np}
+SAT$\in $P iff P$=$NP.
+\end{thm}
+This would be important in a proof of the $P\stackrel?=NP$ problem. If might seem that you have to find an algorithm for all NP problems. If you believe P$=$NP, all you have to do is find an algorithm for SAT. On the flip side, to show $P\ne NP$, all you have to do is pick one problem and show it's in NP but not in P. But you might pick the wrong problem, for instance compositeness (primality testing), which is actually in $P$. This theorem tells you you can just focus on SAT.
+
+This is an application of the theorem to understanding the P vs. NP problem. If you think of problems in P as being easy, and problems outside being hard, and if you assume that P$\ne$NP, then this theorem tells you that SAT is not easy. This gives evidence that SAT does not have a polynomial time algorithm. 
+
+Enough philosophical musings; let's do math. We'll work our way towards the proof of Theorem~\ref{thm:sat-np} today and finish next time.
+
+We use a notion that we've seen before---reducibility.
+
+\begin{df}
+$A$ is \textbf{polynomial time mapping reducible} to $B$ ($A\le_PB$) if $A\le_m B$ ($A$ is mapping reducible to $B$) and the reduction is computable in polynomial time.
+\end{df}
+In other words, the thing that does the mapping can be done quickly. Not only can you translate $A$-questions to $B$-questions, you can do so by a polynomial time algorithm.
+
+Just as we proved Proposition~\ref{pr:map-reduce}, we can show the following.
+\begin{thm}
+If $A\le_P B$ and $B\in P$, then $A\in P$.
+\end{thm}
+Let's do an example. 
+\subsubsection{An example: 3SAT reduces to CLIQUE}
+\begin{ex}
+3SAT$\le_P$CLIQUE.
+
+Recall that
+\[
+\text{SAT}=\set{\an{\phi}}{\phi\text{ is a satisfiable Boolean formula}}.
+\]
+In other words, it is the set of statements $\phi$ that is true, under some truth assignment to its variables. 
+
+It's convenient to consider Boolean formulas in a special form, 3CNF (conjunctive normal form). This means the formula looks something like
+%conjunctions are and's
+\[
+(x\vee y\vee \ol z)\wedge (\ol x\vee w\vee \ol y)\wedge \cdots \wedge (\ol u\vee \ol w\vee \ol x).
+\]
+It is written as a bunch of clauses and'd together, and each each clause is an ``or" of 3 literals (variables or negated variables). That's all we're allowed to do. The ``3" means that we have 3 variables in each clause. 
+Thus we see this is a special case of the SAT problem, which we call 3SAT.
+\[
+\text{3SAT}=
+\set{\an{\phi}}{\phi\text{ is a satisfiable 3CNF formula}}.
+\]
+We'll focus on the 3SAT problem and the CLIQUE problem.
+
+The CLIQUE problem is very different. Given an undirected graph with nodes and edges, a $k$-clique is $k$ vertices all connected to one another.
+
+\ig{14-2}{1}
+
+Define
+\[
+\text{CLIQUE}=\set{\an{G,k}}{G\text{ contains a $k$--clique}}.
+\]
+
+I'm going to give a way to convert problem about whether or not a formula is in the 3SAT language to whether a graph contains a $k$-clique. This is surprising!
+We'll see that such conversions (reductions) are not just an interesting curiosity, but very important.
+
+We'll do a proof by example. Suppose
+\[
+\phi=(x_1\vee x_2\vee \ol x_3)\wedge (\ol x_2\vee \ol x_3\vee x_4)\wedge\cdots \wedge (\cdots).
+\]
+A satisfying assignment is an assignment that makes the whole thing true. Because $\phi$ is made up of clauses and'd together, each clause has to be true.  What does it mean for each clause to be true? We have to make at least one of the literals true. 
+
+We have to pick out one literal and make it true. Thinking of the problem this way will be helpful to understanding the reduction to the CLIQUE problem.
+
+We will now convert $\phi$ to $\an{G,k}$. %The conversion is actually pretty simple. 
+We will have one node for each literal variable. It's helpful to think of each node as being labeled by the associated literal. Now we put in the edges. We put in all possible edges with two exceptions.
+\begin{enumerate}
+\item
+Don't put edges inside a clause (internal to one of the triples associated to a clause). Thus edges can only go from one clause to another clause.
+\item
+Never join two nodes that are associated to contradictory labels. 
+\end{enumerate}
+All other edges will be there. 
+
+\ig{14-3}{1}
+
+As long as two literals are not contradictory in different clauses, they are connected by an edge.
+
+Let $k$ be the number of clauses.
+
+We just have to show that this is actually a reduction. That this can be done in polynomial time is clear: by looking at the formula, we can easily write down the graph.
+
+We have to show two directions. Now is where the interesting stuff happens; we'll understand what's going on; why did we draw this strange graph?
+\begin{enumerate}
+\item
+$\phi\in $3SAT$\implies\an{G,k}\in$CLIQUE.
+
+Suppose $\phi$ is 3-satisfiable; we have to exhibit a $k$-clique. Each clause has at least one true literal. Pick out a true literal in each clause. Maybe the assignment makes $x_2$ true. Obviously it cannot make $x_2$ true; maybe it makes $\ol x_3$ true. Now pick out the associated nodes.
+
+I claim those nodes form a clique. I have to show that every pair of nodes I've picked are connected by an edge. We put in all possible edge with 2 exceptions. We have to show we don't run into any of the exceptions.
+\begin{enumerate}
+\item[1.]
+We only pick 1 node from each clause.
+\item[2.]
+We never pick two nodes with contradictory labels. We can't pick two nodes with contradictory labels because they can't be both true; we could not have picked both of them as the {\it true} literal in the clauses. One will be true and the other false in any assignment. %won't run into problem of picking contrdictory label.
+\end{enumerate}
+We started with the certificate from 3SAT and produced a certificate for CLIQUE.
+
+\item
+$\phi\in $3SAT$\Leftarrow\an{G,k}\in$CLIQUE.
+
+Now we start with a $k$-clique. We reverse the argument. Look at the nodes we picked out as being in the same clique. Every node has to be from a different clause, because nodes in the same clause are not connected (1). Since there are $k$ clauses, we took one node from each clause.
+
+Take the nodes in the clique and let the corresponding literal be true. For instance, if $x_2$ and $\ol x_3$ are in the clique,  make $x_2$ true and $\ol x_3$ true, i.e., $x_3$ false. If a variable is unassigned, assign any which way. How do we know we didn't run into trouble? We won't assign a variable true and its complement true, because contradictory nodes can't be in the same clique (2).
+
+This gives at least one 1 node in each clause.
+\end{enumerate}
+We're done but we had to show both directions.
+%I am giving you a specific graph. 
+\end{ex}
+This means that if we find a polynomial time algorithm for CLIQUE, then we can solve 3SAT quickly. We can convert 3SAT into a special CLIQUE problem. If you can solve general CLIQUE problems, then you can solve these special CLIQUE problems too, using our magical polynomial time algorithm to CLIQUE.
+%every np-problem reduce to SAT, 3SAT.
+
+Let's lay out our game plan. We'll show next lecture that every NP problem can be reduced to SAT. We'll show 
+\[
+\text{SAT}\le_P \text{3SAT}\le_P\text{CLIQUE}, \text{HAMPATH},\ldots
+\]
+(we just did 3SAT$\le_P$CLIQUE). 
+What we did for 1 problem we'll have to do for infinitely many problems. We'll use the Boolean logic of SAT to simulate a Turing machine.
+This is similar to the proof of undecidability of PCP: we use combinatorial structure to simulate a Turing machine.
+
+Note that polynomial time reducibility is preserved by composition (exercise). 
+\subsection{NP completeness}
+We have a special name for problems that {\it every} NP problem can reduce to.
+\begin{df}
+A language $B$ is \textbf{NP-complete} if
+\begin{enumerate}
+\item
+$B\in$NP.
+\item
+For every $A\in $NP, $A\le_PB$ ($A$ is reducible to $B$ in polynomial time).
+\end{enumerate}
+\end{df}
+If we can reduce everything else in NP to $B$, then $B$ is a NP-complete problem. Condition 2 by itself is called \textbf{NP-hard}. Rephrasing, $B$ is NP-complete if $B\in$NP and is NP-hard. (A problem that is just NP-hard may be worse than NP.)
+%function computation.
+%everything languages for us.
+%``a function is in P." for Sipser, P is a class of languages
+%we stick with lang, but interpreted more generally sometimes.
+
+The picture is that NP-complete problems are at the ``top" of the NP problems:
+
+\ig{14-5}{1}
+
+Proving the non-existence of reductions within NP is tricky business. A common question is to give an example of NP problem which is not NP-complete. But if $P=NP$, then all problems in NP are reducible to each other, essentially. If you can prove some NP problem is not reducible to another NP problem, then you have a good result---you've just shown $P\ne NP$. 
+We're not going to show that in class.
+Otherwise, I'd be off celebrating somewhere in the Caribbean.
+
+%If we had 2 decidable problems, they are all reducible to each other by mapping reducibility. 
+
+There is a special analogy between P and decidability and NP and recognizability. 
+One key element is not in place, though. We don't know whether the classes are different. Still, there are a lot of similarities.
+
+As we will show, everything is reducible to SAT, so SAT is NP-problem (Cook-Levin Theorem).
+\begin{thm}[Cook-Levin]\llabel{thm:cook-levin}
+SAT is NP-complete.
+\end{thm}
+(This is equivalent to Theorem~\ref{thm:sat-np}.)
+
+By composition of reductions, if SAT reduces to some other problem, that problem is also a NP-problem. This will show that 3SAT, CLIQUE, HAMPATH, etc. are also NP-complete, provided that we have the reductions.
+
+\cpbox{
+Because 3SAT is NP-complete, to show another problem is NP-complete, you just have to do things:
+\begin{itemize}
+\item
+Show it is in NP.
+\item
+Give a polynomial-time reduction from 3SAT to NP: 3SAT$\le_P$NP.
+\end{itemize}
+}
+\vskip0.15in
+When we're doing reductions, we're trying to find a way to simulate Boolean variables with structures in the target problems.\\
+
+\cpbox{To reduce from one 3SAT to another language, design features or structures that have the same kind of feature as a variable or clause in 3SAT. (Think of this as ``learning to program" using CLIQUE, HAMPATH, etc. languages/) These features are called {\it gadgets}, substructures in the target language which operate in the same way a variable or clause do.}
+\vskip0.15in
+The best way to understand this is through example.
+\begin{thm}
+3SAT$\le_P$HAMPATH.
+\end{thm}
+\begin{proof}
+Start with a 3CNF, say $\phi=(x_1\vee x_2\vee \ol x_3)\wedge (\ol x_2\vee \ol x_3\vee x_4)\cdots$. We construct $\an{G,s,t}$. We build a graph that has a Hamiltonian path in it exactly when $\phi$ is satisfiable. \fixme{(fig 6).}
+
+We put in a bunch of nodes; all edges are directed downwards or horizontally. The diamond structures will be associated to the variables, there will be one structure corresponding to each variable (a bit different from last time, where we had one structure for each appearance of a literal). The bottom node of a diamond is the same as the top node of the next. For each diamond we have horizontal connections. 
+
+We have a hamiltonian path right now. For each diamond we could zig-zag or zag-zig independently through each of the variable gadgets; we pick up all the nodes, and there's nothing else we could do. Zig-zag is going to correspond to ``true" and zag-zig is going to correspond to ``false." The Hamiltonian path is going to correspond to the truth assignment.
+
+An important feature we haven't done yes is the clauses. We have to have an assignment which makes one literal in each clause true. We let each clause gadget be a node.  A Hamiltonian path has to go through each. If $x_1\in C_1$ (clause 1), then we put in arrows like in the diagram, allow a detour to visit $x_1$ if we're zig-zagging (going from left to right in a diamond) ,but not if we're zag-zigging (going from right to left in a diamond): (figure from textbook)
+
+\ig{14-6}{1}
+
+This corresponds for $x_1$ being a positive literal. How do we implement the fact that $\ol{x_3}\in C_1$? We allow the detour only to go in the right-to-left direction.
+
+\ig{14-7}{1}
+
+We leave a space before putting the next node, to give an opportunity to make several detours.
+
+Suppose an assignment has 2 true literals in some clause $C_1$. %that could happen. 
+But that gives 2 detours to $C_1$. We can only visit $C_1$ once. Is that a problem? No. 
+A detour is an option---it's not a broken-road detour, it's a rest-stop type detour, if you don't have to go, don't.
+
+We have to prove that if we have a satisfying assignment, then we have a Hamiltonian path. We zig-zag or zag-zig according to assignment, visit all detours.
+
+For the converse, if the path is nice (consisting of zig-zag and zag-zigs), then we get a satisfying assignment, and we're done. If the path is not nice, i.e., it goes to a different diamond from one it came from at some stage, then the path cannot be Hamiltonian because of the spacer nodes.
+\end{proof}

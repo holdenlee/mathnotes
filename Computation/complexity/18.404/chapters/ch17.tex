@@ -1,0 +1,217 @@
+\lecture{Thu. 11/8/12}
+
+Problem set 5 is out today. It is due after Thanksgiving, so you can think about it while you're digesting.
+
+Last time we talked about
+\begin{itemize}
+\item
+space complexity
+\item
+SPACE($s(n)$), NSPACE($s(n)$)
+\item
+PSPACE, NPSPACE
+\item
+Savitch's Theorem says that PSPACE$=$NPSPACE.
+%similar to other proofs we've seen; will be similar to more proofs we'll see.
+\end{itemize}
+Today we will
+\begin{itemize}
+\item
+finish Savitch's Theorem.
+\item
+Show TQBF is PSPACE-complete.
+\end{itemize}
+\subsection{Savitch's Theorem}
+Recall the following.
+\begin{thm*}[Savitch, Theorem~\ref{thm:savitch} again]
+For $s(n)\ge n$, 
+\[
+\text{NSPACE}(s(n))\subeq \text{SPACE}(s(n)^2).
+\]
+\end{thm*}
+Savitch's Theorem says that if we have a nondeterministic machine, we can convert it to a deterministic machine using at most the square of the amount of time.
+
+Nondeterminism only blows up space by a square, not an exponential. The proof is not super hard but it is not immediately obvious.
+\begin{proof}
+For NTM $N$ using space $S(n)$ with configurations $C_1,C_2$, write $C_1\xra tC_2$ (``$C_1$ yields $C_2$ in $t$ steps")  if $N$ can go from $C_1$ to $C_2$ in at most $t$ steps. We give a recursive, deterministic algorithm to test $C_1\xra tC_2$ without using too much space. 
+
+We will apply the algorithm to $C_1=C_{\text{start}}$, $C_2=C_{\text{accept}}$, and $t=d^{S(n)}$. 
+%which C accept?
+
+We may assume $N$ has a single accepting configuration, by  requiring the machine to clean up the space when it is done (just like children have to clean up their room). It puts blanks back, moves its tape head to the left, and only then does it enter the accept state.
+
+The basic plan is to make a recursive algorithm.
+
+\ig{17-1}{1}
+
+We will inevitably have to try all possibilities, but we can do so without using too much space. 
+The machine zoom to the middle, and guess the midpoint configuration. It tries configurations sequentially one after another, as a candidate for the midpoint---think of it as cycling like an odometer through all possible configurations (of symbols and the tape head). This is horrendously slow, but it can reuse space. Once it has a candidate, it solves 2 problems of the same kind recursively: can we get from the top to the middle in half the time, and once we've found a path to the middle, we ask can we get from the middle to the bottom? %We cut the time we're allocating to by half. 
+Note that in the second half of procedure, the machine can reuse space from the first half. 
+
+The machine continues recursively on the top half, splitting it into two halves and asking whether it can get between the configurations in a quarter of the original time.
+
+The recursion only goes down a logarithmic number of steps, until it gets to $t=1$. There are on the order of $S(n)$ levels. To check whether one configuration follows another in 1 step, just simulate the machine. How much do we have to write down every time we recurse? We have to write down the candidate for the middle. Each time we recurse we have a new configuration to write down.
+
+We summarize the algorithm below.
+
+On input $C_1,C_2,t$, do the following.
+\begin{enumerate}
+\item
+For $t>1$, for each configuration $C_{\text{MID}}$ test if $C_1\xra{t/2} C_{\text{MID}}$ and $C_{\text{MID}}\xra{t/2} C_2$, reusing the space.
+
+\ul{Accept} if both accept (for some $C_{\text{MID}}$). (Then $C_1$ can get to $C_2$ in 2 steps.)
+\item
+If $t=1$, \ul{accept} if $C_1$ can legally yield $C_2$ in 1 step of $N$ or if $C_1=C_2$. %1 step or 0 steps.
+\end{enumerate}
+%look for one of these tableaux. naive backtracking algorithm, keeping track where are takes exponential space. too simple to give us bound we want
+%more sophisticated. 1970s. Anything do in certain amount of space nondet can do in sq deterministically. $s(n)$ space. 2 configurations. somewhere in tableaux. 
+
+The number of levels of recursion is $\log_2d^{S(n)}=O(S(n))$. Each level requires storing a configuration $C_{\text{MID}}$ and uses $S(n)$ space. The total space used is 
+\[
+O(S(n))S(n)=O(S^2(n)).
+\]
+%not going to get Savitch down to linear time. Too strong a result. Nondet is more powerful. 
+%height exponential. In order to keep track of searching procedure, need to write down as much info as one branch. 
+%weird things have happened. 
+%for each recursion trying every possible assignment of $C_{\text{MID}}$. $d^{S(n)^2}$ time. Max time corresp to that much space.
+%practical consequences where $S$ small? Nothing panned out. Haven't looked at cases where $S$ small. $S\le n$. Have to define what that means. Natural cases where consider that.
+\end{proof}
+This tells us PSPACE$=$NPSPACE. Let's draw the picture of the world. (If $S(n)$ is polynomial, $S(n)^2$ is still polynomial.)
+
+\ig{17-2}{1}
+
+Let's move to the second topic for today.
+\subsection{PSPACE--completeness}
+It is a famous problem whether P$=$NP. We know NP$\subeq$PSPACE; we can also ask whether P$=$PSPACE. If a language needs polynomial space, can we just use polynomial time?
+Unbelievably, we don't know the answer to that either. For all we know, the whole picture collapses down to P!
+
+A few (wacky) 
+members of community believe P$=$NP. No one believes P$=$PSPACE. That would be incredible. 
+
+What we do have is the notion of NP--complete. There is a companion notion of PSPACE--completeness. Every problem in PSPACE is reducible to a PSPACE--complete problem. This is interesting for some of the same reasons that NP--complete problems are interesting.
+Showing a problem is PSPACE--complete is even more compelling evidence that outside P, because else P$=$PSPACE. Complete problems for class give you insight for what that space is about, and how hard the problems are.
+
+PSPACE--completeness has something to do with determining who has a winning strategy in a game. There is a tree of possibilities in a game, and a structure to that tree: I win if for every move you make there exists a move I can make such that...
+%AND-OR structure
+This is the essence of what PSPACE is about.
+While we don't know P$\ne$PSPACE, we do know that P is not equal to the next one up: EXPTIME. You can prove P$\ne $EXPTIME. That is the first time where technology allows us to show something different.
+
+Note there is a tradeoff: more time, less space vs. more space, less time. There are results in these directions, but we won't do them. For instance, there are Savitch's Theorem variants, which trade off time for space. It cuts the recursion at different points. 
+
+%Scott Aaronson, complexity zoo.
+\subsubsection{Definitions}
+This should look familiar, but there's one point we have to make clear.
+\begin{df}
+We say that $B$ is \textbf{PSPACE--complete} if 
+\begin{enumerate}
+\item
+$B\in $PSPACE.
+\item
+For every $A\in $PSPACE, $A\le_P B$.
+\end{enumerate}
+\end{df}
+We are still using polynomial time reducibility. Why polynomial time? It's important to realize if we put PSPACE, {that would be stupid.} If $A$ is polynomial space reducible to $B$, what would happen? This is related to the homework due today. 
+The reduction can solve the problem itself and then target it to the right problem.
+
+Thus, every 2 problems in P are polynomial time reducible to one another. Every 2 probs in PSPACE are polynomial space reducible to one another. Every we use polynomial space reducibility, every problem is PSPACE--complete. This is not interesting.
+{\it You have to use a reduction less powerful than class you're studying.} A reduction is a transformer of problems, not a solver of problems. 
+
+If you have a PSPACE--complete problem, and you can solve it in polynomial time by virtue of some miracle, then every other PSPACE problem can be solved in polynomial time, and we've pulled down all of PSPACE into P.
+%A PSPACE problem in 
+
+It's important to understand why we set it up this way!
+
+\subsubsection{TQBF is PSPACE--complete}
+
+An example of a PSPACE problem is TQBF (true quantified boolean formulas, where all variables are quantified by $\forall$'s and $\exists$):
+\[
+\text{TQBF}=\set{\an{\phi}}{\phi\text{ is a true quantified Boolean formula}}.
+\]
+For instance, $\forall x\exists y (x\vee y)$.
+
+
+\begin{thm}\llabel{thm:tqbf-pspace-comp}
+TQBF is PSPACE--complete.
+\end{thm}
+The proof will be a recap of stuff we've seen plus 1 new idea.
+\begin{proof}
+\begin{enumerate}
+\item
+TQBF$\in$PSPACE: We saw last time that recursing on assignments gives a linear space algorithm (Theorem~\ref{thm:tqbf-pspace}).
+\item
+Let $A\in$PSPACE be decided by a TM $M$ in space $n^k$.
+
+We give a polynomial time reduction $f$ from $A$ to TQBF,  $f:w\mapsto \phi_w$, such that $\phi_w$ ``says" $M$ accepts $w$. $\phi_w$ captures $M$ running on $w$; so far this is the same idea as that in the Cook-Levin Theorem.
+\end{enumerate}
+
+Consider a tableaux of $M$ on $w$, with width $S(n)$ and height $d^{S(n)}$. $M$ is deterministic, so there is just 1 possibility for the rows to be the computation history. %\fixme{Fig 3.} 
+As in Cook-Levin, we can try to build $\phi_w$ the same way. %We could do the same thing now. Build $\phi_W$ in the same way. 
+That gives us a correct formula.
+
+The difference is that before we were talking about satisfiability. We can just put $\exists$ quantifiers out front to make it a TQBF.
+This doesn't work; why? How big is the formula? It's as big as the tableaux, exponentially big! You can't write down an exponentially big formula in polynomial time. We need a shorter formula which expresses the same thing. The$\phi_W$ from Cook-Levin is too big.
+%Why cook-levin theorem by itself not enough. Punch line at end.
+
+This is why the idea from Cook-Levin by itself is not enough.
+
+First we solve a more general problem. Let's solve the problem for $C_1,C_2,t$: give $\phi_{C_1,C_2,t}$ which says $C_1\xra{t} C_2$. It will be helpful to talk about any 2 configurations, and being able to go from one to another in a certain amount of time. Even Cook-Levin would give you that: just use $C_1$ and $C_2$ in place  of the start and end configuration. But this viewpoint allows us to talk about the problem in a different way. 
+
+%Constructing $\phi_{C_1,C_2,t}$ saying $C_1\xra{t}C_2$. 
+%There exists a $C_{\text{MID}}$
+As a first attempt, we can construct $\phi_{C_1,C_2,t}$ saying $C_1\xra{t}C_2$ by writing 
+\[
+\phi_{C_1,C_2,t}=\exists C_{\text{MID}}(\phi_{C_1,C_{\text{MID}},t/2}\wedge \phi_{C_{\text{MID}},C_2,t/2})
+\]
+and constructing subformulas recursively.
+
+Why can we write down $\exists C_{\text{MID}}$? Really it is  represented by the configurations of a bunch of variables.  It is shorthand for $\exists x_1\exists x_2\cdots \exists x_{\ell}$. 
+If $t=1$, then $\phi_{C_1,C_2,t=1}$ and we can write the formula by Cook-Levin.  
+%Little $o$ of the class sticking with me.
+
+\ig{17-4}{1}
+
+But have we done anything? The semantics of the formula are correct. All this is saying is that we can get from $C_1$ to $C_2$ in $t$ steps iff there is some midpoint such that we can get from $C_1$ to the midpoint in half the time and from the midpoint to $C_2$ in half the time. (This smells like Savitch's theorem. There is more than meets the eye!) We cut $t$ in half at the expense of creating 2 subproblems. The number of levels of the recursion is fortunately only $d$. Here $S(n)=n^k$.
+
+We end up with polynomial time steps, but we double the size of the formula each time, so it's still exponential.
+
+We ended up not doing anything! This shouldn't come as a total surprise. We're still only using the $\exists$ quantifier. This is still a SAT-problem! We haven't used the full power of TQBF, which uses $\exists$ and $\forall$'s.
+
+Now and's and $\forall$'s are 2 flavors of the same thing. $\exists$'s are like or's. We're going to get rid of the ``and." This looks like cheating but it's not:
+\[
+\phi_{C_1,C_2,t}=\exists C_{\text{MID}}\forall (C_3,C_4)\in \{
+(C_1,C_{\text{MID}}), (C_{\text{MID}},C_2)
+\}(\phi_{C_3,C_4,\fc t2}).
+\]
+There is a fixed cost out front, and a single new formula at each level, not doble formulas, so there is no blowup. We need to show this is legitimate. Note that $\exists C_{\text{MID}}$ stands for a string that is $O(n^k=S(n))$ long. The same is true of the $\forall$ quantifier. Let's rewrite the $\forall$ in more legal language:
+\begin{multline*}
+\forall (C_3,C_4)\in \{
+(C_1,C_{\text{MID}}), (C_{\text{MID}},C_2)
+\}(\phi_{C_3,C_4,\fc t2})\\
+=
+\forall C_3\forall C_4[(C_3,C_4)=(C_1,C_{\text{MID}})\vee (C_3,C_4)=(C_{\text{MID}},C_2)\to \phi_{C_3,C_4,t/2}]
+\end{multline*}
+This is the trick! This was done at MIT by Larry Stockmeyer in his Ph.D. thesis. It is called the Meyer-Stockmeyer Theorem. 
+
+How big is this formula? We start off with an exponential number of steps $d^{S(n)}=d^{n^k}$, so the number of recursions is $O(n^k)$. Each adds order $O(n^k)$ stuff out front, so the size of the formula is $n^{2k}$. Its size is polynomial, but it does have a squaring. 
+\end{proof}
+We see in both Savitch's Theorem~\ref{thm:savitch} and Theorem~\ref{thm:tqbf-pspace-comp} the following concept.\\
+
+\cpbox{Recursion using middle configurations makes things polynomial, not exponential!}
+\vskip0.15in
+In fact, the proof Theorem~\ref{thm:tqbf-pspace-comp} implies Savitch's Theorem: It could have been a nondeterministic Turing machine and the proof still works! Hence, very nondeterministic NPSPACE computation can be reduced to TQBF.
+
+If a nondeterministic machine is reduced to TQBF, there is a squaring. Note TQBF can be done in linear space: A deterministic machine goes through all assignments, and solves TQBF in linear time. This gives a different proof of Savitch's Theorem.
+
+\subsubsection{PSPACE--completeness and games}
+
+PSPACE--complete problems can look like games. TQBF doesn't look like a game, but we'll see it really does. 
+
+We'll see other PSPACE--complete problems that are more strictly ``games." My son, all he does is XBox. There is a kind of game we used to play before XBox, called geography. Choose some starting city, like Cambridge. Two players take turns. You have to pick a place whose first letter starts with the same letter Cambridge ends with. Edinburgh ends with H. I can pick Hartford, you Denver, I pick Raleigh, and so on. The first person who gets stuck loses. One more rule: no repetitions. %cycle boring.
+
+We can model this game as a graph. All cities are nodes.
+
+\ig{17-6}{1}
+
+ Arrows correspond to legal moves. Let's abstract the game, and forget the labels. We take turns picking some path through the graph. It has to be simple: no repeats. 
+If you get stuck somewhere with no place to go you lose. Depending on how you play, you might win or lose. The question is, if you play optimally, who wins? Given one of these graphs, which side has the win? We'll show this problem is PSPACE--complete by reducing TQBF to this problem.
+%chinese cities

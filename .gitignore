@@ -100,6 +100,7 @@ Computation/complexity/18.404/*
 !Computation/complexity/18.404/*.png
 !Computation/complexity/18.404/*.xnf
 !Computation/complexity/18.404/chapters
+!Computation/complexity/18.404/chapters/*.tex
 
 !Computation/machine_learning
 Computation/machine_learning/*

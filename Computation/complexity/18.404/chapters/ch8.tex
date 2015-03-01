@@ -1,0 +1,329 @@
+\lecture{Tue. 10/2/12}
+
+Today Zack Remscrim is filling in for Michael Sipser.
+
+We summarize the relationships between the three types of languages we've seen so far.
+\subsection{Languages}
+\begin{pr}\llabel{lang-subset}
+Each of the following classes of language is a proper subset of the next.
+\begin{enumerate}
+\item
+Regular
+\item
+CFL
+\item
+Decidable
+\item
+Turing-recognizable
+\end{enumerate}
+\end{pr}
+\begin{proof}
+We've already shown that the classes are subsets of each other.
+
+We have that $\set{a^nb^n}{n\ge 0}$ is a CFL but not a regular language, and $\set{a^nb^nc^n}{n\ge 0}$ is decidable but not CFL.
+
+Today we'll finish the proof by showing that decidable languages are a {\it proper} subset of T-recognizable languages, by showing that
+\[
+A_{TM}=\set{\an{M,w}}{M\text{ is a TM that accepts }w}
+\]
+is Turing-recognizable but not decidable.
+\end{proof}
+%T-recog but not recognizable.
+
+We'll also show there is a language that is not even Turing-recognizable.
+
+\begin{thm}
+$A_{TM}$ is Turing-recognizable.
+\end{thm}
+\begin{proof}
+Let $U=$``on input $\an{M,W}$,
+\begin{enumerate}
+\item
+Run $M$ on $w$.
+\item If $M$ accepts, then accept.\\
+If $M$ halts and rejects, then reject."
+\end{enumerate}
+$M$ doesn't have to be a decider, it may reject by looping. Then $U$ also rejects by looping.
+\end{proof}
+
+We can't do something stronger, namely make a test for membership and be certain that it halts (i.e., make a decider).
+\subsection{Diagonalization}
+Diagonalization is a technique originially introduced to compare the sizes of sets. We have a well-defined notion of size for finite sets. For infinite sets, it's not interesting just to call them all ``infinite." We'd also like to define the size of an infinite set, so that we can say one infinite set is larger or the same size as another.
+\begin{df}
+Two sets $A$ and $B$ \textbf{have the same size} if there exists a one-to one (injective) and onto (surjective) function $f:A\to B$. Here,
+\begin{itemize}
+\item ``one-to-one" means if $x\ne y$, then $f(x)\ne f(y)$.
+\item ``onto" means for all $y\in B$ there exists $x\in A$ such that $f(x)=y$.
+\end{itemize}
+We also say that $f:A\to B$ is a 1-1 correspondence, or a \textbf{bijection}.
+\end{df}
+This agrees with our notion of size for finite sets: we can pair off elements in $A$ and $B$ (make a bijection) iff $A$ and $B$ have the same number of elements.
+
+This might seem like an excessive definition but it's more interesting when applied to infinite sets.
+\begin{ex}
+Let 
+\begin{align*}
+\N&=\{1,2,3,4,\ldots, \}\\
+\E&=\{2,4,6,8,\ldots, \}.
+\end{align*}
+Then $\N$ and $\E$ have the same size, because  the function $f(n)=2n$ gives a bijection $\N\to \E$.
+
+\begin{center}
+\begin{tabular}{c|c}
+$n$ & $f(n)$\tabularnewline
+\hline 
+1 & 2\tabularnewline
+2 & 4\tabularnewline
+3 & 6\tabularnewline
+4 & 8\tabularnewline
+$\vdots$ & $\vdots$\tabularnewline
+\end{tabular}
+\end{center}
+
+Note $\N$ and $\E$ have the same size even though $\E$ is a proper subset of $\N$.
+\end{ex}
+
+This will usefully separate different kinds of infinities. We're setting the definition to be useful for us. We want to distinguish sets that are much much bigger than $\N$, such as the real numbers. 
+
+\begin{df}
+A set is \textbf{countable} if it is finite or has the same size as $\N$.
+\end{df}
+
+\begin{ex}
+The set of positive rationals
+\[
+\Q^{+}=\set{\fc mn}{m,n\in \N}
+\]
+is countable.
+
+To see this, we'll build up a grid of rational numbers in the following way.
+\[
+\xymatrix{
+& 1&2&3&4&5\\
+1&\fc 11 & \fc 12 & \fc 13 & \fc 14 &\cdots\\
+2&\fc 21 & \fc 22 & \fc 23 & \fc 24 &\cdots\\
+3&\fc 31 & \fc 32 & \fc 33 & \fc 34 &\cdots\\
+4&\vdots & \vdots & \vdots & \vdots &\ddots
+}
+\]
+Every rational number certainly appears in the table. We'll snake our way through the grid.
+\[
+\xymatrix{
+& 1&2&3&4&5\\
+1&\fc 11 \ar[d]& \fc 12 \ar[ddl]& \fc 13 \ar[llddd]& \fc 14 &\cdots\\
+2&\fc 21 \ar[ru]& \fc 22 \ar[ru]& \fc 23 & \fc 24 &\cdots\\
+3&\fc 31 \ar[ru]& \fc 32 & \fc 33 & \fc 34 &\cdots\\
+4&\vdots & \vdots & \vdots & \vdots &\ddots
+}
+\]
+
+Now put the numbers in this order in a list next to $1, 2, 3,\ldots$
+
+\begin{center}
+\begin{tabular}{c|c}
+$n$ & $f(n)$\tabularnewline
+\hline 
+1 & $\frac{1}{1}$\tabularnewline
+2 & $\frac{2}{1}$\tabularnewline
+3 & $\frac{1}{2}$\tabularnewline
+4 & $\frac{3}{1}$\tabularnewline
+5 & $\cancel{\frac{2}{2}}\frac{1}{3}$\tabularnewline
+$\vdots$ & $\vdots$\tabularnewline
+\end{tabular}
+\end{center}
+
+Note some rational numbers appear multiple times, for instance, 1 appears as $\fc 11, \fc22,\ldots $. In the correspondence we don't want to repeat these, we just go to the next value. This creates a bijection between $\N$ and $\Q^+$, showing $\Q^+$ is countable.
+\end{ex}
+A lot of infinite sets seem to have the same size, so is this a completely useless definition? No, there are infinite sets bigger than others, so it is useful for us. Are the real numbers of the same size as rational numbers?
+\begin{thm}\llabel{thm:R-uncountable}
+The set of real numbers $\R$ is not countable.
+\end{thm}
+Our proof uses the technique of {\it diagonalization}, which will also help us with the proof for $A_{TM}$.
+
+\begin{proof}
+Assume by contradiction that $\R$ is countable; there exists a bijection $f:\N\to \R$. We're going to prove it's not a bijection, by showing that it misses some $y$.
+
+Let's illustrate with a potential bijection $f$.
+
+\begin{center}
+\begin{tabular}{c|c}
+$n$ & $f(n)$\tabularnewline
+\hline 
+1 & 1.4142\tabularnewline
+2 & 3.1415\tabularnewline
+3 & 2.7182\tabularnewline
+4 & 1.6108\tabularnewline
+$\vdots$ & $\vdots$\tabularnewline
+\end{tabular}
+\end{center}
+
+We'll construct a number $y$ that is missed by $f$ in the following way: Let $y$ differ from $f(i)$ at the $i$th place to the right of the decimal point.
+
+\begin{center}
+\begin{tabular}{c|c}
+$n$ & $f(n)$\tabularnewline
+\hline 
+1 & 1.{\color{red}4}142\tabularnewline
+2 & 3.1{\color{red}4}15\tabularnewline
+3 & 2.71{\color{red}8}2\tabularnewline
+4 & 1.610{\color{red}8}\tabularnewline
+$\vdots$ & $\vdots$\tabularnewline
+\end{tabular}
+\end{center}
+
+For instance, let
+\[
+y=0.{\color{red}3725}\ldots
+\]
+We claim $y$ can't show up in the image of $f$. Indeed, this is by construction: it differs from $f(i)$ in the $i$th place, so it can't be $f(i)$ for any $i$.
+
+There's one little detail: 1 and $.999\ldots$ are equal even though their decimal representations are different. 
+To remedy this, we'll just never use a 0 or 9 in $y$ to the right of the decimal. 
+
+This is just to get around a little issue, though. The main idea is that given an alleged bijection, I can show it's not a bijection by constructing a value it misses.
+
+We've shown that there can't be a bijection $\N\to \R$; therefore $\R$ is uncountable.
+\end{proof}
+\cpbox{Use diagonalization when you want to construct an element that is different from every element on a given list. This is used in proofs by contradiction, for example, when you want to show a function can't hit every element of a set.}
+
+\begin{thm}
+Let 
+\[
+\cal L=\set{L}{L\text{ is a language}}.
+\]
+Then $\cal L$ is uncountable.
+\end{thm}
+The proof uses the same diagonalization idea.
+\begin{proof}
+It's enough to show just $\cal L$ is uncountable when the alphabet is just 0, because every alphabet contains at least 1 symbol. %doesn't change descriptive power, captures the point.
+The set of possible strings is
+\[
+%\{0,1\}^*=\{0,1,00,01,10,11,000,\ldots\}.
+\{0\}^*=\{\ep,0,00,000,\ldots\}.
+\]
+For a language $L$, define the characteristic vector of $\chi_L$ by $\chi_L(v)=0$ if $v\nin L$ and $1$ if $v\in L$. $\chi_L$ simply records whether each word is in $L$ or not.
+
+There is a correspondence between each language and its characteristic vectors. All we have to show is the set of characteristic vectors is uncountable. The set of strings of countable length is uncountable. Assume by contradiction that $\set{\chi_L}{L\text{ is a language over }\{0\}}$ is countable.
+
+Suppose we have some bijection from $\N$ to the set of characteristic vectors $\chi_L$,
+
+\begin{center}
+\begin{tabular}{c|c}
+$n$ & $f(n)$\tabularnewline
+\hline 
+1 & $1011\cdots$\tabularnewline
+2 & $0000\cdots$ \tabularnewline
+3 & $1111\cdots$ \tabularnewline
+4 & $1010\cdots$ \tabularnewline
+$\vdots$ & $\vdots$\tabularnewline
+\end{tabular}\end{center}
+
+Again, there has to be some binary string that is missed by $f$. We choose $y$ so it differs from $f(i)$ at the $i$th place.
+\begin{center}
+\begin{tabular}{c|c}
+$n$ & $f(n)$\tabularnewline
+\hline 
+1 & ${\color{red}1}011$\tabularnewline
+2 & $0{\color{red}0}00$\tabularnewline
+3 & $11{\color{red}1}1$\tabularnewline
+4 & $101{\color{red}0}$\tabularnewline
+$\vdots$ & $\vdots$\tabularnewline
+\end{tabular}
+\end{center}
+\[
+y={\color{red}0101}\cdots
+\]
+
+This $y$ can't ever appear in the table: Suppose $f(n)=y$. This is impossible since we said $y$ differs from $f(n)$ in the $n$th place. This shows the set of languages really is uncountable.
+\end{proof}
+Note that our proof works no matter what the alleged bijection $f$ looks like. Whatever $f$ does, it pairs up each $n$ with one binary number. All I have to do is construct a $y$ that differs from every single $f(n)$. %It'll differ from every single value somewhere. 
+It's constructed so it differs from every $f(i)$ somewhere.
+
+This shows that no function $f$ can work.
+
+%contradiction 
+%almost every value is going to be missed.
+%Example: 1 maps to 1, 2 maps to 01, and so forth. 
+
+%The goal is to show the set of languages over all alphabets is countable. The languages over 1-symbol alphabets, 2-symbol alphabets, and so on. We're focusing on 1-symbol alphabets.
+
+%Note the set of finite length strings is countable.
+
+%finite vs. uncountable.
+\subsection{$A_{TM}$: Turing-recognizable but not decidable}
+Consider
+\[
+\cal M=\set{M}{M\text{ is a Turing machine}}.
+\]
+(We fix the tape alphabet.)
+This is countable because there is a way to encode a Turing machines using a finite alphabet, with a finite length word. Now some words represent valid Turing machines. %Number the ones that represent Turing machines in order.
+
+Now pair the first valid string representing a Turing machine with 1, the second valid string representing a Turing machine with 2, and so forth. This shows $\cal M$ is countable.
+%Consider the set of all strings in order. 
+%M is Turing machine. $\cal
+
+The set of all languages is uncountable, but the set of Turing machines is countable. This implies the following fact.
+\begin{thm}
+There exists a language $L$ such that $L$ is not Turing-recognizable.
+\end{thm}
+\begin{proof}
+If every language were Turing-recognizable, we can map every language to a Turing machine that recognizes it; this would give a correspondence between a uncountable and a countable set.
+\end{proof}
+%distinguish between set of strings. Not trying to show uncountable. The set of strings is countables. We're trying to show set of languages is uncountable. We're representing by char vectors, infinitely long, can't repeat constructions.
+
+We're now ready to prove that $A_{TM}$ is undecidable.
+\begin{thm}\llabel{ATM}
+$A_{TM}$ is undecidable.
+\end{thm}
+\begin{proof}
+We'll proceed by contradication using diagonalization.
+
+Assume for sake of contradiction that $A_{TM}$ is decidable. Then there exists a decider $H$, such that 
+\[
+H(\an{M,w})=\begin{cases}
+\text{ accept}, &\text{when $M$ accepts.}\\
+\text{ rejects}, &\text{when $M$ rejects.}\\
+\end{cases}
+\]
+(Because $H$ is a decider, it is guaranteed to halt.) % else we can't detect if H rejects. Can't detect. 
+Using this machine $H$ we're going to make a machine $D$ that does something utterly impossible. This will be our contradiction.
+
+Let $D$=``On input $\an{M}$,
+\begin{enumerate}
+\item
+Run $H$ on $\an{M,\an{M}}$.\footnote{Compare this to looking at the $i$th symbol of $f(i)$.} $H$ answers the $A_{TM}$ problem, so it answers: does machine $M$ accept its own description?\footnote{This is a valid question, because we can encode the machine in a string, and the machine accepts strings. We can feed the code of a program to the program itself. For instance, we could have an optimizing compiler for $C$, written in $C$. %Given code with something else. Exectuable optimizing compiler. 
+Once we have the compiler, we might compile the compiler.} %comp
+\item If $H$ accepts, reject.\\
+If $H$ rejects, accept.
+\end{enumerate}
+Now for any Turing machine $M$, $D$ accepts $\an{M}$ iff $M$ doesn't accept $\an{M}$. 
+
+What happens if we feed $\an{D}$ to $D$? We get that $D$ accepts $\an{D}$ iff $D$ doesn't accept $\an{D}$. This is a contradiction!
+
+Let's look at what we've done. Let's say $A_{TM}$ were decidable. Let $H$ decide the $A_{TM}$ problem. We construct $D$ that uses $H$ as a subroutine, that does the opposite of what a machine $M$ does when fed the description of $M$. Then when we feed $\an{D}$ to $D$, $D$ is now completely confused! We get a contradiction, hence $A_{TM}$ can't be decidable.
+
+(If you're completely confused, there's more explanation in the next lecture.)
+\end{proof}
+This completes the picture in Proposition~\ref{lang-subset}.
+%if H not decider, can't say H accepts, reject
+\subsection{Showing a specific language is not recognizable}
+So far we know that there are nonrecognizable languages, but we haven't given an explicit description of one.
+Now we'll show a specific language is not recognizable. For this the following lemma is useful.
+\begin{lem}
+$A$ is decidable iff $A$ is $T$-recognizable and $\ol{A}$ is $T$-recognizable (we say that $A$ is \textbf{co-T-recognizable}).
+\end{lem}
+This immediately implies that $\ol{A_{TM}}$ is not recognizable.
+\begin{proof}
+($\implies$): Suppose $A$ is decidable. Then $A$ is T-recognizable. For the second part, if $A$ is decidable, then $\ol A$ is decidable (decidable languages are closed under complementation: just run the decider and do the opposite. You're allowed to do the opposite because the decider is guaranteed to halt). Hence $\ol A$ is also $T$-recognizable.
+
+($\Leftarrow$): Suppose $R$ recognizes $A$ and $S$ recognizes $\ol{A}$. We construct a decider $T$ for $A$. If we can do this, we're done.
+
+Construct $T$ as follows. $T=$``on input $w$, 
+\begin{enumerate}
+\item
+Run $R$ and $S$ on $w$ in parallel until one accepts. (We can't run $R$ and see what it does, and then run $S$, because $R$ and $S$ may not be decidable---$R$ might run forever, but $T$ needs to be a decider.) This won't take forever: either $R$ or $S$ might run forever on a particular input, but at least one of them will accept eventually, becase a string is either in $A$ or $\ol A$.
+\item
+If $R$ accepts, then accept. If $S$ accepts (i.e. $w\in \ol A$), then reject.
+\end{enumerate}
+\end{proof}
+%This completes the proof of the lemma and $A_{TM}$.

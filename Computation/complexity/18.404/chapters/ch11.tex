@@ -1,0 +1,256 @@
+\lecture{Tue. 10/16/12}
+
+Last time we talked about
+\begin{itemize}
+\item
+the computation history method
+\item
+$E_{LBA}$, PCP undecidable.
+\end{itemize}
+Today we'll do the following.
+\begin{itemize}
+\item
+Review above, $\text{ALL}_{PDA}$ undecidable
+\item
+Recursion theorem
+\item
+Introduction to logic
+\end{itemize}
+\subsection*{Homework}
+Enumerate collection of deciders hit every decidable language. Impossible.
+
+Argue reduction works as claimed.
+
+4. computation history
+
+5-6. today. 6. model for particular sentence. if haven't seen logic before, read section. Hint built into problem if you read it carefully.
+
+\subsection{Computation history method}
+The state doesn't give us all the information about a Turing machine. 
+Recall that a \textbf{configuration} of a Turing machine $M$ consists of the state, tape contents, and head position. We have a convenient representation, where $q$ is written at the head position.
+
+\ig{11-2}{1}
+
+A \textbf{computation history} of $M$ on $w$ is $C_1,\ldots, C_{\text{halt}}$ a sequence of configurations $M$ enters. %figure 3
+%has to be finite string.
+It's much easier to check these than to simulate a Turing machine outright. It is possible to check computation history with many kinds of automata or combinatorial objects.
+
+\ig{11-3}{1}
+
+We started with Turing machine $M$ and $w$, and the problem of whether $M$ accepts $w$. We found we can convert this into an instance of PCP where the only possible match corresponds to an accepting computation history. The undecidability of Hilbert's tenth problem is shown using the same idea. %, 70 years after the notion of undecidability. Proved using computation history method. 
+Here one has to construct polynomial in several variables (originally it was 13 variables). One variable plays the role of the input to the polynomial. The only way for the polynomial to have an integral solution is for the assignment to $x$ to be an accepting computational history suitably encoded in an integer. The other variables are helpers, to make sure the polynomial evaluates to 0 exactly when $x$ is an accepting computational history. Polynomials are a rather restricted comput model, so the polynomial is rather painful to present. (It would take an entire semester.)
+
+Let 
+\[
+\text{ALL}_{PDA}=\set{
+\an{P}
+}{P\text{ a }PDA\text{ and }L(P)=\Si^*}.
+\]
+It is the problem: does a pushdown automaton accept all strings? We use the computational history method to show the following. 
+\begin{thm}\llabel{ALLPDA}
+$\text{ALL}_{PDA}$ is undecidable.
+\end{thm}
+\begin{proof}
+We reduce $A_{TM}$ to $\text{ALL}_{PDA}$. We take $\an{M,w}$ and convert it to a pushdown automaton $P_{M,w}$, such that if can tell whether $P_{M,w}$ accepts all inputs, we can tell whether $M$ accept $w$. 
+
+We construct $P_{M,w}$ by having it operate on computation histories. However, instead of having $P_{M,w}$ accept an accepting computation history, we have it accept every string except for this string. It is the sanitation engineer that accepts all the bad strings, junk, garbage. %sanitation engineer
+
+\ig{11-4}{1}
+
+If $M$ doesn't accept $w$, then there is no accepting history, so everything is junk, and $P_{M,w}$ accepts everything. If $M$ accepts $w$, then $P_{M,w}$ accepts everything except one string. We feed $P_{M,w}$ into a machine for $\text{ALL}_{PDA}$ to decide $A_{TM}$.
+
+How can we make a PDA to accept all the junk? It will use nondeterminism. It checks the configuration history to see if it 
+\begin{itemize}
+\item
+fails to start correctly,
+\item
+fails to end correctly,
+\item
+or fails to go from one step to the next correctly.
+\end{itemize}•
+$P_{M,w}$ has the starting configuration built in, so it can check whether the history starts correctly. If not, accept. One branch looks at the last configuration; if that is not right, accept. 
+
+Now $P_{M,w}$ scans through the configuration history (nondeterministically). At a place where it guesses there may be an error, it pushes $C_i$ onto the stack, then pop $C_i$ off as it compares $C_i$ to $C_{i+1}$, seeing if everything matches except that stuff near the head is updated correctly. %compare. Can line up with configuration, same except near head, updated.
+However, $C_i$ comes out in the reverse order that it was put in. The trick is to write every other configuration in reverse. $C_2^R$, $C_4^R$. 
+If $P_{M,w}$ finds a bug, then it accepts.
+\end{proof}
+\begin{rem}
+Why don't we do the original thing, accept only the accepting computation history and nothing else? But that would only prove $E_{PDA}$ is  undecidable. %check just way LBA did.
+
+And in fact, we can't do that because $E_{PDA}$ is {\it decidable}! We have to check each configuration legally follows the next. For instance, if we want to check $C_3$ legally yields $C_4$, we have a problem because we've already read $C_3$ when comparing it to $C_2$. We can't push $C_3$ and match it with $C_4$. This is an unfixable problem.
+%Write $C_1,C_2,C_2,C_3,C_3,\ldots$. Check $C_2$ follows $C_1$. But have check copies are equal. You get to construct the input. You construct the machine. Machine has to do checking, you don't get to do.
+\end{rem}
+\subsection{Recursion theorem}
+The recursion theorem is an amazing %magical 
+theorem that gives a fitting end to the computability part of the course.
+
+It does some things that seem counter-intuitive.
+
+Can we make a Turing machine (or any reasonable computation model, such as a computer program), such that when we turn it on, it prints out its own description? I.e., can we make a self-reproducing Turing machine? Can we write a piece of code which outputs an exact copy of itself?
+
+We might argue as follows: We'd have to take a copy of the program and put it inside itself, and then another copy inside that copy, and so forth. We'd have to have an infinite program, with copies of itself down forever. %So this is impossible.
+
+But in fact we {\it can} make such a program, and it is useful in many cases.
+%Get into struggles, infinite regress. 
+
+This theorem answers one paradox of life: Living things reproduce---make copies of themselves. Does that mean each living thing had its descendants inside, descendants of descendants inside those, down forever? No. Today, thoughts like that are so absurd they don't even bear consideration. We don't need to do that. 
+
+Let's make the paradox more concrete. %Almost prove can't do in this way. 
+Can we make a machine to build other machines? We can make a factory (suppose it's fully automated) that makes cars. The factory is more complicated than the cars: It is at least as complicated because it has instructions for building the cars. It's more complicated because it has all the machinery (robots and so forth). What if we wanted to make a factory that builds factories, identical copies of itself? It has robots which assemble a factory; it seems the factory would have to be more complicated than itself!
+
+But the Recursion Theorem says our intuition is false. We can make a factory-producing factory.
+
+There are practical situations where a program would produce copies of itself. Generally these are malicious programs (depend on whose side you're on). This is one way to make a computer virus---the virus obtains an exact copy of itself, transmits it to the  victim computer, installs virus, and continues spreading). One way to transmit virus is the Recursion Theorem. (The other way is to use the special nature of machine to find the address of own executable and get the code.)
+
+%Code separate from data
+\begin{thm}[Recursion Theorem]\llabel{recursion}
+We can make a Turing machine ``SELF" where on blank input, SELF outputs $\an{\text{SELF}}$.
+\end{thm}
+\ig{11-5}{1}
+
+We can do this in any programming language!
+
+The proof relies on the following lemma.
+\begin{lem}
+There is a computable function $q:\Si^*\to \Si^*$ such that for every $x$, 
+\[q(x)=\an{P_x}\]
+ where $P_x$ is a Turing machine that prints $x$ (on any input). Moreover, we can determine that Turing machine from $x$ in a computable way.
+\end{lem}
+\begin{proof}
+Let $P_x=$``print $x$."
+\end{proof}
+(Note the function is called $q$ for quote, because in LISP, this function is represented by sending $x$ to ``$x$.)
+\begin{proof}
+The TM SELF will have 2 phases $A$ and $B$ . Control passes from $A$ to $B$ after $A$ is done.
+
+\ig{11-6}{1}
+
+$A$ is very simple: $A=P_{\an{B}}$.  Now we have to say what $B$ is. 
+
+Why don't we do the same thing to get the $A$ part? Try to set $B=P_{\an{A}}$. This is not possible. $A$ is much bigger than $B$. $A$ is a $B$-factory. You can't take the description of $A$ and stuff it into $B$; the same circular reasoning got us into trouble in first place.
+
+We don't print out print out $A$ by having a copy of $A$ inside $B$. So how does $B$ find what $A$ is? It computes $q$ of the string on the tape. $q$ of that string is $A$! Let $B$=``compute $q$(tape) and prepend to tape."
+\end{proof}
+
+We can do this in any programming language. Let's do it in English.
+\[
+\text{Print out this sentence.}
+\]
+If you execute this code, out comes a copy of itself. It tells you as executer to print out copy of itself. However, it cheats, because ``this" is a pointer to self. In general, there is no pointer refering to the code. We show how to get the same effect, in software, without self-reference. It achieves the same goal without ``this" refering to itself.
+
+Here is the legit version.
+\begin{gather*}
+\text{Print out two copies of the following, the second one in quotes.}\\
+\text{``Print out two copies of the following, the second one in quotes."}
+\end{gather*}
+If you execute this command, you write the same thing. The A part is below, the B part is above. A is slightly bigger than B by virtue of quotes.
+
+Why is the Recursion Theorem more than just a curiosity? Besides being philosophically interesting, it has applications in computability theory and logic. %The general form of the Recursion Theorem does a little more than described here. 
+
+%$q$ can write as piece of code. You can spell out explicitly if you want, can write out as formal Turing machine. The $q$ function in English: Take string to something evaluating to that string.
+%Take any old string and return string with quotes around it. That's what $A$ is $q(B)$. Same role as TM printing out copy. Put in quotes, means treat as string, data not code. 
+
+%No quotes, more instruction. Quotes: string. Gives an English construct whose meaning is that string.
+
+%We have to carry one step further.
+
+%Full generality: 
+The Recursion Theorem in full generality says that we can obtain a complete description and process that copy. Sometimes this is very helpful.
+\begin{thm}[Full recursion theorem]
+For any Turing machine $T$, there is a TM $R$ where $R(x)$ behaves the same as $T(\an{R,x})$. 
+\end{thm}
+Think of $R$ as a compiler which computes its own description. 
+\begin{proof}
+Figure 7.
+
+$R$ has 3 pieces now, $A$, $B$, and $T$, where $A=P_{\an{BT}}$ and $B$ is as before. 
+\end{proof}
+Moral of story:\\
+
+\cpbox{
+We can use ``get own description" in Turing machine code.
+}
+%doubt weaker models have property
+\vskip0.15in
+Why would we want to do that? We give a new proof that $A_{TM}$ is undecidable.
+\begin{proof}
+Assume for sake of contradiction that $H$ decides $A_{TM}$. Consider the following Turing machine: Construct TM $R=$``on input $x$, 
+\begin{enumerate}
+\item
+Get own description $\an{R}$.
+\item
+Run $R$ on $\an{R,x}$ to see if $R$ accepts $x$. %(Running $H$ on $x$ is like running $A_{TM}$ on $\an{R,x}$.) 
+\item %H has predicted my future. I'll prove it's wrong by doing the opposite.
+Do the opposite of what $R$ did on $\an{R,x}$
+\end{enumerate}
+This is a contradiction because $R$ accepts iff $R$ says $R$ doesn't accept $x$.
+\end{proof}
+%do work prove recursion theorem. A_{TM} is one-liner.
+In a sense, the recursion method is standing in for the   diagonalization argument here. %Take some other diagonalization argument. Is there a recursion-theorem version. ?? Interesting question. stand-in for other diags? %Kind-of does diagonalization rgu
+
+%Recursion theorem is trivial in set theory: $A\subeq A$. 
+%``THis is obvious," leaves the room, comes back 10 minutes later, and says, ``Yes, it is obvious that..."
+
+Let's give another application to something we haven't proved yet.
+Let 
+\[
+\text{MIN}=\set{\an{M}}{M\text{ is a TM with the shortest description among all equivalent TM's}}.
+\]
+%absolute shortest code do something. 
+\begin{thm}\llabel{MIN}
+MIN is not Turing-recognizable. %fix alphabet. however formalize. Can't make a recognizer!
+\end{thm}
+%  a bit of pain to prove but 1-liner using recursion.
+\begin{proof}
+Recognizable means enumerable. 
+
+Assume by way of contradiction that $E$ enumerates MIN. Make $R=$``on $x$,
+\begin{enumerate}
+\item
+Get $\an{R}$.
+\item
+Run $E$ until some machine $M$ appears where $\an{M}$ is longer than $R$. %1000 symbols long. go on infinitely, eventually something longer than me. Behave like something longer.
+%I'm shorter but equivalent to a machine E generated
+\item Simulate $M$ on $x$.
+\end{enumerate}
+Our $R$ will simulate the smallest machine in MIN larger than $R$, which contradicts the definition of MIN.
+\end{proof}
+As a summary, here are a list of problems we've proven to be decidable, undecidable, and unrecognizable. (Keep in mind CFG$=$PDA for the purposes of computation.)
+\begin{itemize}
+\item \textbf{Decidable:} $A_{DFA}$ (Theorem~\ref{thm:ADFA}), $E_{DFA}$ (Theorem~\ref{EDFA}), $EQ_{DFA}$ (Theorem~\ref{EQDFA}), $A_{CFG}$ (Theorem~\ref{ACFG}),  $E_{PDA}$ (exercise), $A_{LBA}$ (Theorem~\ref{ALBA}).
+\item \textbf{Undecidable:} $A_{TM}$ (Theorem~\ref{ATM}), $\text{HALT}_{TM}$ (Theorem~\ref{HALTTM}), $\text{ALL}_{PDA}$ (Theorem~\ref{ALLPDA}), $EQ_{CFG}$ (Theorem~\ref{EQCFG}), $E_{LBA}$ (Theorem~\ref{ELBA}), PCP (Theorem~\ref{PCP}). (Note: I haven't checked whether these are recognizable.)
+\item \textbf{Unrecognizable:} $\ol{A_{TM}}$, $E_{TM}$ (Theorem~\ref{thm:etm2}), $EQ_{TM}$, $\ol{EQ_{TM}}$ (Theorem~\ref{EQTM}), MIN (Theorem~\ref{MIN}).
+\end{itemize}•
+\subsection{Logic}
+We'll finish today with a quick tour of logic. This is something that takes weeks in logic course; we'll do it in 10 minutes.
+
+Logic is the math of math itself. Logic formalizes what we mean by mathematical statements. For instance,
+\[
+\phi:\qquad \forall x\exists y[y<x].
+\]
+We all believe we can formalize math and define what quantifiers mean. (This is several weeks in logic.) This statement has meaning. It depends on what universe the quantifiers quantifying over. For natural numbers with usual interpretation, this is false. If we instead interpret over $\R$ or $\Z$, then it is true. 
+
+We have to give give a universe for quantifiers to range over and define all relation symbols ``$<$." %In general we might just have a symbol $a$, define what it means. 
+Ordinary boolean logic allows us to combine statements. %combine, give meaning. 
+We get a meaning for sentence, and it is either true or false in a given model.
+
+\begin{df}
+A \textbf{model} is a universe with all relation symbols defined. 
+\end{df}
+For instance, a model for a statement $\phi$ has $\phi$ true. 
+
+%Give sentence, give model for that sentence. 
+Let the universe be $\N$ and the relations for $+$ and $\times$. %called number theory.
+Let 
+\[
+\Th(\N,+,\times)=\{\text{all true sentences for this model}\}.
+\]
+Skipping over details, you can imagine what we mean. Some sentences are true, others won't be true. %All variables bound within quantifiers. 3 weeks before get going in logic course, nail down all details. Statement of Fermat's last theorem, Goldbach conjecture.
+Considering the sentences as strings, is this set decidable? G\"odel and others showed it is not decidable. We can write down sentences to describe what Turing machines do; $+$ and $\times$ are expressive enough to describe Turing machines. %Punch line!
+
+There are two notions, truth and provability. What does it  mean to give a proof of a true statement? We mean that from the axioms, and simple rules of implication, you can have a chain of reasoning that gets to that statement.
+
+Consider the famous axioms called Peano axioms. Can you prove all true things from Peano axioms? You cannot! You can make a recognizer for all provable things: %Provable is recognizable. 
+Search through all possible proofs, until find proof in question. If everything is either provable or its complement is provable, you can search for the proof of the statement or its negation, and this would give a decider for its provability. In truth, this doesn't exist.
+
+Can we exhibit a statement which is unprovable? Try: ``This statement is unprovable." If the sentence were false it would be provable; so it must be true, hence unprovable. This statement is true and unprovable. However, we've actually cheated by using self-reference, however, but one can fix this using the recursion theorem. 

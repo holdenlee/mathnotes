@@ -1,0 +1,284 @@
+\lecture{Thu. 10/11/12}
+
+Midterm Thu. 10/25 in walker (up through next week's material. Everything on computability theory but not complexity theory.)
+
+Homework due next week.
+
+Handout: sample problems for midterm
+
+Last time we talked about
+\begin{itemize}
+\item
+reducibility
+\item mapping reducibility
+\end{itemize}
+Today we will talk about 
+\begin{itemize}
+\item
+Post Correspondence Problem
+\item
+LBA's
+\item 
+Computation history method
+\end{itemize}
+We have been proving undecidability. First we proved $A_{TM}$ is undecidable by {\it diagonalization}. Next, by {\it reducing} ATM to another problem, we show that if the other problem were decidable so is $A_{TM}$; hence the other problem must also be undecidable.
+
+Today we'll look at a fancier undecidable problem. It is a prototype for undecidable problems that are not superficially related to computability theory. All proofs for these problems use the method we'll introduce today, the {\it computation history method}.
+
+Ours is a toy problem, with no independent interest. But it is nice to illustrate the method, and it is relatively clean. 
+
+Even the solution to Hilbert's tenth problem uses the computation history method (though there are many complications involved).
+\subsection{Post Correspondence Problem}
+Given a finite collection of dominoes
+\[
+P=\bc{
+\coltwo{u_1}{v_1},\coltwo{u_2}{v_2},\cdots,\coltwo{u_k}{v_k}
+}
+\]
+a \textbf{match} is a sequence of dominoes from $P$ (repetitions allowed) where 
+\[
+u_{i_1}\cdots u_{i_{\ell}}=v_{i_1}\cdots v_{i_{\ell}}
+\]
+The question is: Is there a match in $P$?
+
+For example, if our collection of dominoes is
+\[
+P=\bc{
+\coltwo{aa}{aba},\coltwo{ab}{aba},\coltwo{ba}{aa},\coltwo{abab}{b}
+}
+\]
+then we do have a match because 
+\[
+\left|
+\begin{array}{cccccccccccc}
+a&b\mid&a& a\mid&b&a\mid&a&a\mid&a&b&a&b\\
+a&b&a\mid&a&b&a\mid&a&a\mid&a&b&a\mid&b.
+\end{array}
+\right|
+\]
+
+Formally, define
+\[
+PCP=\set{\an{P}}{P\text{ has a match}}.
+\]
+We will show PCP is undecidable. (Note it is Turing recognizable because for a given arrangement it's easy to see if it's a match; just enumerate all possible arrangements. If we find a match, accept.)
+
+This is an old problem, the first shown undecidable by Post in 1950's.\footnote{Don't confuse the Post Correspondence Problem with probabilistic checkable proofs, also abbreviated PCP.}
+
+Let's modify the PCP so that the match has to start with the starting domino (to see how to fix this, see the book).
+
+%Given $P_{M,w}$ let the starting domino be
+\begin{thm}\llabel{PCP}
+PCP is undecidable.
+\end{thm}
+The proof has two ideas. Each takes some time to introduce. Instead of doing them at once (they intertwine), we'll defer the proof and prove a different theorem that uses only one of the ideas. Then we prove this theorem and use both ideas.
+
+%Postpone the proof (put it on the stack). 
+To introduce the first idea we'll go back to a problem in computation. 
+\subsection{Computation Histories and Linearly Bounded Automata}
+\begin{df}
+A \textbf{linearly bounded automaton} (LBA) is a modified Turing machine, where the tape is only as long as the input string.\footnote{The LBA doesn't have a limited tape. (Then it would be finite automaton.) The tape is allowed to be enough to grow just enough to fit the input, but it can't grow any further. }
+\end{df}
+The head doesn't move off the left or right hand sides. The machine limited in how much memory it has: if you have an amount of tape, the amount of memory is linearly  bounded in terms of the size of the input (you might have a constant better memory because you're allowed a larger tape alphabet, but you can't for instance have $n^2$ memory). 
+Now let the acceptance and empty problems be
+\begin{align*}
+A_{LBA}&=\set{\an{M,w}}{\text{LBA $M$ accepts $w$}}\\
+E_{LBA}&=\set{\an{M}}{\text{LBA $M$ and }L(M)=\phi}
+\end{align*}
+Even though $A_{TM}$ was undecidable, $A_{LBA}$ is decidable.
+%can't use tape outside input.
+\begin{thm}\llabel{ALBA}
+$A_{LBA}$ is decidable.
+\end{thm}
+This is a dramatic change in what we can do computationally!
+
+The key difference that makes $A_{LBA}$ decidable is that linearly bounded automata have finitely many configurations (see below).
+
+As a side remark, $A_{LBA}$ is not decidable by LBA's. In the theorem, by decidable we mean it's decidable by ordinary Turing machines. It is decidable but only by using a lot of memory.
+\begin{proof}
+Define a configuration to be a total snapshot of a machine at a given time:
+\[
+(q,t,p)
+\]
+where $q$ is the state, $t$ is the tape contents, and $p$ is the head position.
+ For an input size, the number of configurations of a LBA %(combination of states, tape, and head)
+is finite.
+
+If we run the LBA for certain amount of time $T$, then it has to repeat a configuration.  If it has halted by time $T$, then we know the answer. If the machine hasn't halted, it's in a loop and will run forever. The reject.
+
+(We don't even have to remember configurations.)
+
+%Becase 
+%configurations
+
+For a string $w$ of length $n$, the number of configurations of length $n$ is 
+\[
+|Q|\cdot |\Ga|^{n}\cdot n.
+\]
+
+We now write down the TM that decides $A_{LBA}$.
+
+``On input $\an{M,w}$,
+%if M runs very long time, then start to get worried.
+\begin{enumerate}
+\item
+Compute $|Q|\cdot |\Ga|^n \cdot n$.
+\item
+Run $M$ on $w$ for that many steps.
+\item
+\ul{Accept} if accepted.\\
+\ul{Reject} if not yet accepted after that many steps.
+\end{enumerate}
+\end{proof}
+Note that to write the number $|Q||\Ga|^nn$ down requires on the order of $n\ln n$ length tape, so intuitively $A_{LBA}$ is not  decidable by LBA's. The same diagonalization method can prove that $A_{LBA}$ is not decidable by LBA's. In general, we can't have a class of automata which decide whether automatons of that class accept.
+
+In contrast with $A_{LBA}$, $E_{LBA}$ is still undecidable.
+\begin{thm}\llabel{ELBA}
+$E_{LBA}$ is undecidable.
+\end{thm}
+We prove this in a totally different way. Before, to prove $E_{TM}$ is undecidable (Theorem~\ref{thm:etm}), we showed $A_{TM}$ reduces to $E_{TM}$. We also have $A_{LBA}$ reduces to $E_{LBA}$, but doesn't tell us anything because $A_{LBA}$ is decidable!
+
+Instead we reduce $A_{TM}$ to $E_{LBA}$. This is not obvious! Assume $R$ decides $E_{LBA}$. We'll construct $S$ deciding $A_{TM}$. (This is our standard reduction framework.) This is hard because we can't feed Turing machines into $E_{LBA}$: it only accepts LBA's as input, not general Turing machines.
+
+We use the idea of computation history. 
+\begin{df}Define an \textbf{accepting computation history} of a TM $T$ on input $w$ to be 
+\[
+C_1,C_2,\ldots, C_{\text{accept}}
+\]
+where $C_1$ is the start configuration, each $C_i$ leads to $C_{i+1}$, and $C_{\text{accept}}$ is in an accepting state.
+\footnote{The computation history stores a record of all motions the machine goes through, just as a debugger stores a snapshot of what all the registers contain at each moment.}
+\end{df}
+If a Turing machine does not accept its input, it does not have an accepting computation history. 
+An accepting configuration history exists iff the machine accepts.
+
+
+It's convenient to have a format for writing this down (this will come up later in complexity theory). Write down $(q,t,p)$ as \[t_1qt_2.\] This means: split the tape into 2 parts, the part before the head is $t_1$, the part after the head is $t_2$ and $q$ points to the first symbol in $t_2$. All I'm doing here is indicating the position of the head by inserting a symbol representing the state in between the two parts.
+%very first place in $t_2$. indicate look at very next symbol to right.
+
+Write the computation history as a sequence of strings like this separated by pound signs.
+\[
+C_1\#C_2\#\cdots \# C_{\text{accept}}.
+\]
+Here $C_1$ is represented by $q_0w_1\cdots w_n$.
+
+%Debugger store a snapshot of what all the registers contains. All motions the machine goes through. A record.
+
+%The LBA will have $T$ built in, is going to accept strings that constitute
+\begin{proof}[Proof of Theorem~\ref{ELBA}]
+Let $S=$``on input $\an{T,w}$,
+\begin{enumerate}
+\item
+Construct LBA $M_{T,w}$=``On input $z$,
+\begin{enumerate}
+\item
+test if $z$ is an accepting computation history for $T$ on $w$. 
+\item
+\ul{Accept} if yes.\\
+\ul{Reject}  if not.
+\end{enumerate}
+\end{enumerate}
+Note $M_{T,w}$ does not simulate $T$. It simply checks if the input is a valid computation of $T$, in the form $C_1\#C_2\#\cdots \#C_{\text{accept}}$. %Given whole computation, it just checks if the computation is okay.
+
+\ig{10-2}{1}
+
+Why is this a LBA? It doesn't actually simulate $T$, it just checks the computation; this doesn't require running off the tape.
+
+What does $C_1$ need to look like? It must look like $q_0w_1\cdots w_n$. How do we check $C_2$? This is a delicate point. %whole string built in. We don't know whether this whole string exists. Instead check steps of computation carried out configuration.
+See whether $C_1$ updated correctly to $C_2$. Zigzag back and forth between $C_1$ and $C_2$ to check that everything follows legally. If anything is wrong, reject. 
+It can put little markers on the input.
+It repeats all the way to $C_{\text{accept}}$, then check that $C_{\text{accept}}$ is in an accept state.
+
+%LBA itself doesn't have input. 
+
+%Input could be large, but your job is just to write the LBA description down. Does the LBA accept any string? 
+Now the only string our LBA $M_{T,w}$ could possibly accept, by design, is an accepting computation history. The point is that {\it checking a computation is a lot easier than doing it yourself}; a LBA is enough to check a TM's computation.
+
+Now we have 0 or 1 string is in $M_{T,w}$. If $T$ does not accept, then $L(M_{T,w})$ is empty. If $T$ accepts, there is exactly one accepting computation history, namely the correct $C_1\#\cdots \# C_{\text{accept}}$. %keep everything configuration
+Each configuration forces the next all the way to the accepting configuration. (We've built the Turing machine based on the particular Turing machine $T$ and string $w$.)
+\emph{Hence $M_{T,w}$ is empty if and only if $T$ does not accept $w$.}
+
+%Mechanism to give LBA enough tape to do the computation.
+%Checking computation history can be done.
+%Linear in $z$ not in $w$!
+%Giving the guy a huge input!
+%limited size given input so give huge input.
+%Fake things.
+%
+%(dots on symbols keep track where are, everything looks same except around head)
+We've reduced $A_{TM}$ to $E_{LBA}$.  
+This proves $E_{LBA}$ is undecidable. %\fixme{add concluding statements}
+\end{proof}
+
+Note the computational history method is especially useful to show the undecidability of a problem that has to do with {\it weaker} models of computation.
+
+\subsection{Proof of undecidability of PCP}
+\begin{proof} (This is slightly rushed; see the book for a complete treatment.) 
+The idea is to construct a collection of dominoes where a match has to be an accepting computation history.  (For simplicity, we'll deal with the modified PCP problem where we designate a certain domino to be the starting domino.)
+
+%A mess that's just barely manageable.
+
+Given $T$, $w$, we construct a PCP problem $P_{T,w}$ where a match corresponds to an accepting computation history. We construct the dominoes in order to force any match to simulate a computation history. 
+\begin{itemize}
+\item
+Let the start domino be
+\[
+\coltwo{
+\#}{
+\#q_0w_1\ldots w_n\#
+}.
+\]
+\item
+If in $T$ %(getting down to nitty-gritty, look into guts of Turing machine, transition fucntion) 
+we have $\de(q,a)=(r,b,R)$, put the domino
+\[
+\coltwo{qa}{rb}
+\]
+in. %Why is this a good thing? 
+
+Similarly we have a domino for left transitions (omitted).
+%Left too. Is messy, omit.
+\item
+For all tape symbols $a\in \Ga$, put in $\coltwo aa$. %(copy. problematic because it itself match, modify problem)
+\end{itemize}
+
+
+Consider a concrete example, $w=011$, and $\de(q_0,0)=(q_5,2,R)$. We have the domino $\coltwo{q_00}{2q_5}$. (The construction has one simple idea really: the transition dominoes, like $\coltwo{qa}{rb}$, force each configuration to lead to the next configuration.) We start with
+\[
+\left|
+\begin{array}{cccccccc}
+\# | & q_0 &0|&&&&&\\
+\# & q_0&0& 1& 1& \#|& 2& q_5| 
+\end{array}
+\right|
+\] 
+We've managed to push forward the match on one more domino. Now we have to copy everything. We use $\coltwo 11$, $\coltwo 00$, $\coltwo 22$, $\coltwo{\#}{\#}$:
+%reduce ATM to PCP.
+\[
+\left|
+\begin{array}{ccccccccccc}
+\# | & q_0 &0|&1|&1|&\#|&&&&\\
+\#| & q_0& 0&1& 1& \#|& 2& q_5| & 1| & 1| & \#|
+\end{array}
+\right|
+\] 
+At end, computation history is done, but match isn't. We add dominoes $\coltwo{q_{\text{accept}}c}{q_{\text{accept}}}$, $\coltwo{cq_{\text{accept}}}{q_{\text{accept}}}$, and $\coltwo{q_{\text{accept}}\#\#}{\#}$.
+
+These dominoes ``eat" the tape one symbol at time, around the accept state. Putting in one last domino finishes it off.
+
+The start domino is a technicality.
+
+%How to do using PCP solver. Convert Turing machine problem into PCP problem. 
+We've reduced $A_{TM}$ to PCP. Therefore, PCP is undecidable.
+%The only way the match could possibly accept is 
+\end{proof}
+%Inspiration for NP-completeness.\\
+
+\cpbox{
+A Turing machine accepts an input if and only if it has an accepting computation history for that input. Thus the problem of whether $T$ accepts $w$ can be formulated as: does $T$ have an accepting computation history for $w$?
+
+This formulation is more concrete, and it is much easier to check whether a computation history is correct, then ask whether $T$ accepts $w$.}
+\vskip0.15in
+\cpbox{
+To show a problem that isn't related to computability theory is undecidable, find a way to simulate/encode an undecidable problem (such as $A_{TM}$) with that problem. It is useful to encode computation histories.
+}
+%doesn't 

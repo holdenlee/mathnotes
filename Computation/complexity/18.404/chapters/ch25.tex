@@ -1,0 +1,136 @@
+\lecture{Tue. 12/11/2012}
+
+Last time we talked about
+\begin{itemize}
+\item
+interactive proofs
+\item
+IP.
+\end{itemize}
+Today we'll finish the proof of coNP$\subeq$IP.
+
+A prover with unlimited computational power tries to convince a verifier that a string is in the language. For a string in the language, the prover will convince the verifier with high probability. For a string not in the language, that prover, or any other prover, will fail with high probability.
+
+%BPNP:=IP
+
+The big result is IP$=$PSPACE; we prove a weaker form coNP$\subeq$IP. (It was around half a year before Adi Shamir got trick to go from coNP$\subeq$IP to IP$=$PSPACE.)
+
+\subsection{coNP$\subeq$IP}
+
+Last time we introduced an exponential protocol for \#SAT, a coNP-hard problem.
+
+This protocol doesn't use the full power of IP. It is a one-way protocol, like NP: the verifier doesn't send the prover any questions.
+
+Using arithmetization, we find a polynomial that faithfully simulates the expression when we plug in 0's and 1's. The degree of the polynomial is not too big. %Assuming it's in conjunctive normal form, 
+\begin{align*}
+a\wedge b &\to ab\\
+\ol a&\to 1-a\\
+a\vee b &\to  a+b-ab\\
+\phi &\to  P_{\phi}(x_1,\ldots, x_m)
+\end{align*}
+The total degree of the polynomial will be at most the length $n$ of $\phi$: when we combine two expressions the degrees will at most be the sum.
+
+Instead of reducing the verification of one $T$-value to two $T$-values, we reduce it to one $T$-value but one that is non-boolean. 
+The formulas will have other values when you plug in other values.
+\[
+\xymatrix{
+T()=k\ar[d]\\
+T(?)\ar[d]\\
+T(?,?)\ar[d]\\
+T(?,?,?)
+}
+\]
+
+We arithmetize $P$. $P$ looks just like it looks before, but instead of using the formula, we use the polynomial that represents the formula:
+\[
+T(x_1,\ldots, x_i)=\sum_{x_{i+1},\ldots, x_m\in \{0,1\}} P_{\phi}(x_1,\ldots, x_m).
+\]
+If we preset to 0's and 1's, we get the same value because the polynomial agrees with the boolean formula on boolean values.
+
+If we preset nothing, there is no change: $T()$ is the number of satisfying assignments. Everything is added up over booleans. If we set everything, we have possibly non-boolean values, and
+\[
+T(x_1,\ldots, x_m)=P_{\phi}(x_1,\ldots, x_m).
+\]
+
+We now give the protocol. This is where the magic happens. We'll work over some finite field $\fq$, where $q> 2^n$. The reason we make it so big is that $k$ can be a value between 0 and $2^n$. We will have wraparound issues if we use a field that can't represent all these possible values.
+\begin{enumerate}
+\item[0.]
+P sends $T()$. $V$ checks $k=T()$.
+\item
+P sends $T(z)$ as a polynomial in the variable $z$. %if we plug in z and set everything else to constants, we get a polynomial in z.
+(More formally, $P$ sends the coefficients. 
+%for instance
+Note that the degree in $z$ is at most $|\phi|$. Each number has at most $m$ bits, and there are at most $|\phi|+1$ coefficients. Of course calculating this is difficult, but that's okay: this is the prover. The grad students work hard. They don't get paid for their work beyond their stipend, which is polynomial, so doesn't matter. They send an answer which is polynomial.) 
+%14x^d+22z^{d-1}+\cdots -5z+2
+
+V checks $T(0)$ and $T(1)$ are correct by checking
+\[
+T()=T(0)+T(1).
+\]
+Note the nice thing is that {\it one object} allows us to get two values.
+This will prevent the blowup.
+
+V sends a random $r_1\in \fq$. 
+The prover now has to show $T(r_1)$ is correct. %what it's supposed to be.
+\item
+P sends $T(r_1,z)$ as polynomial in $z$. ($P$ convinces $V$ that $T(r_1)$ is correct.)
+%sending directly T(r_1,0), T(r_1,1) causes exponential blowup.
+
+V checks $T(r_1)=T(r_1,0)+T(r_1,1)$. %it has all the values $T(r_1)$ becauseit has the polynomial.
+
+%V sends $r_2\in \fq$.
+$\vdots$
+%if just 2 steps, can't check T(r_1,0), etc. agree with correct polynomial.
+\item[$m$.] P sends $T(r_1,\ldots, r_{m-1},z)$ as a polynomial in $z$.
+%always 1-var poly. Otherise size of poly become huge
+V checks $T(r_1\cdots r_{m-1})=T(r_1\cdots r_{m-1}0)+T(r_1\cdots r_{m-1}1)$. $V$ chooses random $r_m\in \fq$. % at this stage just up to verifier.
+\item[$m+1$.] V checks $T(r_1,\ldots, r_m)=P_{\phi}(r_1,\ldots, r_m)$, and if so, accepts.
+\end{enumerate}
+How does the verifier check at the end stage it's okay? Plug it into $P_{\phi}$.
+\[
+\xymatrix{
+T()=k\ar[d]&\\
+T(r_1)\ar[d]&\\
+T(r_1,r_2)\ar[d]&\\
+\vdots \ar[d]&\\
+T(r_1,\ldots, r_m)\aq{r} & P_{\phi}(r_1,\ldots, r_m)
+}
+\]
+The honest prover will make the verifier accept with probability 1. Just follow the protocol: send the correct polynomials.
+
+The verifier says, ``Convince me the polynomial is right by convince me it works on some random element."
+
+Why does this work? Why are we using polynoimals? Let's see what happens when the prover tries to lie. If $k$ is wrong the verifier will reject with high probability. In order to preserve any hope of making the verifier accept, the prover has to lie. If $T()$ is a lie, then one of $T(0)$, $T(1)$ has to be wrong. But these came from the same polynomial, by plugging in 0, 1. So the polynomial is wrong. We evaluate that wrong polynomial at a random input.
+But 2 low-degree polynomials agree in only a small number of locations, because a polynomial of low degree has only a small number of roots. 
+Every place where the polynomial is 0 becomes a zero of the difference polynomials (between the actual and claimed polynomial).
+
+$T(r_1)$ doesn't necessarily have to be a lie. But that's very unlikely: a small number of agreements (roughly $n$) out of exponentially many possibilities.
+
+$T(r_1)$ is almost certainly wrong. %Now continue wrong. 
+The dishonest prover tries to convince the verifier that $T(r_1)$ is right. %The polynomial one step down has to be a lie. 
+The prover again has a chance again of getting lucky: if the verifier picks a place where the incorrect and correct polynomial agree. But every step, it's hard to succeed. Almost certainly $T(r_1)$ incorrect forces $T(r_1r_2)$ incorrect, and so forth.
+
+%if T lied in 1. Nice to pick one at random. Pick just one. Bad. Miss other side. One of them could be correct. By picking one at random, chances of prover getting lucky because picked wrong one. Poly through T(0), T(1), T(r_1). Very few places where the prover get lucky. Instead of 1/2, poly disagree almost everywhere. We're almost always going to catch.
+
+\subsubsection{Analysis of protocol}
+
+If $\an{\phi,k}\in \#SAT$, then 
+\[\Prob(V\lra P\text{ accepts})=1.\]
+
+If $\an{\phi,k}\nin \#SAT$, then by the Schwartz-Zippel Lemma~\ref{lem:schwartz-zippel}, for any prover $\wt P$, 
+\[\Prob(V\lra \wt P \text{ accepts})\le m\cdot \fc{\deg P_{\phi}}{q}=m\fc{n}{2^n}=\fc{\text{poly}(n)}{2^n}.\]
+%verifier end up accepting when shouldn't have. Somewhere th prover got lucky.
+The prover has $m$ chances to get lucky. If it gets lucky, it follows the original protocol: just send the correct values all the way down. The probability of getting lucky at one stage is the degree of the polynomial divided by the size of the field $q$. This is small.
+%transition from incorrect to correct is very small.
+%accept unlikely, go to end.
+
+This shows \#SAT$\in$IP, and hence coNP$\subeq$IP.
+
+%for BPP, error that's 2-sided.
+%almost all examples, except for artificial examples, have 1-sided error. Error comes from other side. For BPP, subclass called R with one-sided error. No known connection between two other than subclass. In the case for IP, can always convert 2-sided error to 1-sided error.
+%TA's are my oracles.
+%BPP in IP=PSPACE=superpower.
+
+\subsection{A summary of complexity classes}
+
+\ig{25}{0.6}

@@ -1,0 +1,268 @@
+\lecture{Thu. 11/1/12}\
+
+Last time we talked about
+\begin{itemize}
+\item
+NP-completeness
+\item
+3SAT$\le_P$CLIQUE
+\item
+3SAT$\le_P$HAMPATH
+\end{itemize}
+Today we'll prove the Cook-Levin Theorem: SAT is NP-complete.
+
+We have
+\[
+\pat{Every NP problem}\le_P \text{SAT}\le_P 3\text{SAT}\le_P \text{CLIQUE},\,\text{HAMPATH},\,\text{many others}
+\]
+We'll show the first inequality today and the second inequality in recitation. We know every problem on the right is NP-complete. (We don't necessarily have to start with SAT or 3SAT. Sometimes it's easier to study another NP-complete problem. For instance, to show UHAMPATH, the undirected version of Hamiltonian path, is NP-complete, we can just reduce the directed to the undirected version, HAMPATH$\le_P$UHAMPATH.) %our reduction depends on directedness.
+
+If we assume P$\ne $NP, and if we show a problem is NP-complete, then it cannot be solved in polynomial time. 
+Thus being NP-complete is very strong evidence for intractibility: the problem is too hard to solve in practice. What is remarkable (and not well understood) is that %if you start with a NP-problem, and you want to try to find a 
+typical problems in NP, with few exceptions, turn out to be in P or NP-complete. This is mysterious and currently has no theoretical basis.
+
+Thus, given a problem,  researchers often spend part of the time showing it's solvable in polynomial time and part of the time showing it's NP-complete. This works well most of the time.% Typical problems in NP, with few exceptions, turn out to be in P or NP-complete. Mysterious, no theoretical basis.
+
+There are some problems, though, that seem to be outside of P, but we don't know how prove they are NP-complete. %, but evidence not P-complete. 
+For instance, the problem of testing if 2 graphs are isomorphic---whether they are the same graph but labeled differently---is % written in different order. The problem of testing whether two graphs are isomorphic is NP-complete: 
+NP: the short proof is the mapping of the vertices. No one knows whether the graph isomorphism problem is solvable in polynomial time, nor has anyone shown it is NP-complete. It's one of few problems that seem to be hovering in between. Another example is factoring integers.
+
+Define 
+\[
+\text{CoNP}=\set{\ol A}{A\in \text{NP}}.
+\]
+We have P$\in \text{NP}\cap \text{CoNP}$. (P is closed under complement so P$=$coP. It's generally believed that NP-complete problems cannot be in coNP because otherwise NP$=$coNP. 
+
+\ig{15-1}{1}
+
+There are problems in the intersection, for instance, factoring is a problem in NP$\cap $coNP. Naively it's a function, but we can turn it into a decision problem. Think of numbers as written in binary, and call it the bit factoring problem: %the set of numbers, comma index $i$ such that the $i$th bit of the factored number is a 1:
+\[
+\text{BIT-Factoring}=\set{\an{x,i}}{i\text{th bit of largest prime factor of $x$ is 1}}.
+\]
+BIT-Factoring is in NP because nondeterministically we can guess the prime factorization of $x$ and check that the largest prime factor has a 1 in the $i$th place. %, guess proofs. 
+
+The complement is also a NP-problem: The $i$th bit is a 0. We can check that in exactly the same way.
+
+If BIT-Factoring is in $P$, then we can factor numbers in polynomial time. We believe that factoring is not in P, so this problem seems to not be in P. This suggests the problem is not NP-complete.
+\subsection*{Homework}
+The first four questions are clear. For one of them keep in mind dynamic programming as a technique. (Context-free languages are testable in polynomial time. It is in a sense the most basic polynomial time algorithm.)
+
+\textbf{Problem 5} asks you to show that under the assumption P$=$NP, there exists an algorithm that operates in polynomial time which not not only test whether a statement is satisfiable, but produce the satisfying assignment. A tempting algorithm is that there is a nondeterministic algorithm which finds the assignment, and because P$=$NP, there is a deterministic algorithm which finds the assignment.
+But it is conceivable that the polynomial time algorithm for satisfiability operates not by finding the assignment, but saying whether it is satisfiable.
+
+You have to show that if the program operates by some other way, you can turn it into an algorithm to find the assignment.
+
+In order to produce a satisfying assignment, you will end up testing whether multiple formulas are satisfiable.% Run testing procedure test various formulas for satisfiable. 
+Out of the decisions from the tests, you can assemble the satisfying assignment to the original formula. How can you at least get a little {\it bit} of information about the satisfying assignment?
+
+\textbf{Problem 6} says that minimizing NFA's cannot be done unless P$=$NP. %If you can find a minimal equivalent NFA. 
+By contrast, it is know that the conversion for DFA can be done in polynomial time. %NFA probably not unless P$=$NP.
+
+\subsection{Cook-Levin Theorem}
+\begin{thm}[Cook-Levin, Theorem~\ref{thm:cook-levin} again]\llabel{thm:cook-levin2}
+SAT is NP-complete.
+\end{thm}
+\begin{proof}$\,$
+\begin{enumerate}
+\item
+SAT$\in$NP: This is easy: guess a satisfying assignment.
+\item
+Let $A\in $NP. We have to show $A\le_P$SAT. Assume we have a  NTM $M$ for $A$ so that $M$ runs in $n^k$ time.
+\end{enumerate}
+The idea is as follows. We have to give a polynomial time reduction $f:A\to $SAT. It will take a string $w$ and convert it to some formula $\phi_w$.
+The function $f$ maps a membership question in $A$ to a membership question in SAT; we will have $w\in A$ exactly when $\phi_w$ is satisfiable. 
+\begin{align*}
+f:A&\to \text{SAT}\\
+w&\mapsto \phi_w\\
+w\in A& \text{ iff $\phi_w$ is satisfiable}.
+\end{align*}
+Think of $\phi_w$ as saying whether $M$ accepts $w$. 
+
+The construction of $\phi_w$ as follows. It will be in 4 pieces and'd together:
+\[
+\phi_w=\phi_{\text{cell}}\wedge \phi_{\text{start}}\wedge \phi_{\text{move}}\wedge\phi_{\text{accept}}
+\]
+We'll describe the computation of $M$ %. Look at the computation of $M$ 
+on $w$ in a certain way.
+
+Define a \textbf{tableaux} for $M$ on $w$ to be a table where the rows are configurations of $M$ on $w$. Write down the tape with the head symbol to the left of the symbol it's looking at (cf. the PCP proof~\ref{PCP}). Each row is a configuration. The sequence of rows you get is a computation history. Remember $M$ is nondeterministic, so there may be multiple computation histories. If $M$ accepts $w$, there is an accepting branch, and we can write down an accepting computation history with the starting configuration at the top and the accepting configuration at the bottom. 
+
+\ig{15-2}{1}
+
+Does there exist such a tableaux? If $M$ does not accept $w$ there is no accepting computation history so there is no tableaux. The question we're trying to answer is whether a tableaux exists.
+
+We're trying to make a formula which says a tableaux exists. Is there some way of setting cells to symbols such that the whole thing is a legitimate tableaux? We make indicator variables for each cell: think of each cell as having a bunch of little lights; one light for each possible setting the cell could be: $a$, $b$, $q_0$, etc. If the light for $a$ is on, then the cell has an $a$ in it. %Bunch of variables for particular cell.  
+
+The variables of $\phi_w$ are $x_{ij\si}$ where $1\le i,j\le n^k$ (we're assuming the machine runs for $n^k$ steps; the most number of cells it could use is $n^k$)\footnote{Technically we may need $cn^k$ just to cover $n=1$ but this is a minor issue.} and $\si\in \Ga\cup Q$ ($\si$ is in the tape alphabet or $\si$ is a state). There are $|\Ga\cup Q|n^{2k}$ variables $x_{ij\si}$, which is polynomial in $n$.\\
+%each cell 1 symbol of configuration.
+%first requirement. 
+
+\noindent
+\ul{\textbf{$\phi_{\text{cell}}$:}} 
+In order for variables to correspond to valid tableaux, exactly 1 cell per symbol has to get assigned. If we turn on several lights for some cell, this would correspond to multiple symbols, and we don't want that. We have to make sure we're turning on exactly one light; exactly one variable becomes true for each $(i,j)$. This is the first piece $\phi_{\text{cell}}$. %(the easiest one)
+
+$\phi_{\text{cell}}$ says that there is exactly one symbol per cell or equivalently, exactly one $x_{ij\si}$ is true for each $i,j$:
+\[
+\phi_{\text{cell}}:=
+\bigwedge_{1\le i,j\le n^k} 
+\pa{\bigvee_{\si\in \Ga\cup Q} x_{ij\si}
+\wedge \bigwedge_{\si\ne \tau} \ol{x_{ij\si}}\vee \ol{x_{ij\tau}}}.
+%x_{ij\si_1}\vee x_{ij\si_2}\vee\cdots \vee x_{ij\si_{\ell}}
+\]
+The first formula ensures that one of these lights is ``on," and the second ensures that at most one of the lights is on (for every pair of lights which are not the same, at least one of them is on). Together they say exactly 1 variable is true. The assignment has to correspond to one symbol in each cell of the tableaux.\\
+
+\noindent
+\ul{\textbf{$\phi_{\text{start}}$:}} 
+Now we want to say in the very first row, the variables are set to be  the start configuration. $\phi_{\text{start}}$ says that the start configuration is
+\[
+\underbrace{q_0w_1w_2\cdots w_n\textvisiblespace\textvisiblespace\cdots \textvisiblespace}_{n^k}
+\]
+Hence  we let
+\[
+\phi_{\text{start}}=x_{11q_0}\wedge x_{12w_1}\wedge x_{13w_2}\wedge \cdots \wedge x_{1,n+1,w_n}\wedge x_{1,n+2,\textvisiblespace}\wedge \cdots x_{1,n^k,\textvisiblespace}.
+\]
+
+\noindent
+\ul{\textbf{$\phi_{\text{accept}}$:}} 
+Now let's do $\phi_{\text{accept}}$. The very last row is an accepting configuration; namely the machine is in the accept state. (What if the machine stops sometime earlier? We assume that the rules of the machine say it stays in the accepting state for the ``pseudo-steps" afterward.) We let
+\[
+\phi_{\text{accept}} = \bigwedge_{1\le j\le n^k} x_{n^kjq_{\text{accept}}}.
+\]
+%(Or you can just say, if q_{accept} appears anywhere in the tableaux.)
+
+\noindent
+\ul{\textbf{$\phi_{\text{move}}$:}} 
+Finally, we need to say the machine moves completely. To do this out in full gory detail is a bit of a mess (like the PCP problem). I'll just convince you that you can do it.
+
+We pick out a $2\times 3$ neighborhood, or \textbf{window} from the tableaux, and specify what it means for it to be a legal neighborhood. \fixme{figure 3} For any given setting of symbols in the $2\times 3$ neighborhood, we can ask whether it could possibly arise according to the rules of the machine. There are certain legal settings and certain illegal settings. For instance if when in state $q_3$ and the machine reads an $a$, writes $c$, moves to the right, and goes to state $q_5$ in a possible nondeterministic step, then 
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+$q_{3}$ & $a$ & $b$\tabularnewline
+\hline 
+$c$ & $q_{5}$ & $b$\tabularnewline
+\hline 
+\end{tabular}
+\end{center}
+is legal,
+whereas
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+$q_{3}$ & $a$ & $b$\tabularnewline
+\hline 
+$c$ & $q_{5}$ & $d$\tabularnewline
+\hline 
+\end{tabular}
+\end{center}
+is illegal.
+
+There are some subtleties, for instance,
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+$a$ & $b$ & $c$\tabularnewline
+\hline 
+$d$ & $b$ & $c$\tabularnewline
+\hline 
+\end{tabular}
+\end{center}
+may be a state with where the head changed $a$ (the head being to the left of $a$), but something like 
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+$a$ & $b$ & $c$\tabularnewline
+\hline 
+$a$ & $d$ & $c$\tabularnewline
+\hline 
+\end{tabular}
+\end{center}
+is never possible.
+By looking at the transition function of $M$, we can determine which of the 6-symbol settings are legal and which are not.
+We need to check whether every single window is legal. If every single window is legal then all moves are legal. 
+
+This depends critically on the window being $2\times 3$. If it were just a $2\times 2$ window it wouldn't work. The tableaux can be globally wrong but locally right if we only look at $2\times 2$ windows. If the machine is in state $q_2$, and it can go to $q_3$ and go left, or $q_5$ and go right, then you have to make sure you exclude things like
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+$a$ & $q_{2}$ & $a$\tabularnewline
+\hline 
+$q_{3}$ & $a$ & $q_{5}$\tabularnewline
+\hline 
+\end{tabular}.
+\end{center}
+A $2\times 3$ window just big enough to catch this; this is the only thing that can go wrong.
+
+Thus we let
+\[
+\phi_{\text{move}} = \bigwedge_{1\le i,j\le n^k} (i,j\text{ neighborhood is legal}),
+\]
+i.e., more precisely,
+\[
+\phi_{\text{move}} = \bigwedge_{1< i< n^k,\,1\le j<n^k}
+\bigvee_{%\begin{matrix}abc\\def\end{matrix}
+\begin{tabular}{|c|c|c|}
+\hline 
+$a$ & $b$ & $c$\tabularnewline
+\hline 
+$d$ & $e$ & $f$\tabularnewline
+\hline 
+\end{tabular} \text{ is legal}} x_{i-1,j,a}\wedge x_{i,j,b} \wedge x_{i+1,j,c}\wedge x_{i-1,j+1,d}\wedge x_{i,j+1,e}\wedge x_{i+1,j+1,f}.
+\]
+We ``or" over all possible ways to set cells to symbols to get a legal window. That can be a lot but it's a fixed number. %maybe 75 settings. %why window not so big encompass 2 rows? large number of possibilities. argue differently.
+%only 2x2 rows, + each row has only 1 state symbol.
+%fact come up once or twice more later on
+
+We have 2 things that remain: first, we need to show this is correct, i.e., $w$ is in the language iff $\phi_w$ satisfied. Now $w$ being in the language means there is some accepting computation history, i.e., some valid tableaux, i.e., some setting of variables that satisfies $\phi_w$. This should be clear from the construction. The pieces of the formula are designed to force the variables to be set according to some valid accepting tableaux.
+
+We also have to check the reduction can be done in polynomial time. This is easy to confirm.  First, how large is $\phi_w$? Ignoring constant factors, the size is about as large as the number of cells in the tableaux, which is polynomial in $n$. Actually, writing down the formula can be done in about the same time as the size of the formula. The steps themselves are simple. It's just a lot of output, but still polynomial. The actual thinking to produce the output is simple. 
+\end{proof}
+%(Do we have to know $k$? This is the constructive/nonconstructive proof question. If want explicit reduction, need machine and k.
+\subsection{Subset sum problem}
+Let's look the subset sum problem:
+\[
+\text{SubSum}=\set{(a_1,\ldots, a_k,t)}{\text{some subset of }a_1,\ldots, a_k\text{ sums to }t}.
+\]
+This is a NP-problem because you can just guess the subset that sums to $t$.
+\begin{thm}
+The subset sum problem is NP-complete.
+\end{thm}
+\begin{proof}
+We show that 3SAT reduces to SubSum. Suppose we are given a 3-cnf $\phi=(x_1\vee \ol{x_2}\vee {x_3})\wedge (\cdots)\cdots (\cdots)$. How do we make gadgets in SubSum but simulate the variables and clauses of the 3SAT problem?
+
+%In the subset sum problem, 
+In the choice of what the subset looks like, there are some binary choices: pick or not pick. We want to make them correspond to binary choices for the variables. 
+%Pick or not pick! 
+
+A binary choice is whether or not $a_1$ in the subset. We modify this a bit. $x_1$ set to true or false is somehow symmetrical. $a_1$ being in the subset or not is less symmetrical. We'll do something in the same spirit. Each variable represented is represented by 2 values. The target sum is designed in such a way so that exactly one value has to appear in the subset.
+
+Here's the construction. %Write down the variables down the left. 
+We'll write the values in decimal.  Having 1's in $t$ forces exactly one of $a_1,a_2$ to appear, and similarly for each pair $a_{2k-1},a_{2k}$. $a_1,a_2$ is the $x_1$ gadget, $a_3,a_4$ is the $x_2$ gadget, and so forth; $a_1$ corresponds to $x_1$ true and $a_2$ corresponds to $x_1$ false, and so forth. In the table below, we write $a_{2k-1},a_{2k}$ as $y_k,z_k$. We have columns corresponding to each clause, and put 1's in cells when the literal corresponding to the row is in the clause corresponding to the column.
+
+%\begin{center}
+%\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+%\hline 
+%$a_{1}$ & 1 & 0 & $\cdots$ & $\cdots$ & 1 &  &  & \tabularnewline
+%\hline 
+%$a_{2}$ & 1 & 0 & $\cdots$ & $\cdots$ &  &  &  & \tabularnewline
+%\hline 
+%$a_{3}$ &  & 1 &  &  &  &  &  & \tabularnewline
+%\hline 
+%$a_{4}$ &  & 1 &  &  & 1 &  &  & \tabularnewline
+%\hline 
+%$\vdots$ &  &  & $\vdots$ &  &  &  &  & \tabularnewline
+%\hline 
+%$a_{2m}$ &  &  &  & 1 &  &  &  & \tabularnewline
+%\hline 
+%$t$ & 1 & 1 & \textbf{$\cdots$} & 1 & 3 &  &  & \tabularnewline
+%\hline 
+%\end{tabular}
+%\end{center}
+\ig{15-4}{1}
+
+Now we put 2 extra 1's in each column. If there are no 1's in the  formula part, then we are not going to get 3. If we have at least 1 in the formula part, then we can add 1's to get 3, and we are done.
+\end{proof}

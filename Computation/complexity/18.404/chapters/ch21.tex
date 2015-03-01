@@ -1,0 +1,262 @@
+\lecture{Tue. 11/27/12}
+
+Last time we talked about hierarchy theorems. If we allow a bit more time or space, then there are more things we can do. 
+
+Today we'll talk about
+\begin{itemize}
+\item
+natural intractable problems 
+\item
+Relativization, oracles
+\end{itemize}
+
+\subsection{Intractable problems}
+\begin{df}
+Define
+\begin{align*}
+\text{EXPTIME}&=\bigcup_k \text{TIME}(2^{n^k})\\
+\text{EXPSPACE}&=\bigcup_k \text{SPACE}(2^{n^k}).
+\end{align*}
+(Think of it as $2^{\text{poly}(n)}$.)
+\end{df}
+The hierarchy theorems show that %will show that we have proper inclusions
+there are things we can do in exponential time that we can't do in polynomial time, and the same is true for space. We have proper inclusions.
+\[
+P\sub \text{EXPTIME},\qquad \text{PSPACE}\sub \text{EXPSPACE}.
+\]
+We found $A\in \text{EXPSPACE}\bs \text{PSPACE}$. This was a language that the hierarchy machine produced for us. It decides in such a way that makes it provable different. $A$ is by design not doable in polynomial space, because it diagonalizes over all polynomial space machines.
+
+\ig{21-1}{1}
+
+But $A$ is an unnatural language; it has no independent interest; it just came out for sake of proving the hierarchy theorem.
+
+We'd like to prove some more natural language is in $\text{EXPSPACE}\bs \text{PSPACE}$. To do this we turn to completeness.
+
+We'll introduce an exponential space complete problem, in the same spirit as our other complete problems.
+Everything in the class reduces to it. 
+%post-turkey what we did pre-turkey
+It cannot be in polynomial space because otherwise PSPACE$=$EXPSPACE. Because $A$ is outside PSPACE, the classes are different, and the exponential space complete problem must also be outside.
+
+The language is a describable language. We can write it in an intelligible way. It's a toy language. There are languages that people are more interested in that have completeness properties.
+Our problem will illustrate the method, which we care about more than the results. This is like the Post Correspondence Problem. Other languages are less convenient to work with.
+
+\begin{df}
+A language is \textbf{intractable} if it is provably outside of $P$.
+\end{df}
+\begin{ex}
+Here's a problem that mathematicians care about. Remember that we talked about number theory: we can write down statements. 
+
+Consider a statement of number theory with quantifiers and  statements involving only $+$.  
+Chapter 6 gives an algorithm for testing whether such statements are true of false. It's a beautiful application of finite automata. The algorithm is very slow; it repeatly involves converting a NFA to a DFA, which is an exponential blowup.
+The algorithm runs in time $2^{2^{\iddots}}$, a tower whose length is about the length of the formula. It can be improved to double exponential.
+
+Is there a polynomial time algorithm? No, it's complete for double exponential time; it provably cannot be improved. We'll give the flavor of how these things go, by giving an exponential problem that's more tailored to showing it's complete.
+That's the game plan.
+
+\subsubsection{$\text{EQ}_{\text{REX}}$}
+
+First we consider a simpler problem.
+\end{ex} 
+\begin{df}
+Define
+\[
+\text{EQ}_{\text{REX}}=\set{
+\an{R_1,R_2}
+}{R_1,R_2\text{ are regular expressions and }L(R_1)=L(R_2)}.
+\]
+\end{df}
+This can be solved in polynomial space (it's a good exercise). We can convert regular expressions to NFAs of about the same size. Thus we can convert the problem to testing whether two NFA's are equivalent. %We can convert them to DFA's (bad idea, exponential space)
+We'll look at the complementary problem, the inequivalence problem, show that is in PSPACE.
+
+We show $\ol{\text{EQ}_{\text{REX}}}$ is in NPSPACE and use Savitch's Theorem~\ref{thm:savitch}. The machine has to accept if the strings are not equivalent. We'll guess the string on which they give a different answer.
+
+If one machine is in an accepting state on one and the other machine not in an accepting state on any possibility, we know the machines are not equivalent, and we can accept. %If find this on some branch, accept. %det poly space, closed under complement.
+
+Does this also show the inequivalence problem is in NP? Why not? Why can't we use the string as the witness, that's accepted by one machine to another? The mismatch could be a huge string that is not polynomially long. The first string on which differ could be exponentially long.
+
+To use polynomial space, we modify our machine so it guesses symbol by symbol, and simulates the machine on the guessed symbols. %if ever one accept, other doesn't, accept.
+
+A variant of this problem is not in PSPACE.
+
+For a regular expression $R$, let $R^k=\ub{R\cdots R}{k}$. Imagining $k$ is written down as a binary number, we could potentially save a lot of room (save exponential space) by using exponentiation. We'll talk about regular expressions with exponentiation.
+%R^googol
+\begin{df}
+Define
+\[
+\text{EQ}_{\text{REX}\uparrow}=\set{
+\an{R_1,R_2}
+}{R_1,R_2\text{ are regular expressions with exponentiation and }L(R_1)=L(R_2)}.
+\]
+\end{df}
+\begin{df}
+We say $B$ is EXPSPACE--complete if
+\begin{enumerate}
+\item
+$B\in$EXPSPACE.
+\item
+for all $A\in$EXPSPACE, $A\le_PB$.\footnote{Why polynomial time reduction, not polynomial space reduction? Reductions are usually doable in log space; they are very simple transformations relying on repeated structure. Cook-Levin could be done in log-space reduction. If weaker reductions already work, there's no reason to define a stronger one.}
+\end{enumerate}
+\end{df}
+We show the following.
+\begin{thm}
+$\text{EQ}_{\text{REX}\uparrow}$ is EXPSPACE--complete.
+\end{thm}
+\begin{proof}
+First we have to show $\text{EQ}_{\text{REX}\uparrow}$ is in EXPSPACE. If we have {\it regular} regular expressions, we know it's in polynomial space; using the Savitch's Theorem trick we argued at the beginning of class that it's doable in polynomial space. For regular expressions with exponentiation, expand each concatenation. This blows up the expression by at most an exponential factor. Now use the polynomial algorithm in the exponentially larger input. The claim follows immediately.
+\footnote{If we allow complements in the expression, we're in trouble. The algorithm doesn't work for complements. If we have complementation we have to repeatly convert NFA's to DFA's to make everything work out.}
+
+Now we show $\text{EQ}_{\text{REX}\uparrow}$ is EXPSPACE--complete. Let $A\in $EXPSPACE be decided by TM $M$ in space $2^{n^k}$. We give a reduction $f$ from $A$ to $\text{EQ}_{\text{REX}\uparrow}$ sending $w$ to $f(w)=\an{R_1,R_2}$, defined below.
+
+%this is similar to other reductions we've done. construct is novelty
+%generic reduction
+%need to show prototype complete. we don't have any examples to work with yet.
+%not giving other examples. can do in principle. don't know whether convenient to do subsequent reductions. messages of course. provably intractable, outside of P.
+
+%Machine simulate.
+
+Let $\De$ be the computation history alphabet.
+Let 
+\begin{itemize}
+\item
+$R_1$ be just all possible strings over some alphabet, $\De^*$, and
+\item
+$R_2$ be %is the obvious thing: 
+all strings except rejecting 
+%which are not accepting
+computation histories for $M$ on $w$. 
+\end{itemize}
+ 
+If $M$ rejects $w$, there a is rejecting computation history. Then $R_2$ will be all strings except for that one string, and the regular expressions will not be equivalent, $R_1\ne R_2$.
+
+If $M$ accepts $w$, then there are no rejecting computation histories, and $R_1=R_2$.
+
+How big are $R_1$ and $R_2$ allowed to be? They have to be polynomial in the size of $w$. How big can $R_2$ be? $w$ already has exponential space, so the string is double-exponentially big. %Small regular expressions. 
+The challenge is how to encode: how to represent the enormous objects even though you yourself are very small.
+
+We construct $R_2$ as follows. $R_2$ is supposed to describe all the junk: every string which fails to be a computation history (because it's scribble). We look at all the possibilities that $R_2$ can fail; we have to describe all failure modalities. We'll write
+\[
+R_2=R_{\text{bad-start}}\cup R_{\text{bad-reject}}\cup R_{\text{bad-compute}}.
+\]
+The beginning is bad, the end is bad, or somewhere along the line we made a mistake moving from one configuration to the next.
+
+A computation history looks like
+\[
+C_{\text{start}}\#C_1\#\cdots \# C_{\text{reject}}.
+\]
+The configurations are $2^{n^k}$ big, because we have to write down the the tape of the machine. Assume they are padded to the same length, so $C_{\text{start}}=qw_1\cdots w_n\textvisiblespace\cdots \textvisiblespace$.\\
+%brute force, listing all strings doubly exponential. 
+
+\noindent
+\ul{\textbf{$R_{\text{bad-start}}$:}}
+We describe $R_{\text{bad-start}}$ as all words which don't have first symbol $q_0$, or 2nd symbol $w_1$, and so forth, so everything that doesn't start with $qw_1\cdots w_n\textvisiblespace\cdots \textvisiblespace$. To start, let 
+\[
+R_{\text{bad-start}}=(\De-q_0)\De^*\cap \De(\De-w_1)\De^*
+\cap \De^2(\De-w_2)\De^*\cap \cdots \cap \De^n(\De-w_n)\De^*\cap {\color{red}\cdots} 
+\]
+%\Si is usually input to M. \De is bigger alphabet.
+(Technically we have to write out $\De-q_0$ as a union. This is shorthand. It's not a regular expression as we wrote it, but we can easily convert it.)
+Now we have to deal with the blanks. This is a little of a pain. Naively we have to write down an exponential number of expressions $\De^i(\De-\textvisiblespace) \De^*$. We do a bit of regular expression hacking.
+%bad-compute is the real place where we use the exponentials. 
+We let 
+\begin{gather*}
+R_{\text{bad-start}}=(\De-q_0)\De^*\cap \De(\De-w_1)\De^*
+\cap \De^2(\De-w_2)\De^*\cap \cdots \De^n(\De-w_n)\De^*\\
+ {\color{red}\cap
+\De^{n+1}(\De\cup \ep)^{2^{n^k}-(n+1)}(\De-\textvisiblespace)\De^*\cap 2^{n^k}(\De-\#)\De^*
+}.
+\end{gather*}
+%(We have a variable length string, we can choose a symbol or an empty string; every time we chose $\textvisiblespace$ it's as if it didn't happen. We have any string that goes up to 
+(Any string that starts with $n+1$ to $2^{n^k}$ symbols followed by a non-blank is a bad starting string.) Note that $2^{n^k}$ can be written down with $n^k+1$ bit
+
+%fail end with rejecting configuration. No good string can have good string. Never include good strings. 
+
+\noindent
+\ul{\textbf{$R_{\text{bad-reject}}$:}}
+Let
+\[
+R_{\text{bad-reject}}=(\De-q_{\text{rej}})^*.
+\]
+
+\noindent
+\ul{\textbf{$R_{\text{bad-compute}}$:}}
+For $R_{\text{bad-compute}}$, we need to describe all possible errors that can happen, $\De^*\pat{error}\De^*$. {\it An error means we have a bad window;} we have an incorrect window $def$ following $abc$ in the same position. Thus we let
+\[
+\bigcup_{abcdef\text{ illegal window}}
+\De^*(abc\De^{2^{n^k}-2} def) \De^*.
+\]
+Note that this is a constant-size union independent of $n$; it is at most size $|\De\cup Q|^6$. 
+
+We're done! $R$ is a polynomial time regular expression with exponentiation.
+\end{proof}
+%We can look at the complexity of regular expressions with a complement. Expressive power of regular expressions with certain enhancing power. If we add in complement, that's a game changer. You can probably get further shrinkage. Dunno! That's a natural question, and it's probably known. It makes life a lot easier. 
+%We used diagonalization to prove this 
+We proved this language is not in PSPACE, hence not in P, hence truly intractable.
+
+Can we use the same method to show the satisfiability problem is  not in $P$? That would show P$=$NP. There is a heuristic argument that shows this method will not solve the P vs. NP problem. This has to do with oracles.
+
+The moral of the story is that this method, which is very successful in showing a language outside of P, is not going to show SAT is outside of P.
+\subsection{Oracles}
+Sometimes we want to think of a Turing machine that operates normally, but is allowed to get a certain free language. The machine is hooked up to a black box, the oracle, which is going to answer questions whenever the machine decides to ask one, about whether a string is in the language. 
+
+\begin{df}
+An \textbf{oracle} for a language $A$ is a machine (black box) that answers questions about what is in $A$ for free (in constant time/space). %, with no consideration how it 
+
+$M^A$ is a TM with access to an oracle for $A$.
+
+Let $\text{P}^A$ be the languages decidable in polynomial time with oracle $A$, and define $\text{NP}^A$ in the languages decideable in nondeterministic polynomial time with oracle $A$.
+\end{df}
+%B\le_P A if can solve B with oracle for A. More general. Mapping reducibility is special case. Let's hold that off. 
+Let's look at some examples. A handy oracle is an oracle for SAT.
+\begin{ex}
+$P^{\text{SAT}}$ is the class of languages that you can solve in polynomial time, with the ability to ask whether any expression is in SAT.
+
+Because SAT is NP--complete, this allows you to solve any NP problem:
+\[
+\text{NP}\subeq P^{\text{SAT}}.
+\]
+Given a language in NP, first compute a polynomial reduction to SAT, and then ask the oracle whether the formula is true.
+
+We also have
+\[
+\text{coNP}\subeq P^{\text{SAT}},
+\]
+because $P^{\text{SAT}}$, a deterministic class, is closed under complement.
+%DETERMINISTIC closed under complement.
+
+This is called computation relative to SAT. The general concept is called \textbf{relativization}.
+
+Whether
+\[
+\text{NP}^{\text{SAT}}\stackrel{?}{=} P^{\text{SAT}}
+\]
+is open. However, we do know the following.
+\end{ex}
+\begin{thm}
+For some $A$,
+\[
+\text{P}^A=\text{NP}^A.
+\]
+For some other $B$,
+\[
+\text{P}^B\ne \text{NP}^B.
+\]
+\end{thm}
+We'll prove the first fact, and then see the important implications.
+\begin{proof}
+Let $A=$TQBF (or any PSPACE--complete problem). Now because TQBF is in PSPACE, the machine can answer can answer the question without the oracle, we can eliminate  the oracle. 
+\[
+\text{NP}^{\text{TQBF}}\subeq \text{NPSPACE}\stackrel{\text{Savitch}}=\text{PSPACE}\subeq P^{\text{TQBF}},
+\]
+the last because TQBF is PSPACE--complete. 
+\end{proof}
+Here is the whole point of why this is interesting.
+
+Suppose we can prove P$\ne$NP using essentially the technique for the first $\fc 23$ of the lecture: hierarchy theorem and a reduction. At first glance that's possible. But diagonalization at its core is one machine simulating another machine, or a variety of different machines. %That's the essence of the diagonalization proofs. %diff from all faster/smaller languages to be different.
+
+Notice that simulation arguments would still work in the presence of an oracle. We give both the simulating machine and simulated machine the same oracle; the proof goes through. The simulating machine can also ask the same oracle. %Set without an oracle, would also work with an oracle present. %completely transparent to proof.
+
+Suppose we have a way of proving P$\ne$NP with simulating. Then we could prove $P^A\ne NP^A$ for every oracle $A$. But this is false! We know $P^A=NP^A$ for certain oracles! This simple-minded approach doesn't work.\\
+
+\cpbox{
+A solution to $P\stackrel?=NP$ cannot rely on simulating machines alone, because if it did, by relativization the proof would show that the same is true with any oracle.
+}

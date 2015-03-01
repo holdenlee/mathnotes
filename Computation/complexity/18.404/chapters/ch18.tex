@@ -1,0 +1,238 @@
+\lecture{Thu. 10/11/12}
+
+
+%We defined space complexity; we defined PSPACE and proved PSPACE$=$NPSPACE by . We
+
+Last time we showed TQBF is PSPACE-complete, analogous to how SAT was complete for NP. %poly time reducible to TQBF.
+
+Today we'll talk about
+\begin{itemize}
+\item
+generalized geography
+\item
+games
+\item
+log space: L and NL
+\end{itemize}
+
+\subsection{Games: Generalized Geography}
+Recall our generalized geography: Boston goes to New York City, Newark, etc., Newark goes to Kalamazoo, etc. 
+
+One important class of PSPACE problems are these games: Given a an initial configuration of a game, the moves allowed, and a rule for who has won, which player has the upper hand? If both sides play the best possible strategy, who will win? Many of these problems are in PSPACE. %can beyond, but typically in PSPACE.
+
+We'll look at an example, generalized geography, and show that deciding who has a winning strategy is a PSPACE-complete problem. 
+
+In generalized geography, we give a bunch of geographical names, for instance cities; each city called out has to start with the letter that the previous one ended with. The starting person picks Boston; the second player has to pick a place starting with $N$. Say Newark. First person start with $K$, Kalamazoo. The person who gets stuck because there is no place to move to loses.
+You can draw a graph that shows the possible moves.
+
+%Standard setup.
+
+Abstracting, we erase the names and just remember the graph. 
+Two players I and II take turns picking nodes of a simple path. The first one unable to move loses. Let
+\[
+\text{GG}=\set{\an{G,a}}{\text{Player I has a winning strategy (forced win) in $G$, starting at $a$}}.
+\]
+Here's an example.
+
+\ig{18-2}{1}
+
+
+In general, figuring out who has winning strategy is not so easy: it is PSPACE--complete. The proof is nice: it reveals connections between quantifiers and games.
+
+\begin{thm}
+GG is PSPACE-complete.
+\end{thm}
+
+\begin{proof}
+Like showing a problem is NP-complete, we start off with a problem we already know to be PSPACE-complete. We have to show two things.
+\begin{enumerate}
+\item
+GG$\in$PSPACE. (This is easy, a straightforward recursive algorithm.)
+\item TQBF$\le_P$PSPACE. 
+(This is the interesting fun part.)
+\end{enumerate}
+To make sense of this reduction, we look at the TQBF problem in a different way, as a game.
+
+Let $\phi$ be a quantified Boolean formula, for instance
+\[
+\phi = \exists x_1\, \forall x_2\, \exists x_3\, \forall x_4 [\Psi].
+\]
+We know how to test whether this is true: Calculate and see if it works out. Put this aside for a moment.
+
+Let's create a game for the formula. There are two players: one of them is called $\exists$ and the other is called $\forall$. This is how you play the game. The players take a look at a formula. Start with $\exists$'s turn. $\exists$ gets to pick the value of $x_1$. Then it is $\forall$'s turn. $\forall$ gets to pick the value of the next variable $x_2$, and so forth. (There may be several variables in row with the same quantifier, but we can always throw in dummy variables so they alternate.)
+
+$\exists$ pick values of $\exists$ variables, $\forall$ pick values of $\forall$ variables. 
+
+The two players have opposing desires. $\exists$ is trying to pick values of variables to make the formula true at the end, to make variables satisfy the formula. $\forall$ is trying to do the opposite: make the formula false. %the combination of all values don't satisfy $\Psi$.
+
+$\exists$ wins if then chosen values of $x_1,\ldots, x_4$ satisfy $\Psi$ and $\forall$ wins if the chosen values don't satisfy $\Psi$. 
+
+%For instance, $(x_1\vee \ol{x_3})\wedge (x_2\vee x_4)$ For all wins, because exists make true. For all controls the second clause, make both false, no matter what exists do. For all has winning strategy.
+
+I don't know if this game will be a big seller. However, it is a valid game: each player is trying to achieve an objective, and at end, we know who won. 
+
+Who has the winning strategy?
+
+The cool thing is that we've already run into this problem. {\it This is exactly the same as the TQBF problem.} $\exists$ has a winning strategy exactly when it is a true quantified boolean formula. What does it mean to have winning strategy? It means that under optimal play, the $\exists$ player can make the formula true.
+In other words, {\it there exists} some move, such that {\it no matter} what the for all player does for $x_2$, {\it there exists} some move $x_3$... Whether $\exists$ has a winning strategy is the the same as the truth value of the formula: whether there exists some value, such that for all...
+
+This is just a different view of the truth value. 
+
+%Testing is a PSPACE formula.
+
+With this representation, we can reduce from TQBF to GG, i.e., show TQBF$\le_P$GG. The technique is reminiscent of SAT reductions: We make gadgets, etc. The way you put them together, though, is different because there is a dynamic game component to it. Playing the game simulate playing the formula game. The gadgets work a little differently.
+
+We send
+\bal
+\phi&\mapsto \an{G,a}\\
+\exists, \forall &\qquad I,II
+\end{align*}
+Player I will be like $\exists$ and player II will be $\forall$. 
+
+The graph will have a sequence of diamonds. Let's look at a fragment and think about how it proceeds. $\forall$ starts at the top. $\forall$ has no choice. $\exists$ player has a choice. %$\forall$ has to go to the next node, $\exists$ has to go there. Opening of game. 
+Now $\forall$ has a choice. This simulates the choice of the variables. The first diamond is the gadget for $x_1$, the second for $x_2$. (Figure from book)%This is the opening of the game.
+
+\ig{18-3}{1}
+
+If $\forall$ appeared twice in a row, then we wouldn't have an extra node, which just served to switch whose turn it is.
+
+After the diamond at the very bottom, all truth values for variables have been chosen. Let's assume going left corresponds to T and right corresponds to F.  In the variable game, the game is over. In generalized geography, we're not finished because we want to arrange more structure---an endgame---so that the $\exists$ player wins iff the formula is satisfied.
+
+%(Can add extra node to flip player. Now $\forall$ pick one node coming out.) 
+There is one node for each of the clauses. The $\forall$ player picks a clause. The $\forall$ player is claiming, or hoping, that the clause is unsatisfied. (We can assume it is in CNF, just like we reduced SAT to 3SAT.) %part inside is in cnf. Just like in SAT reduce to 3SAT.) %maybe 1 extra var?
+$\forall$ is trying to demonstrate that the formula not satisfied, by picking the unsatisfied clause. ``You didn't win because clause 2 is not satisfied."
+
+(The one who tells the truth is going to be the one who ultimately wins.) 
+%$\exists$  
+Each clause points to all its literals. Psychologically, $\forall$ claims $c_1$ not satisfied. $\exists$ says it is satisfied because $x_1$ is true.  Now it's the moment of truth. It is $\forall$'s turn. The positive literal is connected to true side of the construct. Negated variables get connected to false side. $\exists$ claims ``this clause is satisfied by $x_1$." If $\exists $ was right, and earlier the game had gone through the true side of $x_1$, then the $\forall$ player can't move. If the $\forall $ player is right, then play went down the other way, $\forall$ can move, and now $\exists$ is stuck. 
+
+All these nodes and arrows are laid down before the play begins. We build gadgets up front, one for each variable, and lay down nodes for each clause. We connect the nodes corresponding to literal in the clauses left or right depending on whether they are positive and negative. Playing the generalized geography game is just playing the formula game. There is a winning strategy exactly when the counterpart in the formula game has winning strategy. 
+\end{proof}
+This shows TQBF is PSPACE-complete, and hence probably a hard problem.
+
+Similar results have been proven for natural games: the game of Go is played on a $19\times 19$ board; 2 players have 2 colors of stones, each trying to surround the other person's stones. Determining which side has a winning strategy in Go from some preset board configuration is PSPACE--hard: you can reduce GG to the Go problem. There are structures in Go which correspond to moving through the GG configuration, and playing Go game corresponds to GG. %, which corresponds to TQBF game. 
+There are 2 remarks in order. We actually have to generalize Go: $19\times 19$ finite problem; we consider a $n\times n$ board. All results are asymptotic. (If we only considered $19\times 19$, then the problem is just a big table lookup.)
+
+Go is at least PSPACE-hard. Whether it's in PSPACE depends on details on how the set game up. A special rule might let the game go on for a very long time, so this depends on details of the definition of game. PSPACE--hardness has been proven for other games $n\times n$ checkers, and $n\times n$ chess (which is less natural).
+
+We now shift to a different set of classes, still in space complexity.
+%finite game. Turing machine give answer.
+%game is difficult because although finite language, because too big a table to have in computer or brain.
+%treat game computationally.
+%theory too imprecise to address finite problems. 
+%far in the future
+\subsection{Log space}
+Instead of talking about polynomial space, we'll talk about a whole different regime, called log space. It has its own associated complexity classes and natural problems.
+
+We look at $\text{SPACE}(\log n)$ and $\text{NSPACE}(\log n)$. We have space bounds that have size less than the problem. In order to make sense of this, we need to introduce a different model. 
+Just by reading the entire input, the machine use space $n$. That is no sensible way to talk about log space. Instead, we allow the machine to read the entire input, but have a limited amount of work space.
+
+Thus we consider a multitape Turing machine, with a 
+\begin{enumerate}
+\item
+input (read-only) tape, and a 
+\item
+work (read/write) tape.
+\end{enumerate}
+We will only count the space used on the work tape. The input given for free.
+
+\ig{18-4}{1}
+
+We can talk about $\log n$-bounded work tapes. There will be an assumed constant factor allowed. 
+
+\begin{df}
+Define
+\bal
+\text{L}&=\text{SPACE}(\log n),\\
+\text{NL}&=\text{NSPACE}(\log n),
+\end{align*}
+\end{df}
+
+
+Why $O(\log n)$? Why not $O(\sqrt n)$, etc?
+
+$\log n$ is a natural amount of space to provide. It is just enough to keep track of a pointer into the input. Constant $\log n$, for instance $7\log n$, that's enough to keep track of 7 pointers into your input.\\
+
+\cpbox{Using log space, a machine can keep track of a finite number of pointers.}
+\vskip0.15in
+
+%Just enough space to remember some constant number of pointers into the input. 
+We'll do a couple of examples.
+\begin{ex}
+We have that the set of palindromes is in log-space.
+\[
+\set{ww^{\cal R}}{w\in \{0,1\}^*}\in L.
+\]
+\ig{18-6}{1}
+
+The machine zigzags back and forth on the input. It can't make any marks on the input, only keep track of stuff on the work tape. This is still good enough. %Tell you how many symbols already match off. some fixed number of pointers enable. Matched up 3, look at the 4th on left or right. Log-space sized work tape.
+The machine keeps track of how many symbols are already matched off; a fixed number of pointers enable this. For instance, it could record that it has already matched off 3 symbols, and is now looking at the 4th on the left or right. The machine uses a log-space work tape.
+\end{ex}
+We're considering machines with separate read-only input. The input may be enormous: for example, input from a CD-ROM or DVD-rom, onto your small little laptop. The laptop doesn't have enough internal memory to store all of it.
+
+A better analogy is that the read-only input tape is the Internet, huge.
+You can only store addresses of stuff and probe things. What kinds of problems can you solve, if you have just enough memory to write down the index of things? 
+
+\begin{ex}\llabel{path:nl}
+We have
+\[
+\text{PATH}=\set{\an{G,s,t}}{\text{$G$ has a directed $s,t$ path}}\in \text{NL}.
+\]
+A nondeterministic machine can put a pointer on the start node, then nondeterministically choose one of the outgoing edges from the start node. It remembers only the current node it moved to. It forgets where it came from. The machine repeats. %\fixme{Fig 6.} 
+The machine jumps node by node nondeterministically, and accepts if it hits $t$. 
+
+The machine enough space to remember a node, which is logarithmic space, and also space to count how many nodes it has visited, so it can quit if it has visited too many vertices. %(If constant space, then can do with constant automaton.)
+\end{ex}
+
+Can we solve PATH deterministically in log-space? Consider an enormous graph written down over the surface of the US, with trillions and trillions of nodes. Can you with 20 friends (or however many facebook friends you have), each just keeping track of where you are (a pointer into a location), operating deterministically, figure out whether you can get from some location to another? 
+You can communicate by walkie-talkie (or by Internet).
+
+%The deterministic problem is a lot harder. 
+Nobody knows the answer. Whether PATH is solvable deterministically ($\text{PATH}\in L$?) is an unsolved problem.
+
+In fact the L vs. NL problem is open just as P vs. NP is open. %\fixme{Fig. 7.} 
+There are NL-complete problems. If you can solve any of them in L, then you bring all of NL to L. PATH turns out to be complete for NL. We'll start to prove that. 
+
+\subsection{$L,NL\subeq P$}
+
+Before that, let's look at the connection between L, NL, and the classes we've already seen.
+\begin{thm}
+L$\subeq $P.
+\end{thm}
+\begin{proof}
+If $A\in$L and TM $M$ decides $A$ using $O(\log n)$ space, we have to show there is a deterministic machine that solves $A$ in polynomial time. %\fixme{Fig. 8.}
+
+How many configurations does the machine have? This tells us how long the machine can go for. %How long can the machine run for? 
+Fix the input $w$. A configuration of $M$ on $w$ is $(q,h_1,h_2,\text{work tape contents})$. We don't include $w$ because it is read-only. The number of configurations is
+\[
+|Q|\cdot n\cdot d\log n\cdot \underbrace{c^{d\log n}}_{n^k}=O(n^{\ell}).
+\]
+for some $k$, $\ell$.
+%(no looping)
+%Started, only enter each once.
+No configuration can repeat, because no looping is allowed. Since the machine can have an at most polynomial number number of configurations, it runs in polynomial time. We get $A\in$P.
+\end{proof}
+The following is trickier.
+\begin{thm}\llabel{thm:nl-p}
+NL$\subeq $P.
+\end{thm}
+The previous proof would only give NL$\subeq$NP. To get a deterministic polynomial time algorithm we need to construct a different machine.
+\begin{proof}
+Given a NL TM $N$, we convert it to an equivalent polynomial-time TM $M$.
+
+How many configurations does $N$ have? Whe we count the number of configurations, it doesn't matter if the machine is deterministic or not! A configuration is simply a snapshot. $M$ takes all configurations and write them down, but there's only polynomially many. $M=$``on $w$,
+\begin{enumerate}
+\item
+Write all configurations of $N$ on $w$. We will treat these as the nodes of a graph, called the configuration graph.
+\item
+Put an edge from one configuration $c_1$ to another $c_2$  when $c_1$ leads to $c_2$ in one step.
+
+Now we have a big graph of all possible configurations. We have $c_{\text{start}}$ and $c_{\text{finish}}$ (we can assume there is a single accepting configuration, that the machine clears the work tape and moves its head to the left). Now we test if there is a path from the starting to the accepting configuration.
+
+If there is a path, the nondeterministic machine accepts its input. The path gives a sequence of configurations that the nondeterministic machine goes on some path from start to accept. 
+
+Conversely, if the machine does accept, there has to be a path of configurations from start to accept, so there is a sequence of edges go from start to accept.
+
+A polynomial time machine can do this test because it's the PATH problem! Depth or breadth first search works fine. This answers whether the NL machine accepts the input.
+\end{enumerate}
+\end{proof}

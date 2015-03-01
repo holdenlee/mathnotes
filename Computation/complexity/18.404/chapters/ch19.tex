@@ -1,0 +1,229 @@
+\lecture{Thu. 11/15/12}
+
+Last time we talked about...
+\begin{itemize}
+\item
+GG is PSPACE-complete
+\item
+L and NL
+\end{itemize}
+We reduced from TQBF to GG to show GG is PSPACE-complete. Then we turned our attention to a different regime: what if we consider logarithmic space instead of polynomial space? Log space is enough to give you pointers into the input. This has a certain power which we can describe; it fits in nicely into our framework.
+
+Today we'll talk about
+\begin{itemize}
+\item
+NL-completeness %(we'll take completeness to 
+\item
+NL$=$coNL (this differs from what we think is true for NP) %surprising result
+\end{itemize}
+
+Recall that L$=$SPACE($\log n$) and NL$=$NSPACE($\log n$). We have a nice hierarchy:
+\[
+\text{L}\subeq \text{NL}\subeq \text{P}\subeq \text{NP}\subeq \text{PSPACE}.
+\]
+We don't know whether these containments are proper. We can show that PSPACE and NL are different (and will eventually do so), so not everything in the picture collapses down. Most people believe that these spaces are all different; however, we don't know adjacent inclusions are proper.
+
+However, NL$=$coNL shows that surprising things do happen, and we do have unexpected collapses.
+
+First let's review a theorem from last time.
+\begin{thm*}[Theorem~\ref{thm:nl-p}]
+NL$\subeq $P.
+\end{thm*}
+\begin{proof}%can't give same machine autoly
+For a NL-machine $N$, a configuration of $N$ on $w$ is $(q,p_1,p_2,t)$. The number of configurations of $N$ on $w$ is polynomial in $n$ where $n=|w|$ ($w$ is fixed). %start machine up at that point and run it.
+The computation graph is the graph where 
+\begin{itemize}
+\item
+nodes are configurations, and
+\item
+edges show how $N$ can move.
+\end{itemize}
+\ig{19-1}{1}
+%simply test is there a path that takes you from start to accept, using any poly time algorithm for PATH. Path---know NL machine has accepted.
+
+Here is a polynomial time algorithm that simulates $N$. ``On input $w$, 
+\begin{enumerate}
+\item
+Construct the computation graph.
+\item
+Test if there is a path from start to accept (using any polynomial time algorithm for PATH).
+\item
+\ul{Accept} if yes and \ul{reject} if no."
+\end{enumerate}
+\end{proof}
+\subsection{L vs. NL}
+Now we turn our attention to L vs. NL. We'll show that the situation is analogous to the situation of P vs. NP. How much space deterministically do we actually need for a NL problem? We can do it with polynomial space but that's pretty crude. We can do much better.
+
+We have using Savitch's Theorem that
+\[
+\text{NL}=\text{NSPACE}(\log n)\subeq \text{SPACE}(\log^2n)
+\]
+We stated Savitch's Theorem for space bounds $\ge n$; with space bounds of $\ge\log n$ the same argument goes through. %Savitch's Theorem works for $s(n)\ge \log n$.
+No one knows whether we can reduce the exponent, or whether L$=$NL.
+
+(We will show that SPACE($\log n$) is provably different fron SPACE($\log^2 n$), using the hierarchy theorem~\ref{thm:space-hierarchy}. When we increase the amount of space/time, we actually get new stuff.
+But maybe some other argument could show NL$\subeq$SPACE($\log n$).)
+
+We will show that there are NL-complete problems, an example of which is PATH. If you can solve PATH or any other NL-complete problems in deterministic log space, then it brings down everything with it to L. We'll show everything in NL is reducible to the PATH problem. This shouldn't be a surprise because it's what we did in the previous theorem: whether a machine accepts is equivalent to whether there's a path. We'll just need to define NL-completeness in the appropriate way and then we'll be done by the argument given in the NL$\subeq$P theorem.
+\begin{df}
+$B$ is NL-complete if
+\begin{enumerate}
+\item
+$B\in$NL
+\item
+Every NL-problem is {\it log-space} reducible to $B$: for every $A\in$NL, $A\le_LB$.
+\end{enumerate}
+%careful because input is roughly n, output roughly n. we don't want to count the output of machine in space bound. don't want to charge. Input/output kept seprate.
+\end{df}
+We need to define what it means to be log-space reducible. We have to be careful because the input is roughly $n$, and the output is roughly $n$. we don't want to count the output of machine in the space bound. The input and output should be kept seprate.
+\begin{df}
+A \textbf{log-space transducer} is a Turing machine with 3 tapes,
+\begin{enumerate}
+\item
+input tape (read only),
+\item work tape (read-write), and
+\item
+ output tape (write only),
+\end{enumerate}
+such that the space used by the work tape is $O(\log n)$ with $n$ the size of the input.
+
+We say that $f:\Si^*\to \Si^*$ is \textbf{computable in log-space} if there is a log-space transducer that on input $w$, which leaves $f(w)$ on the output tape. 
+%not by definition. fact that log space transducer can only run for poly number of steps. poly number of configurations.
+\end{df}
+
+
+We don't use polynomial reducibility because once we have polynomial time we can solve NL problems. The reducer can figure out whether a string is in $A$, then direct it to a point in $B$. It would not change the problem, just get the answer and dump it in $B$. If we used polynomial reducibility, everything would be NL-complete except $\phi$ and $\Si^*$.
+
+We need a reduction that the L machine could compute. If we used polynomial reduction, an L machine couldn't necessarily make the reduction. But if we log space reduction, then an L machine can compute the reduction.
+
+We have the following analogous theorem.
+\begin{thm}
+If $A\le_L B$ and $B\in L$ then $A\in L$.
+\end{thm}
+Why doesn't the same argument for P work for L? It's a bit tricky because we can't write all of the output of $f$ on a L-machine.
+\begin{proof}
+The algorithm for $A$ is the following. ``On $w$,
+\begin{enumerate}
+\item
+Compute $f(w)$. 
+\item 
+Test if $f(w)\in B$.
+\item Accept or reject accordingly.
+\end{enumerate}
+But we can't write $f(w)$!
+
+There's a trick that fixes this. We run $B$ without having $f(w)$ available. Every time we need a bit of $w$, we run the whole reduction, throw away all the output except the bit we're looking for, and plug that into the machine.\\
+%15th bit
+%now it wants 16th bit. Do whole reduction from beginning. Don't have the space to write it down but do have time. Recompute on fly. Just-in-time computation. Only compute bit when you need, many need recomp, but not counting steps.
+%This trick is sometimes needed to solve other problems in L. Use in other homework. 
+
+%Go w to f(w). But have to write to f(w), already polynoimal space, to write down intermediate space. This is in the work tape in algorithm for A. Being computed. Output of transducer. Now using in internal computation. Leave it sitting there. Apply B-algorithm. Bits of f(w) as you need them, recompute if need again. Only 1 bit of f(w) sit at every given point. Running reduction many times. Avoids problem of having to write down all of f(w) on work tape, which you don't have room for.
+
+\cpbox{Recomputation allows us to get by with logarithmic memory.}
+\end{proof}
+\begin{pr}
+If $A\le_LB$ and $B\le_LC$ then $A\le_LC$. 
+\end{pr}
+\begin{proof}
+Use the same idea, doing computation on the fly.
+\end{proof}
+Now let's turn to NL-completeness.
+\subsection{NL-completeness}
+\begin{thm}
+PATH is NL-complete.
+\end{thm}
+\begin{proof}
+We have to show
+\begin{enumerate}
+\item
+PATH$\in$NL: We already proved this (Example~\ref{path-nl}).
+\item
+For $A\in $NL, $A\le_L$PATH. We give a generic reduction. Say that the NL-machine $N$ decides $A$. We give the reduction $f$.
+
+Given $w$, let $f(w)$ be $\an{G,s,t}$ where $G$ is the computation graph for $N$ on $w$, $s$ is $C_{\text{start}}$, and $t$ is $C_{\text{accept}}$ (again, we assume $N$ cleans up its tape at the end, so that there is just one accept state). Testing whether there is a path from $C_{\text{start}}$ to $C_{\text{accept}}$ is an instance of the PATH problem. We have $w\in A$ iff there is a path from $s$ to $t$.
+
+This machine does the right thing. We have to show we can do the reduction in log space, i.e., %when you get accustomed working for log space machines then simple
+$f$ is log-space computable.
+
+$f(w)$ is supposed to be a description of the nodes and edges, and which is the starting and ending node. Split the work tape into 2 pieces, representing 2 configurations of $N$ on $w$, say $C_1$ and $C_2$. %state, head pos, content
+
+\ig{19-4}{1}
+
+We'll go through all possible pairs of configurations sequentially, just like an odometer. For each possibility of $C_2$ look at all possibilities of $C_1$.
+We cycle through all possible pairs of configurations, testing whether $C_1$ legally yields $C_2$ in 1 step according to the rules of $N$. If so, take the pair and output an edge between them. 
+The whole thing takes log-space, because writing $C_1,C_2$ takes log space. 
+
+This proves $f$ is a log-space computable function, so the reduction takes log-space.
+\end{enumerate}
+\end{proof}
+%How does the computation graph that gets output
+Note that the output depends on $w$. How? Which configurations lead from others---it might seem like these depend only on machine. But $f(w)$ should depend on $w$. The start configuration doesn't depend on $w$, and doesn't have $w$ built in. When you look at whether you can transition from $C_1$ to $C_2$, they have head positions as part of the configuration. In order to see whether $C_1$ leads to $C_2$ we have to see what's in the cell that the head is at. Thus the edges of the graph do depend on $w$.
+
+%we're doing them in order.
+%think of C_1, C_2 as 2 strings. Cycle through all possible strings. Do in order. Don't have to write down. Current one we're looking at tells us what we've already n.
+
+%all we know if 
+%2logs 
+%know the bound
+%tell me bound, I give eexpliciyt instructions.
+%don't tell me, can't tell, but know exag
+%in log space
+%poly time    
+
+For homework, you need to show other problems are NL-complete.  To show other problems are NL-complete, we reduce
+PATH to show they are also NL-compute, just like we reduced 3SAT.
+
+%Graph transformation type problems.                                                                                                                                                                                                                                    
+
+Let's move on the this amazing problem.
+\subsection{NL$=$coNL}
+Let's look at the picture. 20 years ago we thought NL$\ne$coNL, with L in the intersection, much like we still think the picture for P vs. NP still looks like this. However, actually NL$=$coNL.
+%ifg 5
+
+%prob not obviously NL-problem
+\begin{thm}
+NL$=$coNL.
+\end{thm}
+%first test path and complement answer. Nondeterministic machine doesn't work that way. Need to st dinn
+\begin{proof}
+A reducible to B exactly when $\ol A$ reducible to $\ol B$, so all we need to do is show $\ol{\text{PATH}}\in$NL. How do we give a NL-algorithm that recognize the nonexistence of a path?
+
+What could we guess, so that if accept at the end, there's no path?
+
+Perhaps we could guess a cut. But writing down a cut requires more than log-space.
+
+The algorithm is very nonobvious. %savitch---hard hw problem.
+This was a prize-winning paper. %When he heard the result, Mike tried to prove it but couldn't.
+
+We'll give the algorithm in pictures. We have our graph $G$, with starting and ending nodes $s$ and $t$. The idea came a little out of left field. The guy's advisor asked: if you're trying to solve problems and you're given information for free, what happens? What happens if you're given for free {\it the number of nodes you can get to from $s$}?
+
+We first give a NL-algorithm for the $\ol{\text{PATH}}$, given the number of nodes reachable from $s$. Let $R$ be the set of nodes reachable from $s$. Let $c$ be the size of $R$.
+
+\ig{19-6}{1}
+
+Our algorithm goes through all nodes of $G$ one by one. Every time it gets to a new node, it guesses whether the node is reachable. If it guesses the node is reachable, it will prove it's right by guessing the path. (If can't find the path, that branch dies.) If the node is reachable, some branch will guess the right path and then move on. We keep track of how many reachable nodes we've found.
+When we're done, if the count equals $c$, then we've guessed right all the way along; we've found all the reachable ones. All the ones that we've guessed to be nonreachable are really nonreachable. If $t$ wasn't guessed, $t$ is nonreachable!
+
+%given total number, guess set of reachable. If equal to size of reachable, then correctly guessed all the way along, no way end up more than $c$. The only thing done wrong is miss some reachable. We know have all. Was t one of the ones we found reachable? If not, know not reachable, then accept.
+
+Now we've reduced the problem to computing $c$. We compute it using the same technique. We layer the graph into $R_0,R_1,R_2,\ldots$ where 
+\[
+R_i=\text{nodes reachable from $s$ by path with length $\le i$}.
+\]
+Note
+\[
+R_0\subeq R_1\subeq \cdots \subeq R_m=R
+\]
+beacuse $m$ is the maximal possible number of steps you need to reach any node. Let $C_i=|R_i|$.
+
+\ig{19-7}{1}
+
+We will show how to compute $C_{i+1}$ from $C_i$. Then we can throw away the previous $C$-value. So we can get the count of nodes reachable in any number of steps, and we're done.
+
+We need a way of testing whether a node is in $R_{i+1}$: nondeterminism will either get the value correctly, or that branch of the nondeterminism will fail. Some branch will have guessed everything correctly along the way.
+
+Each time we're testing whether a node $v$ is in $R_{i+1}$, we go through all the nodes, guessing which are in $R_i$ and which are not. If we guess it's in $R_i$, we prove it is in by guessing a path of length at most $i$. We keep a count of the number of nodes in $R_i$ and make sure it equals $C_i$ at the end. Along the way we check if any of these nodes connect to $v$.
+
+Now iterate over $i=0,\ldots, m-1$. 
+%nondet commit suicide 
+\end{proof}

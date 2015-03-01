@@ -1,0 +1,180 @@
+\lecture{Tue. 11/20/12}
+
+Last time we showed:
+\begin{itemize}
+\item
+PATH is NL-complete
+\item
+NL$=$coNL
+\end{itemize}
+
+Today we'll talk about the time and space hierarchy theorems.
+
+\subsection*{Homework}
+
+\textbf{Problem 3}:
+
+Show a language is in L. If you just try to do it with your bare hands, it's a mess. But if you use the methodology we talked about in lecture, it's a 1-2 line proof. Don't just dive in but use a technique we introduced to make it simpler. \\
+
+\textbf{Problem 6}:
+
+Here the satisfiability problem is made to be easier: The clauses have at most 1 negated literal per clause (for instance, $(\ol x\vee y_1\vee\cdots \vee y_k)$), and that negated literal cannot appear anywhere else. This turns out to be solvable in NL, and be NL-complete. As a hint, $(\ol a\vee b)$ is equivalent to $a\to b$. Thus we can rewrite $(\ol x\vee y_1\vee\cdots \vee y_k)$ as
+\[
+(x\to (y_1\vee\cdots \vee y_k)).
+\]
+This suggests you think of the problem as a graph which represents the formula in some way. The nodes are the clauses, and have an edge going from $(x\to y_1\vee \cdots\vee y_k)$ to a clause containing $y_1$ on the left-hand-side of an implication. If $x$ is true, one of $y_1,\ldots, y_k$ is true; then following an edge we get to one of the $y_k$. Think of this as a connectivity problem in a graph. 
+
+For the reduction, we want to reduce the graph to the restricted satisfiability problem. We can just reduce from graphs that don't have any cycles in them. Reduce a path problem to the satisfiability problem, using a construction inspired by the above. The construction requires the starting graph not to have cycles. You have to remove the cycles because they cause problems.
+The acyclic path problem is still NL-complete; this is in the textbook. Use the technique of level graphs, explained below. %reduce path to cycle problem.
+
+To show 
+\[\text{PATH}\le_L\text{acyclic-PATH},\]
+take your graph and convert it to a bunch of copies of the vertex set, where an edge from $a$ to $b$ now goes from $a$ in one layer to $b$ in the next layer down. There are no backward-going edges so there are no cycles. But if we had an edge from $s$ to $t$, there is still an edge from $s$ to $t$ in modified graph.
+
+\subsection{Space hierarchy}
+We've wrapped up the basics on complexity classes for time and space. We'll now talk about a pair of theorems that relate to both time and space. The hierarchy theorems have a very simple message. With respect to time and space (let's think of time for the moment), and if you have a certain amount of time you're allowing the machine, then if you increase the time, you'd expect there's more stuff the machine you could do (say $n^3$ instead of $n^2$). For this question the answer is known: if you give the machine a little more time or space, it can do more things. 
+
+In particular, the theorem tells you there are decidable languages that are not in P.
+
+So far we have
+\[
+\text{L}\subeq \text{NL}\subeq \text{P}\subeq \text{NP}\subeq \text{PSPACE}.
+\]
+Even $L\stackrel ?= P$ is open, and $P\stackrel ?=\text{PSPACE}$ is open. However, $L, \text{PSPACE}$ are provably different, so we can't have both $L=P$ and $P=\text{PSPACE}$.
+
+There are separations out there, which we don't know how to prove. The general belief is that all of these are separate. We can actually prove something stronger. We have by Savitch's Theorem that
+\[
+\text{NL}\subeq \text{SPACE}(\log^2 n)\sub \text{PSPACE},
+\]
+the inclusion proper by Space Hierarchy. We know $NL\ne \text{PSPACE}$, but nothing stronger is known.
+
+\begin{thm}[Space Hierarchy Theorem]\llabel{thm:space-hierarchy}
+For functions $f,g:\N\to \N$ where 
+\begin{enumerate}
+\item
+$f$ is \textbf{space constructible}: it can be computed in $f(n)$ space. (This is a technical condition that all normal functions will satisfy.)
+\item
+$g(n)=o(f(n))$,
+\end{enumerate}
+then there is a language
+\[
+A\in \text{SPACE}(f(n))
+\]
+with 
+\[
+A\nin \text{SPACE}(g(n)).
+\]
+\end{thm} 
+(Note $g(n)=o(f(n))$ means $g(n)<cf(n)$ for any constant $c>0$, if you make $n$ large enough. In other words, $f(n)$ dominates $g(n)$ for large enough $n$.)
+
+We will find some language $A$ in SPACE$(f(n))$ and not in SPACE$(g(n))$, to prove this.
+%little o(f(n)) can't do as much.
+
+For instance take $g(n)\sim n^2$ and $f(n)\sim n^3$: we can do something in $n^3$ space that we can't do in $n^2$ space.
+
+The space hierarchy theorem has a slightly easier proof than the time hierarchy theorem.
+
+What are we going to do? I'll tell you what we're not going to do. It would be nice if the language was some nice language, understandable as a string manipulation, with $f$ as a parameter somewhere. Rather, it will be an artificial concocted language designed specifically to meet the conditions that we want; we won't be able to understand it simply otherwise. Later on we'll find more natural languages that take a lot of space.
+
+The machine operates in space $f(n)$, and by design, makes sure its language can't be done in less space. {\it It simulates all smaller space machines and acts differently from them.} Really it amounts to a diagonalization. We build something different from everything in some list. 
+
+Let's review diagonalization. To prove $\R$ is uncountable, given a list of real numbers, we make a number differing from everything in the list by at least one digit (Theorem~\ref{thm:R-uncountable}). To show $A_{TM}$ is undecidable, we make a machine that looks at what $M_i$ does on $\an{M_i}$ and does the opposite (Theorem~\ref{ATM}). Its language $D$ is new thing, and can't be on the list 
+%If we have a list 
+of all possible Turing machines, a contradiction.\\ %Hence $D$ can't be a deciderTuring machine so its language isn't decidable.
+
+Our proof is similar in spirit. Think of $M_i$ as the machines that operate in space $g(n)$ where $g(n)=o(f(n))$, the small space machines. $D$ does something different from what each $M_i$ does, so $D$ can't be a small space machine.
+
+However, $D$ is decidable. Testing whether the $M_i$ accept their input takes small space. Our language is decidable in space just little more. We have to be careful in our analysis just to show $D$ can decide the diagonal in just a little more space; by construction it can't do the tests in small space, but can do it in more space $f(n)$.
+
+\begin{proof}
+We give a Turing machine (decider) $D$ where $A=L(D)$ and $D$ is a decider running in space $O(f(n))$. This gives $A\in \text{SPACE}(f(n))$. Our algorithm for $D$ will show that $D$ is not solvable in smaller space, $A\nin \text{SPACE}(g(n))$.
+
+Our first try is the following. Let $D=$``on input $w$ (of length $n$):
+\begin{enumerate}
+\item
+Compute $f(n)$ and mark off $f(n)$ tape cells. (If the machine ever needs to use more space, then \ul{reject}.)
+\footnote{We use the technical condition that $f(n)$ can be computed in $f(n)$ space; 
+the machine needs to understand how much extra space it got in order to do something new to it. There is a counterpart to the theorem: we can construct gaps in hierarchy where nothing new from $g$ up to $f$, by constructing $f$ so complicated, that we can't compute $f$ in $f$ space. This is the gap theorem. There is one gap you can describe easily; log-log-space. There is a gap between constant space and log-log-space. Nothing nonregular is in $o(\log\log n)$ space.} %Something in $\log\log\log n$ space can't be computed in $\log\log$ space.}
+%esoteric space bounds
+
+\ig{20-3}{1}
+\item
+If $w\ne\an{M}$ for some TM $M$, then \ul{reject}.
+If $w=\an{M}$, continue; $D$ will try to be different from $M$.
+\item
+Run $M$ on $w$ and do the opposite (this is an oversimplication; we have to make some adjustments)."
+\end{enumerate}
+Modulo a little engineering, this is our description of $D$. Conceptually, this is the whole proof.
+
+But we might not finish, $M$ might take more space than we allocated, in which case $D$ ends up rejecting.
+%can't do opposite of what all small machine do. diff from one of those languages.
+Is that a problem? We only have an obligation to be different from the small-space machines. We'll be able to run small spaces to completion. Our language is different from what those languages are.
+
+This is a bit of a cheat. There are 2 critical flaws in the argument. I claimed that if $M$'s computation doesn't fit in the space, I don't have to worry about it. That's not true. It could be the machine uses lots of space on small input, but on large input, it uses space $o(f(n))$. We have $g(n)>f(n)$ for a particular $w$ (but not asymptotically)---we had one chance to be different from that machine, and we've blown it. %But 
+No one tells us the constant factor. %o way figure out additional information. 
+This problem seems more serious!
+
+We want to run $M$ on a bigger $w$. We don't what $w$ we need, but big enough so the asymptotics kick in. Thus we'll pad it in all possible ways; we'll have infinitely many chances to be different.
+
+We change the above as follows. let's strip off trailing 0's and see if the remainder is a Turing machine. We could have a string with billions of 0's, run on some relatively small Turing machine.
+Let $D=$``on input $w$ (of length $n$):
+\begin{enumerate}
+\item
+Compute $f(n)$ and mark off $f(n)$ tape cells. (If the machine ever needs to use more space, then \ul{reject}.)
+%esoteric space bounds
+\item
+If $w\ne\an{M}{\color{red}0^*}$ for some TM $M$, then \ul{reject}.
+If $w=\an{M}{\color{red}0^*}$, continue; $D$ will try to be different from from $M$.
+\item
+Run $M$ on $w$ and do the opposite."
+\end{enumerate}
+This allows $D$ to run $M$ on very long inputs.
+
+This solves one problem. But it's possible that $M$ on $w$ goes forever. It can only do so in a particular way: using a small amount of space. If $M$ blindly simulates, it is going to loop. The amount of time it can take is exponential in the amount of space. Thus, we run a counter to count up the amount of time a machine can run without getting into a loop, on that amount of space. It's just $2^{f(n)}$. 
+
+The counter takes a constant factor more space; put the counter out to the right, or think of it running on a separate track below. If we exceed the time bound, then reject. %it has to complete operation within $2^{f(n)}$ time. 
+Using asymptotics, for large enough $n$, we will run to completion on some input and be different.
+
+Let $D=$``on input $w$ (of length $n$):
+\begin{enumerate}
+\item
+Compute $f(n)$ and mark off $f(n)$ tape cells. (If the machine ever needs to use more space, then \ul{reject}.)
+%esoteric space bounds
+\item
+If $w\ne\an{M}{\color{red}0^*}$ for some TM $M$, then \ul{reject}.
+If $w=\an{M}{\color{red}0^*}$, continue; $D$ will try to be different from from $M$.
+\item
+Run $M$ on $w$ and do the opposite.
+\begin{enumerate}
+\item
+{\color{red}\ul{Reject} if exceeds $2^{f(n)}$ time.}"
+\end{enumerate}
+%Punts. List of ALL Turing machines!
+%if format okay, easy check $w=\an{M}$?
+\end{enumerate}
+\end{proof}
+Constructibility works down to $\log n$ (we have to work with the special model for sublinear space).
+%what happens when g=f?constant overhead. asymptotics not going to help. Simulation cost for $M$. If $M$ larger tape alphabet. Larger const factor simulate (?). Can't succeed running yourself. If $w=\an{D}$, look and see what happens.
+\subsection{Time Hierarchy Theorem}
+The issue of the overhead becomes more of a concern.
+\begin{thm}\llabel{thm:time-hierarchy}
+If $f$ is \textbf{time-constructible} and $g(n)=o\pf{f(n)}{\log n}$, then there exists $A\in \text{TIME}(f(n))$ and $A\nin \text{TIME}(g(n))$. 
+\end{thm}
+In the interest of time (pun intended) we'll just sketch the proof. The idea is the same.
+
+\begin{proof}
+Let $D=$``on input $w$ of length $n$,
+\begin{enumerate}
+\item
+Compute $f(n)$. Start counter (``timer") to $f(n)$. %let's worry about this at the end.
+\item
+If $w\ne \an{M}0^*$ then for some TM M, \ul{reject}.
+\item
+Run $M$ on $w$ and do the opposite (provided it runs within the time on the counter).
+\end{enumerate}
+We have to be careful. %\fixme{Fig A.} 
+Every time we do a step, we refer back to $M$. The overhead, if we're not careful, will be bad. %don't introduce squaring.
+We only have an extra factor of $\log n$ to work with. We extend our tape alphabet so that every tape cell has enough space to write 2 symbols. We'll keep the description of $M$ on the tape: Like checking out book from the library, we'll take $M$ and carry it with us. More complicated is the counter. 
+
+$M$ is constant size thing. The counter is not constant in size; it grows with $n$, hence is logarithmic in size. This contributes $\log n$ overhead.
+\end{proof}

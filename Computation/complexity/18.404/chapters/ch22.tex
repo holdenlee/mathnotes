@@ -1,0 +1,232 @@
+\lecture{Thu. 11/29/12}
+
+Last time we talked about
+\begin{itemize}
+\item
+EQ${}_{\text{REX}\uparrow}$ is EXPSPACE-complete.
+\item
+Oracles
+\end{itemize}
+We gave an example of a provably intractable language, and concluded the same technique can't be used to prove P$\stackrel ?=$NP (relativization).
+
+Today we'll look at a different model of computation that has important applications.
+We allow Turing machines to access a source of randomness to compute things more quickly then we might otherwise be able to do.
+We'll talk about
+\begin{itemize}
+\item Probabilistic computation and BPP
+\item Primality and branching programs
+\end{itemize}
+
+\subsection{Primality testing}
+We'll use primality testing as an example of a probabilistic algorithm.
+
+Let
+\[
+\text{PRIMES}=\set{p}{p\text{ is a prime number in binary}}.
+\]
+We have PRIMES$\in$coNP (easy). 
+We can write down a short proof in elementary number theory that PRIMES$\in$coNP. A big breakthrough in 2002 showed PRIMES$\in$P.
+
+We'll give a probabilistic, polynomial-time algorithm for PRIMES. We'll just sketch the idea, without going through the details. It is probabilistic in the sense that for each input the running time is polynomial, but there is a small chance that it will be wrong. %There are a variety of models.
+
+We need the following.
+\begin{thm}[Fermat's little theorem]
+For any prime $p$ and $a$ relatively prime to $p$,
+\[
+a^{p-1}\equiv 1\pmod p.
+\]
+\end{thm}
+This comes from the abstract algebra fact that if you raise the element of a finite group to the size of the group you get the identity.
+
+For example, if $p=7$ and $a=2$, then $2^6=64\equiv 1\pmod 7$. %if you have larger numbers, you can expect any number but you always get 1.
+
+In contrast, if you take $p=9$, $a=2$, then $2^8\equiv 256\equiv 4\nequiv 1\pmod 9$. We have just given a proof that 9 is not a prime number: 9 does not have a property that all prime numbers are. However, this proof does not tell you what the factors are. (So primality testing may not help you do any factoring.)
+
+%Suppose for nonprimes you always get something other than 1.
+Suppose $a^{p-1}\pmod p\ne 1$ for $p$ not prime. This gives an easy test for primality. Unfortunately, this is false. An example is $p=561=3\cdot11\cdot 17$. We have $2^{560}\equiv 1\pmod{561}$.
+
+We're going to look at something which is still false, but closer to being true. Suppose for $p$ not prime, $a^{p-1}\pmod p\ne 1$ for most $a<p$. This would not necessarily give a polynomial time algorithm, because it might give the wrong answer. But you can pick random $a$'s; each time you pick an $a$, you have a 50-50 chance of getting a result which is not 1.
+
+To test if $p$ is a prime number, test a hundred random $a$'s. If you run 100 times and fail, the number is probably prime. But this is also false.
+For 561, it fails for all $a$ relatively prime to $p$.
+%Tests in practice ignore 
+This test ignores Carmichael numbers, which masquerade for primes.
+
+But let's assume our heuristic is true.
+
+Then this test works. Let's write the algorithm down. Here is a probabilistic algorithm assuming the heuristic. ``On input $p$,
+\begin{enumerate}
+\item
+Pick $a_1,\ldots, a_k<p$ at random. ($k$ is the amplification parameter, which allows us to adjust the probability of error.)
+\item
+Compute $a_i^{p-1}\pmod p$ for each $i$.
+\item
+Accept if all results equal 1, and reject any result is not 1."
+\end{enumerate}
+
+With our assumption, if $p$ is prime, 
+\[
+P(\text{accept})=1.
+\]
+If we have a prime number we always get 1 by Fermat's little theorem.
+But if $p$ is composite, then the probability is going to be small (under the false assumption)
+\[
+P(\text{accept})\le 2^{-k}.
+\]
+It's like flipping a coin each time you pick an $a$. This is our motivating example for making our definition.
+
+\subsection{Probabilistic Turing Machines}
+We set up a model of computation---probabilistic Turing machines---which allows us to talk about complexity classes for algorithms like this.
+\begin{df}
+A \textbf{probabilistic Turing machine} is a type of NTM where we always have 1 or 2 possible moves at each point. %conventional, 0, 1, 2, or many at each point. 1 or 2 easier to work with later.
+If there is 1 move, we call it a \textbf{deterministic} move, and if there are 2 moves, we call it a \textbf{coin toss}. We have accept or reject possibilities as before.
+\end{df}
+\ig{22-1}{1}
+
+We consider machines which run in time poly$(n)$ on all branches of its computation.
+\begin{df}
+For a branch $b$ of $M$ on $w$, we say the probability of $B$ is 
+\[
+P(b)=2^{-\ell}
+\]
+where $\ell$ is the number of coin toss moves in $b$.
+We have
+\[
+P(M\text{ accepts }w)=\sum_{b\text{ accepting branch}} P(b).
+\]
+\end{df}
+This is the obvious definition: what is the probability of following $b$ if we actually tossed coins at each coin toss step? At each step there is $\rc2$ chance of going off $b$.
+
+The machine will accept the input with certain probability. Accept some with 99$\%$, $0\%$, $2\%$, $50\%$. We want to say that the probability does the right thing on every input, but with small probability of failing (the error).
+\begin{df}
+For a language $A$, we say that probabilistic TM $M$ \textbf{decides $A$ with error probability $\ep$} if for $w\in A$, 
+\[
+P(M\text{ accepts }w)\ge 1-\ep.
+\]
+If $w\nin A$, then
+\[
+P(M\text{ rejects }w)\ge 1-\ep
+\]
+(i.e., it accepts with small probability, $P(M\text{ accepts} w)\le \ep$.)
+\end{df}
+%It gets the right answer with probability of error close to 0, given by $\ep$.
+
+For instance if a machine accept with $1\%$ error, then it accept things in the language with $99\%$ probability.
+
+There is a forbidden behavior: the machine is not allowed to be unsure, for instance accept/reject an input with probability $\rc2$. It has to lean overwhelmingly one way or another way. How overwhelming do you want to be? We have a parameter $k$, which we can apply universally to adjust the error possibility. By repeating an algorithm many times, we can decrease error. %and accumulate.
+\begin{lem}[Amplification lemma]
+For a probabilistic Turing machine $M$ with error probability $\ep$, with $0\le \ep<\rc2$, any any polynomial $p(n)$, 
+%flip a coin and look at what coin says, give output.
+there is a probabilistic Turing machine $M'$ %with smaller error probability. If manage to get below 1/2, maybe 3/7, repeat!
+%moderately high error prob 3/7, 1/4 bad if life dep on answer. run alg many times. tend towards mostly accepting or rejecting.
+equivalent to $M$ and has error probability $2^{-p(n)}$.
+\end{lem}
+Not only can we get the error probability small, we can get the probability decreasing rapidly in terms of $n$.
+\begin{proof}[Proof sketch]
+$M'$ on $w$ runs $M$ on $w$ $\text{poly}(n)$ times and outputs the majority answer.  %probability stuff. Central limit? %runs n times. incredibly small chance of wrong answer.
+\end{proof}
+This motivates the following important definition of a complexity class.
+\begin{df}
+Define
+\[
+\text{BPP}=\set{A}{\text{some probabilistic poly-time TM decides $A$ with error probability }\rc3}.
+\]
+BPP stands for \textbf{bounded probabilistic polynomial-time}.
+\end{df}
+Here, bounded means bounded below $\rc2$. 
+The $\rc3$ looks like an arbitrary number, but it doesn't matter. Once you have a TM you can make the probability $\rc{10^{100}}$ is you want. All you need about $\rc3$ is that $\rc3<\rc2$.
+
+%If a language is decided by $A$ with error probability $\rc3$.
+
+We can prove PRIMES$\in$BPP by souping up the algorithm we described appropriately. Now we know PRIMES$\in$P. Obviously P$\subeq$BPP. (A P-algorithm gives the right answer with error 0.) We still don't know P$\stackrel ?=$BPP. 
+%you can do something very much in the same spirit that doens't have the counterexample with the Carmichael numbers. takes more time.
+
+In fact most people believe P$=$BPP, because of pseudorandomness. If there was some way to compute a value of the coin toss in a way that would act as good as a truly random coin toss, with a bit more work one could prove P$=$BPP. A lot of progress has been made constructing pseudo-random generators, but they require assumptions such as P$\ne$NP.
+
+\subsection{Branching programs}
+
+We turn to a bigger example of a problem in BPP that has a beautiful proof. It has an important idea that turned out to be revolutionary in complexity theory.
+
+\fixme{(A useful picture to keep in mind is the following. Fig 3.)}
+
+\ig{22-3}{1}
+
+We need to define our problem.  %\fixme{(Fig 4)} %nothing we do is useful
+%like FA.
+
+\ig{22-4}{1}
+\begin{df}
+A \textbf{branching program} (BP) is a directed graph labeled with variable names (possibly repeated) such that the following hold.
+\begin{itemize}
+\item
+Every node has a label and has 2 outgoing edges 0 and 1, except for two special nodes at the end.
+\item
+The 2 special nodes are 0 and 1. (Think of them as the output.)
+\item
+There is a special start node, and no cycles.
+\end{itemize}
+
+%outdeg 2.
+
+To use a branching program, make an assignment of the variables to 0's and 1's. Once you have the assignment, put your finger on the start node. Look at the variable at the node. Read the variable's value, and follow 0 or 1 out. An assignment of variables will eventually take you to an output node 0 or 1; that is the output of the program.
+\end{df}
+%Computer aided design represent controllers. Decision tree rep possible. Vars set true or false. outcome true or false.
+%like decision tree but doesn't have to be a tree. Computation of 2 can combine to be a single node. Directed acyclic graph.
+
+Here is a branching program. It computes the exclusive or function. %cf. neural nets!
+
+\ig{22-5}{1}
+
+We want to test whether two different-looking branching programs are equivalent: whether they compute the same function.
+\begin{df}
+Define the equality problem for BP's by
+\[
+\text{EQ}_{\text{BP}}=\set{\an{B_1,B_2}}{B_1,B_2\text{ are BP's and compute some function}}.
+\]
+\end{df}
+
+\ig{22-6}{1}
+
+This is in coNP: when two BP's are not equivalent, then we can give an assignment on which they differ.
+\[
+\text{EQ}_{\text{BP}}\in \text{coNP}.
+\]
+In fact it is coNP--complete. 
+There's not much more we can say without radical consequences to other things.
+
+We consider a special case that disallows a feature that our first BP has. We disallow reading the same variable twice on any path. Once we've read $x_1$, we can't read $x_1$ again. %why needed. Think about prog. Like states in finite automata. Convenient throw away and reread it later, convenient. Not allowed in special case. %was x_2 originally
+\begin{df}
+In a \textbf{read-once BP}, each $x_i$ can appear at most once on a path from the start to the output. %on any path never allow see same var twice.
+\end{df}
+Let's look at the problem
+\[
+\text{EQ}_{\text{ROBP}}=\set{\an{B_1,B_2}}{B_1,B_2\text{ are read-once BP's and compute some function}}.
+\]
+This is in coNP, but it's not known to be complete. (It is not known to be P, but known to be in BPP. It would probably not be coNP--complete.)
+
+Our main theorem is the following.
+\begin{thm}
+$
+\text{EQ}_{\text{ROBP}}\in $BPP.
+\end{thm}
+Our first approach is to run the 2 BP's on random inputs. But that's not good enough to give a BPP algorithm: we can only run on polynomially many out of exponentially many input values, and see if they ever do something different. But you can construct branching programs $B_1$ and $B_2$ that agree everywhere except at 1 place. They are obviously not equivalent. But if you run them on random input, the chance of finding that disagreement is low. Even if you run polynomially many times, you're likely not to see the disagreement, and you would think they're not equivalent.
+
+We need to make the chance of finding the disagreement at least $\rc23$, or some fixed value greater than $\rc2$.
+
+Instead we'll do something totally crazy. Instead of setting the $x_i$'s to 0's and 1's, we'll set them to other values: $2,3$'s, etc. What does that mean? The whole problem is to define it. We extend in some algebraic way to apply to nonboolean input,
+and a single difference gets magnified into an overwhelming difference.
+
+This is worth doing, because the math ideas behind the proof is important.
+
+We'll give a taste of the proof, and finish it next time. 
+
+Now $x_1$ could be given the value 2. We'll blend 0's and 1's together. It uses the following important technique, called \textbf{arithmetization}. We want to convert a Boolean model of computation into arithmetic operations that simulate boolean ones. 
+
+For instance consider $\wedge, \vee$. We want to simulate these using arithmetic operations that operate on boolean variables the same way. We want to use $+,\times$ but get the same answer.
+\begin{align*}
+a\wedge b &\to ab\\
+\neg a&\to 1-a\\
+a \vee b&\to  a+b-ab.
+\end{align*}
+
+Our first step is to convert the branching programs, write it out in terms of and's, or's, and negations. We express the program as a circuit in terms of and's and or's. Then we convert to $+$'s and $\times$'s, so that the program still simulate faithfully when given boolean inputs, but now has meaning for nonboolean inputs. That's the whole point. There is analysis that we have to work through, but this sets the stage.

@@ -1,0 +1,274 @@
+\lecture{Tue. 11/6/12}
+
+We're going to shift gears a little bit. Having finished our discussion of time complexity---the number of steps it needs to solve one problem---we're going to look at how much memory (space) is needed to solve various problems. We'll introduce complexity levels for space complexity analogous to time complexity, and complete problems for these classes. 
+
+Last time we proved the Cook-Levin Theorem: SAT is NP-complete.
+
+Today we'll do
+\begin{itemize}
+\item
+space complexity
+\item
+SPACE($s(n)$), NSPACE($s(n)$)
+\item
+PSPACE, NPSPACE
+\item
+Examples: TQBF, $\text{LADDER}_{\text{DFA}}$
+\item
+Savitch's Theorem.
+\end{itemize}
+\subsection*{Homework}
+
+\textbf{Problem 1}: %(1.67, rotational closure):
+
+On exponentiation modulo a number. We can do the test even though the numbers are very big, say all $n$-bit numbers. The naive algorithm---just multiplying over and over---takes exponential time, because the magnitude of the number is exponential in the size of the number.
+
+If you want to raise a number to the 4th power, you can multiply it 3 times or square it twice. Using this squaring trick you can raise number to high powers, even if they are not powers of two.
+
+There are real applications of raising numbers to powers in modular arithmetic, for instance, in cryptography.\\
+
+\textbf{Problem 2} (Unary subset sum problem):
+
+A number in unary is much bigger to write down than, say, in binary. The straightforward algorithm---looking through all possible subsets---doesn't give a polynomial time algorithm because there are exponentially many subsets. Instead, use dynamic programming. The key observation is that you can ignore the target. Just calculate all possible values you can get by looking at the subsets. There are exponentially many subsets, but only 
+polynomially many different values you can obtain for their sums.  Think about how to organize your progress carefully. Dynamic programming gives you a way to organize your progress.\\
+
+\textbf{Problem 3}:
+
+This is an important problem. If P$=$NP, then everything in NP is NP complete. This is important for 2 reasons. This shows that proving a problem is not NP-complete is pretty hopeless. There can be no simple way of showing a problem not NP-complete, because then we get this amazing consequence P$\ne$NP.
+
+The fact really comes from the fact that all problems in P are polynomial time reducible to one another. This is important to understand, because the issue comes up repeatedly in different guises. This is a nice exam-type question that can be asked in a variety of different ways. 
+
+This is similar to the fact that all decidable problems are mapping-reducible to one another. This is a basic concept to understand in putting together the theory the way we do it.\\
+
+\textbf{Problem 4}:
+
+The 3-coloring problem is NP-complete. The book gives gadgets you might use. The palette is a structure you might want to use in your reduction. If you imagine trying to color your graph in 3 colors, and you have this structure, the 3 colors must all appears in the palette. (The palette is like the set of colors the artist has to work with.) When you color the graph with 3 colors, we don't know what colors they are but we can arbitrarily assign them names, say True, False, and Red. Thinking of colors as truth values helps you understand the rest of the connection. 
+
+In the variable gadget, a node of the palette (the red node) happens to be connected to 2 other nodes connected to each other. If it is 3-colorable, then we know the 2 nodes are not red, so are either true-false or false-true. That binary choice mirrors the choice of truth assignment to some variable. That's why this structure is called a variable gadget. It has two possibilities. %Way to get at those variables. 
+
+%But not only do you color the nodes, 
+But you have to make sure the coloring corresponds to satisfying assignment. That's what the other gadgets help you to do. Play with the or-gadget. Try assigning values at the bottom and see what values are forced elsewhere. \\
+
+\textbf{Problem 5}:
+
+If P$=$NP then you can not only test formulas, you can find the assignment. Find the assignment a little \ul{bit} at a time.\\
+
+\textbf{Problem 6} (Minimizing NFA's): 
+
+Find an equivalent automaton with the fewest number of states possible, equivalent to original one. For DFA's, there is a poly time algorithm. No such algorithm is known for NFA's. In fact, if you could do that then P$=$NP. Imagine what would happen if you could minimize the automaton you ended up constructing. That would turn out to be useful.
+
+\subsection{Space complexity}
+\subsubsection{Definitions}
+\begin{df}
+A Turing machine runs in \textbf{space} $s(n)$, where $s:\N\to \N$, if it halts using at most $s(n)$ tape cells on every input of length $n$, for every $n$.
+\end{df}
+\ig{16-1}{1}
+
+The machine uses a tape cell if its head moves over that position on the tape at some time. We're only going to consider the case $s(n)\ge n$, so we at least read the entire input. The head has at least passed over the input; it might use additional space beyond the input. %Count for space used by machine. %The number of cells scanned . 
+We assume the machine halts on input of every length.
+
+This is entirely analogous to time complexity. There, instead of measuring space used, we measured time used.
+
+We can define space use for deterministic and nondeterministic machines. For a nondeterministic maching to run in space $s(n)$, it has to use at most $s(n)$  in every branch. We treat each branch independently, seeing how many tape cells are used on that branch alone.
+
+We now define space complexity classes.
+\begin{df}
+Define 
+\begin{align*}
+\text{SPACE}(s(n))&=\set{A}{\text{some TM decides $A$ running in $O(s(n))$ space}}\\
+\text{NSPACE}(s(n))&=\set{A}{\text{some NTM decides $A$ running in $O(s(n))$ space}}.
+\end{align*}
+\end{df}
+Think of these as the collection of languages some machine can do within $s(n)$ space. 
+
+\subsubsection{Basic facts}
+
+Let's show some easy facts, some relationships between space and time complexity. 
+\begin{pr}
+For $s(n)\ge n$,
+\[
+\text{TIME}(s(n))\subeq \text{SPACE}(s(n)).
+\]
+This also works for NSPACE and NTIME.
+\end{pr}
+\begin{proof}
+Suppose we can do some problem with $s(n)$ time. Then there is a TM that can solve that problem with at most $s(n)$ steps on any problem of input length $n$. I claim that language is also solvable in space $s(n)$. If you can do something with $s(n)$ steps you can do it in $s(n)$ space, by using the same algorithm. The machine can only use at most $s(n)$ tape cells because in each additional step it uses at most 1 more tape cell. %(and only if it goes right every step). 
+\end{proof}
+%other examples change algorithm.
+Let's do containment in the other direction. Space seems to be more powerful than time: the amount of stuff doable in space $n$ might take a lot more time.
+\begin{pr}
+For $s(n)\ge n$,
+\[
+\text{SPACE}(s(n))\subeq \text{TIME}(2^{O(s(n))})
+=\bigcup_{c>0}\text{TIME}(c^{s(n)}).
+\]
+This also works for NSPACE and NTIME.
+\end{pr}
+Think of $c$ as the size of the tape alphabet.
+\begin{proof}
+Consider a machine running in space $s(n)$.
+
+It can't go on too long without repeating a configuration; if it halts it can't repeat a configuration. The number of configurations is at most exponential in $s(n)$, so the time is at most exponential in $s(n)$.
+\end{proof}
+\begin{df}
+Define
+\bal
+\text{PSPACE}&=\bigcup_k \text{SPACE}(n^k)\\
+\text{NPSPACE}&=\bigcup_k \text{NSPACE}(n^k)
+\end{align*}
+\end{df}
+We define these because they're model independent like P and NP.
+%NSPACE seems very different from what can do in SPACE.
+\begin{cor}
+P$\subeq$PSPACE and 
+NP$\subeq$NPSPACE.
+\end{cor}
+\begin{proof}
+This follows from $\text{TIME}(s(n))\subeq \text{SPACE}(s(n))$.
+\end{proof}
+The following starts to show you why space is more powerful than time.
+
+\begin{thm}
+NP$\subeq$PSPACE.
+\end{thm}
+Now we have to do something nontrivial. All we know is that we have a nondeterministic polynomial time algorithm for the language. It's not going tell you that you can decide the same language with a polynomial time algorithm on a deterministic machine.
+\begin{proof}
+\begin{enumerate}
+\item
+We first show SAT$\in$PSPACE: Use a brute force algorithm. You wouldn't want to write down the whole truth table. But you can cycle through all truth assignments one by one, reusing space to check whether they are satisfying assignments. If you go through all assignments and there are no satisfying assignments, then you can reject. The total space used is just enough to write down the  current assignment. Thus SAT$\in$SPACE$(n)$.
+%once used once, doesn't count towards space. 
+\item
+If $A\in $NP then $A\le_P$SAT. The polynomial time reduction can be carried out in polynomial space. 
+If you have an instance of a NP problem, then you can map it to SAT in polynomial time, and use the fact that the SAT problem can be done in polynomial space.
+%Take your NP problem, an instance of problem, mapping to SAT problem in polynomial space, the SAT problem can be done in polynomial space.
+\end{enumerate}
+\end{proof}
+This theorem illustrates the power of completeness. Note that we had to make sure the reduction is being capable of being computed by algorithms within the class (PSPACE). Then we showed a NP-problem is in PSPACE for a complete problem in that class (SAT), so we get that all problems reducible to it are also in that class. Thus the whole class (NP) becomes subset of class you're working with (PSPACE).
+
+(You can also give a more direct proof.)
+\begin{thm}
+CoNP$\subeq$PSPACE.
+\end{thm}
+\begin{proof}
+When you have deterministic machines, and you want the complementary langauage, you can just flip the answer at the end. {\it Deterministic complexity classes are closed under complement.}
+Just solve the NP problem and take the complement.
+\end{proof}
+For instance, the unsatisfiability problem is in CoNP, hence is in PSPACE. We have $\ol{\text{HAMPATH}}\in$CoNP, hence is in PSPACE.  
+In fact, UNSAT and $\ol{\text{HAMPATH}}$ are CoNP-complete.
+%pspace complement
+
+\subsubsection{Examples}
+
+Let's do a slightly less trivial example of a problem in PSPACE. Then we'll give an example of a problem in NPSPACE.
+\begin{ex}
+Here is a Boolean formula:
+\[
+(x\vee \ol y) \wedge (\ol x \vee y\vee z).
+\]
+We put quantifiers in front. Quantifiers range over boolean values.
+\[
+\forall x\exists y \forall z[(x\vee \ol y) \wedge (\ol x \vee y\vee z)].
+\]
+This formula says: For every truth assignment to $x$ there exists a truth assignment to $y$ such that for every truth assignment to $z$ the statement is true. This is a \textbf{quantified Boolean formula}.
+We assume every variable gets quantified.
+
+We formulate the general computational problem as a language: \textbf{TQBF, true quantified Boolean formulas}.
+\[
+\text{TQBF}=\set{\an{\phi}}{\phi\text{ is a true quantified Boolean formula}}.
+\]
+
+This problem is in a sense a generalization of satisfiabilities. The satisfiability problem is the special case where all quantifiers out front are $\exists$: is there a setting to all variables that makes the formula true.
+
+TQBF seems to be harder.
+It is in polynomial space, but not known to be in NP. Why is it solvable in polynomial space?
+
+It turns out TQBF is PSPACE-complete. We first have to show it's in PSPACE. This isn't too hard.
+\end{ex}
+\begin{thm}\llabel{thm:tqbf-pspace}
+TQBF$\in $PSPACE.
+\end{thm}
+Let's assume that you can plug in constant values (trues/falses) in certain locations.
+\begin{proof}
+Break into cases. On input $\an{\phi}$,
+\begin{enumerate}
+\item
+If there are no quantifiers, then there are no variables, so evaluate $\phi$ and accept if true.
+\item 
+We give a recursion. If $\phi$ starts with $\exists x$, evaluate recursively for $x$ true and false.
+%plug in $x$ true and false, and recursively do those cases, first true then false, and see if either of them return true. 
+Accept if either accepts.
+\item
+If $\phi$ starts with $\forall x$, evaluate recursively for $x$ true and false.
+%plug in $x$ true and false, and recursively do those cases, first true then false, and see if either of them return true. 
+Accept if both accept.
+\end{enumerate}
+In this way the machine evaluates all possibilities while resusing the space!
+
+This uses space $O(n)$.
+\end{proof}
+Now let's look at nondeterminstic space complexity.
+
+Here's a word puzzle: convert one word to another by changing one word at a time, and staying in the language. 
+%4-letter words, nice ones
+For instance, suppose we want to convert ROCK to ROLL. We can't convert ROCK to to ROCL because ROCL is not an English word. It may be helpful to change the R to something else to enable us to change last letters: ROCK, SOCK, SULK, BULK, BULL, BOLL, ROLL. %boll weevil.
+%French different.
+We'll consider a similar problem. %do a similar problem.
+
+Define the language as the set of strings some finite automaton accepts.
+\begin{df}\llabel{df:ladder}
+Define
+\begin{multline*}
+\text{LADDER}_{\text{DFA}}\\
+=\set{\an{B,s,t}}{\text{there is a sequence $s=s_0,s_1,\ldots, s_k=t$, $s_i$, $s_{i+1}$ differ in one character, all $s_i\in L(B)$}}
+\end{multline*}
+\end{df} 
+What's the complexity of testing this? This problem is solvable in nondeterministic polynomial space.
+\begin{thm}\llabel{thm:ladder-npspace}
+$\text{LADDER}_{\text{DFA}}\in \text{NPSPACE}$.
+\end{thm}
+\begin{proof}
+(by example) 
+Nondeterministically change one letter, check to see if the word is still in the language. We test at every stage if we ended up at ROLL. We have to be careful not end up in a loop. The machine cannot remember everything it's done. Instead, it counts how many words it has looked at so far. If the number is too high, it must have looped.
+\end{proof}
+%Can't do this in deterministic amount of space. 
+\subsubsection{PSPACE vs. NPSPACE}
+There is a rather surprising general theorem that tells you PSPACE and NPSPACE are the same. The analogue to P vs. NP for space complexity is solved.
+\[
+\text{PSPACE}=\text{NPSPACE}.
+\]
+This is not obvious! If you try a backtracking algorithm in the obvious way, then it blows up the space to be exponential.
+
+Is this is a NP problem? The certificate (ladder) could be exponentially long! The space is allowed to guess on the fly. The amount of steps is potentially exponential. It's not known to be in NP. (The input consists of the automaton, starting string, and ending string. The automaton is the not dominant piece; the starting and ending string are.)
+
+\subsection{Savitch's Theorem}
+We have the following remarkable theorem.
+\begin{thm}[Savitch]\llabel{thm:savitch}
+For $s(n)\ge n$, 
+\[
+\text{NSPACE}(s(n))\subeq \text{SPACE}(s(n)^2)
+\]
+\end{thm}
+%optimal not known.
+\begin{cor}
+PSPACE$=$NPSPACE.
+\end{cor}
+This is because we have just a squaring.
+\begin{proof}
+%going through single word. Find all d 1 from ROCK. Exponentially large graph of possibilities.
+%depth-frist search algorithm doesn't word
+%has guy's name on it. must have done something.
+Given $S(n)$--SPACE NTM $N$, we construct an equivalent TM $M$ that uses $O(S^2(n))$ space.
+
+Imagine a tableaux of $N$ on $w$, corresponding to some accepting computation branch. This time, the dimensions are different: the width is $s(n)$, how much space we have and the height is $c^{S(n)}$ for some $c$. We want to test if there's a tableaux for $N$ on $w$, but we want to do it deterministically. 
+
+Can we fill it in somehow? It's an exponentially big object, and we'll be in trouble if we have to keep it all in memory---we don't have that much memory.
+
+{\it The deterministic machine tries every middle configuration sequentially.} (This takes a horrendous amount of time but we only care about space.)
+
+\ig{16-2}{1}
+
+For a start configuration, ask: can you get from top to middle in time $\rc2c^{S(n)}$ and from middle to bottom in time $\rc 2c^{S(n)}$. Now ask this recursively, until we get down to adjacent configurations. 
+
+How deep is the recursion going to be? The depth of the recursion is $\log_2 c^{S(n)}=O(S(n))$. What do we have to remember every time we recurse? The working midpoint configurations. For each level of the recursion we have to write down an entire configuration. The configuration takes $S(n)$ space, and each level costs $O(S(n))$ space. Hence the total is $O(S^2(n))$ space.
+\end{proof}
+You can implement this in the word-ladder problem: write down a conjecture for the intermediate string. See if can get from/to in half as much time. This is slow slow but runs in relatively small space. %half as much space.

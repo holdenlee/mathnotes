@@ -1,0 +1,298 @@
+\lecture{Tue. 9/25/12}
+
+Last time we talked about
+\begin{itemize}
+\item
+CFG$\lra$PDA (we only proved $\to$)
+\item
+Pumping lemma for CFL's
+\item
+Turing machines
+\end{itemize}
+Turing machines are an important model for us because they capture what we think of when we think of a general-purpose computer, without constraints like only having a stack memory or a finite memory. Instead, it has an unlimited memory.
+
+%WHy? some implications.
+
+Today we'll talk about
+\begin{itemize}
+\item Turing machine variants
+\begin{itemize}
+\item
+Multitape
+\item
+Nondeterministic
+\item
+Enumerators
+\end{itemize}
+\item Church-Turing thesis
+\end{itemize}
+In the first half of today's lecture, we'll develop some intuition for Turing machines. We will prove that several variations of Turing machines are actually all equivalent. As we'll see, this has philosophically important implications.
+%general idea for how def's go.
+
+\subsection{Turing machines}
+
+We now give a formal definition of a Turing machine. %Note that 
+%Uder control of trnasition function cna move head left or right at every step.
+\begin{df}
+A \textbf{Turing machine (TM)} is a 7-tuple 
+\[
+M=(Q,\Si,\Ga,\de,q_0,q_{\text{acc}},q_{\text{rej}})
+\]
+where
+\begin{itemize}
+\item
+$Q$ is the set of states,
+\item
+$\Si$ is the input alphabet,
+\item
+$\Ga$ is the tape alphabet,
+\item
+$\de$ is a function $Q\times \Ga\to Q\times \Ga\times \{L,R\}$. Here $L$ or $R$ denote the movement of the head.
+\item
+$q_0$ is the start state,
+\item
+$q_a$ are accept states, and
+\item
+$q_r$ are reject states.
+\end{itemize}
+If the machine tries to move off the left extreme of the tape,  the machine instead just stay where it is.\footnote{Other treatments do different things. However, minor details don't make any difference. We get the same computing power, and the same class of languages is recognized. %, if change little details, even big details. 
+The model of Turing machine is robust; it's not sensitive to little details.}
+\end{df}
+A Turing machine may halt (accept or reject) or loop (reject). If the machine loops we say the machine rejects, but think of it as rejecting after ``infinite time"; we don't know at any finite time that the machine has rejected.
+\begin{df}
+Let
+\[
+L(M)=\set{w}{M\text{ on input }w\text{ accepts}}.
+\]
+If $A=L(M)$ for some Turing Machine $M$, we say that $A$ is \textbf{Turing-recognizable} (also called \textbf{recursively enumerable}).
+\end{df}
+An important subclass of Turing Machines are those that always halt.
+\begin{df}
+A TM $M$ is a \textbf{decider} if $M$ halts on every input. If $A=L(M)$ for some decider, we say $A$ is \textbf{decidable}.
+\end{df}
+
+Turing Machines which reject by halting are more desirable than those that reject by looping.
+
+We just introduced 2 new classes of languages, Turing-recognizable languages and decidable languages. We have
+\[
+\text{CFL's}\sub\text{decidable}\sub\text{T-recognizable}
+\]
+where the inclusions are proper (we'll show the right-hand inclusion is proper). We need to show containment in the left-hand side and nonequality in the RHS.
+
+\subsubsection{A brief history of Turing machines}
+Why are Turing machines so important, and why do we use them as a model for a general-purpose computer?
+
+The concept of a Turing machines dates back to the 1930's. It was one of a number of different models of computation that tried to capture {\it effective computability}, or {\it algorithm},  as we would now say. Other researchers came up with other models to capture computation; for example, Alonzo Church developed lambda calculus. 
+%different models
+%Girdel
+
+It wasn't obvious that these different models are equivalent, i.e., that they captured the same class of computations. However, they did.
+
+%Hard to put frame ofmind back then.
+
+Nowadays we have programming languages. %Time allowed 
+Can today's more ``advanced" programming languages 
+%constructs of programming language 
+(Python) do more than a FORTRAN program? It has a lot of new features compared to old boring ``do" loops. It is conceivable that as we add more constructs to a programming language, it becomes more powerful, in the sense of computing functions and recognizing languages.
+
+%I learned FORTRAN
+However, anything you can do with one language you can do with another. (It might simply be easier to program in one than another, or one might run faster.) How can we show we can do the same thing with Python as FORTRAN? %Interpreter, machine code.
+We can convert python programs into FORTRAN, or convert FORTRAN programs to python. We can simulate one language with the other. This ``proves" that they have the same computational power.
+
+That's what the researchers of computation theory did. They gave ways to simulate Turing machines by lambda calculus, lambda calculus by Turing machines, as well as different variations of these models.
+
+They found that all these models were doing the same thing!
+
+%We'll do a little bit, to see how those things go, develop our intuitino of tm further.
+We'll see this for ourselves, as we show that several variations of Turing machines all have the same computational power.
+\subsubsection{Multitape Turing machines}
+\begin{df}
+A \textbf{multitape Turing machine} is a Turing machine with multiple tapes. The input is written on the first tape.
+
+The transition function can not look at all the symbols under each of the heads, and write and move on each tape.
+\end{df}
+We can define all this rigorously, if we wanted to.
+
+\begin{thm}\llabel{thm:multitape}
+$A$ is Turing-recognizable iff some multitape TM recognizes $A$.
+\end{thm}
+In other words, Turing-recognizability with respect to one-tape Turing machines is the same as Turing-recognizability with respect to multi-tape Turing machines.
+\begin{proof}
+If $A$ is Turing recognizable, then clearly a multitape TM recognizes $A$, because a single-tape TM is a multitape TM.
+
+Suppose we have a language recognizable with a multitape TM.
+We need something like a compiler to convert a multitape TM to a one-tape TM, so that we can use a one-tape TM to simulate a multi-tape TM.
+
+%Convert multitape TM $M$ to one-tape $M$ 
+Let $M$ be a multitape TM. 
+$M$ can do stuff with primitive operations that a single-tape TM $S$ can't do. It can write to a 2nd tape, which $S$ doesn't have! We need to use some data structure on $S$'s tape to  represent what appears on the multitapes on $M$.
+
+%We create this structure as follows: 
+$S$ initially formats its tape by writing separators $\#$ after the input string, one for each tape that $M$ has. The string between two separators will represent the string on one of $M$'s tapes.
+%$S$ initially has the input written on its tape. $S$ formats its tape to represent all the information on each of $M$'s tapes by putting down markers/separators ($\#$), where the string between two separators $\#$ represents the string on one of $M$'s tapes.
+
+%$S$ has separators ($\#$) and then blanks at some point.
+
+%$S$ initially format its tape into representation of all information on each of $M$'s tapes by putting down markers. 
+Next $S$ moves into simulation phase. Every time $M$ does one step, $S$ simulates it with many steps. (This is just ``programming," in single-machine TM code.)
+$S$ has to remember where the heads are on the multiple tapes of $M$. We enhance the alphabet on $S$ to have symbols with dots on them $\dot{a}$ to represent the positions of the heads. $S$ update the locations of these markers to indicate the  locations of the heads.
+
+\ig{6-1}{.67}
+(Figure 3.14 from the textbook.)
+
+There are details. For example, suppose $M$ decides to move head to an initially blank part. $S$ only has allocated finite memory to each tape! $S$ has to go into an ``interrupt" phase and move everything down one symbol, before carrying on. 
+\end{proof}
+
+\cpbox{A lot of models for computation turn out to be equivalent (especially variants of Turing machines). To show they are equivalent, give a way to simulate one model with the other.}
+\vskip0.15in
+The same proof carries through for deciders: A language is decidable by a multitape TM iff it is decidable by a single-tape TM.
+
+Let's look at another example, similar but important for us down the road.
+\subsubsection{Nondeterministic TM}
+\begin{df}
+A \textbf{nondeterministic Turing machine} (NTM) is like a Turing machine except that the transition function now allows several possibilities at each step, i.e., it is a function
+\[
+\de:Q\times\Ga\to \cal P(Q\times \Ga\times \{L,R\}).
+\]
+If any thread of the computation accepts, then we say the Turing machine accepts. (Accepting overrules rejecting.) 
+
+We say that a nondeterministic TM is a decider if every branch halts on every input.
+\end{df}
+%only if all reject or reject by looping. 
+%not usually nondet deciders
+\begin{thm}\llabel{thm:ntm}
+$A$ is Turing-recognizable iff some NTM recognizes $A$. 
+\end{thm}
+
+As we will see in the second half of the course, nondeterministic TM's are very important. For our purposes now, they have the same power as deterministic TM's, because they recognize the same class of langugages.
+\begin{proof}
+Any deterministic Turing machine is a NTM, so this direction is  obvious.
+
+We want to convert a NTM $N$ to a DTM $M$. $M$ is supposed to accept exactly the same input $N$ accepts, by simulating $N$. How does this work? This is trickier. 
+
+$N$ may have made a nondeterministic move, resulting in  2 or more options. $M$ doesn't know which to follow. If there are multiple ways to go, then take that piece of tape, make several copies of the tape separated by $\#$, and carry on the simulation. %, doing something like above, 
+This is just like the proof of Theorem~\ref{thm:multitape}, except that different segments of tape don't rep different tapes, they represent different threads.
+
+We have to represent both the head and the state for each of the threads. The number of threads may grow in some unbounded way. $M$ can't keep track of all the different states in finite memory, so we had better write them all down. 
+To do this, allow a composite symbol $\begin{matrix}q\\a\end{matrix}$ to mean that the head is at $a$ and the machine is in state $q$ in that thread.  
+%with state symbol indicate which state would be in at that point
+$M$ proceeds by taking a thread, seeing what $N$ would do, and updating thread. 
+
+One of threads may again fork into multiple possibilities. In that case we have to open up room to write down copies of a thread, by moving stuff down. %Follow one of possibilities, follow other possib on another section. 
+
+$M$ goes through each thread and repeats. The only thing we have to take note of is when shoule $M$ ends up accepting? If $M$ enters an accept state on any thread, then $M$ enters its accept state. If $M$ notices some thread of $N$ enters a reject state, then $M$ collapse the thread down or marks it as rejecting, so it don't proceed with that further, and carries on with the other threads.
+\end{proof}
+
+%Cellular automata.
+%Talking to each other in some geometry.
+
+%Conventional computer, RAM memory. All of those things can be shown to be equivalent, just a little messier. 
+
+%Dominant information have to keep track of is on the tape.
+Question: When does nondeterminism help in a model of computation? In the second half of the course, when we care about how much {\it time} computation takes, the big queston is whether NTM and TM are equivalent. It is not obvious when nondeterminism is equivalent to determinism. 
+If we can answer this question for polynomial time TM's, then we've just solved a famous problem (P vs. NP).
+
+%dtm to ntm by doing nothing. is special case, never branches to >1 choice. just like 1-tape special case of multi-tape.
+
+Let's just do 1 more model, that has a different flavor that what we've done, and is slightly more interesting.
+\subsubsection{Turing enumerators}
+Instead of recognition, can you just list the members of a language?
+
+\begin{df}
+A \textbf{Turing enumerator} is a Turing machine with a ``printer" (output device). Start the Turing machine on an empty tape (all blanks). The Turing enumerator has a special feature that when it goes into ``print" mode, it sends out a marked section of the tape to the printer to write out. %some string.
+
+\ig{6-2}{1}
+
+(Figure 3.20 in textbook)
+
+The strings that are written out by an enumerator $E$ are considered to be its language:
+%If $E$ is an enumerator, 
+\[
+L(E)=\set{w}{E\text{ outputs }W\text{ at some point when started on blanks}}.
+\]
+%send some string to output.
+\end{df}
+If $E$ halts, then the list is finite. It could also go on forever, so it can enumerate an infinite language.
+
+Again, Turing enumerators capture the same class of languages.
+\begin{thm}
+$A$ is Turing-recognizable iff $A=L(E)$ for some enumerator $E$.
+\end{thm}
+%relevant to one hw problem
+
+%send of st. printed remains printed, don't fuss with erasing stuff from tape.  %doesn't go blank. Weaken model. Tape intact every time print. 
+\begin{proof}
+Here we need to prove both directions.
+
+($\lar$) Convert $E$ to an ordinary recognizer $M$. Given $E$, we construct a TM $M$ with $E$ built inside it. 
+
+Have $M$ leave the input string $w$ alone. $M$ moves to the blank portion of the tape and runs $E$. When $E$ decides to print something out, $M$ takes a look to see if the string is $w$. If not, then $M$ keeps simulating $E$. If the string is $w$, then $M$ accepts.
+
+Note that if $M$ doesn't find a match, it may go on forever---this is okay, $M$ can loop by rejecting. We have to take advantage of $M$ being able to go on forever.\\
+
+($\to$) Convert $M$ to enumerator $E$. The idea is to feed all possible strings to $M$ in some reasonable order, for instance, lexicographic order $\ep,0,1,00,01,10,11$.
+
+However, we have to be careful. Suppose $M$ is running on 101. If $M$ accepts 101, then we print it out. If $M$ halts and  rejects 101, then $E$ should move on to the next string. The only problem is when $M$ runs forver. What is $E$ supposed to do? $E$ doesn't know $M$ is going forever! We can't get hung up running $M$ on 101. We need to check 110 too! The solution is to run $M$ for a few steps on any given string, and if hasn't halted then move on, and come back to it lter.
+
+%Time-sharing resource 
+We share time among all strings where computation hasn't ended. Run more and more strings for longer and longer.
+More precisely, %we run computation on the first $k$ strings for $k$ steps, increase $k$ iteratively, and any time a string is accepted we print it out.
+%
+%To summarize, 
+for $k=1,2,3,\ldots $, $E$ runs $M$ on the first $k$ strings for $k$ steps. If $M$ ever accepts some string $s$, then print $s$. %efficiency is not relevant at this time. Will do in 2nd half of course.
+%efficient in how much chalk I use.
+%not q of practicality, no one builds these in practice.
+\end{proof}
+\subsection{Philosophy: Church-Turing Thesis}
+%Early 20th century.
+
+The Church-Turing Thesis was important in the history of math. After proposing all these different models to capture what we can compute, people saw how they were all equivalent (in an non-obvious way).\\
+
+%Sipser met Church (age 70's). Was the Church-Turing thesis obvious? It was not obvious.
+
+\cpbox{
+\begin{ax}[Church-Turing Thesis]\llabel{church-turing}
+Our perception of what we can do with a computer (an algorithm, effective procedure) is exactly captured by Turing machine.
+
+Our inuitive ``Algorithm" is the precise notion of a ``Turing machine."
+\end{ax}
+}
+\vskip0.15in
+It might seem arbitrary for us to focus on Turing machines, when this is just one model of computation. But the Church-Turing Thesis tells us the models are all equivalent! The notion of algorithm is a natural, robust notion. This was a major step forward in our understanding of what computation is.
+
+It's almost saying something about the physical universe: there's nothing we can build in the physical world that is more powerful than a Turing machine.
+
+David Hilbert gave an address at the International Congress of Mathematicians in 1900.
+He was probably the last mathematician who knew what was going on in every field of mathematics at the same time. He knew the big questions in each of those fields. He made a list of 23 unsolved problems that he felt were a good challenge for the coming century; they are called the Hilbert problems. 
+
+Some of them are solved. Some of them are fuzzy, so it's not clear whether they are solved. Some of them have multiple parts, just like homework.
+
+One of the questions was about algorithms---Hilbert's tenth problem, which I'll describe.
+
+Suppose we want to solve a polynomial equation
+$3x^2+17x-22=0.$
+This is easily done. 
+But suppose we don't want to know if a polynomial equation has a root, but whether it have a root where variables are {\it integers}. Furthermore, we allow variables with several variables. This makes things a lot harder. For instance, we could have
+\[
+17xy^2+2x-21z^5+xy+1=0.
+\]
+Is there an assignment of integers in $x,y,z$ such that this equation is satisfied?
+
+Hilbert asked: Is there a finite procedure which concludes after some finite number of steps, that tells us whether a given polynomial has an integer root?
+
+We can put this in our modern framework. Hilbert didn't know what a ``procedure" was in a mathematical sense. In these days, this is how we would phrase this question.
+\begin{prb}[Hilbert's Tenth Problem]
+Let 
+\[D=\set{p}{p\text{ is a multivariable polynomial that has a solution (root) in integers}}.\]
+Is $D$ decidable?\footnote{Note $D$ is Turing recognizable. Just start plugging in all possible tuples of integers, in a systematic list that covers all tuples. If any one is a root, accept, otherwise carry on.}
+\end{prb}
+The answer is no, as Russian mathematician Matiasevich found when he was 20 years old.
+
+
+Without a precise notion of procedure, there was no hope of answering the question. Hilbert originally said, \ul{give} a finite procedure. There was no notion that there might not be a procedure! It took 35 years before the problem could be addressed because we needed a formal notion of procedure to prove there is none.
+
+Here, the Church-Turing Thesis played a fundamental role.
+
+
+%If single-variable polynomial, many ways. (bounds, rational root theorem, goes to infinity at large enough values. range where solution must lie. decidable.)
+
