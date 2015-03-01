@@ -93,11 +93,13 @@ Computation/*
 
 !Computation/complexity
 Computation/complexity/*
-!Computation/complexity/*.tex
-!Computation/complexity/main.pdf
-!Computation/complexity/*.png
-!Computation/complexity/*.xnf
-!Computation/complexity/chapters
+!Computation/complexity/18.404
+Computation/complexity/18.404/*
+!Computation/complexity/18.404/*.tex
+!Computation/complexity/18.404/main.pdf
+!Computation/complexity/18.404/*.png
+!Computation/complexity/18.404/*.xnf
+!Computation/complexity/18.404/chapters
 
 !Computation/machine_learning
 Computation/machine_learning/*

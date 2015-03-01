@@ -1,0 +1,328 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\makeatother
+\input{../templates/packages.tex}
+\input{../templates/theorems.tex}
+\input{../templates/macros.tex}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+\renewcommand{\div}{\operatorname{div}}
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{Holden Lee} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.404 Theory of Computation} 
+\cfoot{} 
+\rfoot{\small PS \# 6} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.404 Theory of Computation PSet\#6}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{12/4/12}% !! Remember to change the date
+\maketitle
+
+\begin{problem}{\it(EXPTIME$\ne$NEXPTIME$\implies$P$\ne$NP)}
+\underline{\textbf{9.13:}} 
+We prove the following more general statement.
+\begin{thm}\llabel{thm:404-9.13}
+Suppose $f(n),g(n)\ge \max(n\log n,n)$ are increasing and time-computable, and let $h(n)=f(g(n))$. 
+The following hold.
+\begin{enumerate}
+\item
+Suppose $A\in \text{TIME}(h(n))$. Then
+\[
+{pad}(A,g(n))\in \text{TIME}(f(n)).
+\]
+\item
+Conversely, if $\text{pad}(A,g(n))\in \text{TIME}(f(n))$ then $A\in \text{TIME}(h(n))$.
+\end{enumerate}
+The same holds if TIME is replaced by NTIME.
+\end{thm}
+Note that 9.13 follows from part 1 by letting $h(n)=n^6$, $f(n)=n^3$, and $g(n)=n^2$.
+\begin{proof}
+\textbf{(1)} 
+Let $M$ be a Turing machine deciding $A$ in time $O(h(n))$.
+The following Turing machine decides ${pad}(A,g(n))$ in time $O(f(n))$. $N=$``On input $w$,
+\begin{enumerate}
+\item
+Find the length of $w$ and record it on the tape. Suppose it is $n$. (This takes time $O(n\log n)$, if we carry the counter near the tape head.) 
+\item
+Erase all $\#$'s at the end of the input; call the resulting word $w'$.
+\item
+Find the length of $w'$; call it $k$. 
+\item
+Compute $f(k)$ (which takes $O(f(k))$ time). If $n\ne f(k)$, reject. (This means that $w$ wasn't a string in $A$ of length $k$ padded to length $f(k)$.) 
+%\fixme{Condition on $f$}
+\item
+Now run $M$ on $w'$. $M$ runs in time at most on the order of $h(k)=f(g(k))=f(n)$.
+Accept if $M$ accepts; reject if $M$ rejects.
+\end{enumerate}
+It is clear this algorithm works.
+
+If $n$ is not in the right form (a padded string from $A$), then we reject in step 4 after $O(n\log n)+O(f(k))=O(f(n))$ steps. If $n$ is in the right form, then we carry out step 5, which we showed also runs in time $O(f(n))$. This shows $\text{pad}(A,g(n))\in \text{TIME}(f(n))$.\\
+
+\noindent
+\textbf{(2)} Let $N$ be a Turing machine deciding ${pad}(A,g(n))$ in time $O(h(n))$. Note the map $a\mapsto {pad}(a,g(n))$ is injective because it keeps the symbols of $a$ intact and adds new symbols at the end. Define $M$ as follows: $M=$``On input $w$, 
+\begin{enumerate}
+\item Find the length of $w$. Suppose it is $k$.
+\item Compute $g(k)$.
+\item Pad $w$ with $\#$'s until it has $g(k)$ symbols. Call the result $w'$. (This needs time $O(g(k)\log g(k))$.)
+\item Run $N$ on $w'$. Accept if $N$ accepts; reject if $N$ rejects. (This runs in time at most on the order of $f(g(k))=h(k)$.)
+\end{enumerate}
+The first step takes time $k\log k=O(g(k))=O(h(k))$; the second step takes time $O(g(k))=O(h(k))$, and the third step takes time $O(g(k)\log g(k))=O(f(g(k))$ by assumption on $f$. Hence $M$ decides $A$ in time $O(h(n))$.
+
+Note the exact same proof works for nondeterministic Turing machines, by replacing the TM's with NTM's. Just simulate NTM's instead of TM's in the last step.
+\end{proof}
+
+\noindent
+\underline{\textbf{9.14:}} Suppose EXPTIME$\ne$NEXPTIME. Let
+\[
+A\in \text{NEXPTIME} \bs \text{EXPTIME}. 
+\]
+Suppose $A\in \text{NTIME}(2^{n^k})$, $k>1$ an integer. We have $A\in \text{NTIME}(2^{n^k} n^k)$ as well. 
+Let
+\[
+B={pad}(A,2^{n^k}).
+\]
+Then by Theorem~\ref{thm:404-9.13}(1), $B\in \text{NTIME}(n\log n)$, i.e. $B\in \text{NP}$.
+
+Now if $B\in P$, then $B\in \text{TIME}(n^c)$ for some integer $c>1$. Then by Theorem~\ref{thm:404-9.13}(2), $A\in \text{TIME}((2^{n^k})^c)$, and $A\in \text{EXPTIME}$, contradiction.
+
+Hence
+\[
+B\in \text{NP}\bs \text P
+\]
+and P$\ne$NP.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(Nondetermistic time hierarchy?)}
+
+We constructed a language decidable in time $f(n)$ but not $g(n)$, by having the machine deciding it {\it do the opposite} of what machines running in time $f(n)$ did. (Of course, there are more details.)
+
+However, a nondeterministic machine $T$ \textbf{cannot easily do the opposite} of what another nondeterministic machine $N$ does, and hence $\text{TIME}(f(n))$ may not be closed under complement.
+
+For $T$ to do the opposite of $N$, it would somehow have to ``see" all the branches at once, which it cannot do with straightforward simulation. More precisely, if $N$ accepts, then this only means that $N$ accepts on at least one branch, and to do the opposite, $T$ would have to make {\it all} branches reject.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(USAT$\in P^{\text{SAT}}$)}
+
+The following TM decides USAT in polynomial time with oracle SAT: Let $M=$``On input $\phi$, $\phi$ a Boolean formula,
+\begin{enumerate}
+\item Using the SAT oracle, find whether $\phi$ is satisfiable. If not, reject.
+\item Suppose $\phi$ has variables $x_1,\ldots, x_n$. Repeat from $i=1$ to $n$. Let $\phi'=\phi$.
+\begin{enumerate}
+\item At the beginning of step $i$, %$x_1,\ldots, x_{i-1}$ are assigned values, and 
+$\phi'$ is a satisfiable formula involving $x_i,\ldots, x_n$.
+\item
+Put $x_i=1$ in $\phi'$, simplify the formula, and using the SAT oracle, record whether this new formula is satisfiable.
+\item
+Put $x_i=0$ in $\phi'$ instead, and do the same.
+\item If the answers to (b) and (c) are the same, reject. Otherwise increment $i$. If $x_i=1$ resulted in a satisfiable formula, let $\phi'$ be $\phi'$ with $x_i$ replaced by 1; if $x_i=0$ resulted in a satisfiable formula, let $\phi'$ be $\phi'$ with $x_i$ replaced by 0.
+\end{enumerate}
+\item Accept.
+\end{enumerate}
+$M$ runs in polynomial time because in each of the $n$ steps, it simplifies two formulas (which runs in polynomial time) and queries the oracle two times.
+
+If $\phi$ is satisfiable, then either $\phi$ with $x_1=1$ or $\phi$ with $x_1=0$ is satisfiable. Inductively, at each step $\phi'$ will be satisfiable, so either $\phi'$ with $x_i=1$ is satisfiable, or $\phi'$ with $x_i=0$ is satisfiable. 
+If they are both satisfiable, then there must be two satisfying assignments, one with $x_i=1$ and one with $x_i=0$. Conversely, if there are two satisfying assignements, we can take two that differ in the smallest index. If this index is $i$, then at step $i$ in the algorithm $M$ will reject.
+
+Thus $M$ decides USAT.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(Clique with SAT oracle)}
+\prt{A}
+Note that 
+\[
+\text{CLIQUE}=\set{\an{G,k}}{G\text{ is an undirected graph with $k$-clique}}
+\]
+is in NP. Since SAT is NP--complete, there is a polynomial-time reduction $f$ from CLIQUE to SAT.
+
+The following SAT-oracle TM gives the size of the largest clique in polynomial time. $M=$``On input $H$ (a graph),
+\begin{enumerate}
+\item Starting with $k=0$, repeat until the answer is negative:
+\begin{enumerate}
+\item
+Increment $k$.
+\item
+Compute $\phi=f(\an{G,k})$. Determine whether $\phi\in$SAT using the SAT-oracle.
+\end{enumerate}
+\item Output $k-1$.
+\end{enumerate}
+Note each computation of $f$ takes polynomial amount of time, and if $n$ is the number of vertices of $G$, at most $n$ computations will be needed (clearly, $\an{G,n+1}\nin$CLIQUE).
+When the loop breaks, $k$ is the smallest integer such that there is no $k$-clique in $G$, so the machine outputs $k-1$.\\
+
+\prt{B}
+The following SAT-oracle TM outputs a list of nodes in a maximal clique. $N=$``On input $H$,
+\begin{enumerate}
+\item
+First run $M$ (from part A) to find the size $k$ of the largest clique of $H$.
+\item
+Given $H$ and $k$, let $v_1$ be a vertex of $H$ (the first vertex, in some natural ordering). %For each vertex $v_i$, run $M$ on the the induced subgraph of $H$ whose vertices are the neighbors of $v_i$ (not including 
+If $k=1$, then return $\{v_1\}$. Otherwise,
+run $M$ on $H\bs\{v_1\}$.
+\begin{enumerate}
+\item
+If the output is $k$, then run step 2 on $H\bs \{v_1\}$ and $k$ and output the result.
+\item
+If the output is less than $k$ (it has to be $k-1$), then run step 2 on the induced subgraph whose vertices are the neighbors of $v_1$, with $k\mapsfrom k-1$. If the output is a set $S$ of $k-1$ vertices, then output $S\cup \{v_1\}$.
+\end{enumerate}
+\end{enumerate}
+Note that every time step 2 is carried out, the graph shrinks by at least one vertex. Hence, if there are $n$ vertices, step 2 is carried out at most $n$ times. Each call requires just 2 queries to the SAT oracle and a calls to $M$, so the algorithm runs in polynomial time.
+
+$N$ gives the correct answer: it gives the correct answer when $k=1$; we can induct on $n+k$. If some maximal clique doesn't contain $v_1$ then we are in the first case; if some every maximal clique contains $v_1$ then removing $v_1$, the maximal size of a clique in $H\bs \{v_1\}$ is $k-1$. In either case, we can use the induction hypothesis.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(Randomness)}
+
+\prt{A} 
+When run on two branching programs that have $m$ input variables, the algorithm uses $O(m\ln m)$ randomness.
+
+Indeed, we can take a prime (or prime power) $p$ in $(3m,6m)$ by Bertrand's postulate; then the algorithm requires that we find select $m$ random elements $x_i$ from $\Fp$. For each element $x_i$ we need $O(\log m)$ coin flips to select a random element from $\Fp$, and we have $m$ elements, so $\text{EQ}_{\text{ROBP}}$ uses randomness $O(m\log m)$.
+
+(Note: One difficulty arises in that if $m$ is not a power of 2, then there isn't a way to select all elements of $\Fp$ with equal probability. One way around this is to let $p$ be the least power of 2 greater than $3m$; then we can choose a random element with exactly $\log m$ coin flips.
+
+Another way, which doesn't require working in prime power fields, is the following: instead choose a prime $p>5m$, and let $2^k$ be the least power of 2 greater than $p$. Using $k$ coin flips, we obtain a random element in $[0,2^k-1]$. Now take this element modulo $p$. By the Schwartz-Zippel Lemma the algorithm gives the wrong answer for at most $\fc{1}{5}$ of the time if every element of $\Fp$ were equally likely. Since some elements are twice as likely, the algorithm gives the wrong answer for at most $\fc{1+1}{5+1}=\fc13$ of the time.)\\
+
+\prt{B} Let $A\in $P. Let $N$ be a NTM that decides $A$ with randomness $O(\log n)$. We can simulate $N$ with a deterministic TM $M$, by writing down all the possible branches when the machine forks, and simulating the branches in some reasonable order. There are $2^{O(\log n)}$ branches since each coin flip results in 2 branches; this number is polynomial in $n$. It hence takes polynomial in $n$ time to record and simulate all these branches. Hence $A\in $P.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(2SAT is NL--complete)}
+\prt{1}
+First we show that 2SAT$\in$NL. Because NL$=$coNL, it suffices to show that $\ol{\text{2SAT}}\in$NL.
+
+Given a 2-cnf $\phi$, let $\phi'$ be the formula defined as follows: If $a\vee b$ is a clause in $\phi$ where $a,b$ are literals, then let
+\beq{eq:2sat-1}
+((\ol a\to b)\wedge (\ol b\to a))
+\eeq
+be a ``clause" in $\phi'$, and let $\phi'$ be the $\bigvee$ of these clauses. ($\phi'$ is a formal statement like $\phi$, but it includes symbols $\to$.) Note that $\phi$ is equivalent to $\phi'$. Having both $\ol a\to b$ and its contrapositive $\ol b\to a$ is redundant, but will be convenient for the proof.
+
+For $a,b$ literals in $\phi$, we will write
+\[
+a\implies b
+\]
+if there exist literals $a_0,a_1,\ldots, a_n$ such that $a=a_0$, $b=a_n$, and each $a_i\to a_{i+1}$ appears in $\phi'$. (Note that $a\implies a$ by taking $n=0$.) If $a$ is true, then $b$ must also be true.
+
+We say that a literal $x$ is \textbf{unchooseable} if there exists a variable $a$ (possibly equal to $x$) such that $x\implies a$ and $x\implies \ol a$. It is clear that $x$ cannot be true in any satisfiable assignment, hence the terminology. (If $x$ is not unchooseable we say it is chooseable.)
+
+The following is key, because it gives an easy-to-check criterion for $\phi$ to be unsatisfiable.
+\begin{lem}\llabel{lem:2sat}
+$\phi$ is unsatisfiable if and only if there exists a variable $x$ such that both $x$ and $\ol x$ are unchooseable.
+\end{lem}
+\begin{proof}
+If both $x$ and $\ol x$ are unchooseable, then neither $x$ nor $\ol x$ can be true in a satisfying assignment, and hence there can be {\it no} satisfying assignment.\\
+
+
+Now suppose that for no $x$ are $x$ and $\ol x$ both unchooseable. We show that $\phi$ is satisfiable. 
+
+Define a \textbf{good partial assignment} to be an assignment of values to some of the variables $x_i$ such that the following hold:
+\begin{enumerate}
+\item
+If $a$, $b$ are both literals that have been assigned values (i.e., $a$ and $b$ are $x_i$ or $\ol x_i$ for some $x_i$ that has been assigned values), and $a\to b$ appears in $\phi'$, then $a\to b$ is true.
+\item 
+If $a$ is a literal that has been assigned a value and $a\to b$ appears in $\phi'$, then $b$ has been assigned a value.
+\end{enumerate}
+We show that given any good partial assignment that does not assign values to all variables, there exists a good partial assignment with more variables. Since there exists a good partial assignment (namely, the empty assignment), there is a maximal good partial assignment, which must include all variables. This maximal assignment is a satisfying assignment.
+
+Suppose a good partial assignment assigns values to literals in $S$, and $S$ does not include all literals.
+Take any $x_i$ that has not been assigned a value. If $x_i$ is unchooseable, set $\ol x_i=1$, $x_i=0$; if $\ol x_i$ is unchooseable, set $x_i=1$, $\ol x_i=0$. Otherwise set the value of $\ol x_i$ arbitrarily. Let $a$ be whichever of $x_i$, $\ol x_i$ is true.
+
+%Now repeat this process: when  $a\to b$ appears in $\phi'$ and $a$ is true, then set $b$ to be true. We show that this does not result in conflicting assignments. Consider two possible types of conflicting assignments.
+Now if $a\implies b$ in $\phi'$, then set $b$ to be true. We show that this does not result in conflicting assignments. Then it will follow by definition of $\implies$ that we have a larger good partial assignment.
+\begin{enumerate}
+\item
+There will be no conflicting assignments among variables outside $S$. Indeed, since $a$ is chooseable, there does not exist $b$ so that $a\implies b$ and $a\implies \ol b$.
+\item
+No literal in $S$ will be given a conflicting assignment. Indeed, if $a\implies b$ and $b$ is a previously assigned literal, then considering a chain $a_0=a\to a_1\to \cdots \to a_k=b$, there exists $a_i\to a_{i+1}$ such that $a_i\nin S$ and $a_{i+1}\in S$. 
+
+We claim $a_{i+1}=1$ originally. Suppose otherwise, $\ol a_{i+1}=1$. Because $a_i\to a_{i+1}$ is in $\phi'$, so is $\ol a_{i+1}\to \ol a_i$. (This is why we wrote~\eqref{eq:2sat-1}.) Because $\ol a_{i+1}\in S$, by definition of a good partial assignment, $\ol a_i\in S$, contradiction.
+
+Now $a_{i+1}\in S$ and $a_{i+1}=1$ originally, so we must have $a_{i+1},\ldots, a_k$ are all in $S$ and were all assigned a value of 1 originally. Thus there is no conflicting assignment.
+\end{enumerate}
+%As mentioned, we just take the largest good partial assignment.
+\end{proof}
+The following log-space NTM decides $\overline{\text{2SAT}}$, using the criterion in the lemma. Let $M=$``On input $\phi$ (a 2-cnf),
+\begin{enumerate}
+\item
+Nondeterministically choose variables $a$, $b$, $c$ (not necessarily distinct.) $M$ will attempt to prove that $a, \ol a$ are unchooseable.
+\item
+Guess four sets of literals $a_0\to a_1\to \cdots\to  a_k$ in $\phi'$  respectively satisfying the following conditions.
+\begin{enumerate}
+\item
+$a_0=a$, $a_k=b$.
+\item
+$a_0=a$, $a_k=\ol b$.
+\item
+$a_0=\ol a$, $a_k=c$.
+\item
+$a_0=\ol a$, $a_k=\ol c$.
+\end{enumerate}
+To carry out (a), at each stage keep only the counter $i$, the literal $a_0$ and the previous literal $a_i$ in memory. Scan through $\phi$, nondeterministically pick a clause, convert that clause to its form in $\phi'$ given by~\eqref{eq:2sat-1}. If $a_i\to b$ for some $b$ appears in that clause, then let $b=a_{i+1}$. (If not, reject.) If at some stage $a_i=b$, then move on to (b). If $i\ge 2n$, then reject. ($n$ is the number of variables.) Parts (b), (c), and (d) are entirely analogous.
+\item
+If the previous step completes successfully, accept.
+\end{enumerate}
+The machine tries to find $a$ such that $a,\ol a$ are both unchooseable, nondeterministically. The machine accepts iff it can find such $a$. By Lemma~\ref{lem:2sat}, it hence accepts iff $\phi$ is unsatisfiable. It runs in log-space by construction.\\
+
+\prt{2}
+We exhibit a log-space reduction $f: \text{PATH}\to \ol{\text{2SAT}}$. On a path problem $\an{G,s,t}$ where $G$ is a graph, $s$ is the starting vertex, and $t$ is the ending vertex, assign a variable to each vertex. Given an edge from $x_i$ to $x_j$, add
+\[
+\ol{x_i}\vee x_j
+\]
+as a clause in $\phi$. %, unless either $x_i=t$ or $x_j=s$. (I.e., letting $G'$ be the graph $G$ with edges ending at $s$ or starting at $t$ 
+%we don't consider the edges ending at $s$ or starting at $t$.)
+
+Finally, add the clause $s\vee s$ and $\ol t\vee \ol t$ to $\phi$.
+
+Note that in light of the equivalence $\ol{x_i}\vee x_j\iff x_i\to x_j$, there exists a satisfying assignment iff there exists a labeling of vertices with 1 and 0 such that $s$ is labeled 1, $t$ is labeled to 0, and if $ab$ is an edge with $a$ labeled 1, then $b$ is labeled 1. 
+
+First assume that there is a path from $s$ to $t$, say $x_0\ldots x_k$ where $x_0=s$ and $x_k=t$. Then if $s$ is labeled 1, every vertex in the path, and in particular $t$, is labeled 1, and there is no satisfying assignment.
+
+Now suppose there is no path from $s$ to $t$. Let $V$ be the set of vertices and let $T$ be the set of vertices $v$ such that there is a path from $v$ to $t$. Label all vertices in $T$ with 0, and all other vertices with 1. No vertex can lead from $V\bs T$ to $T$ by construction of $T$, and $T$ doesn't include $s$ by assumption. This gives a valid labeling, and there exists a satisfying assumption.
+
+This reduction is doable in log-space because it only requires working on the graph locally. 
+We obtain
+\[\text{PATH}\le_L\ol{\text{2SAT}}.\]
+Since PATH is NL--complete and we showed $\ol{\text{2SAT}}\in$NL, it follows that $\ol{\text{2SAT}}$ is NL--complete. Since we said both 2SAT and $\ol{\text{2SAT}}$ are in NL, there exists a log-space reduction from 2SAT to $\ol{\text{2SAT}}$. This is the same as a log-space reduction from $\ol{\text{2SAT}}$ to 2SAT. Since $\ol{\text{2SAT}}$ is NL--complete, so is 2SAT.
+\end{problem}
+\end{document}

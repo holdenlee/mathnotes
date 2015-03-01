@@ -1,0 +1,402 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\makeatother
+\input{../templates/packages.tex}
+\input{../templates/theorems.tex}
+\input{../templates/macros.tex}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+\renewcommand{\div}{\operatorname{div}}
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{Holden Lee} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.404 Theory of Computation} 
+\cfoot{} 
+\rfoot{\small PS \# 5} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.404 Theory of Computation PSet\#5}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{11/23/12}% !! Remember to change the date
+\maketitle
+
+\begin{problem}{\it(7.30, MINESWEEPER is NP--complete)}
+\prt{1}
+For a graph $G$ let $V(G)$ be the vertex set of $G$; for a vertex $v$ let $N(v)$ be the set of neighbors of $v$. 
+Define
+\begin{gather*}
+\text{MINESWEEPER}
+=\{
+\an{G,f}
+:G\text{ is a graph and }f\text{ is a function $S\to \N_{0}$ for some subset $S\subeq V(G)$,}\\
+\text{such that there exists a set $M\subeq V(G)$ such that for each $v\in S$, $f(v)=|N(v)\cap M|$.}\}
+\end{gather*}
+Here $f$ is just the function that assigns numbers to some vertices of $G$, and $M$ is the set of mines; the last condition just says that the number of neighbors that are mines is given by $f$. Informally, we'll say that $f(v)$ is the label assigned to $v$.\\
+
+
+\prt{2}
+First note that MINESWEEPER$\in$NP. Indeed, we can guess which nodes of the graph have mines on them. Then for each numbered node, we can check that there are indeed the right number of mines adjacent.
+
+Because 3SAT is NP--complete, it suffices to show 3SAT$\le_P $MINESWEEPER, i.e., give a polynomial time reduction $f$ from 3SAT to MINESWEEPER.
+
+Given a 3-cnf $\phi$ with variables $x_1,\ldots, x_n$, we define $f(\phi)$ as follows. First, create vertices labeled $v_1,\ldots, v_n$, put the number ``$1$" on each of them, and connect $v_i$ to vertices labeled $x_i$ and $\ol x_i$.
+
+\tikzstyle{s}=[circle,draw,inner sep=1pt,minimum size=6mm]
+\begin{figure}[h!]
+\begin{center}
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=1cm,semithick]
+\node (x1) at (0,2) [s] {$x_i$};
+\node (v1) at (0,0) [s] {$v_i=1$};
+\node (y1) at (0,-2) [s] {$\ol x_i$};
+\path (x1) edge node {} (v1);
+\path (v1) edge node {} (y1);
+\end{tikzpicture}
+\caption{Variable gadget}
+\end{center}
+\end{figure}
+
+Now for each clause $c$, create a vertex $v_{c}$ and auxiliary vertices $w_{c,1}$ and $w_{c,2}$. Connect up $v_c$ to each literal appearing in $c$ (3 in all), as well as $w_{c,1}$ and $w_{c,2}$. Now label $v_c$ with 3. For instance, if $c=x_1\vee \ol x_2\vee x_3$, we have the following.
+
+\begin{figure}[h!]
+\begin{center}
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=1cm,semithick]
+\node (v) at (0,0) [s] {$v_c=3$};
+\node (w1) at (-2,-2) [s] {$w_{c,1}$};
+\node (w2) at (2,-2) [s] {$w_{c,2}$};
+\node (x1) at (-2,2) [s] {$x_1$};
+\node (x2) at (0,2) [s] {$\ol x_2$};
+\node (x3) at (2,2) [s] {$x_3$};
+\path (v) edge node {} (w1);
+\path (v) edge node {} (w2);
+\path (v) edge node {} (x1);
+\path (v) edge node {} (x2);
+\path (v) edge node {} (x3);
+\end{tikzpicture}
+\end{center}
+\caption{Clause gadget}
+\end{figure}
+
+Let $f(\phi)$ be the minesweeper board constructed. This construction is clearly possible in polynomial time. Now we show that $\phi$ is satisfiable iff $f(\phi)$ is a solvable minesweeper problem. If $\phi$ is satisfiable, then take a satisfying assignment and put a mine in the vertex corresponding to each true literal. Because exactly one of $x_i$ or $\ol x_i$ is true, there will be exactly one mine adjacent to $v_i$. Each clause has at least 1 true literal, so for each clause $c$ there are between 1 and 3 mines adjacent to each $v_c$. Now place 0, 1, or 2 mines in $w_{c,1}$, $w_{c,2}$ so that there are 3 mines adjacent to each $v_c$.
+
+Conversely, if $f(\phi)$ is solvable, then take an configuration of mines. Because $v_i$ is labeled 1, there is exactly 1 mine on $x_i$ or $\ol x_i$. Take that literal to be true in our assignment. Because $v_c$ is labeled 3, there must be a mine adjacent to $v_c$ besides those on $w_{c,1},w_{c,2}$; this shows $c$ has a true literal.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(MIN-FORMULA$\in$PSPACE)}
+\prt{A}
+Fix any way of ordering formulas by length (for instance, order formulas with the same length by fixing some lexicographical ordering of the symbols that can appear in a formula). The following algorithm finds the minimal length formula in polynomial space.
+
+``On input $\phi$,
+\begin{enumerate}
+\item
+Start with $\phi'$ equal to the empty formula.
+\begin{enumerate}
+\item
+Start with $x_1=0,\ldots, x_n=0$; keep this in memory.
+\item
+Now make copies of $\phi$, $\phi'$; substitute $x_1,\ldots, x_n$ into both these expressions and evaluate. Compare the truth values. If they are different, exit the inner loop. (In any case, clear the space after this step is done.)
+\item
+Now increment the assignment $(x_1,\ldots, x_n)$ (for instance, from $(0,\ldots, 0,0)$ to $(0,\ldots, 0,1)$) and go to (b).
+\end{enumerate}
+If we found that $\phi$ and $\phi'$ agree on every assignment, then remember $\phi'$ and go on to step 2.
+
+Otherwise, $\phi'$ by the next formula and repeat the above steps (a)--(c).
+\item
+If $\phi'$ has shorter length than $\phi$, then reject. Otherwise, accept.
+\end{enumerate}
+We'll never have to use more space than is necessary to store $4$ copies of $\phi$, a binary number of size $n$, and perhaps some buffer space, so this runs in PSPACE.\\
+
+\prt{B}
+Not only do we have to guess a smaller formula, we have to verify that it is equivalent: we have to check that its value is the same as our original value for every choice of $x_1,\ldots, x_n$. The naive algorithm to do this take time at least on the order of $2^n$, which is exponential.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(ADD and PAL-ALL are in L)}
+\prt{A}
+Here is an algorithm that decides ADD in logarithmic time.
+\begin{enumerate}
+\item
+Write $i=0$ on the read/write tape, and set $r=0$. $i$ will keep track of which digit we are looking at (the rightmost digit being the 0th digit), and $r$ will keep track of whether we have overflow from the previous digit.
+\item
+Scan to the $i$th digit of $x$ and record it. (To do this, go to the end of $x$, and using a counter on the read/write tape, count $i$ spaces to the left.) Scan to the $i$th digit of $y$. Now add the $i$th digits of $x$ and $y$, and $r$. Check to see that the total equals the $i$th digit of $z$ modulo 2. If not, then reject.
+
+Now if $x+y+r\ge 2$, then set $r=1$. Clear the working area of the tape, increment $i$ by 1, and repeat.
+\end{enumerate}
+Once we have read all digits of $x$ and $y$, check to see that there are no more digits of $z$ out front. If this is true, then accept.
+
+Note this algorithm takes logarithmic time because it just needs to store $i$ and related counters, and storing $i$ takes space logarithmic in maximum number of digits in $x$ or $y$.\\
+
+\prt{B}
+To decide PAL-ADD, we modify the above algorithm slightly. First, the machine runs as above, except that it doesn't check the sum of digits against the digits of $z$. Vitally it keeps track of whether to regroup at each step, so that at the end the machine knows how many digits $x+y$ has (even though it doesn't remember the digits of $x+y$). Suppose $x+y$ has $d+1$ digits. We call them the $0$th through $d$th digit.
+
+Now let $i=0$. Repeat the algorithm, except this time record the $i$th digit and record the $(d-i)$th digit. (It doesn't need to remember any other digits, just whether to regroup at each step.) If these digits are not equal, then reject. Now erase the working space, increment $i$ by 1 and repeat. If $i>\fc d2$, then accept. 
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(8.25, Bipartite testing is in NL)}
+Suppose that $G$ is bipartite. Let $A\sqcup B$ be a bipartition of the vertices of $G$, such that any edge goes between a vertex in $A$ and a vertex in $B$. If $v_1\ldots v_kv_1$ is a cycle, and without loss of generality $v_1\in A$, then we must have
+\[
+v_2\in B,\,v_3\in A,\,v_4\in B
+\]
+and so forth. Because $v_1v_k$ is an edge, $v_k\in B$ so $k$ is even. Hence every cycle is even.
+
+Conversely, suppose $G$ has no odd cycles. We show $G$ is bipartite. Note we may reduce to the case that $G$ is connected: if the result holds for $G$ connected, for general $G$ we can partition each connected component $G_k$ into sets $A_k$ and $B_k$ with only edges between $A_k$ and $B_k$, and let $A=\bigcup A_k$ and $B=\bigcup B_k$.
+
+Pick any vertex $v$ of $G$. 
+%Let $S_1=\{v\}$. Given $S_1,\ldots, S_k$, let $S_{k+1}$ be all vertices adjacent to a vertex of $S_k$ but not in $\bigcup_{i=1}^k S_i$. Note that all vertices are in $S_k$ for some $k$ since $G$ is connected.
+%
+%Now let $A=\bigcup_{i\text{ odd}} S_i$ and $B=\bigcup_{i\text{ even}}$. We claim there are only edges between $A$ and $B$. Suppose by way of contradiction that $v
+Define
+\begin{align*}
+A&=\set{w\text{ vertex of $G$}}{\text{there is a path of even length from $v$ to $w$}},\\
+B&=\set{w\text{ vertex of $G$}}{\text{there is a path of odd length from $v$ to $w$}}.
+\end{align*}
+We show that
+\begin{enumerate}
+\item
+$A$ and $B$ are disjoint. Else, there would be $w$ such that there is a path of even length from $w$ to $v$ and a path of odd length from $v$ to $w$. Putting these together, we get a closed path of odd length from $w$ back to $w$. By the below lemma, this gives a cycle of odd length, contradiction.
+\begin{lem}\llabel{lem:404-8.25}
+If $G$ has a closed path of odd length then $G$ has a cycle of odd length. (A closed path is like a cycle except vertices are allowed to repeat.)
+\end{lem}
+\begin{proof}
+%We induct on the length of the closed path. If the length is 1 the lemma is clear. Now suppose the lemma proved for closed paths of length less than $i$.
+Take the shortest closed path of odd length 
+%Given a closed path 
+$v_1\ldots v_iv_1$ of length $i$. if it is a cycle then we are done. Else, $v_j=v_k$ for some $j<k$. Then $v_1\cdots v_{j-1}v_jv_{k+1}\cdots v_iv_1$ and $v_jv_{j+1}\ldots v_kv_j$ are two closed paths, of lengths $j+i-k$ and $k-j$. These sum to $i$, so at least one is odd. Its length is less than $i$, contradiction. %Now use the induction hypothesis.
+\end{proof}
+\item
+All edges are between $A$ and $B$: If $w\in A$, there is a path of even length from $v$ to $w$. If $wx$ is an edge, then adding this edge, there is a path of odd length from $v$ to $x$. Hence $x\in B$. Similarly if $w\in B$, we find $x\in A$.
+\end{enumerate}
+Thus $G$ is bipartite.
+
+%Because NL$=$coNL, it suffices to show 
+Next we show $\ol{\text{BIPARTITE}}\in$NL. By Lemma~\ref{lem:404-8.25}, a graph is not bipartite iff it has a closed path of odd length. A machine can guess this closed path using logarithmic space: choose a starting vertex $v_0$, remember it, and then pick $v_1$, $v_2$, and so forth, such that $v_i$ and $v_{i+1}$ are connected by an edge. At step $i$ it need only remember $v_0$ and $v_i$. When it gets to $v_j=v_0$ for some odd $j$, then it knows the graph is in $\ol{\text{BIPARTITE}}$.
+
+Hence $\text{BIPARTITE}\in$coNL. But coNL$=$NL, so $\text{BIPARTITE}\in$NL.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it($A_{\text{NFA}}$ is NL--complete)}
+First note $A_{\text{NFA}}\in$NL. Indeed, we can make a NTM that simulates a NFA nondeterministically; all it needs to keep track of on its read/write tape is the location of the head of the NFA (where it has read up to). This only needs memory logarithmic in the size of the input.
+
+Next we give a log-space reduction $f$ of PATH to $A_{\text{NFA}}$. Since PATH is NL--complete, this shows $A_{\text{NFA}}$ is NL--complete. Given a directed graph $G$ with starting vertex $x$ and ending vertex $y$, construct a NFA $N$ whose states are the vertices of $G$, whose starting state is $x$, whose single accepting state is $y$, and with transitions given by the following:
+\begin{itemize}
+\item
+If there is an edge from $v$ to $w$, then there is a 1-transition from $v$ to $w$.
+\item
+There is a $1$-transition from any vertex $v$ to itself.
+\end{itemize}
+Now let
+\[
+f(\an{G,x,y})=\an{N,1^{|G|}}
+\]
+where $|G|$ denotes the number of vertices of $G$.
+
+We need to show the following.
+\begin{enumerate}
+\item
+$f$ is computable using logarithmic space: To compute $f$, loop through all vertices of $G$---so keep track of the current vertex with a logarithmic-size pointer. Construct transitions according to the edges around that vertex.
+\item
+$\an{G,x,y}\in$PATH iff $\an{N,1^{|G|}}\in$NFA.  By construction, there is a path in $G$ from $x$ to $y$ iff there is a way to get from the start state of $N$ to the accept state under some input. If there is some way to get from the start state to the accept state, then there is some way to do so reading at most $|G|$ $1$'s: take the shortest input that $G$ accepts; it cannot cause a state to be repeated because otherwise we can remove a piece of the input; hence it has length at most $|G|$. Finally, note that if $N$ accepts $1^m$ it also accepts $1^n$ for $n\ge m$, because there are $1$-transitions for every state.
+
+Hence there is a path in $G$ from $x$ to $y$ iff $N$ accepts $1^{|G|}$.
+\end{enumerate}
+
+
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(CNF${}_{H1}$ is NL--complete)}
+\prt 1
+First we show CNF${}_{H1}\in$NL %\fixme{How to do this?} %Indeed, we can guess an assignment for the variables. In each clause we can check to see if one of the 
+%Define %CNF${}'_{H1}$ %similarly to CNF${}_{H1}$ except that each clause must have {\it exactly} one negated literal. 
+%\begin{gather*}
+%\text{CNF}'_{H1}=\{\phi\mid \phi \text{ is a satisfiable
+%\end{gather*}
+%First note that
+%\[
+%\text{CNF}_{H1}\le_L \text{CNF}'_{H1}.
+%\]
+%Indeed, if $\phi$ is a cnf-formula where each clause contains at most one negated literal, then for each clause that contains {\it no} negated literals we can manufacture another literal $\ol{y_i}$
+by giving a log-space algorithm to decide it. ``On input $\an{\phi}$,
+\begin{enumerate}
+\item
+First, scan through the input making sure each clause of $\phi$ has only one negated literal. For each variable $x_i$, scan through the input to make sure $\ol{x_i}$ appears at most once. If the test fails, reject.
+\item
+For every clause $c$ where there is no negated literal, do the following.
+%\begin{enumerate}
+%\item
+%Find the first clause $c$ where there is no negated literal, and remember it (i.e., store a pointer to $c$ in memory).
+%\item
+Let $c'=c$.
+\begin{enumerate}
+\item
+Nondeterministically choose one of the (nonnegated) variables in $c'$ to be true. Record this variable on the tape. Call it $x$.
+\item Scan through the input to see if $\ol x$ appears. If it appears in a clause $c''=\ol x\vee x_1\vee \cdots \vee x_n$, then replace $c'$ by $c''$, erase $x$, and go back to step (a). (If $c''=\ol x$, then we are stuck, so reject.)
+\item If $\ol x$ does not appear, then exit this loop. Repeat step 2 for the next $c$.
+\end{enumerate}
+%\end{enumerate}
+\item If step 2 completes successfully, then accept.
+\end{enumerate}
+Note this is log-space because at each step the machine only needs to remember the locations of one or two clauses, and one variable. 
+
+If the NTM above accepts, then take an accepting branch and mark each variable $x$ considered in step 2a true. Because we looped through all clauses with no negated literal, these clauses will be true. For each clause in the form $c''=\ol x\vee x_1\vee \cdots \vee x_n$, if $x$ was considered in step 2a (so marked true), then $c''$ will immediatedly be considered in step 2b (because $\ol x$ can only appear in one clause), and one of the $x_i$ will be true by construction. Thus $\an{\phi}\in $CNF${}_{H1}$.
+
+Conversely, if $\an{\phi}\in$CNF${}_{H1}$, then take a satisfying assignment. For each clause $c'$ considered in step 2, one of the variables $x$ in that clause is true, and one branch of the computation will choose that $x$ in step 2a. Thus one branch will accept.\\
+
+\prt 2
+It now suffices to give a log-space reduction from acyclic-PATH (which is NL--complete as shown in class) to CNF${}_{H1}$.  %\fixme{Check enuf.} 
+Given an acyclic directed graph $G$, label its vertices $x_1,\ldots, x_n$; suppose $x_1$ is the starting node and $x_n$ is the ending node. We will let $x_1,\ldots, x_n$ be variables in our cnf-formula. %Let $y_1,\ldots, y_{n}$ be additional variables. 
+Let $y$ be an additional variable.
+For each $i\ne n$, let
+%Let
+\[
+c_i=
+%\begin{cases}\displaystyle
+\ol x_i% \vee y_i
+\vee \bigvee_{ij\text{ is a (directed) edge}}x_j.%,&i\ne n\\
+%\displaystyle
+%\ol x_i\vee y% \vee y_i
+%\vee \bigvee_{ij\text{ is a (directed) edge}}x_j,&i= n\\
+%\end{cases}
+\]
+Let
+\[
+c=x_1\wedge\bigwedge_{i=1}^{n-1} c_i%\wedge%\pa{
+%\bigwedge_{i\ne n} %\ol y_i}%\wedge y_n
+\]
+and let
+\[
+f(\an{G,x_1,x_n})=c.
+\]
+
+We show that 
+\begin{enumerate}
+\item
+$f$ is computable using log-space: To construct clause $c_i$, the algorithm only needs to look at the edges emanating from $x_i$. Hence the machine only needs to store a pointer to the current vertex.
+\item
+$\an{G,x_1,x_n}\in$PATH iff $c\in$CNF${}_{H1}$. Note that for $i\ne n$, $c_i$ is equivalent to the following statement:
+\beq{eq:404-cnfh1}
+x_i\implies \text{at least one of }x_j \text{ is true, for some $j$ such that $ij$ is an edge}.
+\eeq
+%(Note that for $i\ne n$, $y_i$ cannot be true in a satisfying assignment.)
+
+Given $\an{G,x_1,x_n}\in$PATH, there is a path $p$ from $x_1$ to $x_n$. 
+%Let all the variables $y_i,i\ne n$ be false and $y_n$ be true. 
+Let all the $x_i$ variables corresponding to vertices along $p$ be true, and all the other $x_i$ variables be false. %, and $y$ be true. 
+Then~\eqref{eq:404-cnfh1} is satisfied for all $i\ne n$, and hence $c$ is true. %c_n$ is satisfied because $y_n$ is true. 
+This gives a satisfying assignment; hence $\an{c}\in$CNF${}_{H1}$.
+
+Conversely, if $c\in$CNF${}_{H1}$, then take a satisfying assignment. %We have $x_1$ is true, $y_1,\ldots, y_{n-1}$ are false, and $y_n$ is false. 
+Since $x_1$ is true, by~\eqref{eq:404-cnfh1}, some $x_i$ adjacent to $x_1$ is true. If $i\ne n$, we can find $i'$ adjacent to $i$ such that $x_{i'}$ is true, and so forth. Hence using~\eqref{eq:404-cnfh1} repeatedly we get a path 
+\[
+x_1x_{i_1}\ldots x_{i_k}
+\]
+where $x_{i_j}x_{i_{j+1}}$ is an edge and all the $x_{i_j}$ are true. Note that no vertex can repeat since $G$ has no cycles, so we may take a path made up of true variables, $x_1x_{i_1}\cdots x_{i_k}$, that is maximal in length. %Finally, we must be able to extend this path until $x_{i_k}=x_n$.
+Since this path cannot be extended, we must have $i_k=n$. 
+ This shows $\an{G,x_1,x_n}\in$PATH.
+\end{enumerate}
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(7.53, Unary language NP--complete implies P$=$NP)}
+Suppose $A\subeq 1^*$ is a unary language that is NP--complete. Then there exists a polynomial time reduction $f$ from SAT to $A$. We give a polynomial time algorithm to decide SAT. Because SAT is NP--complete, this shows P$=$NP.
+
+Let $\phi_{b_1\ldots b_i}$ denote $\phi$ where $x_j$ is set to value $b_j$ for $1\le j\le i$. The idea is that if $\phi$ has $n$ variables the formulas $\phi_{b}$, for $b$ a binary string, get mapped to polynomially many different unary strings by $f$, so we only have to check polynomially, rather than exponentially, many assignments to the $x_i$.
+
+Suppose $f$ computes a word of length $n$ in at most $cn^k$ steps. Letting $\ad$ denote the length of a string, we have $|f(w)|\le c|w|^k$.
+
+Our polynomial time algorithm deciding SAT is as follows. On input $\phi$,
+\begin{enumerate}
+\item Suppose $\phi$ has $n$ variables $x_1,\ldots, x_n$, and has length $\ell$. Initialize an array {\it li} of size $c\ell^k$. Each entry in the array will hold a binary string of length up to $n$, representing assignments to $x_1,\ldots, x_n$. 
+
+First let $li[f(\phi)] =\ep$ (the empty binary string). %in $li[
+%Let $x_1=0,1$ and let $\phi_0$, $\phi_1$ denote the resulting simplified formulas. Compute $f(\phi_0)$ and $f(\phi_1)$. Suppose $f(\phi_0)=1^{a_0}$ and $f(\phi_1)=1^{a_1}$. 
+
+%Let $li[a_0]=0$ and $li[a_1]=1$.
+%%Place $0$ in the cell labeled $a_0$ and $1$ in the cell labeled $a_1$. 
+%If $a_0=a_1$ are the same, then just put 1 in the cell $a_0=a_1$.
+\item At step $i$, the array is filled with some binary strings of length $i$. 
+%Repeat the following until all nonblank entries in the array have length $n$.
+
+\begin{enumerate}
+\item
+Scan to the next binary string $b_1\ldots b_i$  of length $i$ in the array. %$i<n$. %, and do the following. 
+\item
+Erase $b_1\ldots b_i$, and compute $f(\phi_{b_1\ldots b_i0})$ and $f(\phi_{b_1\ldots b_i1})$. If these equal $1^{a_0}$ and $1^{a_1}$, then let $li[a_0]=b_1\ldots b_i0$ and $li[a_1]=b_1\ldots b_i1$, overwriting whatever was there before.
+\end{enumerate}
+Increment $i$ and repeat, until $i=n$.
+\item
+For each $b_1\ldots b_n$ in $li$, evaluate $\phi_{b_1\ldots b_n}$. If any is true, accept. If all are false,  reject.
+\end{enumerate}
+Note that by choice of $c,k$, and because $\phi_{b0},\phi_{b1}$ are shorter than $\phi_b$, the $a_0,a_1$ computed in step 2 are at most $c\ell^k$.
+
+We check that this algorithm gives the correct answer and that it runs in polynomial time.
+\begin{enumerate}
+\item
+Gives correct answer: We claim that after each application of step 2b above,
+\[
+\an{\phi}\in SAT\iff \an{\phi_{b_1\ldots b_i}}\in SAT\text{ for some $b_1\ldots b_i\in li$}. 
+\]
+ This holds at the outset. 
+We prove this by induction. Suppose the statement holds at the beginning of a step 2b; we show it still holds after. 
+%for $i=1$, because $\phi\in $SAT iff $\phi_0\in$SAT or $\phi_1\in SAT$. 
+%Now if $f(\phi_0)=f(\phi_1)$ then either $\phi_0,\phi_1$ are both in SAT or both not in SAT.
+
+%The general induction step is similar.
+For a binary string $b$ we have $\phi_{b}\in$SAT iff $\phi_{b0}\in$SAT or $\phi_{b1}\in$SAT. Now if $f(\phi_{b'})=f(\phi_{b''})$ then $\phi_{b'},\phi_{b''}$ are in SAT iff $f(\phi_{b'})\in A$, so $\phi_{b'},\phi_{b''}$ are either both in SAT or both not in SAT. Thus if we know that for some set $B$ of binary strings
+\[
+\an{\phi}\in \text{SAT}\iff \bigvee_{b\in B} (\an{\phi_b}\in \text{SAT}),
+\]
+then it suffices to take the OR over a set of representatives
+\[
+\phi\in \text{SAT}\iff \bigvee_{a\in f(B),\,\text{representative }b\text{ s.t. }f(b)=a}(\an{\phi_b\in \text{SAT}}).
+\]
+When we overwrite $li[a]$, we are just replacing one representative by another.
+
+\item
+Runs in polynomial time: At step $i$, the algorithm needs to examine at most $c\ell^k$ cells for strings of length $i$. For each string, it needs to compute $f(\phi_{b_1\ldots b_i0}),f(\phi_{b_1\ldots b_i1})$, which takes polynomial time, and change 2 entries in the array.
+
+The algorithm carries out at most $n$ steps. The total is polynomial.
+\end{enumerate}
+\end{problem}
+\end{document}

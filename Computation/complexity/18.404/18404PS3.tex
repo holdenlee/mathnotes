@@ -1,0 +1,359 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\makeatother
+\input{../templates/packages.tex}
+\input{../templates/theorems.tex}
+\input{../templates/macros.tex}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+\renewcommand{\div}{\operatorname{div}}
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{Holden Lee} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.404 Theory of Computation} 
+\cfoot{} 
+\rfoot{\small PS \# 3} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.404 Theory of Computation PSet\#3}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{10/17/12}% !! Remember to change the date
+\maketitle
+%\thispagestyle{empty}
+\begin{problem}{\it(4.30, Can't enumerate deciders for every decidable language)}
+First note if $A=\{M_1,\ldots, M_n\}$ is finite, then some decidable language is not decided by any $M_i$ simply because there are infinitely many decidable languages. (For instance, any finite language is decidable.) So assume $A$ is infinite.
+
+Since $A$ is Turing-recognizable, it is enumerable, say by $E$. Suppose $E$ enumerates $\an{M_1},\an{M_2},\ldots$ in order.
+Let $\{w_1,w_2,\ldots\}$ be an enumeration of all the words in $\Si^*$. Define a Turing machine $T$ as follows.
+
+$T=$``On input $w$,
+\begin{enumerate}
+\item Find $i$ such that $w_i=w$.
+\item Find $\an{M_i}$. (Run $E$ until it enumerates the $i$th Turing machine.)
+\item Run $M_i$ on $w_i$.
+\item If $M_i$ accepts, then reject.\\
+If $M_i$ rejects, then accept. (This works because $M_i$ is a decider.)"
+\end{enumerate}
+Now $T$ is a decider because it is guaranteed to halt, so $D:=L(T)$ is a decidable language. I claim that $D=L(T)\ne L(M_i)$ for any $i$. Indeed, $T$ does the opposite of what $M_i$ does on $w_i$, so they cannot recognize the same language.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(4.31, Usability is decidable)}
+Let
+\[
+U_{CFG}=\set{\an{G,A}}{G\text{ is CFG, $A$ is a usable variable}}.
+\]
+We show that $U_{CFG}$ is a decidable language.
+
+Build a decider $T$ that decides $U_{CFG}$ as follows. 
+
+$T=$``On input $\an{G,A}$, supposing $V$ is the set of variables of $G$ and 0 is the starting variable, 
+%\begin{enumerate}
+%\item Test if it is possible to get to $A$ from the starting variable (say, 0), as follows.\\
+%Start with a set $S$ consisting of just 0. At each step, for every variable $B$ in $S$, look at all the variables on the right hand side of a rule $B\to \cdots$, and add them to $S$. If in one step we don't add any more variables, then we know we're done: at that step $S$ consists of exactly those variables that can be reached from 0. Then check if $A\in S$.\\
+%If $A\nin S$, then reject.
+%\item Test if it is possible to also get to a state with all terminal variables, as follows.
+for every subset $S\subeq \cal P(V)$ containing 0, do the following.
+\begin{enumerate}
+\item
+First, see if it is possible to get to $A$ from the starting variable while only going through variables in $S$. To do this, start with $T=\{0\}$. At each step, for every variable $B$ in $T$, and for every rule $B\to B_1\cdots B_k$, where the $B_i$ are all either in $S$ or terminal, add $B_1,\ldots, B_k$ to $T$.
+
+If at some step we don't add any more variables to $T$, and $A\nin T$, then we know we can't get to $T$. Skip the second step and go on to the next subset $S'\subeq \cal P(V)$.
+\item
+Second, see if it is possible to ``convert" all variables in $S$ to terminal symbols. To do this, start with $T=S$. At each step, for every variable $B$ in $T$, if there exists a rule $B\to B_1\cdots B_k$, where the $B_i$ are all either in $T\bs\{B\}$ or terminal, then delete $B$ from $T$.
+
+If at some step we don't delete any more variables from $T$ and $T\ne \phi$, then we're at an impasse. Go on to the next subset.
+
+If however we get $T=\phi$, then accept.
+\end{enumerate}
+If this fails with every subset, then reject."
+
+%If in one step we don't add any more variables, then we know we're done: at that step $S$ consists of exactly those variables that can be reached from 0. Then check if $A\in S$.\\
+%\end{enumerate}•
+Note that if there exists a derivation of some string $w\in G$ using $A$, such that $S$ is the set of all variables appearing at some step of the derivation, then the algorithm above would succeed when it's considering $S\subeq \cal P(V)$. %Conversely, the algorithm succeeds at $S\subeq \cal P(V)$ if we can produce $A$ starting from 0 only using variables in $S$, 
+Conversely, if the algorithm succeeds at $S\subeq \cal P(V)$, then we can get from 0 to a string all of whose variables are either in $S$ or terminal, and then can get to all terminal variables from there.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(5.21, Testing ambiguity is undecidable)}
+As in the hint, given an instance
+\beq{eq:404p-3-3-1}
+P=\bc{
+D_1=\ba{\fc{t_1}{b_1}},\ldots, D_k=\ba{\fc{t_k}{b_k}}
+}
+\eeq
+of the Post Correspondence Problem, let $G$ be the CFG with rules
+\begin{align}
+\nonumber
+S&\to T|B\\
+\llabel{eq:404p-3-3-2}
+T&\to t_1Ta_1|\cdots |t_kTa_k|t_1a_1|\cdots |t_ka_k\\
+\nonumber
+B&\to b_1Ta_1|\cdots |b_kTa_k|b_1a_1|\cdots |b_ka_k
+\end{align}
+where $a_1,\ldots, a_k$ are new terminal symbols.
+
+We claim that this gives a reduction of PCP to $AMBIG_{CFG}$. We have to show that~\eqref{eq:404p-3-3-1} has a match if and only if~\eqref{eq:404p-3-3-2} is ambiguous.
+
+Note that if we start using the rule $S\to T$, then we'll end up with some string of the form
+\beq{eq:404p-3-3-3}
+t_{i_1}\cdots t_{i_k}a_{i_k}\cdots a_{i_1}.
+\eeq
+It is clear that there is exactly one way to get to any string of this form given that we start with $S\to T$: we have to use $T\to t_{i_j}Ta_{i_j}$ successively, except that we end with $T\to t_{i_k}a_{i_k}$. 
+This corresponds to the top row of the dominoes $D_{i_1},\ldots, D_{i_k}$; note that we record which dominoes we used on the right side of~\eqref{eq:404p-3-3-3} (in backwards order).
+
+Similarly, if we start using the rule $S\to B$, then we'll end up with some string 
+\beq{eq:404p-3-3-4}
+b_{i_1}\cdots b_{i_k}a_{i_k}\cdots a_{i_1}.
+\eeq
+This records the bottom row of the dominoes $D_{i_1},\ldots, D_{i_k}$; again, we recorded which dominoes we used; again, if we want to end at $b_{i_1}\cdots b_{i_k}a_{i_k}\cdots a_{i_1}$ there is exactly one way to proceed if we start with $S\to B$.
+
+The only way a string can be derived ambiguously is if we use $S\to T$ in one derivation and $S\to B$ in the other. For two derivations to match, they must have the same string $a_{i_k}\cdots a_{i_1}$, so correspond to the dominoes $D_{i_1}\ldots D_{i_k}$. That $t_{i_1}\cdots t_{i_k}=b_{i_1}\cdots b_{i_k}$ simply means we have a match.
+
+Thus~\eqref{eq:404p-3-3-1} has a match if and only if~\eqref{eq:404p-3-3-2} is ambiguous.
+
+Because PCP is mapping reducible to $AMBIG_{CFG}$ and PCP is undecidable, we have $AMBIG_{CFG}$ is undecidable.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(5.26, $A_{2DFA}$ and $E_{2DFA}$)}
+\prt{A}
+Note that a 2DFA has finitely many possible configurations. If the input word is $n$ symbols long and the machine has $s$ states, then there are $(n+2)^2$ possible configurations for the input heads so 
+\[
+c:=(n+2)^2s
+\]
+possible configurations. (The input is fixed.)
+
+Construct a decider for $A_{2DFA}$ as follows.
+
+Let $T=$``On input $\an{M,x}$,
+\begin{enumerate}
+\item
+Simulate the 2DFA $M$ on $x$. 
+\item
+If $M$ accepts, accept. If $M$ runs for $c+1$ steps without accepting, reject (it must have repeated a configuration, so it is in an infinite loop)."
+\end{enumerate}
+
+\prt{B}
+We reduce from $A_{TM}$. Suppose by way of contradiction there exists $R$ deciding $E_{2DFA}$. We will construct $S$ deciding $A_{TM}$. This will be a contradiction, since $A_{TM}$ is not decidable; hence $E_{2DFA}$ must also be undecidable.
+
+First, given a Turing machine $T$ and string $w$ we construct a 2DFA $D$ that recognizes accepting computation histories for $w$. %However, because of the limitations of a 2DFA, we encode these computation histories in the following way. 
+Suppose we have a computation history
+\[
+C_1\#C_2\#\cdots \#C_m\#
+\]
+encoded in the usual way. 
+%Write $C_i=c_{i1}\ldots c_{in}$. (We can assume the $C_i$ are equally long by adding blanks.) Now feed this into $D$ in the following way. Write
+%\begin{align*}
+%C_1&=c_{11}\ldots c_{1n}\\
+%C_2&=c_{21}\ldots c_{2n}\\
+%\vdots&=\vdots\\
+%C_m&=c_{m1}\ldots c_{mn}.
+%\end{align*}
+%We encode this computation history by reading {\it down} instead of across, and putting it in clumps of 3. For instance, we encode
+%\begin{align*}
+%C_1&=c_{11}c_{12}c_{13}c_{14} c_{15}\\
+%C_2&=c_{21}c_{22}c_{23}c_{24} c_{25}.
+%\end{align*}
+%Now highlight adjacent clumps of 3:
+%\begin{align*}
+%C_1&=\mathbf{c_{11}c_{12}c_{13}}c_{14} c_{15}&
+%C_1&=c_{11}\mathbf{c_{12}c_{13}c_{14}} c_{15}&
+%C_1&=c_{11}c_{12}\mathbf{c_{13}c_{14} c_{15}}\\
+%C_2&=\mathbf{c_{21}c_{22}c_{23}}c_{24} c_{25}&
+%C_2&=c_{21}\mathbf{c_{22}c_{23}c_{24}} c_{25}&
+%C_2&=c_{21}c_{22}\mathbf{c_{23}c_{24} c_{25}}.
+%\end{align*}
+%We encode this as
+%\beq{eq:404p-3-4-1}
+%c_{11}c_{12}c_{13}c_{21}c_{22}c_{23}\#c_{12}c_{13}c_{14} c_{22}c_{23}c_{24}\#c_{13}c_{14} c_{15}c_{23}c_{24} c_{25}\#.
+%\eeq
+%The point of this encoding is that checking the transitions are correct can be done by one head, since the transitions are all close to one another.
+%
+%Let $D=$``On a configuration history (encoded as above),
+%\begin{enumerate}
+%\item Check to see that we can ``rebuild" the $C_i$ as valid configuration histories. That is, we have the right number of symbols between the $\#$ signs (an equal number, that's a multiple of 3), and that the symbols that are supposed to match do indeed match (note we repeated symbols in~\eqref{eq:404p-3-4-1}). We can do this because we have 2 heads, which allows us to check equalities in different parts of the string.
+%\item Check to see that the starting state $C_1$ is valid.
+%
+%\end{enumerate}•
+Let $S$ have the states of $T$ programmed into it. Let $S$=``On input $C_1\#C_2\#\cdots \#C_m\#$,
+\begin{enumerate}
+\item
+Check to see $C_1$ is the starting state, $q_{\text{start}}w$.
+\item
+Check to see $C_m$ is an accepting state.
+\item
+Check to see $C_i$ transitions to $C_{i+1}$ for each $i$. This can be done by having one head reading $C_i$ and the other head reading $C_{i+1}$, checking that the area around the ``head" in $C_i$ is updated correctly in $C_{i+1}$, and everything else stays the same.
+\item Accept if the input passes all the above checks and reject otherwise.
+\end{enumerate}
+
+Now we construct the promised $S$ deciding $A_{TM}$ as follows. 
+
+Let $S=$``On input $\an{T,w}$,
+\begin{enumerate}
+\item
+Construct a 2DFA $D$ as above.
+\item Run $E_{2DFA}$ on input $D$.
+\item Accept if $E_{2DFA}$ rejects, and reject if $E_{2DFA}$ accepts."
+\end{enumerate}
+Note that $E_{2DFA}$ accepts $D$ iff $D$ has empty language, i.e., there is no valid accepting history for $T,w$, i.e., $T$ does not accept $w$. This is why we do the opposite in the last step, and why $S$ decides $A_{TM}$.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(6.1, Recursion theorem example)}
+Here is a program in Python that prints itself.
+\begin{lstlisting}
+def f(s): print s; print "f(",repr(s),")"
+f( 'def f(s): print s; print "f(",repr(s),")"' )
+\end{lstlisting}
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{(\it 6.11, Give a model of $\phi_{lt}$)}
+Let the model be $(\Z,R_1,R_2)$ where $R_1$ is equality ($=$), and $R_2$ is the ``less than" relation ($<$). I.e. $R_1=\set{(i,i)}{i\in \Z}$ and $R_2=\set{(i,j)}{i,j\in \Z,\, i<j}$. The sentence $\phi_{\text{eq}}$ says
+\begin{enumerate}
+\item
+For all $x$, $x=x$.
+\item
+For all $x,y$, $x=y$ iff $y=x$.
+\item
+For all $x,y,z$, $x=y$ and $y=z$ imply $x=z$.
+\end{enumerate}
+The sentence $\phi_{\text{lt}}$ says the above and additionally
+\begin{enumerate}
+\item
+For all $x,y$, $x=y$ implies $x\not< y$.
+\item 
+For all $x,y$, $x\neq y$ implies either $x<y$ xor $y<x$.
+\item
+For all $x,y,z$, $x<y$ and $y<z$ imply $x<z$.
+\item
+For all $x$ there exists $y$ such that $x<y$. (There is no upper bound.) 
+\end{enumerate}
+These properties all hold in $\Z$.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(Bonus problem)}
+Idea: For each decidable language $L$, we want to find a decider for $L$ that offers recognizable ``proof" that it recognizes a decidable language. One way to prove a language is decidable is to give an lexicographical-order enumerator for it (Problem 3.18, PSet 2 Problem 4). Thus for each language we find a decider for it that has an enumerator ``built into" it.
+
+\begin{lem}\llabel{lem:404p-3-7-1}
+There is a computable function $f$ that takes any input $s$ to a string of the form $\an{T'}$, where $T'$ is a Turing machine with the following properties.
+\begin{enumerate}
+\item
+$T'$ recognizes a decidable language (though $T'$ is not necessarily a decider).
+\item
+If $s=\an{T}$ and $T$ is a decider, then $L(T')=L(T)$.
+\end{enumerate}
+\end{lem}
+%(It doesn't matter what $f$ does on input not of the form $\an{T}$; for instance we can just send bad input to the empty string.)
+\begin{proof}
+First suppose the input is of the form $\an{T}$. Define a 3-tape Turing machine $T_1$ as follows. Let $\{w_1,w_2,\ldots,\}$ be the elements of $\Si^*$ in lexicographic order.
+
+$T_1=$``On input $s$ (on the first tape),
+\begin{enumerate}
+\item Write $w_1$ on the second tape.
+\item Copy the word on the second tape to the third tape.
+\item Run $T$ on the word on the third tape. If $T$ halts, and the word on the second tape matches $w$ (written on the first tape), then accept if $T$ accepted and reject if $T$ rejected. If the word on the second tape is not $w$, go to the next step.
+\item Clear the third tape and increment the word on the second tape, i.e., update $w_i$ to $w_{i+1}$. Go back to step 2."
+\end{enumerate}
+Note this machine can get caught in an infinite loop on the 3rd step, but this is okay since we don't need $T_1$ to be a decider. Think of $T_1$ as having an enumerator ``built inside" it. Now let $T'$ be $T_1$, converted to a single-tape Turing machine. Let
+\[
+f(\an{T})=\an{T'}.
+\]
+Now we show that $T'$ has the required properties. Consider 2 cases.
+\begin{enumerate}
+\item
+$T$ is a decider. Then $T_1$ can never get stuck on the 3rd step. Thus $T_1$ must halt on any input, since the word on the second tape will eventually get to $w$. Hence $T'$ is a decider. Moreover, by construction, $T'$ accepts the same words as $T$.
+\item
+$T$ is not a decider. Then there exists some $w_n$ such that $T$ does not halt on $w_n$. Then $T_1$ will never get past simulating $T$ on $w_n$. If $w$ is lexicographically after $w_n$, $T_1$ will be in an infinite loop. Hence $L(T_1)=L(T')\subeq \{w_1,\ldots, w_{n-1}\}$ is finite. Any finite language is decidable.
+\end{enumerate}
+If the input $s$ is not of the form $\an{T}$, take an arbitrary Turing machine $T_0$ (which we can set to be fixed) and send $s$ to $f(\an{T_0})$.
+\end{proof}
+\begin{lem}\llabel{lem:404p-3-7-2}
+Suppose $f$ is computable. Then $\im(f)$ is recognizable.
+\end{lem}
+\begin{proof}
+Write $\Si^*=\{w_1,w_2,\ldots\}$ in lexicographical order.
+
+Let ``$S=$on input $w$,
+\begin{enumerate}
+\item
+Store $w_1$ in memory.
+\item Evaluate $f$ on the current word in memory. If the answer is $w$, then accept.
+\item
+Else increment the word in memory and repeat step 2.
+\end{enumerate}
+If $w\in \im(f)$, then eventually we'll find some $w_n$ so that $f(w_n)=w$.
+\end{proof}
+%Now we construct a Turing machine $R$ such that $L(T)=\{M_i\}$ has the desired properties. 
+%
+%Let $R=$``On input $\an{T}$,
+%\begin{enumerate}
+%\item Let $f$ be as in Lemma~\ref{lem:404p-3-7-1}. Check to see if $\an{T}\in \im(f)$ (this is okay since $\im(f)$ is recognizable). If so, accept."
+%\end{enumerate}
+Let $f$ be as in Lemma~\ref{lem:404p-3-7-1} and let the language be 
+\[
+B:=\im(f).
+\]
+This is recognizable by Lemma~\ref{lem:404p-3-7-2}. 
+Roughly, $B$ consists of $\an{M}$ where $M$ has an enumerator built inside it in the sense given in the proof of Lemma~\ref{lem:404p-3-7-1}.
+
+We need two show two things.
+\begin{enumerate}
+\item
+If $\an{M}\in B$ then $M$ recognizes a decidable language. This holds by %the fact that $L(R)=\im(f)$ and 
+by Lemma~\ref{lem:404p-3-7-1}(1).
+\item
+For every decidable language $D$ there exists some decider $M$ for $D$ such that $\an{M}\in B$. Let $T$ be a decider for $D$. We have
+\[
+f(\an{T})\in \im(f)=B.
+\]
+But by Lemma~\ref{lem:404p-3-7-1}(2), $f(\an{T})=\an{T'}$ where  $T'$ is a decider for $L(T)=D$.
+\end{enumerate}
+\vskip2in.
+\begin{rem}
+I think $B$ is actually decidable. Because $f$ is a very well-defined function, we can tell from the structure of the Turing machine whether $\an{M}\in \im(f)$. The construction of $f(\an{T})$ from $T$ basically takes $T$ as a ``black box," and to create another Turing machine, initiates other components and makes sure the inputs and outputs to the black box are correct. To see whether $\an{M}\in \im(f)$, we'd just have to check if the other components are there, and connected to some black box in the right way, i.e., there are no missing or extraneous inputs or outputs to/from the black box.
+%In the special case when $f$ is defined as in Lemma~\ref{lem:404p-3-7-1}, $\im(f)$
+\end{rem}
+\end{problem}
+\end{document}

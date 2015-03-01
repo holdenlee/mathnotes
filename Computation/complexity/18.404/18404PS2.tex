@@ -1,0 +1,420 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\makeatother
+\input{../templates/packages.tex}
+\input{../templates/theorems.tex}
+\input{../templates/macros.tex}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+\renewcommand{\div}{\operatorname{div}}
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.404 Theory of Computation} 
+\cfoot{} 
+\rfoot{\small PS \# 2} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.404 Theory of Computation PSet\#2}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{9/28/12}% !! Remember to change the date
+\maketitle
+%\thispagestyle{empty}
+\begin{problem}{\it (2.32, Proving non-CFL)}
+Suppose by way of contradiction that $C$ were a CFL. Let $p$ be the pumping length, as in the pumping lemma. Consider the string
+\[
+s=\underbrace{1\ldots 1}_p\underbrace{3\ldots 3}_p
+\underbrace{2\ldots 2}_p\underbrace{4\ldots 4}_p.
+\]
+By the pumping lemma, we can write $s=uvxyz$ with $vy\ne \ep$ and $|vxy|\le p$ such that $uv^ixy^iz\in C$ for any $i\in \N_0$. The condition $|vxy|\le p$ ensures that $v$ and $y$ together can't contain more than 2 types of symbols, and if they contain two kinds of symbols they must be adjacent in $s$ (1 and 3, or 3 and 2, or 2 and 4). In $uv^2xy^2z$, then quantity of some symbol must increase. However, we can't increase both 1 and 2; neither can we increase both 3 and 4. Then either the number of 1's will no longer equal the number of 2's, or the number of 3's will no longer equal the number of 4's. Hence $uv^2xy^2z\nin C$, contradiction.
+
+We conclude $C$ is not a CFL. 
+
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it (2.24, $\set{a^ib^j}{i\ne j\text{ and }2i\ne j}$ is a CFL)}
+We show that the following CFG generates $E$.
+\begin{align*}
+S&\to aX|aaYbbb|Zb\\
+X&\to aX|aXb\\
+Y&\to aYb|aYbb\\
+Z&\to aZbb|Zb\\
+X&\to \ep\\
+Y&\to \ep\\
+Z&\to \ep.
+\end{align*}
+We will show that
+\begin{enumerate}
+\item
+The strings that can be derived starting with $S\to aX$ are exactly those in the form
+\[
+\set{a^ib^j}{j<i}.
+\]
+\item
+The strings that can be derived starting with $S\to aaYbbb$ are exactly those in the form
+\[
+\set{a^ib^j}{i<j<2i}.
+\]
+\item
+The strings that can be derived starting with $S\to Zb$ are exactly those in the form
+\[
+\set{a^ib^j}{j>2i}.
+\]
+\end{enumerate}
+Once we prove these three facts, we will be done, because
+\[
+\set{a^ib^j}{i\ne j\text{ and }2i\ne j}=\set{a^ib^j}{j<i}\cup\set{a^ib^j}{i<j<2i}\cup \set{a^ib^j}{j>2i}.
+\]
+
+We prove the 3 facts.
+\begin{enumerate}
+\item In the first step, we replace $S\to aX$. We claim that at each intermediate step, the string is in the form $a^iXb^j$ where $j<i$. This is true at the beginning, and both steps $X\to aX$ and $X\to aXb$ preserve this condition. Hence it is true by induction. At the end we simply replace $X$ by $\ep$.
+
+Conversely, given $a^ib^j$ with $j<i$, we can derive it by $S\to aX$, $i-j-1$ applications of $X\to aX$, and $j$ applications of $X\to aXb$, and finally 1 application of $X\to \ep$.
+\item In the first step, we replace $S\to aaYbbb$. We claim that at each intermediate step, the string is in the form $a^iYb^j$ where $i<j<2i$. This is true at the beginning, and both steps $Y\to aYb$ and $Y\to aYbb$ preserve this condition, because $i<j<2i$ implies
+\[
+i+1<j+1,j+2<2(i+1).
+\]
+
+Conversely, given $a^ib^j$ with $i<j<2i$, we must have $i\ge 2$. 
+Apply $S\to aaYbbb$, then use $(j-i-1)$ applications of $Y\to aYbb$, $(2i-j-1)$ applications of $Y\to aYb$, and finally $Y\to \ep$.
+\item
+In the first step, we replace $S\to Zb$. We claim that at each intermediate step, the string is in the form $a^iZb^j$ where $j>2i$. This is true at the beginning, and both steps $Z\to aZbb$ and $Z\to aZbbb$ preserve this condition. Hence it is true by induction.
+
+Conversely, given $a^ib^j$ with $j>2i$, we can derive it by $S\to Zb$, $j-2i-1$ applications of $Z\to Zb$, and $i$ applications of $Z\to aZbb$, and finally $Z\to \ep$.
+\end{enumerate}
+\end{problem}
+
+\pagebreak
+
+
+\begin{problem}{\it (2.48, Strings with 1's in middle third)}
+\prt{A}
+I claim that the following CFG generates $C_1$.
+\begin{align*}
+S&\to ABA\\
+B&\to ABA|AABA|ABAA\\
+A&\to 0|1\\
+B&\to 1
+\end{align*}
+First I show that every string generated is in $C_1$. Note that $B$ will get converted to 1 at the end, so it suffices to show $B$ stays within the middle third of the string. First we start with the rule $S\to ABA$; note that we can let
+\[
+\underbrace{A}_x\underbrace{B}_y\underbrace{A}_z.
+\]
+Now when we apply $B\to ABA$, increase the length of $x,z$ by 1; when we apply $B\to AABA$ of $B\to ABAA$, increase the length of each of $x,y,z$ by 1. From this we see $B$ stays in the middle third.
+
+Next I show that every string in $C_1$ is generated by the CFG. Suppose $s=xyz$, $y$ has a 1 in the $k$th position, and $|x|=|z|\ge |y|$. Apply $S\to ABA$ once, then $k-1$ times $B\to AABA$, then $|y|-k+1$ times $B\to ABAA$, then $|x|-|y|$ times $B\to ABA$. We now have
+\[
+\underbrace{A\ldots A}_{|x|}\underbrace{A\ldots A}_{k-1} B \underbrace{A\ldots A}_{|y|-k-1}\underbrace{A\cdots A}_{|z|=|x|}.
+\]
+Now replace all $A$'s by the correct symbols, and $B$ by 1.\\
+
+\prt{B}
+Suppose by way of contradiction that $C_2$ were a CFL. Let $p$ be the pumping length, as in the pumping lemma. We may as well assume $p\ge 3$. Consider the string
+\[
+s=\underbrace{0\cdots 0}_{p+1}\underbrace{10\cdots 01}_{p+1}\underbrace{0\cdots 0}_{p+1}.
+\]
+By the pumping lemma, we can write $s=uvxyz$ with $vy\ne \ep$ and $|vxy|\le p$, such that $uv^ixy^iz\in C_2$ for any $i\in \N_0$. The condition $|vxy|\le p$ and the fact that the two $1$'s are $p+1$ apart ensure that $v$ and $y$ together can't contain more than one 1. Consider two cases.%, and if they contain two kinds of symbols they must be adjacent in $s$ (1 and 3, or 3 and 2, or 2 and 4). In $uv^2xy^2z$, then quantity of some symbol must increase. However, we can't increase both 1 and 2; neither can we increase both 3 and 4. Hence then either the number of 1's will no longer equal the number of 2's, or the number of 3's will no longer equal the number of 4's. Hence $uv^2xy^2z\nin C$, contradiction.
+\begin{enumerate}
+\item
+$v,y$ contain no 1's. Then $uv^ixy^iz$ is one of the following, for some $j, k>0$:
+\begin{gather*}
+0^{p+1+ji}10^{p-1}10^{p+1}\\
+0^{p+1}10^{p-1+ji}10^{p+1}\\
+0^{p+1}10^{p-1}10^{p+1+ji}\\
+0^{p+1+ji}10^{p-1+ki}10^{p+1}\\
+0^{p+1}10^{p-1+ji}10^{p+1+ki}
+\end{gather*}
+If we try to break these words into three parts with the two 1's in the middle part, we run into the following problems: for large $i$, in the 1st, 2nd, and 4th cases the 2nd 1 can't be in the middle part; in the 2nd, 3rd, and 5th cases the 1st 1 can't be in the middle part. Hence $uv^ixy^iz\nin C_2$ for large enough $i$, contradiction.
+%lonely island, aids from horse, blood transfusion
+\item
+$v,y$ contain one 1. Then $uxz=uv^0xy^0z$ contains only one 1, so $uxz\nin C_2$, contradiction.
+\end{enumerate}
+Hence $C_2$ is not a CFL.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it (3.18, Decidable iff enumerable in lex order)}
+Suppose $A$ is decidable. We build a machine to enumerate it in lexicographic order as follows. Let $T$ be a Turing machine that decides $A$; suppose for simplicity that its tape alphabet is $0,1,\ldots, n-1$.
+
+Build an enumerator as follows. It is based off $T$. Start with $\#$ and then blanks on the input tape. The ``$\#$" acts like a separator; to the left the machine stores the current string, and to the right it will simulate a Turing machine acting on the string. The machine copies the word on the left of the ``$\#$" to the right, then works on it as if it were $T$.\footnote{It starts working with $\ep$.} When it hits an accept state of $T$, it prints out the string to the left of the ``$\#$". When it hits an accept or reject state of $T$ (we know it will because $T$ is decidable), then erase everything to the right of ``$\#$," and replace the word to the left by the next word. (Treating the string as a number in base $n$, we can make an algorithm to add 1 to it, programming it to regroup and shift the word one space to the right if necessary.) Now repeat.
+
+Conversely, suppose $A$ is enumerable in lexicographic order. Consider two cases.
+\begin{enumerate}
+\item
+$A$ is finite: Then $A$ is a regular expression (it is the union of all strings in the language; there are finitely many), so is decidable.
+\item
+$A$ is infinite: Build a Turing machine $T$ that simulates the enumerator to the right of the input string (use some separator, say $*$). Now every time the enumerator is supposed to print out a string, $T$ compares it to the input string $s$.
+\begin{enumerate}
+\item
+If it equals the input string $s$, then accept.
+\item
+If it is lexicographically in front of $s$, then continue.
+\item
+If it is lexicographically after $s$, then reject. (This means the enumerator has skipped past $s$.)
+\end{enumerate}
+Note one of these possibilities will happen since because $A$ is infinite, $T$ must eventually print out either $s$ or a string that is after $s$.
+\end{enumerate}
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it (3.14, Queue automata)}
+Suppose a language $A$ is recognizable by a queue automaton (QA) $Q$; we build a Turing machine $T$ that recognizes $A$. Have $A$ keep track of the queue as follows: to the right of the input string, put a separator $\#$ and then ``$XY$." The Ruring machine simulates $Q$ as follows. It switches between states just like $Q$ switches between states, except it also does the following:
+\begin{enumerate}
+\item $T$ keeps track of where the head is at each step, if the string were to be fed in $Q$. One way to do this is to duplicate the alphabet: if $a$ was orginally a symbol, then $\dot{a}$ represents that the head is currently at that symbol.
+\item Every time $Q$ requires pushing an element onto the queue, $T$ simulates it by moving to $X$, moving everything to the right of ``$X$" to the right by one unit, and inserting an element to the right of $X$.
+\item Every time $Q$ requires pulling an element off the queue, $T$ moves its head to $Y$ and then one square to the left, reading the element, transitioning into a state associated with reading that element, deleting the element, and moving $Y$ over one unit to the left.
+\end{enumerate}
+In each case $T$ then moves back to the element with the dot, and then continues simulating $Q$.
+
+Conversely, suppose $A$ is recognizable by a Turing machine $T$; we build a queue automaton $Q$ that recognizes $A$.
+
+The alphabet of $Q$ will be two copies of the alphabet of $A$ (including the blank). One copy will have dots over the symbol to represent ``the head of the Turing machine is currently here." Furthermore $Q$ will contain another symbol $X$ to signal the beginning of the input tape. Moreover we'll have $Q$ always ``remember" the last two symbols it read (we can do this by introducing more states in $Q$).
+\begin{enumerate}
+\item
+%First, $Q$ pushes the symbols $\LHD$ and $X$ onto the queue, then pushes the input word onto the queue, and then pushes $Y$. The $X$ represents the start of the input tape, the $\LHD$ represents the fact that the next symbol is the one to the left of the current symbol, and the $Y$ represents the end of the input tape.
+First $Q$ pushes the symbol $X$ onto the queue. It reads the first element, say $a_1$, and pushes $\dot{a}_1$. It now pushes the rest of the input.
+If the input was $a_1\ldots a_n$, the queue now looks like
+\[
+a_n\cdots a_2\dot a_1X%\LHD.
+\]
+\item
+Now $Q$ pulls $X$ and pushes it on the stack again, and then pulls and pushes $\dot a_1$. 
+%
+%Now $Q$ pulls the next two symbols. Every time it pulls one of these symbols it pushes it to the queue again. It then pulls and pushes $a_1$; 
+This represents the fact that the Turing machine starts reading at $a_1$. The tape now looks like the following.
+\[
+\dot a_1X a_n\cdots a_2.
+\]
+We will construct the QA so that when the Turing machine has $a_1\cdots a_n$ written on the input tape and the head is at $a_k$, the queue looks like
+\[
+\dot a_k a_{k-1}\cdots a_1 X a_n\cdots a_{k+1}.
+\]
+\item
+Every time the head of the Turing machine is supposed to move right, the queue automaton does the following: keep pulling a symbol and pushing it back on the queue %with a lag of 1 step, 
+until it gets to the symbol with a dot on it, say $\dot a_k$. Now it pushes $a_k$ instead, pulls the next symbol to the right, say $a_{k+1}$, and pushes $\dot a_{k+1}$ onto the stack.
+
+For instance, if we start with
+\[
+\dot a_{k} \cdots a_1Xa_n\cdots a_{k+1},
+\]
+then after this procedure the queue looks like 
+\[
+\dot a_{k+1}a_k\cdots a_1Xa_n\cdots a_{k+1},
+\]
+and the queue automaton remembers that it has just read $a_{k+1}$ (and acts on that information).
+%keep pulling a symbol and pushing it onto the queue, until it gets to $\LHD$. It pulls and pushes the next symbol, 
+\begin{itemize}
+\item
+For the special case where the next symbol is $X$, signalling the end of the queue, the QA instead do the following. Add a dotted blank and $X$, and keep pulling and pushing until it arrives at the dotted blank again. So if the queue starts as
+\[
+\dot a_n\cdots a_1X
+\]
+then after this procedure it looks like
+\[
+\dot{\textvisiblespace}a_n\cdots a_1X.
+\]
+\end{itemize}
+\item
+Every time the head of the Turing machine is supposed to move left, the queue automaton does the following: keep pulling a symbol and pushing it back on the queue {\it with a lag of 1 step} (remember that we constructed the QA to remember the last two symbols it read), 
+until it gets to the symbol with a dot on it, say $\dot a_k$. Now instead of pushing $a_{k-1}$ it pushes $\dot a_{k-1}$. Then it pushes $a_k$, and keeps pulling and pushing until it arrives at the dotted symbol again.
+So if the queue starts as
+\[
+\dot a_{k} \cdots a_1Xa_n\cdots a_{k+1},
+\]
+then after this procedure it looks like
+\[
+\dot a_{k-1} \cdots a_1Xa_n\cdots a_{k}.
+\]
+\begin{itemize}
+\item
+For the special case where the previous symbol is $X$, it doesn't push $X$; rather it pushes $X$ and then pushes the first symbol again. So if the queue starts as
+\[
+\dot a_{1}Xa_n\cdots a_{2},
+\]
+then after this procedure it still looks the same.
+\end{itemize}
+\end{enumerate}
+\end{problem}
+\begin{problem}{\it (4.17, Projection of decidable iff T-recognizable)}
+Suppose $C=\set{x}{\exists y(\an{x,y}\in D)}$ for some decidable language $D$. We show $C$ is recognizable.
+
+Let $S$ be the Turing machine that decides $D$.
+
+We build a Turing machine $T$ that recognizes $C$, as follows. To start off, at the end of the input string $T$ appends $\#*$. The string between $\#$ and $*$ will be the current ``guess" for $y$ (the starting guess is $\ep$).
+
+Now if the Turing machine has tape looking like $x\#y*$, it writes $\an{x,y}$ to the right of $*$, then runs on it just like $S$ does. If it enters an accept state of $D$, then accept. In any case, this procedure will finish because $S$ is decidable. If $\an{x,y}$ is not accepted, then $T$ clears everything to the right of $*$ (it can keep track of how far the string stretched out), ``increments" $y$ by 1 in a suitable way, and then repeats.
+
+The Turing machine checks $\an{x,y}$ for each $y$ in finite time, so it will accept if $\an{x,y}\in D$ for some $y$, i.e. it recognizes exactly $C$.
+
+Conversely, suppose $C$ is recognizable, say by $T$. We show that $C=\set{x}{\exists y(\an{x,y}\in D)}$ for some decidable language $D$. The idea is that $D$ will be the set of $\an{x,y}$ where $x$ is in $C$ and $D$ is a ``proof" that $x$ is in $C$, which is checkable in a finite number of steps.
+
+For a Turing machine $T$, we can find a way to encode a given state of the Turing machine: what finite state it is in, what symbols are on its input tape, and where its head is. Let
+$D$ be the language consisting of $\an{x,\an{T_0,T_1,\ldots, T_n}}$ where $x\in C$ and $T_0,\ldots, T_n$ are states of $T$ satisfying the following.
+\begin{enumerate}
+\item
+$T_0$ is just $T$ at the start state with $x$ on its input string,
+\item 
+One step of $T$ takes $T_i$ to $T_{i+1}$, and
+\item
+$T_n$ is in an accepting state of $T$.
+\end{enumerate}
+$D$ is decidable because the machine can check for certain whether each of these statements are true, and by the time it finishes reading $T_n$, it will know for certain whether $T_0,\ldots, T_n$ is a valid sequence of states ending at an accept state.
+
+We have
+\[
+C=\set{x}{\exists y(\an{x,y}\in D)},
+\]
+as needed.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it (2.28b, Unambiguous CFG for equal number of a's and b's)}
+For a word $w\in \{a,b\}^*$, let $a(w)$ and $b(w)$ denote the number of $a$'s and $b$'s in $w$, respectively.
+
+I claim that the following is an unambiguous CFG that generates the language $L:=\set{w}{a(w)=b(w)}$:
+\begin{align*}
+S&\to \cal A S|\cal BS|\ep\\
+\cal A&\to a\bb A b\\
+\bb A&\to \cal A \bb A|\ep\\
+\cal B&\to b\bb B a\\
+\bb B&\to \cal B \bb B|\ep
+\end{align*}
+Call it $G$. %(The variables are $S, \cal A, \bb A, \cal B, \bb B$.)
+
+Let
+\begin{align*}
+L_a:&=\set{w}{\text{$|w|>0$ and in every proper prefix $w'$ of $w$, }a(w')>b(w')}\cap L\\
+L_b:&=\set{w}{\text{$|w|>0$ and in every proper prefix $w'$ of $w$, }b(w')>a(w')}\cap L\\
+L_a^0:&=\set{w}{\text{$|w|>0$ and in every prefix $w'$ of $w$, }a(w')\ge b(w')}\cap L\\
+L_b^0:&=\set{w}{\text{$|w|>0$ and in every prefix $w'$ of $w$, }b(w')\ge a(w')}\cap L
+\end{align*}
+Here, ``proper" means of length strictly between 0 and $|w|$.
+
+I will show the following claims.
+\begin{clm}[Unique way of breaking up string into $L_a$ and $L_b$ parts]\llabel{clm:404p-2-8-2} $\,$
+\begin{enumerate}
+\item
+For any string $s\in L_a^0$, there exists a unique way to break up $s$ into $s=s_1\ldots s_n$ where each $s_i\in L_a$. (If $s=\ep$, take $n=0$.)
+
+Conversely, every string of the form $s_1\ldots s_n$ with $s_i\in L_a$ is in $L_a^0$.
+
+The same holds for $L_b$.
+\item
+For any string $s\in L$, there exists a unique way to break up $s$ into $s=s_1\ldots s_n$ where each 
+$s_i\in L_a$ or $s_i\in L_b$. (If $s=\ep$, take $n=0$.)
+
+Conversely, every string of the form $s_1\ldots s_n$ with $s_i\in L_a$ or $s_i\in L_b$ is in $L$.
+\end{enumerate}
+\end{clm}
+\begin{clm}[Unique way of deriving $L_a$ and $L_b$ parts]\llabel{clm:404p-2-8-1}
+The following are unambiguous CFG's for $L_a$ and $L_b$, respectively.
+\begin{align*}
+G_a&:=\begin{cases}
+\cal A\to a\bb A b\\
+\bb A\to \cal A \bb A|\ep,
+\end{cases}&
+G_b&:=\begin{cases}
+\cal B\to b\bb B a\\
+\bb B\to \cal B \bb B|\ep,
+\end{cases}
+\end{align*}
+\end{clm}
+Let's finish the problem given these two claims. First, let's show $G$ generates $L$. 
+If we just concentrate on the steps $S\to \cal A S|\cal BS|\ep$ first (this is okay since none of the other rules involve $S$), then $S$ derives something of the form $C_1\ldots C_n$ where each $C_i$ is either $\cal A$ or $\cal B$. Now by Claim~\ref{clm:404p-2-8-1}, each $\cal A$ will be replaced by a string in $L_a$ and each string in $\cal B$ will be replaced by a string in $L_b$. 
+By Claim~\ref{clm:404p-2-8-2}(2), the strings in $s$ are exactly the strings in the form $s_1\ldots s_n$ where $s_i\in L_a\cup L_b$. Hence our CFG generates $L$.
+%Since $L_a,L_b\in L$ and $L$ is closed under concatenation, the $L$ is in the language generated by the CFG. Conversely by Claim~\ref{clm:404p-2-8-1} there is a way to break up $s$ into strings that are in $L_a$ and $L_b$; thus $L$ is exactly the language generated by the CFG.
+
+Now we show unambiguity. Again, we may assume the steps $S\to \cal AS|\cal BS|\ep$ are carried out first. 
+If $S$ derives $s$ via $C_1\ldots C_n$ where $C_i\in \{\cal A,\cal B\}$, then this corresponds to splitting up $s$ into $s=s_1\ldots s_n$ where $s_i\in L_a\cup L_b$. By Claim~\ref{clm:404p-2-8-2}(2), the splitting is unique, so $C_1\ldots C_n$ is unique. By Claim~\ref{clm:404p-2-8-1} each $C_i$ unambiguously derives $s_i$. This finishes the proof.
+
+\begin{proof}[Proof of Claim~\ref{clm:404p-2-8-2}]
+The converses are clear.
+\begin{enumerate}
+\item
+For a word $w=a_1\ldots a_m$ let $w_{i,j}:=a_{i+1}\ldots a_j$.
+Suppose we break up
+\[
+w=w_{0,i_1}w_{i_1,i_2}\ldots w_{i_{n-1},i_n},\qquad w_{i_j,i_{j+1}}\in L_a.
+\]
+Then we must have $a(w_{i_j,i_{j+1}})=b(w_{i_j,i_{j+1}})$ for all $j$, and summing these, $a(w_{0,i_j})=b(w_{0,i_j})$ for all $j$. Now there can't exist $i\in (i_j,i_{j+1})$ such that $a(w_{i_j,i})=b(w_{i_j,i})$ (equivalently, $a(w_{0,i})=b(w_{0,i})$), because this would mean $w_{i_j,i_{j+1}}\nin L_a$.
+Thus, the $0<i_1<\cdots< i_n=m$ are all the indices such that $a(w_{0,i_j})=b(w_{0,i_j})$. Conversely, if the $i_j$ are taken in this way, we get that each $w_{i_j,i_{j+1}}\in L_a$ (if the number of $a$'s in some prefix is less than or equal to the number of $b$'s, then there must be a time when they're equal, and there would be $i_k\in (i_j,i_{j+1})$, contradiction).
+\item
+By the same argument, the unique decomposition is
+\[
+w=w_{0,i_1}w_{i_1,i_2}\ldots w_{i_{n-1},i_n}
+\]
+where $0<i_1<\cdots< i_n=m$ are all the indices such that $a(w_{0,i_j})=b(w_{0,i_j})$.
+\end{enumerate}
+\end{proof}
+
+\begin{proof}[Proof of Claim~\ref{clm:404p-2-8-1}]
+By symmetry it suffices to show $G_a$ is an unambiguous CFG for $L_a$.
+
+Suppose the $L_a'$ is the language generated by $G_a$.
+
+We prove the claim by induction on the length of $s$. First, one easily verifies that the only string of length at most 2 in $L_a'$ is $ab$, and this can only be derived by $\cal A\to a\bb Ab\to ab$. Let $l>2$. Suppose the strings in $L_a'$ of length less than $l$ are exactly the strings in $L_a$ of length less than $l$, and furthermore they are all derived unambiguously.
+
+Let $s\in L_a'$ have length $l$. In the first step of the derivation of $s$, we must have used $\cal A\to a\bb Ab$. % or $\bb A\to \cal A\bb A$. In either case, the $\bb A$ and $\cal A$ must be replaced by strings of length less than $l$; they must be in $L_a$ by the induction hypothesis. (The strings that can be derived from $\cal A$ are a subset of the strings that can be derived from $\bb A$.) Then $s\in L_a$ from the following easy observations.
+We may assume that the next steps carried out are all those steps involving $\bb A$. This means we apply $\bb A\to \cal A \bb A$ several times, and then $\bb A\to \ep$ to remove $\bb A$. We arrive (unambiguously) at
+\[
+a\underbrace{\cal A\ldots \cal A}_{k}b
+\]
+for some $k$. Now each $\cal A$ must be replaced by a string of length less than $l$; hence by the induction hypothesis it is replaced by a string in $L_a$. Then $s\in L_a$ from the following easy observations.
+\begin{itemize}
+\item
+If $w\in L_a^0$ then $awb\in L_a$.
+\item
+If $w_1,w_2\in L_a$ then $w_1w_2\in L_a^0$. 
+\end{itemize}
+
+Conversely, suppose $s\in L_a$ has length $l$, we show $s\in L_a'$ and it can be derived unambiguously. The first symbol of $s$ must be $a$ and the last symbol must be $b$. Writing $s=as'b$, we must have $s'\in L_a^0$.
+As above, we may assume (reordering the derivations without changing them) that 
+\[
+\cal A\stackrel{*}{\implies} a\underbrace{\cal A\ldots \cal A}_{k}b
+\]
+for some $k$ appears in the derivation of $s$. Moreover this derivation is unique. Now each $\cal A$ must be replaced by some word in $L_a$ of length less than $l$, so this must correspond to a way to break up $s'=s_1\ldots s_n$ such that $s_i\in L_a$. There exists a unique way to do this by Claim~\ref{clm:404p-2-8-2}(1). Now the $i$th $\cal A$ uniquely derives $s_i$ by the induction hypothesis. This finishes the proof.
+%Let's ``color" the original $\cal A$ purple, and whenever we use the rule $\cal A\to \cal A\cal A$, let the $\cal A$'s remain purple, and otherwise revert the symbols to black. In our parse tree, 
+\end{proof}
+
+
+\end{problem}
+\end{document}

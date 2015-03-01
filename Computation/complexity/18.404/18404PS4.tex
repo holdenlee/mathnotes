@@ -1,0 +1,544 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\makeatother
+\input{../templates/packages.tex}
+\input{../templates/theorems.tex}
+\input{../templates/macros.tex}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+\renewcommand{\div}{\operatorname{div}}
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{Holden Lee} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.404 Theory of Computation} 
+\cfoot{} 
+\rfoot{\small PS \# 4} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.404 Theory of Computation PSet\#4}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{11/3/12}% !! Remember to change the date
+\maketitle
+%\thispagestyle{empty}
+\begin{problem}{\it(MODEXP$\in$P)}
+The following ``double and add" algorithm decides MODEXP in polynomial time. On input $\an{a,b,c,p}$ do the following.
+\begin{enumerate}
+\item
+First replace $a$ and $c$ with $a\bmod p$ and $c\bmod p$. (By $n\bmod p$ I mean the unique integer in $[0,p-1]$ congruent to $n$ modulo $p$.)
+\item Set $e=a$. $e$ will represent the product so far.
+\item
+Suppose $b=\sum_{i=0}^n b_i 2^i$ in binary, where $b_n=1$.  
+For $i$ from $n-1$ down to $0$, do the following.
+\begin{enumerate}
+\item
+If $b_i=0$, then set $e\leftarrow e^2\bmod p$.
+\item 
+If $b_i=1$, then set $e\leftarrow e^2\cdot a\bmod p$.
+\end{enumerate}
+\item
+If $e=c$ then accept. Otherwise reject.
+\end{enumerate}
+First we prove this algorithm outputs the correct answer. If when $i=k$, before we carry out step 3 we have $e=a^{\sum_{i=0}^{n-k-1} b_{k+1+i}2^i}$, then after we carry out step 3 we will have 
+\[e=a^{2\sum_{i=0}^{n-k-1} b_{k+1+i}2^i}a^{b_{k}}\bmod p
+=a^{\sum_{i=0}^{n-k} b_{k+i}2^i}.\] 
+Since the base case holds, by induction we get that $e=a^{\sum_{i=0}^{n} b_i2^i}$ at the end. This shows the algorithm works.
+
+Now we show the algorithm runs in polynomial time.
+Step 1 runs in polynomial time; just use the Euclidean algorithm. For step 3, note that multiplying numbers mod $p$ takes time at most on the order of $(\log p)^2$ (using naive grade-school multiplication), and we are doing this for at most $\log b$ steps; therefore it takes polynomial time in terms of the number of bits in the input.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(UNARY-SSUM$\in P$)}
+The proof that SUBSET-SUM$\in$P fails to show UNARY-SSUM$\in $P because in the polynomial reduction from 3SAT to SUBSET-SUM, the size of the integers is exponential in the number of variables and clauses. This did not create a problem in the reduction to SUBSET-SUM because when we write the integers in binary, their size is just linear in the number of variables and clauses. However, in the case of UNARY-SSUM, the it takes space $n$ to write the integer $n$, and we have a problem.
+
+The following algorithm decides SUBSET-SUM in polynomial time. On input $\an{a_1,\ldots, a_n,t}$, do the following.
+\begin{enumerate}
+\item
+Initialize an array of size $t+1$, representing numbers 0 to $t$. Mark 0 in the array.
+\item
+For $i=1$ to $n$, do the following.
+\begin{enumerate}
+\item
+Read $a_i$. For each element $k$ that is marked in the array, mark $k+a_i$ in the array. (If $k+a_i>t$, ignore this.)
+\end{enumerate}
+\item Accept if $t$ is marked.
+\end{enumerate}
+Note that after step $i$, we will have marked all numbers at most $t$ that are equal to the sum of a subset of $\{a_1,\ldots, a_i\}$: if $A\subeq \{a_1,\ldots, a_{i-1}\}$ has sum $k$, then $A\cup \{a_i\}$ has sum $k+a_i$. Hence at the end we will have marked all numbers at most $t$ that are the sum of a subset of $\{a_1,\ldots, a_n\}$.
+
+The algorithm runs in polynomial time with respect to the size of the input (the size of an integer $t$ is $t$, not $\log_2 t$). One step in step 2 runs in time $O(t)$ since we have to examine at most $t+1$ elements in the array, and the step repeats $n$ times.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(If P$=$NP then nearly all in P are NP--complete)}
+Given a language $A\in$P that is not $\Si^*$ or $\phi$, there exists a string $s_1\in A$ and a string $s_2\nin A$. Let $B\in $NP. Define a function $f$ as follows. If $s\in B$, then let $f(s)=s_1$. Else, let $f(s)=s_2$. If P$=$NP, then $B\in $P, so we can know whether $s\in B$ in polynomial time, i.e., we can compute $f$ in polynomial time. Thus
+\[
+B\le_P A.
+\]
+Since any language in NP reduces to $A$, $A$ is NP--complete.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(3COLOR is NP--complete)}
+We exhibit a polynomial time reduction of 3SAT to 3COLOR. Since 3SAT is NP--complete, this will show that 3COLOR is NP--complete. (3COLOR$\in $NP because a certificate that shows a graph is in 3COLOR is just a coloring of all the vertices, and we can verify that no 2 adjacent vertices are the same color in polynomial time.)
+
+Given a 3-cnf $\phi$ with variables $x_1,\ldots, x_n$, we construct a graph as follows. First construct a triangle; call it the palette.
+
+\tikzstyle{s}=[circle,draw,inner sep=1pt,minimum size=6mm]
+%\tikzstyle{accept}=[circle,draw,inner sep=4pt,minimum size=7.5mm]
+\begin{center}
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=1cm,semithick]
+\node (F) [s] {F};
+\node (T) at (-1,-1.73) [s] {T};
+\node (W) at (1,-1.73) [s] {W};
+\path (F) edge node {} (T);
+\path (F) edge node {} (W);
+\path (T) edge node {} (W);
+\end{tikzpicture}
+\end{center}
+For convenience, we label the vertices $T$, $F$, and $W$.
+
+Now for each variable, we create a variable gadget: a triangle with $W$ as a vertex. We label the other two vertices of the triangle $x_i$ and $\ol{x_i}$.
+
+\begin{center}
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=1cm,semithick]
+\node (F) [s] {F};
+\node (T) at (-1,-1.73) [s] {T};
+\node (W) at (1,-1.73) [s] {W};
+\node (a) at (2,-2) [s] {$x_i$};
+\node (b) at (4,-2) [s] {$\ol x_i$};
+\path (W) edge [bend left] node {} (a);
+\path (W) edge [bend left] node {} (b);
+\path (a) edge node {} (b);
+\path (F) edge node {} (T);
+\path (F) edge node {} (W);
+\path (T) edge node {} (W);
+\end{tikzpicture}
+\end{center}
+
+For each clause, we make make the following gadget attached to the palette.
+
+\begin{center}
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=1cm,semithick]
+\node (F) [s] {F};
+\node (T) at (-1,-1.73) [s] {T};
+\node (W) at (1,-1.73) [s] {W};
+\path (F) edge node {} (T);
+\path (F) edge node {} (W);
+\path (T) edge node {} (W);
+\node (a1) at (-2,-3.46) [s] {};
+\node (a2) at (0,-3.46) [s] {};
+\node (b1) at (0,-5.46) {1};
+\node (a3) at (-2,-5.46) [s] {0};
+\node (a4) at (-3,-7.2) [s] {};
+\node (a5) at (-1,-7.2) [s] {};
+\node (b2) at (-3,-9.2) {2};
+\node (b3) at (-1,-9.2) {3};
+\path (T) edge node {} (a1);
+\path (T) edge node {} (a2);
+\path (a1) edge node {} (a2);
+\path (a2) edge node {} (b1);
+\path (a1) edge node {} (a3);
+\path (a3) edge node {} (a4);
+\path (a3) edge node {} (a5);
+\path (a4) edge node {} (a5);
+\path (a4) edge node {} (b2);
+\path (a5) edge node {} (b3);
+\path (W) edge [bend left] node {} (a3);
+\end{tikzpicture}
+\end{center}
+where 1, 2, and 3 are the vertices corresponding to the literals in the clause.
+
+Now we prove this construction works. First we show that given a satisfying assignment for $\phi$, we have a valid 3-coloring of the graph. Color the palette with Fuschia (F), Turquoise (T), and White (W) as suggested by the labels. We color the vertices corresponding to the literals F or T depending on whether they are true or false. So far our coloring doesn't have adjacent vertices of the same color. Since each clause in $\phi$ evaluates to true, in each clause gadget, one of ``1," ``2," and ``3" must be true. 
+
+\begin{clm}
+Consider the following graph (called an OR-gadget):
+\begin{center}
+\begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=1cm,semithick]
+\node (T) at (-1,-1.73) [s] {$a$};
+\node (a1) at (-2,-3.46) [s] {$a_1$};
+\node (a2) at (0,-3.46) [s] {$a_2$};
+\node (b1) at (0,-5.46) [s] {2};
+\node (a3) at (-2,-5.46) [s] {1};
+\path (T) edge node {} (a1);
+\path (T) edge node {} (a2);
+\path (a1) edge node {} (a2);
+\path (a2) edge node {} (b1);
+\path (a1) edge node {} (a3);
+\end{tikzpicture}
+\end{center}
+Given that 1 and 2 are colored either T or F, there is a valid coloring with $a$ colored T iff either 1 or 2 is colored T (hence the name, OR-gadget). Given that 1 and 2 are colored F, there is a valid coloring with $a$ colored F.
+\end{clm}
+\begin{proof}
+If 1 and 2 are both colored T, we can color $a_1$ and $a_2$ with F and W, and color $a$ with T. If 1 is T and 2 is F, color $a_1$ with F and $a_2$ with W. If 1 is F and 2 is T, just switch $a_1,a_2$.
+
+If 1 and 2 are both F, then at least one of $a_1,a_2$ is T, so $a$ cannot be T. However we can color $a_1$ and $a_2$ with T and W, so $a$ can be colored F.
+\end{proof}
+By the lemma, we can color $0$ in the clause gadget with T or F, and because at least one of 1, 2, and 3 is T, at least one of 0 and 1 can be colored T, and there is a valid coloring with the lower-left vertex in the palette equal to T. This shows that a satisfying assignment gives a valid coloring.
+
+%3-coloring must have a triangle
+Conversely, suppose that there is a valid coloring. The 3 vertices of the palette have to be different colors, without loss of generality they are F, T, and W as shown. Now for each $i$, $x_i,\ol x_i$ cannot be colored W (because they are connected to W in the palette), and must be colored differently with T and F. Use the color of $x_i$ as the assignment to $x_i$. We claim this is a satisfying assignment. Now in each clause gadget, because the vertex labeled 0 is connected to W, it must be T or F. By the claim, at least one of 0 or 1 must be T; by the claim again, at least one of 1, 2, and 3 must be T, i.e. each clause must have one true literal. This shows a valid coloring gives a satisfying assignment.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(P$=$NP $\implies$ can find assignment)}
+Suppose P$=$NP. Then SAT$\in$P. Suppose $T$ decides SAT in polynomial time. Given a satisfiable Boolean formula $\phi$ with variables $x_1,\ldots, x_n$, we find a satisfying assignment in polynomial time as follows.
+\begin{enumerate}
+\item Set $\phi'=$true (the empty formula). Repeat from $i=1$ to $n$:
+\begin{enumerate}
+\item
+Test whether $\phi\vee \phi' \vee x_i$ is satisfiable using $T$.
+\begin{itemize}
+\item
+If so, set $x_i$ to be true and $\phi'\mapsfrom \phi'\vee x_i$.
+\item
+If not, set $x_i$ to be false and $\phi'\mapsfrom \phi'\vee \ol x_i$.
+\end{itemize}
+\end{enumerate}
+\end{enumerate}
+If at some stage $\phi\vee \phi'$ is satisfiable, then either $\phi\vee\phi'\vee x_i$ is satisfiable, or $\phi\vee \phi'\vee \ol x_i$ is satisfiable, since either $x_i$ or $\ol x_i$ must be true in a satisfying assignment. We make $n$ tests and each runs in polynomial time, so the algorithm runs in polynomial time. At the end we get a satisfiable formula
+\[
+\phi\vee \phi',\text{ where }\phi'=y_1\vee \cdots \vee y_n,\text{ each }y_i=x_i\text{ or }\ol x_i.
+\]
+It is clear the satisfying assignment must be the one where each $y_i$ is true, so we made the right choices for each $x_i$.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(Minimizing NFAs is hard)}
+We may assume that no clause has a repeated variable (if we have $x_i\vee \ol x_i$ in a clause, that clause is true and we can remove the clause; if we have $x_i\vee x_i$ then we can remove a $x_i$).
+
+Construct a NFA as follows. The NFA will read a string of $n$ T's and F's, where the $i$th symbol represents $x_i$. The NFA has a starting state, and the rest of the NFA is divided into $c$ parts, each corresponding to a clause. At the beginning the NFA nondeterministically transitions to the one of the $c$ parts (via a $\ep$-transition).
+Each part of the NFA corresponding to a clause $C$ has $m+1$ accepting states. Label them by $x_{C,1},\ldots, x_{C,m},x_{C,m+1}$, and have a special global reject state $r$. If $x_i$ appears in $c$, then put in the transitions
+\[
+x_{C,i}\xra{F} x_{C,i+1},\qquad x_{C,i}\xra{T} r;
+\]
+if $\ol x_i$ appears in $c$, put in
+\[
+x_{C,i}\xra{T} x_{C,i+1},\qquad x_{C,i}\xra{F} r;
+\]
+if $x_i,\ol x_i$ do not appear in $x$ then put in
+\[
+x_{C,i}\xra{T,F} x_{C,i+1}.
+\]
+Also include all transitions from $x_{C,m+1}$ to $x_{C,m+1}$ and $r$ to $r$.
+
+Note the NFA transitions to $r$ from $x_{C,i}$ when the assignment to $x_{C,i}$ makes $C$ true. 
+Given a valid input string that represents an assignment, we have the following chain of equivalences:
+\begin{enumerate}
+\item
+The NFA accepts.
+\item
+Some branch ends at an accepting state.
+\item
+For some clause $C$, the branch corresponding that that clause went along $x_{C,1}\to \cdots \to x_{C,m+1}$.
+\item 
+In some clause, none of the literals are true. 
+\item
+The input is not a satisfying assignment.
+\end{enumerate}
+%On valid input, the NFA accepts iff , iff in some clause, none of the literals are true, iff 
+%If this branch of the NFA doesn't go to $r$, i.e., the NFA accepts,
+%then the assignment makes $C$ false, and the assignment is
+
+%The NFA accepts iff some branch of the computation goes to an accept state, i.e. some clause is false, i.e. the input is not a satisfying assignment.
+
+This construction can be done in polynomial time, and it has $c(m+1)+2$ states.
+
+For instance, if the cnf has 4 variables and the first clause is $C_1=x_1\vee \ol{x_2}\vee x_4$, the part of the NFA corresponding to $C_1$ looks like the top part of the following.
+
+\tikzstyle{state}=[circle,draw,inner sep=1pt,minimum size=6mm]
+\tikzstyle{accept}=[circle,draw,inner sep=4pt,minimum size=7.5mm]
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1cm,semithick]
+\node (x1) at (0,0) [state] {$x_{C_1,1}$};
+\node (x2) at (2,0) [state] {$x_{C_1,2}$};
+\node (x3) at (4,0) [state] {$x_{C_1,3}$};
+\node (x4) at (6,0) [state] {$x_{C_1,4}$};
+\node (x5) at (8,0) [state] {$x_{C_1,5}$};
+\node (x1) at (0,0) [accept] {$x_{C_1,1}$};
+\node (x2) at (2,0) [accept] {$x_{C_1,2}$};
+\node (x3) at (4,0) [accept] {$x_{C_1,3}$};
+\node (x4) at (6,0) [accept] {$x_{C_1,4}$};
+\node (x5) at (8,0) [accept] {$x_{C_1,5}$};
+\node (a) at (3,-2) [state] {$r$};
+\node (start) at (-2,-4) [accept] {start};
+\node (y1) at (0,-4) {$\cdots$};
+\node (z1) at (0,-8) {$\cdots$};
+\path (start) edge node {$\ep$} (x1);
+\path (start) edge node {$\ep$} (y1);
+\path (start) edge node {$\ep$} (z1);
+\path (x1) edge node {F} (x2);
+\path (x2) edge node {T} (x3);
+\path (x3) edge node {T,F} (x4);
+\path (x4) edge node {F} (x5);
+\path (a) edge [loop right] node {$T,F$} (a);
+\path (x5) edge [loop right] node {$T,F$} (x5);
+\path (x1) edge [swap] node {T} (a);
+\path (x2) edge node {F} (a);
+\path (x4) edge node {T} (a);
+\end{tikzpicture}
+\end{center}
+Note: Our machine deals with invalid inputs as follows. %we actually have to make two slight modifications.
+\begin{enumerate}
+\item
+%The NFA given above %rejects if there are more than $n$ symbols on the tape (because there is nowhere to go after it ends up at either $x_{c,m+1}$ or $a$). We can modify it to just look at the first $n$ symbols of the input by adding 
+If there are more than $n$ symbols on the tape, the NFA just looks at the first $n$ symbols. (By construction, the states don't change after it reads the first $n$ symbols.)
+%, the NFA ignores the rest.
+\item
+If there are less than $n$ symbols on the tape, the NFA accepts if the assignments so far don't already make all the clauses true. %already make some $c$ false, and rejects if the assignments so far don't make some $c$ false. 
+%For convenience in our argument below, we modify the NFA so that it always accepts if there are less than $n$ symbols on the tape.  We do this by adding an $\ep$-transition $x_{c,i}\xra{\ep} b$ for $i<m$, where $b$ is an additional accepting state.
+\end{enumerate}
+
+Suppose that NFA's can be minimized in polynomial time. We show that this gives an polynomial time algorithm to decide 3SAT. Since 3SAT is NP--complete, this would show that P$=$NP.
+\begin{enumerate}
+\item Given a 3-cnf, construct a NFA that accepts nonsatisfying assignments as above. 
+\item Minimize the NFA; call the output $M$.
+\item If $M$ has a single accepting state, then reject. Else accept.
+\end{enumerate}
+Note that the cnf has no satisfying assignment iff the NFA accepts all inputs of length $m$, and in fact iff the NFA accepts all inputs.
+
+(On inputs with more than $m$ symbols the NFA accepts iff it accepts the input truncated after the $m$th symbol, so these aren't an issue. The NFA could reject an input with $i<m$ symbols iff we could choose $x_1,\ldots, x_i$ to make all the clauses true. Then we can arbitrarily choose $x_{i+1},\ldots, x_m$. This shows that if the NFA rejects an input with $i<m$ symbols then there is a satisfying assignment, i.e., if there is no satisfying assignment the NFA accepts all input with $i<m$ symbols.)
+
+%less than $n$ symbols are accepted so we don't have to worry about them.) 
+The NFA accepts all inputs iff the minimal version $M$ of the NFA has just a single accepting state. Thus our algorithm decides 3SAT.
+\end{problem}
+
+\pagebreak
+
+\begin{problem}{\it(Difference hierarchy)}
+For a graph $G$ let $|G|$ denote the number of vertices of $G$.\\
+
+%7.45-46
+\subsection{} 
+First note that $Z\in$DP. Indeed, we have
+\bal
+Z&=\set{\an{G_1,k_1,G_2,k_2}}{G_1\text{ has a $k_1$-clique}}\bs  \set{\an{G_1,k_1,G_2,k_2}}{G_2\text{ has a $k_2$-clique}}.
+\end{align*}
+%Let the sets above be $X$ and $Y$.
+Each set above is in NP because CLIQUE$\in$NP, and we can reduce both sets to CLIQUE by just ignoring the input $G_2,k_2$, or ignoring the input $G_1,k_1$.
+
+Now let $A\in $DP. We show that $A\le_P$DP. This will show $Z$ is DP--complete.
+
+Because $A\in$DP, we can write $A=B\bs C$ for $B,C\in$NP. 
+Because CLIQUE is NP--complete, there exists a polynomial time reduction $f$ from $B$ to CLIQUE and a polynomial time reduction $g$ from $C$ to CLIQUE. Define $h$ by
+\[
+h(w)=\an{f(w),g(w)}.
+\]
+We claim that $h$ is a polynomial time reduction from $A$ to CLIQUE. (If $f(w)=\an{G_1,k_1}$ and $g(w)=\an{G_2,k_2}$, by $\an{f(w),g(w)}$ I mean $\an{G_1,k_1,G_2,k_2}$.)
+
+To see this, note that we have the following chain of equivalences.
+\begin{enumerate}
+\item
+$w\in A$.
+\item
+$w\in B$ and $w\nin C$.
+\item
+$f(w)\in$CLIQUE and $g(w)\nin$CLIQUE.
+\item
+$\an{f(w),g(w)}\in Z$.
+\end{enumerate}
+Note (3)$\iff$(4) holds by definition of a reduction. Note that $h$ runs in polynomial time because both $f$ and $g$ do.\\
+
+\subsection{} 
+\step{1}
+We first give 2 useful constructions.
+
+Let $G$ be a graph. Let $m$ be an integer and define $G^m$ as follows. For each vertex $v_i$ in $G$, let $v_{i,1},\ldots, v_{i,m}$ be vertices in $G^m$, and connect up $v_{i,1},\ldots, v_{i,m}$ (i.e.,we are replacing each vertex with a $K_m$). Now connect up $v_{i,m}$ and $v_{j,n}$ iff $v_i$ and $v_j$ were connected in $G$. 
+\begin{lem}\llabel{lem:404p-4-7-1}
+If $C$ is a $k$-clique in $G$ then $C^m$ is a $km$-clique in $G^m$. Moreover, if the maximal clique in $G$ is $C$, then the maximal clique in $G^m$ is $C^m$.
+%if maximal clique of $G$ has size $k$ iff the maximal clique of $G^m$ has size $km$.
+\end{lem}
+%(Note as a corollary that the maximal clique of $G^m$ has size divisible by $m$.)
+
+For convenience we will introduce the following terminology. Say that a set of vertices in $G^m$ is \textbf{full} if whenever it contains $v_{i,j_0}$, it contains $v_{i,j}$ for all $1\le j\le m$, i.e., it is of the form $C^m$. If $S$ is a set of vertices, let 
+\[
+S_{\text{full}}:=\set{v_{i,j}}{v_{i,j_0}\in S\text{ for some $j_0$}}.
+\]
+We will abuse terminology by associating a clique with the set of vertices in the clique.
+\begin{proof}
+The first statement is clear from the structure of $G^m$.
+%If $C$ is a clique in $G$, it is clear that $C^m$ is a 
+%If $v_i,i\in I$ form a $k$-clique in $G$, then $v_{i,j}$ for $i\in I$ and $1\le j\le m$ form a $km$-clique in $G^m$.
+
+%Conversely, if we have a $km$-clique in $G^m$, then it must include vertices of the form $v_{i,j}$ for at least $k$ different indices $i$, and the $v_i$ form a $k$-clique in $G$.
+
+Note if $C'$ is a clique in $G^m$, then $C'_{\text{full}}$ is also a clique. Hence the maximal clique in $G^m$ is of the form $C^m$, and the second statement follows.
+%The second statement is clear from the first. (Note if $G^m$ had a $(km+1)$-clique then the argument above would give a $\ce{\fc{km+1}{m}}=(k+1)$-clique.)
+\end{proof}
+Given 2 graphs $G$ and $H$, let $G*H$ denote the graph obtained by adding all edges going between $G$ and $H$.
+\begin{lem}\llabel{lem:404p-4-7-2}
+The maximal clique in $G*H$ is $C_G*C_H$ where $C_G$ and $C_H$ are the maximal cliques in $G$ and $H$.
+\end{lem}
+\begin{proof}
+Clear.
+\end{proof}
+
+
+Define
+\[
+2\text{MAX-CLIQUE}=\set{\an{G_1,k_1,G_2,k_2}}{\an{G_i,k_i}\in \text{MAX-CLIQUE}\text{ for }i=1,2}.
+\]
+I show that 
+\[
+Z\le_P 2\text{MAX-CLIQUE}\le_P \text{MAX-CLIQUE}.
+\]
+Because $Z$ is DP--complete and polynomial reducibility is transitive, this will show MAX-CLIQUE is DP--complete.\\
+
+\step{2}
+For the reduction from $Z$ to 2MAX-CLIQUE, given $\an{G_1,k_1,G_2,k_2}$ define\footnote{On garbage input just spit out garbage.}
+\[f(\an{G_1,k_1,G_2,k_2}):=
+\an{f_1(\an{G_1,k_1}),f_2(\an{G_2,k_2})}\]
+where $f_1$, $f_2$ are defined as follows.
+\begin{enumerate}
+\item
+$f_1$: 
+%First let $G_1'=G_{2|G|+1}$ and label its vertices $v_{i,j}$
+Given $\an{G_1,k_1}$, we will create a graph %$G_1'$ 
+$G_1'=G_1^m\cup H$ where $H$ is a graph to be defined and $m=2k_1-1$, and there are additional edges between $G_1^m$ and $H$ (to be specified). The graph $G_1'$ will have the following key property: 
+%containing $G_1$ as an induced subgraph, and having the following property:
+\begin{enumerate}
+\item[(*)]
+If %$v_i,i\in I$ are $x=|I|$ vertices in $G_1$ forming a 
+$C$ is a $x$-clique in $G_1$, then the maximal clique in $G_1'$ containing $C^m$ but no other vertices in $G_1^m$ has size $p(x)$, where $p$ is a quadratic function in $x$ having maximum at $k_1$.
+\end{enumerate}
+%Let $G$ have $n$ vertices. First, we can reduce to the case where $n>2k_1$ by adding $n+1$ vertices to $G$ as necessary.
+
+%We are going to let . %Think of $H$ as supplying the ``linear" part of $p(x)$ and $I$ as supplying the ``quadratic" part of $p(x)$.
+Think of $G_1^m$ as supplying the ``linear" part of $p(x)$ and $H$ as supplying the ``quadratic" part of $p(x)$.
+%\begin{itemize}
+%\item
+%Defining $H$: For each vertex $v_i\in G_1$, create $m:=2k_1+2$ vertices $v_{i,1},\ldots, v_{i,m}$. Let $H$ be the complete graph on the $v_{i,k}$.
+%\item
+%Defining $I$: 
+
+Define $H$ as follows: 
+For each ordered pair of 2 distinct vertices $(v_i,v_j)\in G_1$, create 2 vertices $v_{(i,j),i}$ and $v_{(i,j),j}$, and let $H$ be the graph on the $v_{(i,j),k}$ such that there is an edge $v_{(i,j),k}v_{(i',j'),k'}$ iff $(i,j)\ne (i',j')$.
+%\end{itemize}
+Now define $G_1'=G_1^m\cup H$ with %the following extra edges.
+%\begin{itemize}
+%\item
+%An edge between every vertex in $H$ and every vertex in $I$.
+%\item
+%An edge between $v_{i,k}\in H$ and $v_j\in G_1$ iff $i\ne j$.
+%\item
+%An edge
+an edge between $v_{(i,j),i}\in I$ and $v_k\in G_1$ iff $k\ne i$.
+%\end{itemize}
+
+Suppose $C=\set{v_i}{i\in I}$ is a $x$-clique in $G_1$. We find the maximal clique in $G_1'$ containing $C^m$ but no other vertices in $G_1^m$. (For short, we say such a clique \emph{exactly contains} $C^m$.)
+%Now 
+
+Because $H$ is complete except for the absence of edges $v_{(i,j),i}v_{(i,j),j}$, we get the maximal clique exactly containing $C^m$ as follows: %by adding in, 
+%\begin{enumerate}
+%\item
+%all vertices $v_{i,k}\in H$ that are connected to all of $S$, and
+%\item
+Start with $C^m$, and for each ordered pair $(i,j)$ where either $v_{(i,j),i}$ or $v_{(i,j),j}$ is connected to all of $C^m$, add either the vertex $v_{(i,j),i}$ or $v_{(j,i),j}$.
+%\end{enumerate}
+%We calculate how many vertices we add from $H$ and from $I$.
+%\begin{enumerate}
+%\item
+%We can put in every vertex $v_{i,k}$ with $v_i\nin S$, so we add $\boxed{m(n-x)}$ vertices.
+%\item
+
+For every $(i,j)$ such that either $v_i\nin S$ or $v_j\nin S$, we add either $v_{(i,j),i}$ or $v_{(i,j),j}$. There are $n(n-1)$ ordered pairs and $x(x-1)$ pairs such that $v_i,v_j\in S$, so we add ${n(n-1)-x(x-1)}$ vertices.
+%\end{enumerate}
+
+Thus our claim (*) holds with (recall $m=2k_1-1$)
+\begin{align*}
+p(x)&=mx+n(n-1)-x(x-1)\\
+&=-x^2+(m+1)x+n(n-1)\\
+&=-x^2+2k_1x+n(n-1)
+\end{align*}
+which does indeed have maximum at $x=k_1$. 
+We now let 
+\[
+f_1(\an{G_1,k_1})=\an{G_1',p(k_1)=k_1^2+n(n-1)}.
+\]
+Every step took polynomial time; we show $f_1$ is a valid reduction from CLIQUE to MAX-CLIQUE:
+\begin{enumerate}
+\item
+If $G_1$ has a clique with $k_1$ vertices, then the maximum clique in $G_1'$ has $p(k_1)$ vertices: We've showed (*), so we know $G_1'$ has a clique with $p(k_1)$ vertices. It suffices to show this is the maximal size of a clique in $G_1'$. If $C'$ is a clique of maximal size in $G_1'$, then $C'\cap G_1^m$ is full, because otherwise we could add more vertices to $C'$ (fixing $i$, each $v_{i,j}$ is connected to vertices in $H$ in the same way). %Indeed, if $v_{i,j_0}\in C$, then we might as well put $v_{i,j}$ in $C$ for all $1\le j\le m$. Then by (*), 
+Hence by Lemma~\ref{lem:404p-4-6-7}, $C'=C^m$ for a maximal clique $C$ in $G_1$. If $C$ has size $x$, then
+by (*), $C$ has size $p(x)\le p(k_1)$.
+ %by Lemma~\ref{lem:404p-4-6-1}, $G_1'$ has a 
+
+% because if $C$ has $x$ vertices in $G_1$, then it can have at most $p(x)\le p(k_1)$ vertices. 
+\item
+Converse: If a clique $C'$ of maximal size in $G_1'$ has $p(k_1)$ vertices,
+then %$G_1'\cap C$ is full, as argued above. In other words,
+%\[G_1'\cap C=\set{v_{i,j}}{i\in I,1\le j\le m}\]
+%for some index set $I$. 
+as above we find that $C'\cap G_1^m=C^m$ for a maximal size clique $C$ in $G_1$. If $|C|=x$ then $C'$ has $p(x)$ vertices.  
+%Then $C$ has at most $p(|I|)$ vertices by Lemma~\ref{lem:404p-4-7-1}, and we must have $|I|=k_1$, i.e., $\set{v_{i}}{i\in I}$ is a clique in $G_1$ with $k_1$ vertices.
+We must have $p(x)=p(k_1)$; eqality is only attained with $x=k_1$.
+\end{enumerate}
+
+%2 vertices $v_{i,1},v_{i,2}$. Let $G$ be the graph on vertices $\bigcup_i \{v_i,v_{i,1},v_{i,2}\}$. The edges between the vertices $v_i$ are the same as in $G$, but we have additional edges of the following two types.
+%\begin{itemize}
+%\item An edge $v_{i,k}v_j$ for all $j\ne i$ and $k=1,2$.
+%\item An edge $v_{i,k}v_{j,l}$ for all 
+%\end{itemize}
+\item
+$f_2$: This is easier! Given $\an{G_2,k_2}$, let $G_2'=G_2\cup K_{k_2-1}$, where $K_m$ denotes the complete graph on $m$ vertices. Now $G_2'$ has a clique of size $k_2-1$. 
+This is the maximal clique in $G_2'$ iff $G_2'$ has no clique of size $k_2$, iff $G_2$ has no clique of size $k_2$ (the $K_{k_2-1}$ cannot contribute). Hence letting
+\[
+f_2(\an{G_2,k_2})=\an{G_2',k_2-1},
+\]
+we see that $f_2$ is a reduction from $\ol{\text{CLIQUE}}$ to MAX-CLIQUE.
+\end{enumerate}
+Because $f_1$ reduces CLIQUE to MAX-CLIQUE and $f_2$ reduces $\ol{\text{CLIQUE}}$ to MAX-CLIQUE, we get $f$ reduces $Z$ to 2MAX-CLIQUE.\\
+
+\step{3}
+For the reduction from 2MAX-CLIQUE to MAX-CLIQUE, given $\an{G_1,k_1,G_2,k_2}$, we construct the graph $G=G_2^{|G_1|+1}* G_1$. By Lemmas~\ref{lem:404p-4-7-1} and~\ref{lem:404p-4-7-2}, if $\an{G_1,k_1,G_2,k_2}\in$2MAX-CLIQUE then the maximal clique in $G$ has size $k_2(|G_1|+1)+k_1$.
+
+Conversely, suppose the maximal clique $C$ in $G$ has size $k_2(|G_1|+1)+k_1$. %We have $C=C_1*C_2$ for $C_1$ maximal in $G_2^{|G_1|+1}
+Again using Lemmas~\ref{lem:404p-4-7-1} and~\ref{lem:404p-4-7-2}, we get that $C=C_2^{|G_1|+1}*C_1$ for maximal cliques $C_i$ in $G_i$. Suppose $C_i$ has size $k_i'$. Then
+\bal
+k_2(|G_1|+1)+k_1&=k_2'(|G_1|+1)+k_1'\\
+\implies (k_2-k_2')(|G_1|+1)&=k_1'-k_1.
+\end{align*}
+But $0\le k_1',k_1\le |G_1|$, so $k_i'-k_i=0$. This shows that 
+\[
+g(\an{G_1,k_1,G_2,k_2})=\an{G_2^{|G_1|+1}* G_1, k_2(|G_1|+1)+k_2}
+\]
+is a (polynomial time) reduction from 2MAX-CLIQUE to MAX-CLIQUE.
+\end{problem}
+\end{document}
