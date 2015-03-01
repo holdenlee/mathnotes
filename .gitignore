@@ -70,6 +70,7 @@ Analysis/measure_theory/notes/chapters/*
 
 !Combinatorics/graph_theory
 Combinatorics/graph_theory/*
+!Combinatorics/graph_theory/graph_theory.tex
 !Combinatorics/graph_theory/geometric_graph_theory
 Combinatorics/graph_theory/geometric_graph_theory/*
 !Combinatorics/graph_theory/geometric_graph_theory/*.png
