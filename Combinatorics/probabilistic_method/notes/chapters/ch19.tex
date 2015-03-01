@@ -1,0 +1,118 @@
+\lecture{Thu. 4/14/11}
+%C_4, 2nd largest eigenvalue small
+
+\subsection{Eigenvalues and expanders}
+\begin{df}
+$G=(V,E)$ is called a $(n,d,c)$-expander if
+\begin{enumerate}
+\item $|V|=n$,
+\item it is $d$-regular, and
+\item for every $W\subeq V$ with $N(W)\le \frac n2$, $|N(W)|\ge c|W|$. (Here $N(W)$ is the set of all $v\in V\bs W$ adjacent to some vertex in $W$.
+\end{enumerate}
+\end{df}
+%Random d\ge 3-regular graph almost always expander.
+%(c<1)
+\begin{df}
+A family of linear expanders of density (or degree) $d$ and expansion $c$ is a sequence $\{G_i\}_{i=1}^{\iy}$ of $(n_i,d,c)$-expanders with $n_i\to \iy$ as $i\to \iy$.
+\end{df}
+Note similar definitions can be made for graphs with maximum degree at most $d$ (but the regular case is nicer). 
+This has many applications in theoretical computer science. 
+%Existence is due to Pinsker, 1973
+%n even, random perfect matchings, expander using Chernoff bounds.
+%Many subsets, need exponentially small tail
+%Hard to construct; construction dues to Margulis 1973
+%Cayley graph of nonabelian groups of matrices, through eigenvalues and more.
+
+\begin{df}
+Let $G=(V,E)$ be a graph with $n$ vertices. Its \textbf{adjacency matrix} $A=A_G$ has
+\[
+a_{ij}=\begin{cases}
+1&\text{if }ij\in E\\
+0&\text{if }ij\nin E.
+\end{cases}
+\]
+\end{df}
+Note $A$ is symmetric, so has real eigenvalues and a complete set of real orthogonal eigenvectors.
+
+Suppose $G$ is $d$-regular. Then the largest eigenvalue of $A$ is $d$: indeed, the all ones vector is associated to the eigenvalue $d$; $d$ is the largest since the sum of all entries of $A^p$ is the total number of walks of length $p$ (which is $nd^p$), which is at least the number of closed walks of length $p$ (which is $\tr(A^p)$). Hence $nd^p\ge \sum_{i=1}^n\la_i^p$ where $\la_i$ are the eigenvalues. 
+Or use Perron-Frobenius.  
+
+Let $\la=\la(G)$ be the second largest eigenvalue. For subsets $B,C\subeq V$ let $c(B,C)$ be the number of ordered pairs $(b,c)\in B\times C$ which are edges.
+%averaging argument. Powers of A, diagonal counts number of closed walks. Trace. =sum of eigenvalues to pth power. 
+
+\begin{thm}
+For every partition $V=B\cup C$, $e(B,C)\ge \frac{(d-\la)|B||C|}{n}$.
+\end{thm}
+\begin{proof}
+Let $|V|=n$, $b=|B|$, and $c=|K|=n-b$. Let $D=dI$. Consider
+\begin{align*}
+\an{(D-A)x,x}&=\sum_{u\in V} \pa{d(x(u))^2-\sum_{v\in N(u)} x(u)x(v)}\\
+&=d\sum_{u\in V} x(v)^2-\sum_{uv\in E} x(u)x(v)\\
+&=\sum_{uv\in E} (x(u)-x(v))^2.
+\end{align*}
+%\int u\Delta u=\int |\grad u|^2
+Define $x$ by $x(v)=-c$ for all $v\in B$, $x(v)=b$ for all $v\in C$, and $x(v)=0$ for all other values. Note $\sum_{v\in V}x(v)=0$.
+
+We claim that $A$ and $D-A$ have the same eigenvalues. Note if $\mu$ is an eigenvalue of $A$ then $d-\mu$ is an eigenvalue of $D-A$. Note $x$ is orthogonal to the (constant) eigenvector corresponding to the smallest eigenvalue 0 of $D-A$. The eigenvectors of $D-A$ are orthogonal and form a basis for $\R^n$. Now $x$ is a linear combination of the other eigenvectors. Since $d-\la$ is the second smallest smallest eigenvalue of $D-A$, %write out x in terms of eigenvectors
+\[
+\an{(D-A)x,x}\ge (d-\la)\an{x,x}=(d-\la)(bc^2+cb^2)=(d-\la)bcn.
+\]
+But choosing $x$ as mentioned, the LHS is $e(B,C)(b+c)^2$; divide by $(b+c)^2$. 
+\end{proof}
+\begin{cor}
+Keeping the same assumptions, $G$ is a $(n,d,c)$-expander with
+\[
+c=\frac{d-\la}{2d}.
+\]
+\end{cor}
+\begin{proof}
+Let $|B|\le \frac n2$. Let $C=\ol{B}$. The above shows that $e(B,C)\ge\frac{(d-\la)|B||C|}{n}\ge \frac{(d-\la)|B|}{2}$.  Since $G$ is $d$-regular, 
+\[
+|N(B)|\ge \frac{(d-\la) |B|}{2d}.
+\]
+\end{proof}
+%Consider d-regular b/c amount of space need to hold them is small; dense graph will require quadratic amount of space, not good for algorithmic purposes.
+Alon improved this to $c=\frac{2(d-\la)}{3d-2\la}$.
+%rate becoming ergodic.
+\begin{thm}
+If $G$ is a $(n,d,c)$-expander then $\la\le d-\frac{d^2}{4+2c^2}$.
+\end{thm}
+How small can $\la$ be?
+\begin{thm}[Alon Nilli]
+\[\la\ge 2\sqrt{d-1}\pa{1-O\pf{1}{\diam k}}.\]
+\end{thm}
+(Alon Nilli is a pseudonym of Noga Alon.) A Ramanujan graph is a graph with $\la\le 2\sqrt{d-1}$.
+% Lovasky? Phillips Sarnak M $d=p+1$, $p\equiv 1\pmod 4$ prime, number theoretic. Cayley graphs of matrix groups. 
+%girth (smallest cycle) \le 2log n/log d random 1, algebraic 12/7
+%factor of 2 between random and natural upper bound
+%algebraic constructions do better sometimes.
+%Sarnak, Ramanujan graphs
+%bipartite -
+\begin{thm}[Expander mixing lemma]
+Let $G$ be a $d$-regular graph. 
+For every $B,C\subeq V(G)$, let $\la$ be the eigenvalue with second largest absolute value. Suppose $|B|=bn$, $|C|=cn$. Then 
+\[|e(B,C)-bcdn|\le \la\sqrt{bc}n.\]
+\end{thm}
+%Take Ramanujan, dense d=n/2, nice edge distribution, n^{3/2}, \la~\sqrt d
+\begin{cor}
+\[\ab{e(B)-\rc 2 b^2dn}\le \rc 2\la b n.\]
+(Take $B=C$, $e(B,C)=2e(B)$.)
+\end{cor}
+The number of walks of length $p$ is $nd^p$. What if we want walks missing a linear-size subset? For an expander, it's exponentially smaller. (If we restrict to a subset of half the size, it is ``approximately" a $\frac d2$-regular graph on half the vertices.) This is useful in algorithms, especially in Monte Carlo for amplification, for example, in primality testing.
+
+%\begin{ex}[Primality testing, Rabin]
+%Given $p$, see whether $x^p\equiv x\pmod p$. %(But there are pseudoprimes.)
+%3/4 choices of x, show it's composite.
+%Take random x. Run multiple times. (1/4)^n chance if composite then will show is composite. Run n times, need n ln p random bits.
+%As little randomization as possible
+%Need real sources of randomness. 
+%Instead, ln p+O(l) using expanders. First pick random x. At each iteration, pick one neighbor at random. Random walk, length l. Set size 3/4, if hit, know composite. Exponentially small probability stay in complement.
+%\end{ex}
+%If 2 disconnected parts, miss half vertices, still 1/2 of them
+%Adjacencies easy to compute (log or poly log time).
+%Other constructions with reasonable expansion, don't need prime/Ramanujan. zigzag products, etc.
+%Get rid of randomness?
+%IIT 3 people: polylog (log n)^7.5 deterministic for primality testing (polynomial in digits)
+%Poly Lenstra. (log n)^6 
+%(log n)^{logloglog n} ``loglog n\le 7 for all n we care about"
+%AKS

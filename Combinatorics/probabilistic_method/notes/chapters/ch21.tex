@@ -1,0 +1,98 @@
+\lecture{Tue. 4/26/11}
+
+\subsection{Dependent Random Choice}
+Suppose $H$ is sparse or small, $G$ is larger than $H$ and dense, and we want to show that $H$ is a subgraph of $G$. It is helpful to find a ``rich" subset $U$ that is large and such that all, or almost all, small subsets of $U$ have many common neighbors. Then we can embed $H$. We assume $H$ is bipartite (but the method can be adapted for nonbipartite graphs), and embed $H$ one vertex at a time in $U$.
+
+%Balog-Szemer\'edi-Gowers
+We don't want to take vertices independently from one another (think of the case that $G$ is a union of two cliques). Instead, we pick a small random set of vertices $T$ and let $U=N(T)$, where $N(T)$ denote the vertices adjacent to all vertices of $T$. 
+This favors subsets with large common neighborhood.
+
+\begin{lem}[Dependent random choice]\label{deprc}
+Let $a,d,m,n,r\in \N$. Let $G=(V,E)$ be a graph with $|V|=n$ vertices and average degree $d=\frac{2|E(G)|}{n}$. If there is $t\in \N$ such that
+\[
+\frac{d^t}{n^{t-1}}-\binom nr\pf mn^t\ge a
+\]
+then $G$ contains a subset $U$ of size at least $a$ such that every $r$ vertices in $U$ have at least $m$ common neighbors.
+%bound only holds when t is integer.
+\end{lem}
+%- alteration method
+\begin{proof}
+We we the alteration method; pick $U$ as noted and then delete a few vertices.
+
+Pick a set $\Ga$ of $t$ vertices at random with repetition. Set $A=N(\Ga)$ and $X=|A|$. Then because the probability that a given vertex is a neighbor of $v$ is $\frac{|N(v)|}{n}$,
+\[
+\E(X)=\sum_{v\in G}\pf{|N(v)|}{n}^t=n^{-t}\sum_{v\in G} |N(v)|^t\ge n^{1-t}\pf{\sum_{v\in G}|N(v)|}{n}^t=\frac{d^t}{n^{t-1}}
+\]
+using Power Mean.
+
+Let $Y$ be the number of $r$-sets $S\subeq A$ with $|N(S)|<m$. For a given $S$,
+\[
+P(S\subeq A)=\pf{|N(S)|}{n}^t
+\]
+(if $S\subeq A$, the vertices of $T$ have to be adjacent to all vertices in $S$)
+and
+\[
+\E(Y)<\binom nr \pf mn^t.
+\]
+
+Now $\E(X-Y)>a$. Fix a choice of $T$ such that $X-Y>a$. For each $S\subeq A$ with $|S|=r$ and $|N(S)|<m$, delete a vertex in $S$ from $A$. Let $U$ be the remaining subset.
+%The vertices of U are not independent of each other. Thus, dependent random choice.
+%Random subset mimics global behavior. But this technique gives something more useful.
+\end{proof}
+
+\begin{df}
+$\text{ex}(n,H)$ is the maximum number of edges of a graph on $n$ vertices with no copy of $H$.
+\end{df}
+For example, by Turan's Theorem, $\text{ex}(n,K_3)=\fl{\frac{n^2}{4}}$. %1931? %Mandel's Theorem. K_r, 
+For $H$ not bipartite, this gives an asymptotic formula for ex.
+\begin{thm}%[Erd\"os-Scholz]
+\[
+\text{ex}(H)=\pa{1-\rc{\chi(H)-1}+o(1)}\binom n2.
+\]
+\end{thm}
+%Tree/forest exponent =1. If $H$ has cycle need at least $n^{1+\ep}$. $n^{2-\ep}$ always enough. Only know exponent in special cases.
+
+\begin{thm}
+If $H=(A\cup B, E)$ is bipartite graph in which all vertices in $B$ have degree at most $r$, then
+\[
+\text{ex}(n,H)\le cn^{2-\rc r},\quad c=c(H).
+\]
+If $H=K_{r,s}$ and $s\ge r!$ then
+\[
+\text{ex}(n,H)=\Theta(n^{2-\rc r}).
+\]
+\end{thm}
+\begin{proof}
+Let $a=|A|$, $b=|B|$, $m=a+b$, $t=r$, $c=\max(a^{\rc r}, \frac{3(a+b)}{r})$. Suppose $G$ has $n$ vertices and at least $cn^{2-\rc r}$ edges. From the lemma, there exists $U$ with $|U|\ge a$ such that all subsets of size $r$ have at least $m=a+b$ common neighbors. So it suffices to show the following.
+\begin{lem}
+Let $H=(A\cup B,E)$ be bipartite, such that $a=|A|,b=|B|$, and all vertices of $B$ have degree at most $r$. If $G$ has a subset $U$ with $|U|\ge a$ and all subsets $S\subeq U$ with $|S|=r$ have $|N(S)|\ge m=a+b$, then $H$ is a subgraph of $G$.
+\end{lem}
+\begin{proof}
+We find an embedding $f:A\cup B\to V(G)$. Map $f:A\to U$ arbitrarily injectively. Label the vertices of $B$ by $v_1,\ldots, v_b$. We need $f(v_i)$ to be adjacent to all $f(a)$ with $a\in N(v_i)$. The condition on $U$ allows us to greedily embed.
+%Embed so distinct from already imbedded
+\end{proof}
+The second part comes from a construction from algebraic geometry.
+\end{proof}
+Let $Q_r$ denote the $r$-dimensional cube on $2^r$ vertices. Its vertices are in $\{0,1\}^r$, with two vertices adjacent if they differ in one position. Note $Q_r$ ir $r$-regular. The Burr-Erd\"os conjecture is that $r(Q_r)=O(2^r)=O(|V(Q_r)|)$. 
+%When does Ramsey number grow linearly with number of vertices.
+
+%Bipartite graph.
+%Some expansion but not very good expansion
+%Random bipartite, power >1.
+\begin{thm}
+\[r(Q_r)\le 2^{3r}.\] 
+\end{thm}
+\begin{proof}
+Set $N=2^{3r}$. The denser color has at least $\rc2\binom N2\ge 2^{-\frac 73}N^2$ edges. Let $G$ be the graph of this color. The average degree is at least $2^{-\frac 43N}$. Let $t=\frac 32 r,m=2^r,a=2^{r-1}$. Then the inequality in Lemma~\ref{deprc} is satified so there is $U\subeq V(G)$ with $|U|\ge a$, every $r$ vertices of $U$ have at least $m=2^r$ common neighbors. Then $Q_r$ is a subgraph of this denser color.
+\end{proof}
+Note we didn't use any properties of $Q_r$ except it's bipartite, the number of its vertices and the maximum degree of a vertex.
+
+We just need ``almost all" subsets to have large common neighborhood; this gives tighter bounds.
+\begin{thm}
+There exists $G$ with $n$ vertices with edge density $\rc 2$ %and so $\ge \rc2$
+such that for any $U\subeq V(G)$ with $|U|=|\Om(n)|$, there exist $u,v\in U$ with only $o(n)$ common neighbors.
+\end{thm}
+This shows the limitations of dependent random choice.
+%n=2^r, two vertices adjacent if Hamming distance at most r/2. (Few vertices adjacent to antipodal vertices.)
+%Linear size subset-> any two close to antipodal, Hamming distance cloes to r, o(n) common neighbors.
+%Luckily for most applications, almost all good enough. More clever with embedding.

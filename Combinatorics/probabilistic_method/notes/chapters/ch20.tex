@@ -1,0 +1,107 @@
+\lecture{Thu. 4/21/11}
+%C_4, 2nd largest eigenvalue small
+
+\subsection{Quasi-random graphs}
+%Chung, Graham, Wilson
+\begin{df}
+For graphs $G, H$, define $N_G^*(H)$ to be the number of labeled induced copies of $H$ in $G$. Define $N_G(H)$ to be the number of labeled copies of $H$ in $G$ (not necessarily induced).
+\end{df}
+Note
+\[
+N_G(H)=\sum_{L\text{ contains copy of }H} N_G^*(L).
+\]
+(The sum is over $L$ obtained by adding edges to $H$.)
+Suppose the eigenvalues of the adjacency matrix are $\la_1,\ldots, \la_n$ with $|\la_1|\ge\cdots\ge|\la_n|$. For a vertex $v$ of $G$ and $S\subeq V(G)$, let
+\begin{enumerate}
+\item
+$N(v)$ be the set of neighbors of $v$
+\item $e(S)$ be the set of edges inside $S$
+\item $e(B,C)$ be the number of pairs in $B\times C$ which are edges, so $e(S,S)=2e(S)$.
+\end{enumerate}
+\begin{df}
+Define the following properties of random graphs:
+\begin{enumerate}
+\item $P_1(s)$: For every $H$ on $s$ vertices, $N^*_G(H)=(1+o(1))n^s 2^{-\binom s2}$. (Expected number of copies of $H$)%($o(1)$ is independent of $H$)
+\item $P_2$: $N_G(C_4)\le (1+o(1))\pf n2^4$. (Expected number of 4-cycles)
+\item $P_3$: $|\la_2|=o(n)$. (Second eigenvalue small)
+\item $P_4$: For every $S\subeq V(G)$, $e(S)=\rc 4|S|^2+o(n^2)$
+(Edges uniformly distributed)
+\item $P_5$: For every $S,T\subeq V(G)$, $e(S,T)=\rc{2}|S||T|+o(n^2)$.
+\item $P_6$: $\sum_{u,v\in V}\ab{|N(u)\cap N(v)|-\rc n4}=o(n^3)$.
+\end{enumerate}
+\end{df}
+\begin{thm}
+%P_2 -> P_1
+%Forcing graph if can replace C_4 in #2. Ex. even subgraphs, most bipartite graphs. Forcing conjecture: bipartite, have a cycle.
+%Sudoranko's conjecture: bigger graph with some edge density, have to have some numbers of little bipartite graph, asymptotically the same as random graph.
+%Lovasz: graph limits, ``graphon": function [0,1]^2\to [0,1]. Quasirandom graphs, identically 1/2 except set of measure 0. Analytic inequalities- ex. quantum field theory.
+All properties are equivalent for $d$-regular graph on $n$ vertices with $d=\pa{\rc 2+o(1)}n$.
+%Can drop d-regular, we assume it for ease of proofs.
+\end{thm}
+\begin{proof}
+$P_1(4)\implies P_2\implies P_3\implies P_4\implies P_5\implies P_2$ and $P_5\implies P_1(s)$ for all $s$.
+
+\begin{enumerate}
+\item
+[$P_1(4)\Rightarrow P_2$:] We have the right count for each of the following graphs.
+\begin{figure}[h!]
+\centering
+\includegraphics{4graph}
+\end{figure}
+
+Then
+\[
+N_G(C_4)=\sum_L N_G^*(L)=4(1+o(1))n^4 2^{-6}.
+\]
+\item
+[$P_2\Rightarrow P_3$:] Note $\tr(A^4)=N_G(C_4)+O(n^3)\le \pf n2^2+o(n^4)$ (it counts the number of $4$-cycles plus degenerate 4-cycles). But $\tr(A^4)=\sum_{i=1}^n \la_i^4\ge \la_1^4+\la_2^4$. Since $\la_1=d=\pa{\rc 2+o(1)}n$, $\la_2^4=o(n^4)$, giving $|\la_2|=o(n)$.
+\item
+[$P_3\Rightarrow P_4$:] Proof omitted.
+\item
+[$P_4\Rightarrow P_5$:] First suppose $S$ and $T$ are disjoint. Then \[e(S,T)=e(S\cup T)-e(S)-e(T)=\rc4 (|S|+|T|)^2-\frac{|S|^2}{4}-\frac{|T|^2}{4}+O(n^2)=\rc{2}|S||T|+o(n^2).\]
+If they aren't disjoint, rewrite in terms of the three sets $S\bs T,T\bs S,S\cap T$.
+\item
+[$P_5\Rightarrow P_6$:] Since $G$ is $d$-regular with $d=\pa{\rc2+o(1)}n$. Fix $v\in G$ and let
+\begin{align*}
+B_1&=\bc{u:|N(u)\cap N(v)|\ge \frac n4}\\
+B_2&=\bc{u:|N(u)\cap N(v)|<\frac n4}.
+\end{align*}
+Let $C=N(v)$. Now
+\begin{align*}
+\sum_{u\in B_1}\ab{|N(u)\cap N(v)|-\frac n4}
+&=\sum_{u\in B_1}\pa{|N(u)\cap N(v)|-\frac n4}\\
+&=e(B_1,C)-\frac n4 |B_1|\\
+&=\rc2 |B_1|d+o(n^2)-|B_1|\frac n4\\
+&=o(n^2).
+\end{align*}
+Similarly $\sum_{u\in B_2}\ab{|N(u)\cap N(v)|-\frac n4}=o(n^2)$. Now sum over $v\in V$.
+%If drop regular assumption, then too strong if fix u.
+\item [$P_6\Rightarrow P_2$:] The number of walks of length 4 is $\sum_{u,v}|N(u)\cap N(v)|^2=n^2\pf n4^2 +o(n^4)$. %(Think of $u,v$ as opposite in a cycle of length 4)
+But the LHS is $N_G(C_4)+O(n^3)$.
+
+\item [$P_5\Rightarrow P_1$:] We try to build copies of $H$, one vertex at a time.
+
+FIXFIX
+
+Suppose $H$ has vertex set $[s]$. Then $(v_a,v_b)$ is an edge iff $(a,b)$ is an edge. 
+After $i$ steps,  we have picked a walk $v_1,\ldots, v_i$ and subsets $V^i_j$  %defined how
+with $|V^i_j|=(1+o(1))2^{-i}n$ and $V^i_j$ being the set of vertices connected to $v_i$.
+%%
+%be what? Let $V_j^i$. 
+Now $(v_a,u)$ with $u\in V^i_j$ is an edge iff $(a,j)$ is an edge. Pick $v_{i+1}\in V_{i+1}^i$. 
+%Almost all vertices in $S$ has density roughly a half to T
+%When we add to list, each V^i_j halved. Pick almost every , only o(n^2)? troublesome.
+In total the number of copies is
+\[
+\prod_{i=1}^s 2^{1-i} n(1+o(1))=(1+o(1))n^22^{-\binom s2}.
+\]
+\end{enumerate}
+%Paley graph, prime p\equiv 1\pmod 4, (i,j)\in E iff j-i is quad resid
+%has right number of C_4, everything else correct.
+\end{proof}
+%if within every sset have right num of triangles. Szemeridi Regularity lemma
+%Right count of triangle and and a graph on 12 vertices.
+%Both not bipartite!
+\begin{df}
+A \text{quasirandom graph} is one with about half the edges and satisfying any of the following equivalent properties.
+\end{df}

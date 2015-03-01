@@ -1,0 +1,134 @@
+\lecture{Tue. 3/1/11}
+
+\subsection{More bounds}
+
+Suppose that $X=X_1+\cdots +X_m$ where $X_i$ is the indicator random variable for event $A_i$. Write $i\sim j$ if $A_i$ and $A_j$ are not independent. When $i\sim j$ and $i\neq j$,
+\[
+\Cov(X_i,X_j)=\E(X_iX_j)-\E(X_i)\E(X_j)\leq \E(X_iX_j)=P(A_i\wedge A_j).
+\]
+If $A_i$ and $A_j$ are independent then $\Cov(X_i,X_j)=0$. Let \[\De=\sum_{\scriptsize\begin{array}{c}i\sim j\\i\neq j\end{array}} P(A_i\wedge A_j).\] Then
+\begin{align*}
+\Var(X)&=\sum_{i} \Var(X_i) +\sum_{i\neq j} \Cov(X_i,X_j)\\
+&\leq \E(X)+\De.
+\end{align*}
+\begin{cor}%cor
+If $\E(X)\to \infty$ and $\De=o(\E(X)^2)$ then $X\sim \E(X)$ almost surely. In particular $X>0$ almost surely.
+\end{cor}
+\begin{df}
+$X_1,\ldots, X_m$ are \textbf{symmetric} if for every $i\neq j$, there is a measure preserving mapping of the underlying probability space that sends event $A_i$ to $A_j$.
+\end{df}
+For example, $A_i$ is the event that a certain triangle appears in the graph, the indices numbering all the triangles in $K_n$.
+If the $X_i$ are symmetric, then 
+\[
+\sum_{i\sim j,i\neq j} P(A_i\wedge A_j)=\sum_{i}P(A_i)\sum_{j\sim i,j\neq i} P(A_j|A_i)
+\]
+independent of $i$. Let
+\[
+\De^*=\sum_{j\sim i, i\neq j} P(A_j|A_i).
+\]
+($i$ is fixed in the sum.)
+Then
+\[
+\Delta
+=\sum_{i=1}^n P(A_i)\De^*
+=\De^*\E(X).
+\]
+\begin{cor}\label{destar}
+If $\E(X)\to \infty$ and $\De^*=o(\E(X))$ then $X\sim \E(X)$ almost surely; $X>0$ almost surely.
+\end{cor}
+
+\subsection{Random Graphs}
+Let $G(n,p)$ be the random graph on $n$ vertices, each pair of vertices is an edge with probability $p$, independent of the other pairs. A \textbf{property} of graph is a family of graphs closed under isomorphism.
+
+\begin{df}
+A fuction $r(n)$ is a threshold function for some property $P$ if whenever $p=p(n)\ll r(n)$ then $G(n,p)$ does not satisfy $P$ almost surely, and whenever $p=p(n)\gg r(n)$ then $G(n,p)$ satisfies $P$ almost surely. 
+\end{df}
+Let $\om(G)$ be the class number of $G$.
+\begin{thm}
+The property $\omega(G)\geq 4$ (i.e. $G$ contains $K_4$) has threshold function $n^{-2/3}$.
+\end{thm}
+\begin{proof}
+For every 4-set $S$ of vertices in $G(n,p)$ let $A_S$ be the event ``$S$ forms a clique." Let $X_S$ be the indicator random variable for $A_S$. The number of 4-cliques is $X:=\sum_{S\subeq V(G), |S|=4}X_S$. Note $\omega(G)\geq 4$ iff $X>0$. Now
+\begin{align*}
+\E(X_S)&=P=P(A_S)=p^6\\
+\E(X)&=p^6 \binom n4 \sim \frac{p^6n^4}{24}.
+\end{align*}
+If $p=p(n)\ll n^{-2/3}$ then $\E(X)=o(1)$ and $X=0$ almost surely.
+
+Suppose $p=p(n)\gg n^{-2/3}$ so $\E(X)\to \infty$. By Corollary~\ref{destar}, we need to show $\De^*=\sum_{S\sim T,S\neq T}P(A_T|A_S)=o(\E(X))$. There are $O(n^2)$ sets $T$ with $|S\cap T|=2$ and for each of them $P(A_T|A_S)=p^5$, $O(n)$ sets with $|S\cap T|=3$ and for each of them $P(A_T|A_S)=p^3$. (The sum is over $S,T$ such that $X_S,X_T$ are NOT independent.)
+Hence
+\[
+\De^*=O(n^2p^5)+O(np^3)=o(\E(X)).
+\]
+Hence $X>0$ almost surely as needed.
+%Hamiltonian, all of degree 2, same threshold
+\end{proof}
+
+\begin{df}
+Let $H$ be a graph with $v$ vertices and $e$ edges. Define the \textbf{density} of $H$ to be
+\[
+\rho(H)=\frac{e}{v}.
+\]
+$H$ is \textbf{balanced} if $\rho(H')\leq \rho(H)$ for every subgraph $H'$ of $H$.
+\end{df}
+
+\begin{thm}[Erd\H{o}s and R\'enyi]
+If $H$ is balanced and $A$ is the event that $H$ is a subgraph of $G$ then
+\[
+p=n^{-\rc{\rh(H)}}
+\]
+is the threshold function for $A$.
+
+If $H$ is not balanced, $p=n^{-\rc{\rh(H)}}$ is not the threshold function for $A$. The threshold function is
+\[
+p=n^{-\rc{\rh(H_1)}}
+\]
+where $H_1$ is the subgraph with greatest density.
+\end{thm}
+\begin{proof}
+Same idea, but more involved.
+
+For the second part, let $H_1$ be the subgraph of $H$ with $\rho(H_1)$ maximum, so $\rho(H_1)>\rho(H)$. With this $p$, $\E(\# \text{ of copies of }H_1)=o(1)$, so there is no copy of $H_1$ (and hence no copy of $H$) almost surely.
+\end{proof}
+
+%hard improve lower bound ramsey numbers
+\subsection{Clique Number}
+Fix $p=\frac 12$. Consider $\om(G)$. The expected number of cliques $X$ is
+\[
+\E(X)=f(k)=\binom nk 2^{-\binom nk}.
+\]
+$f(k)$ drops under 1 at around $k=2\log_2 n$. (Use the estimate $\binom k2\approx \frac{k^2}{2}$.)
+\begin{thm}
+Let $k=k(n)$ satisfy $f(k)\to \infty$. Then almost surely $\om(G)\geq k$. 
+\end{thm}
+\begin{proof}
+For each $k$-set $S$ let $A_S$ be the event that $S$ is a clique, and $X_S$ be the indicator random variable for $A_S$. Then $X=\sum_S X_S$. 
+
+%$\E(X)=f(k)\to \infty$ so $X>0$ iff $\omega(G)>k$.
+
+Examine $\De^*$. Fix a $k$-set $S$. Then $T\sim S$ iff $|T\cap S|=i$ with $2\leq i\leq k-1$. Now there are $\binom ki\binom{n-k}{k-i}$ sets of $k$ vertices that intersect $S$ in $i$ vertices.
+\begin{align*}
+\De^*&=\sum_{i=2}^{k-1} \binom ki\binom{n-k}{k-i}2^{\binom i2-\binom k2}.\\
+\frac{\De^*}{\E(X)}&=\sum_{i=2}^{k-1} \frac{\binom ki\binom {n-k}{k-i}}{\binom nk}2^{\binom i2}.
+\end{align*}
+%Check i=2,k-1 small, on the right track.
+``Not hard" but time-consuming calculation (Stirling...) shows this is $o(1)$. hence $\om(G)\geq k$ almost surely.
+\end{proof}
+
+%Big drop.
+\begin{thm}
+For all $n$ there exists $k$ such that 
+\[
+P(\om(G)=k\text{ or }k+1)\to 1.
+\]
+\end{thm}
+\begin{proof}
+For $k\sim 2\log_2 n$, 
+\[
+\frac{f(k+1)}{f(k)}=\frac{n-k}{k+1}2^{-k}=n^{-1+o(1)}=o(1).
+\]
+For most $n$, $f(k)\to \infty$ but $f(k+1)=o(1)$. 
+For those $n$, $\omega(G)=k$ almost surely.
+Else we get a two-point concentration.
+%R\"odl nibble, nibble out a piece of time, control everything that remains.
+\end{proof}

@@ -1,0 +1,56 @@
+\lecture{Tue. 3/29/11}
+
+\subsection{Talagrand's Inequality}
+First, a motivating example. 
+Consider a random permutation of $\{1,\ldots, n\}$ how long of an increasing subsequence can we expect? With high probability it is $O(n^{\rc 2})$. Azuma's inequality gives a concentration of $O(n^{\rc2})$, which is bad, especially in the lower part. Talagrand's inequality gives a concentration of $O(n^{\rc4})$. (The whole distribution is known now known; the concentration is $O(n^{\rc 6})$; the distribution for $\frac{2\sqrt n-X}{n^{\rc 6}}$ approaches the Tracy-Widom distribution.)
+
+Talagrand's inequality gives concentration around the {\it median}. (If the concentration is low, then the mean is close to the median.)
+
+\begin{thm}[Talagrand's Inequality]%1996
+Let $\Om=\prod_{i=1}^n \Om_i$ where each $\Om_i$ is a probability space and $\Om$ has the product measure. Let $A\subeq \Om$ and $\vec{x}=(x_1,\ldots, x_n)\in \Om$. 
+
+Define $\rho(A,\vec x)$ to be the minimum value such that for all $\vec{\al}=(\al_1,\ldots, \al_n)\in \R^n$ with $|\vec{\al}|=1$ there exists $\vec y=(y_1,\ldots, y_n)\in A$ with $\sum_{x_i\ne y_i} \al_i\le \rh(A,\vec x)$. Now matter what $\al$ you choose with length at most 1, you can move from $\vec x$ to some vector $\vec y$ in $A$. I.e. it measures the minimum cost of moving from $\vec{x}$ to a $\vec y\in A$ by changing coordinates when a suitably restricted adversary sets the cost of each change. (Note $\vec y$ may depend on $\vec{\al}$.)
+
+For any real $t\ge 0$, let $A_t=\{\vec x\in \Om:\rh(A,\vec x)\le t\}$. (Note $A_0=A$.) Then
+\[
+P(A)(1-P(A_t))\le e^{-\frac{t^2}4}.
+\]
+%Adversary precommit. Somewhat like Hamming
+%vec or overrightarrow (large)
+%Changing coordinates of x until get into A.
+In particular if $P(A)\ge \rc 2$ and $t$ is large then all but a small proportion of $\Om$ is within distance $t$ of $A$.
+%distance can get to $\rc{\sqrt n}$.
+\end{thm}
+
+%\begin{ex}
+Take $\Om=\{0,1\}^n$ with the uniform distribution. Let $\tau$ be the Hamming distance. Then $\rho(A,\vec x)\ge \min_{\vec y\in A} \tau(\vec x,\vec y)n^{-\rc 2}$. (The adversary takes all $\al_i=\rc{\sqrt n}$.
+%\end{ex}
+
+Suppose to move from $\vec x$ to $A$ the values $x_1,\ldots, x_l$ must be changed. Then $\rho(A,\vec x)\ge l^{\rc 2}$. Let $U(A,\vec x)$ be the set of $\vec s=(s_1,\ldots, s_n)\in\{0,1\}^n$ such that if there exists $\vec y\in A$ with $x_i\ne y_i$ then $s_i=1$. Then $\rho(A,\vec x)$ is the minimum $\rh$ such that with $|\vec{\al}|=1$, there exists $\vec s\in U(A,\vec x)$ with $\vec{\al} \cdot \vec{s}\le \rh$. Let $V(A,\vec x)$ be the convex hull of $U(A,\vec x)$.
+\begin{thm}
+\[\rho(A,\vec x)=\min_{\vec v\in V(A,\vec x)}|\vec v|.\]
+\end{thm}
+\begin{proof}
+The case $\vec x\in A$ is obvious. Assume $\vec x\nin A$. 
+
+Let $\vec v$ achieve the minimum. The hyperplane through $\vec v$ perpendicular to the line from the origin to $\vec v$ separates the origin from $V(A,\vec x)$. (Else by convexity there would be a closer point.) For all $\vec s\in V(A,\vec x)$, $\vec s\cdot \vec v\ge \vec v\cdot \vec v$.
+
+Set $\vec{\al}=\frac{\vec{v}}{|\vec v|}$ so $|\vec{\al}|=1$. Then all $\vec s\in U(A,\vec x)\subeq V(A,\vec x)$ satisfy $\vec s\cdot \vec{\al}\ge \vec{v}\cdot \frac{\vec v}{|\vec v|}$.
+
+Conversely, pick any $\vec{\al}$ with $|\vec{\al}|=1$. Then $\vec{\al}\cdot \vec{v}=|\vec{v}|$. As $\vec{v}\in V(A,\vec x)$, we can write $v=\sum_{i} \la_i\vec s_i$ where $\vec{s_i}\in U(A,\vec x)$ and $\la_i\ge 0, \,\sum \la_i=1$.
+
+Then $|\vec v|\ge\sum \la_i(\vec{\al}\cdot \vec{s_i})$ and hence some $\vec{\al}\cdot \vec{s_i}\le |\vec v|$.
+\end{proof}
+\begin{thm}\label{gental}
+Let $\Om=\{0,1\}^n$, then $\rho(A,\vec x)$ is the Euclidean distance from $\vec x$ to the convex hull of $A$. Furthermore,
+\[
+\int_{\Om} e^{\rc 4\rh^2(A,\vec x)}\,d\vec x\le \rc{P(A)}.
+\]
+\end{thm}
+\begin{proof} (of Talagrand's inequality from Theorem~\ref{gental}) 
+Fix $A$ and consider random variables $X=\rh(A,\vec x)$. Then by Markov's inequality
+\[
+P(\overline{A_t})=P(X>t)=P(e^{\frac{x^2}{4}}>e^{\frac{t^2}{4}})\le \E(e^{\frac{X^2}{4}}) e^{-\frac{t^2}{4}}.
+\]
+\end{proof}
+%induction on n, split up

@@ -1,0 +1,74 @@
+\lecture{Thu. 5/12/11}
+
+\subsection{Discrepancy}
+We improve the bound from last time.
+\begin{thm}[Spencer]
+Suppose $|\Om|=n$ and $A\subeq 2^{\Om}$, $|A|=n$. Then
+\[
+\disc(A)\le 11\sqrt n.
+\]
+\end{thm}
+The assumption that $|\Om|=n$ is not necessary can be dropped, i.e. $|\Om|\ge n$ is okay.
+
+%
+\begin{proof}
+A random coloring will not work. Instead, we consider a partial coloring $\chi:\Om\to \{-1,0,1\}$ when $\chi(a)=0$ means $a$ is uncolored.
+\begin{lem}
+There exists a partial coloring $\chi$ with at most $10^{-9}n$ uncolored points such that $|\chi(S)|\le 10\sqrt n$ for every $S\in A$. 
+\end{lem}
+(We will then partially color the remaining points, and so on, to get a geometric series.)
+\begin{proof}
+Let $A=\{S_1,\ldots, S_n\}$ and $\chi:\Om\to \{0,1\}$ be random. %We will subtract two colorings and divide by 2.
+For $1\le i\le n$ define $b_i$ to be the closest integer to $\frac{\chi(S_i)}{20\sqrt n}$. In particular $b_i=0$ when
+\[
+-10\sqrt n<\chi(S_i)<10\sqrt n.
+\]
+Let $p_j=P(b_i=j)$. 
+Chernoff's estimate gives
+\begin{align*}
+p_0&>1-2e^{-50}\\
+p_{-1}=p_1&<e^{-50}\\
+\vdots&\vdots\\
+p_{-s}=p_s&<e^{50(2s-1)^2}.
+\end{align*}
+We bound the entropy $H(b_i)$:
+\[
+H(b_i)=\sum_{j\in \Z} -p_j\log_2 p_j\le \ep:=3\cdot 10^{-20}.
+\]
+%Two of them very far apart in Hamming distance, subtract and divide by 2. Almost everything is colored.
+Consider the $n$-tuple $(b_1,\ldots, b_n)$. Then
+\[
+H(b_1,\ldots, b_n)\le \sum_{i=1}^n H(b_i)\le \ep n.
+\]
+If a random variable $Z$ assumes no value with probability $2^{-t}$, then the entropy is large, $H(z)\ge t$. By the contrapositive there exists a $n$-tuple $(b_1,\ldots, b_n)$ such that $P((b_1,\ldots, b_n)=(s_1,\ldots, s_n))\ge 2^{-\ep n}$. All $2^n$ colorings are equally likely so there exists a set of at least $2^{(1-\ep)n}$ colorings $\chi:\Om\to \{-1,1\}$ all having the same value $(b_1,\ldots, b_n)$.
+
+Think of the class $C^1$ of all $2^n$ colorings $\chi:\Om\to \{-1,1\}$ as the Hamming cube $\{-1,1\}^n$. We use the following:
+\begin{lem}[Kleitman]
+If $D\subeq C$ and $|D|\ge \sum_{i\le r} \binom ni$ with $r\le \frac n2$, then $D$ has diameter at least $2r$.
+\end{lem}
+ We may take $r=\al n$ as long as $\al<\rc 2$ and $2^{H(\al)}\le 2^{1-\ep}$. (Note $\binom n{\al n}=2^{n(H(\al)+o(1))}$.)) Calculation then gives we can take
+\[
+\al=\rc 2(1-10^{-9}).
+\]
+(Use the Taylor expansion $H\pa{\rc 2-x}\sim 1-\frac{2}{\ln 2} x^2$ for $x$ small.)
+The diameter of $C^1$ is at least $n(1-10^{-9})$. Let $x_1,x_2\in C^1$ be of maximal distance. Set $\chi=\frac{x_1-x_2}{2}$; this leaves all but $10^{-9}n$ uncolored because $\chi_1,\chi_2$ have the same $b$-vector. Then
+\[
+|\chi(S_i)|\le 10\sqrt n
+\]
+for all $S_i\in A$, as needed.
+%entropy tells how much info norm
+\end{proof}
+\begin{lem}
+Let $|A|=n$ and $|\Om|=r$ with $r\le 10^{-9}n$. Then there exists a partial coloring $\chi$ of $\Om$ with at most $10^{-40}$ points uncolored, such that 
+\[
+|\chi(S)|<10\sqrt r \sqrt{\ln \pf nr}
+\]
+for all $S\in A$.
+\end{lem}
+The proof is similar to the first lemma.
+
+Let $\chi^1$ be a coloring of all but $10^{-9}n$ of the elements, $\chi^2$ be a coloring of all remaining elements but $10^{-49}n$, and $\chi^3$ be a coloring of all remaining elements but $10^{-89}n$, and so on. Let $\chi=\chi^1+\chi^2+\cdots$. Then
+\[
+|\chi(S)|<|\chi^1(S)|+|\chi^2(S)|+\cdots <10\sqrt n+10\sqrt{10^{-9}n}\sqrt{\ln 10^9}+\cdots <11\sqrt n.
+\]
+\end{proof}

@@ -1,0 +1,138 @@
+\lecture{Thu. 2/17/11}
+
+\subsection{Second Moment Method}
+\begin{df}
+The \textbf{variance} of a random variable $X$ is
+\[
+\Var(X)=\E[(X-\E(X))^2]=\E(X^2)-E(X)^2
+\]
+The standard deviation is
+\[
+\sigma=\sqrt{\Var(X)}.
+\]
+\end{df}
+\begin{thm}[Chebyshev's Inequality]
+For any $\la>0$,
+\[
+P(|X-\mu|\geq \la \sigma)\leq \rc{\la^2}.
+\]
+\end{thm}
+\begin{proof}
+\[\sigma^2=\Var(X)=\E[(X-)^2]\geq \la^2 \sigma^2 P(|X-\mu|^2\geq \la^2\sigma^2).\]
+This is Markov's inequality with $Z=(X-\mu)^2$, $\E(Z)=\sigma^2$, and $\la^2$. Now $Z\geq \la^2 \sigma^2$ iff $|X-\mu|\geq \la \sigma$.
+\end{proof}
+Suppose $X=X_1+\cdots +X_n$. Then
+\[
+\Var(X)=\sum_{i=1}^n \Var(X_i)+\sum_{i\neq j} \Cov(X_i,X_j)
+\]
+where
+\[
+\Cov(X_i,X_j)=E(X_iX_j)-E(X_i)E(X_j).
+\]
+In particular, if $X_i,X_j$ are independent then
+\[
+\Cov(X_i,X_j)=0.
+\]
+Suppose $X_i$ is an indicator random variable, i.e. $X_i=1$ if a certain even $A_i$ occurs and 0 otherwise. If $X_i=1$ with probability $P(A_i)=p$ then $\Var(X_i)=p(1-p)\leq p=\E(X_i)$. Hence
+\[
+\Var(X)\leq \E(X)+\sum_{i\neq j} \Cov(X_i,X_j).
+\]
+
+\subsection{Number Theory}
+Let $\nu(n)$ be the number of prime factors of $n$. We will show that almost all $n$ have close to $\ln \ln n$ prime factors.
+\begin{thm}[Hardy-Ramanujan]
+Let $\omega(n)\to \infty$ arbitrarily slowly. Then the number of $x$ in $\{1,\ldots, n\}$ with $|U(x)-\ln\ln x|>\omega (n)\sqrt{\ln\ln n}$ is $o(n)$. In other words, for $x$ randomly chosen from $[1,n]$,
+\[
+P(|\nu(x)-\ln \ln n|>\omega(n)\sqrt{\ln\ln n})=o(1).
+\]
+\end{thm}
+\begin{proof}
+Let $x$ be randomly chosen from $1$ to $n$. For $p$ prime, let $X_p$ be the indicator random variable for the event $p|x$. Set $M=n^{\rc{10}}$ and $X=\sum_{p\leq M,p\text{ prime}} X_p$. Note
+\[
+x\leq \nu(x)< x+10.
+\]
+since a number has less than 10 prime factors greater than $n^{\rc{10}}$. (We exclude the large primes because they will give a greater variance for $X_p$.)
+Now
+\[
+\E(X_p)=\rc{n}\fl{\frac np}=\rc{p}+O\prc{n}
+\]
+so
+\[
+\E(X)=\sum_{p} \E(X_p)=\sum_p \pa{\rc{p}+O\prc{n}}
+=\ln\ln M+ O(1)=\ln\ln n+O(1)
+\]
+using Mertens's estimate.
+
+The rough idea is to show that for $p\neq q$, $X_p$ and $X_q$ are almost independent, so the covariances are small, and don't affect the variance of $X$ much. I.e. $\E(X_p\wedge X_q)\approx \E(X_p)\E(X_q)$.
+We have
+\[
+\Var(X_p)=\rc{p}\pa{1-\rc p}+O\prc{n}
+\]
+so
+\begin{equation}\label{numpsumv}
+\sum_p\Var(X_p)=\sum_p \rc{p}+O(1)=\ln \ln n +O(1).
+\end{equation}
+Now $X_pX_q=1$ iff $pq|X$, so
+\[
+|\Cov(X_p,X_q)|=\ab{\frac{\fl{\frac{n}{pq}}}{n}-\frac{\fl{\frac np}}{n}\cdot \frac{\fl{\frac nq}}{n}}\leq%\rc{pq}-\pa{\rc{p}-\rc{n}}\rc{q}-\rc{n}
+\rc{n}\pa{\rc p+\rc q}.
+\]
+Hence
+\begin{equation}\label{numpsumc}
+\ab{\sum_{p\neq q}\Cov(X_p,X_q)\leq \rc{n}\sum_{p\neq q}\pa{\rc p+\rc q}}
+\leq \ab{\frac{2M}{n}\sum_{\footnotesize \begin{array}{c}p\leq M\\p\text{ prime}\end{array}} \rc{p}}=o(1).
+\end{equation}
+since we counted each $\rc{p}$ at most $2M$ times.
+Putting~(\ref{numpsumv}) and~(\ref{numpsumc}) together,
+\begin{align*}
+\Var(X)&=\sum_p \Var(X_p)+\sum_{p\neq q} \Cov(X_p,X_q)\\
+&=\ln\ln n+O(1).
+\end{align*}
+Since $\sigma=\sqrt{\ln \ln n}+O(1)$, by Chebyshev's inequality
+\[
+P(|X-\ln\ln n|\geq \la \sqrt{\ln\ln n})<\la^{-2}+o(1).
+\]
+and the same holds for $\nu(X)$. Letting $\la\to \infty$ gives the theorem.
+\end{proof}
+In fact, %an extension of this method shows that 
+the 
+distribution of $\nu(x)$ approaches a normal distribution with mean and variance $\ln \ln n$.
+%$\nu(x)$ behaves like a normal distribution with mean and variancae $\ln\ln n$.
+\begin{thm}[Erd\"os-Kac]
+Fix $\la\in \R$. Then
+\[
+\lim_{n\to \infty} |\{x:x\in [n],\nu(x)\geq \ln \ln n +\la\sqrt{\ln \ln n}\}|
+=
+\int_{\la}^{\infty} \rc{\sqrt{2\pi}}e^{-t^2/2}\,dt.
+\]
+\end{thm}
+For $\la$ large, this is asymptotic to $\sqrt{\frac{2}{\pi}}e^{-\la^2/2}/\la\ll\la^{-2}$.
+\begin{proof}(Outline)
+Fix $s(n)$, $s(n)\to \infty$, and $s(n)=o(\sqrt{\ln\ln })$ such as $s(n)=\ln\ln\ln n$.\footnote{Drowning number theorists say log log log.}
+Set $M=n^{\rc{n}}$ and \[X=\sum_{\scriptsize \begin{array}{c}
+p\leq M\\p\text{ prime}
+\end{array}}
+\]
+Then
+\[
+\nu(x)-s(x)\leq X\leq \nu(x).\]
+Let $Y_p$ be independent random variables with $P(Y_p=1)=\rc{p}$ and $P(Y_p=0)=1-\rc{p}$. $Y_p$ represents an idealized version of $X_p$. %that we can apply th Central Limit Theorem to. 
+Set
+\begin{align*}
+\mu&=\E(Y)=\ln \ln n+o((\ln \ln n)^{\rc 2})\\ 
+\sigma^2&=\Var(Y)\sim \ln \ln n.\\
+\tilde{Y}&=\frac{Y-\mu}{\sigma}.
+\end{align*}
+By the Central Limit Theorem, $\tilde Y$ approaches the standard normal distribution $N$ and $\E(\tilde{Y}^k)\to \E(N^k)$. %If for all k then approaches normal. prob thm
+Let $\tilde X=\frac{X-\mu}{\sigma}$ and compare $\tilde X$ and $\tilde Y$. For distinct primes $p_1,\ldots, p_s$, %the expected value 
+\begin{equation}\label{l6-ed}
+\E(X_{p_1}\cdots X_{p_s})-\E(X_{p_1})\cdots \E(X_{p_s})=O\prc{n}.
+\end{equation}
+Fix $k\in \N$. Compare $\E(\tilde{X}^k)$ with $\E(\tilde Y^k)$. Expanding, $\tilde X^k$ is a polynomial in $X$ with coefficient $n^{o(1)}$. Expanding $X^j$, always reducing $X_p^a$ for $a\geq 2$, each $X^j=\pa{\sum X_p}^j$ gives $O(M^k)$ terms equal to $n^{o(1)}$ of the form $X_{p_1}\cdots X_{p_s}$. The same expansion applies to $\tilde Y^k$. As the corresponding terms have expectation within $O\prc{n}$ by~(\ref{l6-ed}),
+\[
+\E(\tilde X^k)-\E(\tilde Y^k)=o(1).
+\]
+Thus each moment of $\hat X$ approaches that of the standard normal $N$, giving that (by a theorem from probability) $\hat X$ approaches the normal distribution.
+%Prob dist unique determined by moments when exp func integrable -> fourier transform of measure by expanding exponential series e^it. Caman
+%Hausdorff normal
+\end{proof}

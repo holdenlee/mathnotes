@@ -1,0 +1,88 @@
+\lecture{Tue. 3/15/11}
+
+\subsection{Martingales and tight concentration}
+Chernoff bounds give tight concentration for sums of {\it independent} random variables. We generalize Chernoff's inequality for not necessarily independent random variables.
+\begin{df}
+A \textbf{martingale} is a sequence of random variables $X_0,X_1,\ldots, X_m$ such that for $0\le i<m$, 
+\[
+\E(X_{i+1}|X_i,\ldots, X_0)=X_i.
+\]
+\end{df}
+The natural example is a gambler in a ``fair" casino. Let $X_i$ be the gambler fortune at time $i$. The gambler starts with $X_0$ dollars. Given $X_i$, $\E(X_{i+1})=X_i$, as needed. The simplest martingale is where the gambler flips a coin, with \$1 stakes each time, normalizing so that $X_0=0$. Letting $Y_1,\ldots, Y_m$ be independent random variables with $P(Y_i=1)=P(Y_i=-1)=\rc2$, $X_i=Y_1+\cdots +Y_i$ has distribution $S_i$.
+
+\begin{thm}[Azuma's Inequality]\label{azuma}
+Let $c=X_0,\ldots, X_m$ be a martingale with $|X_i-X_{i-1}|\le 1$ for all $0\le i<m$. Let $\la>0$. Then 
+\begin{align*}
+P(X_m-c>\la \sqrt m)&<e^{-\la^2/2}\\
+P(|X_m-c|>\la \sqrt m)&<2e^{-\la^2/2}
+\end{align*}
+\end{thm}
+Note Chernoff's bound is a special case.
+\begin{proof}
+By shifting we may assume $X_0=0$. 
+Set $\al=\frac{\la}{\sqrt m}$ and $Y_i=X_i-X_{i-1}$, so $|Y_i|\le 1$ and
+\[
+\E(Y_i|X_{i-1},\ldots, X_0)=0.
+\]
+We imitate the proof of Chernoff's bound for the $Y_i$. By Karamata Majorization and convexity of $e^x$,
+\[
+\E(e^{\al Y_i}|X_{i-1},\ldots, X_0)\le \cosh \al =\frac{e^{\al}+e^{-\al}}{2}\le e^{\al^2/2}.
+\]
+Then
+\begin{align*}
+\E(e^{\al X_m})&=\E\pa{\prod_{i=1}^m e^{\al Y_i}}\\
+&=\E\ba{\prod_{i=1}^{m-1} e^{\al Y_i} \E(e^{\al Y_m}|X_0,\ldots , X_{n-1})}\\
+&\le e^{(m-1)\al^2}/2\cdot e^{\al^2/2}\\
+&=e^{(m-1)\al^2/2}e^{\al^2/2}\\
+&=e^{m\al /2}
+\end{align*}
+%Expected value of  product
+So
+\begin{align*}
+P(X_m>\la\sqrt m)&=P(e^{\al X_m}>e^{\al \la \sqrt m})\\
+&<\E(e^{\al X_m}) e^{-\al \la \sqrt m}\\
+&\le e^{-\al^2m/2-\al \la \sqrt m}=e^{-\la^2/2}.
+\end{align*}
+\end{proof}
+\subsection{Graph exposure martingales}
+Let $G(n,p)$ be the underlying probability space and $f$ be a graph theoretic function. 
+\begin{df}
+Label potential edges $\{i,j\}\subeq [n]$ by $e_1,\ldots, e_m$ setting $m=\binom n2$. 
+We define the \textbf{edge exposure martingale} $X_0,\ldots, X_m$ by giving values $X_i(H)$, with
+\begin{align*}
+X_0(H)&=\E(f(G))\\
+X_i(H)&=\E(f(G)|e_j\in G\iff e_j\in H,1\le j\le i)\\
+X_m(H)&=f(H)
+\end{align*}
+First expose $i$ pairs $e_1,\ldots, e_i$ and see if they are in $H$. The remaining edges are not seen and considered to be random.
+\end{df}
+For example, $f(H)$ could be the chromatic number of $H$.
+\begin{df}
+Define $X_1,\ldots, X_n$ by
+\[
+X_i(H)=\E(f(G)|\text{for }x,y\le i,\{x,y\}\in G\iff \{x,y\} \in H).
+\]
+\end{df}
+(Add a vertex each time and look at the induced subgraph. Note the vertex exposure martingale is a subsequence of the edge exposure martingale, with suitable ordering of vertices.)
+%Majorization.
+
+\begin{df}
+A graph theoretic function satisfies the \textbf{edge Lipschitz condition} whenever if $H$ and $H'$ differ in at most one edge, $|f(H)-f(H')|\le 1$. It satisfies the \textbf{vertex Lipschitz condition} if whenever $H, H'$ differ in at most one vertex (in terms of the edges emanating from the vertex).
+\end{df}
+\begin{thm}
+When $f$ satisfies the edge Lipschitz condition the corresponding edge exposure martingale satisfies $|X_i-X_{i-1}|\le 1$.
+
+When $f$ satisfies the vertex Lipschitz condition the corresponding vertex exposure martingale satisfies $|X_i-X_{i-1}|\le 1$.
+\end{thm}
+For example the chromatic number satisfies both conditions.
+\begin{thm}
+Let $G=G(n,p)$. Let $\mu=\E(\chi(G))$. Then
+\[
+P(|\chi(G)-\mu|>\mu\sqrt{n-1})<2e^{-\la^2/2}.
+\]
+\end{thm}
+The chromatic number is very concentrated around its mean. (The mean is hard to actually compute, but we can still get concentration results.)
+\begin{proof}
+Consider the vertex exposure martingale $X_1,\ldots, X_n$ on $G(n,p)$ with $f(G)=\chi (G)$. Since $f$ satisfies the vertex Lipschitz condition, the result follows by Azuma's inequality~(\ref{azuma}). (Note we omitted $X_0$.)
+\end{proof}
+%2-point concentration!

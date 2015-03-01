@@ -1,0 +1,117 @@
+\lecture{Thu. 2/10/11}
+
+\subsection{Balancing vectors}
+
+\begin{thm}
+Let $v_1,\ldots, v_n\in \R^n$, $|v_i|=1$ for $1\leq i\leq n$. Then there exist $\ep_1,\ldots, \ep_n=\pm1$ with
+\[
+|\ep_1v_1+\cdots \ep_nv_n|\leq \sqrt n
+\]
+and also $\ep_1,\ldots, \ep_n=\pm1$ with
+\[
+|\ep_1v_1+\cdots +\ep_n v_n|\geq \sqrt n.
+\]
+\end{thm}
+Note this is tight because letting $v_i$ be the $i$th standard basis vector we get all vertices of $[-1,1]^n$.
+\begin{proof}
+Pick $\ep_1,\ldots, \ep_n=\pm 1$ with probability $\rc 2$ uniforomly and independently at random. Let $X=|\ep_1v_1+\cdots +\ep_nv_n|^2$. Then
+\begin{align*}
+X&=\sum_{1\leq i,j\leq n} \ep_i\ep_j v_iv_j.\\
+\E(X)&=\sum_{1\leq i,j\leq n}v_iv_j\E(\ep_i\ep_j).
+\end{align*}
+If $i\neq j$ then by independence $\E(\ep_i\ep_j)=\E(\ep_i)\E(\ep_j)=0$ and if $i=j$ then $\E(\ep_i\ep_j)=\ep_i\ep_j=1$. Hence
+\[
+\E(X)=\sum_{i=1}^n v_iv_j =n.
+\]
+There exist $\ep_1,\ldots, \ep_n=\pm1$ with $X\leq \E(X)$ and $\ep_1,\ldots, \ep_n=\pm 1$ with $X\leq \E(X)$.
+\end{proof}
+This can be proved without probability.
+\begin{proof}
+Pick $\ep_1,\ldots, \ep_n$ sequentially such that 
+\[w_i=\ep_1v_1+\cdots +\ep_iv_i\]
+satisfies $|w_i|\leq \sqrt i$ for all $i$, $1\leq i\leq n$. Once $\ep_1,\ldots, \ep_i$ have been chosen pick $\ep_{i+1}$ such that $\ep_{i+1}v_{i+1}$ and $w_i$ make an obtuse (or right) angle. Then
+\[
+|w_{i+1}|^2\leq |w_i|^2+|\ep_{i+1}v_{i+1}|^2\leq i+1.
+\]
+\end{proof}
+
+\subsection{Unbalancing lights}
+
+Suppose we have a $n\times n$ array of lights; each can be on or off. We want as many on as possible, but we can only flip all of the lights in a row or all the lights in a column in one step. How many lights can be turn on?
+\begin{thm}
+Let $a_{ij}=\pm 1$ for $1\leq i,j\leq n$. Then there exist $x_i,y_j=\pm 1$ for $1\leq i,j\leq n$ so that 
+\[
+\sum_{1\leq i,j\leq n}a_{ij}x_iy_j\geq \pa{\sqrt{\frac{ 2}{\pi}}+o(1)}n^{\frac 32}.
+\]
+(The $a_{ij}$ are the initial states of the lights; $x_i$ is 1 if row $i$ is flipped and 0 otherwise; $y_j$ is 1 if row $j$ is flipped and 0 otherwise.)
+\end{thm}
+\begin{proof}
+Forget the $x_i$. Let $y_1,\ldots, y_n$ be selected uniformly at random. Let \[R_i=\sum_{j=1}^n a_{ij}y_j,\quad R=\sum_{i=1}^n |R_i|.\]
+Once $y_j$ have been chosen, we can choose $x_i$ so the total is $R$, by choosing $x_i$ so $x_iR_i$ is positive.
+Regardless of $a_{ij}$, $R_i$ has distribution $S_n$, the sum of $n$ random variables from $\{-1,1\}$. Now
+\[
+\E(|R_i|)=\E(|S_n|)=\sqrt{n}(\E(|N|)+o(1))=\pa{\sqrt{\frac 2{\pi}}+o(1)}\sqrt n
+\]
+where $N$ is the standard normal distribution. (Alternatively, use $E(|S_n|)=n2^{1-n} \binom{n-1}{\fl{\frac{n-1}{2}}}$ and Stirling's approximation.) Then
+\[\E(R)=\sum_{i=1}^n \E(|R_i|)=n\pa{\sqrt{\frac{2}{\pi}}+o(1)}n^{\rc 2}\]
+so there exist $y_1,\ldots, y_n=\pm1$ for which $R\geq \E(R)$. As mentioned, pick $x_i$ so that they are the same sign as $R_i$.
+%1974 Putnam
+\end{proof}
+%Graph theory interpretation: bipartite graph with 2 classes of $n$ vertices, get subset of large discrepancy.
+%Hadamard matrix: explicit construction
+%Chernoff-alive
+\subsection{Alterations}
+\begin{thm}[Markov's inequality]
+Let $X$ be a nonnegative random variable. Then
+\[
+P(X>\al\E(X))\leq \rc{\al}.
+\]
+Note for $\al=1$ this tells us nothing, but for $\al$ large the probability is small.
+\end{thm}
+\begin{proof}
+Substitute $t=\al E(X)$ in
+\[
+\E(X)>tP(X>t).
+\]
+\end{proof}
+\begin{df}
+The \textbf{girth} of $G$ is the length of the shortest cycle. (Think of $G$ looking locally like a tree, sparse.)
+
+The \textbf{chromatic number} $\chi(G)$ is the minimum number of colors needed to properly color the vertices of $G$ (i.e. no two adjacent vertices are the same color). (Think of $G$ as globally dense.)
+
+The \textbf{independence number} $\al(G)$ is the maximum size of an independent set, a set of pairwise nonadjacent vertices.
+\end{df}
+\begin{thm}[Erd\"os]
+For all $k,l$, there exists a graph $G^*$ with $\text{girth}(G^*)>l$ and $\chi(G^*)>k$.
+\end{thm}
+%size approx. k^l
+\begin{proof}
+Pick $\theta\in (0,\rc l)$ and let $p=n^{\theta-1}$. Let $G=G(n,p)$ be a random graph with $n$ vertices where each edge is picked with probability $p$ independent of the other vertices. Idea: pick $p$ just right---small enough so that there aren't a lot of small cycles, and large enough so that the chromatic number is large.
+
+We can't avoid short cycles in a random graph $G^*$ but we can make their number small. There are $\rc{2i}n\fp{i}$ possible $i$-cycles ($n\fp{i}$ ways of choosing the set of vertices; divide by $2i$ because rotations and reversals are the same.
+\[
+\E(X)=\sum_{i=3}^n \frac{n\fp i}{2i}p^i\leq \sum_{i=3}^l\frac{n^{\theta i}}{2i}=o(n)
+\] 
+We later delete some vertices to get rid of the cycles---alteration. (We won't have to delete too many.) By Markov's Inequality,
+\begin{equation}\label{l4-1}
+P\pa{X\geq \frac n2}=o(1).
+\end{equation}
+
+Chromatic number is hard to bound directly, so we instead bound $\al(G)$ from above and note
+\[
+\chi(G)\geq \frac{n}{\al(G)}
+\]
+because a coloring with $\chi(G)$ colors partitions the vertices into independent sets, each of which has size at most $\al(G)$, giving $n\geq \chi(G)\al(G)$.
+Set $x=\ce{\frac 3p\ln n}$. Then since there are $\binom nx$ sets of size $x$ and probability $(1-p)^{\binom x2}$ that a given $x$-set is independent, using the union bound gives
+\begin{equation}\label{l4-2}
+P(\al(G)\geq x)\leq \binom nx(1-p)^{\binom x2}\leq \pa{ne^{-\frac{p(x-1)}{2}}}^x=o(1).
+\end{equation}
+Let $n$ be sufficient large so that both probabilities~(\ref{l4-1}) and~(\ref{l4-2}) are less than $\rc 2$. Pick $G$ with $X<\frac n2$ and $\al(G)<x$. Delete one vertex from each cycle of length at most $l$, and let $G^*$ be the resulting graph. Now 
+\[\text{girth}(G)>l.\]
+Now $X<\frac n2$ so $G^*$ has $n^*\geq \frac n2$ vertices. Now $G^*$ is an induced subgraph of $G$, so any independent set in $G^*$ is also independent in $G$, and $\al(G^*)\leq \al(G)$. Hence (recall $p=n^{\theta-1}$)
+\[
+\chi(G^*)\geq \frac{n^*}{\al(G^*)}\geq \frac{n/2}{x}\geq \frac{n^{\theta}}{(6+\ep)\ln n}.
+\] 
+For $n$ sufficiently large this is greater than $k$.
+%we've deleted at most $\frac n2$
+\end{proof}

@@ -1,0 +1,143 @@
+\lecture{Tue. 4/5/11}
+
+\subsection{Four-function theorem}
+\begin{thm}[Ahlswede-Daykin four function theorem]
+Suppose $n\ge 1$ and set $N=\{1,\ldots, n\}$. Let $P(N)$ be the power set of $N$. Let $\R_{\ge 0}$ be the set of nonnegative reals. For a function $\rh:P(N)\to \R_{\ge 0}$ and $\cal A\subeq P(N)$, let
+\[
+\rh(\cal A)=\sum_{A\in \cal A} \rh(A).
+\]
+For $\cal A,\cal B\subeq P(N)$, define
+\begin{align*}
+\cal A \cup \cal B&=\{A\cup B:A\in \cal A,B\in \cal B\}\\
+\cal A \cup \cal B&=\{A\cup B:A\in \cal A,B\in \cal B\}.
+\end{align*}
+
+Let $\al,\be,\ge, \de:P(N)\to \R_{\ge0}$. If for every $A,B\subeq N$,
+\begin{equation}\label{fft}
+\al(A)\be(B)\le \ga(A\cup B)\de(A\cap B),
+\end{equation}
+then, for every $\cal A,\cal B\subeq P(N)$,
+\begin{equation}\label{fft2}
+\al(\cal A)\be(\cal B)\le \ga(\cal A\cup \cal B)\de(\cal A\cap \cal B).
+\end{equation}
+\end{thm}
+\begin{proof}
+We may modify $\al, \be, \ga, \de$ by defining $\al(A)=0$ for every $A\nin \cal A$ and $\be(B)=0$ for every $B\nin \cal B$, $\ga(C)=0$ for every $C\nin \cal A\cup \cal B$, and $\de(D)=0$ for every $D\nin \cal A\cap \cal B$. Note~(\ref{fft}) still holds. (If $A\in \cal A,B\in \cal B$, neither the LHS and RHS changes. Else the LHS is 0.) Thus we may assume that $\cal A=\cal B=\cal A\cup \cal B=\cal A\cap \cal B=P(N)$.
+
+We induct on $n$. For $n=1$, $P(N)=\{\phi,N\}$. For each $\rh\in \{\al,\be,\ga,\de\}$ let $\rh_0=\rh(\ph)$ and $\rh_1=\rh(N)$.~(\ref{fft}) gives
+\begin{align*}
+\al_0\be_0&\le \ga_0\de_0\\
+\al_0\be_1&\le \ga_1\de_0\\
+\al_1\be_0&\le \ga_1\de_0\\
+\al_1\be_1&\le \ga_1\de_1.
+\end{align*}
+(Note the RHS do not range over all $\ga_i\de_j$.)
+We need $(\al_0+\al_1)(\be_0+\be_1)\le (\ga_0+\ga_1)(\de_0+\de_1)$. If $\ga_1=0$ or $\de_0$ we're good. Otherwise
+\begin{align*}
+\ga_0&\ge \frac{\al_0\be_0}{\de_0}\\
+\de_1&\ge \frac{\al_1\be_1}{\ga_1}
+\end{align*}
+so it suffices to show $\pa{\frac{\al_0\be_0}{\de_0}+\ga_1}\pa{\de_0+\frac{\al_1\be_1}{\ga_1}}\ge (\al_0+\al_1)(\be_0+\be_1)$. This is true as rearranging gives
+\[
+(\ga_1\de_0-\al_0\be_1)(\ga_1\de_0-\al_1\be_0)\ge 0.
+\]
+Suppose the theorem holds for $n-1$ ($n\ge 2$); we prove it for $n$. Put $N'=N\bs \{n\}$ and define for each $\rh\in \{\al,\be,\ga,\de\}, A\in P(N')$
+\[
+\rh'(A)=\rh(A)+\rh(A\cup \{n\})\]
+since this makes
+\[
+\rh'(P(N'))=\rh(P(N)).
+\]
+Note~(\ref{fft}) would follow from applying the induction hypothesis to $\al',\be',\ga',\de'$. To use the induction hypothesis we need to check~(\ref{fft}) for these new functions: for all $A',B'\subeq N'$,
+\[
+\al'(A')\be'(B')\le \ga'(A'\cup B')\de'(A'\cap B').
+\]
+Now
+\begin{align*}
+\ol{\al}(\phi)&=\al(A')&\ol{\al}(T)&=\al(A'\cup \{n\})\\
+\ol{\be}(\phi)&=\be(B')& \ol{\be}(T)&=\be(B'\cup \{n\})\\
+\ol{\ga}(\phi)&=\ga(A'\cup B')&\ol{\ga}(T)&=\ga(A'\cup B'\cup \{n\}\\
+\ol{\de}(\phi)&=\de(A'\cap B')&\ol{\de}(T)&=\de(A'\cap B'\cup \{n\}.
+\end{align*}
+By~(\ref{fft})
+\[
+\ol{\al}(S)\ol{\be}(R)\le\ol{\ga}(S\cup R)\ol{\de}(S\cap R)
+\]
+for all $S,R\subeq T$. Hence using the $n=1$ case,
+\begin{align*}
+\al'(A')\be'(B')&=\ol{\al}(P(T))\ol{\be}(P(T))\\
+&\le \ol{\ga}(P(T))\ol{\de}(P(T))\\
+&=\ga'(A'\cup B')\de'(A'\cap B').
+\end{align*}
+\end{proof}
+\begin{df}
+A \textbf{lattice} is a poset in which every two elements $x,y$ have a unique minimal upper bound (join) $x\vee y$ and a unique maximal lower bound $c\wedge y$. A lattice is distributive if for all $x,y,z\in L$, 
+\[
+x\wedge(y\vee z)=(x\wedge y)\vee (x\wedge z).
+\]
+Equivalently, $x\vee (y\wedge z)=(x\vee y)\wedge (x\vee z)$. For $X,Y\subeq L$, define
+\begin{align*}
+X\vee Y&=\{x\vee y:x\in X,y\in Y\}\\
+X\wedge Y&=\{x\vee y:x\in X,y\in Y\}
+\end{align*}
+\end{df}
+Any $L\subeq P(N)$ where $N=\{1,\ldots, n\}$, where posets are ordered by inclusion, is a finite distributive lattice.%, the joins and meets of $A$ are $A\cup N$ and $A\cap B$. it is closed under intersection and union. It is a finite distributive lattice. 
+Conversely, every finite distributive lattice is of this form.
+
+\begin{cor}[Four function theorem for distributive lattices]
+Let $L$ be a finite distributive lattice and $\al,\be,\ga, \de:L\to \R_{\ge0}$. Then the same theorem holds.
+\end{cor}
+The simplest case is $\al,\be,\ga,\de=1$. Then we get the following.
+\begin{cor}\label{xyineq}
+Let $L$ be a finite distributive lattice and $X,Y\subeq L$. Then
+\[
+|X||Y|\le |X\vee Y|\cdot |X\wedge Y|.
+\]
+\end{cor}
+\begin{cor}
+Let $\cal A\subeq P(N)$ and $\cal A\bs\cal A=\{A\bs A':A,A'\subeq \cal A\}$. Then
+\[
+|\cal A\bs \cal A|\ge |\cal A|.
+\]
+\end{cor}
+\begin{proof}
+Let $L$ be a finite distributive lattice on $P(N)$. By Corollary~\ref{xyineq} with $\cal B=\{N\bs F:F\in \cal A\}$,
+\[
+|\cal A|^2=|\cal A|\cdot |\cal B|\le |\cal A\cup \cal B|\cdot |\cal A\cap \cal B|=|A\bs\cal A|^2.
+\]
+\end{proof}
+\subsection{FKG inequality}
+\begin{df}
+Let $L$ be a finite distributive lattice. A function $\mu:L\to \R_{\ge0}$ is called \textbf{log-supermodular} if $\mu(x)\mu(y)\le \mu(x\wedge y)\mu(x\vee y)$, \textbf{increasing} if $\mu(x)\le \mu(y)$ for all $x\le y$ and \textbf{decreasing} if $\mu(x)\ge \mu(y)$ for all $x\le y$.
+\end{df}
+\begin{thm}[FKG inequality]
+Let $L$ be a finite distributive lattice and $\mu:L\to \R_{\ge 0}$ %mu acts like measure.
+be a log-supermodular function. Let $f,g:L\to\R_{\ge 0}$ be increasing functions. Then
+\[
+\pa{\sum_{x\in L} \mu(x)f(x)}
+\pa{\sum_{x\in L} \mu(x)g(x)}
+\le
+\pa{\sum_{x\in L} \mu(x)f(x)g(x)}
+\pa{\sum_{x\in L} \mu(x)}.
+\]
+\end{thm}
+\begin{proof}
+
+Define $\al,\be,\ga,\de$ by
+\begin{align*}
+\al(x)&=\mu(x)f(x)\\
+\be(x)&=\mu(x)g(x)\\
+\ga(x)&=\mu(x)f(x)g(x)\\
+\de(x)&=\mu(x).
+\end{align*}
+We claim these functions satisfy~(\ref{fft}); then the conclusion follows from the four function theorem. % and hence~(\ref{fft2}).
+Indeed,
+\begin{align*}
+\al(x)\be(y)&=\mu(x)f(x)\mu(y)g(y)\\
+&\le \mu(x\wedge y)f(x)\mu(x\vee y)g(y)\\
+&\le \mu(x\wedge y) f(x\vee y)\mu(x\vee y)g(x\vee y)\\
+&=\de(x\wedge y)\ga(x\vee y).
+\end{align*}
+\end{proof}
+Same holds if both $f,g$ decreasing; just reverse $\ga,\de$. If one is increasing and the other is decreasing, inequality reverses.
+

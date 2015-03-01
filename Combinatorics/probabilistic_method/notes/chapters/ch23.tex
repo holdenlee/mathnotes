@@ -1,0 +1,129 @@
+\lecture{Tue. 5/3/11}
+
+\subsection{Crossing number, incidences, and sum-product estimates}
+\begin{df}
+For a graph $G=(V,E)$ let the \textbf{crossing number} 
+$\text{cr}(G)$ be the minimum number of crossings in any drawing of $G$.
+\end{df}
+Note the following facts:
+\begin{enumerate}
+\item (Farey's theorem) If a planar graph can be represented using curves, then it can be represented using line segments. (Disk representation theorem) Any planar graph can be represented as nonoverlapping disks, with adjacency if they touch.
+\item
+$\text{cr}(G)=0$ iff $G$ is planar.
+\item
+$\text{cr}(G)\le \binom{|E|}{2}$.
+\item 
+If $n\ge 3$ and $G$ is planar, $m\le 3n-6$. (Consider a triangulation.) For any planar $G$, $m\le 3n$.
+\item $\text{cr}(G)\ge m-3n$. (Keep pulling out edges one by one.)
+%\item $\text{cr}(G)=\Theta(n^4)$.
+\end{enumerate}
+We use the probabilistic method to amplify this simple bound and prove the following.
+\begin{thm}[Crossing lemma]%ACNSL
+If $G$ has $m\ge 4n$ edges then
+\[
+\text{cr}(G)\ge \frac{m^3}{64n^2}.
+\]
+%2m/n only cross inside
+\end{thm}
+\begin{proof}
+Let $t=\text{cr}(H)$
+
+Pick each vertex with probability $p$ independent of the other vertices. Let $H$ be the induced subgraph with these picked vertices. Then
+\begin{align*}
+\E(|V(H)|)&=pn\\
+\E(|E(H)|)&=p^2m\\
+\E(\text{cr}(H))&\le p^4t
+\end{align*}
+The inequality comes from the fact that for a crossing to appear in $H$, the four vertices involved must be in $H$.
+Using $\text{cr}(H)\ge |E(H)|-3|V|$, we get
+\[
+p^4t\ge \E(\text{cr}(H))\ge \E(|E(H)|)-3\E(|V(H)|)=p^2m-pn.
+\]
+or
+\[
+t\ge p^{-2}m-3p^{-3}n.
+\]
+To maximize the right-hand side take $p=\frac{4n}{m}$; this gives the desired result.
+\end{proof}
+%conjecture for K_n, complete bipartite graphs $\text{cr}(K_{m,n})$ Turan in concentration camp in WWII, had to do really hard labor, had to push carts of bricks to warehouses, train tracks, crossings, really hard to push over crossing.
+%brick factory problem.
+\begin{thm}[Szemer\'edi-Trotter incidence theorem]
+Let $P$ be a set of points in $\R^2$ and $L$ be a set of lines in $\R^2$. Let $l(P,L)$ be the set of pairs $(p,\ell)\in P\times L$ which are incident. Then there is a constant $c$ such that 
+\[
+l(P,L)\le 4(m^{\frac 23} n^{\frac 23} +m+n)
+\]
+where $m=|L|$ and $n=|P|$.
+\end{thm}
+%Using no C_4 and extremal graph theory gives the weaker bound |P||L|^{1/2} +|L||P|^{1/2}
+Note that the dominant term depends on the relative sizes of $m$ and $n$.
+\begin{proof}
+%No 4-cycle.
+%Any two points determine a line
+We can assume all lines have at least one point and all points are on at least one line. Consider the graph $(V,E)$ where $V$ is the set of points, $E=(p,p')$ is an edge if $p$ and $p'$ are the closest points on a line $\ell\in L$. Then $|V|=n$ and $|I|=|E|+|L|$. 
+The graph is embedded in the plane, and the number of crossings is at most the number of pairs of lines. If $|E|<4n$, then $|I|\le m_4n$; else
+by the crossing lemma, 
+\[
+\frac{(|I|-m)^3}{64n^2}\le \text{cr}(G)\le \binom m2\le \frac{m^2}{2}
+\]
+and the bound follows:
+\begin{align*}
+(|I|-m)^3&\le 32 m^2 n^2\\
+|I|&\le 32^{\rc 3} m^{\frac 23} n^{\frac 23} +m. 
+\end{align*}
+The extra $n$ comes from removing the initial assumption.
+\end{proof}
+\begin{ex}[Unit distance problem]
+Given $n$ points in $\R^2$, how many unit distances can you have?
+\end{ex}
+{\it Solution.} (Sketch) Look at unit circles around the points, and say two vertices are adjacent if they are adjacent in a circle. The maximum number of edges between any two vertices is at most 2 (we're counting them once for each circle they're in); use a variant of the crossing lemma for nonsimple graphs.
+%Best known $O(n^{\frac 43})$.
+%sum of two squares
+%x^2+y^2=m faster than n
+%\om(n). log factor
+%Conjecture
+%Distinct distances problem: how many distinct distances must you have? Katz, Gouth, at least $\frac{cn}{\ln n}$. Upper bound $\frac{n}{\sqrt{\log n}}$.
+
+For $A,B\subeq \R$,
+\begin{align*}
+A+B&=\{a+b\mid a\in A,b\in B\}\\
+A\cdot B&=\{a\cdot b\mid a\in A,b\in B\}.
+\end{align*}
+Let $|A|=n$. Then $|A+A|\ge 2n-1$ with equality iff $A$ is an arithmetic progression. To prove this note that if $a_1<\ldots<a_n$ then
+\[
+a_1+a_1<a_1+a_2<\cdots <a_1+a_n<a_2+a_n<\cdots <a_n+a_n.
+\]
+The following is a generalization.
+\begin{thm}[Freiman's Theorem]
+If $|A+A|\le Cn$ then $A$ is a dense subset of a generalized arithmetic progression.
+\end{thm}
+%Doubling theorm
+By taking exponentials, we get a similar result for geometric progressions and $A\cdot A$. The following says that we can't have a set with $A+A$ and $A\cdot A$ both small, i.e. looking both like an arithmetic and geometric progression.
+%Similar for geometric progression (Take exponentials). $|A\cdot A|$.
+%Can't look like both arithmetic and geometric progression.
+%14/11, 4/3 w/ log factor.
+\begin{thm}[Elekes]
+\[
+\max(|A+A|,|A\cdot A|)\ge c|A|^{\frac 54}.
+\]
+\end{thm}
+\begin{proof}
+Let $\ell_{a,b}$ be the line $y=a(x-b)$. Note $\ell_{a,b}$ contains the point $(c+b,c\cdot a)\in P$ for all $c\in A$. Let $L=\{\ell_{a,b}\mid a,b\in A\}$; note $|L|=|A|^2$. Let $P=(A+A)\times (A\cdot A)$; then $|P|=|A+A||A\cdot A|$. We obtain a bound for $|P|$.
+
+By the incidence theorem,
+\[
+c(|L|^{\frac 23} |P|^{\frac 23} +|L|+|P|)\ge I(P,L)\ge |L||A|.
+\]
+Some calculation finishes the problem.
+\end{proof}
+%|P|^{2/3}\ge c'|A|^{5/3}
+%|P|\ge c''|A|^{5/2}/
+%possibly $|P|\ge c'|A|^3$.
+%Finite fields! Bourgain-Katz-Tao: $A\subeq \F_p$. For ever $\ep>0$ there exists $\de>0$ such that if $|A|\le p^{1-\ep}$ then $\max(|A+A|,|A\cdot A|)\ge |A|^{1+\de}$.
+%Wraparound.
+%Not in small field. Approximate subgroups-- things don't grow.
+%Finite field still no C_4 but can do better.
+%Computer science, sum-product estimates
+%
+%Book: |A+B\cdot C|\ge n^{\frac 23}.
+%|A+A|\le kn\implies |A+A+A|\le k^2n
+%etc. etc. Additive combinatorics.

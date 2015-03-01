@@ -1,0 +1,99 @@
+\lecture{Tue. 5/10/11}
+
+\subsection{Weierstrass Approximation Theorem}
+The theorem tells us we can approximate continuous real functions by polynomials.
+\begin{thm}
+The set of real polynomials over $[0,1]$ is dense in the set of continuous functions $C[0,1]$ (the topology being determined by the norm $\ve{f}=\max|f|$).
+
+In other words, for all continuous real functions $f:[0,1]\to \R$ and $\ep>0$, there exists a polynomial $p(x)$ such that $|p(x)-f(x)|\le \ep$ for all $x\in [0,1]$.
+\end{thm}
+\begin{proof}(Bernstein)
+We will use the fact that the binomial distribution is tightly distributed around its mean.
+
+Since $f$ is uniformly continuous, there exists $\de>0$ such that if $x,x'\in[0,1]$ and $|x-x'|\le \de$ then $|f(x)-f(x')|\le \frac{\ep}{2}$. In addition $f$ is bounded; take $M$ such that $|f(x)|\le M$ for all $x\in [0,1]$.
+
+Let $B(n,x)$ be a binomial random variable with $n$ independent trials and probability of success $x$ for each of them. Note
+\begin{align*}
+P(B(n,x)=j)&=\binom nj x^j(1-x)^{n-j}\\
+\mu=\E(B(n,x))&=xn\\
+\si&=\sqrt{nx(1-x)}<\sqrt n.
+\end{align*}
+By Chebyshev's inequality,
+\[
+P(|B(n,x)-nx|)>n^{\frac 23}\le\pf{\sqrt n}{n^{\frac 23}}=\rc{n^{\rc 3}}.
+\]
+Thus there exists $n$ such that $P(|B(n,x)-nx|>n^{\frac 23})<\frac{\ep}{4M}$ and $\rc{n^{\rc 3}}<\de$. Define
+\[
+P_n(x)=\sum_{i=0}^n \binom ni x^i (1-x)^{n-i} f\pf in.
+\]
+We claim that $|P_n(x)-f(x)|\le \ep$. For every $x\in [0,1]$,
+\begin{align*}
+|P_n(x)-f(x)|&\le \sum_{i=0}^n \binom nix^i(1-x)^{n-i} \ab{f\pf in -f(x)}\\
+&\le \sum_{i,|i-nx|\le n^{\frac 23}}\binom ni x^i (1-x)^{n-i} \ab{f\pf in -f(x)}\\
+&\quad +\sum_{i,|i-nx|>n^{\frac 23}} \binom ni x^i (1-x)^{n-i}\pa{
+\ab{f\pf in}+
+|f(x)|
+}\\
+&\le \frac{\ep}{2}+\frac{\ep}{4M}\cdot 2M= \ep.
+\end{align*}
+(To see that the first sum at most $\frac{\ep}{2}$, note that $\ab{\frac{i}n-x}\le n^{-\rc 3}$ there and $\rc{n^{\rc 3}}<\de$.)
+\end{proof}
+\subsection{Antichains}
+\begin{df}
+A family $F$ of subsets of $[n]$ is an \textbf{antichain} if no set in $F$ is contained in another.
+\end{df}
+\begin{thm}
+Let $F$ be an antichain. Then
+\[\sum_{A\in F}\rc{\binom{n}{|A|}}\le 1.\]
+%Pset 2.4
+\end{thm}
+\begin{proof}
+Pick a random permutation of $1,\ldots, n$. Consider the family of sets $C_{\si}=\{\{\si(1)\},\{\si(1),\si(2)\},\ldots, \{\si(1),\ldots,\si(n)\}\}$. Let $X=F\cap C_{\si}$ because for any pair of sets in $C_{\si}$, one is inside the other.
+
+Note $X=\sum_{A} X_A$ where $A$ is the indicator random variable for the event $A\in C_{\si}$. Since $P(A\in C_{\si})=\rc{\binom n{|A|}}$, 
+\[
+1\ge \E(X)=\sum_{A\in \cal F} \E(X_A)=\sum_{A\in \cal F}\rc{\binom n{|A|}}.
+\]
+\end{proof}
+\begin{cor}[Sperner's Theorem]
+Let $\cal F$ be an antichain. Then $|\cal F|\le \binom n{\fl{\frac n2}}$.
+\end{cor}
+\begin{proof}
+Note $\binom nx$ is maximal at $x=\fl{\frac n2}$ so the theorem gives
+\[
+1\ge \sum_{A\in \cal F} \rc{\binom{n}{|A|}}\ge \frac{|\cal F|}{\binom{n}{\fl{\frac n2}}}.
+\]
+\end{proof}
+\subsection{Discrepancy}
+Let $\Om$ be a set, and let $A\subeq 2^{\Om}$ be a collection of subsets of $\Om$. We want to color the elements of $\Om$ with red or blue such that all $S\in A$ have roughly the same number of red and blue elements.
+
+Label red and blue by $-1$ and $1$. 
+\begin{df}
+For a coloring $\chi:\Om\to \{-1,1\}$, let $\chi(S)=\sum_{a\in S} \chi(a)$. Define %the \textbf{discrepancy} to be
+\[
+\disc(A,x)=\max_{S\in A} \ab{\chi(S)}
+\]
+and define the \textbf{discrepancy} of $A$ to be
+\[
+\disc(A):=\min_{\chi:\Om\to\{-1,1\}}\disc(A,\chi).
+\]
+\end{df}
+We want to show that under certain constraints, the discrepancy is small.
+\begin{thm}
+Let $A$ be a family of $n$ subsets of an $m$-element set $\Om$. Then
+\[
+\disc(A)\le \sqrt{2m}\ln 2n.
+\]
+%Note when $A$ is all subsets, $\disc(A)\le n/2$.
+\end{thm}
+\begin{proof}
+Let $\chi:\Om\to \{-1,1\}$ be random. For $S\subeq \Om$ let $X_S$ be the indicator random variable for the event $|\chi(S)|>\al$. If $|S|=a$, then by Chernoff estimate,
+\[
+\E(X_S)=P(|\chi(S)|>\al)<2e^{-\frac{\al^2}{2a}}\le 2^{-\frac{\al^2}{2m}}=\rc n.
+\]
+Let $X=\sum_{S\in A} X_S$. Then
+\[
+\E(X)=\E\pa{\sum_{S\in A} X_S}=\sum_{S\in A} \E(X_S)<n\cdot \rc n=1.
+\]
+Hence there exists a coloring $\chi$ such that $X=0$, i.e. all sets in $A$ have discrepancy at most $\al$, i.e. $\disc(A)\le \al$.
+\end{proof}

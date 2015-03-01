@@ -1,0 +1,130 @@
+\lecture{Tue. 2/15/11}
+
+%Problem set 2-Ch. 2: 1, 2, 5, 7, 9 Due Mar. 8
+%1.6 does not use Prob. method.
+
+\subsection{Alterations: Ramsey Numbers}
+
+Recall that 
+\begin{equation}\label{ramseybd1}
+\binom nk 2^{\binom k2}\implies R(k,k)>n.
+\end{equation}
+We prove a different bound.
+\begin{thm}
+For any $n$,
+\begin{equation}\label{ramseybd2}
+R(k,k)>n-\binom nk 2^{\binom k2}
+\end{equation}
+\end{thm}
+If we choose $n$ appropriately then this will be a better bound.
+\begin{proof}
+Consider a random 2-coloring of $K_n$. Let $X$ be the number of monochromatic $K_k$. Then
+\[
+\E(X)=\binom nk 2^{1-\binom k2}.
+\]
+Fix a coloring with $X\leq \E(X)$. Delete a vertex for each monochromatic $K_k$. The resulting coloring has no monochromatic $K_k$ and has at least
+\[
+n-X\geq n-\binom nk 2^{1-\binom k2}
+\]
+vertices.
+\end{proof}
+Alteration idea: first get coloring with not too many monochromatic cliques and then delete vertices to get rid of them.
+
+Bound~(\ref{ramseybd1}) gives
+\[R(k,k)>\rc{e\sqrt 2}(1+o(1))k2^{\frac k2}\]
+while bound~(\ref{ramseybd2}) gives
+\[
+R(k,k)>\rc{e}(1+o(1))k2^{\frac k2}.
+\]
+The Lovasz Local Lemma in Chapter 5 will give
+\[
+R(k,k)>\frac{\sqrt 2}{e}(1+o(1))k2^{\frac k2}.
+\]
+The best known upper bound is $R(k,k)\leq (4+o(1))^k$. (Improvements are small but are good examples of the method.)
+%R(3,3)=6, R(4,4)=18, 43\leq R(5,5)\leq 49, 102\leq R(6,6)\leq 165
+
+\subsection{Independent Sets}
+If we have a graph with few edges, we expect large independent sets.
+\begin{thm}
+Let $G$ have $n$ vertices and $\frac{dn}{2}$ edges, $d\geq 1$ (so the average degree of the graph is at least $d$). Then $\al(G)\geq \frac{n}{2d}$. (Recall $\al(G)$ is the independence number.)
+\end{thm}
+\begin{proof}
+Let $S\subeq V$ be a random set defined where
+$P(v\in S)=p$ for any $v$ and these events are independent of each other. We will delete vertices to make it independent.
+
+Let $X=|S|$. Then
+\[\E(X)=pn.\]
+Let $Y$ be the number of edges in $G[S]$ (the induced subgraph of $G$ with vertices of $S$). Then each edge has probability $p^2$ of lying in $G[S]$ so
+\[\E(Y)=p^2\cdot \frac{dn}{2}.\]
+Then
+\[
+\E(X-Y)=\E(X)-\E(Y)=pn-p^2\cdot \frac{dn}{2}.
+\]
+Letting $p=\rc{d}$ maximizes this expression. Then
+\[
+\E(X-Y)=\frac{n}{2d}.
+\]
+Fix $G$ for which $X-Y\leq \E(X-Y)$. Delete from $S$ a vertex from each edge. At least $X-Y$ vertices remain, and it is an independent set.
+\end{proof}
+Turan's Theorem will give a tighter bound.
+
+\subsection{Combinatorial Geometry}
+Let $S$ be a set of $n$ points in a closed unit square $U$. Let $T(S)$ be the minimal area among all triangles with vertices in $S$. 
+Let
+\[T(n)=\max_{|S|=n}T(S).\]
+Heilbroon conjectured that $T(n)=O\pf1{n^2}$, but this was disproved by KPS with a probabilistic method giving $T(n)=\Omega\pf{\ln n}{n^2}$ (complicated).
+
+\begin{thm}
+$T(n)\geq \rc{100n^2}$.
+\end{thm} 
+\begin{proof}
+Let $P,Q,R$ be independent and uniformly selected from $U$, and let $\mu=[PQR]$ be the area of $\triangle PQR$. 
+We bound $P([PQR]\leq \ep)$. 
+%First bound the probability that 
+Let $x=|PQ|$. Now
+\[
+P(b\leq x\leq b+\De b)\leq \pi(b+\De b)^2-\pi b^2
+\]
+so as $\De b\to 0$, 
+\[
+P(b\leq x\leq b+db)\leq 2\pi b\,db.
+\]
+Given $d(P,Q)=b$, we bound $P(\mu\leq \ep)$. The distance of $R$ from $PQ$ must be $h\leq \frac{2\ep}{b}$; thus $R$ is in a strip of width $\frac{4\ep}{b}$ and of length at most $\sqrt 2$, so given $|PQ|=b$, 
+\[
+P(\mu\leq \ep)\leq \sqrt{2}\cdot \frac{4\ep}{b}.
+\]
+Hence
+\[
+P(\mu\leq \ep)\leq \int_0^{\sqrt 2}\sqrt 2 \cdot \frac{4\ep}{b}\cdot 2\pi b\,db=16\pi \ep.
+\]
+Let $P_1,\ldots, P_{2n}$ be selected uniformly and independently at random from $U$. Let $X$ be the number of triangles $P_1,P_2,P_3$ with area less than $\rc{100n^2}$ ``bad triangles". Then
+\[
+\E(X)\leq \binom{2n}{3}16\pi\cdot\rc{100}n^2<n.
+\]
+Delete point from each bad triangle. The resulting set will have greater than $n$ points and satisfies the equations.
+\end{proof}
+An explicit example (Erd\"os) gives $T(n)\geq\rc{2(n-1)^2}$ for $n$ prime (but doesn't extend to better bounds). Consider $[0,n-1]\times [0,n-1]$ and points $(x,y)$ where $0\leq x\leq n-1$, $y\equiv x^2\pmod n$ and $0\leq y\leq n-1$. We claim this set works (after scaling by $\rc{n-1}$).
+No three points are collinear: otherwise they are on a line $y=mx+b$, $m$ rational with denominator less than $n$. But then $x^2-mx-b$ would have 3 solutions in $\Z/n$, $n$ prime, a contradiction. The area of every nontrivial lattice triangle is at least $\frac 12$. %multiple
+ Contract by a factor of $n-1$.
+
+\begin{df}
+Let $C$ be a bounded measurable subset of $\R^d$ (with $\mu(C)>0$). Let $B(x)=[0,x]^d$ be the $d$-dimensional cube of side length $x$. A \textbf{packing} of $C$ in $B(x)$ is a family of mutually disjoint translates of $C$ lying inside in $B(x)$. Let $f(x)$ be the size of the largest packing of $C$ in $B(x)$. The packing constant is
+\[
+\de(C)=\mu(C)\lim_{x\to \infty} f(x)x^{-d},
+\]
+i.e. the fraction of space that can be filled with copies of $C$.
+\end{df}
+For example, for $C$ a sphere in $\R^3$, $\de(C)=\frac{\pi}{3\sqrt 2}$.
+%Kepler's conjectured, proved in 90's by Hales with computer.
+\begin{thm}
+Let $X$ be a bounded, convex, centrally symmetric set around the origin. Then
+\[\de(C)\geq \rc{2^{d+1}}.\]
+\end{thm}
+%for the sphere takes 1/16. Greedy 1/8. Another improvement 1/4.\
+\begin{proof}
+Take random points $x_i$ from $B(x)$. Consider $x_i+C$. Count the number that intersect. Now $(p+C)\cap (q+C)$ means that $p-q=c_2-c_1\in 2C$ (from convexity and symmetry). Now $[2C]=2^d[C]$. Hence 
+\[
+P((p+C)\cap (q+C)\neq \phi)\leq \frac{[2C]}{x^d}=\frac{2^d[C]}{x^d}.
+\]
+Now delete the problemsome points.
+\end{proof}

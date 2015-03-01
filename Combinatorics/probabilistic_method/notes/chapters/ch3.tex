@@ -1,0 +1,82 @@
+\lecture{Tue. 2/8/2011}
+
+\subsection{Linearity of Expectation}
+
+Let $X_1,\ldots, X_n$ be random variables and $X=cX_1+\cdots +cX_n$. Then
+\[
+\E(X)=c_1\E(X_1)+\cdots +c_n\E(X_n).
+\]
+(Independence is not required.)
+
+\begin{ex}
+Let $\sigma$ be a random permutation of $\{1,\ldots, n\}$. What is the expected value of the number of fixed points? ($i$ is a fixed point if $\sigma(i)=i$)
+\end{ex}
+{\it Solution.} Let $X$ be the number of fixed points. Then $X=X_1+\ldots+ X_n$ where $X_i$ is the indicator random variable for the event $\sigma(i)=i$. (1 if the event happens, 0 if it doesn't) Now $\E(X_i)=P(X_i)=\rc{n}$. Hence
+\[
+\E(X)=\E(X_1+\cdots +X_n)=\E(X_1)+\cdots +\E(X_n)=n\cdot \rc n=1.
+\]
+
+In applications, we often use that there is a point in the probability space for which $X\geq \E(X)$ and a point where $X\leq \E(X)$.
+
+\begin{thm}
+There exists a tournament $T$ with $n$ players and at least $\frac{n!}{2^{n-1}}$ hamiltonian paths. (A hamiltonian path is a sequence of vertices $v_1,\ldots, v_n$ such that $v_iv_{i+1}$ is a directed edge.)
+\end{thm}
+\begin{proof}
+Pick a random tournament, each edge has probability $\rc2 $ going either way. 
+Each permutation $\sigma(1),\ldots, \sigma(n)$ of the $n$ players has probability $2^{-(n-1)}$ has probability of forming a hamiltonian path because there are $n-1$ edges between them. Let $X_{\sigma}$ be the indicator random variable for $\sigma$ forming a hamiltonian path and $X=\sum_{\sigma\in S_n} X_{\sigma}$ be the number of hamiltonian paths. Then $P(X_{\sigma})=\rc{2^{n-1}}$ and the expected number of hamiltonian paths is
+\[
+\E(X)=\sum_{\sigma\in S_n}\E(X_{\sigma})=n!2^{-(n-1)}.
+\]
+\end{proof}
+\begin{rem}
+The bound is roughly best possible.
+
+Every tournament has a hamiltonian path. If $T$ is transitive there is exactly one hamiltonian path.
+\end{rem}
+
+\subsection{Max-cut}
+\begin{df}
+The \textbf{max-cut} of a graph $G$ is the maximum number of edges of a bipartite subgraph of $G$. (Not necessarily induced subgraph)
+\end{df}
+\begin{thm}
+If $G$ contains $e$ edges then $G$ contains a bipartite subgraph with at least $\frac e2$ edges.
+\end{thm}
+\begin{proof}
+Let $T\subeq V$ be a random subset. Let $B=V-T$. Let $H$ be the bipartite subgraph consisting of edges between $T$ and $B$ (``crossing edges"). For any edge $e$ of $G$, $P(e\in H)=\rc 2$ (consider where its endpoints lie). Hence letting $X_e$ be the indicator for $e\in H$,
+\[
+\E(\text{number of edges of }H)=\sum_{e\in E} \E(X_e)=\frac e2.
+\]
+\end{proof}
+Note greedy algorithm also works. Or use extremal principle; if some vertex has more edges going to the same group, then move it to the other group to increase the number of edges of $H$.
+
+We can improve this by picking $T$ uniformly at random from all $n$-subsets: (Picking a better probability space can improve the bound.)
+\begin{thm}
+If $G$ has $2n$ vertices and $e$ edges then $G$ has a bipartite subgraph with at least $\frac{n}{2^{n-1}}e$ edges. 
+\end{thm}
+\begin{proof}
+The probability  that $e\in H$ is $\frac{n}{2n-1}$. (Given $e=xy$ and $x$ is in $T$ or $B$, there is $\frac{n}{2n-1}$ probability that $y$ is too.) The rest of the proof is the same.
+\end{proof}
+
+Algorithmic question: compute or estimate max-cut. Goemans and Williamson give a $.878\ldots $ (polynomial-time) approximation algorithm for max cut. Khot showed that assuming the Unique Games Conjecture\footnote{ \url{http://en.wikipedia.org/wiki/Unique_games_conjecture}} this is the best possible.
+\subsection{Ramsey multiplicity}
+Question: How many monochromatic $K_a$ are there in every 2-edge-coloring of $K_n$?
+
+\begin{thm}
+There exists a 2-coloring  of the edges of $K_n$ with at most $\binom na2^{1-\binom a2}$ monochromatic $K_a$.
+\end{thm}
+\begin{proof}
+Take a random 2-coloring of the edges of $K_n$. Each $K_a$ has probability $2^{1-\binom k2}$ of being monochromatic. Since $\#K_a=\binom na$,
+\[
+\E(\text{number of monochromatic} K_a)=\sum_{a-\text{cliques}}2^{1-\binom a2}
+=\binom na 2^{1-\binom a2}.
+\]
+Thus there exists a coloring with at most $\binom na2^{1\binom as}$ momochromatic $K_a$.
+\end{proof}
+\begin{rem}How good is this bound? Erd\"os conjectures this in 1962; Goodman probed it true for $a=3$ in 1959 (AMM) The theroem is false for $a\geq 4$ (thin $H=K_a$). 
+
+If $H$ has $e$ edges random bound gives that there exists a coloring with the fraction of monochromatic $H$ at most $2^{n-1}$. 
+
+$H=K_a, a^2\ln a$, one color class is disjoint union of $K_{n/(a-1)}$.
+
+Sidoranko conjectures that the random bound is tirght if $H$ is bipartite.
+\end{rem}

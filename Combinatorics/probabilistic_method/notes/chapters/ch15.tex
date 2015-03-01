@@ -1,0 +1,67 @@
+\lecture{Thu. 3/31/11}
+
+\subsection{Applications of Talagrand's inequality}
+Let $\Om=\prod_{i=1}^n\Om_i$ where each $\Om_i$ is a probability space and $\Om$ has the product measure. Let $h:\Om\to \R$. Under certain constraints, Talagrand's inequality will show $h$ is concentrated.
+
+\begin{df}
+A function $h:\Om\to \R$ is Lipschitz if $|h(x)-h(y)|\le 1$ whenever $x,y$ differ in at most 1 coordinate.
+
+$h$ is $k$-Lipschitz
+\end{df}
+%Talagrand's inequality is effective on Lipschitz functions.
+\begin{df}
+A function $f:\N\to \N$ is $h$-\textbf{certifiable} if whenever $h(x)\ge s$ there is $I\subeq \{1,\ldots, n\}$ with $|I|\le f(s)$ such that all $y\in \Om$ that agree with $x$ on the coordinates $I$ have $h(y)>s$.
+\end{df}
+\begin{ex}
+For example consider $G(n,p)$ as the product of all $\binom n2$ coin flips. Let $h(G)$ be the number of triangles in $G$. Then $h$ is certifiable with $f(s)=3s$.
+
+If an graph $G$ has at least $s$ triangles, take the edges of those triangles; there are at most $3s$. Any graph which agrees with $G$ on those edges has at least $s$ triangles as well. Warning: $h$ is not Lipschitz; $\frac{h(x)}{n}$ is.
+
+We'd expect variance on the order of $n^2$: We make $\binom n2$ coin flips, so there's variance on the order of $n^2$ on the number of edges; the number of edges correlates linearly with the number of triangles.
+\end{ex}
+\begin{thm}\label{talacon}
+Assume $h$ is Lipschitz and $f$-certifiable. Let $X=h(x)$ where $x$ is a random element of $\Om$. 
+Then for all $b$ and $t$,
+\[
+P(X\le b-t\sqrt{f(b)})P(X\ge b)\le e^{-\frac{t^2}{4}}.
+\]
+\end{thm}
+If $h$ is $k$-Lipschitz, replace with $X\le b-tk\sqrt{f(b)}$.
+\begin{proof}
+Set $A=\{x:h(x)<b-t\sqrt{f(b)}\}$. Suppose $h(y)\ge b$. We claim $y\nin A_t$. Let $I$ be a set of indices of size at most $f(b)$ that certifies $h(y)\ge b$. Define $\al_i=0$ when $i\in I$ and $\al_i=|I|^{-\rc 2}$ when $i\in I$, so $|\al|=1$. If $y\in A_t$, then there exists a $z\in A$ that differs from $y$ in at most $t|I|^{-\rc2}\le t\sqrt{f(b)}$ coordinates of $I$ (so that the distance is at most $(t|I|^{\rc2})|I|^{-\rc2}$) and at arbitrarily many coordinates outside $I$.
+
+Let $y'$ agree with $y$ on $I$ and $z$ outside $I$. By certification, $h(y')\ge b$. Since $y'$ and $z$ differ in at most $t\sqrt{f(b)}$ coordinates. By Lipschitz, $h(z)\ge h(y')-t\sqrt{f(b)}\ge b-t\sqrt{f(b)}$. Hence $z\nin A$, contradiction.
+
+This shows $P(X\ge b)\le P(\overline{A_t})$. By Talagrand's inequality,
+\[
+P(X< b-t\sqrt{f(b)})P(X\ge b)\le P(A)(1-P(A_t))\le e^{-\frac{t^2}{4}}.
+\]
+By continuity we can replace ``$<$" with ``$\leq$".
+\end{proof}
+Usually pick $b$ to be the median, or $b-tk\sqrt{f(b)}$ to be the median. Note if $m=b-t\sqrt{f(b)}$ then usually $b\approx m+t\sqrt{f(m)}$, so the probability of being much larger than $m$ is small.
+
+\begin{ex}
+Let $x=(x_1,\ldots, x_n)$ where the $x_i$ are independent and uniformly chosen from $[0,1]$. There is probability 0 that two of them match, so the ordering of the elements is basically a random permutation.
+
+Let $X=h(x)$ be the length of the longest increasing subsequence of $X$. Elementary methods give $c_1\sqrt{n}<X<c_2\sqrt n$ almost surely. Note $X$ is Lipschitz. Applying Azuma's inequality we get $|X-\mu|<s$ almost surely if $s\gg n$, no good.
+
+We use Talagrand's inequality. Note $X$ is certifiable with $f(s)=s$; any $x'$ which agrees with $x$ on an increasing sequence of length $s$ has length of longest increasign sequence at least $s$. By Theorem~\ref{talacon} with $m$ equal to the median (which is on the order $\sqrt n$),
+\[
+P(X\le m-t\sqrt m)P(X\ge m)\le e^{-\frac{t^2}{4}},
+\]
+giving concentration $O(n^{\rc 4})$.
+\end{ex}
+%letting $C(n)\to \iy$, prob at most $C(n)n^{\rc4}$ away from median tends to 0 as $n\to \iy$.
+\subsection{Correlation inequalities}
+Let $G=G(n,p)$. Let $H$ be the event that $G$ is Hamiltonian, let $P$ be the event that $P$ is planar. We want to compare $P(H\wedge P)$ and $P(H)P(P)$. $H$ and $P$ are negatively correlated if $P(H\wedge P)\le P(H)P(P)$, independent if $P(H\wedge P)= P(H)P(P)$ and positively correlated if $P(H\wedge P)\ge P(H)P(P)$. 
+Note $H$ is monotone increasing (if we add edges, Hamiltonian paths become more likely) and $P$ is monotone decreasing (if we add edges, the graph is less likely to be planar).
+
+We expect $P(P|H)\le P(P)$, so $P(P\wedge H)\le P(P|H)P(H)\le P(P)P(H)$.
+This inequality is a special case of the FKG ineqality of 1971. %The first such result was proved by Harris  and Kleitman in 1966.
+
+\begin{df}
+$A$ is a \textbf{monotone decreasing family} of subsets of $\{1,\ldots, n\}$ if whenever $A'\in A$ and $A''\subeq A$, we have $A''\in A$.
+\end{df}
+\begin{thm}
+If $A$ and $B$ are monotone decreasing families of subsets of $\{1,\ldots, n\}$. Then $|A\cap B|2^n\ge |A||B|$.
+\end{thm}

@@ -1,0 +1,123 @@
+\lecture{Thu. 2/3/2011}
+
+First problem set: 1.1, 2, 4*, 6*, 8, 10, due Feb. 24 (latex please)
+
+\subsection{Dominating sets}
+
+\begin{df}
+A set $U\subeq V$ is \textbf{dominating} in a graph $G=(V,E)$ if every vertex $v\in V-U$ %outside of it
+is has at least one neighbor in $U$.
+\end{df}
+\begin{thm}
+Let $G=(V,E)$ be a graph on $n$ vertices with minimum degree $\delta>1$. Then $G$ has a dominating set of size at most $\frac
+{n(1+\ln(\de+1))}
+{\de+1}
+\sim \frac{n\ln \de}{\de}$ (as $\de\to \infty$).
+\end{thm}
+\begin{proof}
+New technique: Let probability be arbitrary and choose it later on.
+
+Fix $p\in [0,1]$. Pick randomly and independently each vertex with probability $p$. Set $X$ to be the set of picked vertices. Then
+\begin{equation}\label{l2-1}
+\E(|X|)=pn.\end{equation}
+Let $Y$ be the set in vertices in $V-X$ with no neighbors in $X$. Then $U=X\cup Y$ is dominating.
+
+The probability that a vertex is in $Y$ is (since there is probability $p$ that a given vertex is in $X$; we care about the vertex and its neighbors)
+\[
+P(v\in Y)=(1-p)^{\deg(v)+1}\leq (1-p)^{\de+1}.
+\]
+Hence
+\begin{equation}\label{l2-2}
+\E(|Y|)\leq n(1-p)^{\de+1}.
+\end{equation}
+Then by linearity of expectation with~(\ref{l2-1}) and~(\ref{l2-2}),
+\[
+\E(|U|)=\E(|X|+|Y|)=\E(|X|)+\E(|Y|)\leq pn+(1-p)^{\de+1}n.
+\]
+This works for any $p\in [0,1]$ so we can choose $p$ to make this expression small. We use $1-p\leq e^{-p}$ (these are actually close to each other for $p$ small). Thus there exists $U=X\cup Y$ which is dominating and $|U|\leq pn+e^{-p(\de+1)}n$. Taking $p=\frac{\ln(\de+1)}{\de+1}$, we get
+\[
+|U|\leq \frac{n(1+\ln(\de+1))}{\de+1}.
+\]
+(Note that actually calculating the minimum and plugging it in is messier.)
+\end{proof}
+
+This proof reveals four important ideas.
+\begin{enumerate}
+\item
+Linearity of expectation:
+\[\E\pa{\sum_{i=1}^n X_i}=\sum_{i=1}^n \E(X_i).\]
+Note that independence is not required.
+\item Alteration principle: $X$ wasn't enough; we had to alter it a bit. (See Chapter 3)
+\item Optimized $p$ at the end of the proof.
+\item Asymptotic estimates. (The actual minimum above is $p=1-(\de+1)^{\rc \de}$, but this is difficult to work with, and we prefer a clean bound.)
+\end{enumerate}
+
+\subsection{Hypergraph coloring}
+\begin{df}
+A \textbf{hypergraph} is $H=(V,E)$ consists of a set of vertices $V$, and a set of edges $E$, where an edge is a subset of vertices. $H$ is $n$-\textbf{uniform} if every edge has exactly $n$ vetices. (A 2-uniform hypergraph is simply a graph.)
+
+$H$ is 2-colorable (has property $B$) if there exists a 2-coloring of $V$ with no monochromatic edge. Let $m(n)$ be the minimum number of edges of a $n$-uniform hypergraph without property $B$. 
+\end{df}
+
+Note $m(n)\leq \binom{2n-1}{n}\approx 4^n$ because we can let $|V|=2n-1$ and let the edges be all $n$-subsets.
+\begin{pr}
+$m(n)\leq 2^{n-1}$
+\end{pr}
+\begin{proof}
+Suppose $H$ is a hypergraph with $|E|<2^{n-1}$ edges. Color $V$ randomly with 2 colors. For each $e\in E$, 
+\begin{align*}
+P(e\text{ is monochromatic})&=2\cdot 2^{-n}\\
+P(\text{at least one edge is monochromatic})&\leq |E|\cdot 2^{1-n}<1
+\end{align*}
+Thus there exists a 2-coloring without a monochromatic edge, i.e. $H$ has property $B$.
+\end{proof}
+The upper bound also uses the probabilistic method.
+\begin{thm}
+$m(n)=O(n^22^n)$.
+\end{thm}
+\begin{proof}
+Fix $V$ with $v$ vertices, where $v$ is even. Pick edges at random. Let $\chi$ be a coloring of $V$ with $a$ points in the first color and $b=v-a$ points in the second color. Let $S$ be a random subset of $V$ with $|S|=n$.
+
+Then
+\[
+P(S\text{ is monochromatic under }\chi)=\frac{\binom an+\binom bn}{\binom vn}\geq \frac{2\binom{v/2}{n}}{\binom vn}=:p
+\]
+where the last inequality follows from convexity (Jensen). Let $S_1,\ldots, S_m$ be chosen uniformly at random with replacement. Let $A_{\chi}$ be the event that no $S_i$ is monochromatic under $\chi$. Then $\#\chi=2^v$. We have
+\begin{align*}
+P(A_{\chi})&\leq (1-p)^m\\
+P\pa{\bigvee_x A_x}&\leq 2^v (1-p)^m<1 \qquad \text{for }m=\ce{\frac{v\ln 2}{p}}
+\end{align*}
+Thus there exists $H$ with at most $m$ edges such that every 2-coloring gives monochromatic edges. (Take $S_i$ to be the edges such that $\bigvee_x A_x$ does not hold.) Picking $v$ to minimize
+\[
+m=\ce{\frac{v\ln 2}{p}}=\ce{\frac{v(\ln 2)\binom vn}{2\binom{\frac v2}{n}}}
+\]
+we get  $O(n^22^n)$.
+\end{proof}
+\subsection{Erd\"os-Ko-Rado Theorem}
+\begin{df}
+A family $\cal F$ of sets is \textbf{intersecting} if for any $A,B\in \cal F$, $A\cap B\neq \phi$. 
+\end{df}
+\begin{thm}[Erd\"os-Ko-Rado]
+Suppose $n\geq 2k$ and $\cal F$ is an intersecting family of $k$-subsets of a $n$-set. Then $|F|\leq \binom{n-1}{k-1}$, and this bound is attainable.
+\end{thm}
+\begin{proof}
+Create an ``obstruction" and copy it a lot.
+\begin{lem}\label{intsets}
+For $0\leq s\leq n-1$, set $A_s=\{s,s+1,\ldots, s+k-1\}\subeq \Z/n\Z$. Then $\cal F$ contains at most $k$ of the sets $A_s$.
+\end{lem}
+\begin{proof}
+Fix $A_s\in \cal F$. All other $A_t$ which intersect $A_s$ can be partitioned into disjoint pairs $\{A_{s-i},A_{s+k-1}\}$. (They are disjoint since $n\geq 2k$.) There are $k-1$ such pairs.
+\end{proof}
+Pick a permutation $\sigma$ of $\{0,\ldots, n-1\}$ and $i\in \{0,\ldots, n-1\}$ at random, uniformly and independently. Set $A=\{\sigma(i),\ldots, \sigma(i+k-1)\}$ (addition modulo $n$). For any fixed $\sigma$, by Lemma~\ref{intsets},
+\[
+P(A\in \cal F)\leq \frac{k}{n}.
+\]
+Thus this holds for $\sigma$ chosen randomly. But
+\[
+P(A\in \cal F)=\frac{|F|}{\binom nk}.\]
+Hence
+\[
+|\cal F|\leq \frac kn \binom nk=\binom{n-1}{k-1}.
+\]
+This is attainable by choosing all $k$-element subsets containing a fixed element.
+\end{proof}

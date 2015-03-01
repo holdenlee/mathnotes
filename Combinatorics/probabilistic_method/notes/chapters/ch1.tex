@@ -1,0 +1,91 @@
+\lecture{Tue. 2/1/2011}
+
+\subsection{Ramsey Numbers}
+What is the probabilistic method? Come up with probability space; show something exists with positive probability.
+
+Three theorems due to Erd\"os.
+\begin{df}
+A \textbf{Ramsey number} $R(k,l)$ is the minimum $n$ such that every red-blue edge-coloring of the complete graph $K_n$ on $n$ vertices contains a red $K_k$ or a blue $K_l$. 
+\end{df}
+
+\begin{thm}[Ramsey's Theorem]
+$R(k,l)$ is finite for all $k,l$.
+\end{thm}
+If there are a lot of people at a party, you can find a large number that are friends or a large number that are not friends.
+
+Probabilistic method gives a lower bound.
+\begin{pr}
+If $\binom nk2^{1-\binom k2}<1$, then $R(k,k)>n$. Thus $R(k,k)\geq \fl{2^{\frac k2}}$ for $k\geq 3$.
+\end{pr}
+\begin{proof}
+Consider a random coloring of $K_n$ where each edge is colored independently red or blue with probability $\frac 12$. 
+
+For any set $S$ of $k$ vertices, let $A_S$ be the even that $S$ induces a monochromatic $K_k$. The probability is
+\[P(A_S)=2^{1-\binom k2}\]
+because there are $\binom k2$ edges between vertices of $S$, and they could either be all red or all blue. 
+There are $\binom nk$ choices for $S$. Thus (since $P(A\vee B)=P(A)+P(B)-P(A\wedge B)\leq P(A)+P(B)$),
+\[P(\text{at least one }A_s\text{ occurs})\leq \binom nk 2^{1-\binom k2}<1.\]
+Thus with positive probability no event $A_S$ occurs, and there exists a 2-coloring of $K_n$ with no monochromatic $K_k$. This means $R(k,k)>n$. 
+
+If $n=\fl{2^{\frac k2}}$ and $k\geq 3$,
+\[2^{1-\binom k2}\leq \frac{2^{1+\frac k2}}{k!} \frac{n^k}{2^{k^2/2}}<1.\]
+\end{proof}
+
+Question: Can we construct a 2-edge-coloring of $K_n$ without a monochromatic $K_{2\log n}$?
+
+Silly answer: Yes; try all $2^{\binom n2}$ colorings.
+
+Better answer: Still wide open (can it be done in polynomial time?).
+
+But... a random coloring almost surely works, since $\frac{2^{1+\frac k2}}{k!}\to 0$ as $k\to \infty$. (Verification?)
+
+Probabilistic method shows coloring exists but does not tell us how to find one!
+
+\subsection{Tournaments}
+\begin{df}
+A \textbf{tournament} is an oriented complete graph. (Each edge has an orientation from one vertex to another.) One way to interpret this is that the vertices represent players and there is an edge from $x$ to $y$ if $x$ beats $y$. 
+Say a tournament $T$ (with at least $k$ vertices) has property $S_k$ if for every $k$ vertices, there is another vertex which beats them all. In other words, there is no small set of winners.
+\end{df}
+\begin{thm}[Erd\"os] If $\binom nk (1-2^{-k})^{n-k}<1$, then there exists a tournament $T$ on $n$ vertices with property $S_k$. (For sufficiently large $n$ the inequality holds.)
+\end{thm}
+\begin{proof}
+Consider a random tournament on $n$ vertices $V=\{1,\ldots, n\}$, each edge having probability $\frac 12$ of going either way.  For every $K\subeq V$, $|K|=k$, let $A_K$ be the event that there is no vertex which beats $K$.
+The probability that a fixed vertex outside of $K$ beats all of $K$ is $2^{-k}$, and there are $n-k$ vertices outside of $K$, so
+\[P(A_K)=(1-2^{-k})^{n-k}.\]
+Since there are $\binom nk$ possibilities for $K$,
+\[P(\text{any }A_K \text{ occurs})=\sum_K P(A_K)=\binom nk(1-2^{-k})^{n-k}<1.\]
+Hence with positive probability, no $A_K$ occurs and there exists a tournament $T$ on $n$ vertices with property $S_K$. 
+\end{proof}
+Let $f(k)$ be the minimum $n$ such that there exists $T$ on $n$ vertices with property $S_K$. Using the bound $\binom nk>\pf{en}{k}^k$ and $1-x<e^{-x}\implies (1-2^{-k})^{n-k}<e^{-(n-k)/2^k}$, this gives
+\[f(k)\leq (\ln 2+o(1))k^2 2^k.\]
+Szekeres showed that $f(k)\geq ck2^k$ (so this bound is pretty good).
+\subsection{Sum-free subsets}
+\begin{df}
+A subset $A$ of an abelian group is \textbf{sum-free} if there do not exist $a_1,a_2,a_3$ such that $a_1+a_2=a_3$.
+\end{df}
+\begin{thm}
+Every set $B=\{b_1,\ldots, b_n\}$ of $n$ nonzero integers contains a sum-free subset $A$ with $|A|> \frac n3$.
+\end{thm}
+\begin{proof}
+Let $p=3k+2$ be a prime with $p>2\max\{|b_i|:1\leq i\leq n\}$.  
+%In $\Z/p$, 
+Let $C=\{k+1,\ldots, 2k+1\}\subeq \Z/p$; $C$ is sum-free subset containing more than $\frac 13$ of the nonzero residues modulo $\Z/p$:
+\[\frac{|C|}{p-1}=\frac{k+1}{3k+1}>\rc 3.\]
+Choose $x\in \{1,\ldots, p-1\}$ uniformly at random. Let $d_i\equiv xb_i\pmod{p}$ with $0\leq d_i<p$. As $x$ ranges from $1,\ldots, p-1$, $d_i$ ranges from $1$ to $p-1$ as well. Then
+\[
+P(d_i\in C)=\frac{|C|}{p-1}.
+\]
+Adding up the probabilities (expected values add linearly),
+\[
+\mathbb E(\#d_i\in C)\geq \frac n3.
+\]
+Therefore there exists $x$ and $A\subeq B$ with $|A|>\frac n3$ such that $xa\pmod p\in C$ for all $a\in A$. Now $A$ is sum-free: indeed if $a_1+a_2=a_3$ with $a_1,a_2,a_3\in A$, then $xa_1+xa_2\equiv xa_3\pmod{p}$ with $xa_i\in C$, contradiciton the fact that $C$ is sum-free.
+\end{proof}
+A history...
+\begin{align*}
+\text{Er\"dos } &|A|\geq \frac n3\\
+\text{Alon, Kleitman } & |A|\geq \frac{n+1}{3}\\
+\text{Bourgain } & |A|\geq \frac{n+2}{3}
+\end{align*}
+It isn't known where $\rc 3$ is the best constant.
+The current best construction is $\frac{11n}{28}$.

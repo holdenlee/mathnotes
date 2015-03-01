@@ -1,0 +1,87 @@
+\lecture{Thu. 5/5/11}
+
+\subsection{Independence number of triangle-free graphs}
+Suppose $G$ is a graph $G$ with $n$ vertices and maximum degree $d$. Then by greedy picking,
+\[
+\al(G)\ge \frac{n}{d+1}.
+\]
+\begin{thm}[Ajtai, Koml\'os, Szemer\'edi, Sheover]
+If $G$ is triangle-free, then
+\[
+\al(G)\ge \frac{n\log d}{8d}.
+\]
+\end{thm}
+\begin{proof}
+We may assume $d\ge 16$. Let $W$ be an independent set of $G$, chosen randomly among all independent sets. For each $v\in V(G)$, let
+\[
+X_v=d|\{v\}\cap W|+|N(v)\cap W|
+\]
+where $N(v)$ is the set of all neighbors of $v$.
+\begin{clm}
+\[
+\E(X_v)\ge \rc 4\log d.
+\]
+\end{clm}
+\begin{proof}
+Let $H$ be the induced subgraph of $G$ with vertex set $V(G)-(\{v\} \cup N(v))$. Fix an independent set $S$ in $H$. Let $X\subeq N(v)$ be the nonneighbors of $S$; these are precisely the elements of $N(v)$ that can be added to $S$ and still give an independent graph. Note none of the lements of $X$ are connected to each other, because they are all adjacent to $v$ and the graph is triangle free.
+
+It suffices to show 
+\[
+\E(X_v|W\cap V(H)=S)\ge \frac{\log d}{4}
+\]
+for all choices of $S$. Conditioning on $W\cap V(H)=S$, there are $2^x+1$ choices for $W$: either $W$ contains $v$, or $W$ does not contain $v$ and contains a subset of $W$. Then since $v$ contributes $d$ to $X_v$, and the average size of a subset of $X$ is $\frac x2$ ($|X|=x$),
+\[
+\E(X_v|W\cap V(H)=S)=\frac{d+\frac x22^x}{2^x}\ge \rc 4 \log d
+\]
+by computation.
+%Consider $x\ge \log d-\log \log d.
+%Bottom goes down as x increases, top goes up.
+%We want to see how $S$ extends to an independent set in the whole graph. Can always add $v$, but then none in $N(v)$. Alternatively, add some in $N(v)$.
+\end{proof}
+By the claim, $\E(\sum_v X_v)\ge \frac n4\ln d$. But $\sum_v X_v\le 2d|W|$ since for $v\in W$, $X_v$ gets contribution $d$ from $v$ and for each $u\in N(v)$, $X_v$ gets a contribution 1 from $u$. Thus, taking expected values, $\E(|W|)\ge \frac{n\log d}{8d}$. Thus there exists $W$ so that $|W|\ge \frac{n\log d}{8d}$.
+\end{proof}
+Consider $R(3,k)$. It is the minimum number of vertices in a complete graph such that in any coloring with red of blue, 
+%JC
+there is a red triangle of blue $K_k$. Alternatively, it is the minimum $n$ such that any triangle-free graph on $n$ vertices has an independent set of size $n$. By Pigeonhole, $R(3,k)\ge k^2$. By Lov\'asz Local Lemma, $R(3,k)\ge \frac{ck^2}{(\ln k)^2}$. 
+\begin{thm}
+\[R(3,k)=\Theta\pf{k^2}{\ln k}.\]
+\end{thm}
+\begin{proof}
+%, by the following argument (Kim, Bohman): 
+For the lower bound, randomly order all $\binom N2$ $e_1,\ldots, e_{\binom N2}$. Add the $e_i$ in order unless $e_i$ makes a triangle with edges already inside. With high probability this gives a triangle-free graph with no independent set of size $n$. A lot of computation here. (30 pages)
+
+Let $G$ have at least $n=\frac{8k^2}{\log k}$ vertices and be triangle-free. If the maximum degree is at least $k$ we are done. Otherwise by the previous theorem, $\al(G)\ge \frac{n\log k}{8k}=k$.
+\end{proof}
+The cast $R(4,k)$ is unsolved; we just know $\pf{k}{\log k}^{\frac 52}\le R(4,k)\le \frac{ck^3}{(\log k)^2}$. 
+%There is an explicit construction for $R(3,k)=\Omega(k^{\frac 32}$. (Alon)
+
+\subsection{Local Coloring}
+If $G$ has $n$ vertices, with $n$ large, and every subset of size $10^{-20}n$ vertices is 3-colorable, is $G$ 100-colorable? No.
+
+\begin{thm}
+For all positive integers $k$, there exists $\ep>0$ such that for all $n$ sufficiently large, there exists $G$ on $n$ vertices with $\chi(G)\ge k$ and $\chi(G[S])\le 3$ for every $S$ of size $\ep n$. I.e. we can't detect global colorability by local colorability.
+\end{thm}
+\begin{proof}
+Let $c>2kH\prc k \ln 2$ where $H$ is the entropy function $H(x)=-x\ln x-(1-x)\ln (1-x)$. 
+%Coin flip, entropy if comes up heads with prob x, measures how much information you know. At 0,1 =0 (no randomness, decided), unimodal.
+Let $\ep=\rc 4e^{-s}3^3c^{-3}$. (In relation to the question above, note for $n=100$, $\ep>10^{-20}$.) Set $p=\frac cn$ and consider $G(n,p)$. If $\chi(G)\le k$ then $\al(G)\ge \frac nk$. The expected number of independent sets is (for convenience, assume $k|n$)
+\begin{align*}
+\E\pa{\text{number of independent sets of size }\frac nk}
+&=\binom{n}{n/k}(1-p)^{\binom{n/k}{2}}\\
+&<2^{n\pa{H\prc k+o(1)}}\\
+&=e^{-\frac{cn}{2k^2}(1+o(1))}=o(1)
+\end{align*}
+where we used Stirling's formula to get $\binom n{an} =2^{n(H(a)+o(1))}$.
+
+If there exists $S$, $|S|\le \ep n$ with $\chi(G[S])\ge 4$, then there exists a minimum such $S$ and every vertex in $G[S]$ would have degree at least 3. (If there is a vertex $v$ of degree smaller than 3, and if $S\bs \{v\}$ is colored with at most 3 colors, then $v$ can be colored with one of those 3 colors.) Then $\E(G[S])\ge \frac{3t}{2}$. We show it is unlikely for any subgraph to have so many edges.
+
+Now
+\[
+P\pa{\exists S:\,|S|\le \ep n, \,S\text{ has at least }\frac{3|S|}{2}\text{ edges}}\le
+\sum_{t\le \ep n} \binom nt\binom{\binom t2}{\frac{3t}{2}}\pf cn^{\frac{3t}{2}}=o(1)
+\]
+by using the estimate that the summand is at most $\ba{\pf{en}t\pf{te}n\pf cn^{\frac 32}}^t$ (cf.~(\ref{l13-1})). %geometric sum
+%Short off cycles. Won't hold for 3 replaced by 2.
+%Girth at least 5 log n, chromatic number at most 3
+%odd girth
+\end{proof}

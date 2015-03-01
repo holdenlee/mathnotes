@@ -1,0 +1,75 @@
+\lecture{Tue. 3/8/11}
+
+\subsection{Local lemma on hypergraphs}
+
+\begin{thm}\label{lllhyper}
+Let $H=(V,E)$ be a hypergraph in which each edge has at least $k$ vertices, and suppose each edge intersects at most $d$ other edges. If $e(d+1)\le 2^{k-1}$, then $H$ has property $B$ (the vertices can be colored so there is no monochromatic edge).
+\end{thm}
+%Lots of edges ok, not too many intersections.
+\begin{proof}
+Color each vertex $v$ of $H$ randomly and independently with blue or red with probability $\rc 2$. For each edge $f\in R$, let $A_f$ be the event $f$ is monochromatic. Then
+\[
+P(A_f)\le 2\cdot \rc{2^{|f|}}\leq 2^{1-k}.
+\]
+Each $A_f$ is mutually independent of all but at most $d$ other $A_g$. The result follows from the symmetric case of LLL (the probability is positive when since $ep(d+1)\leq e2^{1-k}(d+1)\leq 1$).
+
+\end{proof}
+\begin{cor}
+If $H$ is $k$-uniform and each vertex has degree at most $\rc k  (e^{-1}2^{k-1}-1)$ then $H$ has property $B$. (The degree of a vertex is the number of edges it's in.)
+
+If $H$ is $k$-regular and $k$-uniform if $k\ge 9$.
+\end{cor}
+\begin{proof}
+$H$ being $k$-uniform means $d\leq e^{-1}2^{k-1}$.
+\end{proof}
+\subsection{Compactness arguments}
+For a $k$-coloring $c:\R\to [k]$ and a subset $T\subeq \R$, $T$ is \textbf{multicolored} if $c(T)=[k]$.
+\begin{thm}
+Let $m,k\in \N$ such that $e(m(m-1)+1)k\pa{1-\rc k}^m\le 1$. Then for any set $S$ of $m$ real numbers, there is a $k$-coloring of the reals so that each translation $x+S,x\in \R$, is multicolored.
+\end{thm}
+For example, this holds when $m>(3+o(1))k\ln k$.
+%Right behavior
+\begin{proof}
+We first fix a finite set $X\subeq \R$ and show there exists a $k$-coloring such that each translate $x\in X$ is multicolored.
+
+Put $Y=\bigcup_{x\in X}(x+S)$ and choose $c:Y\to [k]$ uniformly at random. For each $x\in X$, let $A_x$ be the event $x+S$ is not multicolored. Then (since the probability that a fixed color is missing is $\pa{1-\rc k}^m$, and there are $k$ colors)
+\[
+P(A_x)< k\pa{1-\rc k}^m
+\]
+Each $A_x$ is mutually independent of all $A_{x'}$ except those with
+\[
+(x+S)\cap (x'+S)=\phi
+,\]
+so
+$d\leq  m(m-1)$.
+(%$S=\{s_1,\ldots, s_m\}$. 
+$x+s_1=x'+s_2$, there are $d$ possibilities for $s_1$ and $d-1$ possibilities for $s_2\neq s_1$.)
+Use the symmetic case of LLL.
+
+Now we use a compactness argument to extend the result to reals. Discrete space with $k$ points is compact. By Tychonoff's Theorem an arbitrary product of compact spaces is compact, so the space of all functions $f:\R\to [k]$ with the product topology is compact. For each $x\in \R$, let $C_x$ be the set of all colorings such that $x+S$ is multicolored. Note $C_x$ is closed. (Colorings in $C_x$ can be described by their values at a finite number of points.) The intersection of any finite number of $C_x$ is nonempty from above, so by compactness, $\bigcap_{x\in \R}C_x$ is nonempty.
+\end{proof}
+%graph on reals, connect two vertices if 1, \sqrt 2. Every finite subgraph bipartite b/c 1, \sqrt 2 independent over \Q. Compactness. No Lebesgue measureable coloring!
+\begin{df}
+A family $F$ of open unit balls in $\R^3$ is a $k$-\textbf{fold covering} if each $x\in \R^3$ is in at least $k$ balls in $F$. $F$ is \textbf{decomposable} if there exists a partition $F=F_1\cup F_2$ so that each $F_i$ is a covering of $\R^3$.
+\end{df}
+\begin{thm}[Mani-Levitska, Pach]
+For all $k$, there exists a $k$-fold covering of $\R^3$ which is not decomposable.
+
+In $\R^2$, every 33-fold covering of $\R^2$ is decomposable.
+\end{thm}
+\begin{thm}
+Each $k$-fold covering $F=\{B_i\}_{i\in I}$ in which each point is in at most $t=c2^{\frac k3}$, $c=(2^{19}e)^{-\rc3}$ balls is decomposable.
+\end{thm}
+\begin{proof}
+By our choice of $t$, $\frac{et^32^{18}}{2^{k-1}}\le 1$. Define a hypergraph $H=(V(H),E(H))$ with $V(H)=F$. For each $x\in \R^3$, let $E_x$ be the set of $B_i\in F$ that contain $x$. Let $E(H)=\{E_x:x\in \R^3\}$. %(not with repetition).
+
+We claim that each $E_x$ intersects less than $t^32^{18}$ other $E_y$. If $E_x\cap E_y$, then $x$ and $y$ are in intersecting balls, say $x\in B_i,y\in B_j$, and $y$ is in an ball of radius 4 around $x$. $B_j$ takes up $4^{-3}=2^{-6}$ of the volume of this ball. Hence the number of such $B_j$ is less than $m=2^6t$. (Each point is in at most $t$ balls. Note strict inequality holds since balls cannot perfectly cover a larger ball.)
+
+Any $n$ balls in $\R^3$ partition $\R^3$ into at most $n^3$ regions (not counting the infinite portion), so we get less than $m^3=2^{18}t^3$.  regions, i.e. edges.
+
+Let $L$ be a finite subhypergraph of $H$. %We claim that $L$ has property $B$. Every edge has size at least $k$. 
+Put in $d=t^32^{18}$, and use Theorem~\ref{lllhyper} to show that $L$ has property $B$.
+
+By the compactness argument, if every finite subhypergraph of $H$ is 2-colorable, then $H$ is 2-colorable. (Axioim of choice)
+%maximal subhypergraph ?
+\end{proof}

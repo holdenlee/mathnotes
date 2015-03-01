@@ -1,0 +1,121 @@
+\lecture{Thu. 3/10/11}
+
+\subsection{Chernoff bounds}
+First we give an estimate.
+\begin{lem}
+\[
+\binom nk \le \rc e\pf{en}{k}^k.
+\]
+\end{lem}
+\begin{proof}
+\[
+\binom nk=\frac{n(n-1)\cdots (n-k+1)}{k!}=\frac{n^k}{k!}.
+\]
+Thus it suffices to show that $k!\ge e\pf ke^k$. We show this by taking logs and using an integral estimate:
+\begin{align*}
+\ln k!&=\sum_{i=1}^k \ln i\\
+&\ge \int_{x=1}^k\ln x\,dx\\
+&=k\ln k-l+1.
+\end{align*}
+Exponentiating gives $k!>e\pf ke^k$, as needed.
+\end{proof}
+
+Chernoff says that under certain circumstances, tail probabilities decay rapidly---exponentially. This is useful in random graphs, when we want a union bound over many events.
+
+Consider $G(n,p)$, a random graph with $n$ vertices, each edge picked with probability $p$. (When the probability is the below function and $n\to \iy$ the probabilities of the following go to 1)
+\begin{enumerate}
+\item $p<\rc n$: All connected components have size $O(\ln n)$, and they are trees or unicyclic.
+\item $p=\rc n$: The largest component has size $\Theta(n^{\frac 23})$.
+%All the others are smaller (ln n)
+\item $p=\frac{1+\ep}{n}$: The largest component has size asymptotic $\frac{1+\ep}n$. [Phase transition]
+\end{enumerate}
+%The maximum degree of $
+Fixing a vertex $v$,
+\[
+P(\deg(v)=k)=\binom{n-1}k p^k(1-p)^{n-1-k} <\pf{ne}k^kp^k(1-p)^{n-1-k}.
+\]
+Hence using the union bound,
+\begin{align*}
+P(\text{there exists a vertex of degree }\ge k)
+&\le n\sum_{i\ge k} \binom{n-1}i p^i (1-p)^{n-1-i}\\
+&\le n\binom{n-1}{k}p^k <n\pf{ne}k^k p^k.
+\end{align*}
+At $p=\rc n$, this is less than $n\pf ek^k$. Putting $k\sim \frac{\ln n}{\ln\ln n}$ shows that this is approximately the maximum degree.
+
+\begin{thm}[Chernoff bound]
+Let $X_i,1\le i\le n$ be mutually independent random variables with $P(X_i=1)=P(X_i=-1)=\rc 2$. Set $S_n=X_1+\cdots +X_n$. Let $a>0$. Then
+\[
+P(S_n>a)<e^{-a^2/2n}.
+\]
+\end{thm}
+%The sum is quite concentrated.
+The theorem will also work if $P(X_i=1-p_i)=p_i$ and $P(X_i=-p_i)=1-p_i$.
+\begin{proof}
+We use Markov's inequality. If $Y$ is a {\it nonnegative} random variable $\al>0$, then
+\[
+P(Y>\al\E(Y))<\rc{\al}.
+\]
+Thus we exponentiate, making the random variables nonnegative, and turning sums into products. We have to take advantage of independence, which makes products behave nicely.
+
+Fix $n,a$ and let $\la>0$ be arbitrary. For $1\le i\le n$,
+\[
+\E(x^{\la X_i})=\frac{e^{\la}+e^{-\la}}{2}=\cosh \la\le e^{\la^2/2}.
+\]
+by looking at Taylor series. 
+Since $X_i$ are mutually independent, so are $e^{\la X_i}$. The the expected values multiply:
+\[
+\E(e^{\la S_n})=\prod_{i=1}^n \E(e^{\la X_i})\le e^{\la^2n/2}.
+\]
+Now $S_n>a$ iff $e^{\la S_n}>e^{\la a}$. By Markov's inequality,
+\[
+P(S_n>a)=P(e^{\la S_n}>e^{\la a})<\frac{\E(e^{\la S_n})}{e^{\la a}}\le e^{\frac{\la^2 n}{2}-\la a}.
+\]
+Picking $\la=\frac an$, we get $P(S_n>a)<e^{-\frac{a^2}{2n}}$. 
+\end{proof}
+Note by symmetry, $P(S_n<-a)<e^{-\frac{a^2}{2n}}$, so
+\[
+P(|S_n|>a)<2e^{-\frac{a^2}{2n}}.
+\]
+\begin{thm}
+There exists a graph $G$ on $n$ vertices such that for every $U\subeq V(G)$, with $|U|=u$, 
+\begin{align}
+\label{graphuch}
+\ab{e(U)-\rc 2\binom{u}{2}}&\le u^{\frac 32} \sqrt{\ln \pf{en}{u}}\\
+\nonumber &=O(n^{\frac 32})\end{align}
+\end{thm}
+\begin{proof}
+Consider a random graph $G=G(n,\rc 2)$. Consider a vertex subset $U$.
+Let $a_u=u^{\frac 32} \sqrt{\ln \pf{en}{u}}$. 
+Then using Chernoff's bound with suitably translated and dilated random variables,
+\[
+P\pa{\ab{e(U)-\rc 2\binom{u}{2}}>a_u}<2e^{-\frac{(2a_u)^2}{2\binom u2}}
+<e^{-\frac{4a_u^2}{u^2}}.
+\]
+Hence by the union bound,
+\begin{align*}
+P(\exists U\subeq V(G)\text{ not satisfying~(\ref{graphuch})})
+&<\sum_{u=1}^n \binom nu e^{-\frac{4a_u^2}{u^2}}\\
+&<\sum_{u=1}^n \pf{ne}{u}^u e^{-\frac{4a_u^2}{u^2}}\\
+&=\sum_{u=1}^n \pf{ne}{u}^{-3u}\\
+&=o(1).
+\end{align*}
+%Huge number of subsets doing a union bound over, but good control over prob deviate a lot.
+%Tight for u~\ln n
+\end{proof}
+If $G$ has a clique of order $k$, then $\chi(G)\ge k$. The converse is not true, but the following holds.
+\begin{conj}[Haj\'os]
+If $\chi(G)\ge k$, then $G$ contains a subdivision of $K_k$. (This means that there is $H\subeq G$ such that we can get to $H$ from $K_k$ by replacing edges by paths.)
+\end{conj}
+(See Graph Theory, Diestel, 7.3.)
+
+This is true for $k\leq 4$, false for $k\ge 7$. This is in fact very false. Consider $G=G(n,\rc 2)$. Then $\chi(G)=(1+o(1))\frac{n}{2\log_2 n}$ almost surely (we only need $\ge$ here), since the clique number closely concentrated at $2\log_2 n$ and so is the independence number. But the largest clique subdivision is of order $O(n^{\rc 2})$, much smaller.
+
+Suppose we have a clique subdivision of order $u=10n^{\rc 2}$. Then by the Theorem~(??) the edge density in $U$ is at most $\frac 34$. At least $\rc 4$ of pairs are nonadjacent. For each pair, we need a path containing at least one vertex. Thus the number of vertices that are used is at least $\rc 4\binom u2>n$, a contradiction.
+%Leads to 4-color theorem
+%Right method->tractable
+\begin{conj}[Hadwiger]
+If $\chi(G)\ge k$ then $G$ contains a minor of $K_k$. ($H$ is a minor of $G$ if we can delete vertices and edges, and contract edges to obtain $H$. Contracting means replacing adjacent vertices by a single vertex.)
+\end{conj}
+This is known up to $k=6$.
+%clique minor number >= clique subdivision #
+%Family of graphs closed under minors, then minimal list of forbidden minors is finite. Infinite sequence of graphs, one is minor of another. Structure theorem-forbid a certain minor, then roughly embedded in surface.

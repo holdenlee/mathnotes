@@ -1,0 +1,84 @@
+\lecture{Thu. 2/24/11}
+
+\subsection{Distinct sums}
+%Distinct sums
+\begin{df}
+A set $x_1,\ldots, x_k\in \N$ has \textbf{distinct sums} if all sums
+\[
+\sum_{i\in S}x_i,\quad S\subeq [k]
+\]
+are distinct.
+\end{df}
+Let $f(n)$ be the maximum $k$ such that there exists $\{x_1,\ldots, x_k\}\subeq [n]$ with distinct sums. Since $\{2^i|i\leq \log_2 n\}$ has distinct sums,
+\[
+f(n)\geq 1+\fl{\log_2 n}.
+\]
+(There are actually sequences that do better, $f(n)\geq 3+\fl{\log_2 n}$ for large $n$.)
+%Erdos inflation
+%Hang on wall vs. cash it in. How pay out?
+Erd\H{o}s asked the following: 
+Determine if there is a constant $C$ such that $f(n)\leq C+\log_2 n$. 
+
+If $k=f(n)$, all $2^k$ sums are distinct and at most $kn$, giving $2^{f(n)}\leq f(n)n$, and $f(n)\leq \log_2 n+\log_2\log_2 n+O(1)$.
+\begin{thm}
+\[
+f(n)\leq \log_2 n+\rc{2}\log_2\log_2 n+O(1).
+\]
+\end{thm}
+\begin{proof}
+Fix $\{x_1,\ldots, x_k\}\subeq [n]$ with distinct sums. Let $\ep_1,\ldots, \ep_k$ be independent random variables with
+\[
+P(\ep_i=0)=P(\ep_i=1)=\rc{2}
+\]
+and set $X=\ep_1x_1+\cdots +\ep_kx_k$. Then $X$ is a random sum, and
+\begin{align*}
+\mu&=\E(X)=\frac{x_1+\cdots +x_k}{2}\\
+\sigma^2&=\Var(X)=\frac{x_1^2+\cdots +x_k^2}{4}\leq \frac{n^2 k}{4}
+\end{align*}
+since the $X_i=\ep_ix_i$ are independent random variables. ($\Var(X_i)=\E(X_i^2)-\E(X_i)^2=\frac{X_i^2}{2}-\frac{X_i^2}{4}$.) By Chebyshev, (we want to show that a constant fraction of the sums lie in a small region around the mean, and use Pigeonhole to conclude that if there's too many, then two of them are equal)
+\begin{align*}
+P(|X-\mu|\geq\la\sigma)&\leq \rc{\la^2}\\
+P\pa{|X-\mu|\geq\la\frac{n\sqrt k}{2}}&\leq \rc{\la^2} 
+\end{align*}
+Then
+\[
+1-\rc{\la^2}\leq P\pa{|X-\mu|<\frac{\la n\sqrt k}{2}}\leq 2^{-k} (\la n\sqrt k +1)
+\]
+since at most $\la n\sqrt k +1$ of the sums can be in the interval $\pa{
+\mu-\frac{\la n\sqrt k}{2},\mu+\frac{\la n\sqrt k}{2}
+}$ and each is chosen with probability $2^{-k}$. Take $\la=\sqrt 3$. Then the equation gives $2^k\leq Ck^{\rc 2}n$ for some constant $C$; take logs to get the answer.
+\end{proof}
+
+\subsection{Some bounds}
+Let $X$ be a nonnegative integer-valued random variable (e.g. $X$ counts something). We want to bound $P(X=0)$ given $\mu=\E(X)$. If $\mu\leq 1$, then
+%\sum_{i>0} iP(X=i)\geq \sum_{i>0} P(X=i)=P(X>0).
+\[P(X>0)\leq \E(X)\implies P(X=0)\geq 1-\E(X).\]
+If $\E(X)\to \infty$, then not necessarily $P(X=0)\to 0$. But if the standard deviation is small relative to $\mu$ this is true. 
+
+\begin{ex}
+For example, $X$ be the deaths due to nuclear war in the next year. 
+%Stroock, "We should do experiments"
+Then $P(X>0)$ is small but $\E(X)$ is large.
+\end{ex}
+
+\begin{thm}
+Let $X$ be a nonnegative integer-valued random variable. Then
+\[P(X=0)\leq \frac{\Var(X)}{\E(X)^2}.\]
+\end{thm}
+\begin{proof}
+Let $\mu=\frac{\mu}{\sigma}$. Then Chebyshev's inequality gives
+\[
+P(X=0)\leq P(|X-\mu|\geq \la\sigma)\leq \rc{\la^2}=\frac{\Var(X)}{\E(X)^2}.
+\]
+\end{proof}
+\begin{cor}
+If $\Var(X)=o(\E(X)^2)$ then %$X>0$ almost always. (i.e. 
+$P(X>0)\to 1$. In fact
+\[
+X\sim \E(X)
+\]
+almost surely. (For each $\ep>0$, $|X-\E(X)|<\ep\E(X)$ goes to 0 as $X\to \infty$.)
+\end{cor}
+\begin{proof}
+Take $\la=\frac{\ep\mu}{\sigma}$ and let $\ep\to 0$.
+\end{proof}

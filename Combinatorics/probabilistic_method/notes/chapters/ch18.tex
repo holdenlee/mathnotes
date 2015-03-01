@@ -1,0 +1,90 @@
+\lecture{Tue. 4/12/11}
+
+\subsection{Pseudorandomness}
+Here are two examples where pseudorandomness comes into play.
+\begin{thm}[Szemer\'edi]
+Every set $A\subeq \N$ of positive density contains arbitrarily long arithmetic progressions. (The density is $\limsup_{n\to \iy} \frac{|A\cap [1,n]|}{n}$.)
+\end{thm}
+\begin{proof} (Sketch)
+There are proofs using graph theory (Szemer\'edi regularity), ergodic theory, Fourier analysis (gives estimates, Gowers), and hypergraph regularity.
+
+If the set acts like a random set, then it has long arithmetic progression
+Otherwise the density increments a lot somewhere, and we have a subsequence with fewer elements and greater density; apply induction.
+\end{proof}
+\begin{thm}[Green-Tao]
+The primes contain arbitrarily long arithmetic progressions.
+\end{thm}
+\begin{proof}(Sketch)
+The primes form a dense subset of a pseudorandom set $R$, and behaves much like a dense subset of $\N$.
+\end{proof}
+
+Probabilistic methods give existence, but we prefer an explicit construction, because it can increase our understanding of the problem, and more importantly, can be used in algorithms. By an explicit construction we mean an algorithm, guaranteed to work, in polynomial time with respect to the parameters of the desired structure.
+%With reasonable probability get construction
+
+For example, find an explicit construction for a Ramsey graph, a graph of $n$ vertices that has no clique or independent set of size $2\log_2 n$. Erd\H{o}s's  question, to find (an explicit construction of) a family of graphs $G$ whose largest clique or independent set has order $O(\log|G|)$, is still unanswered.
+
+Explicit constructions are known for several other problems.
+\subsection{Quadratic residue tournament}
+\begin{df}
+%A \textbf{quadratic residue tournament}
+A \textbf{tournament} $(V,E)$ is a directed graph with one edge between every pair of vertices, i.e. an orientation of a complete graph. We say $x$ beats $y$ to mean $(x,y)\in E$. Given permutation $\pi$ of $V$, $(x,y)\in E$ is consistent if $x$ precedes $y$ in $\pi$. 
+\end{df}
+Find a ranking with the most consistent edges.
+
+Let $c(\pi, T)$ be the number of consistent edges of $T$ with respect to $\pi$, and let $c(\pi)=\max c(\pi, T)$. Note $c(T)\ge \rc{2}\binom n2$. (If $\pi'$ is the reverse of $\pi$, then $c(\pi)+c(\pi')=\binom n2$.) As an exercise, show $c(T)=\frac 12+\Om(n^{\frac 32})$.
+
+The probabilistic method shows there exists $T$ with $c(T)=\pa{\rc2+o(1)}\binom n2$; a more involved proof shows $c(T)=\rc 2\binom n2+O(n^{\frac 32})$.
+
+\begin{ex}
+Find $T$ for which $c(T)$ is small.
+\end{ex}
+{\it Solution.} Let $p\equiv 3\pmod 4$ be a prime and $T=T_p$ be a tournament on $\F_p$. Let $(i,j)$ be a directed edge iff $j-i$ is a square modulo $p$. ($-1$ is not a perfect square.) 
+\begin{thm}
+\[c(T_p)=\rc 2\binom p2+O(p^{\frac 32}\ln p).\]
+\end{thm}
+\begin{proof}
+For $y\in \F_p$, define 
+\[
+\chi(y)=y^{\frac{p-1}{2}}=\begin{cases}
+0,&\text{if }y=0\\
+1,&\text{if }y\text{ a quadratic residue}\\
+-1,&\text{else}
+\end{cases}
+\]
+Let $D=[d_{ij}]_{i,j=0}^{p-1}$ be an exponential matrix with $d_{ij}=\chi(ij-j)$. For distinct $j,l$, 
+\begin{align*}
+\sum_{i\in \F_p} d_{ij}d_{il}&=\sum_i\chi(i-j)\chi(i-l)\\
+&=\sum_{i\ne j,l} \chi(i-j) \chi(i-l)\\
+&=\sum_{i\ne j,l} \chi\pf{i-j}{i-l}\\
+&=\sum_{i\ne j,l} \chi\pa{1+\frac{l-j}{i-l}}\\
+&=\sum_{t\ne 0,1}\chi(t)\\
+&=0-\chi(0)-\chi(1)=-1
+\end{align*}
+since $\frac{l-j}{i-l}$ runs through everthing except 0,1. For $A,B\subeq \F_p$, let $e(A,B)$ be the number of edges $(a,b)\in A\times B$. Then
+\[
+\sum_{i\in A}\sum_{j\in B} d_{ij} =e(A, B)-e(B,A).
+\]
+\begin{lem}\label{qrthelper}
+\[\ab{\sum_{i\in A}\sum_{j\in B} d_{ij} }\le |A|^{\rc 2}|B|^{\rc 2}p^{\rc 2}.\]
+\end{lem}
+\begin{proof}
+By Cauchy-Schwarz,
+\begin{align*}
+\pa{\sum_{i\in A} \sum_{j\in B} d_{ij}}^2
+&\le
+|A|\sum_{i\in A} \pa{\sum_{j\in B} d_{ij}}^2\\
+&\le
+|A|\sum_{i\in \F_p}\pa{\sum_{j\in B} d_{ij}}^2\\
+&\le
+|A|\sum_{i\in \F_p} \pa{|B|+2\sum_{j<l; j,l\in B} d_{ij}d_{il}}\\
+&\le |A||B|p+2\sum_{j<l; j,l\in B} \sum_{i\in \F_p}d_{ij}d_{il}\\
+&\le |A||B|p-2\binom{|B|}{2}\le |A||B|p,
+\end{align*}
+where we used $\sum_{i\in \F_p} d_{ij}d_{il}=-1$. Take square roots.
+\end{proof}
+Let $r$ be the smallest integer such that $2^r\ge p$. Let $\pi$ be arbitrary permutation of $T_p$, $\pi=(\pi_1,\ldots, \pi_p)$ and let $\pi'=(\pi_p,\ldots, \pi_1)$. We need to show $c(\pi, T_p)\le \rc 2\binom p2+O(p^{\frac 32}\ln p)$, or equivalently $c(\pi, T_p)-c(\pi',T_p)=O(p^{\frac 32}\ln p)$. Take $a_1,a_2$ such that $p=a_1+a_2$ and $a_1,a_2\le 2^{r-1}$. Let $A_1$ be the set of first $a_1$ elements, and $A_2$ be the last $a_2$ elements. 
+By Lemma~(\ref{qrthelper}), $e(A_1,A_2)-e(A_2,A_1)\le (a_1a_2p)^{\rc 2} \le 2^{r-1}p^{\rc 2}$. Now continue to partition $A_1$ and $A_2$ into two sets, and of size at most $2^{r-2}$, and so on. Continuing until we are down to singleton sets and adding up, $c(\pi, T_p)-c(\pi', T_p)\le 2^{r-1} p^{\rc 2} r=O(p^{\frac 32}\ln p)$.
+%$p/(2k)$
+\end{proof}
+The quadratic residue tournament also gives vertices without $k$-dominating sets.
+%Cayley (Payley?) graph, no large clique or independent set (?)

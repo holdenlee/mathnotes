@@ -1,0 +1,73 @@
+\lecture{Thu. 4/7/11}
+%exercises 7.2, 3; 6.1,3
+
+\subsection{Applications of FKG inequality}
+Above, it is helpful to view $\mu$ as a measure on $L$. We can define for any $f:L\to \R_{\ge0}$ its expectation
+\[
+\an{f}=\frac{\sum_{x\in L}\mu(x)f(x)}{\sum_{x\in L}\mu(x)}.
+\]
+With this notation we can write the FKG inequality as
+\[
+\an{fg}\ge \an{f}\an{g}.
+\]
+
+By considering $P(N)$ as a probability space, $P(\cal A)=\frac{|\cal A|}{2^n}$.
+\begin{lem}[Kleitman's lemma]
+Let $\cal A, \cal B\subeq P(N)$ be monotone increasing, and $\cal C, \cal D\subeq P(N)$ be monotone decreasing. Then
+\begin{align*}
+P(\cal A\cap \cal B)&\ge P(\cal A)P(\cal B)\\
+P(\cal C\cap \cal D)&\ge P(\cal C)P(\cal D)\\
+P(\cal A\cap \cal C)&\ge P(\cal C)P(\cal C).
+\end{align*}
+In other words, $2^n|\cal A\cap \cal B|\ge |\cal A||\cal B|$, etc.
+\end{lem}
+\begin{proof}
+Let $f:P(N)\to \R_{\ge0}$ be the characteristic function of $\cal A$. Let $g$ be the characteristic function of $\cal B$ and $\mu\equiv 1$, which is log-supermodular. Applying FKG gives
+\[
+P(\cal A\cap \cal B)=\an{fg}\ge \an{f}\an{g}=P(\cal A)P(\cal B).
+\]
+The others follow similarly.
+\end{proof}
+For a real vector $(p_1,\ldots, p_n)$ with $0\le p_i\le 1$, consider the probability space where for each $A\subeq N$,
+\[
+P(A)=\prod_{i\in A}p_i\prod_{i\nin A}(1-p_i),
+\]
+obtained by picking each $i\in N$ with probability $p_i$ independently of the other elements.
+
+For each $\cal A\subeq P(N)$, let $P_p(\cal A)$ denote its probability in this space. %If $p_i=\rc 2$ for all $i$, then $P_p(\cal A)=P(\cal A)=\frac{|\cal A|}{2^n}$.
+Define $\mu=\mu_p$ by $\mu(A)=P_p(A)$. Note $\mu$ is log-supermodular; in fact $\mu(A)\mu(B)=\mu(A\cup B)\mu(A\cap B)$. Thus Kleitman's lemma generalized to the following. 
+\begin{thm}
+For any $p=(p_1,\ldots, p_n)$, $P_p(\cal A\cap \cal B)\ge P_p(\cal A)P_p(\cal B)$, and similarly with the other inequalities.
+\end{thm}
+For example, suppose $A_1,\ldots, A_k$ are arbitrary subsets of $N$ and suppose we pick $A\subeq N$ by choosing each $i\in N$ with probability $p$ independent of the other elements. Then applying the theorem $k-1$ times, (the family of sets intersecting some $A_i$ is monotone increasing)
+\[
+P(A\text{ intersects each }A_i)\ge \prod_{i=1}^k P(A\text{ intersects }A_i).
+\]
+Note this fails if we pick a subset of a random set uniformly at random. %(Take $A_1$ be $n/2$ elements; $A_2=N-A_1$.)
+By viewing $N$ as the $n=\binom m2$ edges on $V=\{1,\ldots, m\}$, we can get a correlation inequality for random graphs. Let $G=G(m,p)$. 
+%A property of graphs is a collection of graphs on $V$, closed under isomorphism.
+A property of graphs $Q$ is \textbf{monotone increasing} if whenever $G$ has $Q$ and whenever $H$ is obtained from $G$ by adding edges, then $H$ has $Q$ as well. For monotone decreasing, replace ``adding edges" with ``deleting edges."
+\begin{thm}
+Let $Q_1,Q_2,Q_3,Q_4$ be graph properties. Let $Q_1,Q_2$ be monotone increasing and $Q_3,Q_4$ be monotone decreasing. Let $G=G(m,p)$. Then
+\begin{align*}
+P(G\in Q_1\cap Q_2)&\ge P(G\in Q_1)P(G\in Q_2)\\
+P(G\in Q_3\cap Q_4)&\ge P(G\in Q_3)P(G\in Q_4)\\
+P(G\in Q_1\cap Q_3)&\le P(G\in Q_1)P(G\in Q_3)
+\end{align*}
+\end{thm}
+\begin{ex}
+Let $Q$ be the Hamiltonian property; it is monotone increasing. Let $P$ be the planarity property; it is monotone decreasing. Then
+\[
+P(G\in P\cap H)\le P(G\in H)P(G\in P).
+\]
+\end{ex}
+(The number of labeled planar graphs on $n$ vertices is asymptotic to $\al n^{\be}\ga^n$.) %\al, \ga solutions of strange differential equations, \be most important, critical exponent, phase transition. How as approach critical point, if \be is lack of analyticity.
+\begin{df}
+A \textbf{linear extension} of a poset is a total ordering the preserves inequality relations.
+\end{df}
+\begin{thm}[XYZ Theorem]
+Let $P$ be a poset with $n$ elements $a_1,\ldots, a_n$. For a uniformly random linear extension,
+\[
+P(a_1\le a_2\wedge a_1\le a_3)\ge P(a_1\le a_2)P(a_1\le a_3).
+\]
+\end{thm}

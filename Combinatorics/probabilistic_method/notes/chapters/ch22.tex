@@ -1,0 +1,81 @@
+\lecture{Thu. 4/28/11}
+
+\subsection{Dependent Random Choice}
+For a number of application, ``almost all" small subsets of $U$ having many common neighbors is enough.
+\begin{lem}\label{drc2}
+Let $G=(A,B,E)$ by a bipartite graph and $|E|=c|A||B|$. For every $0<\ep<1$ there exists $U\subeq A$ such that $|U|\ge\frac{c|A|}{2}$ and at least a $(1-\ep)$ fraction of the ordered pairs in $U$ have at least $\frac{\ep c^2|B|}{2}$ common neighbors.
+\end{lem}
+\begin{proof}
+Pick $v\in B$ uniformly at random. Let $X=|N(v)|$. We bound $\E(X^2)$:
+\[
+\E(X^2)\ge\E(X)^2=(c|A|)^2.
+\]
+Let $T=(a_1,a_2)\in A\times A$ and call $T$ bad if $|N(T)|<\frac{\ep c^2|B|}{2}$. Now choosing $v\in B$ at random,
+\[
+P(T\subeq N(v))=\frac{|N(T)|}{|B|}
+\]
+since there are $|B|$ possibilities for $B$ and $N(T)$ of them are adjacent to both elements of $T$. 
+%Fix T in $A$, v varying.
+%LOOK this over ^V
+If $T$ is bad, this probability is less than $\frac{\ep c^2}{2}$. %Thus the expected number of bad pairs is $\frac{\ep c^2}{2}|A|^2$.
+
+Let $Z$ be the number of bad pairs in $N(v)$. We have
+\[
+\E(Z)\le\frac{\ep c^2}{2}A^2 
+\]
+(since the probability of a bad $T$ being in $N(v)$ is at most $\frac{\ep c^2}{2}$ and there are $|A|^2$ pairs) 
+and 
+\[
+\E\pa{X^2-\frac Z{\ep}}=\E(X^2)-\rc{\ep}\E(Z)\ge \frac{c^2|A|^2}{2}.
+\]
+Thus there exists $v$ so that $X^2-\frac{Z}{\ep}\ge \frac{c^2|A|^2}{2}$. Then $|X|\ge \frac{c|A|}{2}$ and $|Z|\le \ep X^2$. Set $U=N(v)$.
+\end{proof}
+This can be generalized to $n$-tuples instead of pairs.
+
+For $A,B$ sets of integers, define the sumset and partial sumsets
+\begin{align*}
+A+B&=\{a+b\mid a\in A,n, b\in B\}\\
+A\stackrel{G}{+}B&=\set{a+b}{(a,b)\in E}.
+\end{align*}
+For $A$ an arithmetic proression of length $\frac n2$ plus $\frac n2$ ``random vertices," $|A\stackrel{G}{+}A|=O(n)$ and $|A+A|=\Om(n^2)$.
+\begin{thm}[Balog-Szemer\'edi]\label{balogs} If $|A|=|B|=n$, $G$ has at least $cn^2$ edges and $|A\stackrel{G}{+}B|\le Cn^2$, then there exists $A'\subeq A$ and $B'\subeq B$ such that $|A'|,|B'|\ge c'n$, and $|A'+B'|\le C'n$, where $c'$ and $C'$ depend on $c$ and $C$ alone.\end{thm}
+%Frieman: If set with small sumset then each belong in generalized arithmetic progression, then constant fraction... Structure theorem for subsets with small sumset.
+
+\begin{lem}\label{baloglem} 
+Let $G=(A,B,E)$ with $|A|=|B|=n$ and $|E|=cn^2$. Then there exist $A'\subeq A, B'\subeq B$, each of size at least $\frac{cn}8$ and there are at least $2^{-12} c^5n^2$ paths of length 3 between any $a'\in A'$ and $b'\in B'$.
+\end{lem}
+\begin{proof}(of~\ref{balogs} given~\ref{baloglem})
+Let $A',B'$ be as in the lemma above. %For each $a\in A'$ and $b\in B'$ consider a path $(a,b',a',b)$. Given $y\in A+B$, we can write $y=(a+b)=(a+b')-(b'+a')+(a'+b)=x-x'+x''$ where $x,x',x''\in A\stackrel{G}+B=X$.
+Given $y\in A'+B'$, we can find $a\in A'$ and $b\in B'$ such that $y=a+b$. To each such $y$ there correspond at least $2^{-12}c^5 n^2$ pairs $(a',b')$ such that $a,b',a', b$ is a path. Writing
+\[y=(a+b)=\underbrace{(a+b')}_x-\underbrace{(b'+a')}_{x'}+ \underbrace{(a'+b)}_{x''},\]
+we have that each $y\in A'+B'$ corresponds to $2^{-12}c^5n^2$ triplets in $(A\stackrel{G}{+}B)^3=:X^3$. Moreover the triplets corresponding to different $y$ are distinct.
+
+Since $|X|\le Cn$ there are at most $C^3n^3$ such triples. Then %number y's
+\[
+|A'+B'|=\frac{|X|^3}{2^{-12}c^5n^2}\le 2^{12}C^3 c^{-5}n.
+\]
+\end{proof}
+%injection (y,a',b')\to (x,x',x'').
+%Pairs, cross paths
+\begin{proof} (of Lemma~\ref{baloglem})
+Let $A_1\subeq A$ consist of vertices of degree at least $\frac{cn}{2}$. Let $c_1=\frac{e(A_1,B)}{|A_1||B|}$. Note $e(A_1,B)\ge \frac{cn^2}{2}$. Also $c_1\ge c$, $c_1\ge \frac{cn^2/2}{|A_1||B|}=\frac{cn/2}{|A_1|}$. 
+
+Apply Lemma~\ref{drc2} to $A_1,B$ ($c$ replaced by $c_1$, $\ep=\frac{c}{16}$) 
+to get $U\subeq A_1$ with $|U|\ge \frac{c_1|A_1|}{2}\ge \frac{cn}{4}$ and at most $\frac{c|U|^2}{16}$ ordered pairs in $U$ are ``bad," i.e. have less than $\frac{\ep c_1^2n}{2}\ge \frac{c^3n}{32}$ common neighbors.
+
+Let $A'\subeq U$ be those vertices $a$ in at most $\frac{c|U|}8$ bad pairs $(a,a')$. %Further cleaning up the graph. Get rid of vertices belong to lots of bad pairs.
+The number of bad pairs is at least $|U\bs A'|\cdot\frac{c|U|}8$, giving $|U\bs A'|\le \frac{|U|}{2}$ and $|A'|\ge\frac{|U|}{2}\ge\frac{cn}8$.
+
+Let $B'$ be the set of vertices in $B$ with at least $\frac{c|U|}4$ neighbors in $U$. 
+%Using every vertex has large degree, 
+By counting and choice of $U$, $|B'|\ge\frac{cn}4$. 
+Pick $a\in A'$ and $b\in B'$. By choice of $A'$, $a$ has common neighbors with all but a small fraction of $U$, and $b$ has many neigbhors in $U$. This gives paths of length 3. The theorem follows after some calculation.
+%Look at the common neighbors in $U$. By choice of $A'$, $a$ has common neighbors with all but small fraction of $U$. Pick $b'$?
+%Everything in $A'$ have common nbs with all but small fraction of U, so for almost all nbrs of b have common nbrs with A'
+
+
+%Pass to $A_1$ because all vertices in $A_1$ has large degree. 
+%Pass to subset of large degree
+%Pass U large common neighborhood
+%pass to A' so no vertices in too many bad pairs
+\end{proof}

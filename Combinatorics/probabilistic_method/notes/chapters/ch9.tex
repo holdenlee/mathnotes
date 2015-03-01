@@ -1,0 +1,101 @@
+\lecture{Thu. 3/3/11}
+
+\subsection{Lov\'asz Local Lemma}
+
+Consider the Ramsey number lower bound. Not only does there exist a 2-edge coloring of $K_n$ with $n=2^{\frac k2}$ without a monochromatic $K_k$ but almost surely a random coloring has this property.
+
+However, in many cases the probability is not large but we still need to show it is positive. The Lov\'asz Local Lemma helps in this.
+
+A trivial example with positive but small probability is when we have $n$ mutually independent events that each hold with probability $p$, then they hold with probability $p^n$. Mutual independence can be generalized to rare dependencies. (``almost mutually independent"---each event is dependent only on a few other events.)
+
+\begin{df}
+Let $A_1,\ldots, A_n$ be %bad 
+events in a probability space. %We want to show
+%Union bound won't work because each A_i has large probability.
+A directed graph $D=(V,E)$ with $V=[n]$ is called a \textbf{dependency digraph} for the events $A_1,\ldots, A_n$ if for each $i$, $1\leq i\leq n$, $A_i$ is mutually independent of all the events $A_j, (i,j)\nin E$. In other words, $A_i$ is independent of the event that any combination of those $A_j$'s occur.
+\end{df}
+
+\begin{lem}[Lov\'asz Local Lemma]
+Suppose $D$ is a dependency digraph for events $A_1,\ldots, A_n$ and there exist real numbers $x_1,\ldots, x_n$ with $0\leq x_i<1$ and $P(A_i)\leq x_i\prod_{(i,j)\in E}(1-x_j)$ for each $i,1\leq i\leq n$. Then
+\[
+P\pa{
+\bigwedge_{i=1}^n \ol{A_i}}
+\geq
+\prod_{i=1}^n (1-x_i)>0.
+\]
+Thus with positive probability none of the $A_i$ occur.
+\end{lem}
+% if empty, then what expect.
+\begin{proof}
+First we show that for any $S\sub [n]$, $|S|=s<n$, and any $i\nin S$,
+\[
+P\pa{A_i|
+\bigwedge_{j\in S} \ol{A_j}}\leq x_i.
+\]
+We prove this by induction on $s$. The base case $s=0$ holds. Now assume it holds for all $s'<s$. Let $S_1=\{j\in S:(i,j)\in E\}$ and $S_2=S\bs S_1$. Let 
+\[
+A=A_i,\quad B=\bigwedge_{j\in S_1} \ol{A_j},\quad C=\bigwedge_{j\in S_2} \ol{A_j}.
+\]
+Then since $A$ and $C$ are independent,
+\begin{equation}\label{abwc}
+P(A|B\wedge C)=\frac{P(A\wedge B|C)}{P(B|C)}\leq \frac{P(A|C)}{P(B|C)}=\frac{P(A)}{P(B|C)}%\leq x_i
+\end{equation}
+We try to show $P(B|C)\geq \prod_{(i,j)\in E} (1-x_i)$. Suppose $S_1=\{j_1,\ldots, j_r\}$. If $r=0$ then $P(B|C)=1$. Suppose $r\geq 1$. Then by the induction hypothesis,
+\[
+P(\ol{A_{j_1}}\wedge\cdots \wedge\ol{A_{j_r}}|C)=
+\prod_{i=1}^r\pa{1-P\pa{A_{j_i}|\bigwedge_{k=1}^{i-1}\ol{A_{j_k}}\wedge C}}\geq \prod_{i=1}^r (1-x_{j_i}).
+\]
+%Important not in S, j_i different, ind hyp s smaller
+Substituting this and $P(A)\leq x_i\prod_{i=1}^r (1-x_{j_{r}})$ in~(\ref{abwc}) gives the claim.
+
+Now
+\[
+P\pa{\bigwedge_{i=1}^n \ol{A_i}}
+=
+\prod_{i=1}^n \pa{1-P\pa{A_i|\bigwedge_{k=1}^{i-1}\ol{A_k}}}
+\geq
+(1-x_1)\cdots (1-x_n).
+\]
+\end{proof}
+\begin{lem}[Symmetric case]
+Let $A_1,\ldots, A_n$ be events in a probability space with each $A_i$ mutually independent of all the other $A_j$ but at most $d$ (i.e. $D$ has maximum outdegree at most $d$) and $P(A_i)\leq p$ for all $i,1\leq i\leq n$.
+If $ep(d+1)\leq 1$ then $P\pa{\bigwedge_{i=1}^n \ol{A_i}}>0$. (Here $e=2.71828...$)
+\end{lem}
+\begin{proof}
+The case $d=0$ is trivial, so assume $d\ge 1$. Take $x_i=\rc{d+1}$ for all $i$. Then
+\[
+\pa{1-\rc{d+1}}^d>\rc e
+\]
+so 
+\[
+x_i\prod_{(i,j)\in E}(1-x_i)\geq \rc{(d+1)e}\geq p\geq P(A_i).
+\]
+Now apply the general version.
+\end{proof}
+\begin{rem}
+We can replace mutual independence and $P(A_i)\le x_i\prod_{(i,j)\in E}(1-x_i)$ by a weaker assumption: For each $i$ and $S_2\subeq [n]\bs\{j:(i,j)\in E\}$, $P\pa{A_i|\bigwedge_{j\in S_2}}\leq x_i\prod_{(i,j)\in E}(1-x_i)$. ($E$ is some digraph, not dependency digraph.) (In the proof this was $P(A|C)=P(A)$.)
+\end{rem}
+\subsection{Ramsey Numbers}
+Consider a random 2-edge-coloring of $K_n$. For each $k$-set $S$, let $A_S$ be the event $S$ is monochromatic. Then $P(A_S)=2^{1-\binom k2}$. Each $A_S$ is mutually independent to all $A_T$ except at most $\binom k2\binom{n-2}{k-2}$. (Such $T$ contain 2 edges of $S$ and $k-2$ more edges.)
+\begin{pr}
+If $e\binom k2 \binom{n-2}{k-2}2^{1-\binom k2}\leq 1$, then $R(k,k)>n$. Thus
+\[
+R(k,k)>\pa{\frac{\sqrt{2}}{e}+o(1)}k2^{\frac k2}.
+\]
+\end{pr}
+\begin{proof}
+Use the
+symmetric case of local lemma. The probability that there is no monochromatic clique is positive
+\end{proof}
+This is the best bound so far. We get bigger improvements for off-diagonal Ramsey numbers.
+
+Now consider $R(k,3)$. The basic probabilistic method gives $\Omega(k)$. The alteration method gives $\Omega\pa{\pf{k}{\ln k}^{\frac 32}}$. The Lov\'asz Local Lemma gives $\Om\pa{\pf{k}{\ln k}^2}$. A pigeonhole argument gives the upper bound $\binom{k+1}{2}$. Later it was shown that actually $R(3,k)\sim \frac{k^2}{\ln k}$.\footnote{Differential equation and R\"odl nibble. Randomly order $\binom n2$ edges. Put edges in graph as long as don't add triangles. Easy to describe but difficult to actually analyze. Differential equations control parameters---certain parameters depend on others. Show doesn't deviate much from ideal version.}
+
+%Not symmetric, triangles and k-cliques, two different types of X_i
+Take a 2-edge-coloring $K_n$, each edge blue with probability $p$. Construct digraph $D$. For each 3-set $T$, let $A_T$ be the event $T$ is monochromatic blue and for each $k$-set $S$, let $B_S$ be the event $S$ is red. Now $P(A_T)=p^3$ and $P(B_S)=(1-p)^{\binom k2}$. Each $A_T$ is mutually independent of all $A_{T'}$ except at most $3n$ and all $B_S$'s but at most $\binom nk$. Each $B_S$ is mutually independent of all $A_{T'}$ but at most $\binom k2(n-2)$ and all $B_S'$ but at most $\binom nk$. If we can find $0\leq p,x,y\leq 1$ with
+%3-sets, k-sets
+\begin{align*}
+p^3&\leq x(1-x)^{3n}(1-y)^{\binom nk}\\
+(1-p)^{\binom k2}&\leq y(1-x)^{\binom k2 n}(1-y)^{\binom nk}
+\end{align*}
+then $R(k,3)>n$. Take $p=c_1n^{-\rc{2}}$, $k=c_2n^{\rc 2}\ln n$, $x=c_3n^{-\frac 32}$, $y$ so that $y^{\binom nk}=c_4$. Then use LLL.

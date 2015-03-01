@@ -1,0 +1,104 @@
+\lecture{Thu. 3/17/11}
+
+\subsection{Chromatic number}
+\begin{thm}
+Let $p=n^{-\al}$ where $\frac 56<\al\le 1$ is fixed. Let $G=G(n,p)$. Then there exists $v=v(n,p)$ such that, almost everywhere (i.e. the probability goes to $1$ as $n\to \iy$), $v\le \chi(G)\le v+3$.
+\end{thm}
+\begin{proof}
+%First consider $G(n,q)$, where $q>p$. 
+\begin{lem} Almost always, every $c\sqrt n$ vertices of $G=G(n,p)$ is 3-colorable.
+\end{lem}
+\begin{proof}
+Let $T$ be a minimal set that is not 3-colorable. Then for any $x$, $T-\{x\}$ is 3-colorable, and $x$ must have internal degree at least 3. So $T$ contains at least $\frac{3|T|}{2}$ edges. Let $t=|T|$. The probability of this occurring for some set $T$ with $t\le c\sqrt n$ vertices is at most
+\begin{equation}\label{l13-1}
+\sum_{t=4}^{c\sqrt n} \binom nt \binom{\binom t2}{3t/2}p^{\frac{3t}2}
+\le \sum_{t=4}^{c\sqrt n} \pf{ne}{t}^t \pf{te}{3}^{\frac{3t}2}p^{\frac{3t}2}=o(1).
+\end{equation}
+(There are $\binom nt$ ways to choose $t$ vertices.
+There are $\binom t2$ possible edges in $T$; we need at least $3t/2$ of them.)
+\end{proof}
+Let $\ep>0$ be arbitrarily small and $v=v(p,n,\ep)$ be the least integer such that $P(\chi(G)\le v)>\ep$. 
+%Clever trick time.
+Define $Y(G)$ to be the minimal size of a vertex subset $S$ such that $G-S$ may be $v$-colored. This $Y$ satisfies the vertex Lipschitz condition.
+
+Apply the vertex exposure martingale on $G(n,p)$ to $Y$. Let $\mu=\E(Y)$. By Azuma's inequality,
+\begin{align*}
+P(Y\ge \mu+\la \sqrt{n-1})&<e^{-\la^2/2}=\ep\\
+P(Y\le \mu- \la \sqrt{n-1})&<e^{-\la^2/2}=\ep.
+\end{align*}
+Let $\la$ be such that $e^{-\la^2/2}=\ep$. But $P(Y=0)>\ep$, so $\mu<\la \sqrt{n-1}$. Thus $P(Y\ge 2\la \sqrt{n-1})<\ep$. 
+
+With probability at least $1-\ep$ there is a $v$-coloring of all but at most $2\la \sqrt{n-1}$ vertices. Then taking $c=2\la$ in the lemma we can 3-color the rest almost always (say, with probability more than $1-\ep$ for large enough $n$), so we will need at most 3 more colors. Choice of $v$ says that there is at least probability $1-\ep$ that $v$ colors will be needed.
+So
+\[
+P(v\le \chi(G)\le v+3)\ge 1-3\ep.
+\]
+\end{proof}
+
+\subsection{A general setting}
+Let $\Om=A^B$ be the set of all functions $g:B\to A$. Let $p_{ab}=P(g(b)=a)$ with the values of $g(b)$ independent of each other. Fix a gradation
+\[
+\phi=B_0\sub B_1\sub\cdots \sub B_m=B.
+\]
+For example, let $B$ be the set of all unordered pairs of vertices on $n$ vertices, and $A=\{0,1\}$, denoting whether an edges is there or missing. In $G(n,p)$, $p_{1b}=p$ and $p_{0b}=1-p$.
+
+Let $L:A^B\to \R$ be a functional (for example the clique number of a graph). Define a martingale $X_0,X_1,\ldots, X_m$ by setting 
+\[
+X_i(h)=\E(L(g)|g(b)=h(b)\text{ for all }b\in B_i).
+\]
+Note $X_0$ is a constant, $\E(L(g))$ and $X_m=L$. 
+
+$L$ satisfies the Lipschitz condition relative to the gradation if for all $0\le i<m$, $h,h'$ differ only on $B_{i+1}-B_i$ implies $|L(h')-L(h)|\le 1$. 
+\begin{thm}
+Let $L$ satisfy the Lipschitz condition relative to a gradation. 
+%?
+Then the corresponding martingale satisfies $|X_{i+1}(h)-X_i(h)|\le 1$ for all $0\le i<m$ and $h\in A^B$. 
+\end{thm} 
+\begin{proof}
+Group things appropriately.
+
+Let $H$ be the family of all $h'$ that agree with $h$ on $B_{i+1}$. Then
+\[
+X_{i+1}(h)=\sum_{h'\in H}L(h')w_{h'}
+\]
+where $w_{h'}$ is the conditional probability that $g=h'$ given that $g=h$ on $B_{i+1}$. 
+%gp's indep
+For every $h'\in H$ let $H[h']$ be the family of $h^*$ that agree with $h'$ on all points except possibly $B_{i+1}-B_i$. The $H(h')$ partition the family of $h^*$ that agree with $h$ on $B_i$. 
+\[
+X_i(h)=\sum_{h'\in H}\sum_{h^*\in H(h')} L(h^*) q_{h^*} w_{h'}
+\]
+where $q_{h^*}$ is the conditional probability that $g$ agrees with $h^*$ on $B_{i+1}$ given that it agrees with $h$ on $B_i$. Using the Triangle Inequality, 
+\begin{align*}
+|X_{i+1}(h)-X_i(h)|&=\ab{
+\sum_{h'\in H} w_{h'}\ba{
+L(h')-\sum_{h^*\in H(h')}L(h^*) q_{h^*}
+}
+}\\
+&=\sum_{h'\in H} w_{h'} \sum_{h^*\in H(h')} |q_{h^*} (L(h')-L(h^*))|\\
+&\le\sum_{h'\in H}w_{h'}\sum_{h^*\in H(h')} q_{h^*}=1.
+\end{align*}
+\end{proof}
+\begin{thm}[General Azuma's inequality]\label{gazuma}
+Let $L$ satisfy the Lipschitz condition relative to a gradation of length $m$ and $\mu=\E(L(g))$. Then for all $\la>0$,
+\begin{align*}
+P(L(g)\ge \mu+\la \sqrt m)&<e^{-\la^2/2}\\
+P(L(g)\le \mu-\la\sqrt m)&<e^{-\la^2/2}.
+\end{align*}
+\end{thm}
+\begin{ex}
+Let $g$ be the random function from $\{1,\ldots, n\}$ to itself, all $n^n$ functions equally likely. Let $L(g)$ be the number of values not hit, i.e. the number of $y$ such that $g(x)=y$ has no solution. By linearity of expectation,
+\[
+\mu=\E(L(g))=n\pa{1-\rc n}^n\in \ba{
+\frac{n-1}e,\frac ne
+}.
+\]
+Set $B_i=\{1,\ldots, i\}$. Note $L$ satisfies the Lipschitz condition. By the general Azuma's inequality~(\ref{gazuma}),
+\[
+P\pa{\ab{L(g)-\frac ne}>\la\sqrt n+1}<2e^{-\la^2/2}.
+\]
+%Note this gives
+%\[
+%P(L(g)=0)\le (|L(g)-n/e|\ge n/e)<e^{-n/(2e^2)}
+%\]
+%by picking $\la\approx \sqrt n/e.
+\end{ex}
