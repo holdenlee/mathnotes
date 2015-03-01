@@ -71,6 +71,8 @@ Analysis/measure_theory/notes/chapters/*
 !Analysis/measure_theory/psets/
 !Analysis/measure_theory/psets/*.tex
 
+!Analysis/differential_forms
+Analysis/differential_forms/*.tex
 
 !Combinatorics/
 Combinatorics/*
