@@ -1,0 +1,417 @@
+\documentclass[12pt, reqno]{amsart}
+%\input{../templates/packages_only.tex}
+\usepackage{amssymb,amsmath,amsthm,cancel,hyperref,color, enumerate}
+\usepackage{listings}
+\usepackage{courier}
+\lstset{
+	basicstyle=\small\ttfamily,
+	keywordstyle=\color{blue},
+	language=python,
+	xleftmargin=16pt,
+}
+\usepackage[pdftex]{graphicx}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=magenta}
+\oddsidemargin = 0cm \evensidemargin = 0cm \textwidth = 6.5in
+\textheight8.8in
+\input{../../templates/macros2.tex}
+\input{../../templates/theorems_only.tex}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=magenta}
+\oddsidemargin = 0cm \evensidemargin = 0cm \textwidth = 6.5in
+\textheight8.8in
+\makeatletter
+\def\imod#1{\allowbreak\mkern10mu({\operator@font mod}\,\,#1)}
+\makeatother
+
+\newcommand{\Keywords}[1]{\par\noindent \newline
+{\small{\em Keywords\/}: #1}}
+
+\begin{document}
+
+\newcounter{itemcounter}
+\newcounter{itemcounter2}
+
+\title[A Computational Approach to the $k$-line Problem]
+{A Computational Approach to the $k$-line Problem}
+    \author{Holden Lee}
+
+\address{Department of Mathematics, Massachusetts Institute of Technology, Cambridge, Massachusetts 02139}
+\email{holden1@mit.edu}
+
+%\subjclass[2010]{05A15, 05A17, 11P83}
+
+\begin{abstract}
+We use the theory of reduced decompositions to give an upper bound for the greatest number of $k$-lines in a set of $n$ points, for $k\le 3$. In general, when $k$ is fixed, we give an algorithmic method of calculating the asymptotics.
+%\Keywords{congruences, partitions, Andrews' spt-function, modular forms, Hecke operators}
+%\subjclass[2000]{11P83}
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+
+\begin{df}
+Let $S$ be a set $n$ points in the plane in general position. Define a \textbf{$k$-line} to be a line going through 2 of the points, such that one side of the line has exactly $k$ of the points (not including the 2 points on the line).
+
+If $n$ is even, define a \textbf{halving line} to be a $\pa{\fc{n}{2}-1}$-line. That is, a halving line has half the remaining points on either side.
+\end{df}
+
+We are interested in the open problem: what is the maximum number of $k$-lines given a set of $n$ points? Let $f_{k,n}$ denote the answer, and let $f_n$ denote the maximum number of halving lines for $n$ even.
+
+Using the crossing lemma, Dey~\cite{De98} showed the upper bound
+\[
+f_{k,n}=O(n(k+1)^{\fc13}).
+\]
+In particular, the number of halving lines is $O(n^{\fc 43})$. T\'oth~\cite{To01} showed by construction the lower bound
+\[
+f_n=\Om(ne^{c\sqrt{\ln n}}).
+\]
+It is conjectured that
+\[
+f_{k,n}=O(nk^{\ep})
+\]
+for any fixed $\ep>0$.
+%Edelsbrunner conjectured that upper bound for the number of halving lines is
+%\[
+%h(n)=O(n\ln n).
+%\]
+
+One way to study $k$-lines is to generalize to a purely combinatorial problem about the symmetric group. Erd\H{o}s and Purdy~\cite{EP95} give an overview of the method, showing how the question of $k$-lines is related to a question about $k$-transpositions in {\it allowable $n$-sequences}. For simplicity, we consider the question when the points are in general position, in which case the question is related to $k$-transpositions in {\it reduced decompositions}. 
+Goodman and Pollack~\cite{GP84} noted that the upper bound $\sum_{i=1}^k f_{k,n}= O(nk)$ is almost immediate from this generalization. Early~\cite{Ea99} proved the lower bound $f_{k,n}=O(n\ln n)$ also using the generalization, with an extra step of showing that the construction of the sequence of $k$-transpositions ``comes from geometry."
+%Using the RSK algorithm, Edelman~\cite{Ed92} has found the average number of $k$-sets for any $k$ and $n$.
+
+Allowable sequences have been well-studied in their own right, and several other problems in combinatorial geometry can also be reduced to problems on allowable sequences. Goodman and Pollack give a survey in~\cite{GP93}.
+
+In Section 2, we define $k$-transpositions in reduced decompositions and describe their relationship to $k$-lines. In Section 3, we give an algorithm to compute the asymptotics of the maximum number of $k$-lines for small values of $k$ (Theorem~\ref{thm}).
+
+\section{Reduced decompositions}
+
+For convenience, we define the following.
+
+\begin{df}
+Let $S$ be a set $n$ points in the plane in general position. Define a \textbf{directed $k$-line} to be a directed line going through 2 of the points, such that left side of the line has exactly $k$ of the points.
+\end{df}
+Let $f'_{k,n}$ and $f'_n$ denote the maximum number of directed $k$-lines and directed halving lines.
+
+Every $k$-line is associated to a directed $k$-line, unless it is a halving line, in which case we can choose either direction. Thus
+\[
+f_k(n)=\begin{cases}
+f'_k(n),&k\ne \fc n2+1\\
+\rc2f'_k(n),&k=\fc n2+1.
+\end{cases}
+\]
+
+The key observation is the following. Given a set $S$ of $n$ points and a line $\ell$, consider a given direction (unit vector) $\vec v$. Consider the lines parallel to $\vec v$ which have exactly $k$ points on the left side. These lines form a strip bounded by two of the points of $S$. This strip reduces to a line exactly when there is a directed $k$-line in the direction of $\vec v$.
+
+Thus, the number of $k$-lines is exactly the number of directions  $\vec v$ where this strip reduces to a line.
+
+To formalize this, it is convenient to consider the line $\ell$ perpendicular to $\vec v$, so we care about the places where two points of $S$ have the same projection onto $\ell$.
+
+Label the points of $S$ by 1, 2, $\ldots$, $n$. Consider a directed line $\ell$ at an angle $\te$. The projections of the points of $S$ to $\ell$ determine a permutation $\pi(\te)$ of $\{1,2,\ldots, n\}$. Now rotate $\ell$. When a line going through two points $p,q$ of $S$ is perpendicular to $\ell$, then their projections change places, i.e., the permutation changes by a transposition of two adjacent elements. When there are exactly $k$ points with projections to the left of $p$ and $q$, then the permutation has exactly $k$ elements to its left of $p$ and $q$. When $\ell$ has rotated by $\pi$, the permutation has exactly reversed.
+
+Note that because two points determine exactly one line, every two elements is transposed exactly once. Thus for every set of $S$ points, we have associated a sequence of permutations. We may assume without loss of generality that the starting permutation is $1,2,\ldots, n$. This brings us to the following definition.
+\begin{df}
+Let $\pi$ be a permutation, and let $i(\pi)=|\set{(i,j)}{i<j\text{ and }\pi(i)>\pi(j)}|$ be the number of inversions.
+
+Define a \textbf{reduced decomposition} from $\pi$ to $n\,n-1\,\ldots 2\,1$ to be a sequence of transpositions
+\[
+t_1,\ldots, t_{\binom n2-i(\pi)}\in S_n
+\]
+such that
+\[
+n\,n-1\,\ldots 2\,1=\pi t_1\cdots t_{\binom n2-i(\pi)}
+\]
+and such that $t_{i}$ is a transposition of two adjacent elements in $\pi t_1\cdots t_{i-1}$. (Composition is done left to right.)
+
+Define the {\it level} of $t_i=(pq)$ to be the number of elements to the left of $p,q$ in $t_1\cdots t_{i-1}$. If the level is $k$, we call $t_i$ a $k$-transposition.
+\end{df}
+Note that $t_i=(pq)$ with $p<q$, then $p$ is to the left of $q$ in $\pi t_1\cdots t_{i-1}$ and to the right of $q$ in $\pi t_1\cdots t_i$. When we do not mention $\pi$, we assume that $\pi=\id$.
+
+Our construction gives the following.
+\begin{pr}\label{pr:k-set-level}
+Let $t$ be the sequence of transpositions determined by a set $S$ of $n$ points, as defined above. Then the number of directed $k$-lines in $S$ is exactly the number of $k$-transpositions in $t$.
+\end{pr}
+
+Another way to understand this definition is the following. Impose a polar coordinate system, and suppose point $i$ is at $r_i\angle \te_i$. The projection of point $i$ on the line $\ell$ at angle $\te$ is at a point $r_i\cos(x-\te_i)$ along $\ell$. Graphing $y=r_i\cos(x-\te_i)$ on the interval $[0,\pi]$, we get the sequence of transpositions by looking at the intersection points of the sinusoids as we move from $x=0$ to $x=\pi$.
+
+\section{The number of $k$-transpositions}
+
+Let $F_{k,n}$ denote the maximum number of $k$-transpositions a reduced decomposition. Proposition~\ref{pr:k-set-level} shows that
+\[
+F_{k,n}\ge f'_{k,n}.
+\]
+Unfortunately, not every reduced decomposition comes from a set of points; we do not know whether the asymptotics for $F_{k,n}$ and $f'_{k,n}$ are the same.
+
+It helps to work in a more general setting. For a permutation $\pi\in S_n$, we define $F_{k,n}(\pi)$ similarly to $F_{k,n}$, as the maximum number of $k$-transpositions  for a reduced decomposition from $\pi$ to $n\,n-1\,\ldots 1$. 
+
+The following proposition reduces the amount of searching we have to do to find $F_{k,n}(\pi)$.
+\begin{pr}\label{pr}
+There exists a sequence of transpositions $t$ such that $t$ has exactly $F_{k,n}(\pi)$ transpositions at level $k$, and such that $t$ satisfies the following.
+
+Let $\pi t_1\ldots t_{i-1}=a_{i,1}\ldots a_{i,n}$. For all $1\le i\le \binom n2-i(\pi)$, we have
+\begin{enumerate}
+\item if $a_{i,k+1}<a_{i,k+2}$, then $t_i=(a_{i,k+1}a_{i,k+2})$ %{\it (greedy switching)}
+\item if there exists $j$ such that at least $k+1$ elements of $a_{i,1},\ldots, a_{i,j-1}$ are greater than $a_{i,j}$, then $t_i=(a_{i,j}a_{i,j+1})$.
+\item if conditions 1 and 2 are not satisfied, and there exists $j$ such that $a_{i,j}+1<a_{i,j+1}$, then for some such $j$, $t_i=(a_{i,j}a_{i,j+1})$.
+\end{enumerate}
+\end{pr}
+We explain the above conditions intuitively.
+\begin{enumerate}
+\item ``Greedy switching": If we can make a $k$-level transposition at step $i$, then we should do it.
+\item ``Out of the running": If at least $k+1$ elements of $a_{i,1},\ldots, a_{i,j-1}$ are greater than $a_{i,j}$, then $a_{i,j}$ can never be involved in a $k$-level transposition again, so we might as well move it all the way to the right.
+\item ``Never transpose consecutive numbers" unless there is no other choice.
+\end{enumerate}
+\begin{proof}
+Given any $t'$, we successively transform $t'$ such that the number of $k$-transpositions does not change, and so that the above conditions are satisfied.
+
+\begin{enumerate}
+\item If $t'$ does not satisfy (1), take any $i,k$ where $a_{i,k+1}<a_{i,k+2}$. Now remove $(a_{i,k+1},a_{i,k+2})$ from the sequence $t'$ and insert it at the $i$th position. Suppose it was at the $j$th position before. Now for all $m$ with $i<m<j$, interchange $a_{i,k+1}$ and $a_{i,k+2}$ in all the transpositions.
+
+Note that the number of $k$-level transpositions has either increased by 0 or 1 (if $(a_{i,k+1},a_{i,k+2})$ was not originally a $k$-level transposition, it now is), and the number of violations to condition 1 has decreased by 1. We can apply this repeatedly.
+\item Take any $i,j$ where condition 2 fails. Similar to the previous case, remove $(a_{i,j+1}a_{i,j+2})$ from $t'$, insert it at the $i$th position, and interchange $a_{i,j+1}$ and $a_{i,j+2}$ in other transpositions as necessary. The only transposition which changes levels is $(a_{i,j+1}a_{i,j+2})$, and because of the given condition, it cannot have been at level $k$.
+\item Suppose that $t_i=(a_{i,j}a_{i,j+1})$ where $a_{i,j}+1=a_{i,j+1}$. Then remove $t_i$, interchange $a_{i,j}$ and $a_{i,j+1}$ in all subsequent transpositions, and put $t_i$ at the end. The number of transpositions at level $k$ does not decrease, because $t_i$ was not originally at level $k$.
+\end{enumerate}
+\end{proof}
+
+We use Proposition~\ref{pr} and a computer program to show the following.
+\begin{thm}\label{thm}
+For each $k$ there exists $C_k$ such that
+\[
+F_{k,n}\sim C_k n.
+\]
+We have
+\begin{align*}
+C_0&=1&f_{0,n}&=n\\
+C_1&=1.5&f_{1,n}&\le F_{1,n}\sim 1.5n\\
+C_2&=2&f_{2,n}&\le F_{2,n}\sim 2n\\
+2.099609375\le C_3&\le 2.1015625& f_{2,n} &\le F_{2,n}\precsim 2.1015625n.
+\end{align*}
+\end{thm}
+Note $C_4$ is also computationally feasible.
+
+%For permutations $\pi_1$ and $\pi_2$, define $f_k(n
+
+\begin{proof}
+First, we give an algorithm to compute $C_k$, and then we explain its correctness. Let $n=2k+2$. 
+\begin{enumerate}
+\item
+Start with the permutation $\pa{\fc{n}2,\fc n2+1}=1\ldots \pa{\fc n2+1} \,\fc n2\ldots n\in S_n$. Consider a graph $G$ whose vertices are a certain subset of the permutations in $S_n$. Start with just the vertex corresponding to $\pa{\fc{n}2,\fc n2+1}$; we say this vertex is uncolored. Now for every uncolored vertex, carry out steps 2--4.
+
+(Although here $n=2k+2$, we will ``simulate" permutation sequences for {\it any} $n$ with $k$ fixed. It turns out that only the first $2k+2$ elements are important.)
+\item
+Now given a permutation $\pi$, create a tree of permutation sequences as follows. The tree starts with just one vertex $\pi$. Every time we have a leaf $\pi'$, consider all the transpositions of adjacent elements that we could apply to $\pi'$ and satisfying conditions (1)--(3) in the proposition. Composing these transpositions with $\pi'$ gives several other permutations, and we let these permutations be the children of $\pi'$.
+
+However, we make the following modification when we carry out the transposition in (2) of the proposition. When we apply transpositions as in (2), in the subsequent steps one element, say $m$, is continuously transposed until it gets to the very right of the sequence. When it gets to the very right, delete it from the permutation, decrease every element greater than $m$ by 1, and insert $n$ at the end. For instance, here is a sample:
+\begin{align*}
+1\mathbf{24}|356 &\to 14\mathbf{2|3}56 \to \mathbf{14}3|256
+\to 413|\mathbf{25}6 \to 431|5{\color{red}\mathbf2}\mathbf{6}\\
+&\to 431|56\cancel{2}{\to }{\color{blue}32}1|{\color{blue}456}.
+\end{align*}
+Now after this happens, we make at most 1 more transposition along this branch, to make $\pi_{k+1}>\pi_{k+2}$ as necessary. So in the example, we make the final transposition
+\[
+32\mathbf{1|4}56\to 324|156
+\]
+and then end the branch there.
+\item
+For every final leaf $\pi'$ of the tree, let $\pi'$ be a vertex in $G$. Draw a directed edge from $\pi$ to $\pi'$ and label it with the number of $k$-transpositions it took to get from $\pi$ to $\pi'$. Now color in vertex $\pi$, and go back to step 2.
+\item 
+Now the entire graph is populated. For a path $p$ in $G$, let $\ell(p)$ denote its length and $\si(p)$ denote its sum. Then
+\begin{equation}\label{e1}
+C_k=\limsup_{\ell(p)\to \iy}\fc{\si(p)}{\ell(p)}.
+\eeq
+%Note this quantity can be approximated as follows. Form the matrix $A$ with rows and columns labeled by permutations, and let $A_{\pi\pi'}=\si(\pi\pi')$ be the edge label. For $x,y$ deFor square matrices $B,C$, define $B*C=(
+\end{enumerate}
+For $n>2k+2$, we claim that 
+\begin{equation}\label{e2}
+F_{k,n}(\pi)=\max_{\pi\pi'\text{ an edge}}(F_{k,n}(\pi')+\si(\pi\pi')).
+\eeq
+Indeed, there exists a sequence $t$ achieving the bound $F_{k,n}(\pi)$ and satisfying the conditions of Proposition~\ref{pr}. Note this sequence matches the sequence of transpositions along a branch of the tree drawn in step 2 of the algorithm, up to the point where we relabel the numbers, simply because we obeyed the conditions of Proposition~\ref{pr} when constructing this tree. The only difference is that we now imagine that the numbers $2k+3\,\ldots\, n$ are tacked on to the end of the sequence.
+
+When the element $m$ is transposed to the $(2k+2)$th position, we can imagine that it gets transposed all the way to the last position. It is now ``out of the running," and only the first $(n-1)$ elements can contribute to the number of $k$-transpositions. Only the order of the elements matters in calculation, and hence we relabel the first $(n-1)$ elements by numbers from 1 to $n-1$, preserving the order. This is what we did in step 2.
+
+We have to check that cutting off the permutations at $2k+2$ does not decrease the number of possibilities. Suppose that in the sequence of transpositions $t$, at some step $t_i$ the $(2k+2)$th and $(2k+3)$th elements $a_{2k+2}$ and $a_{2k+3}$ are interchanged. Take the first such instance. By condition 3, the $a_{2k+2},a_{2k+3}$ cannot be consecutive. We claim that the $a_{2k+2}\in [1,k+1]$. Indeed, $a_{2k+2}+1$ must have been switched with $a_{2k+2}$ somehow, and this can only have happened if $(a_{2k+2}(a_{2k+2}+1))$ appeared as a $k$-transposition in $t$. This means that some $j\le k+1$ must have been switched with $a_{2k+2}$, and would stay between $a_{2k+2}$ and $a_{2k+3}$, preventing the transposition $(a_{2k+2},a_{2k+3})$ from taking place.
+
+This shows~\eqref{e2} and hence~\eqref{e1}. Note that~\eqref{e1} can be approximated with arbitrary precision by considering paths $p$ of length $2^{\al}$ with $\al$ large. For $k\le 2$, $F_{k,n}$ can be calculated easily from the entire graph; while for $k=3$, we use the program in the appendix to approximate $C_k$. Note that for $k=3$ the graph has 100 vertices, while for $k=4$ the graph has 2033 vertices.
+\end{proof}
+
+\section{Appendix}
+
+The following code was used to compute the constants $C_k$.
+\begin{lstlisting}
+from math import *
+from copy import *
+from scipy import sparse
+import numpy
+import pickle
+
+class SetList():
+    def __init__(self):
+        self.li=[]
+        self.reverse_dict={}
+    def append(self, x):
+        i=len(self.li)
+        #if other not in self.li:
+        self.li.append(x)
+        self.reverse_dict[x]=i
+        i+=1
+    def __getitem__(self,i):
+        if type(i)==int:
+            return self.li[i]
+        else:
+            return self.reverse_dict[i]
+    def __len__(self):
+        return len(self.li)
+
+#outputs a list of permutations that comes from transposing 2 elements of pi
+#that are ordered correctly
+def children_list(m):
+    pi=m.pi
+    n=m.n
+    k=m.k
+    #(1) check if the kth level is transposeable; if so, always go for it
+    if pi[k]<pi[k+1]:
+        return [MovesRecord(switch(pi,k,k+1),k,m.middles+1,m.cont)]
+    if m.cont==False:
+        return []
+    #(2) try moving something to the bottom
+    for i in xrange(k+2,n+1):
+        if m.check_move_to_bottom(i):
+            #then move ith number to the bottom
+            new=deepcopy(pi)
+            rem=new[i-1]
+            #store rem if you want to keep track of the number that moved
+            new.remove(rem)
+            for (ind,j) in enumerate(new):
+                if j>rem:
+                    new[ind]=j-1
+            new.append(n)
+            return [MovesRecord(new,k,m.middles,False)]
+    has_nonconsec=check_has_nonconsecutive(pi)
+    li=[]
+    for i in xrange(1,n):
+        #(3) transpose nonconsecutive numbers
+        if (pi[i-1]+1<pi[i]) or (pi[i-1]<pi[i] and (not has_nonconsec)):
+            new=switch(pi,i-1,i)
+            li.append(MovesRecord(new, k,m.middles, True))
+    return li
+
+def check_has_nonconsecutive(pi):
+    for i in xrange(1,len(pi)):
+        if pi[i-1]+1<pi[i]:
+            return True
+    return False
+
+class MovesRecord():
+    def __init__(self,pi,k,middles=0,cont=True):
+        self.pi=pi
+        self.n=len(pi)
+        self.k=k
+        self.cont=cont
+        self.middles=middles
+    def get_descendants(self):
+        descendants=[self]
+        tips=[]
+        while len(descendants)>0:
+            new_descendants=[]
+            for d in descendants:
+                children=children_list(d)
+                if children==[]:
+                    tips.append(d)
+                    
+                new_descendants.extend(children)
+            descendants=new_descendants
+    def check_move_to_bottom(self, i):
+        count=0
+        pi=self.pi
+        for j in xrange(0,i-1):
+            if pi[j]>pi[i-1]:
+                count+=1
+        if count>=self.k+1:
+            return True
+        return False
+    def __str__(self):
+        return "Permutation: " + str(self.pi) +\
+               ", Middles:" + str(self.middles) +\
+               ", Cont:" + str(self.cont)
+
+
+def switch(li,i,j):
+    li2=deepcopy(li)
+    temp=li2[i]
+    li2[i]=li2[j]
+    li2[j]=temp
+    return li2
+
+def matmax(m1,m2,size):
+    r=len(m1)
+    c=len(m1[0])
+    m3=numpy.matrix([[0]*size]*size)
+    for i in range(0,size):
+        for j in range(0,size):
+            maxp=0
+            for k in range(0,size):
+                p=0
+                if m1[i,k]!=0 and m2[k,j]!=0:
+                    p=m1[i,k]+m2[k,j]
+                if p>maxp:
+                    maxp=p
+            m3[i,j]=maxp
+    return m3
+
+if __name__=="__main__":
+    n=8
+    k=n/2-1
+    start_pi=switch(range(1,n+1),k,k+1)
+    #large number
+    size=10000
+    mat=sparse.lil_matrix((size,size))
+    #must keep things in set as tuples
+    undone_set=set([tuple(start_pi)])
+    vertices=SetList()
+    vertices.append(tuple(start_pi))
+    while len(undone_set)>0:
+        new_undone_set=set()
+        print "Current undone set is..."
+        for i in undone_set:
+            print i
+        print "End"
+        for pi in undone_set:
+            m=MovesRecord(list(pi),k)
+            nbs=m.get_descendants()
+            for mr in nbs:
+                if tuple(mr.pi) not in vertices.li:
+                    vertices.append(tuple(mr.pi))
+                    new_undone_set.add(tuple(mr.pi))
+                mat[vertices[pi],vertices[tuple(mr.pi)]]=mr.middles
+        undone_set=new_undone_set
+    #everything is now stored in done_set
+    maxdec=[]
+    for i in xrange(0,len(vertices)):
+        maxdec.append(longest_dec(vertices[i]))
+    ldl=[]
+    for (j,i) in enumerate(vertices.li):
+        print j,": ",i
+        ldl.append((maxdec[j],j,i))
+    ldl.sort()
+    for t in ldl:
+        print t
+    nz=mat.nonzero()
+    for i in xrange(0,len(nz[0])):
+        x=nz[0][i]
+        y=nz[1][i]
+        v=mat[x,y]
+        print (x,y,v)
+    print "Max matrix: \n",maxm
+    print "Min matrix: \n",minm
+    f=open("perm"+str(n)+".txt",'w')
+    g=open("mat"+str(n)+".txt",'w')
+    pickle.dump(vertices.li,f)
+    pickle.dump(mat,g)
+    f.close()
+    g.close()
+\end{lstlisting}
+
+
+\bibliographystyle{plain}
+\bibliography{../refs}
+\end{document}

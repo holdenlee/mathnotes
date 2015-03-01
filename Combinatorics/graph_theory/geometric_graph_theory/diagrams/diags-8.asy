@@ -1,0 +1,20 @@
+if(!settings.multipleView) settings.batchView=false;
+settings.tex="pdflatex";
+defaultfilename="diags-8";
+if(settings.render < 0) settings.render=4;
+settings.outformat="";
+settings.inlineimage=true;
+settings.embed=true;
+settings.toolbar=false;
+viewportmargin=(2,2);
+
+unitsize(1cm);
+pair O;
+O=(0,0);
+draw(circle(O,1));
+label("$d_1$",(1,0),SE);
+draw(circle(O,2));
+label("$d_2$",(2,0),SE);
+label("$C_i$",(.9,.9),5*SE);
+draw(circle((.9,.9),.5));
+draw((-2,-2)--(2,2));

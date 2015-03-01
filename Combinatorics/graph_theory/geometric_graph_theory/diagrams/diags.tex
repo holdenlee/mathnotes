@@ -1,0 +1,190 @@
+%% Author: Holden Lee
+%% 
+%% 
+%% 
+
+
+\documentclass[11pt]{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{xy}
+\usepackage{asymptote}
+%\usepackage[pdftex]{graphicx}
+
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+\oddsidemargin 0in
+\textwidth 6.5in
+\textheight 8.8in
+\topmargin -1.3in
+\headheight 112pt
+
+\begin{document}
+%1
+\begin{asy}
+pair A,B,C,D,E,F,G,H;
+unitsize(1cm);
+A=(0,1);
+B=(1,1);
+C=(2,1);
+D=(3,1);
+E=(0,0);
+F=(1,0);
+G=(2,0);
+H=(3,0);
+dot(A);
+dot(B);
+dot(C);
+dot(D);
+dot(E);
+dot(F);
+dot(G);
+dot(H);
+draw(A--F);
+draw(A--G);
+draw(A--H);
+draw(B--E);
+draw(B--G);
+draw(B--H);
+draw(C--E);
+draw(C--F);
+draw(C--H);
+draw(D--E);
+draw(D--F);
+draw(D--G);
+label("1",A,N);
+label("2",B,N);
+label("3",C,N);
+label("4",D,N);
+label("5",E,S);
+label("6",F,S);
+label("7",G,S);
+label("8",H,S);
+\end{asy}
+
+%2
+\begin{asy}
+unitsize(1cm);
+int[][] a={{1,2,3,5},{2,3,5,1},{3,5,1,2},{5,1,2,3},{6,7,8,4}, {7,8,4,6},{8,4,6,7},{4,6,7,8}};
+for(int i=0; i<8; ++i) {
+  for(int j=0; j<4; ++j) {
+    label(string(i+1),(j,-a[i][j]));
+  }
+  draw((0,-a[i][0])--(1,-a[i][1])--(2,-a[i][2])--(3,-a[i][3]),blue);
+}
+\end{asy}
+
+%3
+\begin{asy}
+unitsize(1cm);
+draw(circle((0,0),2));
+label("$C$",(2,0),E);
+label("$A(C)$",(0,0));
+label("$B(C)$",(2.5,2));
+\end{asy}
+
+%4
+\begin{asy}
+unitsize(1cm);
+draw(circle((0,0),2));
+label("$C$",(2,0),E);
+label("$A(C)$",(0,0));
+label("$B(C)$",(2.5,2));
+draw((0,-2)..(-1,-1.5)..(-sqrt(2),-sqrt(2)));
+draw((-2,0)..(-1.5,-1)..(-sqrt(2),-sqrt(2)));
+dot((0,-2));
+dot((-sqrt(2),-sqrt(2)));
+dot((-2,0));
+label("$u$",(0,-2),S);
+label("$v$",(-2,0),W);
+label("$w$",(-sqrt(2),-sqrt(2)),SW);
+label("$P$",(-1,-1.5),N);
+\end{asy}
+
+%5
+\begin{asy}
+unitsize(1cm);
+draw(circle((0,0),2));
+label("$C$",(2,0),E);
+label("$A(C)$",(.2,.2));
+label("$B(C)$",(2.5,2));
+draw((0,-2)..(-.8,-.8)..(-2,0));
+dot((0,-2));
+dot((-2,0));
+label("$u$",(0,-2),S);
+label("$v$",(-2,0),W);
+label("$P$",(-.8,-.8),NE);
+label("$C_1$",(-.8,-.8),SW);
+\end{asy}
+
+%6
+\begin{asy}
+unitsize(1cm);
+draw(circle((0,0),2));
+draw((0,-2)--(-1,-1.5)--(-sqrt(2),-sqrt(2)));
+dot((0,-2));
+dot((-sqrt(2),-sqrt(2)));
+label("$v$",(0,-2),S);
+label("$u$",(-sqrt(2),-sqrt(2)),SW);
+dot((-1,-1.5));
+\end{asy}
+
+%7
+\begin{asy}
+unitsize(1cm);
+draw(circle((0,0),2));
+draw(circle((0,0),1));
+draw(circle((2,0),1));
+draw(circle((-2,0),1));
+draw(circle((0,2),1));
+draw(circle((0,-2),1));
+draw(circle((1,1),1));
+draw(circle((1,-1),1));
+draw(circle((-1,1),1));
+draw(circle((-1,-1),1));
+\end{asy}
+
+%8
+\begin{asy}
+unitsize(1cm);
+pair O;
+O=(0,0);
+draw(circle(O,1));
+label("$d_1$",(1,0),SE);
+draw(circle(O,2));
+label("$d_2$",(2,0),SE);
+label("$C_i$",(.9,.9),5*SE);
+draw(circle((.9,.9),.5));
+draw((-2,-2)--(2,2));
+\end{asy}
+
+%9
+\begin{asy}
+unitsize(1cm);
+pair O;
+O=(0,0);
+draw(circle(O,1));
+draw(circle(O,2));
+draw(circle((2.2,0),.5));
+label("$C_i$",(2.7,0),E);
+real a,b,c;
+a=2.2;
+b=2;
+c=.5;
+real ga,be;
+ga=acos((a^2+b^2-c^2)/(2*a*b));
+be=acos((a^2+c^2-b^2)/(2*a*c));
+real K;
+K=ga*b^2+be*c^2-2*sqrt((a+b+c)*(a+b-c)*(a-b+c)*(-a+b+c)/16);
+real r;
+r=sqrt(K/pi);
+draw(circle((2-r,0),r));
+//fill(circle((2-r,0),r));
+label("$D_i$",(2-2*r,0),.6*W);
+//dot(2*expi(ga));
+//dot((2.2,0)-.5*expi(be));
+\end{asy}
+\end{document}

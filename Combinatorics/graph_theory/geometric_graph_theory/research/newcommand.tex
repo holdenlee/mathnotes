@@ -1,0 +1,232 @@
+%Holden's shortcuts
+%\input{preamble5.tex}
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%%Letter-related
+\newcommand{\bb}[1]{\mathbb{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+%More sequences of letters
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+\newcommand{\ve}[1]{\left\Vert{#1}\right\Vert}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%etc.
+\newcommand{\SL}[0]{\text{SL}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\tr}[0]{\text{Tr}}
+\newcommand{\spn}{\operatorname{Span}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\mmod}[1]{\,(\text{mod}^{\times} #1)}
+\newcommand{\nmod}[1]{\,(\text{mod}\, #1)}
+\newcommand{\set}[2]{\bc{{#1}:{#2}}}
+\newcommand{\nequiv}[0]{\not\equiv}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left(
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right)}
+\newcommand{\smatt}[4]{
+\left(
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right)}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+\newcommand{\iy}[0]{\infty}
+\newcommand{\ir}[0]{\int_{\R}}
+\newcommand{\su}[0]{\sum_{n=0}^{\iy}}
+\newcommand{\suo}[0]{\sum_{n=1}^{\iy}}
+\newcommand{\fc}[2]{\frac{#1}{#2}}
+\newcommand{\prc}[1]{\pa{\frac{1}{#1}}}
+\newcommand{\im}[0]{\operatorname{im}}
+\newcommand{\hra}[0]{\hookrightarrow}
+%End Holden's shortcuts
+
+\newtheorem{case}{Case}
+\newcommand{\caseif}{\textnormal{if }}
+\newcommand{\leg}[2]{\genfrac{(}{)}{}{}{#1}{#2}}
+\newcommand{\bfrac}[2]{\genfrac{}{}{}{0}{#1}{#2}}
+\newcommand{\sm}[4]{\left(\begin{smallmatrix}#1&#2\\ #3&#4 \end{smallmatrix} \right)}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem*{conjecture}{\bf Conjecture}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\renewcommand{\thetheorem}{\thesection.\arabic{theorem}}
+\newcommand{\bracket}[2]{#1 \left\{ \begin{array}{ll} #2 \end{array} \right. } 
+\renewcommand{\ss}{\hspace*{2pt}}
+\theoremstyle{remark}
+\newtheorem*{theoremno}{{\bf Theorem}}
+\newtheorem{remark}{Remark}
+\newtheorem*{remarkstar}{Remark}
+\newtheorem*{remarks}{Remarks}
+\newtheorem{example}{Example}
+\numberwithin{theorem}{section} \numberwithin{equation}{section}
+\newcommand{\boxedeqn}[1]{%
+  \[\fbox{%
+          \addtolength{\linewidth}{-2\fboxsep}%
+          \addtolength{\linewidth}{-2\fboxrule}%
+          \begin{minipage}{\linewidth}%
+          \begin{equation}#1\end{equation}%
+          \end{minipage}%
+        }\]%
+    }
+    \def\H{\mathbb{H}}
+%\newcommand{\spt}{{\rm{spt}}}
+\newcommand{\spt}{spt}
+%\newcommand{\lhat}{\widehat{\mathcal{L}}_\ell^\ast}
+
+\newcommand{\olm}{\Omega_\ell}
+\newcommand{\olmeven}{\Omega_{\ell}^{\text{even}}}
+\newcommand{\olmodd}{\Omega_{\ell}^{\text{odd}}}
+\newcommand{\kl}{k_\ell}
+\newcommand{\klodd}{k_\ell^{\text{odd}}}
+\newcommand{\kleven}{k_\ell^{\text{even}}}
+\newcommand{\Ul}{\ss | \ss U(\ell)}
+\newcommand{\Dlx}[1]{\ss | \ss D_{#1}(\ell)}
+\newcommand{\Dl}{\ss | \ss D_1(\ell)}
+\newcommand{\Dlr}{\ss | \ss D_r(\ell)}
+\newcommand{\Xl}{\ss | \ss X_r(\ell)}
+\newcommand{\xspt}{\ss | \ss X_1(\ell)}
+\newcommand{\yspt}{\ss | \ss Y_1(\ell)}
+\newcommand{\Yl}{\ss | \ss Y_r(\ell)}
+\newcommand{\Ylr}{\ss | \ss Y_r(\ell)}
+\newcommand{\pl}{P_{\ell}}
+\newcommand{\lb}{L_{\ell}}
+\newcommand{\lbz}{L_{\ell}(\spt;z)}
+\newcommand{\plbz}{P_\ell(\spt,b;z)}
+%\newcommand{\ul}{\ss | \ss U(\ell)}
+%\newcommand{\curlyl}{\mathcal{L}^\ast_\ell}
+%\newcommand{\gamm}{\Gamma_0(\ell)}
+\newcommand{\klm}{k_{\ell}(\spt,m)}
+%\newcommand{\kl}{k^\ast_{\ell}}
+\newcommand{\kld}{k^{\dagger}_{\ell}}
+\newcommand{\blm}{b_{\ell}(\spt,m)}
+%\newcommand{\alm}{A_{\ell}(z)}
+%\newcommand{\bup}{B^{\ast}_\ell(b,m)}
+\newcommand{\rl}{r_{\ell}}
+\renewcommand{\and}{\text{ and }}
+\newcommand{\zlm}{\mathbb{Z}/\ell^m \mathbb{Z}}
+\newcommand{\laodd}{\Lambda_{\ell}^{\text{ odd}}}
+\newcommand{\laeven}{\Lambda_{\ell}^{\text{ even}}}
+\newcommand{\clm}{c_\ell(m)}
+\newcommand{\vl}{v_\ell}
+\newcommand{\dl}{d_\ell}
+\newcommand{\ml}{M_{\ell+1} \cap \mathbb{Z}_{(\ell)} [[q]]}
+\newcommand{\zl}{\mathbb{Z}_{(\ell)} [[q]]}
+\newcommand{\Ll}{L_\ell}
+\newcommand{\til}{\widetilde}
+\newcommand{\x}{\times}
+\newcommand{\bl}{b_{\ell}}
+%\newcommand{\xl}{\ss \ss | X(\ell)}
+\newcommand{\wl}{\ss |  \ss W(\ell)}
+\newcommand{\edit}[1]{{\color{blue}#1}}
+%\newcommand{\edit}[1]{}
+\newcommand{\fixme}[1]{{\color{red}#1}}
+\newcommand{\st}{\ss : \ss}
+\newcommand{\pieven}{\Pi_\ell^{\text{even}}}
+\newcommand{\piodd}{\Pi_\ell^{\text{odd}}}
+\newcommand{\sr}{\mathcal{S}(r)}
+\newcommand{\sspt}{\mathcal{S}(\spt)}
+\newcommand{\sspts}{\mathcal{S}^*(\spt)}
+\newcommand{\cals}{\mathcal{S}}
+\newcommand{\dspt}{d_{\ell}(\spt)}
+\newcommand{\dr}{d_{\ell}(r)}
+\newcommand{\drp}{d_{\ell}'(r)}
+\newcommand{\sstarr}{\mathcal{S}^{\ast}(r)}
+\newcommand{\sstarspt}{\mathcal{S}^{\ast}(\spt)}
+\newcommand{\ordl}{\ord_{\ell}}
+\newcommand{\ff}[2]{\left\lfloor\frac{#1}{#2}\right\rfloor}
+\newcommand{\seven}{\mathcal{S}^{\text{even}}}
+\newcommand{\sodd}{\mathcal{S}^{\text{odd}}}
+\renewcommand{\bar}{\overline}
+\newcommand{\contains}{\supseteq}
+\renewcommand{\subset}{\subeq}
+\newcommand{\ints}{\cap}
+\newcommand{\ink}[1]{\in^{#1}}
+
+\makeatletter
+\def\imod#1{\allowbreak\mkern10mu({\operator@font mod}\,\,#1)}
+\makeatother
+
+\newenvironment{newlist}{\begin{list}{\hspace{5pt}(\arabic{itemcounter})} {\usecounter{itemcounter}\itemsep=0.1in\leftmargin=-0.0em}} {\end{list}}
+\newenvironment{newlist2}{
+ \begin{list}
+{\alph{itemcounter2}.} {\usecounter{itemcounter2}\itemsep=6pt}}{\end{list}}
+
+\newcommand{\llabel}[1]{\label{#1}}
+%\newcommand{\llabel}[1]{\label{#1}\text{\color{red}[#1]}}

@@ -1,0 +1,22 @@
+if(!settings.multipleView) settings.batchView=false;
+settings.tex="pdflatex";
+defaultfilename="diags-5";
+if(settings.render < 0) settings.render=4;
+settings.outformat="";
+settings.inlineimage=true;
+settings.embed=true;
+settings.toolbar=false;
+viewportmargin=(2,2);
+
+unitsize(1cm);
+draw(circle((0,0),2));
+label("$C$",(2,0),E);
+label("$A(C)$",(.2,.2));
+label("$B(C)$",(2.5,2));
+draw((0,-2)..(-.8,-.8)..(-2,0));
+dot((0,-2));
+dot((-2,0));
+label("$u$",(0,-2),S);
+label("$v$",(-2,0),W);
+label("$P$",(-.8,-.8),NE);
+label("$C_1$",(-.8,-.8),SW);

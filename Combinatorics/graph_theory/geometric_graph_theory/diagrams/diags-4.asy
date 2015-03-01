@@ -1,0 +1,24 @@
+if(!settings.multipleView) settings.batchView=false;
+settings.tex="pdflatex";
+defaultfilename="diags-4";
+if(settings.render < 0) settings.render=4;
+settings.outformat="";
+settings.inlineimage=true;
+settings.embed=true;
+settings.toolbar=false;
+viewportmargin=(2,2);
+
+unitsize(1cm);
+draw(circle((0,0),2));
+label("$C$",(2,0),E);
+label("$A(C)$",(0,0));
+label("$B(C)$",(2.5,2));
+draw((0,-2)..(-1,-1.5)..(-sqrt(2),-sqrt(2)));
+draw((-2,0)..(-1.5,-1)..(-sqrt(2),-sqrt(2)));
+dot((0,-2));
+dot((-sqrt(2),-sqrt(2)));
+dot((-2,0));
+label("$u$",(0,-2),S);
+label("$v$",(-2,0),W);
+label("$w$",(-sqrt(2),-sqrt(2)),SW);
+label("$P$",(-1,-1.5),N);
