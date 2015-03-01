@@ -1,0 +1,155 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Program title (ex. course name)}
+\chead{} 
+\rhead{Talk/topic title} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\section{Parallel repetition from fortification}
+Clause vs. clause games: Given $c_1,\ldots, c_m$ where each $c_i$ depends on $d$ variables, two provers are in different rooms, and get challenges from the verifier. They want to show all the $c_i$ are satisfiable. 
+\begin{enumerate}
+\item Pick $c,c'$ that share a variable $v$.  The verifier sends 2 clauses $c,c'$ to the two players.
+\item
+Each prover gives a satisfying assignment to $d$ variables.
+\item Verifier checks that 2 provers agree on the assignment to $v$.
+\end{enumerate}
+Define $\val(G)=\max \Pj\pat{accept}$.
+(The picture: Police puts suspects in 2 different rooms; it's harder for them to lie.)
+
+The PCP theorem says that given a boolean formula $\Psi$ there is a clause vs. clause game with constant alphabet such that $\Psi$ is satisfiable/not satisfiable iff $\val(G)=1, \val(G)<0.9999$. For hardness of approximation, we want $.0001$.
+
+Sequential repetition: repeat $k$ times. The max probability to satisfy all $k$ tests is $\val(G)^k$. Problem: this gives $k$ rounds.
+
+Parallel repetition $G^k$: The verifier sends $c_1,\ldots, c_k;c_1',\ldots, c_k'$. Then $\val(G^k)\ge \val(G)^k$ (clear). The parallel repetition problem:
+\[
+\val(G^k)\le \val(G)^k?
+\]
+They get all questions ahead of time! This is false! There has been 25 years of research. 
+%We have $\val(G^k)\le \poly\prc{k}$. 
+Current result: can engineer $G$ so $\val(G^k)\le \val(G)^k+\al$.
+
+What's the problem with parallel repetition? Why is it difficult?
+
+Parallel repetition might not decrease value: Feige's non-interactive agreement. Call the provers Wang and Mang. The verifiers picks 2 random bits $x,x'$. Each player should respond (player, bit). ``I think player A got bit B." %They can just both send (Wang, 0).
+Verifier accepts if both answered same player and his input bit. $\val(NIA)=\rc2$. What is $\val(NIA^2)$?
+
+It remains $\rc2$. Strategy: Wang responds (Wang, $x_1$), (Mang, $x_1$); Wang responds (Wang, $x_2'$), (Mang, $x_2'$). It gives the same bit the other round. They win exactly when $x_1=x_2'$. %; this is when they win the first time and the second time.
+
+Parallel repetition is subtle:
+\[
+\val(G^2)=\Pj\pat{$c_1,c_1'$ agree}\Pj\pat{$c_2,c_2'$ agree $\mid$ \redd{$c_1,c_1'$ agree}},
+\]
+The value of the second $\Pj$ could be 1.
+
+We engineer the game so that parallel repetition behaves like sequential repetition.
+\begin{enumerate}
+\item
+$(\de,\ep)$-fortification: simple, natural transformation on projection games, maintains the value of the game but increases size and alphabet. (Protect subgame.)
+\item
+Parallel repetition theorem: for $(\de,\ep)$-fortified $G$, $\de\le \poly(\ep)\pat{var-assign}^{-k}\implies \val(G^k) \le (\val(G)+O(k\ep))^k$; choose $\de $ exponentially small?
+We want $O(k\ep)$ to be small.
+\end{enumerate}
+Compare to $\val(NIA^k)\ge \val(NIA)^{\fc k2}$ in the NIA game. Here in contrast, we have ``no round left behind." Make $k$ rounds, and benefit from every round.
+
+Implications to PCP: PCP with low error.
+\begin{enumerate}
+\item
+Start from Dinur: combinatorial projection PCP with arbitrarily small constant error. (Implies $\fc 78+\ep$-hardness of approximation of 3SAT.)
+\item Starting from M-Raz: projection PCP with error $\rc{(\lg n)^c}$ for any $c>0$.
+%3SAT reduced to time 
+%version for value close to 1.
+\end{enumerate}
+
+Fortification
+\begin{enumerate}
+\item
+Pick $x,x'$ as before.
+\item 
+Pick extra questions $\{x_1,\ldots, x_w\}\ni x$ (independently at random), $\{w_1',\ldots\}\ni x'$, where $w=\Te(\lg\lg\prc{\de}/\ep^2)$.
+
+It is enough to pick the questions using an extractor: A biregular 
+%pick on universe 
+bipartite graph, with sets on the left, $X$ on the right,  
+$n^w$, restrict to $n^2$ size, so randomly arranged that they look uniforms.
+Random walk on a constant-degree expander on $X$, the set of questions. %; do a random walk that contains the vertex you want. 
+\item Provers answer.
+\end{enumerate}
+Feige-Kilian: ``confuse and compare" $w=2$. %In parallel repetition independence between $k$ tests seems essential.
+
+%they are correlated. not independent. 
+We use about the same randomness as the original game. (Randomness corresponds to blowup in reduction; we want it small.)
+
+Extractor doesn't work for parallel repetition. Here we're not doing anything with the value; we're trying to get an extra property: there are no large subgames with high value.
+\begin{enumerate}
+\item
+Rectangular sub-games of fraction $\de$: questions of each prover are restricted to a subset of fraction $\ge \de$.
+\item
+Fortified game $=$ value of all rectangular subgames of $G$ of fraction $\ge \de$ is $\le \val(G)+\ep$ (follows from extractor property).
+\end{enumerate}
+``We really simulate the original game."
+
+Note:
+\begin{enumerate}
+\item
+Extractors: Not every projection game on an extractor is fortified.
+\item
+Fortification: Fortification incrases size before repeating. This is OK, we gain enough in better parameters. $(size(G)O\prc{\de})^k<(size(G))^{2k}$. 
+\item
+Alphabet: Provers give $w$ times more answers, but in repetition they do so anyway.
+%constant tradeoff in exponent
+\item Projection: fortification preserves projection, but not necessarily uniqueness.
+\end{enumerate}
+
+Squaring ($k=2$): for $(\de,\ep)$-fortified $G$, $\de\le \fc{\ep}{2|\Si|}\implies \val(G^2)\le \val(G)(\val(G)+\ep)$.
+
+BWOC
+\begin{enumerate}
+\item
+Conditioning: $\Pj\pat{agree on $y_2|$ agree on $y_1$}>\val(G)+\ep$.
+\item
+Consider questions $x_1,x_1',y_1$ and label $\si$ to $y_1$. Define: $S=\set{x_2}{(x_1,x_2)\text{ assigns } y_1\mapsfrom \si}$.  Similar for $T$.
+
+This is a rectangular subgame.
+\item If $|S|\ge \de|X|$, $|T|\ge \de|X|$, the value of $G$ restricted to $S,T$ is $\le \val(G)+\ep$.
+\item Small probability events: Probability of $(|S|<\de|X|,x_2\in S$ or for T is $2\de|\Si|\le \ep$.
+\item Overall $\le +\ep$.
+\end{enumerate}
+The influence of parallel repetition.
+\begin{enumerate}
+\item
+PCP and hardness of approximation: soundness amplificaiotn.
+\item Cryptography: zero-knowledge 2 prover protocols, arguments.
+\item
+Quantum computing: amplify Bell's inequality
+\item Communication complexity: direct sum theorems, compression
+\item Geometry: Tiling of $\R^n$ by volume 1 tiles with surface area $\approx$ sphere.
+\end{enumerate}
+Take-home message: parallel repetition is easy.
+
+
+See sliding scale conjecture: error $2^{-k}$ with $\lg$ size.
+%\input{chapters/1.tex}
+ 
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}

@@ -1,0 +1,46 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+%\def\filepath{C:/Users/holden-lee/Dropbox/Math/templates}
+
+\input{\filepath/packages_book.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+\input{\filepath/other.tex}
+\input{\filepath/theorem_num.tex}
+
+\def\name{Logic and computation}
+
+\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Part III}
+\chead{} 
+\rhead{Logic and computation} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter*{Introduction}
+T Forster (@dpmms.cam.ac.uk) taught a course on Logic and Computation at
+the University of Cambridge in Lent (Winter) 2014. The website is \url{http://www.html}.  
+These are my ``live-\TeX ed'' notes from the course.
+
+\input{chapters/1.tex}
+
+
+\bibliographystyle{plain}
+\bibliography{\filepath/refs}
+
+\printnomenclature
+\printindex
+\end{document}

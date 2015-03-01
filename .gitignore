@@ -90,6 +90,15 @@ Combinatorics/graph_theory/geometric_graph_theory/diagrams/*
 
 !Computation/
 Computation/*
+
+!Computation/complexity
+Computation/complexity/*
+!Computation/complexity/*.tex
+!Computation/complexity/main.pdf
+!Computation/complexity/*.png
+!Computation/complexity/*.xnf
+!Computation/complexity/chapters
+
 !Computation/machine_learning
 Computation/machine_learning/*
 !Computation/machine_learning/nn.tex

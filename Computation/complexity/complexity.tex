@@ -1,0 +1,1764 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Complexity Theory}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\tableofcontents
+
+\section*{PSet index for 18.404}
+1
+\begin{enumerate}
+\item 1.32, parallel addition
+\item 1.67, rotational closure
+\item 1.45, regular/any is regular
+\item 1.46d, a tricky nonregular language ($wtw$)
+\item 1.72, union of 2 languages (when $U$ is $\Si^*$)
+\item 2.19, tricky grammar ($a^nb^n$)
+\item CFGs closed under rotational closure
+\end{enumerate}
+2
+\begin{enumerate}
+\item 2.32, proving non-CFL
+\item 2.24, $a^ib^j,i\ne j$ and $2i\ne j$ is CFL
+\item 2.48, strings with 1 in middle third
+\item 3.18, decidable iff enumerable in lex order
+\item 3.14 queue automata
+\item 4.17, projection of decidable iff T-recognizable
+\item 2.28b, unambiguous CFG for equal number of a's and b's
+\end{enumerate}
+3
+\begin{enumerate}
+\item
+4.30, can't enumerate deciders for every decidable language
+\item
+4.31, usability is decidable
+\item 5.21, testing ambiguity is undecidable
+\item 5.26 $A_{2DFA}$ and $E_{2DFA}$.
+\item 6.1, recursion theorem example
+\item 6.11 give a model of $\phi_{lt}$ 
+\item Bonus: for each decider give a decider that offers recognizable proof that it recognizes a decidable language
+\end{enumerate}
+4
+\begin{enumerate}
+\item
+MODEXP$\in$P
+\item
+UNARY-SSUM$\in$P
+\item If P$=$NP then nearly all in P are NP-complete
+\item 3COLOR is NP-complete
+\item P$=$NP$\implies$ can find assignment
+\item Minimizing NFA's is hard
+\item Difference hierarchy (DP)
+\end{enumerate}
+5
+\begin{enumerate}
+\item 7.30, Minesweeper is NP-complete
+\item Min-formula$\in$PSPACE
+\item ADD and PAL-ALL in L
+\item 8.25, Bipartite testing in NL
+\item $A_{NFA}$ is NL-complete
+\item $CNF_{H1}$ is NL-complete
+\item 7.53, unary language NP-complete implies P$=$NP.
+\end{enumerate}
+6
+\begin{enumerate}
+\item EXPTIME$\ne$NEXPTIME$\implies$P$\ne$NP
+\item Nondeterministic time hierarchy?
+\item USAT$\in P^{SAT}$
+\item CLIQUE with SAT oracle
+\item Randomness
+\item 2SAT is NL-complete
+\end{enumerate}
+
+
+\section{The computational model--and why it doesn't matter}
+p. 11--robustness.
+
+Notes about their model: an input, work, and output tape; special start symbol $>$.
+
+Robustness.
+\begin{enumerate}
+\item
+(1.5) Computable using $\Ga$ implies computable using $\{0,1,\_,>\}$ in time $4\lg |\Ga|T(n)$.
+\item (1.6) $k$ tapes $\implies$ $5kT(n)^2$ by single-tape. Proof: 
+{\it why quadratic, with factor of $k$?} Every step it should pass through the whole tape.
+
+Note states need to be $\times \Ga^k$, and twice as many symbols (to encode tape $a$ at $\equiv a\pmod k$, use $\wh{\bullet}$'s).
+\item
+(1.7) Oblivious in $O(T(n)\ln T(n))$. (see exercise 1.6)
+\item
+(1.8) $T(n)$ by bidirectional $\implies 4T(n)$ by unidirectional.
+\end{enumerate}
+Universal TM's blur ``software, hardware, data."
+
+(1.9) Universal TM: In $CT\ln T$ steps, where $C$ depends on alphabet size, number of tapes, states. Proof: (without caring about number of tapes) keep 2 more work tapes---description, current state. Make oblivious by scanning through entire tape each time. 
+
+(Caring about number of tapes) (1) Let symbols be $\Ga^k$, (2) Encode in a way that allows easy shifting. Solution: add buffer symbol. Split parallel tapes into zones $L_i,R_i$ of size $2^{i+1}$. 
+
+Maintain: number of symbols in $R_i,L_i$ is $\in\{(0,2),(1,1),(2,0)\}2^i$, and location 0 has a non-buffer symbol.
+
+During shift: find smallest $i_0$ so $R_{i_0}$ not empty. Shift next symbols to $R_0,\ldots,R_{i_0-1}$, half-filling up each; shift left side as well, to go from full to half-fill.
+
+Amortized analysis: It takes at least $2^i-1$ shifts to get a ``first nonbuffer having index $\ge i$."
+
+Exercises
+\begin{enumerate}
+\item
+\item
+\item
+\item 
+\item
+Pass through the whole tape each time, reading/writing and updating its state at the $\wh{\bullet}$ element.
+\item
+The UTM can be made oblivious. \fixme{How?}
+\end{enumerate}
+\section{NP and NP-completeness}
+\summq{
+\begin{enumerate}
+\item
+Prove Cook-Levin.
+\item
+Show CLIQUE, HAMPATH, SUBSET-SUM are NP-complete.
+
+\end{enumerate}}
+
+More exercises: (Padding) Show EXP$\ne$NEXP implies P$\ne$NP. (Decision vs. search) Can output certificate, not just look at satisfiability.
+
+Note: SAT$\le$3SAT because a k-clause can be replaced by a pair of clauses of size $k-1,3$ and a clause of size 3 with auxiliary variable $z$.
+\section{Diagonalization}
+\begin{enumerate}
+\item Prove deterministic time hierarchy.
+\item Prove nondeterministic time hierarchy.
+\item Show that if $P\ne NP$ there is $L\in NP\bs P$ not NP-complete.
+\item Explain relativization and P$\stackrel ?=$NP. Show that there are languages where $P^A=NP^A$ and $P^B\ne NP^B$.  
+\end{enumerate}
+
+Solutions.
+\begin{enumerate}
+\item
+Ideas: (1) diagonalize by running $T_n$ for $f_1(n)$ time. (2) Pad in order for asymptotics to work: each $T_n$ is represented infinitely many times.
+\item
+Ideas: (1) Obstacle: a NDTM cannot simulate a machine and output the opposite. Instead, have $D$ simulate smaller input: $D(n)$ for $n=F(i+1)$, $F(i)$ a fast-growing function, simulates $M_i$ on $1^{F(i)+1}$ in time $f_1(n)$ time and returns the opposite. Hence we want $F$ so big that $F(i+1)>2^{f_1(F(i)+1)}$, for example, $F(i+1)=2^{f_2(F(i))}$.
+
+(2) However, $F$'s input is not ``matched up" with the $M_i$'s input any more. Supposing $D=M_i$ and $M_i$ is in NTIME($f(n)$), we ``program" $D$ to give a contradiction, by forcing $D$ to agree on all of $(F(i),F(i+1)]$. Clever trick: for $n\in (f(i),f(i+1))$, have $M_i$ simulate $M_i$ on $1^{n+1}$ instead of $1^n$, to create a chain of equalities. This gives $M_i(1^{f(i)+1})=D(1^{f(i+1)})\ne M_i(1^{f(i)+1})$, a contradiction.
+
+(3) Again, pad so that each $T_n$ is rep'd infinitely many times.
+\item
+Idea: (1) Pad SAT to give SAT${}_H$ so that (a) if it is NP complete and not in P (so there is reduction SAT$\to$SAT${}_H$) then we get a poly-time recursive algorithm for SAT, reducing size $n$ to size $n^c$, $c<1$ in poly time, and P$=$NP, contradiction (b) if it is in P then $H$ is bounded, and P$=$NP.
+
+Let it be $\set{\psi 01^{n^{H(n)}}}{\psi\in SAT, n=|\psi|}$. The property we need for H is that there are 2 possibilities.
+\begin{enumerate}
+\item
+$H$ is bounded $\iff$ SAT${}_H\in $P.
+\item
+$H(n)\to \iy$ $\iff$ SAT${}_H\nin $P (so we can get reduce SAT to a power-smaller case)
+\end{enumerate}
+
+(2) Note if P$=$NP, then SAT on instances $\le n$ can be solved in $n^C$ time, and otherwise, it can only be solved in $n^{\gg 1}$ times. So let $H$ on $n$ encode this exponent for significantly smaller sizes: it is the smallest $i<\lg\lg n$ so that for every $|x|\le \lg n$, $M_i(x)=SAT_H(x)$ in $i|x|^i$ steps. Note that we have $\lg\lg$ becuse $n\lg\lg n(\lg n)^{\lg\lg n}$ is poly.
+\item
+\end{enumerate}
+\section{Space complexity}
+\begin{enumerate}
+\item
+Prove Savitch's Theorem.
+\item
+Show NL$\subeq$P.
+\item
+Show PATH is NL-complete.
+\item 
+Give the certificate definition of NL.
+\item
+Show NL$=$coNL.
+\item
+Show TQBF, LADDER-DFA$\in$PSPACE. Show TQBF is PSPACE-complete.
+\item Show $EQ_{REX}\subeq$NPSPACE$=$PSPACE, and $EQ_{REX\uparrow}$ is EXPSPACE-complete.
+\end{enumerate}
+Answers.
+\begin{enumerate}
+\item
+\item
+\item
+\item Can be verified with read-once certificate in log time.
+\item For $\ol{PATH}$, letting $C_i$ be those at most $i$ distance from START,
+\begin{enumerate}
+\item a certificate for $v\in C_i$: simply give the path.
+\item
+Given $|C_i|$, a certificate for $v\nin C_{i+1}$: Certificates for $w\in C_i$ {\it in increasing order}, $|C_i|$ of them, none of them neighbors of $C_{i+1}$.
+\item
+Given $|C_i|$, certificate for $|C_{i+1}|$: Certificates for $w\in/\nin C_{i+1}$, and the count is right.
+\end{enumerate}•
+\item
+
+\end{enumerate}•
+\section{Polynomial hierarchy}
+See index card.
+
+\summq{\url{https://workflowy.com/\#/5775db8d63cf}}
+
+\begin{enumerate}
+\item
+
+\end{enumerate}•
+\section{Boolean circuits}
+See index card. 
+
+\summq{\url{https://workflowy.com/\#/a7f89ce10716}}
+
+\begin{enumerate}
+\item Use the recursion $f(x_1,\ldots, x_n)=(x_n\wedge f(x_1,\ldots, x_{n-1},0))\vee (\ol{x_n}\wedge f(x_1,\ldots, x_{n-1}))$ for $n-k$ steps; this needs $2^{n-k}$ nodes. Now we need 
+%unlimited fan-out
+all functions on $k$ variables, which can be computed using $2^{2^k}\cdot k2^{2^k}$ gates. Take $k=\lg\lg n$.
+\item
+\item
+\item (Logspace uniform of poly size iff P) If a language is in P, find a poly-time oblivious TM for it, run it on arbitrary input, and see the places visited. We can figure out at which time step the a certain tape location was changed, so we can find the edges for the corresponding node in the circuit in polynomial time.
+
+Conversely, given logspace-uniform circuits of poly size, the circuit can be written uniformly down in poly time; just run it.
+\item (PH has languages of large circuit complexity) ``The first circuit such that it haze size $>n^k$ and there does not exist a smaller circuit computing it" can be phrased in PH: ''$\exists C,\forall C', C'\text{ fails or }C'>C$,"
+\item
+\item  Just check whether the input is equal to polynomially many inputs.
+\item
+\end{enumerate}
+
+\section{Randomized computation}
+\begin{enumerate}
+\item
+Define PP, BPP, RP, ZPP. Discuss amplification. What are inclusions between them?
+\item
+Give algorithms for primality testing (show it is in RP), polynomial identity testing, and perfect bipartite matchings.
+\item
+Discuss arithmetization. (Prove Schwartz-Zippel.) Show that $EQ_{ROBP}\in BPP$.
+\item
+Show BPP$\subeq$P/poly$\cap\Si_2^p\cap \Pi_2^p$.
+\item 
+Discuss completeness and hierarchy for BPP.
+\item
+Discuss randomized reductions. 
+\end{enumerate}
+\begin{enumerate}
+\item 
+Note alternate def: there is det TM accepting random bits with $\Pj_r(M(x,r)\ne P(x))\le \fc 23$.
+(Note a $p$-coin can be simulated from a random coin.)
+\item PIT: If size $m$, choose random numbers in $[1,C2^m]$. Take modulo random $k\in [2^{2m}]$. Matching: create matrix with {\it variables} $x_{ij}$ for each edge; use PIT.
+\item ...
+\item In P/poly: amplify error to $<2^{-cn}$ and then hardwire in a random sequence that is good for every input. In 2: How do we distinguish between a very large and small set with some sort of witness? $\Pj_r\ge 1-2^{-n}, \le 2^{-n}$. Insight: do a small number of translates cover? $\exists (u_i)_{i=1}^k \in \{0,1\}^m \forall r\in \{0,1\}^m \bigvee^k M(x,r\opl u_i)$ accepts.
+\item Complete problems would be difficult to find. BPTM is semantic--deciding whether a TM accepts everything with $\ge\fc23,\le \fc 13$ is in general undecidable. NDTM is syntactic--easy to check. Hierarchy is also unknown.
+\item Randomized reduction: for all $x$, $\Pj(C(M(x))=B(x))\ge \fc 23$, $M$ PP. Define $BP\cdot NP=\{L\le_r3SAT\}$.
+\end{enumerate}
+Exercises
+\begin{enumerate}
+\item
+\item integral estimate, etc.
+\item double-and-add
+\item Repeat.
+\item Assume it's just undecidable on $1^n$. Have the coin encode in binary whether it accepts on those inputs. 
+\item Spend some time running each.
+\item
+\item We turn $\forall\exists\forall$ into $\exists\forall\exists$.
+Turn $\forall a\exists b\ub{\forall c , N(a,b,c)}{N'(a,b)}$ into $\exists M, u_1,\ldots, u_k, \forall x_i, 1\le i\le k \forall a\exists b, 3SAT(M(x_1\opl u_i))=N'(x_i\opl u_i)\wedge 3SAT(M(c))=N'(a,b)$.
+\item
+\item See algorithms pset 3.
+\end{enumerate}•
+\section{Interactive proofs}
+\subsection{IPs: some variations}
+\begin{enumerate}
+\item
+Define IP. Show dIP$=$NP. What are equivalent definitions of IP? Define AM, MA. 
+\item
+Show IP$=$PSPACE. (Easier: show $\#$SAT$\in$IP, or coNP$\subeq $IP.)
+\item Show a IP protocol for graph non-isomorphism. Show an AM-protocol. (Show a set lower bound protocol.) [Show $IP[k]\subeq AM[k+2]$.] 
+\item What happens if GI is NP-complete?
+\item In order to prove membership in L, the prover often needs to do more powerful computation than deciding membership in L. Discuss. Show PSPACE$\subeq$P/poly$\implies$PSPACE$=$MA. (Note MA$\subeq \Si_2$.)
+\item Show that AM$[k]$=AM and $AM[2]=BP\cdot NP$. 
+\item Define MIP, and relate it to a known class.
+\item Define a program checker; give some languages that haver checkers.
+\item Show that the permanent is random-self-reducible. What do we conclude? Give an interactive proof for the permanent.
+\end{enumerate}
+
+\begin{enumerate}
+\item See exercise 1.
+\begin{enumerate}
+\item
+Completeness: for every language, when $x\in L$, there exists a prover that gets it accepted $\ge \fc 23$.
+\item
+Soundness: for every language, when $x\nin L$, every prover is accepted $\le \fc 13$.
+\end{enumerate}
+\item 
+See index card.
+\item
+Private-coin: choose one of $G,H$, shuffle, ask for which one it's isomorphic to.
+
+Set lower bound: to differentiate $|S|\le \fc K2$ and $|S|\ge K$, choose $2^{k-2}<K\le 2^{k-1}$. Choose a family of p.i. hash function to $\{0,1\}^{2^k}$, for instance, affine maps. 
+Ask the prover to unhash many random values under random $h$ and show certificates for being in $S$. By PIE, $p\ge \Pj(\exists x, h(x)=y)\ge p-\rc2p^2\ge \fc34p$. Now use Chernoff on many independent trials (can do parallel-ly).
+
+Turning GNI into set-lower-bound: $S=\set{(H,\pi)}{H\cong G_1\text{ or }H\cong G_2\text{ and }\pi\in \Aut(H)}$. (so it's consistently $n!$ (iso) or $(2n)!$ (for noniso).
+\item 
+Idea: by amplification, there exists a random bit that resists all provers on all bad inputs $x$.
+
+Let $f$ be a reduction to GNI which is coNP-complete.
+
+\begin{align*}
+&\exists x, \forall y, \ph(y)\\
+\implies & \exists x (f(\ph|_x)\in GNI)\\
+\implies & \forall r \text{ random bits }\exists x\exists a\text{ prover message} (V(g(x),r,a)=1).
+\end{align*}
+\item For GNI, need to compute hash. $\ol{3SAT}$ requires $\#SAT_D$. TQBF is an exception. 
+
+Merlin gives the TQBF circuit to Arthur.
+
+(Notes: MA$\subeq\Si_2$: $\exists$ Merlin's answer $\forall r$,  accept.)
+\item See exercise.
+\item MIP: 2 provers, verifiers can query each, provers can't communicate. NEXP$=$MIP.
+\item A \vocab{checker} for $T$ is PTM $C$ such that given program $P$, 
+\begin{enumerate}
+\item
+if $P$ is correct for $T$, then $P(C^P\text{ accepts }P(x))\ge \fc 23$.
+\item If $P(x)\ne T(x)$, then $P(C^P\text{ accpets }P(x))<\rc3$.
+\end{enumerate}
+Nothing is said about $P(x)=C(x)$ but $P$ not correct on other inputs.
+
+%For GNI: Use IP while regarding program as prover. 
+When $L$ has an IP where prover can be implemented using oracle access to L, it has a checker. (GI, $\#SAT_D$, TQBF)
+
+For GNI, need: if claimed $G_1\cong G_2$, then perturb program bit by bit \fixme{how?}.
+%If $G_1\cong G_2$, then perturb graph to find isomorphism (by isolating vertices, do they map to each other?). 
+\item
+Random self-reducible: problem on $x$ can be reduced to solving on random inputs $y_i$ uniformly distributed among inputs.
+
+GIven an oracle that can compute the permament on $1-\rc{3n}$ of inputs in $\F^{n^2}$, $|\F|>3n$, it can compute the permament on all inputs with high probability. Proof: $B(x)=A+xR$, query $B(a_i)$ for $n+1$ points, use union bound, interpolate polynomial.
+
+Interactive proof: Let $D_A(x)$ be $(1,x)$ minor extended to polynomial. Now choose random.
+\end{enumerate}
+
+Exercises:
+\begin{enumerate}
+\item (Equivalences) 
+\begin{enumerate}
+\item
+(Probabilistic prover) Each strategy is followed with some probability. The probability is the average of those probabilities.
+
+$IP'\subeq IP$: It suffices to show, with the same protocol, ``there exists a good prover if the prover has to follow a pure strategy" and ``a pure prover can't cheat more than a probabilistic prover." The second is obvious as pure is a subset of probabilistic. The first comes from averaging.
+
+$IP\subeq IP'$: Now the first part is clear; we need to show ``a probabilistic prover can't cheat more than a pure prover," clear from averaging.
+
+(Note 1 and 2 are decoupled statements, so we don't have a 2-D average.)
+\item %Simulate the verifier. List all possibilities for interactions.
+Do expectimax over all prover strategies. See what $\E$accept is for the best prover. Is it $\le \rc3$?
+\item We have TQBF$\in$IP'.
+\item (NP) Then the prover responses form a certificate.
+\end{enumerate}
+\item ?
+\item The AM protocol that goes like this: given $x$, V chooses random $r$, P passes $g(x,r)$, V computes $f(x,r,g(x,r))$ corresponds to the reduction $x\xra{r} \exists y, f(x,r,y)=1$.
+\item For every $(x_1,x_2),(y_1,y_2)$ there is the same number of affine transformations mapping $(x_1,x_2)\mapsto (y_1,y_2)$.
+\item Let $T=h(S)$. Then $\Pj(i\nin u+T)\le 1-\fc{|T|}{2^k}$. Then $\Pj(i\nin \{u_1,\ldots, u_n\}+T)\le (1-\fc{|T|}{2^k})^n$.  Choose $n=c_2k$ so that this is $<1$. This distinguishes $K$ and $\fc{K}{c_3'k}=\fc{K}{c_3\lg K}$. 
+
+Now consider $S^\ell$ instead of $S$. Match the gap $K^{\ell}$ vs. $\fc{K^\ell}{c_3\ell\lg K}$ with $K^\ell,\fc{K^{\ell}}{2^{\ell}}$. We can choose $\ell=c_4 (\lg K)^2$, polynomial in number of bits. Can do parallel-ly.
+\item \fixme{Do this.}
+\item \fixme{Do this.}
+\item
+\item Induct. For $n$ instead of $n-1$, we need space for $R$ to compute and then space to compute the $L_{n-1}$'s.
+(Q: can $R$ be poly-space?) 
+\item 
+\item\fixme{Why N?}
+\item
+\item
+\end{enumerate}
+\section{Cryptography}
+\prbbox{
+\begin{enumerate}
+\item
+(9.1) Define perfect security. What is the ``only way" to achieve it?
+\item
+(9.2) Make this a precise lemma and prove it: If P$=$NP, then a polynomial-time encryption is not secure on some pair of inputs.
+\item Define a 1-way function and give some functions believed to be 1-way. Define PRG's, secure encryption schemes, and unpredictable functions. What is the relationship between 1-way functions, PRG's, unpredicable functions, and secure encryption? Prove it. (You can use the next item.)
+\item
+State and prove the Goldreich-Levin Theorem. Show that if there is a 1-way permutation, then there is a PRG with stretch $n^c$.
+\item
+Define ZKP and give one for graph isomorphism.
+\item
+Define pseudorandom function generators. Show that if there is a secure PRG with stretch $2n$, there is a PRFF.
+\end{enumerate}•
+}
+
+
+Intro: In modern crypto, we analyze codebreaking in terms of computational complexity, and don't rely on the encryption technique being kept secret. Schemes are more secure and the requirements are much more stringent: they have to remain secure when a public key is know, when attackers can access chosen plaintext and chosen ciphertext.
+
+Pseudorandomness: when is a bit string random enough? Answer: if it looks random to all polynomial-time computers. PSRG's can reduce randomness requirements for probabilistic algorithms.
+
+Simulation: when an attcker's observations can be simulated without any access to secret information (zero knowledge proofs).
+
+\subsection{Perfect secrecy and its limitations}
+
+\begin{df}
+An encryption scheme $(E,D)$ is \textbf{perfectly secure} if for every pair of messages $x,x'\in B^m$, the distributions of $E_k(x)$ and of $E_k(x')$ are identical when $k$ is drawn uniformly from the key set $B^n$.
+
+The \textbf{one-time pad} is the example where $E_k(x)=x\opl k$.
+\end{df}
+
+\subsection{Computational security, One-way functions, and PSRGs}
+Secrecy with small key sizes against poly-time eavesdroppers is possible only if P$\ne$NP.
+
+\begin{lem}
+If P$=$NP and $(E,D)$ be any poly-time encryption with key shorter then the message. Then there is a poly-time algorithm so that 
+\[
+\forall m, \exists x_0,x_1\in B^m, \Pj_{b\in B,k\in B^n} [A(E_k(x_b))=b]\ge \fc 34.
+\]
+\end{lem}
+(In other words, for any length there is a pair of messages $A$ cn tell apart with high probability.)
+
+Proof: Double-count pairs $(x,E_k(x))$. Each image appears $2^n$ times. Fix a set $S$. The average number of elements of $E_k(y)$ outside that set $S$ is $\fc{2^{m+n}-2^{2n}}{2^m}\ge 2^{n-1}$.
+
+\begin{df}
+$f\in P$ is a \textbf{one-way function} if for every probabilistic poly-time $A$ there is a negligible function $\ep$ (for any $c$, $\ep(n)=o(n^{-c})$),
+\[
+\Pj_{x}(A(f(x))=x'\text{ such that }f(x')=f(x))<\ep(n).
+\]
+They are ``hard to invert."
+\end{df}
+What are some functions believed to be one-way?
+\begin{enumerate}
+\item
+Multiplication/integer factorization
+\item
+RSA: $f_{N=pq,e\perp N}(x)=x^e\pmod N$.
+\item
+Rabin (this doesn't seem right: what if $4\mid p-1,q-1$?)
+\item
+Universal one-way function: if there exists a one-way function, then $f_U$ is one-way, defined as follows: $(x_1,\ldots, x_{\lg n})\mapsto  (M_1^{n^2}(x_1),\ldots,M_{\lg n}^{n^2}(x_n))$, $M_i^t$ refers to answer of $i$th Turing machine after $t$ steps, or $0...0$ if it hasn't halted.
+\end{enumerate}
+RSA and Rabin are called trapdoor one-way functions, becuse once you know certain information ($N$'s factorization) they are easy to invert. Rabin's function is computationally equivalent to factoring $N$.
+
+\begin{thm}
+If one-way functions exist, for every $c\in \N$ there exists a computationally secure encryption scheme using $n$-length keys for $n^c$-length messages.
+Computationally secure means
+\begin{enumerate}
+\item
+(Weak version) For poly-time $A$, $\Pj(A(E_k(x)=(i,b),x_i=b))\le \rc2+\ep(n)$. I.e., for no bit can the algorithm guess the $i$th bit of $x$ with good probability.
+\end{enumerate}
+\end{thm}
+Other definitions of random: computability (Kolmogorov, too strong), statistical (too weak).
+\begin{df}
+$G$ is a secure pseudorandom generator of stretch $l(n)$ if there exists negligible $\ep$,
+\[
+|\Pj(A(G(U_n))=1)-\Pj(A(U_{l(n)})=1)|<\ep(n).
+\]
+\end{df}
+\begin{thm}
+if one way functions exist, then there are secure pseudorandom generators with stretch $n^c$.
+\end{thm}
+
+Give a weaker definition of pseudorandom generator.
+\begin{df}
+$G$ is unpredictable if given the $i-1$ bits of $G(x)$, it is hard to predict the $i$th bit with better than $\rc2$+negligible probability.
+\end{df}
+\[
+\xymatrix{
+9.4\text{ 1-way}\ar[r]^{9.9} & 9.8\;PRG \ar[r]^{9.6} \ar@/_1pc/[d]_{\text{obvious}} & \text{secure encryption}\\
+& \text{9.11 unpredictable}\ar[u]_{9.11}&
+}
+\]
+\begin{proof}
+\begin{enumerate}
+\item
+1-way$\implies$PRG: See next section.
+\item 
+Unpredictable$\implies$pseudorandom: First show (9.11) if there is poly $A$ predicts a PRG $\ge \ep$, then there is poly B predicting random next bit with $\ge \fc{\ep}{\ell(n)}$. (Where $G:B^n\to B^{\ell(n)}$.) Define B by running $A(y_1,\ldots, y_{i-1},z_i,\ldots, z_{\ell(n)})$ where $y=f(x)$ and $z$ are random, and guess $z_i$ if it's 1. 
+
+Let $D_i$ be the distribution over $y_1\cdots y_{i-1}z_i\cdots$ and $p_i$ be probability $A=1$. ($D_0$ is $U_\ell$ and $D_\ell=G(U_n)$.) Then $B$ predicts $y_i$ with probability $\rc2+p_i-p_{i-1}$. Average these and telescope (``hybrid argument").
+\item
+PRG$\implies$ secure encryption: use the longer random key for padding. Guessing 1 bit allows us to distinguish between a truly random input and not.
+\end{enumerate}•
+\end{proof}
+
+\subsection{Pseudorandom generators from 1-way permutations}
+
+\begin{thm}[Goldreich-Levin]
+``Adding a single bit of dot product maintains security of a PRG."
+Suppose $f$ is 1-to-1 and length-preserving. Then for every PTM $A$, $\Pj(A(f(x),r)=x\odot r)\le \rc2$+negligible.
+\end{thm}
+\begin{cor}
+$G(x,r)=f(x)||r||x\odot r$ is a secure PRG.
+\end{cor}
+(Proof. It obviously can't predict the first $2n$ bits well; the above says it can't predict the $2n+1$th bit.)
+\begin{proof}
+Show: if $A(f(x),r)$ guesses right $\ge\rc2+ \ep$, then there's $B$ running in $\Om\pf{n^2}{\ep^2}$ time inverting $f$ on inputs of length $n$ with probability $\ge \ep$.
+
+Idea: (1) If $\Pj=1$, then recover by running $A(f(x),e^i)$. (2) If $\Pj=0.9$, then compute $A(f(x),r^i\odot e^i)\opl A(f(x),r^i)$ for lots of random $r^i$ and guess $x_i$ to be the majority. Use Chebyshev. (Key: we can use the union bound to get small probability that one of $A(f(x),r\opl\{0,1\} e^i)$ fails.) 
+
+(3) (a) Reduce randomness to allow exhaustive guessing. (b) If the $r^i$ satisfy a web of interrelationships, we can ``error-correct." (c) Instead of 2-sided error, get 1-sided error.
+
+(c) (Actual) Choose $m=\fc{200n}{\ep^2}$, $2^k-1\ge m$. 
+choose $s^1,\ldots, s^k$ iid in $\{0,1\}^n$, let $(r^i)_1^m$ be random linear combinations. (So the right dot products for these $m\gg k$ values are completely determined by $k$ values.) Guess that $x\cdot s^t=w_t$ and use this guess to guess $x\cdot r^j$ Guess $A(y,r^j\opl e^j)$ using $A$. Take the majority, and test $f(x)=y$. We want B' to guess $x_i$ with probability $1-\fc cn$, so we need large enough $m$ so that $\E Z_i\ge \rc2+\eph$ implies $\Pj(\sum Z_j\le \fc m2)\le \rc{10n}$. The choice of $m$ follows from Chebyshev.
+% For all $w\in \{0,1\}^k$, guess $(x
+\end{proof}
+\begin{thm}[Arbitrarily long stretch]
+If $f$ is 1-way permutation and $c\in \N$, then $G:(x,r)\mapsto (r,f^\ell(x)\odot r,\ldots, f^1(x)\odot r)$, $\ell=n^c$ is secure PRG of stretch $\ell(2n)=n+n^c$.
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item
+Using the unpredictability of $x\odot r$ from $f(x)$, $G$ is unpredictable. If $G$ were predictable by $A$, then $A(r,f^{\ell-i-1}(y)\odot r,\ldots,y\odot r)$ predicts $x\odot r$.
+\item $G$ unpredictable means it's secure PRG.
+\end{enumerate}•
+\end{proof}
+
+\subsection{Zero knowledge}
+\begin{df}
+A language $L$ is zero knowledge if it is an (probabilistic) interactive protocol with completeness $\ge \fc 23$, soundness $\le \rc3$, and perfect zero knowledge: for every interactive strategy $V^*$, there is a expected probabilistic poly-time (stand-alone) algorithm $S^*$ such that $S^*$ has the same distribution as the output of the interaction. (Weakening: statistical zero knowledge, computational zero knowledge.)
+\end{df}
+If one-way functions exist then NP$\subeq$ZK; it's conjectured $P\sub SZK\sub NP$.
+
+Give a zero-knowledge proof for graph isomorphism.
+
+Solution: Merlin sends $\pi(G_i)$, Arthur sends $G_j$, Merlin sends $\pi':G_j\xrc \pi(G_i)$. Arthur could have simulated Merlin sending $\pi(G_i)$; if $i\ne j$, he restarts the simulation.
+
+\subsection{Applications}
+\begin{df}
+A \vocab{pseudorandom function generator} is $\{f_k:B^{|k|}\to B^{|k|}\}$ where for any poly oracle TM $A$, $\ab{\Pj_k (A^{f_k}(1^n)=1)-\Pj(A^g(1^n)=1)}<$negligible. 
+\end{df}
+Note:we can't distinguish the random function from a function in the family. (vs. we can't distinguish a random element in $\{0,1\}^n$ from one that is the image of a certain function.) (Note we don't care about inputs: $A$ only needs to know the length we're focusing on.)
+
+Applications: (1) It turns a random string into an implicit description of an exponentially larger random-looking string. PRF's give an exponentially large 1-time pad---sending one $k$ is good for exponentially many messages. (2) Authentication: send $(x,f_k(x))$. (3) Derandomization: Subexponential deterministic algorithms for BPP. Enumerate over all possible inputs of pseudorandom generator. (4) Bit commitment (cf. hashes). (5) Secure multiparty communications. (6) Lower bounds for machine learning.
+
+\begin{thm}
+Secure PRG with stretch $2n$ implies PRFF.
+\end{thm}
+\begin{proof}Consider $f_k(x)$: compute $G(k)$, take the first or last bit depending on the next bit of $x$, repeat. Draw this computation as a tree where $x$ specifies the path to the leaf.
+
+It is PR: A $T$-time algorithm distinguishing between a random/nonrandom function with bias $\ep$ gives a poly$(n)T$-time algorithm distinguishing between $U_{2n}$ and $G(U_n)$.
+
+Proof idea: assume $\cO$ invokes $G$ $Tn$ times. For the oracle, have it label computations on the tree as needed. (We need to keep the tree for consistency.) Create a hybrid sequence of oracles $\cO_i$ where $\cO_0=f_{U_n}$ and $\cO_{Tn}$ is random. Have $\cO_i$ be where the 1st $i$ invocations of $G$ chooses random labels instead. 
+
+Creat $B$ to distinguish $U_{2n}$ from $G(U_n)$ by: on input $y\in\{0,1\}^{2n}$, choose $i$ randomly and execute $A$ using the oracle $\cO_{i-1}$, and {\it use $y$ on the $i$th invocation}. (Important: to distinguish we had to get a step where two oracles differ only by ``one $G$," which is why we have to do this hybrid argument.)
+\end{proof}
+
+
+\section{Quantum computation}
+\section{PCP and hardness of approximation}
+\begin{enumerate}
+\item
+Define PCP.
+\item
+Given a problem, what do we mean by $Gap-Problem_{(c,s)}$?
+\item
+State the PCP theorem in 3 equivalent forms. (Define qCSP.) Prove the equivalence.
+\item 
+What makes 2-query tests harder to analyze than 3+-query tests? What difficulties come up in reduction, and how do we overcome them? (Long codes...)
+\item Define a c vs. s small-influences test.
+\item Analyze the noise-sensitivity test.
+\item State the Unique Games Conjecture. Give an example of a problem that UGC reduces from.
+\end{enumerate}
+\begin{enumerate}
+\item With $r$ random bits (randomness) with $q$ queries against untrustworthy prover, have $1-s$ chance false positive (soundness) and $c$ chance false negative (completeness). Default is $r=O(\lg n)$, $q=O(1)$, $s=1$, $c=\ep$. $\PCP(r(n),q(n))$. Example: Graph-Noniso$\in \PCP(n,1)$.
+\item Is $f(x)\ge s$ or $<c$? (Ex. Max-3SAT can be approximated to within $\fc 78-\ep$ in P, and within $\fc 78+\ep$ is NP.
+\item qCSP is $(\ph_i:B^n\to B)$ each depending on $\le q$ coordinates. 
+\begin{thm}[$\PCP$ Theorem]\label{thm:pcp}
+The following hold.
+\begin{enumerate}
+\item
+$\mathsf{NP}=\mathsf{PCP}$.
+\item
+(Hardness of approximation) 
+There exists $\rh<1$ such that {\sf Gap-Max-3SAT}${}_{(\rh,1)}$ is $\NP$-hard.
+%NP-hard. 
+%There exists $\rh<1$ such that for every $L\in\NP$ there is a polynomial-time function $f$ mapping strings to 3CNF formula suchthat 
+\item
+(Hardness of approximation of $\mathsf{Gap}\text{-}q\mathsf{CSP}$) There exist $q\in \N$ and $\rh\in (0,1)$ such that $\mathsf{Gap}\text{-}q\mathsf{CSP}_{(\rh,1)}$ is $\NP$-hard.
+\end{enumerate}
+Furthermore, given a $\NP$ language, for every $\de>0$ there exists a $\PCP$ for it with completeness parameter $1-\de$ and soundness paramter $\rc2+\de$.
+\end{thm}
+The three statements above are all equivalent. See Theorems 11.5, 11.9, and 11.14 in~\cite{AB09}, and Theorem 22.16 for the extension. The key idea is that the gap between the probabilities of acceptance in the definition of $\PCP$ translates to the gap in the {\sf CSP} or {\sf SAT} problem. This equivalence is important because the same ideas imply that to prove a hardness of approximation result, it suffices to come up with a test for a prover for which it is hard for the prover to cheat.
+\begin{proof}
+(1)$\implies$(3): $x\mapsto \{V_{x,r}(p)\}_{r\in \{0,1\}^{c\lg n}}$.
+\end{proof}
+\item
+Strategy for hardness of approximation: design a PCP-verifier that can be turned into instance of Problem. Difficulties: 
+\begin{enumerate}
+\item
+It can only make 2 queries. (Involves UGC.)
+\item
+The problem we reduce from allows variables to range over $[n]$. Use the long code: encode $i\in [n]$ with $\Dict_i:B^n\to \{-1,1\}$.
+\end{enumerate}
+\item
+\begin{df}
+\index{dictator vs. small-influences test}
+A \textbf{$c$ vs. $s$ dictator vs. small-influences test} accepts iff $\phi(f(x_1),\ldots, f(x_q))=1$, and has completeness $s$ for $n$ dictator functions and soundess $s+o(1)$ for small-influence functions $\max_i I_i(f_m)=o(1)$.
+\end{df}
+\item
+\begin{ex}[Noise stability test]\label{ex:ns-test}
+%Assume $f:B^n\to \{-1,1\}$ is boolean. Pick a string $x\in B^n$ at random, and a string $y=x_{1-\ep}$. Accept if $f(x)\ne f(y)$, and reject if $f(x)= f(y)$.
+Assume $f:B^n\to \{-1,1\}$ is a balanced boolean function. Pick a string $x\in B^n$ at random, and a string $y=x_{\ep}$. Accept if $f(x)= f(y)$, and reject if $f(x)\ne f(y)$. 
+\end{ex}
+This test is used in hardness results in various guises. Firstly, it is a 2-query 
+$1-\ep$ vs. $1-\fc2{{p}}\sin^{-1}(1-2\ep)=1-O(\sqrt\ep)$ dictator vs. small-influences test with the predicate ``$=$."
+To see this, note that the probability of accepting is exactly $\NS_{\ep}(f)$, which is $1-\ep$ for dictator functions by Propostion~\ref{pr:ns-dict} and is bounded for functions with small influences by Majority is Stablest (Theorem~\ref{thm:ns-mist}).
+
+Secondly, when the noise sensitivity and hence acceptance probability is at least $1-O(\ep^c)$ for some $c\in (\rc2,1)$, we know by the above that $f$ can't have small influences. What happens in the gap between $1-O(\sqrt \ep)$ and $1-\ep$? We know that $f$ must be close to a a junta.
+
+\begin{df}\index{junta}
+We say $f$ is a $m$-\textbf{junta} if $f$ depends on only $m$ coordinates. We say $f$ is a $(\ep, m)$-\textbf{junta} if there exists a $m$-junta $g$ such that $d(f,g)<\ep$.
+\end{df}
+%Various theorems give criteria for when $f$ is close to a junta. For example, if $f$ has small noise sensitivity as a function of $\ep$ then $f$ is close to a junta.
+\begin{thm}[Bourgain, \cite{Bou02}]\label{thm:ns-bourgain}
+Let $c\in \pa{\rc2,1}$ be any fixed constant. For all sufficiently small $\ep> 0$, if
+$f:B^n\to \{-1,1\}$ is a boolean function with $\NS_\ep(f)\ge 1-\ep^c$, then $f$ is a $\pa{.01,2^{O\prc{\ep^2}}}$-junta.
+\end{thm}
+\item
+\begin{df}
+An instance of $\mathsf{Unique Game}$ is a triple $(G(V,E),n,(\pi_e)_{e\in E})$ where
+\begin{itemize}
+\item
+$G(V,E)$ is a directed graph, 
+\item $n\in \N$, and 
+\item
+$\pi_e:[n]\to [n]$ are permutations (called ``constraints") indexed by edges.
+\end{itemize}
+We consider labelings of the vertices $v\in V$ by numbers in $[n]$: $(a_v)_{v\in V}\in [n]^V$. 
+Define the value of the game by
+\[
+\text{val}(G(V,E),n,\set{\pi_e}{e\in E})
+=\max_{(a_v)\in [n]^V} 
+\rc{|E|}
+|\set{e=vw}{\pi_e(a_v)=a_w}|.
+\]
+\end{df}
+\begin{conj}[Unique games conjecture]
+For any $\ep,\de>0$,  $\mathsf{Gap}\text{-}\mathsf{Unique Game}_{(\de,1-\ep)}$ is NP-hard.
+\end{conj}
+Example:
+
+\begin{thm}[Inapproximability of {\sf{Max-2SAT}}, %-Deletion}}, 
+{\cite[Theorem 4.1]{Kho05}}]\label{thm:min-2sat-deletion}
+For every $c\in \pa{\rc 2,1}$ and sufficiently small $\ep>0$, there exist $\de,c_1>0$ such that there is a polynomial-time reduction from $\mathsf{Gap}\text{-}\mathsf{UniqueGame}_{(\de,1-\ep)}$ to 
+$\mathsf{Gap}\text{-}\mathsf{Max}\text{-}\mathsf{2SAT}_{(1-c_1\ep^c,1-\rc2\ep)}$.
+
+If the Unique Game Conjecture holds, then $\mathsf{Gap}\text{-}\mathsf{Max}\text{-}\mathsf{2SAT}_{(1-c_1\ep^c,1-\rc2\ep)}$ is $\NP$-hard.
+\end{thm}
+\end{enumerate}•
+
+\section{Decision trees}
+\begin{enumerate}
+\item
+Define decision tree complexity. Define certificate complexity. What is the relationship? %(cost: deterministic; witness: nondeterministic).
+\item 
+Define randomized decision tree complexity. What is the relationship to the previous?
+\item Define s, bs, and deg, and relate them to the previous.
+\end{enumerate}
+I.e., relate D, R, C, s, bs, deg.
+\begin{enumerate}
+\item
+$D(f)$ is height of smallest decision tree computing $f$ (deterministic). $C(f)$ is minimum $k$ such that every string has $f(x)$-certificate of size at most $k$. We have $C(f)\le D(f)\le C(f)^2$.
+
+Proof: every 1-certificate intersects every 0-certificate. Repeat: choose any $x_0\in X$ with $f(x_0)=0$, query all bits in $f(x_0)$-certificate. Then all 1-certificates shrink by 1.
+
+Adversary argument: an adversary can construct $x,x'$ agreeing with what's revealed so far but with $f(x)\ne f(x')$. Ex. OR, graph connectivity, AND-OR require maximal. %ddress
+\item
+A randomized decision  tree is a set of probability distributions over decision trees.We have $C(f)\le R(f)\le D(f)$.
+
+Yao's min-max lemma: rather than arguing about distributions on trees and inputs, we can argue about distributions on inputs and specific trees.
+
+\end{enumerate}•
+\section{Communication complexity}
+
+\begin{enumerate}
+\item
+Define 2-party communication complexity.
+\item 
+Explain the fooling set method and tiling method. What is the relationship between maximum fooling set size $m$, minimum number of rectangles in monochromatic tiling $\chi(f)$, 2-party communication complexity $C(f)$, rank, and discrepancy? Show that $C(EQ)\ge n$.
+\item Define multiparty communication complexity. Show a lower bound for $GIP_{k,n}$.
+\end{enumerate}
+\begin{enumerate}
+\item
+The \vocab{2-party communication complexity} is the minimum number of bits exchanged between 2 parties to compute $f(x,y)$. 
+\item
+\vocab{Fooling set}: $f$ as size $M$ fooling set if there is $M$-sized subset $S\subeq \{0,1\}^{2n}$ such that for every $(x,y)\in S$, $f(x,y)=b$ but for every distinct $(x,y),(x',y')\in S$, either $f(x,y')$ or $f(x',y)\ne b$. Then $C(f)\ge \lg M$. (because we need to distinguish between every 2 elements in the fooling set) For EQ, take $S$ to be $\{(x,x)\}$. For DISJ, take $\{(A,\ol A)\}$.
+
+\vocab{Combinatorial rectangle} is submatrix of entries in $A\times B$. If $k$ bits are communicated, the matrix is partitioned into $2^k$ rectangles (so $\lg \chi(f)\le C(f)$). The \vocab{tiling number} $\chi(f)$ is the minimum number of rectngles in any monochromatic tiling of $M(f)$. We have $\chi(f)\ge m$, so this is more general.
+
+Rank: $\chi(f)\ge \rank(M(f))$ because every monochromatic rectangle is a matrix of rank $\le 1$.
+
+\begin{enumerate}
+\item
+\vocab{Discrepancy} of a rectangle is $\rc{2^{2n}}\ab{\sum_{x\in A,y\in B} M_{x,y}}$. $\Disc(f)$ is max among all rectangles. 
+\item
+$\chi(f)\ge\rc{\Disc(f)}$: take the biggest rectangle. (This is a bad bound.) 
+\item Discrepancy can be bounded by eigenvalues. 
+The discrepancy of $A\times B$ is $\le \la_{\max{}}(M)\fc{\sqrt{|A||B|}}{2^{2n}}$ because $\sum M_{xy}=1_A^{\dagger}M1_B\le \la_{\max{}}\sqrt{|A||B|}$. 
+\item
+Ex. mod-2 inner product has discrepancy $\le 2^{-\fc n2}$.
+\item
+Discrepancy is NP-hard to compute. $\cal E(f)$ can be computed in poly time.
+
+Define $\cal E(f)=\E_{a_1,a_2,b_1,b_2}\prod_i\prod_jf(a_i,b_j)$. \fixme{Note this is a version of the Gowers uniformity norm. Is there something deeper going on here?} By Cauchy-Schwarz, $\ve{f}_{U^2}^4=\cal E(f)\ge \Disc_{A\times B}(f)^4$.
+\end{enumerate}
+%Idea: If the communication pattern is the same on $(x,x)$ and $(x',x')$, then the answer is the same on $\{x,x'\}^2$. For EQ, use pigeonhole.
+\item Multiparty: everyone knows all inputs but their own.
+Ex. $\bigopl_i \MAJ(x_{1i},x_{2i},x_{3i})$ has communication complexity 3. Key: in 000, 001, 011, 111 the number of people who know the majority is odd, 1 or 3.
+
+Cylinders in dimension $i$. If every partition of $M(f)$ has at least $R$ cylinder intersections, then the $k$-party cc is at least $\ce{\lg R}$. Define the discriminant similarly ($U^k$ norm) and get $\Disc(f)\le (\cal E(f))^{\rc{2^k}}$. 
+
+$GIP_{k,n}=\bigopl_{i=1}^n\bigwedge_{j=1}^k x_{ji}$ has cc $\Om\pf{n}{4^k}$. Proof. $\cal E(GIP_{k,n})=\cal E(GIP_{k,1})^n\le (1-2^{-k})^n$. Take $\bullet^{\rc{2^k}}$ and $\lg$.
+
+\fixme{Open: explicit $C_k(f)\ge n2^{-o(k)}$ and nontrivial for $f:\{0,1\}^{nk}\to \{0,1\}$, $k\ge \lg n$.}
+\end{enumerate}
+Other models: randomized protocols. (Equality has $O(\lg n)$ expected.) Nondeterministic. (In the cc world the intersection of classes corresponding to NP, coNP is just that corresponding to P.) Average case, nonboolean, asymmetric, relation.
+
+Original: bound running time of parallel computers. 
+
+More apps: is a data structure best possible? Streaming algorithms.
+
+Discrepancy is regularity. $\cal E(f)$ is the fraction of 4-cycles in given bipartite graph. It is related to hypergraph regularity.
+
+Chromatic number is related to a conjecture between chromatic number and rank of adjacency matrix. Commplexity of computing $C(f)$ not understood.
+
+Quantum!
+
+Exercises
+\begin{enumerate}
+\item
+\item
+\item
+\item
+\item
+\item
+\item
+\item
+\item
+\item Use non-degeneracy of the inner product to show its rank is $2^n$.
+\item
+\item
+\item
+\item
+\item Each player finds a polynomial of degree $\le n$ in $\F_{p>3n}$ agreeing with their bits on $[1,n]$. Now one player sends a random address $O(\lg n)$ and they exchange the values there.
+\item
+\item
+\item
+\item
+
+\end{enumerate}•
+\section{Circuit lower bounds}
+
+\begin{enumerate}
+\item
+State and prove H\r{a}stad's switching lemma.
+\item Show that MOD${}_p\nin ACC0(q)$. (You can just do it for 2, 3.)
+\item Give a monotone-circuit lower bound for CLIQUE.
+\item Give some open questions.
+\end{enumerate}
+\begin{enumerate}
+\item
+\begin{lem}[H\r{a}stad switching]
+Suppose $f\in \DNF(k)$ and $\rh$ is a random restriction assigning random values to $t$ random input bits (proportion $1-\de$ where $\de=1-\fc tn$). Then for $s\ge 2$,
+\[
+\Pj_\rh(f|_{\rh}\nin \CNF(s))\le (\de k^{10})^{\fc s2}.
+\]
+\end{lem}
+\begin{proof}
+\begin{enumerate}
+\item
+A max-term is a partial assignment that forces $f$ to output 0. If $f\nin\CNF(s)$ then it has a max-term of length $\ge s+1$.
+\item 
+Plan: Let $R_t$ be set of restrictions of $t\ge \fc n2$ variables. Let $B$ be bad restrictions. We show $B\hra R_{t+s}\times \{0,1\}^{O(s\lg k)}$. Then
+\[
+\fc{|B|}{|R_t|}=\fc{\binom{n}{t+s}k^{O(s)}}{\binom nt}=O\pf{k^{O(s)}}{n^s}.
+\]
+\item
+For bad $\rh$, find (a minimal) max-term $\pi$. 
+Repeat the following: once $\pi_1,\ldots, \pi_i$ have been defined, define $\pi_{i+1}$ as follows. Look at the first term in the DNF not 0 by $f|_{\rh\pi_1\cdots \pi_i}$. Restrict all the variables in that term that are restricted in $\pi$. Stop after $s$ variables are assigned. Let $\si_i$ be the unique restriction that keeps the term from being 0. \fixme{Why unique? I don't think this is necessary.} 
+
+Now map $\rh\mapsto (\rh\si_1\cdots \si_m,c)$ where $c$ is auxiliary information to help invert. From $\si_i$ we can figure out the right term. let $c$ have the info
+\begin{enumerate}
+\item
+$s_i$
+\item
+indices in $t_{l_i}$ of variables in $\pi_i$
+\item
+values that $\pi_i$ assign to variables. $O(s_i\lg k)$ bits of info.
+\end{enumerate}
+At most $O(s\lg k)$ space total. Change the $\si$ step-by-step to $\pi$'s. Finally undo all the $\pi$'s to get $\rh$.
+
+\end{enumerate}•
+\end{proof}
+\item 
+Step 1: For any depth $h$ $MOD_3$ circuit on $n$ inputs and size $S$ there is a poly of degree $(2l)^h$ agreeing on $1-\fc{S}{2^l}$ fraction of inputs.
+
+Induct on height of node. 
+\begin{enumerate}
+\item
+NOT: Approximate $\wt g=1-\wt{f_1}$.
+\item
+$MOD_3$: $\wt g=\pa{\sum_{i=0} \wt{f_i}}^2$. (Degree$\cdot 2$)
+\item
+OR: Take $\bigvee_i \pa{\sum_{j\in T_i}\wt{f_j}}^2$. If $T_i$ are random subsets there is choice so that probability of differing is $\le \rc{2^l}$. Degree $\cdot 2l$.
+
+AND: use NOT and OR.
+\end{enumerate}
+
+Step 2: If $\deg f\le \sqrt n$ then $f$ agrees with $MOD_2$ on a set $<(1-\ep)2^n$ ($\ep=\rc{50}$). 
+\begin{enumerate}
+\item
+Transform to be on the set $\{-1,1\}^n$ instead. Suppose $f,MOD_2$ agree on $G$. Then $MOD_2$ is $\prod y_i$. 
+
+Lemma: any function $G\to \F_3$ is represented by a polynomial of degree $\le \fc n2+\sqrt n$.
+
+Proof: for a monomial of degree $>\fc n2$, we can replace it $\prod_{i\in I}-\prod y_i\prod_{i\in \ol I}y_i$ and replace the product by $f$.
+
+Bounding the tail of the binomial distribution means there are $<(1-\ep)2^n$ such monomials.
+\end{enumerate}•
+Putting it together: set $l=\rc2 n^{\rc{2d}}$ to get agreement on $1-\fc{S}{2^{\rc2n^{\rc{2d}}}}$. Then $S>\ep 2^{\rc2n^{\rc{2d}}}$.
+\item
+Let $\CLIQUE_{k,n}$ be whether $G$ has $k$-clique. There exist $\ep>0$ such that for every $k\le n^{\rc 4}$, there is no monoton circuit of size $<2^{\ep \sqrt k}$ computing $\CLIQUE_{k,n}$.
+
+Proof: 
+\begin{enumerate}
+\item Idea: (1) everything computed by a monotone circuit can be approximated by clique indicators. (2) $\CLIQUE_{k,n}$ needs too many indicators.
+\item We show that C can't sufficiently distinguish between $\cal N$: random partition into complete $(k-1)$-partite graph, and $\cal Y$: random $k$-clique.
+
+Lemma (need many clique indicators to catch all random $(k-1)$-partite graphs): let $n$ be large, $k\le n^{\rc 4}$. If $|S|\le c\sqrt{k-1}$, then by the birthday bound, $\Pj(C_S(\cal N)=1)\ge .99$, and if $|S|>\ell$, ten $\Pj(C_S(\cal Y)=1)<n^{-\fc{\sqrt{k}}{20}}$.
+
+Thus need $\ge n^{-\fc{\sqrt k}{20}}$ clique indicators.
+\item
+Sunflower lemma: Let $\cal Z$ be a collection of disjoint sets with cardinality $\le\ell$. If $|\cal Z|>(p-1)^\ell \ell!$ there exist $p$ sets $Z_i\in \cal Z$ in sunflower formation: intersection of any 2 is $Z$.
+
+Idea: Induct, we gain a $(p-1)\ell$ factor each time. Take a family of maximal disjoint subsets; every other set intersects one of the subsets; there are at most $(p-1)\ell$ elements; pigeonhole.
+\item
+Let $\ell=\fc{\sqrt{k}}{10},p=10\sqrt k\lg n, m=(p-1)^\ell\ell!\ll n^{\sqrt k/20}$. Inductively approximate with $\wt f_k=\vee^mC_{S_i}$ with $|S_i|\le \ell$ as follows. We will show that the probability $\sqcup,\sqcap$ introduce false positive/negatives is $<\rc{10s}$. (So at the end, the probability of false positives/negatives is $<0.1$.) (Hypothesis: $s<2^{\fc{\sqrt{k}}{2}}$.) 
+
+Let $f=\bigvee^m C_{S_i}, g=\bigvee^mC_{S_j}$.
+\begin{enumerate}
+\item
+Approximate $f\vee g$ with $f\sqcup g$ by taking $\vee$ and then replacing sunflowers with middles until $\le m$. False positives: by birthday bound and disjointness of petals (so independent), the probability the partition function is not 1-to-1 on petals given it's 1-to-1 on the center is $\le 2^{-p}\le \rc{10m^2s}$. (Apply reduction $\le m$ times.)
+\item
+Approximate $f\wedge g$ with $f\sqcap g$ by taking $C_{S_i\cup T_j}$, discarding those with $|Z|>\ell$, and reducing to $m$ by Sunflower.
+
+False negatives: for $|Z|>\ell$, unlikely to change $\Pj(C_Z(\cal Y))$ by lemma. False positives: similar to analysis before.
+\end{enumerate}
+\end{enumerate}
+\item
+Does NEXP have languages requiring super-polynomial size circuits? (Note: $MA_{EXP}\nsubeq P/poly$.) 
+
+Exhibit a language in NEXP not in ACC0(6), like CLIQUE.(Problem: low-degree polynomials modulo composite numbers are surprisingly expressive.) (Permanent requires exponential time Dlogtime-uniform ACC0 circuits.) 
+
+Find an explicit $n$-Boolean function (or $B^n\to B^n$) that cannot be computed by circuits of $O(n)$ size and $O(\lg n)$ depth. (Valiant tried to show this by showing superconcentrators need to have superlinear size. But they can have linear size.
+
+Give a problem in P/NP that requires branching programs of size $>n^{1+\ep}$. (Known: A language has poly size width five branching programs iff it is in NC1.)
+\item
+Connection between ACC0 and communication complexity:
+\begin{enumerate}
+\item
+If $f$ has a depth-2 circuit with symmetric gate with fan-in $N$ at output and $\wedge$ gates with fan-in $k-1$ at imput level, then $k$-party communication complexity $<k\lg N$. Proof: partition each gate among $k-1$ players, each person computes the $\wedge$'s that he can.
+\item
+We know a function with $\Om\pf{n}{4^k}$ $k$-party communication, giving bottom fan-in $\Om(\lg n)$.
+\item 
+If $f\in ACC0$ then $f$ can be computed by depth 2 circuit with symmetric gate with quasipolynomial fan-in and $\wedge$ gates with polylog fan-in. We would need polylog not log above.
+\end{enumerate}
+\fixme{Omitted here: linear size log-depth circuits and 3-party communication. Branching programs.}
+
+Karchmer-Wigderson game: Player $i=0,1$ receives $x,f(x)=i$ and they communicate until they agree on $i$ such that $x_i\ne y_i$. (``computing a relation") $C_{KW}(f)$ is the minimum depth among all circuits that compute $f$. (Assume no NOT gates---pushed to inputs by De Morgan.)
+
+Proof. Given the circuit, both players evaluate input. Go from top level down: at $\vee$ player 1 sends an input that's 1, at $\wedge$ player 0 sends an input that's 0. Given communiction complexity: Induct more generally on distinguishers $C_{KW}(A,B)$. Split $A=A_0\sqcup A_1$ where player 0 sends $i$. Now use $C_0\wedge C_1$, $C_i$ for $A_i,B$.
+
+Frontier. Show $f\in P$ (or NEXP) has $C_{KW}(f)=\Om(\lg n\lg\lg n)$.
+\end{enumerate}
+
+\section{Proof complexity}
+\section{Algebraic computation models}
+
+\begin{enumerate}
+\item Define AlgP/poly (VP) and AlgNP/poly (VNP). Show that Perm$\in$AlgNP/poly.
+\item In what way are the determinant and permanent complete? What does it suffice to show to separate AlgP/poly and AlgNP/poly?
+\end{enumerate}
+\begin{enumerate}
+\item Algebraic circuits with $+$ and $\times$, with in-degree 2. AlgNP/poly is $\sum_{e\in \{0,1\}^{m-n}} g_m(x_1,\ldots, x_n,e_{n+1},\ldots, e_m)$ where $g_m\in $AlgP/poly and $m=O(\poly(n))$.
+
+Define exactly-one (of $c_i=1$), then is-permutation, then permpoly. Define the permanent as of permpolys.
+\item 
+\vocab{projection reducible}: $f$ is a projection of $g$ if there is $\si:\{y_1,\ldots, y_m\}\to \{0,1,x_1,\ldots, x_n\}$ such that $f(x_1,\ldots, x_n)=g(\si(y_1),\ldots)$. 
+\item Every polynomial family on $n$ variabls computable by an algebraic formula of size $u$ is projection reducible to the determinant over the same field on $u+2$ variables. Over $\chr(k)\ne 2$, every polynomial family in AlgNP/poly is projection reducible to the permanent with polynomially more variables. 
+
+To separate VP, VNP: (Valiant) for $\chr(k)\ne 2$, the $n\times n$ permanent is not a projection of the $m\times m$ determinant, $m=2^{O(\lg^2 n)}$.
+\end{enumerate}
+
+\section{Complexity of counting}
+\begin{enumerate}
+\item
+Define \#P. Show that if \#CYCLE has a poly-time algorithm, then P$=$NP.
+\item Show PP$=$P iff \#P$=$FP.
+\item Define \#P-complete and show \#SAT is \#P-complete.
+\item Interpret the permanent. Show that permanent for 0, 1 matrices is \#P-complete.
+\item Discuss approximation.
+\item Prove PH$\subeq P^{\#SAT}$. (Prove Valiant-Vazirani first.)
+\end{enumerate}
+\begin{enumerate}
+\item
+$f\in$\#P if it counts the number of solutions accepted by a PTM: $f(x)=\ab{\set{y\in B^{p(|x|)}}{M(x,y)=1}}$. Alternatively, it is equal to the number of accepting paths for the configuration graph of a NDTM.
+
+If \#CYCLE has a poly-time algorithm, then HamCycle$\in$P by turning each edge into many paths.
+\item $\Leftarrow$ is clear: just count number of acceptances and see if it's $>$ half. $\implies$: Consider the $(m+1)$-bit certificates given by $0C_1$ or $1m,m<N$. Use binary search to find $N$.
+\item
+$f$ is \#P-complete if it is in \#P and every $g\in $\#P is in FP${}^f$.
+
+In the Cook-Levin reduction, the mapping between certificates is a bijection.
+\item
+0, 1 permanents count perfect matchings. (Determining whether a perfect matching exists can be determined in poly time.) In general perm(A) is the sum of weights of all possible cycle covers ($\bigsqcup$disjoint cycles) of the weighted graph.
+
+Reduce \#3SAT to perm. Summary: first reduce to a weighted graph, by XOR gadgets (ensure exactly one of $\ora{uu'},\ora{vv'}$ is taken, and multiplies weight by 4), variable gadgets (add external true/false edges that are XOR'd with the clause gadgets) and clause gadgets (one has to be omitted). The perm of the corresponding graph is $4^{3m}\#\phi$ where $m$ is number of clauses. Get weights in $\{-1,0,1\}$: replace edges by parallel paths determined by its binary expansion. Get rid of negative weights: choose $2^m+1>2n!$ and compute modulo $2^m+1$, so replace $-1$ with $2^m$.
+\item A fully polynomial randomized approximation scheme is one where for any $\ep,\de$ computes a $(1-\ep)$-approximation with probability $1-\de$ in time $\poly(n,\lg \rc{\de},\lg \rc{\ep})$. (If P$=$NP, then every \#P-problem has a FPRAS, in fact deterministic one.
+
+Idea: There is a connection between having an approximate formula for $|S|$ and an efficient algorithm for generating an approximately uniform element of $S$.  (1) Using sampling for approximate counting: estimate $p=\fc{|S_1|}{|S|}$ and recursively estimate $|S_1|$. (2) Sample $S$ using Markov Chain Monte Carlo: define a $d$-uniform digraph on $S$.
+\item (Note: Toda's theorem implies that a subexponential algorithm for $\#\SAT$ gives an algorithm for any problem in PH.) Define $\opl P$ to be languages such that there exist a NTM M such $x\in L$ iff the number of accepting paths is odd. ``Least significant bit of $\#$P-problem." $\opl \SAT$ is $\opl $P-complete.
+
+PH$\subeq P^{\#\SAT}$ Step 1: Randomized reduction from PH to $\opl\SAT$.
+\begin{enumerate}
+\item
+Valiant-Vazirani lemma: (if $|S|$ is close to output set size then likely there is a unique element hashing ot $0^k$) If $2^{k-2}\le |S|\le 2^{k-1}$ then $\Pj_{h\in \cal H_{n,k}}(\exists !x\in S, h(x)=0^k)\ge \rc 8$. Proof: PIE and union bound.
+\item
+ There is a PPT algorithm $f$ such that 
+\bal
+\ph&\in \SAT&\implies \Pj(f(\ph)\in USAT)&\ge \rc{8n}\\
+\ph&\nin \SAT&\implies \Pj(f(\ph)\in \SAT)&=0.
+\end{align*}
+Idea: using lemma, $\ph(x)\wedge (h_y(x)=0^k)$ has a unique solution with probability $\ge \rc{8n}$ (also take probability over $h$). (Choose $k$ at random from $\{2,\ldots, n+1\}$ since we don't know the right power.) Now remove randomness by $h_y(x)=0^k$ as a SAT formula (using Cook-Levin), $\tau(x,y)$.
+\item
+This implies the same lemma for $\opl\SAT$ instead of USAT. Now use the expressivity of $\opl\SAT$. It is closed under $\wedge,\vee,\neg$.
+\item
+Reduction for NP/coNP: Run the reduction $O(mn)$ times and OR them.
+\item General case: Induct on number of quantifier alternations.
+
+First, relativize the Valiant-Vazirani lemma (to an oblivious version): There is PPT algorithm that given $1^n$ produces $\tau$ such that for {\it any} $\be$,
+\[
+\{,\neg\}\exists_{x_1}\be(x_1)\implies \Pj(\opl_{x_1,y}\tau(x_1,y)\wedge \be(x_1)=1)\{\ge\rc{8n},=0\}.
+\]
+
+By complementing, we can assume $\ph=\exists_{x_1}\psi(x_1)$. Now use induction hypothesis on $\psi$ to get $\be$, and use VV on $\be$ to get $\tau$; consider the formula $\al=\bigvee_{j=1}^K (\opl_{x_1,y}\tau_j (x_1,y)\wedge \be(x_1))$.
+\end{enumerate}
+Step 2: making it deterministic.
+\begin{enumerate}
+\item
+Find a polynomial $P$ such that $x\equiv 0,-1\pmod{2^{2^i}}$ implies $P(x)\equiv 0,-1\pmod{2^{2^{i+1}}}$. (Can take $P=4x^3+3x^4$.) Repeating $O(\lg(\ell+1))$ times gives a poly-time $T$ such that $\al\{\in,\nin\}\opl\SAT\implies \#\be =\{-1,0\}\pmod{2^{\ell+1}}$.
+\item
+Idea: turn a separation of probabilities into a separation of sums. Let $f$ be the randomized reduction (thought of as a function on $\psi$ and $r$), T be the reduction going to $-1,0\pmod{2^{\ell+1}}$; the sum 
+\[
+\sum_{r\in \{0,1\}^R}\#(T\circ f(\psi,r))\pmod{2^{\ell+1}}
+\]
+lands in disjoint intervals. Turn it into something queriable by a $\#\SAT$ oracle.
+\end{enumerate}
+\end{enumerate}
+Exercises
+\begin{enumerate}
+\item
+\item
+Reduce to computing a 0,1 permanent exactly as in text. 0,1 perm is just counting matches.
+\end{enumerate}•
+\section{Average case complexity: Levin's theory}
+\section{Hardness amplification and error-correcting codes}
+
+Why does this matter? Many conjectured hard functions do not suffice for crypto because they are hard only on a few instances. Another application is derandomization.
+
+\begin{enumerate}
+\item Define average and worst-case hardness. Prove Impagliazzo's Hardcore lemma.
+\item Prove Yao's XOR lemma.
+\item Define an error-correcting cod with distance $\de$. Give the Walsh-Hadamard, Reed-Solomon, and Reed-Muller codes. What are their parameters? What effect does concatenating codes have? How to decode them?
+\item 
+Define local decoding. (Why do we care?) Give local decoders for Walsh-Hadamard, Reed-Muller, and concatenated codes. Prove that worst-case hardness implies mild hardness.
+\item Give the Johnson bound. Explain list decoding for Reed-Solomon. Define local list decoding and give decodings for Walsh-Hadamard, Reed-Muller, and concatenated codes. Prove worst-case to strong hardness.
+\item How can we amplify hardness for NP?
+\end{enumerate}
+\begin{enumerate}
+\item
+Define
+\bal
+H_{\avg}^{\rh}&=\max\set{S}{\forall |C|\le S,\Pj_{x\in \{0,1\}^n}[C(x)=f(x)]<\rh}\\
+H_{\avg}&=\max\set{S}{H_{\avg}^{\rc 2+\rc S}(f)\ge S}.
+\end{align*}
+A distribution $H$ over $\{0,1\}^n$ has density $\de$ if for all $x\in \{0,1\}^n$, $\Pj(H=x)\le \rc{\de 2^n}$ (i.e., $H_{\iy}>\lg \de + n$). 
+\begin{lem}[Impagliazzo]
+(Every hard function has a small fraction of inputs where it is extremely hard. If for every significant chunk of inputs some circuit computes it with good advantage, then there's a single circuit computing it with good probability over all inputs.)
+\bal
+\forall \begin{cases}
+\de>0,\\
+f:\{0,1\}^n\to \{0,1\}\\
+\ep>0
+\end{cases},\\
+[
+H_{\avg}^{1-\de}(f)\ge S\implies \exists \text{density-}\de\,H, 
+[
+\forall C, |C|\le \fc{\ep^2S}{100n}\implies \Pj_{x\sim H}(C(x)=f(x))\le \rc2+\ep.
+]
+]
+\end{align*}
+\end{lem}
+\begin{proof}
+Min-max theorem: In a zero-sum game with payoff matrix $A$,  column player the minimizer, 
+\[
+\min_{p}\max_q q^TAp=\max_q\min_p q^TAp
+\]
+over probability distributions.
+\end{proof}
+
+We prove contrapositive.
+
+Consider the game where A  chooses a $\de$-distribution $H$ (i.e., a distribution over flat distributions), B chooses $|C|\le S'$, and A pays B $\Pj_{x\sim H}(C=f)$. By min-max, it doesn't matter who goes first. 
+
+If $\forall H,[\exists C... \Pj>\rc2+\ep]$, then there are $<\de 2^n$ bad $x$'s. On good $x$'s, have B choose $t$ circuits randomly from the optimal distribution and take the majority. Taking $t=\fc{50 n}{\ep^2}$, by Chernoff (on $n$ with mean $>\rc 2+\rc{\ep}$ and cutoff $\rc2$), we get a circuit of size $<tS'$. Choose $S'=\fc{\ep^2 S}{100n}$.
+\item 
+\begin{lem}[Yao's XOR]
+\[
+\forall \begin{cases}
+f:\{0,1\}^n\to \{0,1\},\\
+\de>0,\\
+k\in \N
+\end{cases},
+[\ep>2(1-\de)^k \implies H_{\avg}^{\rc 2+\ep}(f^{\opl k})\ge \fc{\ep^2}{400n}H^{1-\de}_{\avg}(f)].
+\]
+\end{lem}
+\begin{proof}
+Let $H$ be $(\de,\eph,S'=\fc{\ep^2}{400n}S)$-hardcore and $G$ be the normalized complementary distribution to $H$. Write $U_n^k=((1-\de)G+\de H)^k$. Idea: for large $k$ it's likely at least one will fall in $H$. The chance it's not is $(1-\de)^k<\eph$. Fixing choices for all but one $H$ gives circuit for $H$, contradiction.
+\end{proof}
+\item 
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+Code & Parameters & Description & Input & Output & Distance\tabularnewline
+\hline 
+Walsh-Hadamard & $n$ & $(x\odot y)_{y}$ & $n$ & $2^{n}$ & $\rc2$\tabularnewline
+\hline 
+Reed-Solomon & $n\le m\le|\F|$ & $(a_{i})\mapsto(\sum_{i=0}^{n}a_{i}x^{i})_{x}$ & $n$ & $m$ & $1-\fc nm$\tabularnewline
+\hline 
+Reed-Muller & $|\F|,\ell,d$ & $(c_{s}:|s|\le d)\mapsto(\sum c_{s}x^{s})_{x\in\F^{\ell}}$ & $\binom{\ell+d}{d}$ & $|\F|^{\ell}$ & $1-\fc d{\F}$\tabularnewline
+\hline 
+\end{tabular}
+From $E_1:B^n\to \Si^m$, $E_2:\Si\to B^k$, we can make $(E_2,\ldots, E_2)\circ E_1$ of distance $\de_1\de_2$. For example, 
+\bal
+\{0,1\}^{n\lg |\F|}\to \{0,1\}^{n\lg |\F|}\xra{RS}&\F^m \\
+%\to &\{0,1\}^{m\lg |\F|}\\
+%&B^{\lg |\F|} \xra{WH}
+&\F\to \{0,1\}^{\lg |\F|}\xra{WH}\{0,1\}^{|\F|}.
+\end{align*}
+Decode Reed-Solomon by Berlekamp-Welch (see AMiIT notes): given $m$ pairs, recover polynomial passing through $t>\fc m2+\fc d2$ points.
+\item 
+\begin{df}
+A \vocab{local decoder} $E:\{0,1\}^n\to \{0,1\}^m$ handling $\rh$ errors is $D$ such that given query access to $y$ with distance $<\rh$ from $E(x)$ and index $j$ runs for polylog($m$) time and outputs $x_j$ with probability $\ge\fc 23$.
+\end{df}
+We want polylog time because we will be running this on the encoding on $f$ which has $2^n$ bits.
+
+Walsh-Hadamard ($\rh<\rc4$): $f(x\opl e_j)+f(x)$. \fixme{$\ge \rc4$ not possible? compare with Goldreich-Levin}
+
+Reed-Muller: local decoder handling $\rh=\rc 6(1-\fc d{|\F|})$ errors. Construction: Query on all points of a random line through $x$. By Markov, with probability $\fc23$, at most $3\rh <\rc 2(1-\fc d{|\F|})$ points on the line are bad, so can use Reed-Solomon decoder.
+
+Concatenation: Requires $O(q_1q_2\lg q_1\lg |\Si|)$ queries. Proof: Repeat decoding for $E_2$ $\log q_1$ times in order to get with probability $1-\fc{\ep}{q_1}$, so that $q_1$ blocks of it has a constant chance of mistake.
+
+\begin{thm}[Worst to mild hardness]
+$[f\in EXP, \forall n, H^1(f)(n)\ge S(n)]\implies [\exists g\in EXP,H_{\avg}^.99(g)(n)\ge \rc{n^c}S\pf nc, n\gg 1$.
+\end{thm}
+\begin{proof}
+Concatenating WH and RM (with appropriate parameters) gives an ECC $\{0,1\}^N\to \{0,1\}^{N^C}$, computable in poly time, and with a local decoding algorithm using polylog($N$) time handling 0.01 fraction of errors. (Details: $|\F|\approx \lg^5 N$, $\ell=\fc{\lg N}{\lg\lg N}$, $d=\lg^2 N$, so $\de\le 1-\rc{\lg N}$; WH on $\log |\F|$.
+
+Prove the contrapositive. We can $\fc23$ decoding algorithm into $>1-2^{-n}$ decoding algorithm by repeating polynomialy many times (Chernoff). Then there is some random string that will recover $f$ on every value.
+
+\fixme{Q: why does this only work for exponential?} 
+\end{proof}
+\begin{cor}
+Let $S:\N\to \N$ be monotone and time-constructible. Then $\exists \ep>0, [\exists f\in E, \forall n,H^1(f)(n)\ge S(n)\implies \exists \wh f\in E, H_{\avg}(f)(n)\ge S(\sqrt n)^\ep]$.
+\end{cor}
+Combine the theorem with Yao XOR to get down from $.99$ to $\rc2+\rc S$.
+\item 
+\begin{thm}[Johnson bound]
+If $E:B^n\to B^m$ is ECC with distance $\ge \rc2-\ep$, then for every $x\in B^m$ and $\de\ge \sqrt{\ep}$, 
+\[
+|B_{\rc 2-\de}(x)\cap E(B^n)|\le \rc2-\de.
+\]
+\end{thm}
+(In a ball of radius $\rc2-\ep$, nothing. Inside $\rc2-\sqrt{\ep}$, still few.)
+\begin{proof}
+Let $y_i$ be the vectors and $(z_{i,k})=(y_{i,k}=x_k)$. Calculate $\an{\sum z_i,\sum z_i}$ in 2 ways.
+\end{proof}
+List decoding for Solomon (Sudan): Poly-time algorithm that given $m$ values, finds all degree $d$ polys $G$ agreeing $\ge 2\sqrt{dm}$. Optimization in poly method (see AMiIT): we have $\deg G(x,P(x))\le \deg_x+\deg_y\ub{\deg(P)}d$. Find a poly with $\deg_x\le \sqrt{md}$ and $\deg_y\le \sfc{m}{d}$. (product $m$)
+
+\begin{df}
+A \vocab{local list decoder} is a probabilistic poly($\lg n/\ep$)-time algorithm that 
+\[
+\forall x\in B^n,y\in B^m, [\De(E(x),y)\le \rh \implies \exists i_0\in [\poly(n/\ep)], [\forall j\in [n], \Pj(D^y(i_0,j) =x_j)\ge \fc 23].
+\]
+\end{df}
+Idea: the local list decoder tells which of the possible options to pick. This is a useful notion because although it's not constructive, we can use a probabilistic algorithm to get an index $i_0$ for which the algorithm deterministically does well.
+
+Reed-Muller, $1-10\sfc{d}{|\F|}$ errors. Algorithm: given index representing $(x_0,y_0)$, choose a random {\it degree 3} parametrized polynomial going through $x$ at $t=0$ and $x_0$ at $t=r$ ($r$ random). Use Sudan to get all $3d$ polys with $\ge 8\sqrt{d|\F|}$ agreement. If there is unique $i$ such that $g_i(r)=y_0$ then output it.
+
+Proof: (1) Consider choosing $(x_0,y_0=P(x_0))$ randomly; it suffices to show that probability of success is $>0.9$; then there is {\it a} choice that makes $\Pj>0.9$. (2) Count a different way: it's easier to look at the 
+We want (a) the probability that the right polynomial is in the list, and (b) the probability that our polynomial $g(r)\ne g_i(r)$ except for one index $i$. To see (a), it's easier to switch the order we're choosing things: choose the curve, {\it then} the second point on the curve. By {\it pairwise independence}, Chebyshev (not Chernoff) gives high (0.99) probability that $f$ agrees with $P$ on many points of the curve. (c) There are $<\fc{\sqrt{|\F|}}{4d}$ polys because for the $i$th poly only $\ep|\F|-(i-1)d$ more distinct points where it's equal to $g$ can be added. So the probability (b) is $1-\ub{(3d+1)}{\text{\# of points a $g_i$ can agree with $g$}}\fc{\sqrt{|\F|}}{4d}\rc{|\F|}>.99$.
+
+Worst-case to strong hardness: This gives $H_{\avg}(f)(n)\ge S(n)\implies H_{\avg}(g)(n)\ge S\prc{n}{c}^{\rc c}$. 
+\item (See Noise sensitivity essay p. 55.) 
+\begin{thm}[O'Donnell]
+\label{thm:hard-for-np}
+Suppose $(f_n)\in \NP$ are $\pa{1-\rc{\poly(n)}}$-hard for polynomial circuits (i.e., given any sequence $(f_n')$ computable by polynomial circuits, $d(f_n,f_n')\ge \rc{\poly(n)}$). 
+
+Then there exist functions $(g_n)\in \NP$ that are $\pa{\rc2+n^{-\rc 2+\ep}}$-hard for polynomial circuits (i.e., given any sequence $(g_n')$ computable by polynomial circuits and any $\ep>0$, $d(g_n,g_n')\ge \rc2-n^{-\rc 2+\ep}$ infinitely often).
+\end{thm}
+Idea: Amplify noise sensitivity, and use monotone function to stay in NP. Ex. $\Maj_3^{\circ k}(f,\ldots, f)$ (not optimal, but is basic idea).
+\end{enumerate}
+
+Exercises.
+\begin{enumerate}
+\item
+Binomial theorem: $\rc2((\de+(1-\de))^k+(-\de+(1-\de))^k)$.
+\item
+\item Clear.
+\item See notes.
+\item 
+\item 
+\item 
+\item No, because XOR'd NP functions may not be NP.
+\item This is the Gilbert-Varshamov bound. See coding notes. (The rate is $n\left/\fc{n}{1-H(\de)}\right.$)
+\item
+\item
+\item
+\item
+\item
+\item See notes.
+\item See BW in AMiIT.
+\item 
+\begin{enumerate}
+\item
+Translate to 0.
+\item
+See the argument on $m^*$, which gives $H(\de)m$ min-rank, i.e., $1-H(\de)$ rate.
+\item
+
+\end{enumerate}
+\item
+\begin{enumerate}
+\item
+Clear.
+\item Use Chernoff.
+\item Concatenate RM$\circ$(b). (Note: (1) it's NOT $\bullet \circ$RM as in the text. Reason: we want to extend the code in (b) to longer strings, and that means (b) goes in the second position. (2) We can't just let $\fc{m}{10}=n$ because we only have $a$ probabilistically. (3) We don't have to use (b) on constant size, we can use on log size $\F_n$ because we can brute-force find $a$.)
+\bal
+\{0,1\}^n\to \F_n^{\fc{n}{\lg n}}\to \F_n^{\fc{cn}{\lg n}}&\to \{0,1\}^{10cn}\\
+\F_n& \to \{0,1\}^{10\lg n}
+\end{align*}
+Distance $\pa{1-\rc c}0.1$.
+\end{enumerate}
+\end{enumerate}
+\section{Derandomization}
+Conjectured hard problem hard $\iff$ successful derandomization.
+
+Example: giving $m^2$ vectors $\in \F^n$ such that every nonzero poly $P$ that can be computed by size $m$ circuit has $P(v)\ne 0$ for some $v$ gives a deterministic algorithm for PIT.
+
+\begin{enumerate}
+\item
+Define PRG. What facts about existence of PRG's or worst-case functions imply derandomization?
+\item
+Prove this (use the Nisan-Wigderson construction).
+\item Give a derandomization result following from $\BPP\ne \EXP$.
+\item Show a result that derandomization implies lower bounds (ZEROP$\in$P gives what?).
+\end{enumerate}
+\begin{enumerate}
+\item
+Differences from crypto secure PRG's: can run in exponential time, and nonuniform distinguishers.
+\begin{df}
+$R$ over $B^m$ is $(S,\ep)$-pseudorandom if $\forall|C|\le S$ \blu{(not necessarily uniform)}, 
+\[
+|\Pj(C(R)=1)-\Pj(C(U_m)=1)|<\ep.
+\]
+A $S(\ell)$-psuedorandom number generator $G$ is a \blu{$2^n$-time computable function} such that $|G(z)|=S(|z|)$ and $G(U_\ell)$ is $(S(\ell)^3,\rc{10})$-pseudorandom.
+\end{df}
+Assume $S$ nondecreasing, time-constructible.
+\begin{lem}
+If there exists a $S(\ell)$-pseudorandom generator, then for some $c$, $\BPTIME(S(\ell(n)))\subeq \TIME(2^{c\ell(n)})$. So
+\bal
+&\exists 2^{\ep \ell}&\implies \BPP&=\mathsf P\\
+&\exists 2^{\ell^\ep}&\implies \BPP&\subeq \QuasiP\\
+&\bigwedge_{c>1}\exists 2^{\ell^c}&\implies \BPP&\subeq \SUBEXP
+\end{align*}
+\end{lem}
+\begin{proof}
+Go over all of $z\in B^{\ell(n)}$, compute using those bits as randomness, and output majority. This works for $n$ large enough. (Otherwise, we get a distinguisher by hardwiring the offending infinite sequence of $x$'s. Note the non-uniformity.) (Exponential time for $G$ is allowed because going through all possibilities takes exponential time anyway.)
+\end{proof}
+(Comparison: Crypto secure: generator honest, distinguisher adversary. Derandomization: generator is used by derandomized, distinguisher is algorithm being derandomized.) (See Ex. 20.5)
+
+\begin{thm}
+\begin{enumerate}
+\item
+Average-case hardness gives PRG's: $\exists f\in E,H_{\avg}(f)\ge S(n)\implies\exists S(\de \ell)^\de$-PRG.
+\item
+Worst-case hardness gives PRG's: Same but with $H^1(f)\ge S(n)$. (Use worst-case implies average-case.)
+\item Hence, 
+\bal
+f&\in E,\,H^1(f)\ge 2^{\ep n}&\implies \BPP&=P\\
+f&\in \EXP,\,H^1(f)\ge 2^{n^\ep}&\implies \BPP&=P\\
+f&\in \EXP,\,H^1(f)\ge n^{\om(1)}&\implies \BPP&=P.
+\end{align*}
+\end{enumerate}
+\end{thm}
+\item
+First idea: Extend by 1 bit by $G(z)=z\circ f(z)$. (Ex. $H_{\avg}(f)\ge n^4$, note $4>3$.) Second idea: extend by at most a factor of 2. $G(z_1,\ldots, z_\ell)=z^1\circ f(z^1)\circ \cdots$. If $f(z^{i<j})$ helped for $f(z^j)$, then we could hardwire the advice $(z_i,f(z^i))$ contradicting hardness of $f$. 
+
+Actual proof. 
+\begin{enumerate}
+\item
+A \vocab{combinatorial design} is $\cal I=\set{I_j}{j\in [m]}\subeq [\ell]$ where $|I_j|=n$ and $|I_j\cap I_k|\le d$. Lemma: $2^{O(\ell)}$-time algorithm on $(\ell,d,n)$, $d>n$, $\ell>\fc{10n^2}{d}$ gives a design with $2^{\fc d{10}}$ subsets. Proof: Once $m$ sets have been chosen, pick each element in $[\ell]$ with probability $\fc{2n}{\ell}$. The chance that it's $<n$ size is small; the chance that $|I\cap I_j|\ge d$ is exponentially small $C2^{-\fc{d}{10}}$.
+\item Make the NW-generator $NW_{\cal I}^f(z)=f(z_{I_1})\circ \cdots $. Lemma: If $\cal I$ is design with $|\cal I|=2^{\fc d{10}}$ and  $H_{\avg}(f)>2^{2d}$, then $NW(U_\ell)$ is $(H_{\avg}(f)/10,\rc{10})$-pr.
+
+Proof: Use unpredictability criterion. Suppose can predict $f(Z_{I_j})$ from $f(Z_{I_{i<j}})$. We can fix the string outside of $Z_{I_j}$ by averaging. The $f(Z_{I_i})$ rely only on $\le d$ coordinates of $Z_{I_j}$ so can be computed by $2^d$-size circuits. This gives a small circuit computing $f(Z_{I_j})$, contradiction.
+\item Putting things together: see p. 412.
+\end{enumerate}
+\item \begin{thm}
+If $\BPP\ne \EXP$, then every $L\in \BPP$ has a subexp algorithm such that for infinitely many $n$'s, $\Pj_{x\in \{0,1\}^n}(A(x)=L(x))\ge 1-\rc n$.
+\end{thm}
+\begin{proof}
+Consider 2 cases.
+\begin{enumerate}
+\item $\EXP\nsubeq P/\poly$
+\item $\EXP\subeq P/\poly$: $\EXP\subeq$PH$\subeq P^{\#P}\subeq \EXP$ so perm is $\EXP$-complete but if $\BPP\ne \EXP$ then perm$\nin \BPP$.
+
+Build a PRG to transform... \fixme{Lots more here.}
+\end{enumerate}
+\end{proof}
+\item 
+\begin{thm}
+If ZEROP$\in$P then NEXP$\nsubeq $P/poly or perm$\nin$AlgP/poly.
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item
+Idea: BWOC. Then NEXP$\subeq$NP, contradicting hierarchy. From hypothesis get NEXP in a class not relying on advice, $P^{\#P}=P^{perm}$. Now guess the circuits for perm by PIT and self-reducibility, getting it in NP. Details:
+\item $\EXP\subeq$P/poly$\implies\EXP=$MA. Proof: EXP collapses to $\Si_2^p$ (and lots of things collapse). EXP has an interactive proof using a PSPACE-machine which can be replaced by a poly circuit; use the prover for TQBF. Merlin sends Arthur a circuit encoding the prover, and Arthur tests.
+\item ZEROP$\in$P and perm$\in$AlgP/poly$\implies P^{perm}\subeq $NP. Proof: Guesses $(C_i)$ solving perm, now use PIT and reducibility for perm to check $C_i$ given $C_{i-1}$.
+\item NEXP$\subeq$P/poly$\implies$NEXP=EXP. \fixme{Look at this.} 
+\end{enumerate}•
+\end{proof}
+\end{enumerate}
+Exercises
+\begin{enumerate}
+\item
+\item Brute force search through all functions on $\{0,1\}^s\to \{0,1\}^{s^3}$. Note by Chernoff we just need 
+\[
+\ub{\#(\text{ circuits }\le s^3)}{=O(2^{cs^6})}\le 2e^{2t^2}.
+\] 
+where $t=\rc{10}{2^{\fc s2}}$, $s=2^{\ep n}$. This holds for small $\ep$.
+\item
+\item
+\item 
+\item By Theorem 20.6, if there's $f\in E$, $H_{\avg}(f)\ge 2^{\ep n}$, then BPP=P. MA is the set of functions where there exists some message such that it's accepted by a BPP program---now equivalently a P program.
+\end{enumerate}•
+\section{Pseudorandom constructions: expanders and extractors}
+
+For summary of expanders, see expansion.tex.
+
+\blu{
+\begin{enumerate}
+\item
+Define a $(n,k)$-source. Give examples. Define statistical distance. Define extractors. Show the existence of extractors (what parameters?) by a probabilistic argument.
+\item Obtain extractors from hash functions (leftover hash lemma) and random walks on expanders. 
+\item Explain the connection between extractors and PRG's.
+\end{enumerate}
+}
+
+They replace/reduce the amount of randomness needed. The results here are unconditional. Goals:
+\begin{enumerate}
+\item Basic properties of expanders.
+\item Use explicit constructions of expanders to obtain deterministic algorithms.
+\item Use extractors to derandomize probabilistic logspace computations.
+\end{enumerate}
+\subsection{}
+\subsection{}
+Error reduction using expanders.
+\subsection{}
+\subsection{}
+\subsection{Weak random sources and extractors}
+\begin{enumerate}
+\item
+A $(n,k)$-source is a random variable with min-entropy $\ge k$.  Min entropy is a ``minimal requirement": a simulation of a probabilistic algorithm that uses $k$ random bits requires access to some $X$ that is close to having min entropy $\ge k$.
+
+Examples:
+\begin{enumerate}
+\item
+Santha-Vazirani source: $X_i\in \{0,1\}$, and $\Pj(X_i|X_{i-1},\ldots, X_1)\in [\de,1-\de]$. Then $H_{\iy}(X)\ge \lg \prc{1-\de}n$, 0 if independent.
+\item
+Bit-fixing source (only $k$ random bits) has min-entropy $k$. Ex. sampling at too high a rate.
+\item
+Uniform over subset $|S|=2^k$: this ``essentially captures" all distributions with $H_{\iy}(X)=k$.
+\end{enumerate}
+%(Example: $n$ flips of $\de$-biased coin is close to a distribution with min-entropy $H(\de)n$.)
+The statistical distance is $\De(X,Y):=\rc 2 |x-y|_1$.
+
+\blu{Define a $(k,\ep)$-extractor.}
+\begin{df}
+A randomness extractor is $f:B^n\times B^d\to B^m$ such that for any $(n,k)$-source, $\De(f(X,U_d),U_m) <\ep$.
+\end{df}
+Here,
+%\begin{enumerate}
+%\item
+the input in $B^d$ is the random seed. A random seed shouldn't be too short ($O(\lg n)$) because else the algorithm could enumerate over all inputs.
+%\end{enumerate}
+\begin{lem}
+For every $k,n\in \N$ and $\ep>0$ there exists a $(k,\ep)$-extractor $B^n\times B^d\to B^k$ with $d=\lg n+2\lg\prc{\ep}+O(1)$.
+\end{lem}
+\begin{proof}
+By Chernoff, if $X=\begin{cases}1,&\text{prob }p\\0,&\text{prob }1-p\end{cases}$, for $m$ independent trials $\ol X=\rc m\sum_{i=1}^m X_i$,
+\[
+\Pj(\ol X-p\ge \ep')\le 2e^{-2{\ep'}^2m}.
+\]
+If there are $N$ events to avoid, then we want $2Ne^{-2\ep^2m}<1$.
+
+Apply this to a random function $f:B^{n+d}\to B^k$. Subtlety: What we don't do: compose this with characteristic functions $B^k\to B$ and require each error to be very small, which would require $m$ to be too large. Instead, we compose with an arbitrary function $B^k\to B$, and then use the {\it union} bound (much better out front than in exponent) over $2^{2^k}$ possible functions. So here $N=2^{n2^k+2^k}$. ($\binom{2^n}{2^k}<2^{n2^k}$). Solving
+\bal
+2^{n2^k+2^k}e^{-2\ep^22^{k+d}}&<1\\
+(n+1)2^k&<(\lg e)(2\ep^22^{k+d}).
+\end{align*}
+gives $d=\lg n+2\lg\prc{\ep}+O(1)$ is fine.
+
+%We want to avoid $\ge \fc{\ep}$
+\end{proof}
+\item
+\begin{lem}
+\begin{enumerate}
+\item (Leftover hash)
+Let $\{H\}$ be a $2^{m+n}$-size family of pairwise independent hash functions. Then 
+\[
+(x\mapsto H(x)\circ H):B^n\times B^{n+m}\to B^{2m+n}
+\]
+is a $(k,\ep)$ extractor when $m=k-2\lg\prc{\ep}$.
+\item (Random walks on expanders)
+There is an explicit $(k,\ep)$-extractor 
+\[
+B^n\times B^{t=O(n-k+\lg \rc{\ep})}\to B^n.
+\]
+\end{enumerate}
+\end{lem}
+\begin{proof}
+\begin{enumerate}
+\item
+The collision probability is at most 
+\[
+\ub{2^{-\ell}}{H=H'}(\ub{2^{-k}}{x=x'}+\ub{2^{-m}}{x\ne x' \text{ and }H(x)=H(x')}).
+\]
+Now use C-S: $\De=\rc2\ve{p-1}_1\le \rc22^{\fc{m+\ell}2}\ub{\ve{p-1}_2}{2^{-\ell-k}}$.
+\item Take a $(2^n,d,\rc2)$-expander. We need $\lg d$ bits for each step, and it takes $\lg\prc{\ep}$ to get approximately uniform, and $\fc{n-k}2$ more steps to get boundable by $L^1$ not just $L^2$ (the $-\fc{n}{2}$ term is needed to cancel factor in C-S; $-\fc k2$ kills the term $2^{-\fc k2+1}$ that comes from $\ve{p-1}_2$). 
+\end{enumerate}
+\end{proof}
+\item We want an extractor with a seed of $O(\lg n)$ that extracts from $(n,n^\ep)$-source a polynomial number of bits. 
+Some observations:
+\begin{enumerate}
+\item For extractors we want unconditional results; PRG's rely on unproven hardness approximations. For a generator, the ``adversary/distinguisher" is computationally limited algorithms, while for a extractor, it's all Boolean functions.
+\item PRG's can be thought of as having 2 inputs: short seed and the truth table of candidate hard $f$.
+\item Proofs for PRG's given hard $f$ are constructive: (contrapositive) a distinguisher as a black box gives a circuit computing $f$.
+\end{enumerate}
+Theorem 21.28 summary: given $S$, there is an algorithm $G$ turning $f$ into a candidate PRG $G$, and $R$ transforming any distinguisher for $G$ into an algorithm (taking advice) for $G$. 
+\fixme{Why does it take advice?}
+This gives a $(k,\rc5)$-extractor $B^{n=2^\ell}\times B^{c\ell}\to B^{k^{\rc c}}$. (Seed of $\lg n$ to produce power-many bits.) \fixme{Don't understand this so well. ?? Random $f$ are ``hard" so making a PRG $G^f$ from $f$ means that we can't have a distinguisher for this {\it even giving advice}. But $f$ is chosen from a $2^k$ set...} The construction of $G$ was (1) amplifying hardness through list decodable ECC (smearing out randomness over the entire string) and (2) using Nisan-Wigderson generator (turing average hardness into PRG).
+\end{enumerate}
+\section{Proofs of PCP theorems and Fourier transform technique}
+\section{Why are circuit lower bounds so difficult?}
+
+\begin{enumerate}
+\item
+Define a natural proof. Give examples of natural proofs used to prove lower bounds.
+\item Show that natural proofs cannot prove P$\ne$NP.
+\end{enumerate}
+
+\begin{df}
+Let $C_1$ be a complexity class (for example P) and $C_2$ be a nonuniform circuit complexity class (for example P/poly).
+A property 
+\bal
+F_n:B^{B^n}&\to \{0,1\}\\
+P_n&=F_n^{-1}(1).
+\end{align*}
+(think of 0 as meaning ``simple" and 1 as meaning ``complex")
+is $C_1$-\textbf{natural} against $C_2$ if
+\begin{enumerate}
+\item
+(largeness) $\Pj(P_n)\ge \rc{2^{O(1)}}$ (or more strongly, $\rc n$, which makes the result true under weaker conditions)
+\item
+(useful for $C_2$) if $(f_{n_i})\in P_{n_i}$ (eventually) then $(f_{n_i})\nin C_2$.
+\item (natural for $C_1$, constructivity)
+$F_n$ is computable in class $C_1$. (When $C_1=$P, this is $\poly(2^n)=2^{O(1)}$.)
+\end{enumerate}
+\end{df}
+Two examples of natural proofs.
+\begin{enumerate}
+\item
+The following is P-natural against $AC^0$:
+Let $P$ be ``there exists a restriction on $n-n^{\ep}$ variables such that $f$ reduces to the constant function." \fixme{$\ep$ fixed or varying?}
+\item 
+The following is $NC^2$-natural (because rank can be calculated in $NC^2$) against $ACC^0[3]$: For $f$ let $\wh f$ be the multilinear polynomial over $\F_3$ that represents $f$. Let 
+\[
+P=\set{f}{\dim\spn(\set{\wh fl_1+l_2}{l_1,l_2\text{linear degree }\le \fc n2})\le \fc 34 2^{n}}.
+\]
+\end{enumerate}
+\begin{thm}[No natural proofs]
+If there exists a natural property, then there does not exist a $(2^{n^{\ep}},2^{n^{-\ep}})$ pseudorandom function family $R_n: B^n \to (B^{n^c}\to B)$ for any $\ep>0$, and hence there does not exist a $(2^{n^{\ep}}, 2^{n^{-\ep}})$ one-way permutation.
+(If we strengthen strongness to $\rc n$ above, then we get $(2^{n^{\ep}}, n^{\om(1)})$ here.)
+\end{thm}
+The basic idea is that a natural property would give a way to distinguish between a function from a PRFF and a random function, thus breaking it.
+\begin{proof}
+PRFF vs. OWP: First note by Goldreich-Levin that a one-way permutation gives a PRFF (steps: show that a $(t,\ep)$-OWP gives a $(Ct\fc{n^2}{\ep^2}, \ep)$-PRG of stretch 1. Repeat to get stretch $2n$, and then use the fact that  secure PRG of stretch $2n$ gives a PRFF. 
+
+Run $F_n$ on the output of a PRFF. We have
+\bal
+\Pj_k(F_n(R_n(k))=1)&=0\\
+\Pj_f(F_n(f)=1)&\ge \rc{2^{O(1)}}.\\
+\end{align*}
+because $R_n(k)\in P$/poly and (2) $F_n$ is useful for P/poly, and (3) $P_n$ is large. Thus the difference in acceptance probabilities is $>\rc{2^{n^{\ep}}}$, breaking the PRFF.
+\end{proof}
+
+Note discrete-log is thought to be a OWP. 
+
+How to overcome the natural proofs barrier? Arora: try to sacrifice property 3, i.e., use nonconstructive proof methods.
+
+\section{Polynomial method}
+(Following Dvir's notes)
+\subsection{}
+\subsection{}
+\subsection{Counting incidences over finite fields}
+\begin{enumerate}
+\item
+Define a $(k,\ep)$-extractor. Show that there exist deterministic extractors for $k\sim \lg n, \ep$ fixed, $t=2$. 
+
+Show that the inner product extractor works for min-entropy $>n/2$.
+\item
+State the Szemeredi-Trotter theorem over finite fields, and compare it to over Euclidean space. Give a bound on $|A+BC|$ (state the conditions you assume) and its application to extractors.
+\item Give a 2-source extractor.
+\end{enumerate}
+
+\begin{enumerate}
+\item
+Extractors transform weak to strong randomness. 
+Given that $X$ is random over $S\subeq B^n$, an extractor is $f:(B^n)^t\to B^k$ such that for all $X_i$ all independent with $H_{\iy}>k$, $f(X)$ is $\ep$-close to uniform distribution.
+See \S21.
+
+\item
+\begin{thm}[Finite field ST]
+Given $N$ lines and points in $\F^2$, \blu{if for some $\al>0$, $p^\al<N<p^{2-\al}$}, then $|I(P,L)|\precsim N^{\fc 32-\ep(\al)}$.
+\end{thm}
+Note this is weaker than ST which has $\precsim N^{\fc 43}$ by cell decomposition.
+\begin{proof}
+\begin{enumerate}
+\item
+Understand growth in $\F_p$.
+\begin{enumerate}
+\item
+For $A\subeq \F$ there exists $\la\in \F$ such that $|A+\la A|\ge \rc{2}\min(|A|^2,p)$. 
+
+Note on proof: Instead of trying to do an averaging argument on $b\in A+\la A$ (which fails because you're counting $(\la,y)$ for which there exist $a,b$ with $a+\la b=y$, rather than just 4-tuples in a straightforward way), do an averaging argument on collisions $Q(A,B)$.
+\item
+$|3\cdot A^2-3\cdot A^2|\ge \rc 2\min(|A|^2,p)$.
+
+Proof: divide into 2 cases based on whether $\fc{A-A}{A-A}=\F$.
+
+(Actually we can prove something stronger. Using Pl\"unnecke-Ruzsa, we can prove there exists $a\in \pm A$ such that $|B+aA|\ge c|A|\min(|A|^{\de},\pf{p}{|A|}^\de)$. More work gives a sum-product theorem.)
+\item Iterating gives: $\forall k \exists \de(k), |A|\le p^{\de}\implies |k\cdot A^k-k\cdot A^k|=\F$.
+\item $|A|\in [p^\al,p^{1-\al}],|T|\ge p^\be \implies \exists \la\in T, |A+\la A|\ge |A|^{1+c(\al,\be)}$.
+\end{enumerate}
+\item Upgrade using BSG to: $E(A,\la A)\ge |A|^{1+c(\al,\be)}$. 
+
+Proof: We want $\exists T$ with $E(A,\la A)$ large. Prove: if energy small for all $\la\in T$ then there is subset with small expansion: $(\forall \la\in T,E(A,\la A)\le K|A|)\implies (\exists A'\subeq A,T'\subeq xT,...,|A'+\la A'|\le K^c|A'|)$.
+
+Use BSG to find $X_\la,Y_\la$ so that $|X_\la +\la Y_\la|$ small. Find some $\la_0,T'$ so $X_{\la_0}$ has large intersection with $X_{\la}$ for all $\la\in T'$. Use Ruzsa calculus to show $\la_0$ works.
+\item Reductions: using Markov and C-S, can assume all $P(\ell)\stackrel{\in}{\approx} (N^{\rc2-2\ep},N^{\rc2+2\ep})$  with $I\ge N^{\fc 32-3\ep}$.
+\item Reduce to when $P\subeq A\times B$, $|A|,|B|\le N^{\rc2}$ as follows: by double-counting find $p_0,p_1$ such that there are $\ge N^{1-c\ep}$ points on the intersections of lines through $p_0$ and through $p_1$. Think of $\F^2$ in projective space; apply a transformation to send $p_0\mapsto (1:0:0),p_1\mapsto (0:1:0)$.
+\item Count $\{(p_1,p_2,l)\in P\times P\times L\}$ to find 2 $y$-coordinates $y_1,y_2$ for which there are $\ge n^{2-c\ep}$ lines intersecting them both. Restrict to those lines and points. Now find a large set of $y$-coordinates for which there are many points. We get FOR ALL $b\in B'$, that $E(A,\fc{b}{1-b}A)$ is small, contradicting growth in energy.
+\end{enumerate}
+\end{proof}
+
+\begin{thm}
+$A,B,C$ with size in $(p^\al,p^{1-\al})$. Then $|A+BC|>N^{1+\ep(\al)}$.
+
+Proof: Count collisions ($L^2$ norm of $\mu_{A+BC}$), keep only $x$'s with large number of collisions, view as incidence problem.
+\end{thm}
+\item Define bias (discrepancy). By C-S show bias$(A,B)\le bias(4\cdot A,4\cdot B)^{\rc{16}}$.
+
+Idea: use the inner product extractor but on a surface which does not admit hyperplanes, $(x,x^2)\subeq \F^3$. Again bound collisions ($L^2$) instead. The small terms don't matter. There aren't many $(x,y)$ with a large solution set $a_1+\cdots +a_4=x,\ldots$. Make the 2nd equation not quadratic in $a_4$, substitute $a_4$, fix $a_3$, and apply incidence.
+\end{enumerate}•
+\subsection{Kakeya sets}
+\begin{enumerate}
+\item
+Given X, Y such that one is uniform and the other dependent, using a small number of random bits construct create a rv that is close to uniform. Discuss. How can we use the polynomial method when we're working with entropy rather than sets?
+\end{enumerate}
+\begin{enumerate}
+\item
+Consider  FK where K is a Kakeya set. $stx + sy(x)$ lands in M with high probability.
+If small Kakeya set, then $aX+bY$ could be far from uniform.
+4.3.2 bounds min-entropy rate of $aX+bY$.
+\end{enumerate}•
+\subsection{Sylvester-Gallai type problems}
+\begin{enumerate}
+\item
+Define a SG-configuration. How does the size of the smallest SG configuration grow with the dimension of the configuration? Explain how to obtain the bound for $\F_2$ using the edge isoperimetric inequality.
+\item
+Define a $(r,\delta)$-LCC, and explain the connection with SG configurations. What is the difference morally between ECCs and LCCs?
+\end{enumerate}
+\begin{enumerate}
+\item
+For any 2 points, there's a 3rd dependent.
+Exponentially with $d$.
+Edge isoperimetric: in $\F_2$, at most $|S|\lg|S|$ edges. 
+Compare with $e_i, 1\le i\le d$. Get $d|S|\ge |S|\lg |S|$.
+\item
+Given $i\in [n]$, recover $i$th coordinate of unique closest $y\in C$ by looking at a small random sample of points. 
+$(r,\de)$-LCC: $\dim\spn v_i = d$, for all $i\in [n], S\subeq [n], |S|\le \de n$ (if at most $\de$ error rate), then there is a small set outside errors $R\subeq [n]\bs S$ such that $v_i\in \spn\set{v_j}{j\in R}$.
+Knowing the value of a linear function on the $v_j$, can eval at $v_i$. 
+%Most codes are LCC's, but not ECC's.
+\end{enumerate}
+
+\section{Arithmetic circuits}
+
+\subsection{Introduction}
+\begin{enumerate}
+\item
+Basics
+\begin{enumerate}
+\item
+PERM is VNP-complete (under projection).
+\item DET is VQP-complete. 
+\item 
+Arithmetic circuits are shallow. VP$=$VNC${}^2$.
+\item (Lower bound for permanent) If a $n$-permanent is a projection of a $m$-determinant, then $m\ge \fc{n^2}{2}$.
+\end{enumerate}
+\item
+We know stuff about $\Si\Pi\Si$, but not much about $\Si\Pi\Si\Pi$. Any subexponential circuit can be made depth 4.
+
+Note: %in 2.4: 
+Multilinear means every node computes a multilinear polynomial (so $x^2-x^2$ not allowed). Syntactically multilinear means no overlap between variable dependencies (ex. $(x_1-x_1+x_2)x_1$ is not allowed).
+\item Computing $f$ is equivalent to also computing $\pa{\pd{f}{x_i}}_i$. Division is not necessary. 
+There are no strong lower bounds for bounded depth (e.g. $n^{2+\ep}$ for depth 4).
+
+Techniques: present as $\Si\Pi$ of something simpler, or use partial derivatives.
+\item
+PIT gives lower bounds. Deterministic PIT for $d=4$ gives quasipolynomial time for PIT for general arithmetic cirucits. 
+
+$\Si^k\Pi\Si$, learning...
+\end{enumerate}
+
+Note: ``child" (not parent!) of $v$ means an input of $v$.
+\subsection{Structural results}
+\begin{enumerate}
+\item Define normal homogeneous form. How can we homogenize?
+\item How small can a universal circuit be? 
+\item Show that computing $f$ is equivlent to computing partial derivatives.
+\item
+Give a result on depth reduction.
+\end{enumerate}
+\begin{enumerate}
+\item
+Normal homogeneous form:
+\begin{enumerate}
+\item
+No constants on input.
+\item
+1st level is $+$.
+\item Output gates are $+$.
+\item $+/\times$ alternate.
+\item $\times$ has fan-in 2.
+\item $+$ has fan-out 1.
+\end{enumerate}
+\begin{lem}[Homogenization]
+\begin{enumerate}
+\item
+There is a circuit of size $O(r^2s)$ computing $H_0(f),\ldots, H_r(f)$. 
+\item
+Given a formula, there is a circuit of size $\poly(s)\binom{r+O(\lg s)}{r}$ computing $s$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+\begin{enumerate}
+\item
+Separate each gate into $(v,0),\ldots, (v,r)$ (factor of $r$), and define product gates to be sums of products (factor of $r$).
+\item \fixme{Assume $O(\lg s)$ depth. (See depth reduction.)} Replace $v$ by $(v,\chi), \chi:[0,d]\to [0,r]$  where $d$ is the number of $\times$ on a path to output (not including itself). %$\chi_\ell$ tells us the value of 
+This separates each node into nodes each used once.
+\end{enumerate}•
+\end{proof}
+\item
+\begin{thm}
+Construct in time $\poly(r,s)$ a normal-homogeneous-form circuit with $O(r^4s)$ nodes universal for circuits of size $s$ that compute homogeneous polys of degree $r$.
+\end{thm}
+\begin{proof}
+By homogenizing we can get $H_i(f)$ in $(O(r),O(r^2s))$.
+ 
+Each $+$ is connected to all previous $\times$'s with gadgets that can turn them on or off. For $\times$, similar (but have to make a log-depth tree of $\times$ to make fan-in still 2, this affects size by a constant factor). This gives factor of $r^2$.
+\end{proof}
+\item
+\begin{thm}
+There is a circuit of $O(s)$ size computing all $f_{x_i}$.
+\end{thm}
+\begin{proof}
+Induct. Treat a level-1 gate $f_v$ as input; take derivative wrt it. Now use chain rule; note $\pl_{x_i}f_v$ can be computed in constant time. (fan-in 2 for $\times$ used here)
+\end{proof}
+An analog for 2nd order would give a $n^2$ circuit for matrix multiplication.
+\item
+Formula depth reduction: To $O(\lg s)$, size $\poly(s)$.
+
+Idea: In a multiplication gate, if we take $\pl_w$ where $w$ has large degree, then one factor has trivial $\pl_w$. (Claim 2.1.2: $\deg(v_1)\ge \deg(v_2),\deg(w)>\fc{\deg(v)}{2}$ gives $\pl_wf_v=f_{v_2}\pl_wf_{v_1}$.
+
+Proof: Define ``size" as number of input gates. Let $v$ be root, $w$ be some vertex with medium $\Phi_w$, $\in [\fc s3,\fc{2s}3]$. Write $f=(\pl_w f_v)f_w+f_{v,w}|_{y=0}$; each poly is $\le \fc{2s}3$. \blu{Where do we use it's a formula? $f_{v,w}$ is linear in $y$.}
+
+Generalization: instead of choosing one $w$, we need to consider a set of $w$ which we call $\cal G_m$, and write $f_v$ in terms of those.
+
+\begin{thm}[Depth reduction, 2.7]
+For every homogeneous degree $r$ poly $f$, there is a homogeneous $\poly(r,s)$-size circuit with
+\begin{enumerate}
+\item
+$\Psi$ has alternating levels of sum and product gates.
+\item 
+Each product gate is product of $\le 5$ polys of degree $\le \fc{2\deg(v)}{3}$. (So number of levels is $O(\lg r)$.)
+\end{enumerate}
+\end{thm}
+\begin{proof}
+Idea: At each stage, compute $f_v$ for $\deg v\in (2^{i-1},2^i]$ with some {\it extra information} $\pl_wf_v$, $\deg v - \deg w\in (2^{i-1},2^i]$, $\deg w>\fc{\deg v}{2}$. Key point: $f_v$ can be calculated using just the $f_{v'},\pl_wf_{v'}$ from the {\it last} step.
+
+Claim: Let $\cal G_m$ be multiplication gates with children $t_1,t_2$ with $m<\deg t$ and $\deg(t_1),\deg(t_2)\le m$. Then $\deg (w)\le m<\deg(v)\le 2\deg (w)$ gives 
+\[
+f_v=\sum_{t\in \cal G_m}f_t\cdot \pl_tf_v,\qquad \pl_wf_v=\sum_{t\in \cal G_m} \pl_wf_t\cdot \pl_tf_v.
+\]
+Proof: induct.
+\end{proof}
+Can obtain reduction to depth 4. (2.9)
+\item Division gates
+%\item
+%first prove
+%that polynomials that are computed by the underlying circuit class poses some \simple" structure.
+%This \simple" structure will help us to understand and isolate the \weaknesses" of that circuit class.
+%The lower bound will then follow by constructing an explicit polynomial that does not admit this
+%\simple" structure.
+\end{enumerate}
+\fixme{Converting circuit to formula---what's the blowup?}
+
+\subsection{}
+
+\subsection{Polynomial identity testing}
+
+\begin{enumerate}
+\item
+Why is PIT important? What are two models?
+\end{enumerate}
+\begin{enumerate}
+\item
+In algorithms: parallel algorithms for finding perfect matchings, primality testing, ROBP equivalence, IP$=$PSPACE, MIP$=$EXPTIME, PCP theorem. 
+
+Interpolation/learning for sparse polynomials.
+\begin{enumerate}
+\item
+black-box model (needs a test set)---allow a polynomially large extension field.
+\item 
+white-box model (see polynomials at gates)
+\end{enumerate}
+Difficulty with PIT: Converting an implicit representation to
+an explicit one requires, in general, exponential time.
+
+Ex. AKS algorithm: $(X+a)^n-X^n-a\equiv 0\pmod n$ for special values of $a$.
+
+Relations with circuit lower bounds.
+\begin{enumerate}
+\item
+If PIT can be solved
+deterministically in the black-box model, then there exists an ``explicit" polynomial that requires
+exponential size arithmetic circuits. 
+\item
+An effcient deterministic algorithm for PIT, even in the white-box model, implies that NEXP does
+not have polynomial size arithmetic circuits.
+\item
+A super-polynomial lower bound for the size of arithmetic circuits yields a deterministic
+sub-exponential time algorithms for PIT.
+\end{enumerate}•
+
+PIT has coRP but no known deterministic sub-exponential time algorithm.
+\item
+A \vocab{generator} $\mathcal G$ for a circuit class $\cal M$ is such that for all $f\in \cal M$ nonzero, $f\circ \mathcal G\ne 0$. A \vocab{hitting set} $\cal H$ has: for every $0\ne f\in \cal M$, there is $a\in \cal H$ with $f(a)\ne 0$.
+
+\begin{lem}
+\begin{enumerate}
+\item
+If hitting set, then (in time poly$(|\cal H|,n)$) generator with $t=\ce{\log_n|\cal H|}$.
+\item
+If generator for class with $\deg\le D$ and $\cal M$ has $\deg\le D$, then hitting set $\cal G(S^t)$, for any $|S|>rD$, $\cal H=\cal G(S^t)$. Proof: Combo Nullstellensatz. (Multiply $r,D$ because we want $f\circ \cal G$ not to be 0 on $S^t$.)
+\end{enumerate}
+\end{lem}
+Observations.
+\begin{enumerate}
+\item
+Note if $\cal G$ fools $f,g$ it fools their product.
+\item Let $\cal G^I$ be the same as $\cal G$ except with $i\in I$ replaced by $x_i$. 
+\item Adding generators for 2 circuit classes gives a generator for both on $\F^{t'+t''}$.
+\end{enumerate}
+For $|\F|\ge \max(r^2,s)$, there is $\cal H\subeq \F^n$ of size $|\cal H|=\poly(r,s)$ that is a hitting set for all circuits of size $\le s$ and $\deg \le r$. 
+
+Proof: Schwartz-Zippel, union bound over $|\F|^{2s}s^{2s}$ arithmetic circuits, let $\cal H$ be of size $O(rs)$.
+
+\fixme{Over infinite fields?}
+
+Chen-Kao: Randomized algorithm using $\sum_{i=1}^n \ce{\ln(r_i+1)}$ random bits and time $\poly(\rc\ep (L+r\lg(n\lg r)))$. Idea: Use $\sum\pm\sqrt{p_i}$, and estimate to high precision.
+\item 
+\end{enumerate}
+
+\section{Pseudorandomness}
+
+\subsection{}
+\subsection{The power of randomness}
+\begin{enumerate}
+\item
+Give randomized algorithms for (a) polynomial identity testing, (b) undirected s-t connectivity, (c) $(1+\ep)$-approximate \#DNF. What about directed s-t connectivity?
+\item What is the relationship between promise BPP/P and regular BPP/P?
+\end{enumerate}
+\subsection{Basic derandomization techniques}
+\begin{enumerate}
+\item
+Fill in the following table. Suppose in the upper half you want to reduce error probability from $\rc3$ to $2^{-k}$.
+
+\begin{tabular}{|c|c|c|}
+\hline 
+ & Number of repetitions & Number of random bits\tabularnewline
+\hline 
+Independent repetitions &  & \tabularnewline
+\hline 
+Pairwise independent repetitions &  & \tabularnewline
+\hline 
+ & Number of samples & \tabularnewline
+\hline 
+Truly random sample &  & \tabularnewline
+\hline 
+Pairwise independent repetitions &  & \tabularnewline
+\hline 
+\end{tabular}
+
+\end{enumerate}
+
+\begin{tabular}{|c|c|c|}
+\hline 
+ & Number of repetitions & Number of random bits\tabularnewline
+\hline 
+Independent repetitions & $O(k)$ & $O(km)$\tabularnewline
+\hline 
+Pairwise independent repetitions & $O(2^{k})$ & $O(m+k)$\tabularnewline
+\hline 
+ & Number of samples & \tabularnewline
+\hline 
+Truly random sample & $O\pa{\prc{\ep^2}\lg\prc{\de}}$ & $ O\pa{m\prc{\ep^2}\lg\prc{\de}} $\tabularnewline
+\hline 
+Pairwise independent repetitions & $ O\pa{\prc{\ep^2}\prc{\de}}$ & $O\pa{m+\lg\prc{\ep}+\lg\prc{\de}}$\tabularnewline
+\hline 
+\end{tabular}
+
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}
