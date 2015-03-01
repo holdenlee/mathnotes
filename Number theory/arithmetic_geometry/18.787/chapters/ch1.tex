@@ -1,0 +1,539 @@
+\lecture{Thu. 9/6/12}
+
+Course website: \url{http://math.mit.edu/\~swshin/Fall12-18787}
+
+\subsection{Overview}
+
+In this course, we will cover abelian varieties and $p$-divisible groups, also known as Barsotti-Tate groups. We first build some basic knowledge and apply it to some interesting problems in number theory. Our main reference is Abelian Varieties, by Mumford. We will
+\begin{enumerate}
+\item
+{\it classify} abelian varieties over finite fields $\F_p$ and algebraic closures  of finite fields $\ol{\F_p}$ (Honda-Tate Theory). We will also classify $p$-divisible groups up to isogeny (Dieudonn\'e, Manin).
+
+With some more work, we can get classification up to isomorphism.
+
+Studying a variety over finite fields helps us understand abelian varieties over global fields, because when we study a global problem, one way to get information is to reduce modulo a prime and study over the variety over the special fiber.
+
+%$\ol{\Q_p}$. How do we ? Deformations.
+\item
+go from characteristic $p$ ($\F_p$) to characteristic 0 (e.g. $\Q_p$) using {\it deformations}.\footnote{Note: we ran out of time to actually cover this.}
+\begin{itemize}
+\item
+The Serre-Tate Theorem will tell us that deformations of abelian varieties are basically deformations of $p$-divisible groups.
+\item
+The theory of Grothendieck-Messing will reduce deformations of $p$-divisible groups to some linear algebra.
+\end{itemize}
+\end{enumerate}
+To understand abelian varieties and $p$-divisible groups, we first need to understand group schemes. An abelian variety is a special type of group scheme, while a $p$-divisible group is an inductive limit of group schemes.
+
+\subsection{Review: Yoneda Lemma and $T$-valued points}
+This is not part of the lecture. I include this section as a reference.
+\subsubsection{The Yoneda Lemma}
+\begin{lem}[Yoneda Lemma]\llabel{lem:yoneda}
+Let $ \mathcal C$ be a locally small category.  Let $ h_A$ denote the functor $ \text{Hom}(\bullet, A): \mathcal C\to \text{(Sets)}$ and $ h^A$ denote the contravariant functor $ \text{Hom}(A,\bullet)$ (i.e. it is a functor $ \mathcal C^{\text{op}}\to \text{(Sets)}$).
+\begin{enumerate}
+\item 
+(Covariant version) Let $ F$ be functor from $ \mathcal C$ to (Sets). As functors $ \text{(Set)}^{\mathcal C}\times \mathcal C \to \text{(Set)}$, we have $ \text{Nat}(h^A,F)\cong F(A)$.  ($ F$ is in $ \text{(Set)}^{\mathcal C}$, $ A$ is in $ \mathcal C$, and $ \text{Nat}(h^A,F)\cong F(A)$ is a set.)
+\item 
+(Contravariant version) Let $ F$ be a contravariant functor from $ \mathcal C$ to (Sets). As functors $ \text{(Set)}^{\mathcal C^{\text{op}}}\times \mathcal C \to \text{(Set)}$, we have $ \text{Nat}(h_A,F)\cong F(A)$.
+\end{enumerate}
+\end{lem}
+\begin{cor}[Yoneda Embedding]\llabel{cor:yoneda}
+\begin{enumerate}
+\item
+The embedding $ h^{\bullet}:\mathcal C^{\text{op}}\to \text{(Set)}^{\mathcal C}$ given by sending $ A\mapsto h^A=\text{Hom}_{\mathcal C}(A,\bullet)$ is fully faithful. (The morphism $ f:A\to B$ gets sent to $f\circ \bullet$.)
+\item
+The embedding $ h_{\bullet}:\mathcal C\to \text{(Set)}^{\mathcal C^{\text{op}}}$ given by sending $ A\mapsto h_A=\text{Hom}_{\mathcal C}(\bullet,A)$ is fully faithful. (The morphism $ f:A\to B$ gets sent to $\bullet\circ f$.)
+\end{enumerate}
+\end{cor}
+\begin{rem}
+\begin{itemize}
+\item
+A category is \textbf{locally small} if homomorphisms between any two objects form a set.
+\item 
+$ \text{(Set)}^{\mathcal C^{\text{op}}}$ is the category of \emph{contravariant functors} $ \mathcal C\to \text{(Set)}$.
+\item
+$ \text{Hom}(A,B)$ has just the structure of a set.
+\item
+$ \text{Nat}(G,F)$ denotes the set of natural transformations between $ G$ and $ F$.
+\item
+A functor $ \Phi$ is \textbf{fully faithful} if $ \Phi_{A,B}:\text{Hom}(A,B)\to \text{Hom}(\Phi(A),\Phi(B))$ is bijective for any objects $ A$ and $ B$. This basically means that $ \Phi$ embeds the first category into the second, and there aren't any ``extra" maps between embedded objects that are present in $ B$ but not $ A$.
+\item
+We say a functor $ F:\mathcal C\to \text{(Set)}$ is \textbf{representable} if $ F\cong h^A$ for some $ A$ (and ditto for the contravariant case).
+\end{itemize}
+\end{rem}
+\begin{proof}[Proof of Corollary~\ref{lem:yoneda}]
+We show (2) of the lemma implies (2) of the corollary; (1) is entirely analogous. Set $ F=h_B$ to get
+\[\text{Nat}(h_A,h_B)\cong h_B(A).\]
+Now a natural transformation is just a morphism in the functor category, so $ \text{Nat}(h_A,h_B)=\text{Hom}_{\text{(Set)}^{\mathcal C^{\text{op}}}}(h_A,h_B)$, and by definition $ h_B(A)=\text{Hom}(A,B)$, so we get
+\[\text{Hom}_{\text{(Set)}^{\mathcal C^{\text{op}}}}(h_A,h_B)\cong \text{Hom}(A,B).\]
+This is exactly the condition to be fully faithful.
+\end{proof}
+One way to think of this is that an object is determined by how other objects map into it.\footnote{As mentioned here~\url{http://mathoverflow.net/questions/3184/philosophical-meaning-of-the-yoneda-lemma/3223\#3223}, if one thinks of objects of a category as particles and morphisms as ways to smash one particle into another particle, then the Yoneda lemma says that it is possible to determine the identity of a particle by smashing other particles into it.}
+\subsubsection{$T$-valued points}
+\begin{df}
+Let $X$ and $T$ be objects in a locally small category. Define the set of \textbf{$T$-valued points} of $X$ to be
+\[
+T(X):=\Hom(T,X).
+\]
+\end{df}
+In many cases we can think of ``$T$-valued points" as a generalization of ``points" of $X$. For example, suppose $T$ is a singleton set $\{\cdot\}$ and $X$ is a set, then a $T$-valued point is just a point of $X$.
+
+The main application to algebraic geometry can be seen through the following example.
+\begin{ex}\llabel{ex:T-points}
+Let $R$ be an integral domain and $V$ a variety over $R$. Let $T=\Spec(R)$ and $X$ be the scheme corresponding to $V$. Then the $T$-points of $X$ are exactly the points of $V$.
+
+%WHY?
+To see this, it's sufficient just to consider the affine case. Suppose $V\in R^n$ is defined by $f_1,\ldots, f_m$. By Lemma~\ref{lem:spec-fff}, to give a morphism
+\[
+T=\Spec(R)\to X=\Spec\pf{R[x_1,\ldots, x_n]}{(f_1,\ldots, f_m)}
+\]
+is the same as giving a $R$-algebra homomorphism
+\[
+\fc{R[x_1,\ldots, x_n]}{(f_1,\ldots, f_m)}\to R,
+\]
+which is just an assignment
+\[
+(x_1,\ldots, x_n)\mapsto (a_1,\ldots, a_n) \text{ such that }f_i(x_1,\ldots, x_n)=0\text{ for some }i,
+\]
+i.e. a point of $V$.
+\end{ex}
+\begin{lem}[cf. Hartshorne, II, Exercise 2.4]\llabel{lem:spec-fff}
+Let $R$ be a ring. Then $\Spec$ is a fully faithful contravariant functor from the category of $R$-algebras to schemes over $\Spec(R)$.
+%any finiteness condition?
+\end{lem}
+Example~\ref{ex:T-points} is the most intuitive example. However, the power of the viewpoint of $X(T)$ is that we can consider more generalized points. For instance, letting $R$ be a field $k$,
+\begin{itemize}
+\item
+a $\Spec(k[t])$ point is a one-parameter family of $k$-points, and
+\item
+a $\Spec\pf{k[t]}{(t^2)}$ point is a $k$-point with a Zariski tangent vector.
+\end{itemize}
+\cpbox{
+The Yoneda Embedding tells us that we can identify a scheme $X$ with the \textbf{functor of points} $h_X(\bullet)=X(\bullet)$---i.e. with $X(T)$, the $T$-points of $X$, as $T$ ranges over all schemes---without losing any information. A functor $X\to Y$ becomes a natural transformation $h_X=X(\bullet)\to h_Y=Y(\bullet)$, i.e. maps of sets $X(T)\to Y(T)$ for each $T$, that are functorial over $T$.
+}
+\vskip0.15in
+
+\subsection{Group schemes}
+\subsubsection{Definition of group schemes}
+We will define group schemes over a fixed scheme $S$.
+\begin{df}
+Let $S$ be a scheme. Define $(\text{Sch}/S)$, the category of \textbf{$S$-schemes}, as follows.
+\begin{itemize}
+\item
+The objects are schemes $T$ with a structure map to $S$, $\xymatrix{T\ar[d]\\ S}$.
+\item
+The morphisms are
+\[
+\Hom\pa{\vcenter{\xymatrix{T\ar[d]^f\\ S}},\vcenter{\xymatrix{T'\ar[d]^{f'}\\ S}}}=
+\set{g}{\vcenter{
+\xymatrix{
+T\ar[rr]^g\ar[rd]_{f} && T'\ar[ld]^{f'}\\
+& S &
+}}\text{ commutes}
+}
+\]
+called $S$-morphisms.
+\end{itemize}
+For short we'll write $\Hom_S(T,T')$, the maps $f,f'$ being implicit. 
+\end{df}
+
+We now apply the philosophy of the previous section: to study $X$ we study $h_X=X(\bullet)$.
+
+If $X\in (\text{Sch}/S)$ we get canonically
+\bal
+h_X:(\text{Sch}/S)&\to (\text{Sets})\\
+T&\mapsto \Hom_S(T,X).
+\end{align*}
+Since $T$ and $X$ are $S$-schemes, we define the $T$-points of $X$ to be $X(T):=\Hom_S(T,X)$. The functor $h_X$ sends \[(T\xra{f}T')\mapsto (\Hom_S(T,X)\xleftarrow{h_X(f)=\bullet \circ f} \Hom_S(T',X)).\] 
+
+The Yoneda Embedding~\ref{cor:yoneda} tells us that $h_{\bullet}$ is a fully faithful  %(essentially surjective) 
+contravariant functor
+\bal
+h_{\bullet}:(\text{Sch}/S)&\to \Fun\op((\text{Sch}/S),(\text{Sets}))=\pat{Sets}^{\schs\op}\\
+X&\mapsto h_X.
+\end{align*}
+We say $h\in \Fun\op((\text{Sch}/S),(\text{Sets}))$ is \textbf{representable} (by the scheme $X$) if $h\cong h_X$.
+
+We have several equivalent definitions for a group scheme. The Yoneda Embedding gives the equivalence of the 2nd and 3rd definitions.
+
+\begin{df}
+A \textbf{group scheme} $G$ over $S'$ any of the following three equivalent objects.
+\begin{enumerate}
+\item a group object in $(\text{Sch}/S)$, i.e. it is $(G,\wt{h_G})$ where $G\in \schs$ and the following commutes:
+\[
+\xymatrix{
+\schs\ar[rr]^{\wt{h_G}}\ar[rd]_{h_G}&& (\text{Gps})\ar[ld]^{\text{forgetful}}\\
+&\Set&
+}
+\]
+\item $(G,h_G)$ equipped with the following maps of sets
+\begin{itemize}
+\item
+$e_T$ (identity): $\{\cdot \}\to G(T)$
+\item
+$i_T$ (inverse): $G(T)\to G(T)$
+\item
+$m_T$ (multiplication): $G(T)\times G(T)\to G(T)$.
+\end{itemize}
+such that $G(T)$ is a {\it group} under these operations, namely,
+\begin{enumerate}
+\item (Associativity) The following commutes:
+\[
+\xymatrix{
+G(T)\times G(T)\times G(T)\ar[d]^{(\id,m_T)}\ar[r]^-{(m_T,\id)} & G(T)\times G(T)\ar[d]^{m_T}\\
+G(T)\times G(T)\ar[r]_{m_T} & G(T).
+}
+\]
+Note: This represents associativity because going clockwise we get $(xy)z$ and going counterclockwise we get $x(yz)$.
+\item (Inverse)
+%We have $xx^{-1}=x^{-1}x=1$. The following diagram commutes:
+\[
+\xymatrix{
+& G(T)\times G(T)\ar[rd]^{m_T} &\\
+G(T)\ar[ru]^{(\id,i_T)}\ar[r]^{\text{structure}} \ar[rd]_{(i_T,\id)}& G(S)\ar[r]^{e_T}& G(T)\\
+& G(T)\times G(T) \ar[ru]_{m_T}&
+}
+\]
+Note: The top, middle, and bottom give $xx^{-1}$, $e$, and $x^{-1}x$, respectively, so commutativity gives $xx^{-1}=e=x^{-1}x$.
+\item (Identity) Let $e_T':G(T)\to G(T)$ be the composition of the structure map with $e:G(S)\to G(T)$.
+\[
+\xymatrix{
+& G(T)\times G(T)\ar[rd]^{m_T} &\\
+G(T)\ar[ru]^{(\id,e_T')}\ar[rr]^{\id} \ar[rd]_{(e_T',\id)}& & G(T)\\
+& G(T)\times G(T) \ar[ru]_{m_T}&
+}
+\]
+Note: This gives $x\cdot e=x=e\cdot x$.
+\end{enumerate}%%%%
+
+and these group operations are {\it functorial}, namely for all $T\xra{f} T'$ in $\schs$, 
+\begin{itemize}
+\item
+\[
+\xymatrix{
+\{\cdot \} \ar[r]^{e_T} \ar[rd]_{e_{T'}}& G(T)\\
+& G(T')\ar[u]_{h_G(f)}
+}
+\]
+\item
+%Yoneda: same as giving map from G to G as scheme
+\[
+\xymatrix{
+G(T)\ar[r]^{i_T} & G(T)\\
+G(T') \ar[u]^{h_G(f)} \ar[r]^{i_{T'}} & G(T')\ar[u]_{h_G(f)}
+}
+\]
+%add'l data in addition to scheme G. equivalent def'n
+\item %Same for $m_T$.
+\[
+\xymatrix{
+G(T) \times G(T) \ar[r]^-{i_T} & G(T)\\
+G(T') \times G(T')\ar[u]^{h_G(f)} \ar[r]^-{i_{T'}} & G(T')\ar[u]_{h_G(f)}
+}
+\]
+\end{itemize}
+\item $(G,e,i,m)$ where $G\in \schs$, 
+\begin{gather*}
+e:S\to G\\
+i:G\to G\\
+m:G\times G\to G
+\end{gather*}
+and we have the analogues of the group laws in the 2nd definition, but with fiber product instead of product and with $e,i,m$ instead of $e_T,i_T,m_T$.
+\begin{enumerate}
+\item (Associativity)
+\[
+\xymatrix{
+G\times_S G\times_S G\ar[d]^{(\id,m)}\ar[r]^-{(m,\id)} & G\times_S G\ar[d]^m\\
+G\times_S G\ar[r]_m & G.
+}
+\]
+%One way we get $(xy)z$ (clockwise), the other way we get $x(yz)$. Tht the diagram is commutative is exactly the condition that we have associativity.
+\item (Inverse) %We have $xx^{-1}=x^{-1}x=1$. The following diagram commutes:
+\[
+\xymatrix{
+& G\times_S G\ar[rd]^m &\\
+G\ar[ru]^{(\id,i)}\ar[r]^{\text{structure}} \ar[rd]_{(i,\id)}& S\ar[r]^e& G\\
+& G\times_S G \ar[ru]_m&
+}
+\]
+%In the middle we get the identity element, above we get $xx^{-1}$ and below we get $x^{-1}x$. In requiring commutativity we get $xx^{-1}=1=x^{-1}x$.
+\item (Identity) Let $e':G\to G$ be the composition of the structure map with $e:S\to G$.
+\[
+\xymatrix{
+& G\times_S G\ar[rd]^{m} &\\
+G\ar[ru]^{(\id,e')}\ar[rr]^{\id} \ar[rd]_{(e',\id)}& & G(T)\\
+& G\times_S G \ar[ru]_{m}&
+}
+\]
+%Exercise. Play the same game: We want $x\cdot e=x=e\cdot x$.
+\end{enumerate}
+\end{enumerate}
+\end{df}
+
+% Note Yoneda tells us equivalent we can just give
+%\begin{gather*}
+%e:S\to G\\
+%i:G\to G\\
+%m:G\times G\to G.
+%\end{gather*}
+%\begin{df*} (Alternate definition)
+%
+%\end{df*}
+\begin{proof}[Proof of equivalence]
+The 1st and 2nd definition are equivalent: In the 2nd definition, the first set of conditions simply say $G(T)$ is a group, and the second set of conditions say that $\wt{h_G}$ is a functor; i.e. it sends the scheme morphism $f$ to a group homomorphism $\wt{h_G}(f)$.
+
+The 2nd and 3rd definitions are equivalent: We go between $G$ to $G(T)$ by the Yoneda embedding, and between $i,e,m$ and $i_T,e_T,m_T$ by
+\begin{itemize}
+\item 
+$i_T(f)=(h_T(f))(i)=i\circ f$.
+\item
+$m_T(f,g)=(h_T(f\times_T g))(m)=m\circ (f\times_S g)$.
+\item
+$e_T(f)=(h_T(f))(e)=e\circ f$.
+\end{itemize}
+%$h_G$ sends fiber products of schemes to products of sets. %why?
+\end{proof}
+%or as {\it $T$-points of those schemes} with group axioms on the sets of $T$-points, related in a compatible way as we vary $T$.}
+\vskip0.15in
+The 3rd definition is the scheme viewpoint, and the 2nd definition is the functor of points viewpoint. In the following examples, we'll see how to switch between these viewpoints.
+
+\subsubsection{Examples of group schemes}
+
+Let $G=\Spec A$ and $S=\Spec R$. Suppose $A$ is an $R$-algebra, so there is a natural structure map $G\to S$. We have by Lemma~\ref{lem:spec-fff} that $\Spec$ is a contravariant fully faithful functor from ($R$-algebras) to $(\text{Sch}/\Spec R)$:
+\[
+\xymatrix{
+\pat{rings} \ar[r]^{\Spec} &\pat{Sch}\\
+\pat{$R$-algebras}  \ar[r]_{\Spec}^{\text{f.f.}}\ha{u}& (\text{Sch}/\Spec R)\ha{u}
+}
+\]
+(Note the categories on the bottom are not full subcategories of the top.)
+%(Not full subcategories) Note $\Spec$ is fully faithful.
+As Lemma~\ref{lem:spec-fff} says,
+$S$-morphisms between schemes over $\Spec R$ are nothing but $R$-algebra homomorphisms in the opposite direction, so we can be more concrete. So giving $G=\Spec A$ a group scheme structure, i.e. giving $e,i,m$ for $G$, amounts to giving $R$-algebra maps (note $\Spec(A\ot_R A)=\Spec A \times_{\Spec R}\Spec A$)
+\begin{gather*}
+e:A\to R\\
+i:A\to A\\
+m:A\to A\ot_R A.
+\end{gather*}
+such that $R$-algebra version of (a), (b), and (c) hold. (Just invert all the arrows in (a), (b), and (c), and replace the rings with schemes. $A$ satisfying these axioms is called a \textbf{Hopf algebra}.)
+
+We can give some common, concrete examples of group varieties.
+\begin{ex}
+Define the additive group scheme $\G_{a,\Spec R}$ as follows. (First we consider the 3rd definition.) Let $A=R[t]$ and let $\G_{a,\Spec R}=\Spec A$ be the scheme with $e$, $i$, and $m$ induced by the $R$-algebra homomorphisms
+\bal
+e:R[t]&\to R & f&\mapsto f(0)\\
+i:R[t]&\to R[t] & f&\mapsto f(-t)\\
+m:R[t]&\to R[t']\ot_R R[t'']\cong R[t',t''] & f&\mapsto f(t'+t'') 
+\end{align*}
+(We abuse notation and let $e,i,m$ denote these maps and the corresponding morphisms on schemes.)
+
+%For instance, for $R=k$, on points the group operation is just addition. Indeed, the map $m$ gives $\Spec R[t',t'']\to \Spec R[t]$ that sends the ideal $(t'-a,t''-b)$ to $m^{-1}((t'-a,t''-b))=(t-(a+b))$, i.e. sends the point $(a,b)$ to the point $a+b$. 
+%\fixme{To what extent is this true for R not K?}
+Now we show that 
+\[\G_{a,\Spec R}(\Spec R')=(R',+)\text{ for any }R\text{-algebra } R'.\]
+To see this, let $T=\Spec R'$, and note that
+\begin{enumerate}
+\item As a set, $\G_{a,\Spec R}(\Spec R')$ is the set of $\Spec(R)$-morphisms $\Spec(R')\to \Spec(R[t])$, i.e. the set of $R$-algebra homomorphisms $f:R[t]\to R'$. These homomorphisms are bjiection with the elements of $R'$, by the map $f\mapsto f(t)$.
+\item To find the group structure, note that $m_T(f,g)=m\circ (f\times_S g)$. Suppose $f\in \G_{a,\Spec R}(T)$ corresponds to the point $a$ and $g\in \G_{a,\Spec R}(T)$ corresponds to the point $b$. Then
+\begin{align*}
+&&f:\Spec(R') &\to \Spec (R[t])& g:\Spec(R') &\to \Spec (R[t])\\
+\text{correspond to }&& R'&\lar R[t]& R'&\lar R[t]\\
+&&a&\mapsfrom t& b& \mapsfrom t.
+\end{align*}
+and we have 
+\[
+m\circ (f\times_{\Spec R} g):\Spec R'\xra{f\times_{\Spec R} g} \Spec R[t']\ot R[t'']=\Spec R[t']\times_{\Spec R}\Spec R[t''] \xra{m} \Spec R[t]
+\]
+corresponds to
+\[
+\xymatrix@R-24pt{R'& R[t']\ot_R R[t'']\ar[l] & R[t]\ar[l]^m\\
+& t'+t'' & t\ar@{|->}[l]\\
+a& t'\ar@{|->}[l] &\\
+b&  t''\ar@{|->}[l] &\\
+a+b& &t\ar@{|->}[ll]}
+\]
+%note that the multiplication law is given by the map $\varphi:\Spec(R')\times_{\Spec(R)} \Spec(R')\to \Spec(R')$ such that the following commutes:
+%\[
+%\commsq{\Spec(R')\times_{\Spec(R)} \Spec(R')}{\Spec(R[t])\times_{\Spec(R)}\Spec(R[t])}{\Spec(R[t])}{\Spec(R')}{m_{\Spec(R')}}{\ph\times_{\Spec(R)}}{m}{\ph},
+%\]
+%i.e. it corresponds to a map $f:R'\to R'\ot_R R'$ such that
+%\[
+%\xymatrix{
+%R'\ot_R R' & R[t]\ot_R R[t]\ar[l]\\
+%R'\ar[u] & R[r]\ar[l]\ar[u]
+%}
+%\]
+\end{enumerate}
+%Using the 2nd definition, $\G_{a,\Spec R}(\Spec R')$ consists of maps $\Spec R'\to \Spec R[t]$---i.e. maps $R[t] \to R'$, which together with the group axioms, means
+%\[
+%\G_{a,\Spec R}(\Spec R')=(R',+).
+%\]
+%(Check this.)
+\end{ex}
+The example shows the power of the ``functor of points" perspective of group schemes. We don't need to view $(R',+)$ as a different scheme for each $R'$. Instead we can realize that they come from the same gadget $\G_{a,\Spec R}(\bullet)$---the functor of points associated to the scheme $\G_{a,\Spec R}$.\\
+
+\cpbox{We can understand group schemes as {\it schemes} with group axioms on schemes, or as {\it functors of points} with group axioms on the set of $T$-points for each $T$.}
+\vskip0.15in
+%This gives a group scheme. \fixme{One view is to give a scheme, the other to equip points with structure.} The other view is $\G_{a,\Spec R}(\Spec R')=(R',+)$ as additive group. It's nice to be familiar with both viewpoints.
+%I DON'T UNDERSTAND THIS.
+%\end{ex}
+\begin{ex}
+Define the multiplicative group scheme $\G_{m,\Spec R}$ as follows.
+%$\G_{m,\Spec R}$ where 
+Let $A=R[t,t^{-1}]$; let $\G_{m,\Spec R}$ be the scheme with $e,i,m$ induced by the $R$-algebra homomorphisms
+\bal
+e:f&\mapsto f(1)\\
+i:f&\mapsto f(t^{-1})\\
+m:f&\mapsto f(t't''). 
+\end{align*}
+(Note 1 is the multiplicative identity so we look at $f(1)$ not $f(0)$.)
+
+We similarly get
+\[
+\G_{m,\Spec R}(\Spec R')=({R'}^{\times},\cdot).
+\]
+(When we consider $\Spec R'\to \Spec R[t,t^{-1}]$, i.e. maps $R[t,t^{-1}] \to R'$, the image of $t$ must be an invertible element.)
+\end{ex}
+
+\begin{rem}
+For any ring $R$, $\G_{a,\Spec R}\cong \G_{a,\Spec \Z}\times_{\Spec \Z} \Spec R$, by defining an isomorphism on the level of points. The same is true for $\G_{m,\Spec R}$.
+%WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+\end{rem}
+
+\begin{ex}
+To define the additive and multiplicative group schemes for general $S$, we need to use relative Spec. 
+%Zariski topology cannot \cO_S(T) (not open subset) \cO_S as sheaf on more general, then ok. \cO_T(T) fine.) Define %relative spec
+\bal
+\G_{a,S}&:=\ul{\Spec} (\cO_S[t])\\
+\G_{m,S}&:=\ul{\Spec} (\cO_S[t,t^{-1}]).
+\end{align*}
+with $e$, $i$, and $m$ defined similarly. (See  \url{http://en.wikipedia.org/wiki/Spectrum_of_a_ring\#Global_Spec} for review on relative spec. Basically, if $S=\bigcup_i \Spec(A_i)$, then $\ul{\Spec}(\cO_S[t]):=\bigcup_i \Spec(A_i[t])$, glued in the natural way.)
+%$\cO_S[t]$ means replace the $\Spec A(U)$ in the wikipedia definition by $\Spec A(U)[t]$, and likewise for $\cO_S[t,t^{-1}]$. We are basically cover $\cO_S$ by affine schemes, constructing a polynomial algebra over each  affine scheme, and patching them together.)
+Generalizing the affine case, we have that the $T$-points are just global sections and invertible global sections, respectively:
+\bal
+\G_{a,S}(T)&=\cO_T(T)\\
+\G_{m,S}(T)&=\cO_T(T)^{\times}.
+\end{align*}
+
+Define
+\[
+\GL_{n,S}:=\ul{\Spec}(\cO_S[\set{x_{ij}}{1\le i,j\le n},y]/(\det(x_{ij})y-1))
+\]
+so that
+\[
+\GL_{n,S}(T)=\GL_n(\cO_T(T))=M_n(\cO_T(T))^{\times}
+\]
+%Ot'\to Ot get a GLn functor. rep'ble: write out coordinates
+Taking $n=1$, we recover the multiplicative group scheme:   $\GL_{1,S}=\G_{m,S}$.
+\end{ex}
+
+\prbbox{Show that $\G_{a,S}(T)=\cO_T(T)$, $\G_{m,S}(T)=\cO_T(T)^{\times}$, and $\GL_{n,S}(T)=\GL_n(\cO_T(T))$. We showed this when $S$ and $T$ are affine; glue to get the general case.}
+%The idea is cover $\cO_S$ by affine schemes. Over each affine schemes construct polynomial algebra, patch them together.
+%Zariski topology cannot \cO_S(T) (not open subset) \cO_S as sheaf on more general, then ok. \cO_T(T) fine.
+
+\begin{ex}
+Define
+\[\mu_{n,S}
+=\ul{\Spec} \cO_S[t]/(t^n-1).
+\]
+Here $e,i,m$ are the same as for $\G_{m,S}$. Alternatively,
+\[
+\mu_{n,S}(T)=\set{x\in \cO_T(T)}{x^n=1}.
+\]
+(The image of $t$ should satisfy $t^n=1$.)
+\end{ex}
+\begin{ex}
+Define the constant group scheme as follows: let $H$ be a group. Define 
+\[
+\ul{H}(T)=\Hom(\pi_0(T),H)=\Homc(T,H)
+\]
+where $\pi_0(T)$ denotes the connected components of $T$ and $H$ is given the discrete topology in the last expression.
+Note $T\to T'$ gives a map $\ul{H}(T')\to \ul{H}(T)$.
+
+$\ul{H}$ is a group scheme as the given functor of points is represented as follows. Let $S_{h}$ be copies of $S$; we have
+\[
+\ul{H}=\coprod_{h\in H} S_{h}.
+\]
+The multiplication map is $\coprod_{h\in H} S_{h}\times_S \coprod_{h'\in H} S_{h'}\to \coprod_{h''\in H} S_{h''}$ induced by the natural maps $S_{h}\times_SS_{h'}\to S_{hh'}$ (induced by the identity map).
+\end{ex}
+\begin{ex}
+Let $\Ga$ be an abstract commutative group, and 
+\[
+G=\ul{\Spec}\underbrace{\cO_S[\Ga]}_{\text{group algebra}}.
+\]
+(If $S$ is an affine scheme, we just get the group algebra.) Here 
+\[
+\cO_S[\Ga]=\bigoplus_{\ga\in \Ga}\cO_S\cdot \ga.
+\]
+Define
+\begin{align*}
+e:\cO_S[\Ga]&\to \cO_S & \ga&\mapsto 1\\
+i:\cO_S[\Ga]& \to \cO_S[\Ga] & \ga&\mapsto \ga^{-1}\\
+i:\cO_S[\Ga]& \to \cO_S[\Ga]\ot \cO_S[\Ga] & \ga&\mapsto \ga\ot\ga.\\
+\end{align*}
+\prbbox{
+Check that this is a group scheme.
+
+Check that if $\Ga=\Z/n\Z$ we get $\mu_n$, and if $\Ga=\Z$ we get $\G_m$.
+}
+\end{ex}
+\subsubsection{Morphisms between group scheme}
+The natural next step is to define a notion of morphisms between group schemes. As we've said, the objects of $(\text{Gp}/S)$ to be the group schemes over $S$. The morphisms are
+\bal
+&\quad \Hom_{(\text{Gp}/S)}(G,G')\\
+:&=\Hom(\wt{h_G},\wt{h_{G'}})\text{ in }\Fun(\schs,\pat{Gp})\\
+&=\bc{\vcenter{
+\xymatrix{
+G\ar[rr]\ar[rd] & & G'\ar[ld]\\
+& S &
+}}:{G(T)\to G'(T)\text{ is a group homomorphism, for every }T\in \schs}}
+\end{align*}
+%mult maps give comm sq.
+
+\begin{df}
+A \textbf{subgroup scheme} is a subscheme $H\subeq G$ such that $H(T)\subeq G(T)$ (subgroup) for all $T\in \schs$.
+Equivalently, a subgroup scheme is $(H,e_H,i_H,m_H)$ such that $H\subeq G$, and the following commute:
+\[
+\xymatrix{
+S\ar[r]^{e_H}\ar[rd]_{e_G} & H\ha{d}\\
+& G
+}\qquad
+\xymatrix{
+H\ar[r]^{i_H}\ha{d} & H\ha{d}\\
+G\ar[r]^{i_G} &G.
+}\qquad
+\xymatrix{
+H\times H\ar[r]^-{m_H}\ha{d} & H\ha{d}\\
+G\times G\ar[r]^-{m_G} &G.
+}.
+\]
+\end{df}
+
+We want to define kernels and cokernels. Cokernels are more difficult; let's do kernels first.
+\begin{df}
+Let $G\xra{f} H$ be in $(\text{Gp}/S)$. 
+Define the kernel $K/S$ to be the functor $K(\bullet)$ such that
+\[
+K(T)=\ker(G(T)\xra{f(T)} H(T))
+\]
+for all $T/S$. 
+%A naive candidate for the kernel is $K/S$ such that $K(T)=\ker(G(T)\xra{f(T)} H(T))$, for all $T/S$. 
+\end{df}
+\begin{proof}[Proof of well-definedness]
+It's not obvious that this functor is represented by a scheme! So let's call the functor $F(T):=\ker(G(T)\xra{f(T)} H(T))$ for now; we have to show there exists a scheme $K$ such that $K(T)=F(T)$, i.e. 
+%This is the correct thing, but it's not obvious that this is 
+we need to show $F$ is represented by a scheme $K$. We do this by constructing $K$. Define $K:=G\times_H S$, so we have the following diagram.
+\[
+\commsq KGSH{}{}f{e_H}\qquad
+\xymatrix{\pull{T}{}{}{}K{}G{}f\back{S}{e_H}H}
+\]
+Now take $T$-points and check that
+\[
+K(T)=G(T)\times_{H(T)}
+ S(T)=\set{g\in G(T)}{f(g)=1_{H(T)}}=\ker f(T).
+\]%S(T)=\{1_{H(T)}\}
+%fiber product of schemes is scheme
+%\rspec
+The first equality is from definition of the fiber product (Here, $\times_{H(T)}$ denotes the set-theoretic pullback). 
+\end{proof}
+Quotients are hard; we'll get to them later.

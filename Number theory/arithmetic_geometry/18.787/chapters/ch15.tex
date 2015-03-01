@@ -1,0 +1,301 @@
+\lecture{Thu. 11/1/12}
+
+%how use upper part of background board?
+Last time we showed that in $\abk$, assuming $(\chr k, \ell)=1$, there is an injection
+\[
+\Z_{\ell}\ot \Hom_{(\text{Gp}/k)}(A,B)\hra \Hom_{\Z_{\ell}\text{--module}} (T_{\ell}A,T_{\ell}B).
+\]
+ We have that $\End^0(A)$ is a finite dimensional semisimple algebra over $\Q$: decomposing $A\sim \prod_{i=1}^r A_i^{n_i}$ where $A_i$ is simple, we get
+\[
+\End^0(A)\cong \prod_{i=1}^r  \cal M_{n_i} (\End^0(A_i)).
+\]
+Here each $\End^0(A_i)$ is a finite division algebra over $\Q$, so $\End^0(A)$ is finite-dimensional semisimple.
+
+\subsection{Central simple algebras}
+\begin{df}
+Let $F$ be a field of characteristic 0, such as a finite extension of $\Q$ and $\Q_{\ell}$. 
+A \textbf{central simple algebra (CSA)} $D$ over $F$  is a finite-dimensional simple $F$-algebra with center $F$.
+\end{df}
+%Any matrix algebra.
+\begin{ex}
+Any matrix algebra $D=\cal M_n(F)$ is a central simple algebra.
+In particular, for $n=1$, $D=F$ is a central simple algebra over $F$.
+\end{ex}
+We have the following facts.
+\begin{pr}
+The following hold.
+\begin{enumerate}
+\item
+Every central simple algebra over $F$ splits over the algebraic closure of $F$:
+\[
+D\ot_F\ol{F} \cong \cal M_n(\ol F).
+\]
+\item
+$[D:F]=n^2$ for some $n\in \Z$.
+\item
+$D\cong \cal M_r(D')$ for some central division algebra $D'/F$, and we have
+\[
+r[D':F]^{\rc 2}=[D:F]^{\rc 2}.
+\]
+\end{enumerate}
+The central simple algebras are classified by the \textbf{Brauer group}
+\[
+\Br(F)=\{\text{CSA}/F\}/\sim
+\]
+with multiplication given by $\ot$ and equivalence relation $D\sim D'$ if $\cal M_r(D)\cong \cal M_{r'} (D')$ for some $r,r'$.
+\end{pr}
+Just like we have a norm and trace for a field extension $K/F$, we have a norm and trace for a CSA $D/F$. We define the reduced norm and trace and then relate them to general norm and trace functions.
+
+Normally we define the norm and trace as the determinant and trace of the multiplication map considered on the space itself $D$. But the dimension of $D/F$ is $n^2$, which is too large. Hence we define the reduced norm and trace: we consider the multiplication map on $\ol F^n$ instead. We can do this becaue by Proposition~\ref{pr:787-15-1}, $D\ot_F\ol F\cong \cal M_n(\ol F)$, and by Noether-Skolem, any automorphism of $\cal M_n(\ol F)$ is given by an inner automorphism and doesn't change the determinant and trace.
+\begin{df}
+Define the \textbf{reduced norm} $N_{D/F}^{\circ}$ and \textbf{reduced trace} $T_{D/F}^{\circ}$ by
+\begin{align*}
+N_{D/F}^{\circ}(a):&=\text{det}_{\ol F}(a\ot 1|_{\ol F^n})\\
+T_{D/F}^{\circ}(a):&=\tr_{\ol F}(a\ot 1|_{\ol F^n})
+\end{align*}
+where $n=[D:F]^{\rc 2}$. 
+\end{df}
+One can check that $N_{D/F}^{\circ}(a)$ and $T_{D/F}^{\circ}(a)$ are invariant under $G(\ol F/F)$; hence they are in $F$.
+
+%inner aut
+%conjugation by an element, doesn't change det and trace.
+%We put something smaller than $D$; this is why it's reduced. We skip checking this is well-defined.
+
+\begin{df}
+Let $D/F$ be a CSA, and $F/E$ be a separable extension.
+\begin{enumerate}
+\item
+A \textbf{norm form} of $D$ over $E$ is a nonzero polynomial function $N:D\to E$ such that
+\[
+N(x_1x_2)=N(x_1)N(x_2).
+\]
+\item
+A \textbf{trace form} of $D$ over $E$ is a function $T:D\to E$ that is $E$-linear (in particular $T(x_1+x_2)=T(x_1)+T(x_2)$) and such that $T(xy)=T(yx)$.
+\end{enumerate}
+\end{df}
+%imitate norm and trace in linear algebra.
+
+Why are we interested in norm and trace forms? Recall that we had a degree function on $\End(A)$, and we extended it to $\End^0(A)$. Because degree is multiplicative, it is a norm form. 
+
+By proving a classification theorem for norm forms, we can better understand $\deg$.
+\begin{ex}
+%usual norm trace for num field, sep ext
+Let $D/F$ be a CSA and $F/E$ a separable extension.
+\begin{itemize}
+\item
+$N_{D/F}^{\circ}$ and $T_{D/F}^{\circ}$ are norm/trace forms on $D/F$. 
+\item In the situation of the definition,
+\begin{align*}
+N_{D/E}^{\text{min}}:&=\nm_{F/E}\circ N_{D/F}^{\circ}\\
+T_{D/E}^{\text{min}}:&=\tr_{F/E}\circ T_{D/F}^{\circ}
+\end{align*}
+are norm/trace forms on $D/E$, 
+called the \textbf{minimal norm} and \textbf{minimal trace}.
+
+This is a typical way to get a norm and trace form.
+\end{itemize}
+\end{ex}
+As the following shows, all norm and trace forms come from the minimal norm and trace.
+\begin{lem}[Classification of norm/trace forms]\llabel{lem:classify-norm}
+\begin{itemize}
+\item
+Any norm form $N$ on $D/E$ is in the form $(N_{D/E}^{\text{min}})^m$, where $m\in \Z$.
+\item
+Any trace form $T$ on $D/E$ is in the form $\phi\circ T_{D/F}^{\circ}$, where  $\phi:F\to E$ is a $E$-linear map.
+\end{itemize}
+\end{lem}
+\begin{proof}[Proof for the special case $E=F=\ol F$]
+%over alg clos csa is mat alg
+We have $D\cong \cal M_n(F)$ by Proposition~\ref{pr:787-15-1}(1) so $N$ gives rise to a morphism of group schemes (actually algebraic groups) over $F$ 
+\[\GL_n\to \G_m.\] %spec. just write down the polynomial map. 
+%group schemes over F.
+%Being a norm form gives 
+The fact that $N(x_1x_2)=N(x_1)N(x_2)$ means this is a group homomorphism, so a morphism of algebraic groups. %always restrict to $\GL_n$.
+We have
+\[
+N(x_1x_2x_1^{-1}x_2^{-2})=1
+\]
+by multiplicativity (because the target $\G_m$ is commutative). So $N=1$ on the closed subgroup scheme $\SL_n$ generated by commutators. Thus the morphism factors
+\[
+\xymatrix{
+\GL_n\ar[r]^N \ar[d] \ar[rd]^{N_{D/F}^{\min}}  & \G_m\\
+\GL_n/\SL_n \ar[r]^{\det}_{\cong} & \G_m. \ard{u}_{\hat{\,}m,\,m\in \Z}
+}
+\]
+%For algebraic groups
+But the only map $\G_m\to \G_m$ is the $m$th power map. A morphism $\G_m\to \G_m$ corresponds to a map $k[t,t^{-1}]\to k[t,t^{-1}]$; to be  a morphism of group schemes it has to be the $m$th power map.
+
+For the trace form, note $T(xy-yx)=0$ for all $x,y\in \cal M_n(F)$, the elements $xy-yx$ generate the trace 0 part in $\cal M_n(F)$ (prove this by a hands-on approach), so we similarly get the trace form factors as follows.
+\[
+\xymatrix{
+\cal M_n(F) \ar[r]^T \ar[d]\ar[rd]^{T_{D/F}^{\circ}} & E\\
+\fc{\cal M_n(F)}{\an{xy-yx}}  \ar[r]^-{\tr}_-{\cong} & F.\ard{u}_{\exists E\text{--linear}}
+}
+\]
+All maps in the diagram are $E$-linear, so the map $F\to E$ is $E$-linear.
+\end{proof}
+
+\begin{thm}[Mumford~\cite{Mu70}, Theorem 19.4]
+Suppose $(\chr k,\ell)=1$, $A\in \abk$ and $\dim A=g$. Suppose $f\in \End(A)\ot_{\Z} \Z_{\ell}$; we have $T_{\ell}(f)\in \End_{\Z_{\ell}} (T_{\ell}A)$. Then the following hold.
+\begin{enumerate}
+\item
+$\deg f=\det T_{\ell}f$
+\item $P_f(n):=\deg([n]-f)=\det([n]-T_{\ell}(f)) $ is  a monic polynomial of degree $2g$ with coefficients in $\Z$. %n is the variable. identify n with [n] in endo algebra.
+\item
+$P_f(f)=0$ in $\End(A)$. 
+\end{enumerate}
+\end{thm}
+%when A finite field?
+%top homology group canonically gth exterior power.
+\begin{rem}
+The philosophy is that because $f$ has geometric origin, $T_{\ell}(f)$ in a sense doesn't depend on $\ell$. 
+(2) implies that the $P_f(n)$ are independent of $\ell$, and (1) implies that $\det T_{\ell}(f)$ is independent of $\ell$.
+
+In $\ell$-adic \'etale cohomology, we often see independence of $\ell$. Independence of $\ell$ questions are known in many cases (though not everywhere). You can interpret this theorem in the context of \'etale cohomology.
+\end{rem}
+
+\begin{proof}
+Part 1 is about the equality of 2 norm forms. Recall that we extended $\deg$ from $\End(A)$ to $\End^0(A)$; it is a norm form
+\[
+N_1:\End^0(A)\xra{\deg}\Q.
+\]
+The determinant also gives a norm form
+\[
+N_2:\End(A)\ot_{\Z}\Z_{\ell} \xra{\det T_{\ell}(\cdot)} \Z_{\ell}.
+\]
+By Theorem~\ref{thm:deg-poly}, $\deg$ is homogeneous of degree $2g$; $\det \tl(\bullet)$ is also homogeneous of degree $2g$ because  it is the determinant of an endomorphism of rank $2g$-modules.) We get two norm forms that are homogeneous of degree $2g$: %know what to do when extend scalar.
+\[
+N_1,N_2:\End^0(A)\ot_{\Q} \Q_{\ell} \to \Q_{\ell}.
+\]
+To prove part 1 we need to show $N_1=N_2$. We do this in 2 steps.\\
+
+\step{1} We show that $N_1$ and $N_2$ have the same $\ell$-adic evaluation:
+\[
+|N_1(\al)|_{\ell}=|N_2(\al)|_{\ell}\quad\text{ for all }\al\in \End^0(A)\ot_{\Q} \Q_{\ell}.
+\]
+Write $\al=\ell^{-a}\al_0$ where $\al_0\in \End A\ot \Z_{\ell}$. Because $N_1$ and $N_2$ are homogeneous of the same degree, it suffices to show that 
+\[
+|N_1(\al_0)|_{\ell}=|N_2(\al_0)|_{\ell}\quad\text{for all $\al_0\in \End(A)\ot_{\Z}\zl$}.
+\]
+Now write
+\begin{align*}
+N_1(\al_0)&= \ell^{n_1}\cdot u_1\\
+N_2(\al_0)&= \ell^{n_2}\cdot u_2
+\end{align*}
+where $u_i\in \Z_{\ell}^{\times}$. We show that $n_1=n_2$. %bc dealing with tate modules, good look at l-power torsion of A and how maps work on them.
+To show this, consider $\al_0$ as a map $A[\ell^N]\to A[\ell^N]$ for $N$ finite; this gives us a description of $n_1$. The map on the Tate modules $\tl A\xra{\tl(\al_0)} \tl A$ gives us a description of $n_2$. By taking an inverse limit of the maps $A[\ell^N]\xra{\al_0} A[\ell^N]$, we can relate $n_1$ and $n_2$. 
+For any $N\ge0$, we have the exact sequences
+\[
+\xymatrix{
+0\ar[r] & \ker\al_0(N) \ar[r] & A[\ell^N] \ar[r]^{\al_0(N)}  & A[\ell^N] \ar[r] & \coker \al_0(N)\ar[r] & 0\\
+0 \ar[r] & \ker\al_0(N+1) \ar[r]\ar[u]^{[\ell]} & A[\ell^{N+1}] \ar[r]^{\al_0(N+1)} \ar[u]^{[\ell]} & A[\ell^{N+1}] \ar[r]\ar[u]^{[\ell]} & \coker \al_0(N+1)\ar[r] \ar[u]_{\cong}& 0\\
+& \vdots \ar[u] & \vdots \ar[u] & \vdots \ar[u] & &
+}
+\]
+where $\al_0(N):=\al_0|_{A[\ell^N]}$. Here we're implicitly looking at $\ol k$-points, $A[\ell^N]=A(\ol k)[\ell^N]$.
+
+Taking the inverse limit we get the $\ell$-adic Tate modules. Taking $N\gg0$ large enough the kernel stabilizes:
+\[
+\ker \al_0(N)=\ker \al_0(N+1)=\cdots 
+\]
+and has order equal to the $\ell$-part of $|\ker \al_0|=\deg \al_0$, which is $\ell^{n_1}$. 
+When we take the inverse limit by multiplication by $\ell$, we get 0, because a finite $\ell$-group cannot be infinitely divisible. 
+
+When we take the limit we preserve the size of $\coker$. 
+The exact sequences give that 
+\[
+\fc{|\ker\al_0(N)|}{|A[\ell^N]|}\fc{|A[\ell^N]|}{|\coker \al_0(N)|}=1,
+\]
+%The Euler characteristic quotient of the exact sequence  is 1 so we get that 
+so $\ker$ and $\coker$ have the same order. 
+We get that for large enough $N$,
+\[
+|\coker \al_0(N)|=\ell^{n_1}.
+\]
+Taking the inverse limit $\varprojlim_{N}$ we get
+\[
+0\to T_{\ell}A\xra{T_{\ell}(\al_0)} T_{\ell} A\to \coker \tl(\al_0)\to 0
+\]
+where the cokernel has order equal to $|\coker \al_0(N)|=\ell^{n_1}$. 
+On the other hand, %the $\ell$-adic unit acts like an isomorphism, so we have $N_2(\al_0)=\det T_{\ell}(\al_0)=\ell^{n_2}u_2$. 
+because $N_2(\al_0)=\det T_{\ell}(\al_0)=\ell^{n_2}u_2$ and the $\ell$-adic unit acts like an isomorphism, we have
+\[
+|\coker \tl(\al_0)|=|\tl A/\tl (\al_0)\tl A|=\ell^{n_2}.
+\]
+%so the cokernel has order $\ell^{n_2}=\ell^{n_1}$, as needed. 
+Hence $\ell^{n_1}=\ell^{n_2}$, as needed.
+This proves step 1. (Note we used homogeneity, not yet the classification of norm forms.)\\
+%A any abelian variety 
+
+\step 2 We show $N_1(\al)=N_2(\al)$. Write $ \End^0A\ot_{\Q}\Q_{\ell}\cong \prod_{j=1}^r D_j$, where the $D_j$ are
+ finite simple over $\Q_{\ell}$. %norm form restrict to element nontrivial for one j, trivial for all other j's. Need to use N(1)=1.
+We decompose $N_i$ into norm forms $N_{i,j}$ as follows:
+\[
+N_i=\prod_{j=1}^r N_{i,j},\qquad N_{i,j}:D_j\to \Q_{\ell},\,i=1,2.
+\]
+By Lemma~\ref{lem:classify-norm}, we have
+\[
+N_{i,j}=(N_{D_j/\Q_{\ell}}^{\min})^{\nu_{i,j}},\qquad \nu_{i,j}\in \Z.
+\]
+%D_j=D/F_j=F\supset \Q_{\ell}=E
+Plug in $\al=(1,\ldots, 1, \underbrace{\al_j}_j,1,\ldots, 1)\in \End^0A\ot_{\Q}\ql\cong \prod_{j=1}^r D_j$ into Step 1 to get
+\[
+|N_{D_j/\Q_{\ell}}^{\min}(\al_j)|^{\nu_{1,j}}=
+|N_{D_j/\Q_{\ell}}^{\min}(\al_j)|^{\nu_{2,j}}.
+\]
+%This shows all the exponents are equal. 
+We are free to choose $\al_j$, so $\nu_{1,j}=\nu_{2,j}$ for all $j$. Hence $N_1=N_2$.  This proves part 1. \\
+%Note we extended
+%\[
+%\xymatrix{
+%\End^0(A) \ar[r] \ha{d}& \Q\ha{d}\\
+%\End^0(A) \ot \Q_{\ell} \ard{r}^{?} & \Q_{\ell}.
+%}
+%\]
+%To do this we linearly extend the polynomial map  $\Q\phi+\Q\psi \to \Q$ for each $\phi,\psi$.
+
+For part 2, note $P_f(N)$ is the characteristic polynomial of $T_{\ell}(f)$. Hence it is monic of degree $2g$. {\it A priori} the coefficients are in $\Z_{\ell}$; we need to show they are in $\Z$.
+
+First we show the coefficients are in $\Q$; then we show they are also algebraic integers, so they are in $\Z$.
+
+The degree function assumes integer values on $\End(A)$. If $P_f(n)\in \Z$ for all $n\in \Z$, it's not hard to see that $P_f(X)\in \Q[X]$. %plug in sufficiently many integers and solve over $\Q$. 
+
+Note the $\Z$-subalgebra generated by $f$, $\Z[f]\subeq \End(A)$, is a finite commutative $\Z$-algebra. 
+($\End(A)$ is finitely generated by Theorem~\ref{thm:787-HomAB}(1), and any subgroup of finitely generated abelian group is finitely generated.) Hence $f$ is integral over $\Z$. $T_{\ell}f$ satisfies the same monic equation that $f$ satisfies, with coefficients in $\Z$. In particular, the eigenvalues of $T_{\ell}\Z$, which are in $\ol{\Q}$, satisfy the same equation. By integrality, the eigenvalues are in $\ol{\Z}$. Hence $P_f(X)\in \ol{\Z}[X]$. Since the coefficients are also in $\Q$, we get $P_f(X)\in \Z[X]$. This proves part 2.\\
+
+Now we prove part 3. If we plug an operator into its own characteristic polynomial, we get 0 (Cayley-Hamilton). Hence
+\[
+T_{\ell}(P_f(f))= P_f(T_{\ell}(f))=0.
+\]
+By Theorem~\ref{thm:787-HomAB}(2), $T_{\ell}$ is injective, so
+\[
+P_f(f)=0.
+\]
+\end{proof}
+%center is in general finite product of fields. <- Semisimple algebra
+\begin{df}
+$P_f(X)\in \Z[X]$ is called the \textbf{characteristic polynomial} of $f$. Define the trace and norm of $P_f$ to be the following coefficients:
+\[
+P_f(X)=X^{2g}-\underbrace{a_{2g-1}}_{\tr(f)}X^{2g-1}+\cdots +\underbrace{a_0}_{\nm f=\deg f}.
+\]
+\end{df}
+\begin{cor}
+Let $A\in \abk$ have dimension $g$ and be simple. Let $F:=Z(\End^0A)$. Then $d=[\End^0A:F]^{\rc 2}$ and $e=[F:\Q]$. Then $de\mid 2g$.
+\end{cor}
+This really relies on the classification of norms.
+\begin{proof}
+By Lemma~\ref{lem:classify-norm}, 
+\[
+\nm f=(N_{\End^{\circ}A}^{\min}f)^n
+\]
+with $n\in \Z$. We look at the degree of both sides.  The LHS is a polynomial $f$ of degree $2g$. The degree of the RHS is $de\cdot n$. Hence
+\[
+de\mid 2g.
+\]
+\end{proof}
+\begin{df}
+A $\ol k$-simple abelian variety $A\in \abk$ is of \textbf{CM-type} if $de=2g$.
+\end{df}
+If $A$ is an elliptic curve (of dimension 1) this says $de=2$. In characteristic 0, it can only happen that $d=1$ and $e=2$. To understand the endomorphism algebra of elliptic curves, we need another fact on the endomorphism algebra: $\End^0(A)$ has a positive involution, called the \textbf{Rosati involution}. This gives us a finer classification of endomorphism algebras. 
+In positive characteristic, $\End^0(A)$ can also be a central quaternion algebras over $\Q$, and we get supersingular elliptic cuves.
+We'll talk about this and give a classification of complex abelian varieties next time.

@@ -1,0 +1,238 @@
+\lecture{Tue. 10/2/12}
+
+\subsection{Line bundles on abelian varieties}
+Recall last time we used Corollary~\ref{cor:787-7-2} to prove Corollary~\ref{cor:787-7-3}, which tells us how the multiplication-by-$n$ map acts on line bundles in $\Pic(A)$.
+
+\begin{df}
+We say that $L$ is \textbf{symmetric} if $[-1]^*L\cong L$, and \textbf{anti-symmetric} if $[-1]^*L\cong L^{-1}$.
+\end{df}
+Note that Corollary~\ref{cor:787-7-3} says that
+\[
+[n]^*L=\begin{cases}
+n^2 L, &L\text{ is symmetric}\\
+n L, &L\text{ is anti-symmetric}\\
+\end{cases}
+\]
+If $L$ is any line bundle, then we can easily produce a symmetric and antisymmetric line bundle:
+\bal
+L\ot [-1]^*L&\text{ is symmetric}\\
+L\ot [-1]^*L^{-1}&\text{ is anti-symmetric}
+\end{align*}
+\begin{cor}\llabel{cor:[n]=isogeny}
+Let $A\in (\text{Ab}/k)$ satisfy the following hypothesis.
+\begin{itemize}
+\item
+$A$ has a ample line bundle.\footnote{Equivalently, $A$ is projective 
+over $k$, rather than just proper.}
+\end{itemize}
+Then $[n]:A\to A$ is an isogeny.
+\end{cor}
+Later, we will show that the hypothesis is always satisfied. Here, projectivity helps us because it allows us to use facts about ample line bundles.
+\begin{proof}
+%qf surj
+Since $[n]$ is a map between abelian schemes of the same dimension, it suffices to show either $[n]$ is quasi-finite or $[n]$ is surjective (Lemma~\ref{lem:787-7-1}). We will show that $\ker[n]:=A[n]$ is quasi-finite over $k$.
+
+We make the following observations.
+\begin{enumerate}
+\item
+$[n]^*$ is ample: Because $L$ is ample, $[-1]^*L$ is ample (automorphisms preserve line bundles). Because the tensor product of ample line bundles is ample, using Corollary~\ref{cor:787-7-3} we get $[n]^*L$ is ample.
+\item
+$[n]^*L|_{A[n]}$ is trivial: We have that following commutes
+\[
+\xymatrix{
+A[n]\ha{r} \ar[rd] & A \ar[r]^{[n]} & A\\
+& \Spec k\ar[ru]_{e_n}&
+}
+\]
+So pulling back by $[n]$ is the same as pulling back to $\Spec k$ and then to $A[n]$. $\Spec k$ has trivial Picard group, so the pullback of $L$ to $\Spec k$ is trivial.
+\item
+$[n]^*L|_{A[n]}$ is ample: The pullback of an ample line bundle via an immersion is ample. %REF
+%We use the following fact.
+%ample=lots of sections
+\item
+We use the following fact.
+\begin{fct}[Line bundle criterion for finiteness]\llabel{fct:787-8-1}
+Let $X$ be a proper variety over $k$. Let $L$ be an ample and trivial line bundle on $X$. Then $\dim (X)=0$.
+\end{fct}
+\begin{proof}
+If the dimension is positive, can choose line bundle with trivial sections. Since $L$ is ample, tensoring a high power of it should give a lot of sections. But becase $L$ is trivial, doesn't do anything. Can't produce more sections, contradiction.
+\end{proof}
+Now apply this to $[n]^*L|_{A[n]}$.
+\end{enumerate}
+\end{proof}
+\begin{cor}[Theorem of the Square]\llabel{cor:square}%theorem of square?
+Let $A\in (\text{Ab}/k)$ and let $L$ be a line bundle over $A$. Let $T_x:A\to A$ be given by $y\mapsto x+y$. Then the following hold.
+%T-valued points, say s.t. similar
+\begin{enumerate}
+\item Let $x,y\in A(k)$. Then
+\[
+T_{x+y}^* L\ot L\cong T_x^*L\ot T_y^* L.
+\]
+\item Suppose $x,y\in A(T)$, and $T\in \schk$. Then
+\[
+T_{x+y}^* L\ot L\cong T_x^* L\ot T_y^* L\ot p_2^*(\text{stuff}).
+\]
+where $T_x$ is given by
+\begin{align*}
+A\times_k T&\xra{T_x} A\times_k T\\
+(a,t)&\mapsto (a+x(t),t)
+\end{align*}
+and $p_2$ is the projection $A\times_k T\to T$.
+\end{enumerate}
+\end{cor}
+Note (1) is just a special case of (2).
+\begin{proof}
+Apply Corollary~\ref{cor:787-7-2} to the maps
+\[
+\xymatrix@R-24pt{
+A \ar[r] & A\\
+a \ar@{|->}[r]^{f_{1}} 
+\ar@{|->}[rd]^{f_2}
+\ar@{|->}[rdd]_{f_3}  
+& x\\
+& y\\
+& a.
+}
+\]
+where $f_{123}=T_{x+y}$, $f_{13}=T_x$, $f_{23}=T_y$, and $f_3=\id_A$, i.e., $f_1$ is the map such that 
+\[\ctri{A}{A}{\Spec k}{f_1}{}{}{str}{}{x}\]
+commutes, and similarly for $f_2$. The corollary gives us that
+\[
+f_{123}^*L\ot f_3^* L\cong f_{13}^* L\ot f_{23}^* L\ot (\cdots)
+\]
+In the case of (1), the last term is trivial. (2) is left as an exercise. (In this case the last term is not necessarily trivial.)
+\end{proof}
+
+As a consequence of Corollary~\ref{cor:square}, 
+%L^{-2}$. 
+the map $\phi_L:A(k)\to \Pic(A)$ given by $x\mapsto T_xL\ot L^{-1}$ is a group homomorphism. It is easy to check $\phi_{L_1\ot L_2}=\phi_{L_1}+\phi_{L_2}$ where the addition on the RHS is in $\Pic A$.
+
+Taking $y\in A(k)$ we have $\phi_{T_y^*L}=\phi_L$ by Corollary~\ref{cor:square}. This is because 
+\begin{align*}
+\phi_{T_y^*L}(x)&=T_x^*(T_y^* L)\ot (T_y^*L)^{-1}\\
+&=(\underbrace{T_y\circ T_x}_{T_{x+y}})^*L\ot (T_y^*L)^{-1}\\
+&=(T_x^*L \ot T_y^*L \ot L^{-1})\ot (T_y^*L)^{-1}
+&\text{by Theorem of the Square~\ref{cor:square}}\\
+&=T_x^*L \ot L^{-1} =\phi_L(x).
+\end{align*}
+Next time we'll upgrade $\phi_L$ from a group homomorphism to a morphism of group schemes (on the left-hand side we would consider $A$ as a scheme, and on the right-hand side we can give $\Pic(A)$ the structure of a scheme, called the Picard scheme of $A$). We will make sense of the kernel $K(L)$ as a closed subgroup scheme of $A$.
+
+\subsection{Seesaw Theorem and $K(L)$}
+%\fixme{This section has not been edited.}
+We will need the Seesaw Theorem  to make sense of $K(L)$ as a subgroup scheme.
+
+In Mumford, the Seesaw Theorem is used to prove the Theorem of the Cube. It is easier to understand the Seesaw Theorem using the theory of Picard schemes (which we'll take as a black box for now).
+
+\begin{thm}[Seesaw Theorem]\llabel{thm:seesaw}
+Let $X$ be a proper variety over $k$, $Y$ a scheme over $k$, and $\cL$ a line bundle over $X\times_k Y$. Then there exists a unique closed subscheme $Y_0\subeq Y$ such that 
+\begin{enumerate}
+\item
+$\cL|_{X\times Y_0}\cong p_2^*M$ for some $M\in \Pic(Y_0)$. 
+(I.e., the restriction is trivial on $X$.)
+%moduli-theoretic df of picard schemes
+\item
+For all $f:T\to Y$ such that $(1_X\times f)^*\cL\cong p_2^* K$ for some $K\in \Pic(T)$, 
+\[
+\xymatrix{
+X\times_k T\ar[r]^{1_X\times f} \ar[rd]_{p_2} & X\times_k Y\\
+& T,
+}
+\]
+there exists a unique map $T\to Y_0$ making the following commute
+\[
+\xymatrix{T\ar[r]\ard{rd}_{\exists!} & Y\\ & Y_0\ha{u}}
+\]
+%restriction nothing, trivial in (i) for S=Speck k
+%Here we have
+\end{enumerate}
+Moreover, for any scheme $T$ over $k$,
+\beq{eq:787-8-1}
+Y_0(T)=\set{f\in Y(T)}{(1_X\times f)^* \cL\cong p_2^*M\text{ for some }M\text{ over }T}.
+\eeq
+\end{thm}
+\fixme{Why is this called Seesaw?}
+
+%This is called the Seesaw Theorem. %Restriction of 
+%Collection $Y$ such that restriction to $X\times_k \{y\}$ is closed.
+%In proof, go between points...?
+Think of item 2 as saying that $Y_0$ is the largest closed subscheme of $Y$ such that $\cL|_{X\times Y_0}$ is $p^*_2(M)$ for some $M\in \Pic(Y_0)$.
+
+There are two interesting applications of the Seesaw Theorem.
+\begin{enumerate}
+\item
+Proof of Theorem of the Cube. (See~\cite[\S 6]{Mu70}.)
+\item
+Definition of $K(L)\subeq A$ as a closed subgroup scheme, such that
+\[
+K(L)(k)=\ker\phi_L.
+\]
+\end{enumerate}
+%One is to the proof of Theorem of the Cube; the other is the definition of $K(L)$ as a group scheme.
+%theorem of cube over general base scheme.
+\begin{rem}
+The Seesaw Theorem gives the Theorem of the Cube with its corollaries. The Theorem of the Cube and the Seesaw Theorem  give the definition $K(L)\subeq A$ as a closed subgroup scheme. The definition of $K(L)$ then means that for $L$ ample we can define the dual abelian scheme
+\[
+A^{\vee}:=A/K(L).
+\]
+In this way we can avoid the big theory of Picard schemes; we can show that with this definition $A^{\vee}$ satisfies properties that we expect a moduli space to satisfy. 
+
+Then $\phi_L:A\to A^{\vee}$ is just the quotient map. We do have to check we get the same object for different choices of $L$.
+
+Alternatively, if you accept the theory of Picard schemes as in~\cite{GGBM}, we get the Seesaw Theorem and the Theorem of the Cube as before. Now directly from the theory of Picard schemes, we get $A^{\vee}=\Pic^0(A)$, $\phi_L:A\to A^{\vee}$, and then we define $K(L):=\ker \phi_L$. 
+
+We'll talk about both approaches.
+\end{rem}
+We can apply the Seesaw Theorem~\ref{thm:seesaw} to $X=Y=A\in \abk$ and the ``Mumford" line bundle $\cL=\mu^*L\ot p_1^*L^{-1}\ot p_2^* L^{-1}$, where $p_1,p_2,\mu:A\times A\to A$ are the projection and multiplication maps. We get a closed subscheme $K(L)\subeq A$ satisfying the property
+\[
+K(L)(T)=\set{x\in A(T)}{(1_A\times x)^* \cL}=p_2(\cL).
+\]
+What's not clear yet is that this is a sub{\it group} scheme. We will use the Theorem of the Cube to show this.
+\begin{lem}
+$K(L)\subeq A$ is a closed subgroup scheme.
+\end{lem}
+\begin{proof}
+There is another way to describle the $T$-points of $K(L)$. 
+\begin{clm}\llabel{clm:787-8-1}
+\[
+K(L)(T)=\set{x\in A(T)}{T_x^*L_T\ot L_T^{-1}\cong p_2^*(M)\text{ for some line bundle $M$ over $T$}}.
+\]
+%where $\cdots $ is a line bundle over $T$.
+\end{clm}
+Here, $L_T:=p_1^*L$ where $p_1:A\times T\to A$ is the projection.
+
+%This condition is equivalent to the previous condition. 
+
+We now show that if the claim is true then $K(L)(T)$ is a {\it group} scheme by the Theorem of the Square, so $K(L)(T)$ is a sub{\it group} scheme.
+
+For $x,y\in K(L)(T)$, we have by the Theorem of the Square~\ref{cor:square} that
+\begin{align*}
+T_{x+y}^*L_T\ot L_T^{-1} &\cong (T_x^*L_T\ot L_T^{-1})
+\ot 
+(T_y^* L_T\ot L_T^{-1})\\
+&=p_2^*(M_1)\ot p_2^*(M_2)\cong p_2^*(M_1\ot M_2)
+\end{align*}
+for some $M_1,M_2$.
+Thus $x+y\in K(L)(T)$. That $x\in K(L)(T)$ implies $-x\in K(L)(T)$ is left as an exercise.
+
+It remains to show that the condition on $\cL=\mu^*L\ot p_1^*L^{-1}\ot p_2^* L^{-1}$ in~\ref{eq:787-8-1} gives the condition on $L$ in Claim~\ref{clm:787-8-1}.
+\begin{proof}[Proof of Claim~\ref{clm:787-8-1}]
+It suffices to prove that $(1_A\times x)^*\cL$ and $T_x^* L_T\ot L_T^{-1}$ differ by $p_2^*(M)$ for some $M$. 
+
+We first verify that $(1_A\times x)^*\mu^*\cL\cong T_x^*L_T$. We have
+\[
+A\times T\xra{1_A\times x}A\times A\xra{\mu}A
+\]
+\begin{align*}
+(1_A\times x)^* \mu^*L &\cong (\mu(1_A\times x))^* L\\
+&\cong (p_1\circ T_x)^*L&\mu\circ (1_A\times x)=p_1\circ T_x\\
+&\cong T_x^*p_1^* L\\
+&\cong T_x^* L_T.
+\end{align*}
+Then
+\begin{align*}
+(1_A\times x)^* \cL&=(1_A\times X)^* (\mu^*L\ot p_1^*L^{-1}\ot p_2^* L^{-1})\\
+&=(T_x^*L_T)\ot \underbrace{(1_A\times x)^*p_1^*L^{-1}}_{L_T^{-1}} \ot \underbrace{(1_A\times x)^*p_2^*L^{-1}}_{p_2^*(x^*L)^{-1}}.
+\end{align*}
+\end{proof}
+\end{proof}
+%given functorial desc, show subgroup scheme. Use crutch to admit ample line bundle, hence projective. K(L) finite if and only if L ample. Find L such that K(L) finite. Equivalent condition, check that. Next time.

@@ -1,0 +1,343 @@
+\lecture{Thu. 10/18/12}
+
+Today we'll continue talking about duality of abelian schemes (duality strikes back!). 
+
+This section is a mess. See Mumford~\cite[\S13]{Mu70} or \cite[\S7.2]{GGBM}.
+
+%Padma: Isogeny is an equivalence relation. Can we always find an isogeny back? Choose large $n$ such that kernel of isogeny is in $\ker[n]$. Then we get
+%\[
+%\xymatrix{
+%A\ar[r] \ar[rd]_{[n]} & B\ard{d}\\
+%& A/A[n].
+%}
+%\]
+%%is there a section for multiplication by $n$? A/A[n] back to A??? \cong 
+%(Work over a locally noetherian scheme.) %take rank of kernel
+\subsection{Complements on $\Pic$}
+
+Last time we worked modulo $p_2^*$ all the way. Today we'll give a slightly different but equivalent definition of $\Pic$. Let $A\in \Abs$. To avoid confusion, write
+\begin{align*}
+\Line(A)&=\{\text{line bundles over }A\}\\
+\Pic(A)&=\Line(A)/\cong.
+\end{align*}
+\begin{df}
+Define 
+\[
+\Pic_{e,A/S}:\schs\to \pat{Sets}
+\]
+by mapping
+\[
+T\mapsto \bt{$(L,\ep):\, L\in \Line(A\times_ST)$}{$\ep:\cO_T\xrc e_{A,T}^*L$}/\cong
+\]
+%no iso-> ignore such L
+where $e_{A,T}$ is a section ($p_2\circ e_{A,T}=\id_T$), $e_A$ is a section ($f\circ e_A=\id_S$), and $p_1\circ e_{A,T}=e_A\circ g$:
+\[
+\xymatrix{A\ar[d]^f & A\times_S T\ar[l]_{p_1} \ar[d]_{p_2}\\
+S\ar@/^/[u]^{e_A} & T\ar[l]_g\ar@/_/[u]_{e_{A,T}}.}
+\]
+\end{df}
+Think of Definition~\ref{df:rel-pic} as the point variant of this definition. Here we put some condition. We  can show that
+\begin{gather*}
+\Pic_{e,A/S}\cong \Pic_{A/S}\\
+(L,\ep)\mapsto L.
+\end{gather*}
+\fixme{
+\[
+T\mapsto \fc{\Pic(A\times_ST)}{p_2^*\Pic(T)}.
+\]
+arbitrary line bundle, no chance such iso in general, bc L lots line bundles in generl. But can mod by $p_2^*\Pic(T)$ and go back.Careful in choose what want.}
+%L\to L', compat with $\ep$ with $\ep'$
+
+Recall that we defined a subfunctor $\Pic_{A/S}^{\circ}$. Let the image of $\Pic_{A/S}^{\circ}$ under the above isomorphism be $\Pic_{e,A/S}^0$. We can take either definition as the dual abelian scheme $\av$ of $A$.
+
+Our black-box theorem~\ref{thm:pic0-rep} tells us $\av \in \Abs$. The definition was fiberwise: $\Pic_{A/S}^{\circ}$ is basically the bundles in the connected components of every fiber. 
+
+%Poincar\'e line bundle.
+We have an isomorphism
+\[
+\av(\av)\cong \Pic_{e,A/S}^{\circ}(\av) =\set{(L,\ep)}{L\in \Line(A\times_S A^{\vee}), \ep:\cO_{\av}\xrc e_{A,\av}^*L}
+\]
+sending $\id_A$ to $(\cal P_A,\ep_A)$ where $\cal P_A$ is the Poincar\'e line bundle.  $\ep$ is called a \textbf{rigidification}. 
+%unravel moduli-theoretic definition. 
+
+\fixme{only way get line bundle on $A\times T$. $A\times T\to A\times \av$. Identity on $A$ and given map on $T$. }
+
+Now what is $f\in \av(T)$ sent to under the isomorphism $\av(T)\cong \Pic_{e,A/S}^{\circ}(T)$? We saw above what $\id_A\in \av(\av)$ got sent to under $\av(\av)\cong \Pic_{e,A/S}^{\circ}(\av)$. Now the only way to get a line bundle on $A\times T\to A\times \av$ is to use the map $A\times T\to A\times \av$, which is the identity on $A$ and the given map on $T$. This motivates the following lemma.
+\begin{lem}
+We have that under the isomorphism $\av(T)\cong \Pic_{e,A/S}^{\circ}(T)$, $f$ is sent to $(1\times f)^* \cal P_A$:
+\[
+\xymatrix{
+\av(T) \aq{r}\aq{d}& \Pic_{e,A/S}^{\circ}(T)\\
+\Hom_S(T,\av) & {\rotatebox[origin=c]{90}{$\in$}}\\
+f \ar@{}[u]|-{\rotatebox[origin=c]{90}{$\in$}}\ar@{|->}[r] & (1\times f)^*\cal P_A. 
+}
+\]
+\end{lem}
+Recall that given $f:A\to B$, we had an associated dual map $f^{\vee}:B^{\vee}\to \av$. We also constructed a canonical map $K_A:A\to (\av)^{\vee}$.  \\
+
+\prbbox{Show that if we have maps of abelian varieties
+$A\xra{f}B \xra{g}C$, then \[(g\circ f)^{\vee}=f^{\vee}\circ g^{\vee}.\]}
+
+\subsection{Duality theorems}
+Let $A,B\in \Abs$ be of relative dimension $g$. Let $f:A\to B$ be a morphism. 
+\begin{pr}
+\llabel{pr:787-11-1}
+Let $A$ be an abelian variety of relative dimension $g$. Then
+\[
+\dim(A)=\dim(\av)=g.
+\]
+\end{pr}
+\begin{pr}\llabel{pr:787-11-2}
+\begin{enumerate}
+\item
+If $f$ is an isogeny, then $f^{\vee}$ is an isogeny. 
+\item
+$\deg f=\deg f^{\vee}$.
+\item $K_A$ is an isomorphism.
+\end{enumerate}•
+\end{pr}
+
+\fixme{We have 
+\[
+\xymatrix{
+\Abs \ar@/^/[r]^{\vee} & \Abs\op\ar@/^/[l]^{\vee}
+}
+\]
+giving that $\id\cong ((\bullet)^{\vee})^{\vee}$.}
+
+\begin{proof}
+Step 1 is to reduce to the case where $S=\Spec k$. Because $A$ and $\av$ are the same dimension by Proposition~\ref{pr:787-11-1}, it suffices to check $f^{\vee}$ is an isogeny fiberwise. 
+
+\fixme{If know fiberwise isomorphism, then ?
+
+For (3), check $K_A$ is an isogeny fiberwise. Also $\ker K_A$ has rank 1, $\deg K_A=1$. Why isogeny of degree 1 an isomorphism (exercise). 
+This gives isomorphism}\\
+
+\prbbox{
+Exercise: An isogeny of degree 1 is an isomorphism. We have $\ker f\to S$ is locally free of rank 1. However we have a section:
+\[
+\xymatrix{
+\ker f\ar[d]\\
+S\ar@/^/[u]^{e_A}
+}
+\]
+Hence $\ker f\cong S$.
+\fixme{Using this, one can show Algebra, locally free of rank 1, but already have copy of $A$, show rest is 0.
+\[
+\xymatrix{
+B=A\opl (\cdot)\\
+A\ar[u]
+}
+\]
+$(\cdot)=0$. }}
+
+We can now work over fields. When $S=\Spec k$, Then $(L,\ep)$, and $(L,\ep')$ are always related by an isomorphism. Hence we can forget about $\ep$; only the existence of $\ep$ matters. \fixme{(Exercise. Mumford \S13) Isomorphism without specify.
+Pullback along id section trivial.}
+\end{proof}
+Let's start the proof of Proposition~\ref{pr:787-11-1}. One proof uses cohomology of abelian varieties with line bundles as coefficients.
+%keep making funny shape
+
+\begin{proof}[Proof of Proposition~\ref{pr:787-11-1}]
+We'll need 2 black boxes in our proof of Propositions~\ref{pr:787-11-1} and~\ref{pr:787-11-2}.
+\begin{fct}[Black box 1,~{\cite[\S12.2]{Mu70}}]\llabel{fct:787-11-1}
+%k alg closed, not nec.
+Let $A\in \Abs$ be of relative dimension 0. Then
+\[
+\dim_k H^i(A,\cO_A)=\binom gi.
+\]
+In particular, there is no cohomology for $i>g$. 
+\end{fct}
+The proof involves a Koszul complex computation. It looks like a differential complex. The differential maps are all trivial. See Mumford for the construction of the complex.
+
+We'll only need to use Fact~\ref{fct:787-11-1} for $H^1$. Then Proposition~\ref{pr:787-11-1} follows from the next proposition
+\begin{pr}\llabel{pr:787-11-1'}
+$T_e\av\cong H^1(A,\cO_A)$ as $k$-vector spaces. ($T_e\av$ is the tangent space at the identity.)
+\end{pr}
+Because $A$ is smooth, 
+this implies $\dim \av=g$. Now as $k$-vector spaces, letting $S=\Spec k[\ep]/\ep^2$, 
+\begin{align*}
+T_e\av &= \set{
+\phi\in \Hom(\Spec k[\ep]/\ep^2,\av)
+}{\phi|_{\Spec k}=e_{\av}}\\
+&=\ker (\Pic (A\times S)/p_2^* \Pic (k[\ep]/\ep^2) \to \Pic(A)/p_2^* \Pic(k)\\%def. 11.1?
+&=\ker(H^1(A\times S,\cO_{A\times S}^{\times})\to H^1(A,\cO_A^{\times}))
+\end{align*}
+identifying $\Pic$ with $H^1$ cohomology (see Hartshorne~\cite[Exercise III.4.5]{Ha77}) and noting that $\Pic(k[\ep]/\ep^2)$ is trivial. 
+
+As a topological space, $A\times S=A$. To find the kernel of the above map, we form a long exact sequence. 
+\[
+1\to 1+\ep \cO_A\to \cO_{A\times S}^{\times} \to \cO_A^{\times}\to 1.
+%locally make sense epsilon
+\]
+This is like looking at $R\ot_k k[\ep]/\ep^2$. %invertible elt, \ep times st + 1. 
+We get a long exact sequence 
+\[
+\xymatrix{
+& H^0(\cO_{A\times S}^{\times}) \sj{r} & H^0(\cO_A^{\times}) \ar[lld]\\
+H^1(1+\ep \cO_A) \ar[r] & H^1(\cO_{A\times S}^{\times})\ar[r] & H^1(\cO_A^{\times}).
+}
+\]
+Note that as sheaves of abelian groups , we have an isomorphism
+\[
+\cO_A\xra{s} 1+\ep\cO_A,\qquad a\mapsto 1+\ep a.
+\]
+(This is just like a map $R\ot_k k[\ep]/\ep^2\to R$.) 
+
+We conclude that $H^1(A,\cO_A)\cong T_e\av$ as (abstract) groups. It is left as an exercise to upgrade this to an isomorphism as $k$-vector spaces. 
+%scalar mult by k happening. 
+\end{proof}
+Now we give the proof of Proposition~\ref{pr:787-11-2}.
+\begin{proof}
+Again, we need some input from cohomology. Let $A\in \abk$ and $L\in \Line(A)$. We define the Euler characteristic by
+\[
+\chi(L)=\chi_A(L):=\sum_{i\ge 0} (-1)^i \dim H^i(A,L)\in \Z.
+\]
+Studying the Euler characteristic is much easier than studying cohomology spaces, and it behaves nicely.
+\begin{fct}[Black box 2]
+\begin{enumerate}
+\item
+We have that
+\[
+\chi_{A\times \av} (\cal P_A)=(-1)^g.
+\]
+\item For $f:A\to B$ isogeny, $M\in \Line(B)$, 
+\[
+\chi_A(f^*L)=(\deg f) \chi_B(L).
+\]
+\end{enumerate}
+\end{fct}
+This is proved in Mumford~\cite[\S13.1--2]{Mu70}. In fact the cohomology is concentrated in degree $g$.:
+\[
+H^i(A\times \av,\cal P_A)=\begin{cases}
+k &\text{if }i=g\\
+0& i\ne g.
+\end{cases}
+\]
+
+
+Now recall the definition of $f^{\vee}:B^{\vee}\to \av$. For all $T\in \schk$ (or over $S$, in general), %moduli interpretation.
+%dual defined over arb base
+we defined $f^{\vee}$ to make the diagram below commute.
+\beq{eq:965-11-1}
+\xymatrix{
+B^{\vee}(T)\ar[d]_{f^{\vee}} \aq{r} & \Hom(T,B^{\vee})\ar[d]^{f^{\vee}\circ (\bullet)} \ha{r} & \Pic_e(B\times T)\ar[d]^{(f\times 1)^*}\\
+\av(T) \aq{r} & \Hom(T,\av) \ha{r} &\Pic_e(A\times T). }
+\eeq
+\fixme{Notes}
+
+%what's a good way to go between AxT, BxT: just pull back.
+%yoneda:
+\begin{lem}\llabel{lem:787-11-2}
+For all $\la:A\to \av$, we have the commutative triangle
+\[
+\ctr{A}{(\av)^{\vee}}{\av}{K_A}{}{}{\la}{}{\la^{\vee}},
+\]
+i.e., $\la=\la^{\vee}\circ K_A$. 
+\end{lem}
+\begin{proof}
+Plug into~\eqref{eq:965-11-1}. We have $B=\av$, $f=\la$, and $T=A$.
+\end{proof}
+Now we have a diagram
+\[
+\xymatrix{
+K_A\ar@{|->}[r] \ar@{}[d]|-{\rotatebox[origin=c]{-90}{$\in$}}
+\ar@/_4pc/[ddd]
+& \tau^* \cal P\ar@{}[d]|-{\rotatebox[origin=c]{-90}{$\in$}}\ar@/^4pc/[ddd]\\
+\Hom(A,(\av)^{\vee}) \ar[d]^{\la^{\vee}\circ \bullet}\ha{r} & \Pic_e(\av\times A)\ar[d]^{(\la\times 1)^*}\\
+\Hom(A,\av)\ha{r}& \Pic_e(A\times A)\\
+\la^{\vee}\circ K_A\mt{r} \inl\aq{d}& (\la\times 1)^* \tau^* \cal P_A \inl\aq{d}^{\sim}\\
+\la^{\vee} \mt{r} &(1\times\la)^*\cal P_A
+}
+\]
+\begin{cor}
+If $\la:A\to \av$ is an isogeny then $\la^{\vee}$ is an isogeny. 
+\end{cor}
+\begin{proof}
+Since the dimensions of $A$ and $\av$ are the same, to show $\la$ is an isogeny it suffices to show $\la$ is surjective.
+
+If $\la $ is surjective, then $\la^{\vee}$ is also surjective by Lemma~\ref{lem:787-11-2}.
+\end{proof}
+\begin{lem}\llabel{lem:2poincare-bundle}
+\[
+(1\times f^{\vee})^* \cal P_A\cong (f\times 1)^*\cal P_B.
+\]
+where
+\[
+\xymatrix{
+& A\times B^{\vee} \ar[ld]_{1\times f^{\vee}} \ar[rd]^{f\times1}&\\
+A\times \av && B\times B^{\vee}
+}
+\]
+We have $\cal P_A$ lives on the LHS and $\cal P_B$ lives on the  RHS. We now have
+\[
+\xymatrix{%forget rigid if trivial along id section
+\id_{\av} \ar@{|->}[d]\ar@{}[r]|-{\in} & \Hom(\av,\av) \ha{r} \ar[d]^{()\circ f^{\vee}} & \Pic_{e,A/k}(\av) \ar@{}[r]|-{\ni} \ar[d]^{(1\times f^{\vee})^*}& \cal P_A\ar@{|->}[d]\\%func of Pic on top, how pic constructed
+f^{\vee}& \Hom(B^{\vee},A^{\vee})\ha{r} & \Pic_{e,A/k} (B^{\vee}) & \text{same}\\
+\id_{B^{\vee}} \ar@{}[r]|-{\in}\ar@{|->}[u] & \Hom(B^{\vee},B^{\vee}) \ar[u]_{f^{\vee}\circ ()} \ha{r} & \Pic_{e,B/k} (B^{\vee}) \ar[u]_{(f\times 1)^*} \ar@{}[r]|-{\ni} & \cal P_B \ar@{|->}[u]
+}
+\]
+\end{lem}
+\fixme{Top comes from def pic, bottom from EQ. Same on rhs.}
+\begin{cor}
+If $f$ and $f^{\vee}$ are isogenies, then $\deg f=\deg f^{\vee}$. 
+\end{cor}
+\begin{proof}%$A\times B^{\vee}$. 
+%base change on isog, degree remains same. Think in terms of comm alg.
+We have
+\[
+\chi((1\times f^{\vee})^* \cal P_A) =\chi((f\times 1)^*\cal P_B).
+\]
+The LHS is
+\[
+\deg(1\times f^{\vee})\chi(\cal P_A)=\deg(f^{\vee})\chi(\cal P_A)
+\]
+while the RHS is
+\[
+\deg(1\times f^{\vee})\chi(\cal P_B)=\deg(f)\chi(\cal P_B).
+\]
+But $\chi(\cal P_A)=\chi(\cal P_B)$ (why) so $\deg f=\deg f^{\vee}$. 
+\end{proof}
+%%
+%\fixme{
+\begin{cor}
+%cor 3
+$K_A$ is an isomorphism.
+\end{cor}
+\begin{proof}
+\[
+\ctr{A}{(\av)^{\vee}}{\av}{K_A}{}{}{\la_L}{}{\la_L^{\vee}}.
+\]
+
+Choose an ample line bundle $L\in \Line(A)$. Then $\la_L$ is an isogeny because $K(L)$ is finite over $k$. So $\la_L^{\vee}$ is an isogeny. $K_A$ is also an isogeny, since $\ker K_A\subeq \ker \la_L$. Now 
+\[
+\deg(\la_L)=\deg(\la_L^{\vee}\circ K_A)=\deg(\la_L^{\vee})\deg(K_A)
+\]
+think in terms of algebras, this is like $B$ locally free rank $m$ over $A$ and $C$ locally free rank $n$ over $B$, then $C$ locally free rank $mn$ over $A$.
+Hence $\deg(K_A)=1$, and $K_A$ is an isomorphism.
+\end{proof}
+%doesn't follow from lem 1: we're talking about map between 2 different varieties A\to B. If B like \av already have answer.
+If remains the prove the following.
+\begin{lem}
+If $f$ is an isogeny, then $f\vee$ is an isogeny. 
+\end{lem}
+\begin{rem}
+(maybe better) show $\ker f^{\vee}$ is Cartier dual  $\ker f$.
+\end{rem}
+Here's an exercise: The following commutes.
+\[
+\commsq{A}{(\av)^{\vee}}{B}{(B^{\vee})^{\vee}}{f}{K_A}{(f^{\vee})^{\vee}}{K_B}
+\]
+I.e. ``$f=(f^{\vee})^{\vee}$". Since the across maps are iso, if $f$ is an isogeny then $f$ is surjective, $\dim A=\dim B$, $(f^{\vee})^{\vee}$ is surjective. If $f^{\vee}:B^{\vee}\to A^{\vee}$ not isogeny then not surjective. Then $f^{\vee}(B^{\vee})\subeq A^{\vee}$, subabelian variety of dimension less than $g$. 
+image proper group subvariety.
+
+But dimension less than $g$ can't surject to dimension $g$, contradiction.
+\[
+B^{\vee}\to f^{\vee}(B^{\vee}) \to A^{\vee}
+\]
+where $f^{\vee}(B^{\vee})$ has dimension less than $g$.
+\[
+(B^{\vee})^{\vee} \leftarrow ()^{\vee} \leftarrow (\av)^{\vee}
+\]
+dim $<g$ in middle, $(f^{\vee})^{\vee}$ surjective. dim $g$ on left. Contradiction, end proof of Prop. 2. 
+\end{proof}%}
+%%

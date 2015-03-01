@@ -1,0 +1,270 @@
+\lecture{Thu. 10/4/12}
+
+Today we will prove that abelian varieties are projective. Recall that a scheme $X$ over $S$ is \textbf{projective} if it factors as $X\hra \Pj_S^n \to S$ where the first map is a closed immersion. A scheme $X$ is projective if and only if we can find an ample invertible sheaf on $X$ (see Hartshorne,~\cite[\S II.7]{Ha77}, specifically Theorem II.7.6). We will prove projectivity by finding an ample invertible sheaf.
+
+\subsection{Abelian varities are projective}
+
+Let $k$ be a field and $A\in \abk$. Let $D$ be an effective divisor (you can think of $D$ as a Weil divisor---sums of subvarieties of codimension 1---or a Cartier divisor---a global section of the sheaf of total quotient rings). Let $L:=L(D)$ be the associated line bundle.
+
+Set theoretically, define
+\[
+H(D):=\set{x\in A(\ol k)}{T_x^*D=D}\subeq A(\ol k).
+\]
+%cod 1 subvar
+%another cod 1 subvar
+(Note the condition is equality, not equivalence in divisor class.)
+Here $T_x:A\to A$ is translation by $x$. To work scheme-theoretically, we equip $H(D)$ with the reduced closed subscheme structure of $A$. Note $H(D)$ is Zariski closed because the equality is a closed condition. %not equal to is an open condition.
+Note it is also a sub{\it group }scheme; this is clear.
+
+\subsubsection{An equivalence}
+\begin{pr}\llabel{pr:787-9-1}
+Assume $k=\ol k$. Let $f:A\to\Spec k$ be the structure map.
+Then the following are equivalent.
+\begin{enumerate}
+\item
+$H(D)$ is finite.
+\item
+$K(L)$ is finite. 
+\item %more geometric
+The linear system $|2D|$ has no basepoint and defines a finite morphism $A\to \Pj(f*L^{\ot 2})$. %(If you think in terms of line bundles, $L\ot L$ has lots of global sections; we can use the global sections; use vector space to give coordinates. Choose a basis for $\Ga'(L\ot L)$. Each basis element gives function; use functions to get embedding. Not quite saying closed imbedding, but close.)
+%TODO review Hartshorne II.7.
+\item
+$L$ is ample over $A$. 
+\end{enumerate}
+Here ``finite" means either finite over $\Spec k$, or having dimension 0, or having finitely many points (the conditions are equivalent).
+%4efers to the number of $\ol k$-points 
+\end{pr}
+\begin{rem}
+To show that an abelian variety is projective, we will use (i)$\implies $(iv). In practice we most often use (ii)$\implies$(iv).
+\end{rem}
+\begin{proof}
+We show that (ii)$\implies$(i)$\implies$(iii)$\implies$(iv)$\implies$(ii).
+
+For (ii)$\implies$(i), just note $H(D)\subeq K(L)$. This is because $H(D)$ is the set of $D$ such that $T_x^*D$, and $K(L)$ is the set of $L$ such that $T_x^*L\ot L^{-1}$ is trivial (i.e. $T_x^*L\sim L$), which is a weaker condition.
+
+We'll skip (i)$\implies$(iii).
+
+(iii)$\implies $(iv) is standard.
+
+(iv)$\implies$(ii): The idea is to take the identity component. $K(L)$ is reduced closed subscheme but not necessarily connected. There will be finitely many connected components. The proof will comes down to showing that the identity component is trivial.
+
+Let
+\[
+Y:=(K(L)^{\circ})\rd \subeq A\;/k
+\]
+($H(D)$ is reduced by definition, but $K(L)$ may not be.) We will show that $Y$ is a point (i.e. has dimension 0). To do this, we show it's a subvariety, and then use ample line bundles.
+
+\begin{clm}
+$Y$ is a sub-abelian variety of $A$.
+\end{clm}
+\begin{proof}
+%When we take the reduced 
+We first show $Y$ is a subgroup scheme of $A$.
+We know $K(L)$ is a subgroup scheme in $A$. It is equipped with the multiplication and inverse maps that are the restriction of the corresponding maps $\mu,i$ for $A$. 
+
+We need to show $Y$ is stable under $\mu$. We have the diagram
+\[
+\xymatrix{
+&(K(L)\times K(L))^{\circ}\rd\aq{d}&\\
+&Y\times Y \ha{r}\ard{d}\ard{dl} & K(L)\times K(L)\ar[d]^{\mu}\\
+Y=(K(L)^{\circ})\rd \ha{r} & K(L)^{\circ} \ha{r} & K(L).
+}
+\]
+Because $Y$ is connected, $\mu$ factors through $Y\times Y\to K(L)^{\circ}$. A map from a reduced scheme factors through the reduced version of the target (Hartshorne~\cite{Ha77}[Exer. II.2.3c]), so $\mu$ further factors through $Y$. The proof for $i$ is similar.
+
+Next we need to show $Y$ is integral and proper over $k$.
+%The next question for us is why is $Y$ smooth over $k$?
+Because $Y$ if locally of finite type and reduced over $k$, the smooth locus $Y_{sm}\ne \phi$ is open dense. Using group translation, we can propagate it to all of $Y$, so $Y_{sm}=Y$. Because $Y$ is smooth and connected, it is irreducible. Because $Y$ is smooth and irreducible, it is an integral variety. Now $Y\subeq A$ is a closed immersion so $Y$ is a proper variety over $k$. Thus $Y$ is an abelian variety over $k$.
+\end{proof}
+
+What good is knowing this? We want to show $\dim(Y)=0$ and $Y$ reduces to a point, using the fact that there's a ample line bundle on $A$. To use the line bundle, we have to pull it back to $Y$ and then use  Fact~\ref{fct:787-8-1}. (Actually we will work with a line bundle on $A\times A$.)
+
+We have the canonical map $i:Y\hra A$, with $L|_Y:=i^*L$ ample. Consider the map 
+\beq{eq:787-9-1}j:Y\times Y\xra{\id,i} Y\times Y\subeq A\times Y\subeq A\times K(L)\subeq A\times A\eeq
+that sends $y\mapsto (y,-y)$. Consider the Mumford line bundle
+\[
+M(L):=\mu^*L\ot p_1^*L^{-1}\ot p_2^* L^{-1}.
+\]
+%This looks more complicated; what's the point?
+%The point is, 
+We pull back the Mumford line bundle to $Y$ and see what happens. Observe (we have $p_1\circ (\id,i)$ is the identity, $p_2\circ (\id,i)$ is the inverse map, and $\mu\circ (\id,i)$ is the trivial map)
+\[
+j^*M(L)\cong L|_Y\ot [-1]^*L_Y.
+\]
+This is still ample, because the tensor product of ample sheaves is ample.
+
+On the other hand, we claim the following.
+\begin{clm}\llabel{thm:jML-trivial}
+$j^*M(L)$ is trivial.
+%isom to structure sheaf of $Y$. 
+\end{clm}
+From the claim and ampleness of $j^*M(L)$, we by Fact~\ref{fct:787-8-1} that $\dim(Y\times Y)=0$ and $\dim(Y)=0$. Hence $\dim K(L)=0$ as well, i.e. (ii) holds.
+
+Note we work with $M(L)$ because as we will see in the proof of Claim~\ref{thm:jML-trivial}, it allows us to use the Seesaw Theorem.
+
+\begin{proof}[Proof of Claim~\ref{thm:jML-trivial}]
+We just compute the pullback.
+We might as well prove that the pullback to any intermediate step in~\eqref{eq:787-9-1} is trivial; we show it's already trivial when pulled back to $A\times K(L)$.
+
+By definition of $K(L)$ in Seesaw Theorem~\ref{thm:seesaw}, 
+\beq{eq:787-9-2}
+M(L)|_{A\times K(L)}\cong p_2^* N %checkme
+\eeq
+for some line bundle $N$ over $K(L)$. We have the commutative diagram
+\[
+\commsq{\{e_A\}\times K(L)}{A\times K(L)}{K(L)}{K(L).}{\cong}{\ep}{p_2}{\id}
+\]
+Pull back~\eqref{eq:787-9-2} via $\ep$ to get
+\[
+\ep^* (\mu^*L\ot p_1^* L^{-1}\ot p_2^*L^{-1})\cong \ep^* p_2^* N\cong (p_2\circ \ep)^*N=N
+\]
+because $p_2\circ \ep=\id$.
+\[
+\xymatrix{
+K(L)\ha{r}^-{\ep} & A\times K(L)\ar[d]^{p_2}\\
+& K(L).
+}
+\]
+
+It suffices to show that the LHS is trivial. But what is it? We compute that it equals
+%ep p_2, ep then mu, same result
+\[
+(\mu\circ \ep)^*L\ot (p_1\circ \ep)^*L^{-1} \ot (p_2\circ \ep)^*L^{-1}
+\]
+which is trivial because $\mu\circ \ep=p_2\circ \ep$ and $p_1\circ \ep$ is trivial. %look complicated but once used to, not so bad.
+%Go through calculation property of~\eqref{eq:787-9-2}, already much nicer.
+%trivial by computation 
+\end{proof}
+This finishes the proof of Proposition~\ref{pr:787-9-1}.
+\end{proof}
+\subsubsection{Proof of Projectivity}
+We can now show that every abelian variety is projective over its basefield. 
+\begin{thm}\llabel{thm:ab-var-proj}
+An abelian variety over any field $k$ is projective over $k$.
+\end{thm}
+\begin{proof}
+We can reduce to $k=\ol k$ without too much difficulty (see~\cite{MW71} or~\cite{GGBM}).
+%take sum of Galois orbits
+%divisor over finite extension. Take sum of div under Galois orbits, ample divisor over k.
+
+Here's a cool fact which we'll justify later.
+\begin{fct}\llabel{fct:787-9-1}
+Let $X$ be a proper variety over $k$ and $U\subeq X$ be a (normal)\footnote{This condition makes the fact easier to check. Without the condition it is still true (see EGA IV).} affine open subscheme. Then $D:=X\bs U$ is a divisor (its irreducible components have codimension 1).\footnote{Something like $\A^2-\{(0,0)\}$ fails this criterion because it is not affine.}
+\end{fct}
+The fact lies at the heart of the proof because it gives us the ample line bundle we need.
+%complement will magically bedivisor
+
+As we've mentioned, to prove projectivity it is enough to produce an ample line bundle or divisor, because we obtain a very ample line bundle by taking a high power. By the equivalence in Proposition~\ref{pr:787-9-1}, $L$ is ample iff $H(D)$ or $K(L)$ is finite. We will show construct a divisor $D$ such that $H(D)$ is finite. 
+
+Choose $U$ and $D$ as above. We may assume that $0\in U$ by translation.
+%EGA: much more general theorem. Just affine locally noetherian morphism
+Recall that
+\[
+H(D)(\ol k)=\set{s\in A(\ol k)}{T_x^*D=D}.
+\]
+The condition is equivalent to $T_x^*U=U$. Now $0\in U$ implies $H(D)\subeq U$. 
+%in image of $A$ by identity section to $A$. Check on $\ol k$-points, on subscheme 
+Now $x\in H(D)$ means that $U$ is $T_x$-stable.  We have this wonderful fact. Recall $H(D)\subeq A$ is a closed immersion (as it has the reduced closed subscheme structure) %do we need reduced?
+and $A\to \Spec k$ is proper, so $H(D)\to \Spec k$ is proper.
+\[
+\xymatrix{
+H(D)\ha{rr}^-{\text{closed immersion}}\ar[rrd]_{\text{proper}} && A\ar[d]^{\text{proper}}\\
+&& \Spec k
+}
+\]
+However it is very difficult for a proper scheme to live in an affine scheme.
+\begin{fct}\llabel{fct:proper-to-affine}
+Suppose $X\to \Spec k$ is proper, $Y\to \Spec k$ is affine, and $f:X\to Y$ is a morphism. Then the image of $f$ is finite (0-dimensional).
+\[
+\ctr{X}{Y}{\Spec k}{f}{}{}{\text{proper}}{}{\text{affine}}
+\]
+\end{fct}
+The upshot is that $\dim H(D)=0$ (finite), so $L$ is ample and $A$ is projective over $k$.
+\end{proof}
+
+Let's justify cool fact~\ref{fct:787-9-1}.
+\begin{proof}
+Let $X\bs U=Z\cup Z'$. Assume $Z$ has codimension at least 2 in $X$ and $Z'$ is closed. We want to show $Z=\phi$. We can reduce to the case where $X$ and $U$ are both affine. 
+
+%irreducible
+Let $V\subeq X\bs Z'$ be the open affine neighborhood of the generic point for $Z$. Then $U\cap V\subeq V$ is open and $U\cap V,V$ are affine. (The intersection of a separated affine subscheme and an affine subscheme is affine.) %reference
+It is integral because $X$ is integral (it is a variety) and these are open subsets of $X$. We use the following key fact from commutative algebra. %sections over open subsets are all integral. 
+
+%we almost reduce to fact in commutative algebra.
+\begin{fct}[18.705 notes, 23.11; \cite{Ha77}, Pr. II.6.3A]
+Let $A$ be a noetherian integral domain. 
+If $A$ is normal iff $A=\bigcap_{\mfp\text{ height }1} A_{\mfp}$. (The intersection is taken in $\Frac(A)$.)
+%Then $A$ is normal iff $A=\bigcap_{\mfp\text{ height }1} A_{\mfp}$ and all $A_{\mfp}$ are DVR's. (The intersection is taken in $\Frac(A)$.)
+\end{fct}
+Let $U\cap V=\Spec B$ and $V=\Spec A$. The complement of $U\cap V\subeq V$ has codimension at least 2 in $V$. 
+%Height 1 primes are in 
+%Roughly, we have 
+We have
+\[\bigcap_{\mfp\in U}A_{\mfp} =A\subeq B=\bigcap_{\mfp\in U\cap V}A_{\mfp}\stackrel{(*)}{\subeq} \bigcap_{\mfp\text{ height }1}A_{\mfp}=A\]
+%intersection of loc of all primes cont in p
+The middle inclusion (*) is from the fact that $U\bs U\cap V$ has codimension at least 2.
+Then we have $B=A$, and hence $U\cap V=V$. This means $Z=\phi$. %and affine, so equal using natural $A$-algebra structure.
+%\fixme{complement empty. generic point. contradiction.}
+%Thus $Z=\phi$.
+\end{proof}
+Consider $A\in \abk$ where $k$ is any field. Before, we assumed $A$ was projective over $k$ to prove that $[n]:A\to A$ is an isogeny (Corollary~\ref{cor:[n]=isogeny}). But now we know that $A$ is always projective, so $[n]$ is an isogeny for any abelian variety.
+\subsection{Rank of $A[n]$}
+We now know $A[n]$ is a finite group scheme over $k$. 
+It is natural to ask what the rank of $A[n]$ over $k$ is.
+\[
+\rank_k A[n]=?
+\]
+Mumford takes 2 approaches.
+\begin{enumerate}
+\item
+intersection theory,
+\item
+cohomology of line bundles (or coherent sheaves). (Look at Hilbert polynomials; the rank pops out as the top degree coefficient.)
+\end{enumerate}
+We'll sketch the first approach.
+
+%common approach: use ample line bundle to compute
+Choose an ample line bundle $L_0=L(D_0)$ where $D_0$ is an effective ample divisor. We make it ample and {\it symmetric}:
+\[
+L=L_0\ot [-1]^*L_0\lra D
+\]
+(by this notation, we mean: suppose that $L$ corresponds to $D$). For a symmetric line bundle we know that
+\[
+[n]^*L\cong L^{\ot n^2}\lra [n]^*D=n^2D.
+\]
+(For $D$ we use additive notation.)
+%Using additive notation, $[n]^*
+We now invoke the following theorem from intersection theory for proper varieties over $k$. We may assume $k=\ol k$. 
+\begin{fct}
+Let $f:X\tra Y$ be proper varieties of the same dimension $g$ over $k$. Say $\deg f=[k(Y): k(X)]$ where $D_1,\ldots, D_g$ are Cartier divisors. Then we have\footnote{See~\cite{Ha77}[Ex. II.6.6.2] for definitions of the intersection divisor.} %the intersection
+\[
+(f^*D_1\cdots f^*D_g)_X=(\deg f)(D_1\cdots D_g)_Y.
+\]
+%flf
+%or cohom in coherent sheaves
+\end{fct}
+Now plug in $X=Y=A$ and $f=[n]$ to get
+\[
+\underbrace{[n]^*D\cdots [n]^*D}_g=(\deg[n])(\underbrace{D\cdots D}_g)
+\]%dddddd
+We have $n^2D=[n]^*D$ so the LHS is $n^{2g} (D\cdots D)\ne 0$. Hence we get $\deg[n]=n^{2g}$. If $\chr k\nmid n$, then this gives $\rank_kA[n]=2g$.
+
+%(We assume $\chr k\nmid n$, but this may not be necessary.)
+%in classical theory have to assume. Modern intersection theory
+%char p?
+%int number, length of certain modules.
+%dim as k-v space.
+%\fixme{Why need symmetric?}
+We have shown the following.
+\begin{thm}[Degree of multiplication-by-$n$ map]\llabel{thm:deg-A[n]}
+Let $A$ be an abelian variety of dimension $g$ over a field $k$. Then the following hold.
+\begin{enumerate}
+\item
+The multiplication-by-$n$ map has degree
+\[
+\deg[n]=n^{2g}.
+\]
+\item
+If $\chr k\nmid n$ then $\rank_kA[n]=2g$ and $A[n]\cong (\Z/n\Z)^{2g}$.
+\end{enumerate}
+\end{thm}

@@ -1,0 +1,361 @@
+\lecture{Thu. 11/29/12}
+
+Today we'll talk about finite commutative group schemes over a field. Next time we'll talk about Dieudonn\'e theory, and our final topic will be Honda-Tate theory. %(Next Thursday 12/6: any volunteers to speak?)
+
+\subsection{Frobenius and Verschiebung}
+\subsubsection{Frobenius}
+The key to studying finite group schemes over a field (or an arbitrary base scheme) is the Frobenius map. Recall that for a $\Fp$-scheme $X$, we defined the absolute Frobenius map $F_X:X\to X$ by acting on topological spaces as the identity $X^{\text{top}}\xra{\id}X^{\text{top}}$ and acting on the underlying ring as the $p$th power map, $a^p\mapsfrom a$. 
+
+For an scheme $X\xra fS$ in $(\text{Sch}/\Fp)$, we define the relative Frobenius map $F_{X/S}$ using the fiber diagram
+\[
+\xymatrix{
+\pull{X}{f}{\exists ! F_{X/S}}{}{X^{(p)}}{}{X}{}{f}\back{S}{F_S}{S}
+}
+\]
+%We obtain $F_{X/S}:X\to X^{(p)}$, the relative Frobenius.
+
+We're interested in group schemes. 
+%
+\subsubsection{Verschiebung}
+
+Let $S$ be a $\Fp$-scheme, and let $G\in  \pat{Gp/$S$}$. We have a map $F_{G/S}:G\to G^{(p)}$ a morphism of $S$ group schemes. There is a useful map going the opposite direction. %(The map is functorial enough to be true, we won't check the details.)
+
+\begin{fct}
+Suppose $G$ is commutative. Then there exists a canonical map 
+\[
+V_G:G^{(p)}\to G
+\]
+in $\gps$ called the \textbf{Verschiebung} such that
+\[
+F_{G/S}\circ V_G=[p],\qquad V_G\circ F_{G/S}=[p].
+\]
+\end{fct}
+
+We only care about the case where $k$ is a field. Suppose $G\in \pat{FCGp/$k$}$ where FCGp stands for ``finite locally free commutative group scheme." (We could work over a general scheme $S$, but we won't need this generality.)
+
+It turns out we can express $V_G$ in terms of the Frobenius map.
+
+\begin{pr}
+We have
+\[
+V_G=(F_{G^{\vee}})^{\vee}
+\]
+where ${}^{\vee}$ denotes Cartier dual.
+\end{pr}
+
+By this we mean the following. Dualizing 
+the map
+\[
+G^{\vee}\xra{F_{G^{\vee}}} G^{\vee(p)}
+\]
+gives 
+\[
+\xymatrix{
+G^{\vee \vee} \aq{d} & G^{\vee(p)\vee}\ar[l]_{F_{G^{\vee}}^{\vee}} \aq{d}\\
+G&G^{(p)}\ar[l]^{V_G}
+}
+\]
+%For psychological comfort, 
+One can check that $G^{(p)}$, $F_G$, $V_G$ are all functorial in $G$.
+
+\subsection{On $\pat{FCGp/$k$}$.}
+Let $k$ be any field.
+\subsubsection{Approach using fppf sheaves}
+\begin{df}
+A \textbf{fppf scheme} is a map 
+\[
+\schk\xra{\mathcal F} \pat{Grp}
+\]
+%grothendieck topology
+satisfying the fppf sheaf axioms (finitely presented, faithfully flat).
+\end{df}
+We can embed the category of schemes into the category of fppf sheaves:
+\[
+\pat{FCGp/$k$}\hra \pat{fppf/$k$}.
+\]
+This is a fully faithful functor (over abstract groups).
+
+The different notions of quotients in these categories are the same: an exact sequence in $\pat{FCGp/$k$}$ is an exact sequence as fppf sheaves. If we have $H\hra G$, we can define $G/H$ as a geometric quotient. Or we can look at them as fppf sheaves, take the presheaf quotient, sheafify, and then see it's represented by an object in $\pat{FCGp/$k$}$. We hence have two ways to view the quotient.
+
+\subsubsection{Decomposition into $\ell$-primary parts}
+Let $G\in\pat{FCGp/$k$}$. Then there is a (finite) product decomposition
+\[
+\prod_{\ell\text{ prime}} \ub{G[\ell^{\iy}]}{\varinjlim G[\ell^n]}.
+\]
+%actually the limit ends after finitely many steps.
+
+The proof uses the fact that if $r=|G|$, then $[r]=0$ on $G$. (The analogue for groups is that raising an element to the order of a group gives the identity element. However the proof for schemes is nontrivial.)
+
+Thus it's enough to study the $\ell$-primary part for each $\ell$.
+\subsubsection{$\ell$-groups}
+
+\begin{fct}
+Suppose $\ell\ne \chr k$.
+Let $G\in\pat{FCGp/$k$}$. Let $r=\rank G$. If $r^{-1}\in k$ (i.e., $\ell\nmid r$), the $G$ is \'etale over $\Spec k$.
+\end{fct}
+There are several definitions of ``\'etale." One of them is ``smooth of relative dimension 0."
+
+It suffices to check $G$ is \'etale after base change. %(See references on website.)
+\subsubsection{$\pat{\'Etale FCGp/$k$}$}
+Let $G=\Spec R\to \Spec k$.
+
+Write $R=\prod_{i=1}^r R_i$, where $R_i$ are finite local $k$-algebras.
+Then $G$ is \'etale iff $R_i$ are finite separable extensions of $k_i$ for each $i$.
+
+\begin{pr}
+There is an equivalence
+\[
+\pat{\'EtFCGp/$k$}\xrc \bt{discrete finite}{$G(k\sep/k)$-modules}.
+\]
+(Here discrete means that the stabilizer of a point in the Galois group is open.)
+The map sends
+\[
+\cal F\mapsto \cal F(k\sep).%\cil Gal
+\]
+\end{pr}
+In other words, we can understand an \'etale finite commutative group scheme over $k$ just by understanding its $k\sep$ points and the Galois action on them.
+%\'etale fund group here. stalk in \'etale topology.
+We generally believe that the guy on the RHS is easier than the guy on the LHS. 
+
+But there are still lots of non-\'etale schemes, and they remain mysterious.
+
+\subsubsection{Conclusion}
+We can focus on $p$-groups over $k$ where $\chr k=p$. 
+%goal of d theory is to classify objects in a way no more difficult than prop above.
+Dieudonn\'e theory classifies these objects.
+\subsection{Types of group schemes}
+We'll take a step back to give some strategies and overview. First we need some basic definitions.
+\begin{df}
+Let $k$ be any field. %can be char 0 but less interesting.
+Let $G\in \pat{FCGp/$k$}$.
+\begin{enumerate}
+\item
+$G$ is \textbf{infinitesimal} if $G$ is connected. (This is true iff $G_{\ol k}$ is connected, iff $G_{\text{top}}=\{\cdot\}$ (as $G$ has a finite number of points), iff $G_{\ol k,\text{ top}}=\{\cdot \}$.)
+\item
+$G$ is \textbf{unipotent} iff $G^{\vee}$ is infinitesimal. 
+
+$G$ is \textbf{multiplicative} (diagonalizable) iff $G^{\vee}$ is \'etale.
+
+$G$ is \textbf{bi-infinitesimal} iff $G$ and $G^{\vee}$ are infinitesimal.
+\end{enumerate}•
+\end{df}
+%But if we can only account for a small number of group schemes, this is bad.
+We can restrict to studying these types of schemes, because everything is an extension of an \'etale by an infinitesimal group scheme; they account for everything if you allow extensions.
+%cannot be etale for both g and dual.
+\begin{pr}
+Let $\chr(k)=p>0$, and let $G$ be a $p$-group scheme. If $G$ is  \'etale, then $G^{\vee}$ is infinitesimal.
+\end{pr}
+\begin{proof}
+First reduce to $k=\ol k$ by using the fact that \'etale group schemes are preserved by basechange.
+%cartier dual works nicely
+
+%bite
+Now $\Ga:=G(k)$ is finite abstract $p$-group.
+We have $G^{\vee}=\Spec k[\Ga]$. 
+Let
+\[
+\mm=\set{
+\sum_{\ga\in \Ga} a_{\ga}\ga
+}{\sum_{\ga\in \Ga} a_{\ga}=0}.
+\]
+We can check
+\begin{itemize}
+\item
+$\mm$ is nilpotent: For large $N$ we have
+\[
+\pa{\sum a_{\ga}\ga}^{p^N} = \pa{\sum a_{\ga}}^{p^N}\cdot 1=0.
+\]
+\item
+$\mm$ is maximal:
+We see that $k[\Ga]/\mm=k$ from the exact sequence %have the exact sequence
+\[
+0\to \mm \to k[\Ga]\xra{\tr} k\to 0
+\]
+where the trace sends $\sum a_{\ga}\ga\mapsto \sum a_{\ga}$.
+\end{itemize}
+Every prime ideal contain nilpotents, so it contains $\mm$ and  nothing else. Thus $G_{\text{top}}^{\vee}=\{\cdot\}$.
+\end{proof}
+\begin{lem}
+If $G$ is \'etale and infinitesimal, then $G$ is trivial.
+\end{lem}
+\begin{proof}
+Reduce to the affine case and write $G=\Spec\pa{\prod_{i=1}^r R_i}$. 
+Because $G$ is infinitesimal, $r=1$. Because $G$ is \'etale, $R_1$ is finite separable over $k$. Because there exists an identity section, $R_1=k$.
+\end{proof}
+Say that $G$ is a finite commutative $p$-group. 
+We have the following summary.\footnote{Note that unipotent group schemes contain bi-infinitesimal group schemes, and multiplicative group schemes contain bi-infinitesimal group schemes as well. For ease of classification we will sometimes write ``unipotent"/``multiplicative" to exclude bi-infinitesimal schemes; hopefully this is clear from context.}
+%Right top \chr k=p.
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+$G\,\backslash\, G^{\vee}$  & \'etale & infinitesimal\tabularnewline
+\hline 
+\'etale & $\chr k\ne p$ & unipotent\tabularnewline
+\hline 
+infinitesimal & multiplicative & bi-infinitesimal\tabularnewline
+\hline 
+\end{tabular}
+\end{center}
+
+Mumford calls bi-infinitesimal group schemes ``local-local." The definitions coincide when $k$ is perfect.
+
+\begin{ex}
+We have the following examples.
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\cline{2-2} 
+\multicolumn{1}{c|}{} & $\ul{\Z/p\Z}$\tabularnewline
+\hline 
+$\mu_{p}$ & $\al_{p}$\tabularnewline
+\hline 
+\end{tabular}
+\end{center}
+
+Here
+\[
+\mu_p=\ker([p]:\G_m\to \G_m)
+\]
+and %$\al_p=\Spec k[x]/(x^p)$ with the same comultiplication as $\G_a$, and
+\[
+\al_p:=\ker(F_{\G_a}:\G_a\to \G_a).
+\]
+(Recall addition on $\G_a$ was given by  the map $x\mapsto x\ot 1+1\ot x$.) We have $\al_p=\Spec k[x]/(x^p)$ with the same comultiplication as $\G_a$. %\fixme{(?)}. 
+Note $\al_p^{\vee}\cong \al_p$ which can be seen by the existence of a perfect pairing 
+%cannot make sense of 1/p! if p=0.
+\[
+\al_p\times \al_p\to \mu_p
+\]
+given by 
+\[
+(x,y)\mapsto \exp(xy)=1+xy+\cdots +\fc{(xy)^{p-1}}{(p-1)!}.
+\]
+\end{ex}
+\begin{fct}
+When $k=\ol k$, $\ul{\Z/p\Z}$, $\mu_p$, and $\al_p$ are the only groups of order $p$ in $\pat{FCGp/$k$}$.
+
+All other $p$-groups are extensions of them, we can find a filtration such that each quotient is one of these groups:
+\[
+G=G_0\supset \cdots\supset G_r=\{0\}.
+\]
+\end{fct}
+\begin{ex}%\fixme{look into this example more.} 
+For instance, consider elliptic curves over $\fpb$. Ordinary curves are extensions of $\Z/p\Z$ by $\mu_p$. Supersingular curves are  extensions of $\al_p$ by another $\al_p$.
+\end{ex}
+\begin{pr}\llabel{pr:787-FV}
+The following hold.
+\begin{enumerate}
+\item
+$G$ is \'etale iff $F_{G/k}$ is an isomorphism.
+
+$G$ is infinitesimal iff $F_{G/k}$ is nilpotent.
+\item
+$G$ is multiplicative iff $V_G$ is an isomorphism.
+
+$G$ is unipotent iff $V_G$ is nilpotent.
+
+$G$ is bi-invariant iff both $F_{G/k}$ and $V_G$ are nilpotent.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+Going from (1) to (2), just use the fact that the dual of Frobenius is Verschiebung.
+
+Think of $F_{G/k}$ as a twist. We have that $F_{G/k}$ is nilpotent iff for some $r>0$, the following composition is 0:
+\[
+\xymatrix{
+G\ar[r]^{F_{G/k}}\ar@/_1pc/[rrr]_{F_{G/k}^{(r)}} & G^{(p)}\ar[r]^{F_{G^{(p)}/k}}& \cdots \ar[r] & G^{(p^r)}.
+}
+\]
+Consider $G$ over $\Spec k$:
+\[
+\xymatrix{
+G=\Spec R\ar[d]\\
+\Spec k. \ar@/_1pc/[u]_e
+}
+\]
+We can write where $R=k\opl J$ where $J$ is the augmentation ideal. Then we have the commutative diagram
+\[
+\xymatrix{
+\Spec R=G\ar[r] & G^{(p^r)} \aq{r} & \Spec(R\ot_k k)\\
+\ker F_{G/k}^{(r)}\ar[r]\ar[u] & \Spec k\ar[u] \aq{r} & \Spec R/J\ot_k k.
+}
+\]
+%\fixme{???} 
+Here the inclusion $k\to R\ot_k k$ is given by $F:k\to k$. Here $\ker F_{G/k}^{(r)}=\Spec R/J_r$, where $J_r$ is the ideal generated by $F^r(J)$. $F:R\to R$, $x\mapsto x^p$. We have $J_r\subeq J^{p^r}$ because $F^r(J)\subeq J^{p^r}$.
+
+On the other hand, we have an inclusion in the other direction: $J$ has $p^N$ generators, for $N\gg 0$, and then $J^{p^{r+N}}\subeq J_r$ by purely algebra considerations (Pigeonhole Principle).
+%one generator appear $p^r$ times, which appears in $F^r(J)$.
+
+Once we have this, we can conclude that $F_G$ is nilpotent iff $J_r=0$ for $r\gg 0$. This is true iff $J^{p^s}=0$ for $s\gg 0$, iff $G$ is infinitesimal. ($J$ is maximal and nilpotent, so $G$ can only be infinitesimal.) 
+\end{proof}
+\subsection{Connected-\'etale sequence}
+This is very important.
+
+For simplicity, we assume $\chr k=p$ and let $G\in (p\text{-FCGp}/k)$.
+\begin{pr}
+There exists a canonical exact sequence
+\[
+0\to G^0 \to G\to G_{\text{\'et}}:=G/G^0\to 0
+\]
+%think of in fppf topology
+where $G^0$ is the connected component of the identity element $e$, $G^0$ is infinitesimal, and $G_{\text{\'et}}$ is \'etale.
+\end{pr}
+%(We have to check $G_{\text{et}}$ is an \'etale group scheme.)
+Note $G^0$ is infinitesimal because %we took 
+the connected component is just a point. %, so there is just a point.
+\begin{proof}
+We may assume $k=\ol k$ because if the scheme is connected it is still connected over $\ol k$. Because the inclusion $G^{\circ}\hra G$ is open and closed, the inclusion 
+\[
+\Spec k\cong G^{\circ}/G^{\circ}\hra G/G^{\circ}
+\]
+is open. This says $\cO_{G_{\text{\'et}},e}\cong k$. %\fixme{Why?} 
+By group translation, $\cO_{G/G_{\text{\'et}},p}$ is the same for every point $p$, and $G_{\text{et}}$ is \'etale. (A scheme is \'etale if it is \'etale at every point.) %can see at all physical points?
+%dualize. etale, infin, or in between.
+%refine?
+\end{proof}
+\subsubsection{Refining $G^{0}$}
+Now we refine $G^{0}$. Apply the proposition to $G^{\vee}$ to obtain
+\[
+0\to (G^{\vee})^{0}\to G^{\vee}\to (G^{\vee})_{\text{\'et}}\to 0.
+\]
+By Cartier duality, \fixme{?}
+\[
+G_{\text{mult}}:=(G^{\vee}_{\text{\'et}})^{\vee}\to G^{\vee\vee}\cong G.
+\]
+Because $G_{\text{mult}}$ is multiplicative, i.e., its dual is \'etale, it must be infinitesimal. The map hence factors through $G^{\circ}$, the maximal infinitesimal subgroup scheme of $G$:
+\[
+\xymatrix{
+G_{\text{mult}}:=(G_{\text{et}}^{\vee})^{\vee} \ar[r] \ha{rrd} & G^{\vee\vee} \aq{r} & G\\
+&& G^{\circ}\ha{u}_{\text{max infinitesimal}}.
+}
+\]
+We get an exact sequence
+\[
+0\to G_{\text{mult}} \to G^{0}\to G^{0}/G_{\text{mult}}\to 0.
+\]
+Here $G^{0}/G_{\text{mult}}=:G_{\text{bi}}$. We can check this is bi-infinitesimal.
+
+\subsubsection{Splittings}
+Assume $k$ is perfect and $\chr k=p$. We get $G\rd\subeq G$ is a subgroup scheme. (The condition that $k$ be perfect is essential. See~\cite[Exercise 3.2]{GGBM}.) We get
+\[
+\xymatrix{
+G\rd \ar[r]\ar@/_1pc/[rr]_{\cong} & G \ar[r] & G_{\text{et}}.
+}
+\]
+We can check that $G\rd(\ol k)\xrc G(\ol k)\xrc G_{\text{et}}(\ol k)$. %\fixme{So?} 
+Hence we obtain a splitting
+\[
+\xymatrix{
+0\ar[r] & G^{\circ} \ar[r] & G\ar[r] & G_{\text{et}} \ar[r] & 0\\
+&&&G\rd\ha{lu}^{\exists\text{ section}} \aq{u}
+}
+\]
+Hence $G\cong G^0\times G_{\text{et}}$ canonically. We can similarly split the sequence for $G^{\circ}$. The upshot is that we have the following.
+\begin{thm}\llabel{thm:decomp-fcgp}
+Suppose $G\in \fcg$ is a $p$-group, and $\chr k=0$. Then there is a unique decomposition
+\[
+G\cong G_{\text{mult}}\times G_{\text{bi}}\times G_{\text{\'et}}
+\]
+where $G_{\text{mult}}$ is multiplicative (with \'etale dual), $G_{\text{bi}}$ is bi-infinitesimal, and $G_{\text{\'et}}$ is \'etale.
+\end{thm}

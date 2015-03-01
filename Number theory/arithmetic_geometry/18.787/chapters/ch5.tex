@@ -1,0 +1,248 @@
+\lecture{Thu. 9/20/12}
+
+Today we will (finally) talk about abelian schemes. We'll start by recalling some terminology from scheme theory.
+
+\subsection{Review of scheme theory}
+\begin{df}
+\begin{enumerate}
+\item
+$X\in \pat{Sch}$ is \textbf{locally noetherian} if for all open affine $U\subeq X$, $U=\Spec A$ for some noetherian ring $A$.
+\item
+$f:X\to Y$ is \textbf{locally of finite type}, \textbf{locally of finite presentation} if for all open affine $V=\Spec A\subeq X$, for all $U=\Spec B\subeq f^{-1}(V)$, $B$ is an algebra of finite type (finitely generated), of finite presentation, respectively.
+The first means $V\cong A[x_1,\ldots, x_n]/\ma$, and the second means that in addition $\ma$ is finitely generated.
+\item
+$f:X\to Y$ is \textbf{quasi-compact} if for all $V\subeq Y$ open affine (quasi-compact), $f^{-1}(V)$ is quasi-compact.
+%board falls away. 
+\end{enumerate}
+\end{df}
+%affine quasicompact
+%2 equivalent
+\begin{rem}It is enough that there exist some open covering that has the property (i.e., the properties are affine-local properties).
+\end{rem}
+%We want to define these for morphisms.
+\begin{df}
+A morphism is
+\begin{enumerate}
+\item
+\textbf{noetherian} if it is locally noetherian and quasi-compact.
+\item
+\textbf{of finite type} if it is locally of finite type and quasi-compact
+\item
+\textbf{of finite presentation} if it is locally of finite presentation and quasi-compact.
+\end{enumerate}
+%useful when work outside noetherian schemes.
+%work as if on locally noetherian or noetherian scheme.
+\end{df}
+\begin{pr}
+Let $f:X\to Y$ be a morphism such that $Y$ is (locally) noetherian and $f$ is (locally) of finite type. Then $X$ is (locally) noetherian and $f$ is (locally) of finite presentation.
+\end{pr}%locally everywhere or without locally everywhere
+\begin{proof}
+In the affine case, this says that a finitely generated algebra over a noetherian ring is noetherian and finitely presented. This is true by the Hilbert Basis Theorem.
+
+Glue for the general case.
+\end{proof}
+One of many definitions for smooth is the following.
+\begin{df}
+$f$ is \textbf{smooth} if $f$ is locally of finite presentation, flat, and has geometrically regular fibers. 
+
+A flat morphism $f:X\to Y$ is one such that if $f(x)=y$, then $\sO_{Y,y}\to \sO_{X,x}$ is a flat algebra.
+
+Geometrically regular fibers means that for all scheme-theoretic points $y\in Y$, %$X_y\xra{f_y}y=\Spec k(y)$ 
+the bottom map is regular.
+
+\[
+\xymatrix{X_y \ar[r]^-{f_y} & y=\Spec k(y)\\
+X_{\ol{y}} \ar[r]^-{\text{regular}} \ar[u] & \Spec \ol{k(y)}\ar[u]}
+\]
+
+Regular means that the local rings at every point is regular, i.e. we have the correct dimension for the tangent space at every point.  %(look at the Jacobian).
+\end{df}
+%fiberwise smooth
+\begin{df}
+Let $k$ be a field. $X\in \pat{Sch$/k$}$ is a \textbf{variety} if $X$ is integral (reduced and irreducible), of finite type, and separated.
+\end{df}
+
+We have the following fact.
+\begin{fct}
+$X\times_k k'$ is reduced/irreducible/connected for all field extensions $k'/k$ iff $X\times_k\ol{k}$ is reduced/irreducible/connected for some algebraic closure $\ol{k}$. We say that $X$ is \textbf{geometrically} reduced/irreducible/connected.
+%true for transcendental too.
+\end{fct}
+\begin{df}
+A morphism $f$ is \textbf{proper} if it is separable, of finite type, and universally closed.
+\end{df}
+\begin{fct}
+Let $k$ be a field, and $X/k$ be proper and geometrically connected and reduced. Then the global sections are
+\[H^0(X,\cO_X)\cong k.\]
+\end{fct}
+\subsection{Abelian schemes}
+\begin{df}\llabel{df:787-5-1}
+Let $S$ be any scheme. An scheme $A\in \schs$ with $\pi:A\to S\in \schs$ is an \textbf{abelian scheme} if it satisfies either of the following equivalent conditions.
+\begin{enumerate}
+\item
+$\pi$ is smooth, proper, and has geometrically connected fibers (for all $s\in S$, $A_s$ is $G$-connected). %where does geo connected come in?
+\item
+if $\pi$ is proper, flat, and of finite presentation with smooth geometrically regular fibers.\footnote{A scheme is regular if it is covered by affine opens $\Spec A$ with $A$ regular, i.e., noetherian and such that the localization at every prime ideal is a regular local ring.}
+\end{enumerate}
+\end{df}
+\begin{proof}[Proof of equivalence]
+Observe that $(2)\implies (1)$ is by definition: smooth means locally of finite presentation, flat, and having geometric regular fibers.
+
+For $(1)\implies (2)$, everything is clear except finite presentation. Note that a smooth morphism is locally of finite presentation, and a proper morphism is of finite type, hence quasi-compact. A morphism that is locally of finite presentation and quasi-compact is of finite presentation.
+\end{proof}
+\begin{rem}
+``Geometrically" can be removed in condition 1: If $X/k$  is a connected scheme with $X(k)\ne \phi$, then $X$ is automatically geometrically connected. Apply this fact to $X=A_s=\xymatrix{A\times_S \Spec k(s)\ar[r]^{}& \Spec k(s)\ar@/^/[l]^-{e_{A_s}}}$ where $e_{A_s}$ is the identity section.
+\end{rem}%fibers usually geom connected.
+\begin{df}\llabel{df:787-5-2} (Mumford's definition) Let $k=\ol{k}$. Then an \textbf{abelian variety} over $k$ is a proper group variety over $k$. %int sep of finite type proper over k
+\end{df}
+We would like an abelian scheme over $\Spec k$ (where $k=\ol k$) that is a variety to be an abelian variety over $k$.
+\begin{proof}[Proof of equivalence]
+Definition~\ref{df:787-5-1}(1)$\implies$Definition~\ref{df:787-5-2}: Because $X$ is proper, $X$ is separated of finite type. We want $X$ to be integral (reduced and irreducible). We use the following facts for schemes over a field $k$: 
+\begin{itemize}
+\item
+connected and smooth together imply geometrically irreducible,
+\item 
+smooth implies geometrically reduced.
+\end{itemize}•
+ Thus an abelian scheme over $k$ is a variety.\\
+
+\noindent
+Definition~\ref{df:787-5-2}$\implies$~\ref{df:787-5-1}(1): We use the following fact: Let $X/k$ be reduced and locally of finite type, where $k$ is a perfect field. Then the smooth locus $X_{sm}\subeq X$ is open dense.
+%nonsing pts open dense
+
+Now $X_{sm}$ is open dense but also stable under group translation, so $X_{sm}=X$ and $X$ is smooth.
+\end{proof}
+Thus our definitions~\ref{df:787-5-1} and~\ref{df:787-5-2} are healthy!
+
+An example of an abelian variety is an elliptic curve.
+%We now give some examples to appreciate these conditions. It's actually not easy to write down an example.
+% For elliptic curve, we can write down $\C/\Z+i\Z$. It's either to give a non-example.
+
+Why do we impose these conditions? To see this, let's look at some nonexamples.
+\begin{ex}
+%proper group variety is abelian variety.
+%every fiber is an abelian variety.
+%Non-smooth, non-flat.
+%What does smooth do? 
+%The key condition if flatness; if we don't impose this then we get stupid examples: Consider $A$ over $\Spec{\fpb}$. Throw it into $\ol{\Z_p}$. 
+%\[
+%\xymatrix{
+%A\ar[d]_{AV/\fpb} \ar[rd] &
+%\\
+%\Spec\fpb \ha{r} & \Spec \ol{\Z_p}.
+%}
+%\]
+%This is wrong (see SW's remarks, 9/20)
+The schemes $\G_{m,S}$, $\G_{a,S}$, and $GL_{n,S}/S$ are not abelian because they are not proper.  ($\G_{m,S}$ and $GL_{n,S}/S$ are not of finite type, while $\G_{a,S}$ is not universally closed.)
+
+The constant group scheme $(\Z/n\Z)_S$ is not an abelian scheme: it is smooth and proper but not geometrically connected. It has $n$ points over each %geo
+fiber.
+\end{ex}
+
+\subsection{Rigidity lemma and applications} %shows that abelian schemes are abelian}
+
+So far we haven't imposed a condition that the group law be abelian. A natural question is: if the group law abelian for abelian schemes? Yes; our definitions in fact force it to be abelian, but the proof is somewhat technical, relying on the following lemma.
+\begin{lem}[Rigidity lemma]\llabel{lem:rigid}
+Let $X,Y,S$ be locally noetherian (over $S$), let $f:X\to Y$ be a morphism, and let $e:S\to X$ be a section. Suppose $p:X\to S$ is proper and flat (with geometrically reduced fibers?), $S$ is connected, $q$ is finite separated, and $p\circ e=\id_S$. We have the following diagram
+\[
+\xymatrix{
+X\ar[rr]^f\ar@/_1pc/[rd]_p & & Y\ar[ld]^q\\
+& S\ar[lu]_e. & 
+}
+\]
+If $f(X_s)=\{y\}$ as a set for some $s\in S$, then $f=\eta \circ p$ where $\eta=f\circ e$, and $S\to Y$ is a section of $q$.
+\end{lem}
+In other words, when we impose a property for one fiber, then we get the property over all S. We'll postpone the proof to next lecture, and focus instead on the consequences.\\
+
+\cpbox{The rigidity lemma allows us to take a property over one fiber of $S$ and show it holds over all of $S$.}
+
+\begin{cor}\llabel{cor:rigid1}
+Suppose we have scheme morphisms
+\[
+\xymatrix{
+A\ar@/^1pc/[rr]^f\ar[rr]_g\ar@/_1pc/[rd]_p & & G\ar[ld]^q\\
+& S\ar[lu]_{e_A}. & }
+\]
+where $A$ is an abelian scheme, $q:G\to S$ is separated of finite presentation, and $f,g$ are morphisms in $\schs$ (not necessarily in $\gps$). If for some $s\in S$, $f_s=g_s$, then $f=\mu_{G}\circ ((\eta\circ p)\times g)$ for some section $\eta:S\to G$ (in fact $\eta=f\circ e_A$).
+%note too difficult deduce.
+\end{cor}
+The idea is as follows. We can take a difference of morphisms, because $G$ is a group scheme. We have that ``$f-g$" is constant over a fiber; hence by the rigidity lemma it is constant everywhere.
+\begin{proof}
+%don't assume locally noeth, but can always reduce to noeth cse. 
+By generalities in EGA IV we can reduce to the locally noetherian case. We can apply the rigidity lemma to 
+\[
+A\xra{(f,i_G\circ g)}  G\times_S G \xra{\mu} G
+\]
+sending
+\[
+x\mapsto (f(x),g(x)^{-1})\mapsto f(x)g(x)^{-1}.
+\]
+We have $h(A_s)=\{e_G(s)\}$ (the identity on $G$). By the rigidity lemma, $h=\eta\circ p$ and $\eta=h\circ e_A$. 
+Another way to write this is $f=\mu_G\circ ((\eta\circ p)\times g)$.\footnote{Taking $T$-points, we have $f(x)g^{-1}(x)=h(e_A)$ becomes $f(x)=g(x)h(e_A)$. This is equivalent to saying $h=\mu_G\circ (f,i_G\circ g)=\mu_G\circ (f,i_G\circ g)\circ e_A\circ p$ implies $f=\mu_G\circ (\mu_G\circ (f,i_G\circ g)\circ e_A\circ p,g)=\mu\circ (f\circ e_A\circ p,g)$.} 
+%\fixme{Then we can check $f=\mu\circ ((\eta\circ p)\times g)$ (on $T$-points). This means $f-g$ is constant.}
+\end{proof}
+\begin{cor}\llabel{cor:rigid2}
+Suppose $A$ is an abelian scheme over $S$ and $G$ is finite separated group scheme over $S$:
+\[
+\xymatrix{
+A\ar[rr]^h \ar[rd]_{\text{abelian scheme}}& & G\ar[ld]^{\text{finite separated}}\\
+& S. &
+}
+\]
+If $h$ sends the identity element of $A$ to the identity element of $G$, i.e. $h\circ e_A=e_G$, then $h$ is a group homomorphism.
+\end{cor}
+
+%don't need connectedness, argue on each component.
+\begin{proof}
+Let $p,q$ be the projections to the first component. Apply Corollary~\ref{cor:rigid2} to
+\[
+\xymatrix{
+A\times_S A \ar@/^1pc/[rr]^f\ar@/_1pc/[rr]_g \ar[rd]_p& & A\times_S G\ar[ld]^q\\
+%S\ar[r]^{e_A}
+& A &
+}
+\]
+%pull back by id section, like taking $x_1$ to be identity.
+where we let $f$ and $g$ be the maps
+\begin{align*}
+(x_1,x_2)&\mapsto(x_1,h(x_1x_2))\\
+(x_1,x_2)&\mapsto(x_1,h(x_2))
+\end{align*}
+and $p,q$ are projections onto the first component. 
+Note that $p=q\circ f$. %$x_1$ downstairs, in $A$.
+
+%Identity, see on level of points
+
+%\fixme{Pullback via $S\xra{e_A}Z$. We have $f\times e_A=g\times e_A$ where $x_1=\id$ (?). Apply corollary 1 to get
+The corollary gives
+\[
+f=\mu_G\circ ((\eta \circ p)\times g)
+\]
+%and unravel to get (Note $G$ is a group scheme with group law. $A\times_S\mu_G$.)
+%p,q  to 1st compo.
+Unraveling the definitions, we get  
+\bal
+(x_1,h(x_1x_2))&=(x_1,\eta_0(x_1))\cdot_{G} (x_1,h(x_2))\\
+\implies h(x_1x_2)&=\eta_0(x_1)h(x_2).
+\end{align*}
+Take $x_2=\id$ to get $h(x_1)=\eta_0(x_1)$. Hence we get \[h(x_1x_2)=h(x_1)h(x_2).\]
+\end{proof}
+%I.e. a morphism sending the identity to the identity must be a group homomorphism.
+
+Now we show that an abelian scheme is well-named.
+\begin{cor}
+Let $A\to S$ be an abelian scheme. Then $A$ has commutative group law.
+\end{cor}
+\begin{proof}
+Commutativity is equivalent to the the inverse map $x\mapsto x^{-1}$ being a homomorphism. 
+Apply Corollary~\ref{cor:rigid2} to $A\xra{i_A} A$, $x\mapsto x^{-1}$. This morphism sends $e_A$ to $e_A$ so it is a group hoomorphism. Hence $A$ is abelian.
+\end{proof}
+For example, consider an elliptic curve, which is a smooth proper genus 1 curve. Choose a basepoint, i.e., declare a point to serve as the identity. Then the group law is determined. We generalize this.
+\begin{cor}
+Let $(A,e_A,i_A,\mu_A)$ and $(A,e_A,i_A',\mu_A')$ in $\gps$ be two abelian scheme structures on the same scheme, with the same identity element.
+
+Then $i_A=i_A'$ and $\mu_A=\mu_A'$, i.e. the abelian schemes are the same.
+\end{cor}
+\begin{proof}
+Apply Corollary~\ref{cor:rigid2} to $A\xra{\id} A$. It is an automorphism of schemes; hence it is a group homomorphism by the Corollary, and the group structures are compatible.
+\end{proof}
+We give the proof of the rigidity lemma next time.

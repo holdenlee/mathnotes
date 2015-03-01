@@ -1,0 +1,265 @@
+\lecture{Thu. 11/15/12}
+
+Today we'll talk about CM abelian varieties. Last time we talked about complex abelian varieties. This is especially relevant to abelian varieties with complex multiplication.
+
+\subsection{CM Abelian Varieties}
+
+First, some definitions.
+\begin{df}
+Suppose $A\in \abk$ is $k$-simple of dimension $g$. Let $F:=Z(\End^0(A))$ (this is a field because $A$ is simple, so $\End^0(A)$ is a central division algebra over $F$). We say that $A$ is of \textbf{CM type}, or $A$ is a CM abelian variety, if 
+\[
+[\End^0(A):F]^{\rc 2}[F:\Q]=2g.
+\]
+\end{df}
+Note that $\le$ is always true. We've even shown the LHS divides the RHS by using the norm function defined by the degree function.
+\begin{lem}
+Let $k=\C$ (or any characteristic 0 field).\footnote{The Lefschetz principle says that if something true over $\C$, then the same is true over any algebraically closed characteristic 0 field; just embed the field in $\C$.}
+
+For all simple $A\in (\text{Ab}/\C)$, we have
+\[
+[\End^0(A):\Q]\le 2g.
+\]
+\end{lem}
+\begin{proof}
+%First suppose $A$ is simple. 
+We have that $\End^0(A)$, a finite-dimensional algebra over $\Q$, acts on the first homology group $H_1(A_{\text{an}}, \Q)$:
+\[
+\End^0A\cir H_1(A_{\text{an}}, \Q).
+\]
+%every left module is iso to itself
+%onl
+The only finitely generated left $D$-module is congruent to $D^{\opl r}$ so $2g=r[D:\Q]$, and $[D:\Q]\mid g$.
+
+%If $A$ is not simple, then reduce to the simple case. 
+
+Note that if we extend to larger field, the endomorphism algebra can only increase: We have $\End_k^0(A)\hra \End_{\ol k}^0(A)$ by $f\mapsto f_{\ol k}$.
+\end{proof}
+\begin{rem}
+The lemma fails when the characteristic is nonzero.  
+A division algebra over $\Q$ may not be a division algebra when tensored with $\fpb$. A counterexample is a supersingular elliptic curve over $\fpb$. We have $\End^0A$ is the unique quaternionic algebra over $\Q$, and 
+\[
+[\End^0A:\Q]=4.
+\]
+\end{rem}
+%This is ramified at $p,\iy$.
+%fg mod over div algebras easy to describe.
+\begin{cor}
+Let $A\in \abk$ be a simple CM abelian variety, and $k$ be of characteristic 0. Then $\End^0(A)$ is a field of degree $2g$ over $\Q$.
+\end{cor}
+\begin{proof}
+We have $[\End^0(A):\Q]\le 2g$ and $[\End^0(A):F]^{\rc 2}[F:\Q]=2g$. This gives that we must have equality. %square?
+\end{proof}
+We know that $\End^0(A)$ carries a positive involution, and this restricts the possibilities of $F$.
+So let's classify number fields with positive involutions.
+\subsection{CM fields}
+\begin{df}
+Let $F/\Q$ be a finite field extension. We say that $F$ is \textbf{totally real} if every field embedding $F\hra \C$ factors through $\R\sub \C$, i.e., has image in $\R$. We say that $F$ is \textbf{CM} if it is a totally imaginary quadratic extension of a totally real field.
+\end{df}
+We relate these to number fields with positive involutions.
+\begin{lem}
+$F$ is CM if and only if there exists a nontrivial automorphism $c\in \Aut(F)$ such that for every embedding $F\hra \C$, complex conjugation on $\C$ restricts to $F$.
+\[
+\ol{\bullet}|_{F}=\C.
+\]
+\[
+\xymatrix{
+F\ha{r} & \C\\
+c\acil{u} \ar@{<->}[r] & \ol{\bullet} \acil{u}.
+}
+\]
+Then the fixed field $F^c$ is totally real, and $[F:F^c]=2$.
+\end{lem}
+\begin{ex}
+If a quadratic extension of $\Q$ is...
+\begin{itemize}
+\item
+real, then it is totally real.
+\item 
+imaginary, then it is CM.
+\end{itemize}
+We have that, for $n\ge 3$, $\Q(\ze_n+\ze_n^{-1})$ is a totally real subfield of $\Q(\ze_n)$ which is CM.
+\end{ex}
+A lot of fields are neither CM nor totally real. Any field with both a complex embedding and a real embedding such as $\Q(\sqrt[3]2)$ is neither CM nor totally real.
+\begin{lem}
+If $(F,*)$ is a number field with a positive involution, then either
+\begin{enumerate}
+\item
+$*=1$ and $F$ is totally real, or
+\item
+$*\ne 1$ and $F$ is CM. ($*=\ol{\bullet}|_F$ for any $F\hra \C$.)
+\end{enumerate}
+\end{lem}
+\begin{proof}
+Tensoring with $\R$, we get an action $*_{\R}=*\ot1$ action on $F_{\R}:=F\ot_{\Q}\R$. We know that
+\[
+F\ot_{\Q} \R\cong \R^r\times \C^s
+\]
+where $r$ is the number of real embeddings and $s$ is the number of conjugate pairs of complex embeddings (so $r+2s=[F:\Q]$). Now we just check that the positive involution on $\R^r\times \C^s$ (as a $\R$-algebra) has to be
+\[
+(x,\ldots, x_r,y_1,\ldots, y_s)\mapsto (x_1,\ldots, x_r,\ol{y_1},\ldots, \ol{y_s}).
+\]
+%(Having an automorphism 
+(First show that a positive involution has to preserve each component. Then the theorem is almost immediate.)
+
+(See notebook diag.) %compat with conj under every complex embedding
+
+Suppose $*\ne 1$. Then the trivial automorphism cannot restrict to a nontrivial automorphism. Hence $r=0$. Then $F^{*=1}$ is totally real (this is obvious in (2)), and $F^{*=1}\sub F$ of index 2.
+
+Suppose $*=1$. Then (2) can't happen, so $s=0$. We've shown $\implies$. Conversely, if $F$ is totally real or CM, then you can define a positive involution on $F$.
+\end{proof}
+\begin{pr}
+Let $A\in \abk$ be a simple CM abelian variety over $k$ with characteristic 0. Then $\End^0A$ is a CM field of degree $2g$ over $\Q$. 
+\end{pr}
+\begin{proof}
+We have seen that $[(\End^0A)^{*=1}:\Q]\mid g$ where $*$ is the Rosati involution. In particular, if $\End^0(A)$ were totally real, then
+\[
+(\End^0(A))^{*=1}=\End^0(A)
+\]
+which has degree $2g$ over $\Q$; this is a contradiction.
+
+Hence $\End^0(A)$ is a CM field.
+\end{proof}
+Note that the involution doesn't depend on the choice of polarization because there is only 1 involution, that induced by complex conjugation.
+
+Is this a sufficient condition?
+Given such a CM field, is there an abelian variety with that field as $\End^0(A)$? The answer turns out to be yes.
+
+\subsection{CM type}
+
+\begin{df}
+Let $F$ be a CM field. A \textbf{CM-type} over $F$ is
+\[
+\Phi\subeq \Hom_{\Q\text{-alg}} (F,\C)
+\]
+where
+\[
+\Phi\sqcup c(\Phi)=\Hom(F,\C).
+\]
+We say that $(F,\Phi)$ is a \textbf{CM-pair}.
+\end{df}
+(Given a morphism $\Phi$ we can twist it by complex conjugation. There is no ambiguity because $c$ on $F$ is the  restriction of $c$ on $\C$.)
+
+%Suppose $k=\ol k$ Given $A\in \abk$
+%fix CM-field as external data. twist of is before End^0 and given CM field. Include identification as part of data to avoid confusion.
+Given $A\in \abc$ a simple CM abelian variety and an embedding $i:F\xrc \End^0(A)$ where $F$ is a CM field, let's construct $(A,i)\mapsto (F,\Phi)$.
+
+\begin{thm}
+Fix a CM field $F$ of degree $2g$. Then we have a 1-1 correspondence
+\bal
+\bt{dimension $g$ CM abelian variety}{$(A,i)$}/\cong &\xleftrightarrow{1-1}\bt{CM-pairs}{$(F,\Phi)$}\\
+(A,i)&\mapsto (F,\Phi)
+\end{align*}
+(Note a dimension $g$ CM abelian variety over $F$ is automatically simple.)
+%if not simple cannot contain field of degree 2g
+\end{thm}
+
+\begin{proof}
+We have that
+\[
+H_1(A_{\text{an}},\C)\cong \Lie(A)\opl \ol{\Lie(A)};
+\]
+this is the dual of the Hodge decomposition of $H^1(A_{\text{an}},\C)$. %global diff 1-forms.
+%tangent space carries action. Some order of integer ring acting on $A$. Actually on complex vector space the whole ring will act.
+We have that 
+\[
+\Lie(A)\cil F\ot_{\Q}\C\cong \prod_{\si\in \Hom(F,\C)} F_{\si}
+\]
+where each $F_{\si}\cong \C$.
+%each equiv class of arch metric, completion isom to C. 
+
+A module over a product of fields is just a product of vector spaces over fields. We have that as $F\ot \C$-modules,
+\[
+\Lie(A)\cong \prod_{\si} F_{\si}^{n_{\si}}
+\]
+where $n_{\si}\in \N_0$. (Note that $\Lie A\cong T_0A$.) Then
+\[
+\ol{\Lie(A)}\cong \prod_{\si} F_{\si}^{n_{c\si}}.
+\]
+We have $H_1(A,\Q)$ is a free $F$-module of rank 1 because it is a $F$-vector space, and $\dim_{\Q}H_1(A,\Q)=2g=[F:\Q]$. Hence $\Lie(A)\opl \ol{\Lie(A)}$ is a free moidule over $F\ot \C\cong \prod_{\si}F_{\si}$ of rank 1. %count si, c si, add up
+
+Thus $n_{\si}+n_{c\si}=1$ for all $\si$. This means that 
+\[
+\Phi:=\set{\si\in \Hom(F,\C)}{n_{\si}=1}
+\]
+is a CM-type on $F$. 
+%simple linear alg type alg
+
+We basically read off the $\Phi$ by looking at action on tangent space.
+%Look at tangent space as $F\ot \C$ module. %collect sigmas?
+
+Next we have to show there exists an inverse map. We do this by constructing the abelian variety as a complex torus.
+
+We define
+\[
+(\La=\sO_F, J)\mapsfrom (F,\Phi)
+\]
+%where $J=c$ on $F$, acting on $\La\ot_{\Z}\R=\sO_F\ot R$.
+%We have $F\ot_{\Q}\R\xrc
+as follows. We have $F\ot_{\Q}\R\xrc \prod_{\si\in \Phi} \underbrace{F_{\si}}_{\C}$ via $(a\ot b)\mapsto (\si(a)b)$; let $J$ be multiplication by $i\in \C$. 
+$\cO_F$ by left multiplication?
+
+We have a categorical equivalence
+\[
+A\mapsfrom (\La,J),
+\] 
+and $\cO_F$ acting on $\La$ and on $A$. This gives $:F\hra \End^0A$. 
+\end{proof}
+
+Actually we can define everything over a number field. Thus this is deeply arithmetic.
+\subsection{From $\C$ to $\ol Q$}
+Our goal is to show that each CM abelian variety over $\C$ can be defined over $\ol{\Q}$, or in fact a number field. 
+\begin{lem}
+Let $A\in \abk$ where $k=\ol k$ is such that $(\ell,\chr k)=1$. Then 
+\[
+A[\ell^{\iy}](k):=\bigcup_n A[\ell^n](k)\sub A
+\]
+is Zariski dense.
+%stop at finitely many, finite points, not zariski dense. But is when collect infinitely many. In part if collect all torsion points, then zariski dense subsets as well.
+\end{lem}
+\begin{proof}
+Let $Z:=A[\ell^{\iy}](k)\subeq A$. Let %the conn component
+$\ol Z^{\circ}\subeq Z$, the reduced closed subscheme of $A$, is stable undergroup operations, and $\ol Z^{\circ}$ is a abelian subvariety of $A$ over $k$. 
+
+Now $\ol Z^{\circ}[\ell^m]\sub A[\ell^m]$ because $\ol Z^{\circ}\sub A$ and by construction $A[\ell^m]\subeq \ol Z^{\circ}[\ell^m]$ using $A[\ell^m]\sub Z[\ell^m]$. 
+
+Then $\dim\ol Z^{\circ}=\dim A$ so $\ol Z^{\circ} =A$. (We have $(\Z/\ell^m\Z)^{2\dim \ol Z^{\circ}}$.)
+%quasi-compact already, do we need connected component? subgroup scheme.
+\end{proof}
+\begin{pr}
+The basechange functor $A\mapsto A\times_{\Q}\C$ restricts to a functor on simple CM abelian varieties over $\ol{\Q}$.
+\[
+\xymatrix{
+(\text{Ab}/\Q) \ar[r] & \abc\\
+\pat{CM simple AV/$\ol Q$} \ar[r]^{\cong}\ha{u} & \pat{CM simple AV/$\C$} \ha{u}
+}
+\]
+The top functor is fully faithful and the restricted functor is an equivalence of categories.
+\end{pr}
+The content is in essential surjectivity: Every CM abelian  variety over $\C$ is isomorphic to something defined over $\ol Q$. %basechanged
+\begin{proof}
+By the lemma on Zariski density of torsion, we get the functor is fully faithful. ($+A/\ol Q$, we have $A[\ell^m](\ol Q)=A[\ell^m](\C)$.) 
+
+\fixme{I'll give a reference for essential surjectivity.}
+\end{proof}
+\subsection{Good reduction}
+
+Let $\sO_K$ be a complete DVR, for instance, a finite extension of $\ol Q_p$. Let $\mm\sub \sO_K$ be the maximal idea.
+\begin{df}
+$A$ has \textbf{good reduction} modulo $\mm$ if there exists an abelian scheme $\mathscr A/\sO_K$ such that 
+\[
+\mathscr A\times_{\sO_K}K\cong A.
+\]
+\end{df}
+If so, then the special fiber is $\mathscr A\times_{\sO_K} \sO_K/\mm$.
+\begin{rem}
+If so, then $\mathscr A$ is the Neron model of $A$ over $\sO_K$ and is unique up to canonical isomorphism.
+
+smooth proper group scheme over K. Remove smooth or proper. In general, bad reduction, Neron model is smooth group scheme, not necessarily proper, which approximates.
+\end{rem}
+Next time we'll talk about the Neron-Ogg-Shafarevich criterion: for $(\ell,\chr k)=1$, then $A$ has good reduction iff $I_K\sub G(\ol K/K)$ acts trivially on $T_{\ell}A$. $A$ has CM implies $A$ has potential good reduction, i.e., there exists $K'/K$ finite such that $A\times_K K'$ has good reduction.
+
+Later we'll classify av up to isog over finite fields. At some point we'll have to construct our abelian varieties. Starting from CM field, integer ring, write down Riemann pairing, lattice, given lots interesting abelian var.
+
+Can be Riemann form on pairs so actual ab var. If want over finite fields, start from CM field, bc good reduction, take special fiber. Cm can always def over number field, reduction, over finite field. Construct lots ab var def over finite field, get all possible av over finite field. 
+
+Two things impt: define over number field, potential good reduction so can always get over ff. Tate's thm next time.

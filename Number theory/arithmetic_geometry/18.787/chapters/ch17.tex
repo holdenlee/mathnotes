@@ -1,0 +1,318 @@
+\lecture{Thu. 11/8/12}
+
+Today we'll talk about the Rosati involution.
+
+Recall that if $A\in \abk$ is an abelian variety, $(\ell,\chr k)$, we defined a pairing %cartier duality
+\[
+A[\ell^n]\times A[\ell^n]^{\vee} \to \mu_{\ell}^n.
+\]
+Using $A[\ell^n]^{\vee}\cong \av[\ell^n]$, and using the functorial nature of this isomorphism, we were able to patch these map together, taking the inverse limit over $\ol k$-points to get
+%no can basis.
+\[
+\tl A\times \tl \av \to \Z_{\ell}(1),
+\]
+where $\Z_{\ell}(1)$ is a free $\Z_{\ell}$ module of rank 1 (without a canonical basis).
+
+Given $\la\in \Hom(A,\av)$, we defined $E^{\la}$ using the following diagram.
+%p pull back to m
+\[
+\xymatrix{
+T_{\ell}A \ar@{}[r]|-{\times} \aq{d}& T_{\ell}\av \ar[r]^e & \Z_{\ell}[1]\aq{d}\\
+T_{\ell}A\ar@{}[r]|-{\times}& T_{\ell}A  \ar[r]_{E^{\la}}\ar[u]_{\la} & \Z_{\ell}(1).
+}
+\]
+A line bundle $L$ gives a pairing $E^L:=E^{\la_L}$.
+$e$ is perfect $\Z_{\ell}$-linear; $E^L$ is $\Z_{\ell}$-linear but may not be perfect %worst case 0.
+We showed that
+\begin{itemize}
+\item $E^L$ is skew-symmetric.
+\item $E^{\la}$ is skew-symmetric. This implies $\la=2\la_L$ and $L=(1\times \la)^* \cal P$.
+\end{itemize}
+A variant of this is that letting
+\[
+V_{\ell}A:=T_{\ell} A\ot_{\Z_{\ell}} \Q_{\ell}
+\]
+ane $\la\in \Hom^0(A,A^{\vee})$ we get a $\Q_{\ell}$-bilinear pairing:
+\[
+E^{\la}:V_{\ell}\times \vl A\to \ql(1):=\zl(1)\ot_{\zl} \ql.
+\]
+We have that $E^{\la}$ is skew-symmetric iff $\la=c\la_L$ for some $c\in \Q$ and line bundle $L$. After killing denominator you know $\la=2\la_L$ for some $L$.
+
+\subsection{Rosati involution}
+\begin{df}
+Let $B$ be a finite dimensional noncommutative semisimple $\Q$-algebra. A map $*:B\to B$ is an \textbf{involution} if $*$ is a $\Q$-algebra map $B\xrc B\op$ with $*^2=\id$.
+
+The involution $*$ is \textbf{positive} $\tr_{B/\Q} (bb^*)>0$ for all $b\ne 0$. 
+\end{df}
+By this we mean the following. For $B=\prod B_i$, $Z(B)=\prod Z(B_i)$ and
+\[
+\tr_{B/\Q}(b_i)=\prod_i \tr_{Z(B_i)/\Q} (\tr_{B_i/Z(B_i)}^0(b_i))
+\] 
+for all $b\ne 0$. 
+It doesn't hurt to think of the case of division algebras.
+
+If you're over $p$-adic field, Hasse invariant changes from $\la$ to $1-\la$. But number field, can do at every place, classifying invariant for opposite algebra.
+
+\begin{ex}\llabel{ex:qi-inv}
+Suppose $[E:\Q]=2$. Let $1\ne c\in G(E/\Q)$. Then
+\begin{itemize}
+\item
+$c$ is an involution.
+\item 
+$c$ is positive iff $E$ is imaginary.
+%a^2+db^2, a^2-db^2
+\end{itemize}
+\end{ex}
+\begin{ex}
+Let $B=\cal M_n(\Q)$. Define $*:g\mapsto g^T$. It is not an automorphism because it changes the order; it is an homomorphism to the opposite algebra. This is a positive involution because $g^Tg$ is a sum of squares.
+
+Now let $B=\cal M_n(\Q)\times \cal M_n(\Q)$. Then let $*:(g,h)\mapsto (h^T,g^T)$. This is an involution, but is not positive. For instance $(0,1)$ goes to $(1,0)$, and the trace is 0.
+
+Now let $B=\cal M_n(E)$ as in Example~\ref{ex:qi-inv}. Then $*:g\mapsto (g^c)^T$ is an involution; it is positive if $R$ is imaginary.
+
+This is still true if we replace $\Q$ by a totally real field and $E$ by a purely imaginary quadratic extension.
+\end{ex}
+Let's now define the Rosati involution.
+\begin{df}
+Let $L$ be a fixed ample line bundle. The \textbf{Rosati involution} 
+\[\ri_{L}:\End^0\to \End^0\]
+associated to $L$ is defined by 
+\[
+\ri_L(\phi)=\la_L^{-1}\circ \phi^{\vee}\circ \la_L. 
+\]
+\end{df}
+\begin{pr}\llabel{pr:ri-inv}
+We have the following.
+\begin{enumerate}
+\item
+$\ri_L$ is an involution.
+\item
+($\ri_L$ behaves nicely under Weil pairing) $E^L(\phi x,y)=E^L(x,\phi^{\ri_L}y)$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+We have 
+\bal
+\ri_L^2&=\la_L^{-1} (\la_L^{-1} \phi^{\vee} \la_L)^{\vee} \la_L\\
+&=(\la_L^{-1} \la_L^{\vee}) \phi (\la_L^{-1} \la_L^{\vee}).
+\end{align*}
+We've shown before that $\la_L=\la_L^{\vee}$; this is from the commutative triangle
+\[
+\ctrr{A}{(\av)^{\vee}}{\av}{\ka_A}{}{}{\la_L}{}{\la_{L}^{\vee}}
+\]
+
+For part 2, note the RHS equals
+\bal
+E^L(x,\la_L^{-1}\phi^{\vee}\la_Ly)
+&=e(x,\la_L(\la_L^{-1} \phi^{\vee}\la_L)y)\\
+&=e(\phi x,\la_Ly)\\
+&=E^L(\phi x, y).
+\end{align*}
+This equals the LHS.
+%proof pres, isolated
+\end{proof}
+Here's our first deep fact.
+\begin{thm}
+$\ri_L$ is a positive involution.
+\end{thm}
+\begin{proof}
+See~\cite[\S21]{Mu70} for $k=\ol k$ and~\cite{GGBM} for $k\ne \ol k$.
+\end{proof}
+\subsection{Symmetric elements}
+Consider the group homomorphism
+\bal
+\La:\Pic A&\to \Hom(A,\av)\\
+\cL & \mapsto \la_{\cL}.
+\end{align*}
+To see this is a group homomorphism, note that the correspondence below associates $\la_{\cL}$ and $M(L)$ by definition:
+\bal
+\av(A)&\cong \Pic^0(A\times A)\\
+\la_{\cL} & \lra M(\cL)=\mu^*\cL \ot p_1^* \cL^{-1} \ot p_2^*\cL^{-1}.
+\end{align*}
+Under this correspondence,
+\bal
+\la_{\cL_1}-\la_{\cL_2}&\lra M(\cL_1)\ot M(\cL_2)^{-1}\\
+\la_{\cL_1\ot \cL_2^{-1}} & \lra M(\cL_1\ot \cL_2^{-1}).
+\end{align*}
+The RHS's are congruent, just by unraveling the definition of $M(\cL)$. Hence $\La$ is a group homomorphism.
+
+\begin{pr}
+Let $\cL\in \Pic A$. Then $\la_{\cL}=0$ iff $\cL\in \Pic^0A$. %defn different from Mumford. 
+\end{pr}
+Note our definition of $\Pic^0$ is a bit different from Mumford's. From Mumford's definition this is trivial but from our definition it's not.
+%prove one thing by one def and another by other def.
+\begin{proof}
+$\Leftarrow$: See~\cite[\S8, Theorem 1]{Mu70}.
+
+$\Rightarrow$: Exercise.
+\end{proof}
+%Saul: This is related to Chern classes. (?)
+
+Choose an ample line bundle $L$. This gives an isogeny $\la_L\in \Hom^0(\av,A)$. Now consider the following diagram. 
+\bal
+\fc{\Pic A}{\Pic^0}\ot_{\Z}\Q\xra{\La\ot_{\Z}\Q,\cong} 
+\Hom^0(A,\av) & \xra{\la_L^{-1}} \End^0(A)\\
+\psi&\mapsto \la_L^{-1} \psi.
+\end{align*}
+\begin{df}
+The \textbf{Neron-Severi} group of $A$ is
+\[
+\NS(A):=\fc{\Pic A}{\Pic^0A}.
+\]
+\end{df}
+First map doesn't depend on $\ell$ but the second does.
+\begin{pr}
+We have 
+\[
+\im(\la_L^{-1}\circ \La_{\Q})=(\End^0(A))^{\ri_L=1}:=\set{\phi\in \End^0(A)}{\phi^{\ri_L}=\phi}.
+\]
+\end{pr}
+We call the elements in the right set \textbf{symmetric elements}.
+\begin{proof}
+Let $\phi\in \End^0(A)$. We have 
+the following chain of equivalences.
+\begin{enumerate}
+\item
+$\phi\in \im(\la_L^{-1})$
+\item
+$\la_L\phi\in \im(\La_{\Q})$
+\item
+$\la_L\phi =c\la_{\cL}$ for some $\cL$ and $c\in \Q$.
+\item %skew-sym
+$e(x,\la_L\phi y)=-e(y,\la_L\phi x)$ for all $x,y$.
+\item
+$E^L(x,\phi y)=-E^L(y,\phi x)=E^L(\phi x,y)$.
+\item
+$E^L(x,\phi y)=E^L(x,\phi^{\ri_L}y)$ for all $x,y$. (To get here, we used Proposition~\ref{pr:ri-inv}.)
+\item
+$\phi y=\phi^{\ri y}$ for all $y\in \vl A$.
+(by perfectness)
+\item
+$\phi=\phi^{\ri}$ in $\End^0(\tl A)$.
+\item
+$\phi=\phi^{\ri}$ in $\End^0(A)$ (because it injects into $\End^0(\tl A)$). 
+\end{enumerate}
+\end{proof}
+\begin{cor}\llabel{cor:Qsubalg|g}
+Let $A\in\abk$ of dimension $g$. For $K\sub (\End^0 Q)^{\ri_L=1}$ be a $\Q$-subalgebra  of $\End^0(A)$ (a priori non-commutative). Then $[K:\Q]\mid g$.
+\end{cor}
+This imposes a condition on what the center of the endomorphism algebra can be. Roughly speaking the center is preserved by the Rosati involution. If it's nontrivial it's an automorphism of order 2.
+
+Index 1 or 2 subfield of the center is contained in here. For that field you can apply this corollary.
+\begin{ex}
+Suppose $A$ is simple. 
+Then $K=(Z(\End^0(A)))^{\ri_L=1}$.
+\end{ex}
+%Saul: rank of NS divides g? SW: May not be subalg. A priori group hom \la_L^{-1}. Padma: image may not be...? 
+%?%for the matrix algebra: really symmetric elements $\matt accb$.
+%It's not necessarily preserved under mult. If closed under mult then commutative. May not be closed under mult. 
+%not closed under mult!
+\begin{proof}[Proof of Corollary~\ref{cor:Qsubalg|g}]
+\step{1} $K$ is a field. Let $\phi,\psi\in K$. Because $K\subeq (\End^0A)^{\ri_L=1}$. 
+%no chance closed under mult bc not comm.
+\[\phi\psi=(\phi\psi)^{\ri=1}=\psi^{\ri_L}\phi^{\ri_L}=\psi\phi.
+\]
+\step{2} The function
+\begin{align*}
+\chi:\Pic A&\to \Z\\
+M&\mapsto \chi(M)
+\end{align*}
+induces a map 
+\[
+\chi_{\Q}:\fc{\Pic A}{\Pic^0(A)}\ot_{\Z}\Q\to \Q
+\]
+%trivial on Pic^0. Not grp hom. Disturb by Pic^0 doesn't change E char. Now quotient and take tensor product, now show homog poly
+We won't prove the first fact.
+\begin{fct}(\cite[\S16]{Mu70})
+$\chi(M\ot M')=\chi(M)$ for all $M'\in \Pic^0(A)$.
+\end{fct}
+Here is an intuitive explanation. Discrete locally constant valued function. Moduli spce $\Pic^0$. $M'$ defines point in conn scheme. Line bund corresp ident. Alg family connecting them. Euler char doesn't change. 
+Constant in whole conn component. You can make this rigorous.
+
+%general phenomenon for cohomology. flat? 
+%oth semicont.
+We know that $\chi$ is a polynomial function on $\Pic A\ot_{\Z}\Q$, homogeneous of degree $g$ (\S 16, $\chi(L)=\fc{(D^g)}{g!}$. Then $\chi(L^{\ot n})=\fc{n^g (D^g)}{g!}$); we already used this in Section 19. (calculating $\chi(M^n)$).\\
+
+Let's consider the diagram from a slightly different perspective. %On the space of symmetric elements
+We have the following maps
+\[
+\xymatrix{
+(\End^0A)^{\ri_L=1} \ar@/_1pc/[rrd]_{\xi'} & \fc{\Pic A}{\Pic^0 A} \ot \Q\ar[l]^{\cong}  \ar[r]^{\chi_{\Q}}\ar[rd]_{\chi_{\Q}'} & \Q\\
+ & & \Q
+}
+\]
+where teh top left map is $\la^{-1}\la_M\mapsfrom M$. We have $\chi'=\rc{\chi(L)}\chi$ ($L$ is fixed).\\
+
+\step{3} $\xi'|_K$ is a norm function.
+%not norm on whole space. S.t. not closed under multiplication. We only talk about on subalgebra $K$. Otherwise something similar should happen on the whole space.
+
+We have $\xi'(1)=\chi_{\Q}'(L)=\fc{\chi(L)}{\chi(L)}=1$ (this is why we scaled it). 
+
+\begin{lem}
+Let $B$ be a finite-dimensional vector space and $f:V\to \Q$ be polynomial with $f(1)=1$. Then $f(xy)=f(x)f(y)$ iff $f(xy)^2=f(x)^2f(y)^2$.
+%elem exercise in alg
+%not neg.
+\end{lem}
+\begin{proof}
+Exercise.
+\end{proof}
+If suffices to prove that 
+%check 2 elements, satisfy norm property for them.
+\[
+\xi'((\la_L^{-1}\la_M)(\la_L^{-1} \la_{M'}))^2=\xi'(\la_L^{-1}\la_M)^2\xi'(\la_L^{-1}\la_{M'})^2
+\]
+Plugging in another result from \S16, $\xi'(\la_L^{-1}\la_M)=\fc{\chi(M)^2}{\chi(L)^2}$. 
+
+Let $K$ be closed under multiplication.  We find $K\ni \la_L^{-1}\la_{M''}=\la_L^{-1}\la_M \circ \la_L^{-1}\la_{M'}$. Using another fact from \S16, $\chi(L)^2=\deg \la_L$, unraveling, we get the RHS is 
+\[
+\fc{\deg \la_M}{\deg \la_L}\cdot \fc{\deg \la_{M'}}{\deg \la_L}.
+\] 
+Using the fact that the degree is multiplicative (two isogenies, think of the extension degree of function field, or generic number of fibers), even when extended to $\Hom^0$, we get the LHS is
+\[
+\fc{\deg\la_{M''}}{\deg\la_L}=\fc{\deg (\la_M\circ \la_L^{-1}\circ \la_{M'})}{\deg\la_L}=\fc{\deg \la_M(\deg \la_L)^{-1} \deg\la_{M'}}{\deg \la_L}
+\]
+which is the RHS. \\
+
+\step 4 By Step 3, we conclude that 
+\[
+\xi'|_{\Q}=(N_{K/\Q}^{\min})^r,\qquad r\in \Z.
+\]
+%cf. deg of endo alg
+%cf. endo alg divides 2g
+The LHS is a norm of degree $g$ and $\N_{K/\Q}^{\min}$ has degree $[K:\Q]$. Thus $[K:\Q]\mid g$.
+\end{proof}
+Let's summarize what we have found out about the endomorphism algebra. 
+\subsection{Summary on $\End^0A$}
+Let $A\in \abk$, and let the center be $F=Z(\End^0A)$; this is
+finite dimensional semisimple over $\Q$.
+
+Then $\End^0 A$ is a finite-dimensional semisimple $\Q$-algebra. Suppose $A$ is simple and $F$ is a field. Then 
+\begin{itemize}
+\item
+$\End^0(A)$ is a finite division algebra over $\Q$.
+\item
+$[\End^0:F]^{\rc 2}[F:\Q]=2g$. Using complex theory, we actually have $[\End^0 A:\Q]\mid 2g$ is $\chr k=0$.
+%if ell curve char 0, then deg divides 2, so cannot be quaterion algebra.
+\item
+$\End^0(A)$ has a positive involution. %$\ri_L$.
+\item
+$F^{\ri_L=1}$ is a totally real subfield, of index 1 or 2 in $F$. $F$ is a ``CM field" or a totally real field.
+\item
+If $K\subeq (\End^0A)^{\ri_L}$ then $[K:\Q]\mid g$.
+\end{itemize}•
+Now we can go to the purely algebra side and try classify all division algebra with positive involution with all these properties, and  make a list of candidates,~\cite[\S21]{Mu70}.
+
+%\R\times \cdots \times \C\times 
+%trivial or switch R's, conj, or switch C's. But positive so preserve components. $F\ot_{\Q}\R$.
+%fixed field has $\R$. Real embedding in that place. F itself can be CM. fixed part totally real. 
+
+Converse statement: given algebra can we realize as endomorphism algebra of ab var?
+
+finfield: 
+Honda-Tate theory
+
+Char 0: complex theory.
+
+Complete info or not? %bjorn
+
+next time complex abelian var.

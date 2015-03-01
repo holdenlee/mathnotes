@@ -1,0 +1,203 @@
+\lecture{Tue. 10/23/12}
+\llabel{sec:cartier}
+
+(I was absent today. Notes are borrowed from John Binder.)
+
+Last time we proved duality results for abelian schemes over $S$. Given a morphism $f:A\to B$ in $\Abs$, we had morphisms
+\[
+\xymatrix{
+& A\times B^{\vee} \ar[ld]_{1\times f^{\vee}} \ar[rd]^{f\times1}&\\
+A\times \av && B\times B^{\vee}
+}
+\]
+and we saw that the Poincar\'e line bundles on $A\times \av$ and $B\times B^{\vee}$ are related by the following (Lemma~\ref{lem:2poincare-bundle}):
+\[
+(1\times f^{\vee})^* \cal P_A\cong (f\times 1)^*\cal P_B.
+\]
+
+\begin{thm}[Poincar\'e reducibility]\llabel{thm:poincare-reducibility}
+Suppose $X$ is an abelian variety and $Y$ is an abelian subvariety, $Y\hra X$. Then there is an abelian subvariety $Z\hra X$ such that the multiplication map %$Y\cap Z$ is finite and  
+\[
+\mu_X:Y\times Z\to X
+\] 
+is an isogeny.
+\end{thm}
+To prove this, we need the following lemma.
+\begin{lem}\llabel{lem:laf*l}
+Let $L\in \Line(X)$ be a line bundle on an abelian variety $X$. Let $f:Y\to X$ be a morphism in $\abk$. Then 
+\[
+\la_{f^*L}=f^{\vee}\circ \la_L \circ f.
+\]
+\end{lem}
+In other words, the following diagram commutes.
+\[
+\xymatrix{
+Y\ar[r]^f\ar@/_2pc/[rrr]^{\la_{f^*L}} & X \ar[r]^{\la_L} & X^{\vee}\ar[r]^{f^{\vee}} & Y^{\vee}.
+}
+\]
+\begin{proof}
+The morphism $\la_{f^* L}$ is characterized by
+\[
+(1\times \la_{f^*L})^* \cal P_Y \cong M(f^*L):=\mu^*(f^*L)\ot p_1(f^*L)^{-1}\ot p_2(f^*L)^{-1}.
+\]
+We need to show that
+\[
+(1\times \la_{f^*L})^*\cal P_Y = (1\times(f^{\vee}\circ \la_L\circ f))^* \cal P_Y,
+\]
+which by Lemma~\ref{lem:2poincare-bundle} is equivalent to
+\[
+(1\times f)^* (1\times \la_L)^*%\underbrace{
+(1\times f^*)^*%}_{=(f^*\times 1)^* \cal P_X%\text{ (Lemma~\ref{lem:2poincare-bundle})}}
+= \cal P_Y\cong M(f^*L).
+\]
+The left-hand side is 
+\[
+(1\times f)^*\underbrace{(1\times \la_L)^* \cal P_X}_{M(L)}.
+\]
+and this is isomorphic to the RHS (exercise). Hint: The following commutes.
+\[
+\commsq{Y\times Y}{X\times X}{Y}{X.}{\mu_Y}{(f,f)}{\mu_X}{f}
+\]
+\end{proof}
+Now we prove Theorem~\ref{thm:poincare-reducibility}.
+\begin{proof}[Proof of Theorem~\ref{thm:poincare-reducibility}]
+Given $i:Y\hra X$ choose an ample line bundle $L\in \Line(X)$. Let 
+\[
+Z':=\ker(X\xra{\la_L}X^{\vee} \xra{i^{\vee}} Y^{\vee}) \subeq X.
+\]
+Now $Z'\cap Y$ is finite over $k$ since by Lemma~\ref{lem:laf*l},
+\[
+Z'\cap Y%=\ker(Y\xhookrightarrow{i})
+=\ker (i^{\vee}\circ \la_L\circ i)=\ker(\la_{i^*L})=K_{i^*L}
+\]
+which is finite over $k$.  %illegible? (if pull... line bundle is a ...)
+Take $Z=(Z'\rd)^{\circ}$. 
+\begin{fct}\cite[5.31]{GGBM}
+Let $Y$ be an abelian variety over a field $k$. If $Z\hra Y$ is a closed subgroup scheme, then $Z^{\circ}$ is an open and closed subgroup scheme of $Y$ that is geometrically irreducible. The reduced underlying scheme $Z^{\circ}_{\text{red}}$ is an abelian subvariety of $Y$. 
+$Z$ is an abelian subvariety of $X$ and $\dim Z'=\dim X-\dim Y$.
+\end{fct}
+Observe that  $\mu_X:Y\times Z\to X$ is an isogeny:
+\begin{enumerate}
+\item $\ker \mu_X\subeq (Y\cap Z)\times (Y\cap Z)$ is finite, and 
+\item $\dim(Y\times Z)=\dim Y-\dim Z=\dim Y-\dim Z'\ge \dim X$.
+\end{enumerate}
+\begin{df}
+$A\in \abk$ is \textbf{simple} if there is no proper nontrivial abelian subvariety $B\subeq A$.
+\end{df}
+\begin{pr}
+ If $A\to B$ is an isogeny and $A$ is simple, then $B$ is simple. 
+\end{pr}
+\begin{cor}
+Given $A\in \abk$, there exist simple $A_1,\ldots, A_r\in \abk$ and $n_1,\ldots, n_r\in \N$ and an isogeny
+\[
+A_1^{n_1}\times \cdots \times A_r^{n_r}\to A.
+\]
+Moreover the $A_i,n_i$ are unique.
+\end{cor}
+\begin{rem}
+$A$ is $k$-simple does not imply that $A\times_k k'$ is $k'$-simple. Simplicity is not preserved under base change (corresponding to tensor product of algebras).
+\end{rem}
+%\begin{proof}
+%Mumford says to use the ``standard" idea: $A$, $B$ simple means $A\to B$ is finite (?) or an isogeny.
+%\end{proof}
+\end{proof}
+\subsection{Cartier duality}
+We studied the dual functor $A\mapsto A^{\vee}$ on $\Abs$. Now we define Cartier duality, which is a functor on the category of finite locally free group schemes over $S$. We give two approaches.
+\subsubsection{Concrete approach}
+Suppose we are in the affine case, so we can write $S=\Spec(Q)$ and $G=\Spec R$. A morphism $G\to S$ corresponds to a algebra homomorphism $Q\to R$.
+
+%We first give some preparation.
+First, we give a basic definition.
+\begin{df}
+A \textbf{Hopf algebra}  $R$ over $Q$ is an algebra equipped with the following functions. (Note items 1 and 2 are part of the definition for an algebra.)
+\begin{enumerate}
+\item
+Ring multiplication $m:R\ot_Q R\to R$
+\item
+Structure map (unit): $\de:Q\to R$ (corresponding to $G\to S$)
+\item $i\sh: R\to R$ corresponding to $i:G\to G$.
+\item Counity $e\sh: R\to Q$ corresponding to $e:S \to G$.
+\item Comultiplication $\De:R\to R\ot_Q R$ corresponding to $G\times G\to G$.
+\end{enumerate}
+\end{df}
+What happens when we dualize? Define $R^{\vee}=\Hom_{Q\text{-alg}}(R,Q)$. This is equipped with maps dual to the ones in the definition: (we drop the $\sharp$ for notational convenience)
+\begin{enumerate}
+\item $R^{\vee}\to R^{\vee}\ot_QR^{\vee}$
+\item $R^{\vee}\to Q^{\vee}\cong Q$ (canonically; $\Hom_Q(Q,Q)=Q$)
+\item $R^{\vee}\xra{i^{\vee}} R^{\vee}$
+\item $Q^{\vee}\xra{e^{\vee}} R^{\vee}$
+\item $R^{\vee}\ot R^{\vee}\xra{m^{\vee}} R^{\vee}$.
+\end{enumerate}
+Now $G^{\vee}=(\Spec R^{\vee}, \mu^{\vee}, e^{\vee},i^{\vee})$ is a group scheme over $S$; in fact it is a finite locally free commutative group scheme. 
+
+We see that $G\to G'$ ($\Spec R\to \Spec R'$) gives $G'^{\vee}\to G^{\vee}$ ($\Spec R'\to \Spec R$). You can check that this is a morphism of group schemes.\\
+
+\prbbox{Show that $(G^{\vee})^{\vee}\xrc G$ functorially in $G$.}
+\vskip0.15in
+
+For general schemes $S$, we glue from the affine case.
+
+\begin{ex}
+We have $(\Z/n\Z)^{\vee} \cong \mu_n$ when $S=\Spec k$. (Recall that $\ul{\Z/n\Z} =\Spec\pa{\bigopl_{x\in \Z/n\Z} k}$.) Here the multiplication map is 
+\begin{align*}
+\mu\sh:\bigopl_{\ga} k &\to \bigopl_{(\de,\de')\in (\Z/n\Z)^2}k\\
+(a_{\ga})&\mapsto (a_{\de\ne \de'}).
+\end{align*}
+We claim that $\mu_n=\Spec(k[t]/(t^n-1))$ and $\mu\sh:t\to t\ot t$. Note $\bigopl_{\ga}k^{\vee} \cong k[\Z/n\Z]\cong k[t]/(t^n-1)$  via the maps
+\[
+((a_n)\mapsto a_m)\mapsfrom \underbrace{m}_{\Z/n\Z} \mapsfrom t^m.
+\]
+as $k$ vector-spaces, as $k$-algebras, and as Hopf algebras.
+\end{ex}
+\subsubsection{Second approach to $G^{\vee}$}
+\begin{thm}
+Let $G$ be a finite locally free abelian group scheme over $S$. Then the functor
+\begin{align*}
+\ul{G^{\vee}}:\schs &\to \pat{Gps}\\
+T&\mapsto \Hom_{(\text{Gp}/T)} (G\times T, \G_{m,T})
+\end{align*}
+is representable by $\ul{G^{\vee}}$.
+\end{thm}
+\begin{proof}
+Observe  that $\ul{G^{\vee}}$ is a Zariski sheaf %(?? for $S=\Spec Q$). 
+so we can reduce to $S=\Spec Q$, $G=\Spec R$, $G'=\Spec R'$, and $T=\Spec Q'$. It suffices to show 
+\[
+\ul{G^{\vee}}(\Spec Q')\cong G^{\vee}(\Spec Q')
+\]
+for all $Q$-algebras $Q'$, and that this is functorial in $Q'$. Note 
+\begin{align*}
+\ul{G^{\vee}}(R')&\subeq \Hom_{(\text{Sch}/S)} (\Spec R\ot Q', \Spec Q'[t,t^{-1}])\\
+&=\Hom_{Q\text{-alg}}(Q'[t,t^{-1}], R\ot_{Q}Q') \cong R_{Q'}^{\times}
+\end{align*}
+the last via $\ph\mapsto \ph(t)$. (We use $R_{Q'}$ to denote $R\ot_Q Q'$.)
+Consider
+\beq{eq:787-12-1}
+G^{\vee}(R')=\set{\al \in R^{\times}_{Q'}}{\mu\sh (\al)\equiv \al\ot \al}
+\eeq
+\begin{clm}
+\beq{eq:787-12-2}
+G^{\vee}(Q')=\set{\al\in R_{Q'}}{\mu\sh =\al\ot \al,\, e\sh(\al)\equiv 1}.
+\eeq
+\end{clm}
+\begin{proof}
+\eqref{eq:787-12-1}$\subeq $\eqref{eq:787-12-2}: The following commute.
+\[
+\cmp{G\times S}{G\times G}{G}{(\id,e)}{}{\mu}{}{}{\id}
+\qquad
+\xymatrix{
+G\ar[r]^{(\id,i)} \ar[rd] & G\times G \ar[r]^{\mu} & G\\
+& S \ar[ru]_e&
+}
+\]
+We get $R\to R\ot_Q R= R$, $\al\mapsto (\id,e)\sh (\mu\sh \al)=\al$. $(\id,e)\sh (\mu\sh \al)=(\id,e)\sh (\al \ot \al)=\al \ot e\sh \al$ by (1).(?) Hence \eqref{eq:787-12-1}$\subeq $\eqref{eq:787-12-2}.
+
+\eqref{eq:787-12-2}$\subeq $\eqref{eq:787-12-1}: We have the diagram
+\[
+\xymatrix{
+G\ar[r]^{(\id,i)}\ar[rd] & G\times G\ar[r]^{\mu}& G\\
+& S\ar[ru]_e &}
+\]
+This gives $\al i\sh \al = e\sh \al=1 $ using (1), so $\al\in R_Q^{\times}$.
+\end{proof}
+\fixme{Now we prove the theorem. We want to show $\ul{G^{\vee}}(Q')=G^{\vee}(Q')$. The LHS is in $R_{Q'}$ and the RHS is in $\Hom(R^{\vee}_{Q'},Q')$, [under arrow] duality of $Q'$ modules. Claim the isomorphism restricts to the bijection. The LHS (i) corresponds to multiplication preserving, the RHS (ii) identity preserving... See Mumford.} 
+\end{proof}

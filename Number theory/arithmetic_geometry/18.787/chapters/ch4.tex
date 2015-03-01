@@ -1,0 +1,357 @@
+\lecture{Tue. 9/18/12}
+
+Suppose we have a strictly free group action $G\cir X$, i.e. a group action such that the following map is closed:
+\[
+\xymatrix@R-24pt{
+G\times_S X\ha{r}^{\text{closed}} & X\times_S X\\
+(g,x)\ar@{|->}[r] & gx .
+}
+\]
+Let the quotient map be $X\xra{\pi} Y$. Our goal today is to relate quasi-coherent sheaves on $X$ and on $Y$:
+\[\xymatrix{\QCoh(X)\ar@/^/[r]^{\pi_*}& \QCoh(Y)\ar@/^/[l]^{\pi^*}}.\]
+In actuality rather than have $\QCoh(X)$ on the left-hand side, we have $\QCoh^G(X)$, the category of {\it $G$-equivariant sheaves} on $X$. We'll define what this means, and then show how $G$-invariant quasi-coherent sheaves\footnote{Recall that a sheaf of $\sO_X$-modules is \textbf{quasi-coherent} if $X$ can be covered by open affine subsets $U_i=\Spec A_i$ such that for each $i$ there is an $A_i$-module $M_i$ with $\cF|_{U_i}=\wt{M_i}$. See Hartshorne~\cite[\S II.5]{Ha77}} on $X$ correspond to quasi-coherent sheaves on $Y$.
+
+%Construct a quotient sheaf, descend sheaf to downstairs. 
+How will this be useful? Later on, when we construct dual abelian varieties, we will have to mod out by a group scheme, and we'll want to consider line bundles over the quotient scheme.
+
+\subsection{$G$-equivariance for vector bundles}
+\llabel{sec:g-eq-vb}
+
+%large space upstairs, large space. 
+%
+%Mod out by group. 
+%
+%Remember certain line bundles
+%
+%Want projectivity of moduli space.
+%
+%Application: construct dual abelian varieties, moduli spaces of AV. (GIT) 
+To motivate the definition of $G$-invariant sheaves, we first give several equivalent definitions of $G$-invariant vector bundles.  This will be a kind of ``toy model" for use to play with.
+%This will be a ``toy model"
+\begin{df}
+Let $G\cir X$ be a group acting on discrete $G$-set. A \textbf{vector bundle} on $X$ is a vector space $V_x$ for each $x\in X$. Let $V=\bigcup_{x\in X} V_x$. A \textbf{$G$-equivariant} vector bundle is $V$ along with any one of the following equivalent structures, called $G$-invariant structures.
+% a map $\phi:V\to X$ sending $V_x$ to $x$, and satisfying %and $G$-equivariant str on $v$ (?)
+%%$G  $\phi:V=(v_x)_{x\in X}\to X$, a 
+\begin{enumerate}
+\item A group action $G\cir V$, and
+a map $\phi:V\to X$ sending $V_x$ to $x$ such that $\phi$ is $G$-equivariant:
+\[\phi(gv)=g\phi(v).\]
+\item
+A collection of ``multiplication by $g$ maps" $\set{\la_x(g)}{V_x\xra{\sim} V_{gx}}_{g\in G,x\in X}$ such that 
+\begin{align*}
+\la_x(1)&=\id\\
+\la_x(g_1g_2)&=\la_{g_2x}(g_1)\circ \la_x(g_2) %&\text{(group action)}
+\end{align*}
+where the second condition is says that $\la_x(g)$ is a group action, and comes from the following composition:
+\begin{equation}\llabel{eq:787-4-cocycle}
+\xymatrix{
+V_x\ar[r]^{\la_{x}(g_2)}\ar@/_2pc/[rr]^{\sim}_{\la_x(g_1g_2)} & V_{g_2x} \ar[r]^-{\la_{g_2x}(g_1)} & V_{g_1g_2x}.
+}
+\end{equation}
+%cocyc cond
+\end{enumerate}
+%move around fibers in general
+We want to couch this in the language of the whole space, not individual fibers. To do this, we need to collect all the maps $\la_x(g)$ into a single map. This motivates our next equivalent definition.
+
+%Equivalently, consider 
+Consider the two maps
+\[\xymatrix@R-24pt{G\times X%\ar@/^/[r]^{p_2}\ar@/_/[r]_{\mu}
+\ar[r]& X\\ (g,x)\ar@{|->}[r]^{p_2} \ar@{|->}[rd]_{\mu}  &x\\&gx.}\]
+%fiber at gx is vx.
+
+Using these two maps, we construct two vector bundles over $G\times X$, $p_2^*V$ and $\mu^*V$. The fiber over $(g,x)$ in $p_2^*V$ is $V_x$, and the fiber over $(g,x)$ in $\mu^*V$ is $V_{gx}$.
+
+We now ``assemble" the map $\la_x(g)$ into a single map $\la$ on vector bundles over $G\times X$:
+\[\xymatrix{p_2^* V\ar[r]^{\la}_{\cong}& \mu^* V}.\]
+
+
+To express the cocycle condition~\eqref{eq:787-4-cocycle}, we consider 3 maps
+\[\xymatrix@R-24pt{G\times G\times  X\ar[r]& X\\ (g_1,g_2,x)\ar@{|->}[r]^{p_3}
+\ar@{|->}[rd]^-{\xi}
+\ar@{|->}[rdd]_-{\eta}& x\\
+&g_2x\\
+&g_1g_2x.}\]
+%We want to state compatible diagram
+\begin{enumerate}[resume]
+\item
+An $G$-equivariant structure is a map $\la$ on vector bundle over $G\times X$,
+\[\xymatrix{p_2^* V\ar[r]^{\la}_{\cong}& \mu^* V}.\]
+such that the following commutes (the cocycle condition)
+\[
+\xymatrix{
+p_3^*V\ar[r]^{p_{23}^*\la}\ar@/_2pc/[rr]^{\cong}_{(\mu\times \id_X)^*\la} & \xi^*V \ar[r]^{(\id_G\times \mu)^*\la} & \eta^*V.
+}
+\]
+where $p_{23}$ is passing to the second and third components.
+\end{enumerate}
+Taking the fiber at $(g_1,g_2,x)$, we recover~\eqref{eq:787-4-cocycle}.
+
+Now we pull back the definition above to $\{g\}\times X\subeq G\times X$.
+%Definition in scheme-theoretic case
+\begin{enumerate}[resume]
+\item %Pull back 1'' to $\{g\}\times X\subeq G\times X$. $\set{\la_g}{V\xra{\cong} T_g^* V}_{g\in G}$, $T_g:X\xra{\cong} X$, $x\mapsto gx$. + cocycle condition,
+%A $G$-equivariant structure is given as follows. 
+Define $T_g:X\xra{\cong} X$ by $T_g(x)=gx$. A $G$-invariant structure on $G$ is a collection of maps $\set{\la_g}{V\xra{\cong} T_g^* V}_{g\in G}$ satisfying the following cocycle condition
+\beq{eq:df4-cocyle}
+\xymatrix{
+V\ar[r]^{\la_{g_2}}\ar[rrd]_{\la_{g_1g_2}} & T_{g_2}^* V\ar[r]^{T_{g_2}^*\la_{g_1}}& T_{g_2}^*T_{g_1}^* V\ar@{=}[d]\\
+&& T_{g_1g_2}^*V.
+}
+\eeq
+%where rhs is canonical.
+\end{enumerate}
+\end{df}
+Why do we need $G$ to be free?
+
+Suppose $G\cir X$ is a free action of a group on a set, i.e. $\Stab_G(x)=\{1\}$. (We also say that $X$ is a principal homogeneous space under $G$.) Let $\pi:X\to X/G$ be the quotient map. Then we have an equivalence
+\begin{align}
+\llabel{eq:787-4-vb}
+\bt{vector bundles over}{$X/G$}&\xra{\cong} \bt{$G$-equivariant vector bundle}{over $X$}.\\
+\nonumber
+V&\mapsto \pi^*V
+\end{align}
+This is an exercise. %you can reduce to just looking at the orbit of one point.
+%$\pi:X\to X/G$. Exercise!
+%Principal homogeneous space over $G$. Come down to one point.
+The idea is that by knowing the fiber over point, we can use the action of $G$ on $X$ to copy that fiber on the whole orbit of $x$. 
+\begin{rem}
+If $G$ is not free and $|G|>1$, then we wouldn't expect such an equivalence. For instance, take $X=\{\cdot \}$ and let $G$ act on $X$ trivially. We still have a map as in~\eqref{eq:787-4-vb}, but it is no longer surjective.
+
+On the left-hand side, a vector bundle over $X/G=\{\cdot \}$ is just a vector space. On the right-hand side, a $G$-equivariant vector bundle over $\{\cdot\}$ is a vector space with $G$-action. %If you pull back you get trivial action, but there are non-trivial $G$-actions on vector spaces. Not equivalent.
+The map is no longer surjective, because $V$ and hence $\pi^*V$ can only have the trivial action, but there are non-trivial $G$-actions on vector spaces.
+\end{rem}
+
+In general, to get around the ``strictly free" condition, we use stacks instead of schemes. However we will always restrict to free case, so that we can stay within scheme theory.
+
+Our main examples of interest are closed group subschemes acting on schemes. The action is always strictly free in this case.
+
+We've made a toy model; now let's go back to reality.
+\subsection{$G$-equivariance for sheaves}
+
+\begin{df}
+Let $G\cir X$ be a group scheme over $S$ acting on a scheme $X$ over $S$, and $\cF\in \QCoh(X)$.\footnote{We could work with other sheaves too; however, our proofs will only work for quasicoherent sheaves.}
+A \textbf{$G$-equivariant sheaf} is a sheaf $\cF$ with either of the following equivalent structures (called $G$-equivariant structures):
+\begin{enumerate}
+\item
+a map $p_2\cF\xra{\la,\cong} \mu^*\cF$ such that the following commutes
+\[\xymatrix{
+p_3^*\cF\ar[r]^{p_{23^*}}_{\cong}\ar@/_2pc/[rr]^{\cong}_{ (\mu\times\id_G)^*\la} & \xi^*\cF \ar[r]^{(\id_G\times\mu)^*\la} & \eta^*\cF.
+}\]
+in $\QCoh(G\times_SG\times_SX)$, where the maps are the analogues of the maps in Section~\ref{sec:g-eq-vb}, for schemes instead of vector bundles.
+\item a collection 
+\[
+\set{\cF_T}{\cF_T\xra{\cong} T_g^*\cF_T}_{T\in \schs,\,g\in G(T)}
+\]
+in $\QCoh(X_T)$ where $X_T$ is the basechange $X\times_ST$, $T_g:X_T\xra{\cong}X_T$ is the translation map $x\mapsto gx$, and the maps are functorial in $T$. Moreover, this collection satisfies the cocycle condition (we require the same kind of diagram as in~\ref{eq:df4-cocyle}).
+\end{enumerate}
+\end{df}
+A structure in item 1 gives a structure in item 2 just by pulling back. To see a structure in item 2 gives a structure in item 1, we have to use descent theory (omitted).
+
+Compare these two definitions with definitions 3 and 4 in Section~\ref{sec:g-eq-vb}.
+
+Now that we've made the basic definitions, we'd like to see how it applies to quotient schemes. Actually, we'll look at a more general case.
+\subsubsection{Construction of $G$-equivariant structure}
+
+Let $\pi:G\cir X\to Y$ be a $G$-invariant map, i.e. a map such that if $p_2,\mu:G\times_SX\to X$ are the projection and multiplication maps, the $G$-equivariance condition 
+\[\pi\circ p_2=\pi\circ \mu\]
+holds. (For instance, $\pi$ could be the quotient map.) We know that there is a pullback map from quasicoherent sheaves on $Y$ to quasicoherent sheaves on $X$, 
+\begin{align*}
+\pi^*:\QCoh(Y)&\to \QCoh(X)\\
+g&\mapsto \pi^*g.
+\end{align*}
+However, we also want to equip $\pi^*g$ with a natural $G$-equivariant structure, %Is there a natrual $G$-equivariant structure that we can equip $\pi^*g$ with? Yes. 
+so that $\pi^*g$ is in the category of $G$-equivariant sheaves
+\[
+\QCoh^G(X)=\bt{$G$-equivariant sheaves}{on $X$}.
+\]
+Is there a natrual $G$-equivariant structure that we can equip $\pi^*g$ with? Yes.
+
+
+Note that if $X\xra{f}Y\xra{g}{Z}$ are scheme morphisms, $\cF\in \QCoh(X)$ and $\cH\in \QCoh(Z)$, then
+\[
+(g\circ f)^* \cH\cong f^*(g^*\cH)
+\]
+and
+\[
+(g\circ f)_*\cF=g_*(f_*\cF).
+\]
+For $W\subeq Z$, the sections on $(g\circ f)_*\cF$ are  $\cF(f^{-1}(g^{-1}(W)))$. We will define the $G$-equivariant structure by examining the sections of $(g\circ f)_*\cF$.
+
+By assumption on $\pi$, we have $\pi\circ p_2=\pi\circ \mu$. Thus we can $\la$ as the map making the following diagram commute:
+\[
+\xymatrix{
+p_2^*(\pi^*\cG)\aq{d}\ar[r]^{\la} &\mu^*(\pi^*\cG)\aq{d}\\
+\cong (\pi\circ p_2)^* \cG \aq{r} & (\pi\circ \mu)^*\cG.
+}
+\]
+A tedious check shows that $\la:p_2^*(\pi^*\cG)\to \mu^*(\pi^*\cG)$ satisfies the cocycle condition and is functorial in $\cG$, so we do have a $G$-invariant structure on $\pi^*\cG$.
+%p^* not jst functor but
+%can show functorial in $$
+
+Going in the opposite direction, suppose we have a $G$-equivariant sheaf on $X$, $\cF\in \QCoh^G(X)$. What happens to the $G$-equivariant structure when we push forwards, using $\pi_*$?
+
+In general, $\pi^*\pi_*$ is not the identity; the rank may increase when we pull back and push forward. We'd like to modify $\pi_*$ so that we {\it do} get the identity.
+
+Thus, we don't just push forwards: we push forward {\it and} take the {\it $G$-invariant sections}. We will define the map
+\begin{align*}
+\pi_*(\cdot)^G:\QCoh^G(X)&\to \QCoh(Y)\\
+(\cF, \la)&\mapsto (\pi_*\cF)^G.
+\end{align*}
+This takes the sheaf $\cF$ on $X$ with $G$-invariant structure to a $\cO_Y$-submodule of $\pi_*\cF$ consisting of $G$-invariant sections, defined formally below.
+
+\begin{df}
+Let $\pi:G\cir X\to Y$ be a \textbf{$G$-invariant map}. Let
+$V\subeq Y$ be open. We say that a section $s\in \pi_*\cF(V)=\cF(\pi^{-1}(V))$ is \textbf{$G$-invariant} if
+\[
+\la(p_2^*(s))=\mu^*(s),
+\]
+i.e. $s$ gets mapped to the same element when we follow the two maps below:
+\beq{eq:787-4-4}
+\xymatrix{
+& (p_2^*\cF)({\color{blue}p_2^{-1}(\pi^{-1}(V))})\ar@{=}[dd]^{\la}_{\cong}\\%convince self!
+\cF(\pi^{-1}(V))\ar[ru]^{p_2^*}\ar[rd]_{\mu^*} & \\
+& (\mu^*\cF) ({\color{blue}\mu^{-1}(\pi^{-1}(V))}).
+}%show on level of rings and modules
+\eeq
+Define $(\pi_*\cF)^G$ by having $(\pi_*\cF)^G(V)$ consist of the $G$-invariant sections on $V$.
+\end{df}
+Note that  the blue sets above are the same because of $G$-invariance. Moreover, $(\pi_*\cF)^G$ is actually a $\cO_Y$-submodule because the condition  $\la(p_2^*(s))=\mu^*(s)$ is stable under $\cO_Y$ action.
+\begin{ex}
+The sheaves $\cO_G,\Om_{G/S}^1$ carry natural $G$-invariant structures. This is easiest to see on the level of $T$-points. For all $g\in G(T)$, are there maps $\cO_G\xra{\cong} T_g^*\cO_G$ and $\Om_{G/S}^1\cong T_g^*\Om_{G/S}^1$ that satisfy the cocycle condition? Yes, because we know the translation $T_g$ induces an isomorphism on these spaces. 
+%$G$-invariant functions. Formalism to this guy, $G$-invariant functions. Differentials invariant under $G$-action.
+
+\fixme{For instance, (?)}
+\[
+\{\text{invariant global differentials on $G$}\}\cong \{
+\text{$G$-invariant section of $\Om_{G/S}^1$ over $G$}
+\}
+\]
+
+In the case of elliptic curves, we get the invariant differential on elliptic curves.
+\end{ex}
+
+\begin{rem}
+Given any vector bundle, in general there is not necessarily a $G$-invariant structure.
+%g-equivariance is add'l structure rather than a condition to satisfy. 
+The same is true of sheaves: given a quasi-coherent sheaf, there may not be $G$-equivariant structure, or there may be more than 1.
+\end{rem}
+
+\begin{thm}
+Let $X$ be a scheme locally of finite type over $S$. Let $G$ be a locally free group scheme over $S$, and suppose we have a strictly free action $G\cir X$.
+Then there are 2 maps $\pi^*$ and $\pi_{*}(\cdot )^G$ which induce categorical equivalences (top of diagram below)
+%nat transf
+\[
+\xymatrix{
+\QCoh(Y)\ar@/^/[r]^{\pi^*} & \QCoh(X)^G\ar[l]^{\pi_*(\cdot)^G}\\
+\{\text{locally free of rank }a\} \ha{u} \ar@{<->}[r] & \{\text{locally free of rank }a\} \ha{u}.}
+\]
+Moreover, they also induce a bijection on the subcategories of locally free sheaves of a given rank $a$.
+%cf. for finintely presented sheaves (flat iff locally free iff projective) finite generators and relations
+\end{thm}
+
+\begin{rem}
+The $a=1$ case is already important; they give line bundles.
+\end{rem}
+
+We will be specially interested in the case where $Y$ is a quotient scheme, $Y=X/G$.
+
+\begin{proof}[Proof sketch]
+For the complete proof, see~\cite[p. 70 and p. 114-118]{Mu70}.
+
+Reduce to affine case $G=\Spec(R)$. Because $G$ is locally free, we can assume by localizing further that $R$ is free of rank $r$ over $Q$.
+\begin{align*}
+G&=\Spec(R)& X&=\Spec(A)\\
+S&=\Spec(Q)& Y&=\Spec(B).
+\end{align*}
+Then $\cF$ corresponds to an $A$-module $M$, i.e. $\cF=\wt{M}$.
+
+We can rewrite~\eqref{eq:787-4-4} in terms of modules (recall that defining pullback involves tensor product), to get the triangle on the LHS below:
+%We'll write down something simiar to the triangle diagram (4.2). 
+\beq{eq:787-4-5}
+\xymatrix{
+& M\ot_A(R\ot_Q A)\ar@{=}[dd]^{\la}_{\cong}& M\ot_A(A\ot_BA) \ar[l]_{\cong}^{\psi}\ar@{=}[rr]^-{m\ot a\ot 1\mapsfrom a\ot m}\ar@{=}[dd]_{\cong} &&A\ot_B M\ar@{=}[dd]^{\la'}_{\cong}
+\\%convince self!%cancel out a w/ first component, cancel w/ second component. M in the position of A.
+M\ar[rd]%_{\mu^*}
+\ar[ru] & &&\\
+& M\ot_A(R\ot_Q A)& M\ot_A(A\ot_BA) \ar[l]_{\cong}^{\psi} \ar@{=}[rr]^-{m\ot 1\ot a\mapsfrom m\ot a} &&
+M\ot_B A.
+}%show on level of rings and modules
+\eeq
+%(1,3): a\mapsto 1\ot a$, (3,3) a\mapsto a\ot 1
+The maps in the left triangle carry $m\mapsto m\ot 1$. Note that the two tensor products $M\ot_A(R\ot_Q A)$ are formed differently, though: the top one is formed via the map $p^*:A\to R\ot_Q A$ sending $a\mapsto 1\ot a$ and bottom one is formed via the map $\mu^* :A\to R\ot_Q A$. The sheaf $(\pi_*\cF)^G$ corresponds to the module
+\[
+M^G=\set{m\in M}{\la(m\ot 1)=m\ot 1}.
+\]
+We will use two facts from last time.
+\begin{enumerate}
+\item By Theorem~\ref{thm:gsx=xyx}, we have an isomorphism
+$G\times_SX\xra{\cong}X\times_YX$ sending $(g,x)\mapsto (gx,x)$. This gives a ring isomorphism
+\bal
+A\ot_B A&\xra{\psi, \cong} R\ot_Q A\\
+a_1\ot a_2&\mapsto \mu^*(a_1)p_2^*(a_2)=\mu^*(a_1)(1\ot a_2).
+\end{align*}
+This gives us the middle square in~\eqref{eq:787-4-5}. Here, the tensor product in the upper $M\ot_A (A\ot_B A)$ is formed by the map $A\to A\ot_B A$ given by $a\mapsto 1\ot a$, and the tensor product in the lower $M\ot_A(A\ot_B A)$ is given by $a\mapsto a\ot 1$. This is because $1\ot a$ is sent to $p_2^*(a)$ and $a\ot 1$ is sent to $\mu^*(a)$.
+
+%NOW ADD IN RIGHT SIDE OF COMPLICATED DIAGRM (1,4) to (1,3): 
+%geo quotient and 
+%So $B$-module
+%\[
+%M^G=\set{m\in M}{\la(1\ot m)=m\ot 1}\mapsfrom (\pi_*\cF)^G
+%\]
+%for outer diagram.
+\item
+If $A$ is projective of rank $r$ over $B$ and integral over $B$, then $A$ is faithfully flat over $B$. %(Flat and map on Spec is surjective.)
+\fixme{reference}
+\end{enumerate}
+We need to show two things.
+\begin{enumerate}
+\item
+%We are more or less ready to start the proof.
+We have an isomorphism
+%By adjunction, move $\pi_*$ to $\pi^*$, 
+\[
+\pi^*((\pi_*\cF)^G)\xra{\cong} \cF.
+\]
+%come from adjunction from $(\pi_*\cF)^G\subeq \pi_*\cF$. i.e.
+This is equivalent to having an isomorphism
+\begin{align*}
+M^G\ot_BA&\xrc M\\
+m\ot a&\mapsto am
+\end{align*}
+\item 
+For $\cG$ on $Y$, we have an isomorphism
+\[
+\cG\xrc (\pi_*(\pi^*\cG))^G.
+\]
+If $\cG=\wt{N}$, this is equivalent to having an isomorphism
+\[
+N\xrc (N\ot_B A)^G.
+\]
+\end{enumerate}
+
+\fixme{THIS IS UNEDITED. Fix after I understand the proof in Mumford. 
+$M$ projective over $A$ iff $M^G$ is projective over $B$
+If we show these are true we will be done very soon.
+
+How to deduce theorem from 3 and 4.
+
+(i) $\pi_*(\pi^*\cG)^G\cong \cG$ canonically using adjunction. On modules, $(N\ot_B A)^G\cong N$ for all $B$-modules $N$.
+%qc sheadf on spec corresp $B$-mod $N$.
+
+$N\ot_BA\to (N\ot_B A)^G\ot_Q A\xrc N\ot_B A$. isomorphism by 3. composition is identity [XYMATRIX] Thus LHS canonical map is isomorphism.
+\[
+N\ot_BA\xrc (N\ot_B A)^G\ot_BA.
+\]
+implies $A$ faithfully flat over $B$. It must be an isomorphism to begin with, 
+\[
+N\xrc (N\ot_B A)^G.
+\]
+
+(ii) Use part 4+
+locally free=projective. Projective corresponds to projective. + check equality of rank, easy given part 3.
+
+Refer to Mumford section 12. He works over algebraically closed field. $S=\Spec(k)$, $k$ alg closed, but works in generality. 
+}
+
+\end{proof}
+Next time we can will finally talk about abelian varieties and schemes.

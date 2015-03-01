@@ -1,0 +1,293 @@
+\lecture{Thu. 9/13/12}
+
+%if M is finite presented
+%M: A-mod
+%M finite flat
+%\implies
+%\Leftarrow M finite locally free
+%\iff M finite projective
+%G \cir X
+%finite locally free group scheme /S
+%A^m\to A^n\to M\to 0 finite presentations
+
+Today we prove that under the hypothesis on orbits, the geometric quotient is a scheme.
+
+Recall our hypothesis: for all $x\in X$ closed, $G\cdot x\subeq |X|$ is contained in an open affine. We can write $G\cdot x$ another way, as
+\[
+G\cdot x=\mu(p_2^{-1}(x))
+\]
+
+Recall that we defined the geometric quotient $(|X|/\sim,(\pi_*^{\text{top}}\cO_X)^G)\in (RS/S)$, where $\pi^{\text{top}}:|X|\to |X|/\sim$ is the quotient map and  $(\pi_*^{\text{top}}\cO_X)^G$ gives the collection of functions such that $p_2^{\sharp}(a)=\mu^{\sharp}(a)$.
+
+More precisely, thinking of $X$ as a space of functions, the $G$-invariance condition tells us that for $a\in (\pi_*\tp\cO_X)^G$, after pulling back $a$ by the projection and multiplication maps $p_2,\mu:G\times_S X\to X$, we get the same thing: $p_2\sh(a)=\mu\sh(a)$.
+\subsection{Geometric quotient, continued}
+Our goal today is to prove the following theorem.
+\begin{thm} (\cite[4.16]{GGBM}) \llabel{thm:geo-q}
+Let $G$ a finite locally free scheme over $S$ and $G\cir X$ be a group scheme action. 
+Under the hypothesis on orbits,
+\begin{enumerate}
+\item
+There exists $Y\in \schs$ and $\pi:X\to Y$ such that $(Y,\pi)\cong ((X/G)_{rs},\pi_{rs})$.
+\item
+$(Y,\pi)$ is a categorical quotient as well.
+\item
+$\pi:X\to Y$ is integral, quasi-finite, and surjective. (Quasi-finite means that the fibers have dimension 0, i.e. $f^{-1}(y)$ is finite for each point $y\in Y$.)
+\item
+If $S$ is locally noetherian and $X$ is locally of %locally 
+finite type over $S$, then $\pi$ is a finite morphism. %%expect G finite group scheme, or even locally free. Need more condition to get stronger condition (locally free).
+%%$Y$ is of finite type over $S$, too.
+%if of finite type, then actually Y is of finite type over S.
+\item The formation of the quotient (geometric or categorical) commutes with flat base change, namely base change to $S'$ where $S'\to S$  is flat.\footnote{A flat morphism $X\to Y$ is a morphism such that the induced map on every stalk is a flat map of rings, i.e. $f_p:\cO_{Y,f(p)}\to \cO_{X,p}$ is flat for all $p\in X$.} Namely, letting $X':=X\times_S S$, we have 
+\[
+(G\bs X)_{rs}'\cong (G'\bs X')_{rs}.
+\]
+\end{enumerate}
+\end{thm}
+If we have a group action $G$ on $S$, to form a quotient over $S'$ there are two things we can do. 
+\begin{enumerate}
+\item
+Base change to $S'$ and take the quotient, or
+\item
+take the quotient and base change.
+\end{enumerate}
+The last point says that we have a natural isomorphism between these two objects.
+%The proof tells us a lot about 
+\begin{rem} (\cite[4.6]{GGBM}
+The condition that $G$ be finite (over $S$) is essential. 
+Consider 
+\[
+\G_m\cir \A_k^1=\G_m\cup \{0\},
+\]
+where $S=\Spec k$ and $k=\ol{k}$. The categoric quotient is $\A_k^1\to \Spec k$, but the geometric quotient does not exist (the quotient map would have to map $\A_k^1\bs \{0\}$ to a single point; since this is dense it maps all of $\A_k$ to a single point; but there whould be two points because there are two orbits). 
+%On 0 it is whole stabilizer. We cannot reconcile this in the categorical quotient. 
+There doesn't exist a categorical quotient, but we suspect some quotient might still exist.
+\end{rem}
+
+\begin{proof}[Proof sketch]
+(See~\cite[4.18--4.25]{GGBM} for the details.)
+
+We first reduce to the affine case by using the hypothesis to show $X$ can be covered by $G$-stable open affine subschemes. We use that $G$ is finite locally free in the reduction step. See~\cite[4.18--19]{GGBM}. %(We also use the fact that $G$ is finite locally free.)
+
+%cover G by G-stable open affine subscheme, reduced to G affine. 
+In the affine case $G=\Spec R$, $X=\Spec A$, $S=\Spec Q$. 
+$R$ is locally free over $Q$. By localizing, we may assume $R$ is finite free of rank $r$ over $Q$.
+Now 
+\[
+\xymatrix{
+G\times_S X \ar@/^/[r]^-{p_2}\ar@/_/[r]_-{\mu} & X
+}
+\text{ induces }
+\xymatrix{
+R\ot_Q A &\ar@/^/[l]^-{\mu}\ar@/_/[l]_-{p_2}  A
+}
+\]
+Define 
+\[B:=\set{a\in A}{p_2^{\sharp}(a)=\mu^{\sharp}(a)}.\]
+\prt{1--3}
+We will show that ($Y=\Spec B$, $X\xra{\pi} Y$),  where $\pi$ is induced by $B\hra A$, is the geometric quotient. One main step is the following.
+
+\begin{clm} (\cite[4.20]{GGBM}) \llabel{clm:787-3-1}
+$A$ is integral over $B$. 
+\end{clm}
+
+We want to produce a monic polynomial with $a\in A$ as root. We have that $\mu^{\sharp}(a)$ acts by multiplication on 
+$R\ot_Q A$, a free $A$-module of rank $r$. Let $\chi(X)$ be the characteristic polynomial in $A[X]$.
+
+Observe that $\mu^{\sharp}$ is injective because we have $\mu\circ (e,\id_X)=\id$: 
+\[
+\xymatrix@R-24pt{S\times_S X=X\ar[r]^-{(e,\id_X)}\ar@/^2pc/[rr]^{\id} & G\times_S X \ar[r]^{\mu}& X\\
+x \ar@{|->}[r] & (e,x) \ar@{|->}[r] & x}
+\]
+On rings, we have $(e,\id_X)^{\sharp} \circ \mu^{\sharp} =\id$, so $\mu^{\sharp}$ is injective.
+
+%Produce monic polynomial which has $a$ as root, in indirect way. 
+If suffices to prove $\chi(X)\in B[X]$. By Cayley-Hamilton, $\chi(\mu^{\sharp}(a))=0$. 
+Now, we can switch $\chi$ and $\mu\sh$ exactly when the coefficients are in $B$; for $b\in B$, $\mu^{\sharp}(b)=1\ot b=p_2^{\sharp} (b)$. 
+%Since $\chi$ has coefficients in $B$ (the ``invariant" ring), this implies 
+The fact that $\chi(X)\in B[X]$ gives $\mu\sh(\chi(a))=0$, which, by injectivity of $\mu\sh$, gives $\chi(a)=0$.
+%switch ci and musharp exactly when in B, tell you coeff staisfy $\mu^{\sharp}(b)=1\ot b=p_2^{\sharp} (b)$. 
+%IMPLIES with $\chi(X)\in B[X]$ above, $\mu^{\sharp}(\chi(a))=0$ implies $\chi(a)=0$.
+
+This shows $a$ is integral over $B$, which is exactly what we want to prove.
+
+Let's prove $\chi(X)\in B[X]$. We need to show 
+\beq{eq:chi-in-B[X]}
+p_2\sh(\chi(X))=\mu\sh(\chi(X))
+\eeq
+in $R\ot_Q A[X]$. We write
+\[
+\chi(X)=(\mu\sh(a)\cir R\ot_Q A\text{ as $A$-module}). 
+\]
+to mean that $\chi(X)$ is the characteristic polynomial of multiplication-by-$\mu\sh(a)$ on $R\ot A$ considered as a $A$-module. To show~\eqref{eq:chi-in-B[X]}, we transfer $\chi(X)$ to a characteristic polynomial on $R\ot_QR\ot_Q A$ in two ways, and show they are equal.
+\begin{enumerate}
+\item
+We first transfer the action of $A$ on $R\ot_Q A$ to an action of $R\ot_Q A$ on $R\ot_QR\ot_Q A$ via the horizontal maps $p_2\sh$ and $m\ot \id$:
+\[
+\commsq{A}{R\ot_QA}{R\ot_Q A}{R\ot_Q R\ot_Q A.}{p_2\sh}{p_2\sh}{1\ot \id}{m\ot \id}
+\]
+From this we get
+\beq{eq:787-3-1}
+p_2\sh(\chi(X))=((m\ot 1)(\mu\sh(a))\cir R\ot_Q R\ot_Q A \text{ as }R\ot_Q A\text{-module}).
+\eeq
+\item
+Next we transfer the action of $A$ on $R\ot_QA$ to an action of $R\ot_Q A$ on $R\ot_QR\ot_Q A$ via the horizontal maps $\mu\sh$ and $\id \ot \mu\sh$:
+\[
+\commsq{A}{R\ot_QA}{R\ot_Q A}{R\ot_Q R\ot_Q A.}{p_2\sh}{\mu\sh}{1\ot \id}{\id\ot\mu\sh}
+\]
+From this we get
+\beq{eq:787-3-2}
+\mu\sh\chi(X)=((1\ot \mu\sh)(\mu\sh(a))\cir R\ot R\ot A\text{ as }R\ot A\text{-module}).
+%p_2\sh(\chi(X))=((1\ot p_2\sh)(\mu\sh(a))\cir R\ot_Q R\ot_Q A \text{ as }R\ot_Q A\text{-module}).
+\eeq
+Here, $R\ot A$ acts on the 2nd and 3rd coefficients of $R\ot_QR\ot_QA$.
+\end{enumerate}
+%acting on $R\ot R\ot A$ (a $R\ot A$-module, 2nd and 3rd component).
+
+%We have 
+%
+%$r\ot a\in R\ot A\mapsto r\ot 1\ot a\in R\ot R\ot A$; $1\ot p_2\sh$ too.  $p_2\sh(a)=1\ot a$. 
+%
+%The right hand side is $\chi((1\ot \mu\sh)(\mu\sh(a))\cir R\ot R\ot A)$ ($R\ot A$-module). $r\ot a\mapsto r\ot \mu\sh(a)$. We want to show the characteristic proofs are the same. 
+The group action axiom
+\[
+\commsq{G\times G\times X}{G\times X}{G\times X}{X}{1\ot \mu}{m\ot 1}{\mu}{\mu}
+\]
+now gives
+\[
+(1\ot\mu\sh)(\mu\sh(a))=(m\sh \ot 1)(\mu\sh(a)).
+\]
+This means~\eqref{eq:787-3-1} and~\eqref{eq:787-3-2} are equal, and we get~\eqref{eq:chi-in-B[X]}, as needed. This proves Claim~\ref{clm:787-3-1}.\\
+%\[
+%\xymatrix{
+%R\ot A\ar[rr]^{m\sh\ot 1}\ar[rd]_{1\ot p_2\sh} && R\ot R\ot A\\
+%& R\ot R\ot A \ar[ru]^{\psi}_{\cong}&
+%}
+%\]
+%The maps are $r\ot a\mapsto r\ot 1\ot a$, $r_1\ot r_2\ot a\mapsto (m\sh(r_1)\ot 1)(1\ot r_2\ot a)=m\sh(r)\ot a$.
+%%is it is of 1st 2comp. 
+%
+%Magic: $\psi$ is an isomorphism
+%\bal
+%R\ot R&\xrc R\ot R\\
+%r_1\ot r_3&\mapsto m\sh(r_1)(1\ot r_2)
+%\end{align*}
+%This is dual to
+%\bal
+%G\times G&\xra{(m,p_2)} G\\
+%OOPS!&erased
+%\end{align*} 
+%%work on T-points. abstract groups-> iso.
+%We've shown that
+%\[
+%(1\ot \mu\sh)(\mu\sh(a))=\underbrace{\psi}_{\text{automorphism}}\circ (1\ot p_2\sh(\mu\sh(a)))
+%\]
+%in $R\ot A$-mod.
+%2 elements differ by automorphism, get same characteristic polynomial. Twisting by automorphism is just changing basis. So
+%\[
+%p_2(\chi(X))=\mu\sh(\chi(X)).
+%\]
+%Hence $A$ is integral over $B$.
+
+We know $A$ integral over $B$, so $X\to Y$ is integral. By basic facts in commutative algebra, $\pi$ is quasi-finite, closed, and surjective. (See for instance Chapter 5 of Atiyah-MacDonald.) Namely, use Cohen-Seidenberg theory: Going up gives surjectivity, etc.
+
+%From the fact that $A$ is integral over $B$, we can use Cohen-Seidenberg theory (going up, incomparability) and show that
+It is not hard to show from here
+\[
+(Y=\Spec B,\pi:\Spec A\to \Spec B)\cong (|X|/\sim,(\pi_*^{\text{top}}\cO_X)^G)
+\]
+and that this is the categorical quotient. 
+%For instance, going up gives surjectivity of the map $\Spec A\to \Spec B$. 
+For details, see~\cite[4.21--22]{GGBM}.\\
+%similar to toy model when $S=\Spec k$, $G$ is group or constant group scheme, checked geometric quotient.\\
+
+\prt{4}
+Let $G$ be a locally finite type over $S$. Again reduce to the affine case. We can assume that $A$ is a finite $B$-module. $X=\Spec(A)$, $Y=\Spec(B)$, $S=\Spec(Q)$, and $A$ is a finitely generated $Q$-algebra. Then %b q-alg, fin gen b-alg
+Because $A$ is finitely generated $Q$-algebra, $A$ is also a finitely generated $B$-algebra. Since $A$ is integral over $B$, this means that $A$ is finitely generated $B$-module, so $\pi$ is finite.\\
+
+%Proof of 2 formal, compare ringed spaces.
+%Categorical quotient in ringed spaces, not necessarily schemes. Compart cat quo in ringed spaces vs. scheme. \\
+
+\prt{5}
+Reduce to the affine case; suppose $\Spec Q'=S'\to S=\Spec Q$ is flat.
+%The intuition is that it comes down to:  Take $G$-invariance over $S=\Spec$ of something, then base change, or...
+Say $X=\Spec A$. A function on $X$ is given by $a\in A$. A $G$-invariant element is given by $(p_2^{\sharp}-\mu^{\sharp})(a)=0$. This operation commutes with base change in the following sense:
+\[
+\ker((p_2^{\sharp}-\mu^{\sharp})\ot_Q Q')=\ker((p_2^{\sharp}-\mu^{\sharp}))\ot_Q Q'
+\]
+We simply use the fact that tensoring by something flat is an exact functor. %For details, see~\cite[GGBM]{4.}.
+\end{proof}
+%int'l quasi-finite surjective.
+
+\subsection{Free group actions}
+We haven't imposed any conditions on the action itself. The group action is nicer when every point has trivial stabilizer. Our actual definition of a free group action is the following.
+\begin{df}
+The group action $G\cir X$ where $G\in\gps$ and $X\in \schs$ is \textbf{(strictly) free} if 
+\bal
+(\mu,p_2):G\times_S X&\to X\times_S X\\
+(g,x)&\mapsto (gx,x)
+\end{align*}
+is a closed immersion.
+\end{df}
+
+There is a special case where the action is always free.
+\begin{lem}%abelian scheme over S
+Let $G\subeq H$ be a closed subscheme in $\gps$. Let $G\cir H$ act by left translation. Then this action is strictly free.
+\end{lem}
+\begin{proof}
+We have
+\[
+\xymatrix@R-24pt{G\times_S H\ha{r}& H\times_S H\ar[r]^{\cong} & H\times_SH\\
+&(h_1,h_2) \ar@{|->}[r] & (h_1h_2,h_2).
+}%locally free and flat
+\]
+where the left map is the basechange of $G\hra H$, hence closed.
+\end{proof}
+
+When we impose more conditions on the action, we get stronger results, such as the following theorem (which we won't prove in complete generality)
+\begin{thm}\llabel{thm:gsx=xyx}
+Let $G\cir X$ be a strictly free group action, $G$ be finite locally free, and $X$ be locally free of finite type. Suppose that the hypothesis on $G\cdot x$ is satisfied. Let $Y$ be the geometric quotient. Then 
+\begin{enumerate}
+\item
+$X\to Y$ is finite and locally free.
+\item
+We have the following factorization.
+\[%finite flat subgroup scheme (ex. torsion)
+\xymatrix{
+G\times_S X\ar[rd]_{\cong}\ha{rr}^{(\mu,p_2)} && X\times_S X\\
+&X\times_Y X\ha{ru}_{\text{closed}}&
+}
+\]
+\end{enumerate}
+\end{thm}
+\begin{proof}
+We can check this locally. Let $X=\Spec A$, $Y=\Spec B$, $S=\Spec Q$, and $G=\Spec R$. Suppse $R$ is free over $Q$ of rank $r$. 
+
+Because $G\times_S X\hra X\times_S X$ is a closed immersion, the corresponding map on rings is surjective: 
+\[R\ot_QA\twoheadleftarrow A\ot_Q A .\]  Because $b\in B$, we have $\mu\sh(b)=p_2\sh (b)$ so
+\[
+\mu\sh(a_1\cdot b)p_2\sh(a_2)=\mu\sh(a_1)p_2\sh(b\cdot a_2).
+\]
+This means that we can move $b$ between the two factors in $A\ot_Q A$ without affecting the image in $R\ot_Q A$, i.e. we can factor
+%
+%
+%Given $A\ot_Q A\rra R\ot_Q A$ where $a_1\ot a_3\mapsto\mu\sh(a_1)(1\ot a_2)$ and $1\ot a_2=p_2\sh(a_2)=1\ot a_2$ we have factor
+\beq{eq:787-3-3}
+\xymatrix{
+R\ot_Q A &&A\ot_Q A \sj{ll}\ar[ld]_q\\
+& A\ot_BA\ar[lu]_{\ph}&
+}
+\eeq 
+%upperright p_2\sh(a_2).
+%Can move $b$ between the two factors, so factor through. 
+%Because 
+The diagram shows $\ph$ is onto. We want to show that $A$ is locally free over $B$. %To do this, we localize at a prime over $B$. 
+To do this, we localize at a prime $\mq\sub B$.
+
+$A_{\mq}$ is semilocal (has a finite number of maximal ideals) since $X\to Y$ is quasi-finite.
+%finitely many maximal ideals
+
+We show that $A_{\mq}$ is free of rank $r$ over $B_{\mq}$. This fact that $A$ is locally free of rank $r$ over $B$ gives that $A$ is free of rank $r$ over $B$. See~\cite[4.25]{GGBM} for details. 
+
+We get part 2 because we know $\ph$ is onto by~\eqref{eq:787-3-3}. It is enough to show $(\ker\ph)_{\mq}=\ker \ph_{\mq}$ is 0. Using Nakayama's Lemma we can work over $B_{\mq}/\mq$-modules; $B_{\mq}/\mq$ is a field. A vector space map of dimension $r$ that is onto must be an injection. We get $\ker\ph_{\mq}=0$ for all $\mq$, so Nakayama's lemma gives that the kernel itself is 0. 
+\end{proof}
+%to Mumford, easier, over fields.

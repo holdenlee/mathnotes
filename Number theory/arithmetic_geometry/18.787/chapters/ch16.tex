@@ -1,0 +1,308 @@
+\lecture{Tue. 11/6/12}
+
+Given an abelian variety $A\in \abk$ of dimension $g$, let $f\in \End(A)$. Recall that the characteristic polynomial $P_f(X)\in \Z[X]$ is monic of degree $2g$. It is given by, for $n\in \Z$,
+\[
+P_f(n)=\deg([n]-f)=\det T_{\ell}([n]-f) \text{ on } T_{\ell}A.
+\]
+The advantage of writing $P_f(n)$ is that we can do simple linear algebra, but on $\Z_{\ell}$. The LHS is independent of $\ell$ but we cannot do simple linear algebra there.
+
+\begin{ex}\llabel{ex:frobenius-morphism}
+We define the Frobenius morphism. To do this, we need to specify the map on topological spaces and on sheaves of rings. %ringed spaces. 
+
+Let $X$ be a $\fq$-scheme, where $q=p^f$. Define the \textbf{Frobenius morphism} as the map 
+\[
+\Frob_q:X\to X
+\]
+that is the identity on topological spaces
+\[
+X_{\text{top}}  \xra{\id} X_{\text{top}}
+\]
+and such that the map on affine opens is given  the $q$th power map
+\begin{align*}
+%\Frob_q:X&\to X\\
+%X_{\text{top}} & \xra{\id} X_{\text{top}}\\
+\cO_X(U)& \lar \cO_X(U)\\
+a^q&\mapsfrom a.
+\end{align*}
+For $A\in (\text{Ab}/\fq)$ we have $\Frob_q\in \End(A)$.
+By the rigidity lemma (Corollary~\ref{cor:rigid2}) it suffices to show the identity is sent to the identity and that $\Frob_q$ is a finite morphism.
+
+Note $\Frob_q$ is a finite morphism becase the map on rings is
+\begin{align*}
+\fq[X_1,\ldots, X_n] /(f_j) & \lar \F_q[X_1,\ldots, X_n]/(f_j)\\
+ X_i^q&\mapsfrom X_i.
+\end{align*}
+This is a finite algebra, so $\Frob_q$ is an isogeny.
+\end{ex}
+
+We have the Riemann Hypothesis for abelian varieties.
+\begin{thm}[Riemann Hypothesis for abelian varieities]
+The roots of $P_{\Frob_q}(X)$ are algebraic integers $\al$ such that $\iota(\al)\ol{\iota(\al)}=q$ for all imbeddings $\iota:\Q(\al)\hra \C$. 
+\end{thm}
+This was proved earlier than the Riemann hypothesis for general varieties over $\fq$.
+The key point is that given an ample line bundle, there is a Rosati involution $\ri_L$. We show that 
+\[
+\al \cdot \al^{\ri}=q.
+\]
+We will return to this.
+
+One consequence of the Riemann hypothesis is that it gives a way to calculate the number of points of $A$ over $\fq$ as $q$ varies. %details?
+Because $1-\Frob_q$ is a separable and hence \'etale, isogeny,
+\[
+P_{\Frob_q}(1)=\deg(1-\Frob_q)=\ker(1-\Frob_q)=|A(\fq)|.
+\]
+
+We'll leave this discussion for now.
+\subsection{Duality pairings}
+We will follow Mumford~\cite{Mu70}[\S20].
+
+Recall that for an isogeny $f$, we have %ref
+\[
+\ker(f^{\vee}) \cong (\ker f)^{\vee}.
+\]
+There exists a canonical pairing 
+\begin{align*}
+\ker f\times \ker (f^{\vee})&\to \G_m\\
+(g,\chi)&\mapsto \chi(g)
+\end{align*}
+from the functorial description of the Cartier dual. %We'd like to apply this to the multiplication-by-$n$ map. 
+
+We apply this to $f=[n]$ to get a pairing
+\begin{align*}
+A[n]\times A^{\vee}[n]&\to \G_m\\
+(g,\chi)&\mapsto \chi(g)\in \mu_n.
+\end{align*}
+To be precise we identify $A^{\vee}[n]=A[n]^{\vee}$.
+Note we have $ng=0$ so $\chi(g)^n=1$. 
+Thus we get a canonical duality pairing
+\[
+A[n]\times A^{\vee}[n]\xra{\ol e_n} \mu_n.
+\]
+%if you believe Cartier duality functorial.
+
+We want to pass to Tate modules, and just study this pairing for powers of each prime. Let $\ell$ be a prime with $(\chr k,\ell)=1$. Take $\ol k$-points and take the inverse limit $\varprojlim$ over $n=\ell,\ell^2,\ell^3,\ldots$ To be precise, we have to check compatibility, i.e., we have to check the following diagram commutes.
+\[
+\xymatrix{
+A[n]\times \av[n]\aq{r} & A[n]\times A[n]^{\vee} \ar[r] & \mu_n\\
+A[mn]\times \av[mn]\ar[u]^{[m]} \aq{r} & A[mn]\times A[mn]^{\vee} \ar[u]^{[m]}\ar[r] & \mu_{mn}\ar[u]^{[m]}
+}
+\]
+namely,
+\[
+\ol e_{mn}(x,y)^m=\ol e_n(mx,my).
+\]
+Commutativity of the left square comes from ``functoriality" of the isomorphism $\ker(f^{\vee})\cong (\ker f)^{\vee}$ for $f=[n]$. (One has to do some work to check this, see Mumford,~\cite{Mu70}.)
+Commutativity of the right square comes from functoriality of Cartier dual; this is given to us by the definition of Cartier dual.
+
+We obtain a pairing
+\[
+T_{\ell}A\times T_{\ell}\av \xra{\ol e_{\ell}} \varprojlim_n \mu_{\ell^n}(\ol k)=:\Z_{\ell}(1)\cong \Z_{\ell}.
+\]
+Note the last isomorphism is noncanonical; there is no preferred root of unity. %Choose the image of 1 in there. 
+$\Z_{\ell}(1)$ is also written $T_{\ell}\G_m$.  (Note: $\Z_{\ell}$ is often considered additively.) % We write both 0 and 1 for the identity element. Don't get confused.)
+
+ We summarize the properties of this map, dropping the bar from now on.
+\begin{pr}
+The Weil pairing is
+\begin{itemize}
+\item
+$\Z_{\ell}$-bilinear
+\item
+perfect.
+\end{itemize}
+\end{pr}
+\begin{proof}
+Note $A[n]\times \av[n]\xra{\ol e_n} \mu_n$ is $\Z/n\Z$-bilinear; hence when we take the limit we still have a bilinear map.
+
+The map is also perfect, because $\av[n]\cong \Hom(A[n],\mu_n)$. Taking the limit we still get a perfect map.
+\end{proof}
+\begin{lem}\llabel{lem:eltl}
+Let $A\in \abk$ and $f\in \End(A)$. Then 
+\[
+e_{\ell}(T_{\ell}(f)x,y)=e_{\ell}(x,T_{\ell}(f^{\vee})y)
+\]
+for all $x\in T_{\ell}A$ and $y\in T_{\ell}\av$.
+\end{lem}
+Think of this as saying we can compute the pairing downstairs or upstairs in the following diagram:
+\[
+\xymatrix{
+T_{\ell}A \ar@{}[r]|-{\times} \ar[d]_{T_{\ell}(f)}& T_{\ell}\av \ar[r] & \Z_{\ell}(1)\aq{d}\\
+T_{\ell}A\ar@{}[r]|-{\times}& T_{\ell}\av  \ar[r]\ar[u]_{T_{\ell}(f^{\vee})} & \Z_{\ell}(1).
+}
+\]
+To prove this, we have to unravel the definitions.
+projective limit at finite level
+\begin{proof}
+We make the convention to write $f$ in place of $T_{\ell}f$ if this will not cause confusion. It suffices to check that equality holds at every finite level, $\ol e_{\ell^n}(fx,y)=\ol e_{\ell^n} (x,f^{\vee} y)$. We will 
+reinterpret this equation in terms of line bundles,  and get a character out of certain line bundles. Specifically, we use the interpretation 
+\[
+y\in \av[n] \lra \bt{$L\in \Pic(A\times \ol k)$}{$L^n$ trivial} \lra \bt{$A[n]$-equivariant structure}{on $\cO_{A\times \ol k}$}.
+\]
+\fixme{
+The equivariant structure is given by an $A[n]$-action on $\A_k^1$; we have
+\[
+A\times  \A_k^1/A[n]\text{-action}.
+\]
+The action (for $\ga\in A[n]$)
+\[
+\ga:(g,a)\mapsto (g+\ga, \chi(\ga)a).
+\]
+Here $\chi:A[n]\to \G_m$, $\in A[n]^{\vee}$.
+
+The point is that 
+\[
+\ol e_{n}(x,y) =\chi(x)
+\]
+with the correspondence $y\to x$ as above. 
+We get
+\[
+\ol e_n(fx,y)=\chi(fx)=(\chi\circ f)(x)=\ol e_n (x, f^{\vee} y).
+\]
+(check $f^{\vee} y\to \chi \circ f$.)
+
+It's just unraveling long but natural maps.}
+\end{proof}
+%Is there a cohomological way of seeing this? %Works better for $T_{\ell}(A)$?
+%More cohomological: see Riemann form. 
+%If you choose a line bundle get element in $H^1$. Can push to $H^2$. That underlies what we're going to do for Riemann form.
+%1st chern class
+
+%Here it's just a pairing. Cohom way of seeing less useful here.
+
+We've developed the basic properties of the Weil pairing; it's enough to remember them.
+%Just remember the basic properties.
+\subsection{Riemann forms}
+\begin{df}
+Let $A\in \abk$, with $(\chr k,\ell)=1$, and let $\la:A\to \av$ be a homomorphism. We define the \textbf{Riemann form} associated to $\la$ by
+\begin{align*}
+E^{\la}:T_{\ell}A\times T_{\ell}A&\to \Z_{\ell}(1)\\
+(x,y)&\mapsto e_{\ell}(x,\la y).
+\end{align*}
+Given a line bundle $L$, define
+\[
+E^L:=E^{\la_L}.
+\]
+\end{df}
+\fixme{Roughly speaking, pullback of Poincar\'e line bundle becomes Mumford line bundle in dual.}
+
+Inherits all properties but a priori may not be perfect. (In worst case $\la$ trivial map.) 
+\begin{thm}
+$E^L$ is skew-symmetric, i.e. $E^L(x,y)=-E^L(y,x)$.
+\end{thm}
+\begin{proof}
+Omitted. (See Mumford~\cite{Mu70}; he has 2 proofs.)
+\end{proof}
+\begin{lem}\llabel{lem:Ef*L}
+For any %endomorphism 
+$f\in \End(A)$,
+\[
+E^{f^*L}(x,y)=E^L (fx,fy).
+\]
+\end{lem}
+\begin{proof}
+We have
+\[
+E^{f^*L}(x,y)=e(x,\la_{f^*L} y). 
+\]
+Recall that $\la_{f^*L}=f^{\vee}\la_L f$. Plugging in the formula and applying Lemma~\ref{lem:eltl} gives
+\[
+E^{f^*L}(x,y)=e(x,\la_{f^*L} y)=e(x,f^{\vee}\la_L fy) = e(fx,\la_L fy)=E^L(fx,fy).
+\]
+\end{proof}
+Letting $\cal P$ be the Poincar\'e line bundle on $A\times \av$, we have
+\[
+\la_{\cal P}: A\times \av \to (A\times \av)^{\vee}\cong A^{\vee}\times A.
+\]
+\begin{lem}\llabel{lem:Ef*L}
+We have
+\[
+E^{\cal P}((x,x^{\vee}), (y,y^{\vee}))=e(x,y^{\vee})-e(y,x^{\vee}).
+\]
+We have a canonical isomorphism
+\[
+T_{\ell}(A\times \av) \cong T_{\ell}A \times T_{\ell}A^{\vee}.
+\]
+\end{lem}
+
+\begin{proof}
+It suffices to prove the following three items.
+\begin{enumerate}
+\item
+$E^{\cal P}((x,0),(y,0))=0$.
+\item
+$E^{\cal P}((0,x^{\vee}), (0,y^{\vee}))=0$.
+\item
+$E^{\cal P}((x,0),(0,y^{\vee}))=e(x,y^{\vee})$.
+\end{enumerate}
+Once we have this, we write
+\begin{align*}
+(x,x^{\vee})&=(x,0)+(0,x^{\vee})\\
+(y,y^{\vee})&=(y,0)+(0,y^{\vee}).
+\end{align*}
+Expand using bilinearity and use skew-symmetry to conclude the lemma:
+\[
+E((x,0),(0,y^{\vee}))+E((0,x^{\vee}),(y,0))=e(x,y^{\vee})-E((y,0),(0,x^{\vee}))=e(x,y^{\vee})-e(y,x^{\vee}).
+\]
+
+We now check the three items.
+\begin{enumerate}
+\item Plug in 
+\[
+A\xra{f=(\id_A,e_{\av})} A\times \av
+\]
+in Lemma~\ref{lem:Ef*L}.
+
+Since $(\id_A,e_{\av})^*\cal P$ is trivial %elt in picard group corresp to element. When map is trivial, corresp line bundle is the trivial elt in picard group. something done before.
+because by the definition of $\Pic$ it corresponds to the trivial line bundle. Hence by Lemma~\ref{lem:Ef*L}
+\[
+E^{\cal P} ((x,0),(y,0)) = E^{(\id, e)^*\cal P}(x,y)=e(x,\la_{\cO_A} y)=0.
+\] 
+because $\la_{\cO_A}=0$ (the Mumford line bundle corrsponding to the trivial line bundle is trivial).
+\item Similar to (1).
+\item The point is to check that $\la_{\cal P}(x,x^{\vee})=(x^{\vee}, x)$. See~\cite{Mu70}. We have to do some computations with line bundles. We obtain 
+\begin{align*}
+E^{\cal P}((x,0),(0,y^{\vee}))&=E^{\cal P} ((x,0),(y,y^{\vee}))&\text{by part 1}\\
+&=e((x,0),\la_{\cal P}((y,y^{\vee})))\\%2nd term is (y^{\vee},y).
+&=e(x,y^{\vee}) \underbrace{e(0,y)}_{\text{trivial}}.
+\end{align*}
+(Note the pairing on
+\[
+(\tl A\times \tl \av )\times(\tl \av \times \tl A)
+\]
+is just the product of the pairings $(\tl A\times \tl \av)\times (\tl \av\times \tl A)$. )
+\end{enumerate}
+\end{proof}
+We are now ready to prove the following. %mumford 20.2
+\begin{thm}
+
+\begin{enumerate}
+\item $E^{\la}:(x,y)\mapsto e(x,\la y)$ is skew-symmetric.
+\item %if skew-symmetric then almost comes from line bundle.
+There exists $L\in \Pic(A)$ such that $2\la =\la_L$. (Over $\ol k$ we can find $L'$ so that $\la=\la_{L'}$.) %sort-of find a square root. 
+\end{enumerate}•
+\end{thm}
+Think of this as a converse of lemma 1. If the form is skew-symmetric then it almost comes from a line bundle.
+\begin{proof}
+We have that (2) implies (1) by Theorem 1. %skew-sym if scal pairing.
+
+We now show (1)$\implies$(2). We are going to exhibit a line bundle that works. We check that 
+\[
+2\la = \la_L
+\]
+for $L=(1\times \la)^*\cal P$. %we have $A\xra{1\times \la} A\times \av$. bottom of comm sq. Upper LH corner: L.
+We compute 
+\bal
+e(x,\la_Ly)&=E^L(x,y)&\text{definition}\\
+&=E^{\cal P}(\underbrace{(1\times \la)(x)}_{(x,\la x)}, \underbrace{(1\times \la)(y)}_{(y,\la y)})&\text{ Lemma~\ref{lem:eltl} 1}\\
+&=e(x,\la y)-e(y,\la x)& \text{Lemma 2}\\
+&=e(x,2\la y)& \text{part 1}.
+\end{align*}
+Now $e(,)$ is perfect implies $\la_L=2\la$ in $\Hom(\tl A, \tl \av)$. Thus $\la_L=2\la$ in $\Hom(A,\av)\hra \Hom(\tl A, \tl \av)$. 
+\end{proof}
+
+Next time we'll talk about the Rosati involution.
+
+%about chern classes O\to \Z\to O\to O^*, 
+%H^1(O*)\to H^2(Z) \cong \La^2H^1(\Z). 
+%L\mapsto c_1(L) first map.
+%H^1(\cO*). 

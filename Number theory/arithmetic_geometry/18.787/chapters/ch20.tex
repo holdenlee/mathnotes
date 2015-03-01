@@ -1,0 +1,302 @@
+\lecture{Tue. 11/20/12}
+
+Last time we talked about CM abelian varieties, first over $\C$ and then over $\ol{\Q}$. We explicitly constructed CM abelian types using {\it CM-types}, that is, pairs $(F,\Phi)$ where
+\begin{itemize}
+\item
+$F$ is a CM-field, and
+\item
+$\Phi\subeq \Hom(F,\C)$ is a subset such that $\Phi\sqcup c\Phi=\Hom(F,\C)$
+\end{itemize}
+We found that CM-types are in 1-to-1 correspondence with CM abelian varieties over $\C$ up to isogeny.
+Then we defined the following correspondences: %over $\ol{\Q}$:
+\[
+\bt{CM-pairs}{$(F,\Phi)$}
+\xleftrightarrow{1-1} 
+\pat{CM abelian variety/$\C$}/\text{isogeny} \xleftrightarrow{1-1}
+\pat{CM abelian variety/$\ol{\Q}$}/\text{isogeny}.
+\]
+To go from a CM abelian variety to a CM-pair, we look at the action of the field on the tangent space of $A$.
+To go from a CM abelian variety over $\ol{\Q}$ to $\C$, we just base change from $\ol{\Q}$ to $\C$; we proved that we can go from $\C$ to $\ol{\Q}$ as well. Once $A$ is defined over $\ol Q$ it is defined over a number field because of finiteness. %what do you mean by this?
+A natural inclination is to study the reduction of $A$ modulo primes in the number field.
+
+A starting point for studying abelian varieties over a finite field $k$ is Tate's Theorem~\ref{thm:tate}, which tells us that to understand homomorphisms between two abelian varieties, it suffices to look at homomorphisms on their $\ell$-power torsion points. Tate's theorem is fundamental to helping us understand abelian varieties over finite fields.
+
+%I don't understand this comment.
+%Relies on fact that Galois representations on $\ell$-adic Tate modules are abelian.
+\subsection{Tate's Theorem}
+%We probably won't finish the proof today. 
+We will prove Tate's Theorem in this lecture and the next.
+
+First, we remind the reader of some preliminaries. Recall that the $\ell$-adic Tate module is defined by $T_{\ell}A:=\varprojlim A[\ell^n] (\ol k)$ and the rational Tate module is $V_{\ell}A:=T_{\ell}A\ot_{\zl}\ql$. If $A$ has dimension $g$, then $\tl A$ is a free $\zl$-module of rank $2g$ and $\vl A$ is a $\ql$-vector space of dimension $2g$  (Theorem~\ref{thm:deg-A[n]}).
+
+Let $\Ga=\Ga_k:=G(\ol k/k)$.
+
+We've seen that the following map is injective: %ref.
+\[
+\mathcal T_{\ell}: \Hom_{\abk} (A,B)\hra  \Hom_{\zl\text{-module}} (T_{\ell}A,T_{\ell}B).
+\]
+The natural Galois action of $\Ga_k$ on $\tl A$ is compatible with multiplication-by-$\ell$ map because the multiplication-by-$\ell$ map is defined over $k$. %, patches to action of $\Ga_k$ on $\tl A$.
+
+Because the maps in $\Hom_{\abk} (A,B)$ are defined over $k$, they commute with the Galois action of the Tate module.
+Thus the map $\cal T_{\ell}$ above actually lands in  $\Hom_{\zl\Ga\text{-module}} (T_{\ell}A,T_{\ell}B)$. Optimistically we predict that this inclusion is an isomorphism.
+\[
+\xymatrix{
+ \Hom_{\abk} (A,B)\ha{r}^-{\mathcal T_{\ell}}\ha{rd}^{\cal T_{\ell}} &  \Hom_{\zl\text{-module}} (T_{\ell}A,T_{\ell}B)\\
+&\Hom_{\zl\Ga\text{-module}} (T_{\ell}A,T_{\ell}B)\ha{u}.
+}
+\]
+
+Because $\bullet\ot_{\zl}\ql$ is exact, we can tensor with $\ql$ to get the injection
+\[
+\mathcal V_{\ell}: \Hom_{\abk} (A,B)\ot \ql\hra  \Hom_{\ql\Ga\text{-module}} (\vl A,\vl B).
+\]
+
+\begin{conj}[Tate]
+If $k$ is finitely generated over $\Fp$ or $\Q$, then 
+\[{\cal T}_{\ell}:\Hom_{\abk}(A,B)\to \Hom_{\zl\Ga\text{-module}}(A,B)\]
+is an isomorphism.
+\end{conj}
+In other words, the image is as large as it can by while still commuting with with the Galois action.
+%short and beautiful. less than 10 pges.
+
+This conjecture is known to be true in two important cases.
+
+\begin{thm}\llabel{thm:tate}%[Tate's Theorem]
+Let $k$ is a field and $\ell$ be a prime with $\chr(k)\ne \ell$. Let $A,B\in \abk$.
+
+In either of the following cases ${\cal T}_{\ell}$ is an isomorphism:
+\begin{enumerate}
+\item (Tate's Theorem, Inventiones, 1966,~\cite{Ta66}) $k$ is finite. %give a reference
+\item (Faltings, 1983) $k$ is a number field.
+\end{enumerate}
+\end{thm}
+Tate's Theorem is a relatively short and beautiful argument. Faltings's result is more difficult.
+
+\begin{rem}
+Note that by contrast, when $k=\ol k$.
+%count dim too be
+\[
+\Hom(A,B)\ot\ql\to \Hom_{\zl\Ga}(\vl A,\vl B)
+\]
+is never an isomorphism. The LHS is $\bigcup_{k'/k \text{ finite}}\Hom_{\zl \Ga_{k'}} (\vl A,\vl B)$, so %. This is a nontrivial condition, it's 
+the homomorphism have to be invariant under some small open Galois subgroup near the identity, while the $\zl\Ga$-condition on the right is trivial.%what?
+\end{rem}
+%add an outline of proof.
+%\grbox{
+%\textbf{Outline of proof:} \fixme{Fill in.}
+%}
+
+\subsection{Reduction Steps}
+These reduction steps work for any field. Later, we'll use specific results which are true for finite fields.
+
+First we would like to consider $\vl$ instead of $\tl$ because $\vl$ is a vector space (Step 1); next we would like to only have to work with one prime $\ell$ because then we can choose $\ell$ with nice splitting properties (Step 2); third, we would like to only have to consider $A=B$ so we can consider $\End$ rather than $\Hom$ (Step 3); finally we rephrase in terms of centralizers using some noncommutative algebra (Step 4).  Note that Step $n$ here is Lemma $n$ in~\cite[\S1]{Ta66}.\\
+
+\step{1} We show that ${\cal T}_{\ell}$ is bijective iff ${\cal V}_{\ell}$ is bijective.
+
+Hence it suffices to prove that ${\cal V}_{\ell}$ is a bijection.
+
+The forward direction is obvious.
+
+For the reverse direction, it suffices to %tensor Ql can kill torsion.
+show $\coker {\cal T}_{\ell}$ is torsion-free. 
+Then it will follow $\coker {\cal T}_{\ell}=0$ iff 
+\[\coker {\cal V}_{\ell}\ot \ql=0,\]
+i.e., $\cal \tl$ is bijective iff $\cal \vl$ is bijective.
+
+Suppose $f:\tl A\to \tl B$ is a $\zl\Ga$-module homomorphism, and  $\ell^nf={\cal T}_{\ell}(\phi)\in \im\cal \tl$ for some $n$ and some $\phi:A\to B$. Then $\cal T_{\ell}(\phi)\bmod \ell^n=0$, so $\phi|_{A[\ell^n](\ol k)}=0$; %since \fixme{$\ell\ne \chr(k)$}, %why need?
+thus $\phi|_{A[\ell^n]}=0$.
+
+%Trivial on $\ell^n$-torsion.
+
+This means that $\phi=\ell^n\phi'$ for some $\phi'\in \Hom(A,B)$. Then $\ell^n\cal T_{\ell}(\phi')=\ell^nf$, giving $f=\cal T_{\ell}(\phi')\in \im \cal T_{\ell}$. \\
+%trivial on kbar pts etal group scheme trivial on group itself, else
+
+\step2 To show that $\cal \vl$ is a bijection for all $\ell\ne \chr k$, it suffices to prove
+\begin{enumerate}
+\item[(A)] $\cal \vl$ is a bijection for one $\ell$, and
+\item[(B)] $\dim_{\ql} \Hom_{\ql\Ga} (\vl A,\vl B)$ is independent of $\ell$.
+\end{enumerate}
+\begin{proof}
+Let $\ell$ be as in (A), and $\ell'\ne \chr k$ be another prime. We have that 
+\[
+\dim_{\ql}\Hom(A,B)\ot \ql \stackrel{(A)}=\dim_{\ql}\Hom_{\ql\Ga} (\vl A,\vl B)
+\stackrel{(B)}=\dim_{\Q_{\ell'}}\Hom_{\Q_{\ell'}}(V_{\ell'}A,V_{\ell'}B).
+\]
+%Dimensions are equal; because injection it's bijection.
+Because the dimensions are equal and $\Hom(A,B)\ot \ql\hra \Hom_{\zl \Ga}(V_{\ell'}A,V_{\ell'}B)$ is an injection, it is a bijection.
+\end{proof}
+Later we'll choose a favorite prime $\ell$ which has a nice property.\\
+
+\step3 We claim that to show $\cal V_{\ell}$ is a bijection, we can just take $A$ and $B$ to be equal, i.e., it suffices to show that
+\begin{enumerate}
+\item[$(A_{\ell}')$]
+for all $A\in \abk$, 
+\[
+\End(A)\ot_{\Z}\ql \xra{\cal V_{\ell}} \End_{\ql\Ga}(\vl A)
+\]
+is a bijection.
+\end{enumerate}
+
+The clear advantage to working with $\End$ is that we have an algebra structure rather than just a module structure. %; we can play with algebras.
+
+\begin{proof}
+Plug in $A\times_k B$ in place of $A$ in $(A_{\ell}')$. We have the decomposition
+%well-def projection maps
+\[
+\xymatrix{
+\End(A\times B)_{\ql} \aq{r}\ar[d]_{\al\ot \be \ot \al'\ot \be'} & \End(A)_{\ql} \ar[d]_{\al} \ar@{}[r]|-{\times} & \End(B)_{\ql} \ar[d]_{\be} \ar@{}[r]|-{\times} & \Hom(A,B)_{\ql} \ar[d]_{\al'} \ar@{}[r]|-{\times} & \Hom(B,A)_{\ql} \ar[d]_{\be'}\\
+\End_{\ql \Ga}(\vl A\times \vl B) \aq{r} & \End_{\ql \Ga}(\vl A)  \ar@{}[r]|-{\times} & \End_{\ql\Ga}(\vl B) \ar@{}[r]|-{\times} & \Hom_{\ql\Ga}(\vl A,\vl B)  \ar@{}[r]|-{\times} & \Hom_{\ql\Ga}(\vl B,\vl A)
+%extend by 0 in 2nd prod. coprod?%proj 1st comp
+}
+\]
+Because $(A_{\ell}')$ is a bijection, we get $\al\ot \be\ot \al'\ot \be'$ is a bijection, hence $\al', \be'$ are bijections.
+\end{proof}
+
+Now we have maps $\cal \vl:\End(A)\ot \ql\hra \End_{\ql}(\vl Q)$ and $\zl[\Ga]\to \End_{\ql} (\vl A)$. Let their images be $E_{\ell}$ and $F_{\ell}$.
+\[
+\xymatrix{
+\End A\ot \ql \ha{rd}^{\im:=E_{\ell}} & \\
+& \End_{\ql}(\vl A)\\
+\zl[\Ga]\ar[ru]_{\im:=F_{\ell}} & 
+}
+\]
+Note that an equivalent way to write $E_{\ell}=\End_{\ql\Ga}(\vl A)$ (what we want to prove) is that $E_{\ell}$ is the centralizer of $F_{\ell}$: 
+\[
+E_{\ell}=Z_{\End_{\ql}(\vl A)}(F_{\ell}).
+\]
+
+\step4 Showing $(A_{\ell}')$ is equivalent to the following two statements.
+\begin{enumerate}
+\item[$(A_{\ell}''-1)$] $F_{\ell}$ is a semisimple $\ql$-algebra.
+\item[$(A_{\ell}''-2)$] $F_{\ell}=Z_{\End_{\ql}(\vl A)}(E_{\ell})$ (the centralizer/commutant of $E_{\ell}$).
+\end{enumerate}
+\begin{proof}
+We have
+\begin{itemize}
+\item
+by Poincar\'e reducibility, $E_{\ell}$ is a semisimple $\ql$-algebra.
+\item
+The Double Centralizer (bicommutant) Theorem says that if $A,B\subeq E=\End_K(V)$ with $A$ $K$-semisimple, then $C(A)$ is semisimple and
+\[
+A=Z_E(B)\iff B=Z_E(A).
+\]
+
+Apply the Double Centralizer Theorem to $E_{\ell},F_{\ell}\subeq \cal E_{\ell}$ where $\cal E_{\ell}=\End_{\ql}(\vl A)$. Because we know $E_{\ell}$ is semisimple, we get 
+\[
+E_{\ell}=Z_{{\cal E}_{\ell}}(F_{\ell})\iff F_{\ell}=Z_{\cal E_{\ell}}(E_{\ell})\text{ and }F_{\ell}\text{ semisimple.}
+\]
+%\fixme{semisimplicity?}
+%The first condition is ($A_{\ell}'$) and the second is ($A_{\ell}''-2$). \fixme{We get 1 because the centralizer of a semisimple algebra is semisimple. Get both of them, apply Double Centralizer Theorem. We need both conditions. (One is easier than the other.)}
+\end{itemize}
+\end{proof}
+\subsection{Proof of (A)}
+%dimension of certain hom space independent of \ell.
+%Our plan of attack is as follows.
+We will show the following.
+\begin{enumerate}
+\item[(a1)] Start from the finiteness hypothesis $\text{Hyp}(k,A,d,\ell)$. Here $d\in \N$. The hypothesis says 
+\begin{enumerate}
+\item[$\text{Hyp}(k,A,d,\ell)$:] We have that the set of isomorphism classes of abelian varieties satisfying several hypotheses is finite: the set
+\[
+\bth{
+$B\in \abk$ such that}
+{$\exists$
+%there exists a 
+polarization $\la:B\to B^{\vee}$ of degree $d^2$}
+{$\exists B\to A\, k$-isogeny of $\ell$-power degree}/\cong
+\]
+is finite.
+\end{enumerate}
+There are 2 proofs. We give the proof with moduli spaces because it is quick (though it requires more machinery).
+\begin{proof}
+There exists a quasi-projective scheme of finite type $\mathscr A/\Spec \Z$ that parametrizes abelian varieties and polarizations of degree $d^2$ with level structure, up to isomorphism. Because $\cA$ is of finite type, the number of points over a finite field is finite: $|\cA(k)|<\iy$. %($\cA$ finite type, $k$ finite field). This gives Hyp$(k,A,d,\ell)$. 
+\end{proof}
+Note that this method doesn't apply over other fields; there are infinitely many points.
+\item[(a2)] Fix a polarization $\la:A\to \av$ over $k$. Note $\la_{\ol k}=\la_L$ for some line bundle $L$ on $A_{\ol k}$. Let $W\subeq \vl A$ be the maximal isotropic subspace (i.e. the largest subspace $W$ such that the symplectic pairing $E^{\la}$ is trivial on $W\times W$). 
+Note that beecause $E^{\la}$ is symplectic, $\dim_{\ql} W =g$.
+
+Then there exists a projection $u\in E_{\ell}$ such that $u(\vl A)=W$.
+\item[(a3)] If $F_{\ell}\cong \ql\times \cdots \times \ql$ then $(A_{\ell}''-2)$ is true (and $(A_{\ell}''-1)$ holds).
+\item[(a4)] %If $|k|<\iy$ then 
+$F:=\Q(\Frob_q)\subeq \End^0(A)$ is a semisimple $\Q$-algebra, and $F\ot_{\Q}\ql \cong F_{\ell}$. %fin dim: prod of number fields. 
+\end{enumerate}
+The plan is to show (a1)$\implies$(a2)$\implies$(a3) and (a3)$+$(a4)$\implies$(A). 
+
+Note that to satisfy the condition of (a3), we can just take $\ell$ splitting completely in $F$.
+%If underlying product of number fields can achieve completely. 
+By the Chebotarev density theorem, there are infinitely many such primes. We have to justify (a1)$\implies$(a2), (a2)$\implies$(a3), and (a4). We'll prove (a1)$\implies$(a2) today.
+
+\subsubsection{Proof of (a1)$\implies$(a2)}
+We follow page 137 of~\cite{Ta66}.\\
+
+\step1 We introduce lattices $X_n$ in $\tl A$ defined by
+\[
+X_n:=(\tl A\cap W)+\ell^n \tl A.
+\]
+Note $X_n$ is a lattice as 
+\[
+\ell^n \tl A\sub \ub{(\tl A\cap W) +\ell^n\tl A}{=X_n} \sub \tl A;
+\]
+moreover both inclusions are with index $\ell^{ng}$. To see this, let $\{v_i\}$ be a basis of $W$ and extend it to a basis $\{v_i\}\cup \{w_j\}$ of $\tl A$. Then explicit bases are given by $\ell^nT_{\ell}A=\{\ell^n v_i\}\cup \{\ell^n w_j\}$ and  $X_n=\{\ell^nv_i\}\cup \{w_j\}$.
+
+We can construct $B_n\in \abk $ and a $k$-isogeny $f_n:B_n\to A$ with image $X_n$, i.e., 
+\[f_n(\tl B_n)=X_n\sub \tl A.\] 
+The construction is not too difficult; we omit it. %Let's accept it for now.\\
+
+%pullback of polarization is polarization
+\step2 We will show that 
+\[\la_n:=\ell^{-n} %\ub
+{f_n^{\vee}\la f_n}%{f^*\la}
+=\ell^{-n} f_n^*\la
+\]
+is a polarization of $B_n$ over $k$. 
+The map $f_n^*\la$ is defined over $k$ because $f_n$ and $\la$ are defined over $k$. But multiplying by $\ell^{-n}$ might be a problem. (We need to multiply by $\ell^{-n}$ to make the degree equal $d^2$.)
+
+To show that multiplication by $\ell^{-n}$ is valid, we show that $E^{f_n^*\la }(x,y)=E^{\la}(f_nx, f_ny)$ has values in $\ell^n \zl(1)$. Then $f_n^*\la=\ell^n \la'$ for some polarization $\la'$.
+%\fixme{We use isotropy in a key way here?}
+
+%what do we do with these $\la_n$'s?
+
+We'd like to show an element $u\in E_{\ell}=\End_{\ell}A\ot \ql$ as an $\ell$-adic limit of elements in $\End A$.\\
+
+\step 3 Construct a sequence $\{u_j\}$ in $\End^0(A)$. By hypothesis of (a1), there are finitely many isomorphism classes of $B_i$'s.
+By the Pigeonhole Principle, there exists an infinite subsequence $i_1<i_2<\cdots$ such that the $B_{i_j}$ are all isomorphic over $k$. {\it This is where we use finiteness (a1) in an essential way.}
+%There are finitely many isomorphism classes. Fix a dimension of the abelian variety.
+
+For all $j$, fix an isomorphism $B_{i_1}\xrc B_{i_j}$ over $k$.
+Define 
+\[
+u_j:=f_{i_j}\circ v_j \circ f_{i_1}^{-1}\in \End^0(A),
+\]
+%\fixme{why well-def?} 
+(this is well defined in $\End^0$) 
+i.e., as the map making the following picture commute:
+%
+%Fix the isomorphism $B_{i_1}\cong B_{i_j}$ over $k$ for all $j$. Then we have the following picture:
+\[
+\xymatrix{
+B_{i_1} \ar[d]_{f_{i_1}}\ar[r]^{\cong} & B_{i_j}\ar[d]_{f_{i_j}}\\
+A\ard{r}_{u_j\in \End^0A} & A.
+}
+\]
+%invert in Hom0
+%isom on rat tate modules
+On Tate modules this gives the map
+\[
+\xymatrix{
+\tl B_{i_1}\ar[r]^{\cong} \sj{d}& \tl B_{i_j} \sj{d}\\
+X_{i_1}\sj{r}^{u_j} & X_{i_j}.
+}
+\]
+We have $u_j\in \End^0(A)$ and $u_j(X_{i_1})=X_{i_j}\sub X_{i_1}$.\\
+
+\step 4 Take the limit. We have $\{u_j\}\sub \End_{\zl} (X_{i_1})$. The RHS is compact so the sequence has a convergent subsequence $u_{j_1}, u_{j_2},\ldots$ with limit $u\in \End(X_{i_1})$. But then $u(X_{i_1})=\bigcap_{m\ge 1} \ub{u_{j_m} (X_{i_1})}{X_{j_m}}$. We have $X_n=(\tl A\cap W)+\ell^n\tl A$ so 
+%if increase l forever, this guy get smaller. the intersection of the second part will be 0
+\[
+u(X_{i_1})=\bigcap_{m\ge 1} \ub{u_{j_m} (X_{i_1})}{X_{j_m}}=\tl A\cap W.
+\]
+Finally, we get $u(\vl A)=W$ because for every $v\in \vl A$, by the fact that $X_{i_1}$ is a $\zl$-lattice, $\ell^N v\in X_{i_1}$ for large enough $N$.
+This shows that $u(\ell^Nv)\in \tl A\cap W$. Hence $u(v)\in W$. By scaling we can generate everything in $W$ in this manner. 
+%scaling every element in $\tl A$ can be put into $X_{i_1}$.
+
+%(Use isotropy in step 2, checking polarization. We're defining some symplectic for $(\tl A\cap W)\cap \ell^n \tl A$. Introduce $\ell^n$ with isotropy?)

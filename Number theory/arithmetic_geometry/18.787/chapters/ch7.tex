@@ -1,0 +1,254 @@
+\lecture{Thu. 9/27/12}
+
+
+\subsection{Isogenies}
+Recall the definition of an isogeny: a morphism $f:A\to A'$ in $(\text{Ab}/S)$ is an \textbf{isogeny} if $f$ is quasi-finite and surjective on points.
+
+We showed $f$ quasi-finite and surjective is equivalent to $f$ being finite faithfully flat (Lemma~\ref{lem:787-6-1}). Note the second set of conditions is can be checked fiberwise, hence is easier to work with. In particular, $f$ is an isogeny iff $f_s:A_s\to A_s'$ is isogeny for all $s\in S$, where $A_s:=A\times_S \Spec k(s)$. 
+
+Equivalently to $f$ being quasi-finite, $\ker f$ is quasi-finite over $S$. %ref
+Indeed, if we knew every fiber over 0 were finite, then by group translation the fiber over every point is finite.
+
+Moreover, the fact that $f$ is an isogeny implies $\ker f$ is a finite flat locally free commutative group scheme over $S$ (Lemma~\ref{lem:787-6-2}). We see that finite flat group schemes arise naturally in this context.
+
+We would like a notion of rank or dimension for abelian schemes.
+\begin{df}
+Define the function $\rank:S\to \Z_{\ge 0}$ by mapping $s\mapsto \rank(\ker f_s)$.
+\end{df}
+The rank is locally constant in the topological sense. If $S$ is connected, then the rank is constant.
+It is natural to ask: what does an isogeny do the the rank?
+
+It is clear that the composition of two isogenies is an isogeny and an isomorphism is an isogeny. We'll now show an isogeny preserves a natural invariant in geometry, the dimension.
+
+\begin{df}
+We say $A\in \Abs$ has \textbf{relative dimension} $d\in \Z_{\ge 0}$ over $S$ if for all $s\in S$, $\dim A_s=d$. 
+\end{df}
+As a reminder, the dimension is the maximum length of closed subsets on the scheme, or the dimension of the corresponding ring in the sense of Krull dimension.
+
+Note that the dimension may not be defined, For instance if $A_1$ has relative dimension 1 over $S_1$ and $A_2$ has relative dimension of dimension 2 over $S_2$. Then $A=A_1\coprod A_2$ over $S=S_1\coprod S_2$ does not have a dimension.
+
+%As with rank, the dimension is locally constant.
+\begin{df}
+%For $d=1$ we get elliptic curve. In fact, 
+An \textbf{elliptic curve} is an abelian variety of dimension 1.
+\end{df}
+\begin{lem}
+let $f:A\to A'$ be an isogeny. For all $s\in S$, $\dim A_s=\dim A_s'$.
+\end{lem}
+\begin{proof}%have stronger result
+Let's import the following fact. 
+\begin{lem}\llabel{lem:787-7-1}
+For varieties $X$ and $Y$ over a field $k$, if $\phi:X\to Y$ is an open morphism then for all $y\in \phi(X)$, $\dim\phi^{-1}(y)$ is the same. In fact,
+\[
+\dim X=\dim Y+\dim \phi^{-1}(y).
+\]
+\end{lem}
+\begin{proof}
+See~\cite[Th. 14.114 and Pr. 14.102]{GW}.
+\end{proof}
+%dim X-\dim Y.
+%If $f$ is quasifinite, then $\dim f^{-1}(y)=0$, 
+Reduce to the case where $S=\Spec k$ and apply to $f:A\to A'$ varieties over $k$. Then $f$ is quasi-finite; it is open because it is flat and locally of finite presentation (\cite{GW}[Th. 14.33]). Now $\dim f^{-1}(y)=0$ because $f$ is quasi-finite. %?
+Thus we get $\dim A=\dim A'$.
+\end{proof}
+What about the converse? If the dimensions are the same, can we say that the map is an isogeny? We'll need some more conditions.
+%Trivial homomorphism is not an isogeny.
+\begin{lem}\llabel{lem:787-7-2}
+Let $f:A\to A'$ be a morphism in $\Abs$. Assume $\dim A_s=\dim A_s'$ for all $s\in S$. Then the following are equivalent.
+\begin{enumerate}
+\item
+$f$ is an isogeny. %q-f and surjective
+\item
+$f$ is quasi-finite.
+\item
+$f$ is surjective.
+\end{enumerate}
+\end{lem}
+Recall $f$ is an isogeny if it is quasi-finite and surjective. This lemma says that if the dimensions are the same, we can just check one of the conditions.
+
+\begin{proof}
+Since (1) is by definition just (2) and (3) combined, it suffices to prove (2)$\iff$(3).
+
+Reduce to the case where $S=\Spec k$. %, and apply to the imported result~\ref{lem:787-7-1}. We have (2) is equivalent to $\dim f^{-1}(y)=0$ for all $y\in f(A)$, which is equivalent to $\dim A=\dim A'$. \fixme{problem? see details below}
+%trivial hom not flat.
+
+Let $B:=\ol{f(A)}\subeq A'$ where $f(A)$ is the scheme-theoretic image of $A$ and $A'$ is irreducible containing $\ol{f(A)}$. We have
+\beq{eq:787-7-1}
+\dim B=\dim A' \iff B=A'\text{ as a set} \iff f(A)=A'
+\eeq
+because $f$ is proper. (A morphism between two proper schemes is proper.) %$\ctr{A}{A'}{k}{}{}{}{\text{proper}}{}{\text{proper}}$.
+%WHY??????????????
+
+Applying generic flatness~\ref{pr:generic-flatness} to $f:A\to B\subeq A'$, we get that $f$ is flat on the inverse image of an open dense subset $V\subeq B$. %Note $f:A\to B$ has dense image, and is 
+%%scheme-theoretic closure
+%even surjective (by the same reasoning, because it's proper).
+
+%\fixme{Don't quite get this.} Then there exists open $V\subeq B$, and 
+Note $f^{-1}(V)\ne \phi$ because $f$ has dense image in $B$. 
+Because $f$ on $f|_{f^{-1}(V)}$ is flat and locally of finite presentation, it is open. \fixme{(Why?)}  This means we can apply our imported result~\ref{lem:787-7-1}.
+%We can apply the fact that $f$ is an open morphism such that $f^{-1}(V)\xra{f}\to V$ is flat. 
+
+We have the following chain of equivalences.
+\begin{enumerate}
+\item $f$ is quasi-finite (on one fiber, or on all fibers).
+\item $\dim f^{-1}(V)=\dim V$. (To go between statements 1 and 2, use Lemma~\ref{lem:787-7-1}; quasifiniteness says $\dim f^{-1}(y)=0$.)
+\item $\dim A=\dim B$. (Note $\dim A=\dim f^{-1}(V)$ and $\dim B=\dim V$ because these are open dense subsets.)
+\item $f$ is surjective. (To go between 3 and 4, use~\eqref{eq:787-7-1}.)
+\end{enumerate}
+%Note $f^{-1}(V)$ has the same dimension as $V$ and $V$ has the same dimension as $B$. 
+%Applying our imported result~\ref{lem:787-7-1}, we have (ii) holds iff $\dim f^{-1}(V)=\dim V$, iff $\dim A=\dim B$ iff (iii) holds.
+\end{proof}
+Now for an application.
+\begin{ex}
+To check the relative Frobenius map $\Frob: A\to A^{(p)}=A\times_S S$ (where $S\to S$ is given by the Frobenius map) and $[n]:A\to A$ are isogenies, we can work over an algebraically closed field
+(if a morphism is quasi-finite over a field extension, then it is already quasi-finite before base extension) and check it is either quasi-finite or surjective. %since the kernels are finite.
+\end{ex}
+We summarize how we can check a morphism $f$ is an isogeny.\\
+
+\cpbox{
+Checking that $f$ is an isogeny can be checked fiberwise. To check quasi-finiteness, we can just check the fiber over 0, i.e., check $\ker f$ is quasi-finite over $S$. Moreover, if the fibers of $A,A'$ have the same dimension, it suffices to check just either surjectivity or quasi-finiteness.
+}
+\vskip0.15in
+\subsection{Motivation: Classification}
+We'll give some motivations, and then talk about line bundles.
+
+When we're studying any type of geometric objects, the first problem is that of classification. We want to classify abelian varieties in some sensible manner.
+\begin{enumerate}
+\item
+Let $A$ be an abelian scheme. We will assume that 
+%Let's accept that 
+$A[n]:=\ker[n]$ is quasi-finite over $S$. %i.e. [n] is an isogeny.
+Then $A[n]$ is a finite locally free commutative group scheme over $S$ by Lemma~\ref{lem:787-6-2}. 
+Hence a good first step is to study or classify finite locally free commutative group scheme over $S$. 
+\end{enumerate}
+Of particular interest to us is the case $S=\Spec k$ (or the Spec over a ring of mixed characteristic such as $\Z_p$). Regarding $A[n]$, we could work with one prime at a time, by considering the $p$-power torsion of the group schemes:
+\[
+A[p^{\iy}]=\bigcup_{n\ge 1} A[p^n]
+\]
+over $S$. More precisely, interpret the RHS as a directed system $\varinjlim_nA[p^n]$. We call these objects \textbf{$p$-divisible groups}. $p$-divisible groups are simpler than abelian schemes, so we can study these objects first and then use them to classify abelian schemes.
+
+For number theory, we can try $S=\Spec$ of $\F_{p^r}$, $\ol{\F_{p}}$, $\Z_p$, $\mathbb W(\ol{\F_p})$, and then $\Q_p$, $\ol{\Q_p}$, $\Q$, and $\ol{\Q}$. We're interested in rational points of abelian varieties over number fields; this is still a mysterious topic and we don't know much.
+
+Let's look at the classification problem from a different perspective. By introducing isogenies, we can go about classification as follows.
+\begin{enumerate}
+\item
+The dimension is invariant, so let's fix the dimension.
+\item
+An isogeny gives an equivalence relation. We classify isogeny classes within each dimension.
+\item An isogeny is strictly weaker than isomorphism. Thus we now classify isomorphism classes within each isogeny class.
+\end{enumerate}%isog class abel scheme
+Related to problem 2 is 
+\begin{enumerate}
+\item[2$'$.]
+Classify isogeny classes of $p$-divisible groups.
+\end{enumerate}
+It's easier solve the related problem for $p$-divisible groups:
+The theory is already very rich here. Then we can use the solution for $p$-divisible groups to solve the problem for abelian varieties.
+
+We could also study $\Hom(A,B)$, $\Isog(A,B)$, and so forth (and do the same for $p$-divisible groups, etc.).
+\begin{ex}
+Let the dimension be $d=1$, and $S=\Spec \ol{\F_p}$. Then $A$ is an elliptic curve over $\ol{\F_p}$. We classify according to the isogeny type of $A[p^{\iy}]$. We have exactly 2 possibilities, corresponding to 2 isogeny classes:
+\begin{enumerate}
+\item
+$A$ is \textbf{ordinary} if  (as a group)
+\[
+A[p](\ol{\F_p})\cong \Z/p\Z.
+\]
+\item
+$A$ is \textbf{supersingular} if
+\[
+A[p](\ol{\F_p})\cong \{0\}.
+\]
+\end{enumerate}
+The isogeny class determine many properties of the elliptic curve.
+
+If we consider isogeny types over $A$ itself, we get a much richer theory. %kummer-tate theory.
+%dieudonne manin theory
+\end{ex}
+\subsection{Line bundles}
+Let's study line bundles over abelian varieties. (It's easier to work with Spec of a field.)
+
+We will talk about the following.
+\begin{enumerate}
+\item
+Abelian varieties are projective over fields, Theorem~\ref{thm:ab-var-proj}. (To prove projectivity we need to find ample line bundles.) 
+\item Duality theory: This imposes a strict condition on what the torsion group scheme should be.
+\item Polarization
+\item As a byproduct we'll see that $[n]$ is an isogeny.
+\end{enumerate}
+%that should be enough motivation!
+
+We're entering Mumford~\cite[\S 6]{Mu70}. We'll try to just work over fields, rather than algebraically closed fields as Mumford does.
+
+\begin{thm}[Theorem of the cube]\llabel{thm:cube}%not most general
+Let $X$ and $Y$ be proper varieties %int'l scheme sep fin type /k
+over $k$ and $Z$ be a variety over $k$.
+Let $x\in X$, $y\in Y$, and $z\in Z$ be scheme-theoretic points. Let $L$ be a line bundle over $X\times_k Y\times_k Z$. If
+$L|_{\{x\}\times Y\times Z}$, $L|_{X\times \{y\}\times Z}$, and $L|_{X\times Y\times \{z\}}$ are trivial, then $L$ is trivial. (By $\{x\}\times Y\times Z$ we mean the pullback of the line bundle along the closed immersion $\{x\}\times Y\times Z$, and so forth.)
+%trivial if isomorphic to structure sheaf.
+\end{thm}
+We'll postpone the proof and treat this theorem as a black box for now. 
+\begin{cor}
+Let $A\in (\text{Ab}/k)$ where $k$ is any field. Define the maps
+\[
+\xymatrix@R-24pt{
+A\times_kA\times_kA \ar[r] & A\\
+(x_1,x_2,x_3) \ar@{|->}[r]^{p_{123}} 
+\ar@{|->}[rd]^{p_{ij}}
+\ar@{|->}[rdd]_{p_{i}}  
+& x_1+x_2+x_3\\
+& x_i+x_j\\
+& x_i.
+}
+\]
+Then $\Te(L):=p_{123}^*L \ot \pa{\bigotimes_{i<j} p_{ij}^*L^{-1}}\ot \pa{\bigotimes_i p_i^* L}$ is trivial. 
+\end{cor}
+We try to restrict this line bundle to subschemes of the form $\{x\}\times X\times Y$ and show it's trivial. For $x$ we choose the natural distinguished point---the identity. Then by the Theorem of the Cube we can get the line bundle to be trivial over the triple product.
+\begin{proof}
+We show that $\Te(L)|_{\{e_A\}\times A\times A}$ is trivial (Restrict to $x_1=0$ part), and show the same for the other restrictions. % to $A\times \{e_A\}\times A$. 
+
+We will compute $i_{23}^* \Te(L)$, where $i_{23}: \{e_A\}\times A\times A\hra A\times A\times A$ is the obvious inclusion.
+
+For example, to compute $i_{23}^* p_{123}^* L=(p_{123}\circ i_{23})^* L$, note we have the commutative diagram
+\[
+\xymatrix{
+\{e_A\}\times A\times A\ha{r} \ar[rd]^{\mu}_{(x_2,x_3)\mapsto x_2+x_3} & A\times A\times A\ar[d]^{p_{123}}\\
+& A
+}
+\]
+
+\fixme{Picture!}
+
+
+We can similarly compute the others, and cancel nicely!
+%theorem of cube tells you enough to restrict to x_1=0. 
+When restrict to $x_1=0$, $p_{123}=p_{23}$ cancel out, $p_{12}=p_2$ cancel out, $p_{13}=p_3$ cancel out, and $p_1=0$, so everything vanishes.
+\end{proof}
+\begin{cor}\llabel{cor:787-7-2}
+Let $Y\in (\text{Sch}/k)$ and $A\in (\text{Ab}/k)$. Let $f_1,f_2,f_3\in \Hom_{\text{Sch}/k}(Y,A)$. Then define
+\begin{align*}
+f_{123}&=f_1+f_2+f_3=p_{123}\circ (f_1,f_2,f_3)\\
+f_{ij} & =f_i+f_j=p_{ij}\circ (f_1,f_2,f_3).
+\end{align*}
+(The image has group structure so can make sense of adding---map to $A\times A\times A$ and compose with $p_{123}$.) Let $L\in \Pic(A)$. 
+Then 
+\[f_{123}^*L \ot \pa{\bigotimes_{i<j} f_{ij}^*L^{-1}}\ot \pa{\bigotimes_i f_i^* L}
+\]
+is trivial. 
+\end{cor}
+\begin{proof}
+This equals $(f_1,f_2,f_3)^*\Te(L)$ so it is trivial by the previous corollary. %for instance $(f_1,f_2,f_3)^*p_{123}^* L$.
+\end{proof}
+
+\begin{cor}\llabel{cor:787-7-3}
+We have $[n]^* L=L^{\ot\fc{n(n+1)}{2}}\ot [-1]^* L^{\ot \fc{n(n-1)}{2}}$ where $A$ and $L$ are as before. 
+\end{cor}
+\begin{proof}
+The idea is to use Corollary~\ref{cor:787-7-2} along with induction.
+
+Apply the corollary to $f_1=[n]$, $f_2=[1]$ (the identity map), and $f_3=[-1]:=i_A$. (Note $[n]$ is defined for all $n\in \Z$.) We get that
+\[
+[n]^*L\ot ([n+1]^* L^{-1} \ot [n-1]^*L^{-1} \ot \underbrace{[0]^*L^{-1}}_{\text{trivial}}) \ot [n]^* L\ot \underbrace{[1]^*L}_{L} \ot [-1]^* L \text{ is trivial.}
+\]
+In $\Pic(A)$, we have $[n+1]^*L-2[n]^* L+[n-1]^*L=L+[-1]^* L$. Use induction (plug in $n=1,2,3,\ldots$ and $-1,-2,-3,\ldots$) to get the result.
+\end{proof}

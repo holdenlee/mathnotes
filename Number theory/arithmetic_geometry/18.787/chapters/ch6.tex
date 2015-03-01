@@ -1,0 +1,351 @@
+\lecture{Tue. 9/25/12}
+
+Last time we saw why the rigidity lemma is so useful. For instance, it told us that if we fix the identity element of an abelian scheme, then it has only one possible group structure. 
+
+\begin{pr}[Rigidity lemma~\ref{lem:rigid}, again]
+Let $X,Y,S$ be locally noetherian (over $S$), let $f:X\to Y$ be a morphism, and let $e:S\to X$ be a section. Suppose $p:X\to S$ is proper and flat (with geometrically reduced fibers?), $S$ is connected, $q$ is finite separated, and $p\circ e=\id_S$. We have the following diagram
+\[
+\xymatrix{
+X\ar[rr]^f\ar@/_1pc/[rd]_p & & Y\ar[ld]^q\\
+& S\ar[lu]_e. & 
+}
+\]
+If $f(X_s)=\{y\}$ as a set for some $s\in S$, then $f=\eta \circ p$ where $\eta=f\circ e$, and $S\to Y$ is a section of $q$.
+\end{pr}
+%f_s=\eta_s\circ p_s as set.
+
+Today prove the lemma and then talk about isogenies.
+
+\subsection{Proof of rigidity lemma}
+The idea is to first prove the lemma when $S$ consists of a point. In the general case we get that the lemma holds in a neighborhood of a point; then we show that the neighborhood where the lemma holds is both open and closed, hence all of $S$.
+
+We follow~\cite[p. 115]{GIT} but give more details.
+
+\begin{proof}
+\prt{1}
+Let $S$ consist of 1 point $\{s\}$. %By local noetherian-ness, $S$ is the $\Spec$ \fixme{of a local artinian ring (by local noetherianness)}. 
+On topological space, it is clear that
+\[
+f=\eta\circ p=f\circ e\circ p.
+\]
+
+We show that this is true on the sheaf of rings too ($f\sh=(\eta\circ p)\sh$), using the following claim.
+\begin{clm}
+The map $p^{\sharp}:\cO_S\xrc p_*\cO_X$ is an isomorphism. \end{clm}
+Since $S$ has just one point, this is the same as saying we have an isomorphism 
+\[p\sh:\cO_S(S)\xrc \cO_X(X).\]
+\begin{proof}
+\ul{Injectivity:} $p$ is faithfully flat, so $\cO_X(X)$ is a faithfully flat $\cO_S(S)$ algebra, so $\cO_S(S)\to \cO_X(S)$ must be injective.\\
+
+\noindent\ul{Surjectivity:} {Over the special fiber} we have an isomorphism 
+\[
+\cO_S(S)/\mm_S\xrc \cO_X(X)/\mm_S
+\]
+\fixme{The left-hand side is $\Spec k(s)$ and the right-hand side is $H^0(X_s,\cO_{X_s})$, the space of global sections. (These are equal because we assumed something...)}
+%properness use one more type
+By Nakayama we get a surjection without the mod $\mm_S$.
+
+From here the rest of the proof is formal. We will show that the following commutes.
+\[
+\xymatrix{
+\cO_Y \ar[rdd]_{\eta\sh}\ar[r]^{f\sh} & f_*\cO_X\ar@{=}[d]\\
+%equal beca top same map
+& f_*e_*p_* \cO_X\\
+& f_*e_*\cO_S\ar[u]_{p\sh}^{\cong}.
+}
+\]
+\fixme{Relationship between two diagrams? Why need to show 2nd to show 1st (why not just obvious?)}
+%commutes
+%f\sh\stackrel?=(\eta\circ p)\sh=p\sh \circ \eta\sh
+To see this, look at the sections on an open $V\subeq Y$ such that 
+$y\in V\subeq Y$. We have, for all $V\subeq Y$ %evaluate
+ \[
+\xymatrix{
+\cO_Y(V) \ar[rdd]_{\eta\sh}\ar[r]^{f\sh} & f_*\cO_X(X)\ar@{=}[d]\\
+%equal beca top same map
+& f_*e_*p_* \cO_X(X)\ar@/^2pc/[d]^{e\sh}_{\cong}\\
+& f_*e_*\cO_S(S)\ar[u]_{p\sh}^{\cong}.
+}
+\]
+%inverse image of y get whole x
+We get a map $e\sh$ that is the inverse of $p\sh$ because by hypothesis $p\circ e=\id$. The outer diagram commutes because $\eta\sh=e\sh f\sh$.
+
+Thus we get $f\sh=p\sh \eta\sh=(\eta\circ p)\sh$, as needed.
+\end{proof}
+
+\prt2
+Consider the general case. The idea is to define $Z$ to be the largest closed subscheme of $X$ on which $f=\eta\circ p$, and try to show that $Z=X$. Rigorously, we define $Z$ as the following fiber product
+\[
+\commsq{Z}{X}{Y}{Y\times_S Y}{}{}{(f,\eta\circ p)}{\De}
+\]
+By definition of the fiber product $Z$ is exactly the ``subscheme where $f=\eta\circ p$." To see $Z$ is a closed subscheme, note that because $Y$ is separated, the map $Y\xra{\De} Y\times_S Y$ is a closed immersion. Since closed immersions are stable under base extension, $Z\to X$ is closed.
+
+Observe the following.
+\begin{enumerate}
+\item
+The fiber over $s$ is contained in $Z$ as a set:
+\[
+p^{-1}(s)\subeq Z.
+\]
+(Note $X_s=p^{-1}(s)$ as sets.)
+This follows from step 1, applied to 
+\[
+\xymatrix{X_s\ar[rr]^{f_s}\ar[rd] && Y_s\ar[ld]\\ & \Spec k(s). &}
+\]
+(We have $\Spec k(s)=\{s\}$.)
+%lie as a closed subscheme
+\item
+For all $t\in S$ such that $p^{-1}(t)\subeq Z$, we can ``spread it out" to a whole open neighborhood (subscheme): there exists an open subscheme $W\subeq S$ containing $t$ such that $p^{-1}(W)\subeq Z$ as an open subscheme.
+
+To be precise, when we write $p^{-1}(W)$ we mean the fiber product $W\times_{S} X$ where the map $X\to S$ is given by $p$.  
+We will postpone the proof.
+%like an open property on S.
+\end{enumerate}
+How can we finish given these two facts? Define
+\[
+V:=\set{t\in S}{p^{-1}(t)\subeq Z}.
+\]
+By item 1, $V$ is nonempty, and by item 2, $V$ is open. 
+
+The picture is as follows. 
+
+\fixme{Diagram (see notebook)}
+
+We check the following.
+\begin{itemize}
+\item
+$p$ is surjective. This follows from existence of $e$.
+\item 
+$p$ is open. %Because we are in the local noetherian case, 
+Proper implies finite type and hence locally of finite type.
+A flat morphism locally of finite presentation is open.
+\end{itemize}
+Now note $S=V\cup p(X\bs Z)$. We have $V$ and $p(X\bs Z)$ are both open and disjoint. Since $S$ is connected and $V\ne \phi$, this means $X\bs Z=\phi$, and set-theoretically, $Z=X$.
+
+%are you sure?
+{By part 1, the local rings must be isomorphic}, and $Z=X$ as schemes. This shows the proposition is true.
+
+We now show item 2. We need some technical considerations. Assume that $p^{-1}(t)\subeq Z$. Consider the {\it thickened} point $T=\Spec \cO_{S,t}/\mm_t^N\hra S$. (As a set, $T=\{t\}$.) Note we are proceeding like in item 1 but more generally, because we're allowing nonreduced points. This is what allows us to get a neighborhood in $Z$ rather than just a point in $Z$.
+
+We show that there is a open neighborhood contained in $Z$, containing $p^{-1}(t)$. Applying part 1 to 
+\[
+\xymatrix{X\times_S T=p^{-1}(T)\ar[rr]^{f\times_ST}\ar[rd] && Y\times_S T\ar[ld]\\ & T, &}
+\]
+we see that $p^{-1}(T)\subeq Z$. %just talking about set, so take residue field. True for local artinian rings. 
+
+\begin{clm}
+There exists $U$ such that $p^{-1}(T)\subeq U\subeq Z\subeq X$ where $p^{-1}(T)\subeq U$ is a subscheme and $U\subeq Z$ is an open subscheme.
+\end{clm}
+\begin{proof}
+It suffices to prove %there is 
+an isomorphism of local rings: for all $z\in p^{-1}(t)$, 
+\[
+\cO_{X,z}\tra \cO_{Z,z}
+\]
+is an isomorphism. (It is surjective becaue $Z\subeq X$ is a closed subscheme.)
+\fixme{Consider ideal of definition for closed subscheme. Being zero at $z$. Being 0 is an open property, so 0 in neighborhood. (Why is showing this sufficient?)}
+
+For this, we need some algebra on local rings. 
+
+We have the commutative diagram (note $p^{-1}(T):=T\times_{S}X$)
+\[
+\xymatrix{
+p^{-1}(T)\ar[d]_p\ha{r}^-{\text{closed}} & Z\ha{r}^{\text{closed}} & X\ar[d]^p\\
+T\ha{rr}_{\text{closed}} && S.
+}
+\]
+For $z\in p^{-1}(T)$, we have on local rings that %$\{t\}=T$ as a set, and on local rings we have
+\[
+\xymatrix{%write as if subring
+\cO_{X,z}/\mm_z^N=\cO_{p^{-1}(T),z} & \cO_{Z,z}\sj{l} & \cO_{X,z} \sj{l}\\
+\cO_{S,t}/\mm_t^N \aq{r} \ar[u]& \cO_{T,t} & \cO_{S,t}\sj{l}\ar[u].
+}
+%if kernel UR then kernel in composition
+\]
+where, because the map on the right is a local homomorphism, we have that $\mm_t\sub \cO_{S,t}$ in the lower right is mapped to $\mm_z\sub \cO_{X,z}$ in the upper right.
+
+Define
+\[
+\ma:=\ker(\cO_{X,z}\tra \cO_{Z,z}).
+\]
+We have
+\[
+\ma \subeq \ker(\cO_{X,z}\tra \cO_{Z,z}/\mm_t^N)=\mm_t^N\cO_{X,z}\subeq \mm_z^N\text{ for all } N\ge 1
+\]
+since this works for any $N$. 
+Thus $\ma\subeq \bigcap_{N\ge 1}\mm_z^N$. By Krull's Theorem for noetherian rings, $\bigcap_{N\ge 1}\mm_z^N=(0)$. Hence $\cO_{X,z}\to \cO_{Z,z}$ is an isomorphism, and the claim follows.
+\end{proof}
+We've shown there exists $U$ so that $p^{-1}(T)\subeq U\subeq Z$.
+
+But we want a neighborhood downstairs, in $S$, as in item 2. To obtain a neighborhood in $S$, rather than in $Z$, we use take complement of $U$ and use the fact that $f$ is a closed map. 
+%The problem is that upstairs
+
+Because $p$ is proper so $p(X\bs U)$ is closed in $S$, and $S\bs p(X\bs U)$ is open. Thus exists an open set $W\subeq S\bs p(X\bs U)$ containing $t$, such that  
+\[p^{-1}(W)\subeq U\subeq Z.\]
+This is true not just as sets but as open subschemes. 
+
+This shows item 2, as needed.
+\end{proof}
+%this is half a page in the GIT proof, but it's an instructive proof.
+\subsection{Isogenies}
+We have $(\text{Ab}/S)\subeq \gps$ as a full subcategory. The most important class of morphisms between abelian schemes are {\it isogenies}.
+
+Recall that an abelian scheme over $S$ is just a group scheme $\pi:A\to S$ that is smooth and proper and has geometrically connnected fibers.
+\begin{lem}\llabel{lem:787-6-1}
+Let $f:A\to A'$ be a morphism  in $(\text{Ab}/S)$. Then the following are equivalent.
+\begin{enumerate}
+\item
+$f$ is finite and faithfully flat.
+\item
+$f$ is quasi-finite and surjective on points.
+\end{enumerate}
+(A scheme is \text{quasi-finite} if it is finite type with 0-dimensional fibers.)
+\end{lem}
+The second condition is weaker.
+\begin{df}
+Any such $f$ is called an \textbf{isogeny}.
+\end{df}
+\begin{fct}
+%\fixme{
+%A scheme is \text{quasi-finite} if it is finite type with 0-dimensional fibers. 
+%%let's impose finite type (s.t. not opposed)
+%This implied by by finite type, and fibers begin, or having finitely many points. 
+The following conditions are equivalent.
+\begin{itemize}
+\item
+finite
+\item
+quasi-finite and proper
+\item
+affine and proper.
+\end{itemize}
+\end{fct}
+%check map is isogeny. 
+%using isogeny, work with condition 1.
+%really fiberwise criterion.
+
+The advantage of 2 in lemma is that it can be checked fiberwise. %At some point we'll prove this. %For the moment, however, we prefer to work over a general base scheme.
+\begin{proof}
+(1)$\implies (2)$ is clear.
+
+For (2)$\implies$(1) we need some Grothendieck-style lemmas. %It's a Hartshorne-style exercise tht 
+First, if we have a map $A\to A'$ with $A$ and $A'$ proper over $S$,
+\[
+\xymatrix{A\ar[rr]\ar[rd]_{\text{proper}} && A'\ar[ld]^{\text{proper}}\\ & S&,}
+\]
+then $A\to A'$ is proper.\footnote{Proof: 
+See Hartshorne~\cite[Exercise 4.8e]{Ha77}. 
+A proper map is separated, and separated means that the diagonal map is closed immersion. Basechange is proper, so $A\times_SA'\to A'$ and the graph morphism $\Ga_f:A\to A\times_SA'$ is proper. The composition of proper morphisms is proper.
+\[
+\xymatrix{& A\times_S A'\ar[rd]^{\text{proper}} & \\
+A\ar[rr]\ar[ru]^{\Ga_f\text{ proper}} & & A'}
+\]
+Hence $A\to A'$ is proper.} %and quasi-finite, we get $A\to A'$ is finite.}
+Since we assumed $f:A\to A'$ is quasi-finite, by the fact we get $f$ is finite.
+
+%The idea is to use generic properness. Then we use the group structure to propagate properness.
+
+To see that $f$ is flat, note the following two facts.
+\begin{enumerate}
+\item
+Fiberwise flatness: 
+
+\begin{pr}\llabel{pr:fiberwise-flatness}
+If we have
+\[
+\xymatrix{X\ar[rr]^f\ar[rd]_{\text{flat}} && Y\ar[ld]^{\text{flat}}\\ & S,&}
+\]
+and $X,Y$ are locally noetherian or $X,Y$ are locally of finite presentation over $S$ (in particular, if they are abelian varieties), then $f$ is flat iff for all $s\in S$, $f_s$ is flat.
+\end{pr}
+
+%act. finite presentation
+The proof comes down to a statement in commutative algebra for local noetherian rings. 
+
+Thus, in our case, it suffices to prove $f_s:A_s\to A_s'$ is flat for all $s$.
+\item 
+Generic flatness: 
+
+\begin{pr}\llabel{pr:generic-flatness}
+For $X,Y$ nonempty, if either
+\begin{itemize}
+\item
+$f:X\to Y$ is of finite type, and $Y$ is integral and locally noetherian, or
+\item
+$X\to Y$ is of finite presentation and $Y$ is integral,
+\end{itemize}
+then there exists nonempty $U\subeq Y$ open dense such that 
+\[
+f|_{f^{-1}(U)}:f^{-1}(U)\to Y
+\] 
+is flat.
+\end{pr}
+\end{enumerate}
+These theorems are stated in EGA. In fact, fiberwise and generic flatness are two of the most often cited facts from EGA. \fixme{If it's flat extension, then already flat before taking the ff base extension. $\Spec\ol{k(s)}\to \Spec k(s)$ is faithfully flat so it's okay.}
+
+%In our case $A,A'$ are locally noetherian, $A'$ is a variety and hence integral, and $A\to A'$ is of finite type. Hence we can apply item 2 to see that $f_s:A_s\to A_s'$ is 
+In our case, $A_s$ and $A_s'$ are locally noetherian, $A_s'$ is a variety, so integral, and $A_s\to A_s'$ is of finite type. Hence we can apply item 2 to see that $f_s:A_s\to A_s'$ is flat for an open dense subset of $A_s$. Using group translation, we find that $f_s$ is flat. \fixme{Why can't we work with $A$?}
+%flatness local. flat over open dense, translate by group action.
+
+%exhaust whole thing%flat at every point.
+%$f_s$ is flat over an open dense subset of $A_s'$, so $f_s$ is flat. Use group translation. }
+
+\fixme{Figure 3}
+
+\end{proof}
+
+We now give examples of isogenies.
+\begin{ex}[Multiplication by $n$]
+Multiplication by $n$ is an isogeny:
+\begin{align*}
+[n]:A& \to A\\
+x&\mapsto \underbrace{x+\cdots +x}_n.
+\end{align*}
+\end{ex}
+This is not obvious; we will prove it later.
+
+\begin{ex}[Quotient scheme]
+Let $A$ be an abelian variety, and $H$ be a finite locally free subgroup scheme of $A$. 
+$A\to A/H$ is surjective, flat and finite by Theorem~\ref{thm:geo-q}, it is an isogeny.
+\end{ex}
+\begin{ex}[Frobenius map]
+In characteristic $p$, the relative Frobenius map 
+\[
+\Frob:A\to A^{(p)} =A\times_S S
+\]
+is an isogeny, 
+where in the right the map $S\to S$ is the Frobenius map given as follows: $\Frob:S\to S$ is the identity on topological space and maps $x^p\mapsfrom x$. We will check later (Example~\ref{ex:frobenius-morphism}) that this is an isogeny.
+\end{ex}
+
+For $L$ an ample line bundle we have a map $\phi_L:A\to A^{\vee}$. We'll see later that this is an interesting isogeny.
+%not trivial show n-torsion is finite. Basechange to C, finitely many points. But for general abelian schemes no easy way. But clear that if we can show mult map is surjective and quasi-finite then done. Have to do some work even if algebraically closed fields. 
+\begin{lem}\llabel{lem:787-6-2}
+Let $f:A\to A'$ be an isogeny. Then $\ker f$ is a finite  locally free (commutative) group scheme over $S$. %\fixme{abelian scheme?}
+\end{lem}
+Thus the example of $A\to A/H$ illustrates is a general phenomenon: the kernel is always a nice group scheme.
+\begin{proof}
+To see that $\ker f$ is finite, note that the kernel is given by the following fiber product.
+\[
+\commsq{\ker f}{A}{S}{A'}{}{}{f'}{e_{A'}}
+\]
+Finiteness and flatness are stable under basechange, so the fact that the right-hand map is finite flat means the left-hand map is finite flat.
+Thus $\ker f$ is finite flat over $S$.
+\end{proof}
+\begin{fct}
+If $X,Y$ are locally of finite presentation over $S$, then $X\to Y$ is locally of finite presentation.
+
+\[
+\xymatrix{X\ar[rr] \ar[rd]_{\text{lfp}} & & Y\ar[ld]^{\text{lfp}}\\
+& S. &}
+\]
+
+Then $X$ is finite flat over $S$ iff it is finite and locally free over $S$. 
+\end{fct}
+\begin{proof}
+The strategy is the same as that for properness: 
+Use the diagonal morphism $Y\to Y\times Y$, which is locally of finite presentation. See Hartshorne~\cite[Exercise 4.8e]{Ha77}. 
+%use the diagonal morphism (of locally finite presentation) $X\to X\times_SX$. %Finite flat. diag locally finite presentation. Basechange lfp. Compose lfp. 
+%\fixme{Not getting this...}
+%So $A\to A'$ lfp implies $\ker f\to S$ lfp (*---need to show as module?), implies with fact that finite flat means finite locally free.
+\end{proof}
+%here working with rings.
+%flat and finite presented implies free we want finite presentation as modules. 

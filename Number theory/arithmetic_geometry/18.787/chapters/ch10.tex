@@ -1,0 +1,288 @@
+\lecture{Thu. 10/11/12}
+
+Last time we showed that abelian varieties over a field $k$ are projective by exhibiting an ample line bundle. If we have an abelian scheme over $S$ of relative dimension $g$, we showed that $A[n]$ is finite locally free subgroup scheme over $S$ of $A$ of rank ${2g}$ (Theorem~\ref{thm:deg-A[n]}). We reduced to the case of fields, then to the the case of algebraically closed fields, and finally computed certain intersection numbers given by ample divisors.
+
+Today we'll start a new topic.
+
+\subsection{Picard schemes}
+Recall that for $A\in \abk$, we produced a group homomorphism
+\begin{align*}
+A(k)&\to \Pic(A)\\
+x&\mapsto T_x^*L\ot L^{-1}.
+\end{align*}
+where $\Pic(A)$ is the group of isomorphism classes of line bundles over $A$ and  $T_x$ is translation by $x$. This was a group homomorphism by the Theorem of the Square~\ref{cor:square}.
+
+We now upgrade this map to a morphism of group schemes. We'd like to give $\Pic(A)$ some geometric structure, and make it into a Picard scheme.
+
+%Picard schemes in the case of abelian scheme
+\begin{df}
+Let $X\in \schs$. The \textbf{absolute Picard functor} is the functor
+\begin{align*}
+\ul{\Pic}_X:\schs&\to \gps\\
+T&\mapsto \Pic(X\times_ST) =\bt{line bundles}{over $X\times_ST$}/\cong
+\end{align*}
+\end{df}
+%think of this as consisting of maps X to T.
+We are in the moduli space situation: We write down a functor, which we want to be represented by a scheme. Unfortunately, this functor is never representable by a scheme.
+To see this, note the following fact.
+\begin{fct}[Gluing morphisms]
+Every scheme is a Zariski sheaf. For $Y\in \schs$ and $T=\bigcup U_i\in \schs$, the sequence
+\[
+Y(T)\to \prod_i Y(U_i)\rightrightarrows \prod_{i,j} Y(U_i\cap U_j)
+\]
+is exact. The left map is injective. %injective on left
+\end{fct}
+In other words, defining morphisms $U_i\to Y$ in a compatible is the same as giving a map from $Y$ to $T$. 
+
+As the following shows, a Picard functor is not a Zariski sheaf, so it cannot be representable.
+
+\begin{ex}
+Let $X=S$, suppose $\Pic(S)\ne (0)$ and take a fine enough covering $S=\bigcup U_i$. Consider
+\[
+\ul{\Pic}_S(S)\to \prod_i \ul{\Pic}_S(U_i).
+\]
+The LHS is just $\Pic(S)$. The factors in the RHS are $\Pic(U_i)$, which are trivial. 
+%picard stack "I don't belong to such category"
+(Invertible sheaves are trivialized if we choose a fine enough open covering.) Hence the map is not injective. %We can use this in general to show that the Picard functor is not represented by schemes.
+\end{ex}
+One way to deal with this is to define Picard stacks. However, we want to work within the category of schemes, so we need to use a different definition. To remedy our problem, we'll kill line bundles coming from $S$. %, will deal with above problem.
+\begin{df}\llabel{df:rel-pic}
+Given $X\to S$, define the \textbf{relative Picard functor} by 
+\begin{align*}
+\ul{\Pic}_{X/S}: \schs &\to \pat{Gps}\\
+T&\mapsto \Pic(X\times_ST)/p_2^*\Pic(T).
+\end{align*}%use technology of more structure!
+where $p_2$ is the map $X\times_ST\to T$.
+\end{df}
+This is not the best definition but it works in many cases, including the case of abelian schemes.
+
+If we make some additional hypotheses will be a good definition, i.e. $\ul{\Pic}_{X/S}$ will now be a Zariski sheaf.
+\begin{itemize}
+\item
+$f:X\to S$ is proper, flat, and has geometrically integral fibers, and there exists a section $e:S\to X$ so that $f\circ e=\id_S$.
+\end{itemize}
+In the more general case, if $\ul{\Pic}_{X/S}$ is not a Zariski sheaf, we want to sheafify it in some way. Sheafification in the Zariski topology is not enough; we have to use the 
+\'etale or fppf topology (Grothendieck topologies). We get a better candidate which is theoretically more natural. 
+
+However, in the case of abelian schemes, the hypothesis holds, so the extra technology is not necessary.
+
+\begin{thm}\llabel{thm:pic-rep}
+Under the above hypothesis, if $S=\Spec k$, then $\ul{\Pic}_{X/k}$ is representable by a group scheme over $k$ that is locally of finite type (denoted $\Pic_{X/k}$).
+%proper variety over field has representable picard functors
+%X proper variety over $k$, $X(k)\ne \phi$.
+\end{thm}
+
+If we want to work with finite objects, it's natural to work with the connected component or something slightly larger than the connected component.
+We write $\Pic^{\circ}_{X/k}:=(\Pic_{X/k})^{\circ}$ to mean the connected component containing the identity.
+\begin{ex}
+In the special case that $X$ be a proper curve over $k$, we define this to be the \textbf{Jacobian}: %\textbf{Jacobian} is the connected component of the identity in the Picard variety.
+\[
+\Jac(X/k)=\Pic_{X/k}^{\circ}.
+\]
+\end{ex}
+
+%subfunctor of Picard functor
+We now give a general definition over a scheme $S$.
+\begin{df}
+Assume the hypothesis. Define
+\[
+\ul{\Pic}_{X/S}^{\circ}(T)=\set{L\in \ul{\Pic}_{X/S}(T)}{L_s\in \Pic_{X_s/k(s)}^{\circ}(T_s)\text{ for all }s\in S}.
+\]
+%picnaught
+\end{df}
+This is a subfunctor of $\ul{\Pic}_{X/S}$.
+
+We have the following complement to Theorem~\ref{thm:pic-rep}.
+\begin{thm}\llabel{thm:pic0-rep}
+If $\pi:X\to S$ is an abelian scheme, then $\ul{\Pic}_{X/S}^{\circ}$ is represented by an abelian scheme.
+%grothendieck. weil-deligne in general case.
+%proj, locally projective easier to prove.
+\end{thm}
+We'll use this theorem as a black box.
+\begin{df}
+Call the scheme representing $\ul{\Pic}_{X/S}^{\circ}$ the \textbf{dual abelian scheme} of $X$, and denote it by 
+\[
+\pi^{\vee}:X^{\vee}\to S.
+\]
+%line bundle over ab sch
+\end{df}
+\begin{df}
+%universal line bundle given by moduli problem.
+Suppose $A\in \Abs$. Then
+\[
+A^{\vee}(A^{\vee})=\Pic_{A/S}^{\circ}(A^{\vee})\subeq
+\Pic_{A/S} (A^{\vee})=\Pic(A\times_SA^{\vee})/p_2^* \Pic(A^{\vee}).
+\]
+There is a distinguished element in the LHS, the identity morphism $\id_{A^{\vee}}$. Define the \textbf{Poincar\'e line bundle} $\cal P$ as the image of $\id_{A^{\vee}}$ on the RHS.
+%moduli theoretic setting: universal line bundle of the moduli problem
+\end{df}
+\begin{lem}\llabel{lem:787-10-1}
+Suppose $A\in \Abs$,  $T\in \schs$. Suppose that under the inclusion
+\[A^{\vee}(T)\subeq \Pic(A\times_ST)/p_2^* \Pic(T),\]
+$y$ is sent to $L(y)$. Then
+\[
+L(y)\cong(\id,y)^*\cal P\bmod p_2^*\Pic(T).
+\]
+\end{lem}
+This is how an object is supposed to work in a moduli problem.
+\begin{proof}
+The map $T\to \av$ induces
+\[y^*:A^{\vee}(A^{\vee})\to A^{\vee}(T)\] given by precomposing with $y$. Because $\ul{\Pic}_{A/S}$ is a functor we have the commutative diagram
+%when say functor, morphism T\to T' gives mrophism \Pic(A\times A^{\vee})\to \Pic(A\times T). 
+\[
+\xymatrix{
+A^{\vee}(A^{\vee}) \ha{r} \ar[d]_{y^*} & \Pic(A\times A^{\vee})/p_2^* \Pic(\av)\ar[d]^{(\id,g)^*}\\ 
+A^{\vee}(T)\ha{r} & \Pic(A\times T)/p_2^* \Pic(T).
+}
+\]
+We have that $\id\in \av(\av)$ is mapped as follows:
+\[
+\xymatrix{
+\id \ha{r} \ar[d]_{y^*} & \cal P\ar[d]^{(\id,g)^*}\\ 
+y\ha{r} &L(y).
+}
+\]
+Thus $L(y)=(\id,y)^*\cal P\bmod p_2^*\Pic(T)$.
+%(Note $T\to T$, $\Pic(A\times T')/...=\ul{\Pic}_{X/S}(T')\to 
+%\ul{\Pic}_{X/T}(T)=\Pic(A\times T)/...$.)
+\end{proof}
+
+\begin{cor}[Criterion for line bundle/$T$-points to be trivial]
+The following are equivalent.
+\begin{itemize}
+\item
+The map $y:T\to A^{\vee}$  factors through $e_{A^{\vee}}:S\to A^{\vee}$.
+\item 
+$L(y)=(\id,y)^*\cal P$ is trivial mod $p_2^*\Pic(T)$.
+\end{itemize}•
+ %($y\in A^{\vee}(T)$ is identity element).
+\end{cor}
+\begin{proof}
+%From Lemma 1, $A^{\vee}(T)=\Pic(A\times T)/p_2^*T$ as a group. On the right $L(y)$ is mapped to $y$. (clear)
+%not quite sure what to say.
+This follows from Lemma~\ref{lem:787-10-1}.
+\end{proof}
+\subsection{$\la_L$ and $K(L)$}
+Recall the following notation. For $A\in \Abs$ we have maps
+\[
+p_1,\mu,p_2:A\times_SA\to A
+\]
+and maps $\pi:A\to S$, $e_A:S\to A$.
+
+Let $L\in \Pic(A)$. 
+%Pic_0 rep'ble, but of course Pic also rep for abelian schemes.
+Consider the Mumford line bundle
+\[
+M(L)=\mu^*L\ot p_1^*L^{-1} \ot p_2^*L^{-1}.
+\]
+We have because $\ul{\Pic}_{A/S}$ is represented by $\Pic_{A/S}$ that
+\[\Pic(A\times_S A)/p_2^*(\Pic(A))=\Pic_{A/S}(A)=\Hom_{\schs}(A,\Pic_{A/S}).\]
+% a priori hom set. morphisms of schemes, not gp scheme. Need work for any scheme T in place of A. don't know id to id.
+%rigidify the line bundles.Not over st, up to something.
+%rigidified situation, nice thing about. 
+%duality: symmetric in some way, nice keep it this way.
+%some time, switch role A, Adual.
+\begin{df}
+Define $\la_L$ to be the image of $M(L)$ in $\Hom_{\schs}(A,\Pic_{A/S})$.
+\end{df}
+A priori, an element of  $\Hom_{\schs}(A,\Pic_{A/S})$ is a morphisms of scheme, not necessarily of group schemes. We show an element corresponding to a line bundle is a morphism of group schemes.
+\begin{lem}
+\begin{enumerate}
+\item
+$\la_L$ is morphism of group schemes over $S$. 
+\item
+$\la_L$ lands in $\Pic_{A/S}^{\circ}\subeq \Pic_{A/S}$.
+\end{enumerate}
+%fiberwise connected.
+\end{lem}
+\begin{proof}
+\begin{enumerate}
+\item
+By the rigidity lemma (specifically Corollary~\ref{cor:rigid2}),  a morphism which takes $\id$ to $\id$ is a group homomorphism. Thus it suffices to show $\la_L$ takes the identity element to the identity element, i.e., the following commutes:
+\[
+\xymatrix{
+A\ar[rr]^{\la_L} && \Pic_{A/S}\\
+& S\ar[lu]^{e_A}\ar[ru]_{e_{\av}}.&
+}
+\]
+\fixme{(?) What is the universal line bundle?
+Letting $\cal P$ be the universal line bundle over $A\times_S \Pic_{A/S}$, it suffices to prove $(\id,\la_L\circ e_A)^*\cal P$ is trivial mod $p_2^*\Pic(T)$. . We have 
+\[
+(\id_A,e_A)^*\underbrace{(\id_A,\la_L)^*\cal P}_{M(L)}.
+\]
+We see compute $\mu(L)$. Get element of $p_2p_{12}(T)$.}
+%construction M(L) compute...
+\item
+This follows because $A$ is fiberwise geometrically connected.
+\end{enumerate}
+
+The upshot is that for $L$ a line bundle over $A$, we get a map $\la:A\to \av$
+%exercise with oduli theoreic defin
+ in $\Abs$.
+\end{proof}
+\begin{df}
+An isogeny $\la:A\to \av$ in $(\text{Ab}/S)$ is a \textbf{polarization} if for all $s\in S$, 
+\[\la_{\ol{s}}=\la\times_S \Spec{\ol{k(s)}}\] %not surprising by funct nature if Pic0, general defn
+ is of the form  $\la_{L(\ol s)}$ for some ample line bundle $L(\ol s)$ over $A_{\ol s}$. Implicit we identify $(A^{\vee})_{\ol s}=(A_{\ol s})^{\vee}$.
+%Wikipedia:
+%A polarisation of an abelian variety is an isogeny from an abelian variety to its dual that is symmetric with respect to double-duality for abelian varieties and for which the pullback of the Poincaré bundle along the associated graph morphism is ample (so it is analogous to a positive-definite quadratic form). Polarised abelian varieties have finite automorphism groups. A principal polarisation is a polarisation that is an isomorphism. Jacobians of curves are naturally equipped with a principal polarisation as soon as one picks an arbitrary rational base point on the curve, and the curve can be reconstructed from its polarised Jacobian when the genus is > 1. Not all principally polarised abelian varieties are Jacobians of curves; see the Schottky problem.
+
+A polarization is \textbf{principal} if it is an isomorphism.
+\end{df}
+\begin{rem}
+A polarization $\la$ is {quasi-finite}. To see this, note $L(\ol s)$ is ample iff $\ker \la_{\ol s}$ is finite over $k(\ol s)$. %, iff $K(L(\ol s))$ is finite over $k(\ol s)$. 
+If $\ker\la_{\ol s}$ is finite over $k(\ol s)$, then  $\la_{\ol s}$ is  quasi-finite. Since quasi-finiteness can be checked on fibers, this implies $\la $ is quasi-finite. %check assertion.
+
+%The fact that 
+The dual $\av$ has the same or larger dimension as $A$.
+\end{rem}
+\subsection{Duality}
+Here are natural questions.
+%duality for objects and for morphism
+\begin{enumerate}
+\item
+Give $f:A\to B$ in $\Abs$, is there a dual morphism $f^{\vee}:B^{\vee}\to \av$?
+\item
+Is $\dim A=\dim \av$? (relative dimension)
+\item
+If $f$ is an isogeny, is $f^{\vee}$ an isogeny? Is $\deg f=\deg f^{\vee}$?
+%is kernel f same rank as fdual?
+\item
+Is there a  canonical map $A\to (\av)^{\vee}$ and is it an isomorphism?
+%\[
+%A\xrc (\av)^{\vee}
+%\]
+Is $(f^{\vee})^{\vee}=f$ if we identify $A=(A^{\vee})^{\vee}$
+\item
+Is polarization an isogeny?
+\item
+Is there a relationship between $\ker f$ and the {\it Cartier dual} $(\ker f)^{\vee}$? (A Cartier dual is the dual of a finite flat group schemes; we will define this in Lecture~\ref{sec:cartier}.)
+\end{enumerate}
+We'll enhance our understanding of dual abelian varieties by answering these questions. We'll just give some partial answers today.
+\begin{enumerate}
+\item
+Given $f$, $T\in \schs$, we have a map $\Pic B\times_S T\xra{f^*} \Pic(A\times_S T)$:
+\[
+\xymatrix{
+B^{\vee}(T) \ard{r}\ha{d}& \av(T)\ha{d}\\
+\Pic(B\times_S T)/p_2^*T \ar[r]^{f^*} & \Pic(A\times_S T)/p_2^*T\\
+L\ar@{}[u]|-{\rotatebox[origin=c]{90}{$\in$}} \ar@{|->}[r] & f^*L \ar@{}[u]|-{\rotatebox[origin=c]{90}{$\in$}}
+}
+\]
+Thus we can define a map $B^{\vee}(T)\to A^{\vee}(T)$ making the above commute. Since $B$ is fiberwise connected, we get a map
+%This gives a map ($B$ is fiberwise $g$-connected)
+\[
+\xymatrix{
+B^{\vee}(T) \ar[r]^{f^{\vee}}\ha{d}& \av(T)\ha{d}\\
+\Pic_{B/S}^{\circ}(T) \ar[r] & \Pic_{A/S}^{\circ}(T)}
+\]
+\end{enumerate}
+Note that (2)$\implies $(5): Same dimension and quasifinite imply isogeny.
+
+For (4), we construct a canonical map $A\to (\av)^{\vee}$ as follows. We have
+\[
+(\av)^{\vee} (A)=\Pic_{\av/S}^{\circ}(A)\subeq \Pic(A^{\vee}\times_S A)/p_2^*A\ni \cal P.
+\]
+We can check that $\cal P$ is actually in $\Pic^{\circ}_{\av/S}(A)$.
+%can line bundle given by moduli problem
+Then $\cal P$ is associated to a canonical map $K_A:A\to (\av)^{\vee}$.

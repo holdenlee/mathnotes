@@ -1,0 +1,225 @@
+\lecture{Thu. 10/25/12}
+
+Last time we defined the Cartier dual for finite locally free group schemes over $S$. We gave 2 definitions. One was
+\[
+\vee: G\mapsto \ul G^{\vee}:=\Hom_{\gps}(G,\G_m)
+\]
+represented by $G^{\vee}=\ul{\Spec} \cO_G^{\vee}$ where we take the $\cO_S$-mod dual. This has all the structure we need for a group scheme. Multiplication is comultiplication, identity is coidentity, and inverse is inverse (also called antipodal map). 
+
+\subsection{Cartier dual and dual isogenies}
+
+Our main result is the following.
+\begin{thm}
+If $f:A\to B$ is an isogeny in $\Abs$, then we have a canonical isomorphism 
+\[
+(\ker f)^{\vee}\cong \ker (f^{\vee}).
+\]
+\end{thm}
+\begin{proof}
+Our plan is to show
+\begin{align*}
+\ker(f^{\vee})&=\ker(\Pic_e^{\circ} B\to \Pic_e^{\circ} A)\\
+&\stackrel{\iota}{\subeq} \ker(\Pic_e B\to \Pic_e A):=K'\\
+&\cong K^{\vee}.
+\end{align*}
+Everything is clear except the last line, which is the key step. To conclude the theorem from these equations, we use $\deg f=\deg f^{\vee}$ to get $\rank(\ker(f^{\vee}))=\rank (K^{\vee})$, getting $\ker(f^{\vee})\cong K^{\vee}$. Alternatively, we can show $\iota$ is an isomorphism directly; see Mumford.
+%immersion of equal rank actually isomorphic.
+
+We now show the key isomorphism, $K'\cong K^{\vee}$. We need a better description of the kernel, in terms of points. For all $T\in \schs$, we have 
+\[%corresp to f^{\vee}
+K'(T)=\ker (\Pic_e B(T)\xra{(f\times 1)^*} \Pic_e A(T))
+\]
+where $\Pic_e B(T)=\Pic_e(B\times T)$ and $\Pic_e A(T)=\Pic_e (A\times T)$. Note
+\[
+\Pic_e B(T)=\Pic_e(B\times T)=\set{L\in \Pic(B\times T)}{e_{B,T}^* L\cong \cO_T}.
+\]
+Then we have (under $(f\times1)^* L\cong \cO_{A\times T}$)
+\[
+K'(T)=\ker (\Pic(B\times T)\to \Pic (A\times T)).
+\]
+Note
+\[
+e_{B,T}^*L = e_{A,T}^* (f\times 1)^*L \cong \cO_T
+\]
+%being in kernel implies trivial along id section in B
+using commutative triangle
+\[
+\xymatrix{
+A_T\ar[rr]^{(f\times1)^*} && B_T\\
+& T\ar[lu]^{e_{A,T}} \ar[ru]_{e_{B,T}} &
+}
+\]
+%strategy use some interp of line bun
+$K'(T)$ is isomorphic to the set of {$K$-equivariant} {structures on $\cO_{A\times T}$}. Recall that we have $A\times_S T$? $A_T\xra{f_T} B_T$ mod $K_T$. Recall that we have
+\[
+\QCoh^{K_T}(A_T) \rightarrow\leftarrow \QCoh(B_T)
+\]
+pushforward increases rank in general. To get equivalence, we have to take $K_T$-invariant sections after pushing forward. 
+Right: $f_{T,*}(\cdot)^{K_T}$, Left: $f_T^*$. How many in kernel. All should be $\cO_{A_T}$, different $L$ different choices of $K_T$-equivariant structure. Le have
+\[
+\QCoh(B_T)\ni L\in \ker(\Pic(B_T)\to \Pic(A_T))
+\]
+Condition to be in kernel is $f_T^* \cong \cO_{A_T}$. Trying to count how many nonisomorphic $L$, same as number of nonisomorphic $K_T$ invar structure by categ equivalence.
+
+We have $f^*L\cong \cO_{A_T}$. We need to prove
+\[
+\bt{$K_T$-equivariant structure}{on $\cO_{A\times T}$}\cong K^{\vee}(T) =\Hom_{\text{Gp}/T}(K_T^{\vee},\G_{m,T}).
+\]
+use a diff interp of line bundle. Use geo intuition. General facts. 
+A line bundle $L$ on $X$ is $X\times \A^1\to X$. Given a $K$-action on $X$, a $K$-equivariant equivariant structure on $L$  ($\mu^*L\cong p_2^*L$) is $X\times \A^1\to X\to X$ $K$-equivariant, $K$ acting on both. 
+
+For us, $p_1:A_T\times_T \A_T^1\to A_T$. Downstairs, $K$-action? Upstairs how give $K$-equivariant structure. Condition map downward equivariant just means diagram commutes.
+\[
+\commsq{K_T\times A_T\times \A_T^1}{A_T\times_T \A_T^1}{K_T\times_T \A_T}{A_T}{}{?}{p_1}{\mu_{A,T}}
+\]
+(Bottom: $(k,x)\mapsto k+x$.)
+
+To commute, we need to give on $T'$-points 
+\[
+(k,x,a)\mapsto (x+k,\la(k,x,a)).
+\]
+%functorial assignment to $\la(k,x,a)$.
+Now $\la(k,x,a)$ has to be linear in the $a$ component, so we can write
+\[
+\la(k,x,a)=\la(k,x)a
+\]
+Now we realize that $\la(k,x)$ depends only on $k$. 
+
+We now use the fact that  every map $K_T\times A_T\to \A_T^1$ factors through $K_T$:
+\[
+\ctri{K_T\times A_T}{\A_T^1}{K_T}{}{}{}{}{}{}
+\]
+Indeed, $\pi:A_T\to T$ proper means that $\pi_*\cO_{A_T}\cong \cO_T$ and $\pi_*\cO_{A_T\times K_T} \cong \cO_{K_T}$. Then to be an action, 
+\begin{align*}
+\la(0,\cdot)&=1\\
+\la(k+k',x)&=\la(k,x)\la(k',k+x).
+\end{align*}
+This looks like a cocycle condition. But because $\la$ doesn't depend on $x$, this reduces to just a homomorphism condition; we get
+\[
+(\la \mapsto \la(k,\cdot))\in K^{\vee}(T)=\Hom_{\text{Gp}/T}(K_T,\G_{m,T}).
+\]
+everything lands in invertible element of $\G_m$.
+
+If have element can go backwards to define action, so can go both forwards and backwards.
+
+You have to actually keep track of group operations (we proved it's a set theoretic bijections). 
+\end{proof}
+%usually learn proof when have to give lecture to somebody.
+\begin{cor}
+Let $A$ be an abelian variety. Then $A[n]^v\cong A^{\vee}[n]$. Moreover, the following commutes
+\[
+\commsq{A[n]^{\vee}}{\av[n]}{A[nm]^{\vee}}{\av[nm]}{}{\cong}{}{\cong}
+\]
+\end{cor}
+Thus we can put this information together to organize into a limit object.
+\subsection{$p$-divisible groups, $p$-adic Tate modules}
+Recall that for $A\in \Abs$, $A[n]$ is a finite locally free commutative group scheme over $S$ of rank $n^{2g}$. 
+
+Let's restrict to $S=\Spec k$ for now. We have the following. 
+\begin{fct}
+Let $G$ be a finite commutateive group scheme over $k$. Let $k:=\rank_k G$. %if rank prime to characteristic, has simple structure. 
+\begin{itemize}
+\item
+If $(\chr k,r)=1$ then $G$ is \'etale over $k$ (it is the Spec of a finite product of finite seperable extensions of $k$).
+\item
+If $G$ is \'etale over $k$ and $k=\ol k$, then $G\cong \ul{\Ga} $ for some finite abstract group $\Ga$ ($|\Ga|=r$). 
+\item
+If $k=\ol k$, $A[n]\cong (\Z/n\Z)^{2g}$ if $(\chr k,n)=1$.
+%theory of fin gen abelian groups. If not of this type, contain Z/mZ. Look at A[m], ...
+\end{itemize}
+\end{fct}
+Caution? For instance if $\dim A=1$, $A[4]=(\Z/2)^4$ but $|A[2]|\ne 2^2$. $(\Z/4)^2$?
+\begin{rem}
+If  $\chr k=p$, then 
+\[
+A[p^m](\ol k)\mid (p^m)^{\dim A}.
+\]
+Only half the size expect in other case. Still correct size as group scheme. In $\ol k$, some points clustered in one place, don't have points separated from each other. One way to see half size is that if you have physical points, can show have to contain $(\Z/p^m\Z)$ type objects. As soon as have, also have to contain its dual $\mu_{p^m}$. (you can show using theorem) However, only 1 point in $\mu_{p^m}$ in characteristic $p$. Mumford discussion $p$-rank in section 15. 
+%cf ell curves?
+%We have $A[n]\cong (\Z/n\Z)^{2g}$ if $(\chr k,n)=1$,
+\end{rem}
+We make a provisional definition.
+\begin{df}
+Let $A\in \abk$ be an abelian variety over a field. The \textbf{$p$-divisible group} associated with $A$ is the inductive system
+\[
+A[p^{\iy}]=\pa{
+A[p]\hra A[p^2]\hra A[p^3]\hra \cdots 
+}
+\]
+\end{df}
+Later we'll see that we can make sense of this as a FPPF scheme (?). 
+
+%group scheme rank p: \ol{F_p}[x]/(x^p-1).
+\begin{df}
+Define the $p$-adic Tate module by
+\[
+T_pA:=\varinjlim_n A[p^n] (\ol k) =\varinjlim_n A(\ol k)[p^n]
+=\pa{
+A[p](\ol k)\xleftarrow{p} A[p^2](\ol k)\xleftarrow{p}\cdots 
+}
+\]
+\end{df}
+If $(p,\chr k)=1$, then $T_pA\cong \Z_p^{2g}$ as a $\Z_p$-module (note we have (diagram with $\Z/p^n$ action)). 
+
+\begin{rem}
+If $\chr k\ne p$, then we usually study $T_pA$. If $\chr k=p$, then we usually study $A[p^{\iy}]$ or its Dieudonn\'e module $\mathbb D(A[p^{\iy}])$. If $\ne p$, then $T_pA$ %something torsion?
+ has torsion free, lots possibility work with rather than $\Q_p/\Z_p$ to some power.
+
+Note $T_pA:\mathbb D(A[p^{\iy}])=H^1_{\text{\'et}}:H^1_{\text{cris}}$.
+\'Etale cohom when char$\ne p$, Crystalline cohomology when $=p$.
+\end{rem}
+We have a fancy interpretation of $T_pA$. It is the $p$-primary part of the \'etale fundamental group
+\[
+\pi_1^{\text{\'et}}(A\times_k\ol k).
+\]
+Fundamental group pro-$p$ etale covering. (???)
+The underlying idea is that if you have $A$ and some \'etale covering $C\to A$, then you can majorize it by some $A\xra{[n]}A$:
+\[
+\xymatrix{
+& A\ard{ld}_{\exists}\ar[ldd]^{[n],\,(n,\chr k)=1}\\
+C\ar[d]_{\text{finite \'etale}} & \\
+A& 
+}
+\]
+THink about this we can have a universal cover.
+
+Readmore in Mumford section 18.
+
+What's important in number theory is that we have this Galois representation (assuming $(\chr k,p)=1$)
+\[
+G(\ol k/k)\to \GL_{\Z_p} (T_p A)\cong \GL_{2g}(\Z_p).
+\]
+Galois action commuates with everything, $p$-mult in limit, $\Z_p$ structure
+
+Note that if we have Tate modules for 2 different abelian varieties, then it induces a homomorphism 
+\[\Hom_{\Z_p[G(\ol k/k)]-\text{module}}(T_pA,T_pB).\] Falting's proof of Mordell's conjecture. Also proved bijection when number field. 
+This is a bijection when 
+\begin{itemize}
+\item
+$k$ is a finite field (Tate, mid 1960's).
+\item 
+$k$ is a number field (Faltings, early 1980's).
+\end{itemize}
+We'll aim to cover the proof when $k$ is a finite field.
+\begin{conj}
+This is a bijection if $k$ is finitely generated over $\F_p$ or $\Q$. (See Tate's article.) %if you're interested, here's your thesis problem.
+\end{conj}
+For any field, it is generally known to be injective. We'll prove this. 
+
+What about local fields??
+When $k=\Q_{\ell}$, and $A$, $B$ have good reduction mod $\ell$, then $T_pA\cil G(\ol Q_{\ell}/\Q_{\ell})$ factors through $\Frob_{\ell}^{\wh{Z}}$. Too weak to cut out homomorphism. %doesn't give counterex though.
+
+\subsection{Structure of $\Hom$ and $\End$}
+We follow Mumford, section 19. %skipped finite group schemes, we'll come back to it.
+%categ ab var up to isog
+%categ up to isom
+Let $\abk$ be the category of abelian varieties over $k$ up to isomorphism, as usual. Let
+\[
+\abk^{\circ}=\bth{Objects: Abelian varieties$/k$}{Morphisms: $\Hom_k^{\circ} (A,B)$}{$:=\Hom_{\text{Gp}/k} (A,B)\ot_{\Z}\Q$}.
+\]
+Here $\Hom_{\text{Gp}/k}(A,B)$ is a $\Z$-module, $\Hom_k^{\circ}(A,B)$ is a $\Q$-vector space. $f\in (\Hom(A,B)\ot_{\Z} \Q)^{\times}$ is called a \textbf{quasi-isogeny}.  
+For instance, $n^{-1}$ is not a map, but it is a quasi-isogeny. Every isogeny is a quasi-isogeny.
+
+If $f:A\to B$ is an isogeny. There exists an isogeny $g:B\to A$ such that $f\circ g=[n]$, $g\circ f=[n]$. (We sort-of proved this. See also Mumford.)
+%principal polarization go back? n=  deg f? Point: n kill kernel of f, this works. Padma: can always compose with another. SW: can be optimal n.
+Basically, we'd like to learn more about the structure of these guys, for instance, when $A=B$, we have $\End(A)$, $\End^0(A)$. Are they finite-dim, torsion-free? What algebras?Next week.

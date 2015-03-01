@@ -1,0 +1,344 @@
+\lecture{Tue. 9/11/12}
+
+Last time we introduced group schemes. Let $S$ be a scheme; then $\gps\subeq \schs$ (but it is not a full subscheme). For $\ph:H\to G$ in $\gps$ we defined $\ker\ph$ by 
+\[
+(\ker\ph)(T)%=\ker(\ph(T))
+=\ker(\ph(T):H(T)\to G(T)).
+\]
+and saw it was representable. 
+What is the cokernel $\coker\ph$ (when the image of $\ph$ is a normal group)? The naive idea is to find $Q\in \schs$ such that 
+\[Q(T)=\coker(\ph(T):H(T)\to G(T)).\]
+However this doesn't quite work. For example, consider the multiplication-by-$n$ map
+%surj on Qbar
+\bal
+[n]:\G_m&\to \G_m\\
+g&\mapsto g^n
+\end{align*}
+Think of this as ($\G_m$ appears $n$ times)
+\[
+\xymatrix{
+\G_m \ar[r]^-{\text{diagonal}} \ar[rd]_{[n]} & \G_m\times \cdots \times \G_m\ar[d]\\
+& \G_m.
+}
+\]
+%Let $S=\Spec \Q$. 
+We write $Q(K)$ as short for $Q(\Spec K)$. 
+Now $Q(\Spec(\Q))=\Q^{\times}/(\Q^{\times})^n$, and this is not contained in $Q(\Spec(\ol{\Q}))=\{1\}$. However, if $Q$ were a scheme, when we pass to a larger field, we should get more points! (Since $\Q\hra \ol{\Q}$, we have $\Spec(\ol{\Q})\hra\Spec(\Q)$, and hence $Q(\Q)\hra Q(\ol{\Q})$.) 
+
+There doesn't exist such a scheme $Q$, in other words, the functor $Q(\bullet)$  
+%enlarge to fppf sheaves, try to solve problem there.
+%quotient of sheave is subtle, have to sheafify, same here. 
+is not representable.
+
+Today we'll talk about quotients, and see how to remedy this problem. There are three ways.
+\begin{enumerate}
+\item Take {\it categorical quotients}.
+\item Take {\it geometric quotients} (geometric invariant theory).
+\item Take the {\it fppf quotient}. We enlarge the category of schemes to fppf sheaves, and try to solve the problem there. Sheafify in the fppf topology and hope it's represented by a scheme.
+\end{enumerate}
+Or we could enlarge the category to stacks...
+
+Recall that taking the quotient of sheaves was subtle, too; we had have to sheafify. Something similar is at play here. 
+
+
+We follow~\cite[\S4]{GGBM}.
+%sheaf, when rep by scheme.
+
+\subsection{Group scheme actions}
+It is actually no harder to study a group scheme action
+\[
+G\cir X
+\]
+where $G$ is a group scheme over $S$ and $X$ is a scheme over $S$. If you're Grothendieck, then you can study something even more general, the quotient by any kind of equivalence relation (we won't cover this). Specializing to the left or right action of a subgroup scheme on a group scheme,
+\[
+H\cir G
+\]
+where $H\subeq G$ in $\gps$, we get quotient group schemes.
+
+
+The idea for 1 (categorical quotients) and 2 (geometric quotients) is as follows. Consider the analogous case where a group $G$ acts on a topological space $X$:
+\[
+G\cir X.
+\]
+\begin{enumerate}
+\item
+The quotient space is the space $G\bs X$ such that for any space $Y$ and $G$-invariant map $X\to Y$ there exists a unique continuous map making the diagram commute.
+\[
+\xymatrix{
+X\ar[rr]^{G\text{-invariant}}\ar[rd] && Y\\
+& G\bs X\ard{ur}_{\exists!}&
+}
+\]
+\item
+Define $G\bs X$ as a topological space to be $X/\sim$ where $x\sim gx$ for every $g\in G$, with the quotient topology. 
+The topology is such that the continuous functions on $C(G\bs X)$ are exactly those that come from $G$-invariant continuous functions on $X$.
+\[
+C(G\bs X)=C(X)^G
+\]
+%Lifted functions to $X$ are $G$-invariant; descent to quotient space.
+%coequalize in schemes, vs. ringed spaces
+\end{enumerate}
+Taking categorical quotients is akin to 1; taking geometric quotients is akin to 2.
+\subsubsection{Group action on schemes}
+\begin{df}
+Let $G\in \gps$ and $X\in \schs$. A \text{(left) action} of $X$ is one of the two equivalent things:
+\begin{enumerate}
+\item
+For every $T\in \schs$, a map
+\[
+G(T)\times X(T)\to X(T)
+\]
+that is a group action, and that is functorial in $T$.
+\item
+a morphism $\mu:G\times_SX\to X$ such that  the following composition is the identity
+\[
+\xymatrix{
+X\aq{r}\ar@/_1pc/[rrr]_{\id_X} &  S\times_S X\ar[r]^{(e,\id_X)}& G\times_S X\ar[r]^{\mu}& X}
+\]
+and
+\[
+\commsq{G\times_S G\times_S X}{G\times_S X}{G\times_SX}{X}{(\id_G,\mu)}{(m,\id_X)}{\mu}{\mu}
+\]
+(This says $g_1(g_2x)=(g_1g_2)x$.)
+\end{enumerate}
+\end{df}
+Again, the equivalence holds by the Yoneda Embedding. In the first action, when we say $G(T)\times X(T)\to X(T)$ is a group action, we mean that an analogous diagram to the diagram in the 2nd definition holds (with $G(T)$ and $X(T)$ instead of $G$ and $T$).
+
+\begin{df}
+Given a group action on a scheme $G\cir X$, we say that a map $X\to Y$ in $\schs$ is \textbf{$G$-invariant} if one of the following equivalent conditions hold.
+\begin{enumerate}
+\item $G(T)\cir X(T)\to Y(T)$ is $G(T)$-invariant for all $T$ (i.e. $f(x)=f(gx)$).
+\item The following diagram commutes. ($p_i$ is the projection to the $i$th component.)
+\[
+\xymatrix{
+& X \ar[rd]^f &\\
+G\times_S X \ar[ru]^{p_2}\ar[rd]_{\mu} & & Y\\
+& X\ar[ru]_f&
+}
+\]
+i.e. $f\circ p_2=f\circ \mu$.
+\end{enumerate}
+\end{df}
+%concoct diagrams
+
+\subsection{Categorical quotient}
+We can now define a categorical quotient of $X$ by $G$.
+\begin{df}
+A \textbf{categorical quotient} of $X$ by $G$ is $(Y,X\xra{\pi} Y)$ such that for any $G$-invariant map $X\to Y'$, there exists a unique dotted morphism making the following commute.
+\[
+\xymatrix{
+X\ar[rr]^{G\text{-invariant}}\ar[rd]_{\pi} & & Y'\\
+& Y\ard{ru}_{\exists !} &
+}
+\]
+%coequalizer action
+\end{df}
+In other words,
+\bal
+\Hom_{\schs} (Y,Y')&=\ker(\xymatrix{\Hom(X,Y')\ar@/^/[r]^-{p_2^*}\ar@/_/[r]_-{\mu^*} & \Hom(G,Y')\times \Hom(X,Y')})\\
+f&\mapsto f\circ \pi.
+\end{align*}
+By $\ker$ we actually mean the universal equalizer, so the RHS is the set of functions $g$ satisfying $p_2\circ g=\mu\circ g$. We have $p_2\circ (f\circ \pi)=\mu\circ (f\circ \pi)$. The uniqueness and existence of $f$ making the diagram commute says that the map is a bijection.
+
+This is a flexible definition, because we can do the same in other categories. We work within any given category without enlarging it. Because of this, this approach also has its limitations.
+
+We choose the best object to be the quotient, in the category of schemes. This quotient may or may not have the nice properties we may want.
+
+We revisit our example.
+\begin{ex}
+We have
+\bal
+\mu:\G_m\times_S\G_m& \to \G_m\\
+(g,x)&\mapsto g^nx
+\end{align*}
+For simplicity we take $S=\Spec k$ where $k$ is a field. 
+We can show that $(\Spec k,\G_m\xra{\text{trivial}} \Spec k)$ is the categorical quotient of $\G_m$ by $\G_m$ under this action. Then for any $T$,
+\[
+[\coker(\G_m\xra{[n]} \G_m)](T)=\{1\}.
+\]
+We expect this---as $\G_m\xra{[n]}\G_m$ is surjective over an algebraically closed field (captured in our fake definition where the quotient had a single point over an algebraically closed field), we suspect that the quotient should just be a point over {\it any} field and actually any scheme.
+%our fake definition of the quotient had a single point over algebraically closed field, we suspect that the quotient should just be a point, over {\it any} field.
+
+Observe that given a $G$-invariant map $X\to Y'$, the unique map $Y\to Y'$ making the diagram commute is the composition of $e:Y\to X$ with $X\to Y'$:
+\[
+\xymatrix{
+X=\G_m\ar[rr]^{G\text{-invariant}}\ar[rd] && Y'\\
+& Y=\Spec k\ard{ur}_{\exists!}\ar@/^1pc/[ul]^{e}&
+}
+\]
+%map to single point. unique image. show that induces imomorphism onto point which is image
+\prbbox{
+Check these assertions.
+}
+\end{ex}
+\subsection{Geometric quotient}
+The geometric quotient is nicer, in the sense that we can construct, not just characterize it.
+
+As a warm-up we consider the following simple case.
+\begin{lem}
+Let $\Ga$ be a finite group, and $X=\Spec A$. %want Ga-invariant functions on quotient space.
+Consider the group action 
+\[
+\Ga\cir X=\Spec A\quad (S=\Spec k).
+\]
+Let $Y=\Spec A^{\Ga}\xleftarrow{\pi} X$ be induced by the inclusion $A^{\Ga}\subeq A$.
+\begin{enumerate}
+\item
+$A$ is integral over $A^{\Ga}$. 
+\item The map $Y=\Spec A^{\Ga}\xleftarrow{\pi} X$ gives
+\begin{enumerate}
+\item
+the map on topological spaces 
+\[
+\xymatrix{
+|X|\ar[rr]^{\pi^{\text{top}}}\ar[rd]_{\text{can.}} &&|Y|\\
+&|X|/\sim\ar[ru]_{\cong}&}
+\]
+and
+\item
+the map on sheaves 
+\[
+\xymatrix{
+\cO_Y\ar[rr]^{\pi^{\sharp}}\ar[rd]_{\cong} &&\pi_*\cO_X\\
+&(\pi_*\cO_X)^{\Ga}\ha{ru}&}
+\]
+\end{enumerate}
+\end{enumerate}
+\end{lem}
+Note also that $\pi$ is a closed map.
+
+Think of $Y$ as the scheme whose topological space has the quotient topology, and whose sections are the $\Ga$-invariant functions.
+%$\Ga$-action
+
+Let's prove it in this special case.
+
+%like doing Galois theory.
+\begin{proof}
+\begin{enumerate}
+\item
+Every $a\in A$ is a root of $\prod_{\ga\in \Ga} (X-\ga(a))\in A^{\Ga}[X]$, so $A$ is integral over $A^{\Ga}$.
+\item We need to show
+\begin{enumerate}
+\item
+\ul{$\Ga\bs |X|\to |Y|$ is well defined:} Given $\mfp \in \Spec(A)$, its image in $A^{\Ga}$ is $\mfp\cap A^{\Ga}$. We need $\mfp \cap A^{\Ga}=\ga(\mfp)\cap A^{\Ga}$; this holds because $\Ga$ doesn't do anything on the $\Ga$-invariant subset of $\mfp$. \\
+
+\ul{Surjectivity} follows from the fact that $A$ is integral over $A^{\Ga}$ and the going-up theorem, which says that every prime ideal of $A^{\Ga}$ comes from a prime ideal of $A$.
+
+\begin{thm}[Going up]
+Let $R\subeq R'$ be an integral extension of rings, and $\mfp$ a prime of $R$. Then there exists a prime $\mq$ of $R'$ such that $\mq\cap R=\mfp$.
+\end{thm}
+%Integral extension, every prime ideal here comes from prime ideal of $A$. (Here we use (1).) 
+
+
+\ul{Injectivity:} Assume $\mfp\cap A^{\Ga}=\mfp'\cap A^{\Ga}$. Then for every $x\in \mfp'$, we have $x\mid \prod_{\ga\in \Ga}\ga(x)\in \mfp'\cap A^{\Ga}=\mfp \cap A^{\Ga}$, so $\ga(x)\in \mfp$ for some $\ga$, i.e. 
+\[
+\mfp'\subeq \bigcup_{\ga\in \Ga}\ga(\mfp).
+\]
+We use the following theorem from commutative algebra.
+\begin{thm}[Prime avoidance]
+Suppose $\ma$ is a subset of a ring $R$ stable under addition and multiplication (e.g. an ideal). Suppose $\mfp_j$ are prime ideals.  %such that $\mfp_3,\ldots, \mfp_n$ are prime (e.g. they're all prime).
+If $\ma\subeq \bigcup_{i=1}^n \mfp_i$, then $\ma\subeq \mfp_i$ for some $i$.
+\end{thm}
+This tells us that actually $\mfp'\subeq \ga(\mfp)$ for some $\ga$. By symmetry, $\mfp \subeq \de(\mfp')$ for some $\de$. %, and we must have $\de=\ga^{-1}$. 
+This shows $\ga(\mfp)=\mfp'$, i.e. $\mfp$ and $\mfp'$ lie in the same $\Ga$-orbit, i.e. are the same in $\Ga\bs |X|$.
+\item \ul{The map on sheaves:} Because the distinguished open sets $D_f:=\Spec(A^{\Ga})_f$ for $f\in A^{\Ga}$ form a basis for the topology on the affine scheme $Y=\Spec A^{\Ga}$, it suffices to check the isomorphism on the $D_f$. On $D_f$ we have the map 
+\[
+(A^{\Ga})_f=\cO_Y(D_f)\to \pi_*\cO_X(D_f).
+\]
+The image is $(A_{\Ga})_f=(A_f)^{\Ga}=(\pi_*\cO_X)^{\Ga}(D_f)$, as needed.
+\end{enumerate}
+\end{enumerate}
+\end{proof}
+Because we actually constructed $Y$, the geometric quotient is a more hands-on approach.
+
+We considered the affine case; to discuss the more general case where $G$ is group scheme and $X$ not necessarily affine, we need to enlarge our playground to {\it ringed spaces}.
+
+We constuct a ringed space that looks like a candidate for the quotient, and show it is represented by scheme when possible.
+
+We'll still assume $G\cir X$ where $G$ is a finite flat group scheme over $S$ and $X$ is a scheme over $S$. %mumford: spec of alg closed field.
+This suffices for many purposes.
+
+We have 
+\[\schs\sub (\text{locally rings spaces}/S)\sub (\text{ringed spaces}/S)\]
+We write $(LRS/S)$ and $(RS/S)$ in shorthand. The left inclusion is a full subcategory while the right one is not. 
+
+We'll construct a candidate for the quotient in the category $(RS/S)$ and try to show it's actually in $\schs$.
+
+We assume the following hypothesis on orbits (essential in this approach):
+\begin{itemize}
+\item
+For any closed point $x\in X$, $G\cdot x\subeq |X|$ is contained in an open affine subscheme of $X$.
+\end{itemize}
+\begin{df}
+Let $G\cir X$ where $G$ is a group scheme over $S$ and $X$ is a scheme over $S$. Define the \textbf{geometric quotient} of $X$ by $G$ as the ringed space
+\[
+(G\bs X)_{rs} = (|X|/\sim, (\pi_{rs*}^{\text{top}}\cO_X)^G)
+\]
+where $\sim$ is given by the $G$-action, $\pi^{\text{top}}_{rs}:|X|\rra |X|/\sim$ is the canonical quotient map and for every open $V\subeq |X|/\sim$,
+%we have to say what the second thing is
+%open? (nonaffine ok?)
+\[
+(\pi_{rs*}^{\text{top}}\cO_X)^G(V)=\set{a\in \pi_*^{\text{top}}\cO_X(V)=\cO_X(\pi^{\text{top}-1}(V))}
+{p_2^{\sharp}(a)=\mu^{\sharp}(a)}\subeq (\pi^{\text{top}}_{rs*}\cO_X)^G(V).
+\]
+\end{df}
+Here the condition $p_2\sh(a)=\mu\sh(a)$ says that $a$ is a $G$-invariant function. Recall that $p_2$ and $\mu$ were maps
+%The condition is $G$-invariance. Function same on these two pullbacks, regard as $G$-invariant function.
+\[
+\xymatrix{
+G\times X\ar@/^/[r]^{\mu}\ar@/_/[r]_{p_2} & X.
+}
+\]
+
+Next time, we'll show that under the hypothesis, this ringed space is actually a scheme.
+
+%We have to somehow prove this is a scheme.
+%
+%\begin{thm}
+%Under the hypothesis,
+%\begin{enumerate}
+%\item
+%There exists $Y\in \schs$ and a quotient morphism $\pi:X\to Y$ such that
+%\[
+%(Y,\pi)\cong ((G\bs X)_{rs},\pi_{rs}).
+%\]
+%\item $(Y,\pi)$ is a categorical quotient
+%\end{enumerate}
+%\end{thm}
+%%Questions: how related to categ, what properties (when $X$ and $G$ have good, do inherit?)
+%\begin{rem}
+Why do we assume such a hypothesis? The hypothesis says that the orbits of a closed point is contained in an affine neighborhood, so it allows us to reduce to the affine case. 
+
+If $\pi^{\text{top}}:|X|\to |X|/\sim=|Y|$ is affine (i.e. any inverse image of affine scheme is affine), %scheme is such that each point has affine nbhd
+for $x\in |X|$ mapping to $y\in |Y|$, there exists $V\ni y$ affine such that $\pi^{\text{top}-1}(V)\subeq X$ is affine. But $\pi^{\text{top}-1}(V)$ contains the orbit of $x$, i.e. some affine neighborhood contains the orbit of $x$. Because the quotient morphism will often be affine, it is helpful to assume such a hypothesis.
+%\end{rem}
+%\begin{proof}[Proof sketch]
+%\begin{enumerate}
+%\item
+%Reduce to the case where $S=\Spec Q$ and $X=\Spec A$. To reduce to the case where $X$ is affine, use the hypothesis to show $X$ can be covered by $G$-stable open affine subschemes. Work on each and try to glue together.
+%
+%Note $G$ is finite over $S$, so $G=\Spec R$ for some finite-dimensional algebra $R$ over $A$.
+%
+%We have
+%\[
+%\xymatrix{
+%G\times_S X\ar[r]^{\mu}\ar[r]_{p_2} & X
+%}
+%\to 
+%\xymatrix{
+%R\ot_Q A & \ar[l]\ar[l] A.
+%}
+%\]
+%%spec of g-inv funcs on $A$, can characterize by sharp equal.
+%Define
+%\[
+%B=\set{a\in A}{p_2^{\sharp}(a)=\mu^{\sharp}(a)}.
+%\]
+%Show ($Y=\Spec B$, $X\xra{\pi} Y$) given by $B\hra A$. One main step is to show $A$ is integral over $B$.
+%\end{enumerate}%can glue locally ringed spaces
+%\end{proof}
+%We skip 2, see reference on website.
+%
+%Where use flat in proof? Get nice properties want to have for quotient.
+%
+%Few more words about quotient next time.
