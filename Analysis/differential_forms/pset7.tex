@@ -1,0 +1,542 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Arc}{\operatorname{Arc}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\vol}[0]{\operatorname{vol}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\sia}[0]{ $\si$-algebra}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\iy}[0]{\infty}
+\newcommand{\nl}[1]{\left \Vert #1\right \Vert_{L^1}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.125 Real and Functional Analysis} 
+\cfoot{} 
+\rfoot{\scriptsize PS \# 3} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.952 Differential Forms PSet \#7}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{4/11/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+\begin{problem}{\it Cotangent bundle as a manifold}
+We associate $\R^{n*}$ with $\R^n$ via the map $\phi:\R^{n*}\to \R^n$ defined by
+\[
+\phi(\eta)=(\eta(e_1),\ldots, \eta(e_n)),
+\]
+where $e_1,\ldots, e_n$ are the standard basis vectors. With this identification, $\tilde{\ph}$ can be viewed as a map from $\tilde{U}$ to $V\times \R^n\subeq \R^{2n}$.
+
+We check the following.
+\begin{enumerate}
+\item 
+$\bigcup \tilde{U}=M$: Since the $(U,V,\ph)$ form an atlas for $X$, $\bigcup U=X$. Given $(p,\zeta)\in M$, we have $p\in U$ for some $U$, and hence $(p,\zeta)\in\tilde{U}$.
+\item
+$\tilde{V}_{1,2}:=\tilde{\ph}_1 (\tilde{U}_1\cap \tilde{U}_2)$ is open in $\tilde{V}_1$, where $(\tilde{U}_1,\tilde{V}_1, \tilde{\ph}_1)$ and $(\tilde{U}_2,\tilde{V}_2, \tilde{\ph}_2)$ are charts: Since the $(U,V,\ph)$ form an atlas, $V_{1,2}=\ph_1(U_1\cap U_2)$ is open in $V_1$. Hence $\tilde{V}_{1,2}=V_{1,2}\times \R^n$ is open in $\tilde{V}_1=V_1\times \R^n$.
+\item 
+$\tilde{\ph}_{1,2}=\tilde{\ph}_2\circ \tilde{\ph}_1^{-1}$ is a diffeomorphism. Let $(q, (a_1,\ldots, a_n))=\tilde{\ph}_1(p,\zeta)\in V_{1,2}$, i.e. $q=\ph_1(p)$ and %$(a_1,\ldots, a_n)$ corresponds to $\eta\in T^*_p\R^n$ with 
+$(a_1,\ldots, a_n)=(\eta(e_1),\ldots, \eta(e_n))$ where $\eta=(d\ph_1^{-1})_q^*\zeta$. Then 
+\begin{align*}
+\tilde{\ph}_{1,2}(q,(a_1,\ldots, a_n))&=(\ph_2\circ \ph_1^{-1}(q),
+\phi[ (d\ph_{2}^{-1})_{\ph_2(p)}^* (d\ph_{1})_p^*\eta])\\
+&=(\ph_2\circ \ph_1^{-1}(q),\phi[\eta\circ (d\ph_1)_p\circ (d\ph_{2})_p^{-1}]).
+\end{align*}
+Since the $(U,V,\ph)$ are an atlas for $X$, $\ph_2\circ \ph_1^{-1}$ is $C^{\iy}$, taking care of the first component above. For the second component, note
+\begin{align*}
+\phi[\eta\circ (d\ph_1)_p\circ (d\ph_{2})_p^{-1}]
+&=\phi[\eta \circ d(\ph_1\circ \ph_{2}^{-1})_{\ph_2(p)}]\\
+&=\pa{\eta \circ d(\ph_{2,1})_{\ph_2(p)}(e_i)}_{1\le i\le n}\\
+&=\pa{\eta \circ d(\ph_{1,2})_{q}^{-1}(e_i)}_{1\le i\le n}\\
+%&=\pa{\eta(D\ph_{1,2}(p)^{-1}(e_i))}_{1\le i\le n}\\
+&=[a_1\;a_2\;\cdots\;a_n]D\ph_{1,2}(q)^{-1}
+\end{align*}
+where $D\ph_{1,2}(q)$ is the matrix of the derivative at $q$. The above 
+%The $i$th component of the above is
+%\[
+%\sum_{j=1}^n %(a_1,\ldots, a_n)\pa{\left.\pd{(\ph_{2,1})_q}{x_i}\right|_{\ph_{1,2}(q)}}_{1\le i\le n}^T.
+%a_j\pa{\left.\pd{\ph_{2,1}}{x_i}\right|_{\ph_{1,2}(q)}}_j
+%%=
+%%\sum_{j=1}^n 
+%%a_j\pa{\left.\pd{\ph_{1,2}}{x_i}\right|_{q}}_j^{-1}
+%\]
+%which 
+is a $C^{\iy}$ function of $q, a_1,\ldots, a_n$, since $\ph_{1,2}$ %, and hence $\pd{\ph_{2,1}}{x_i}$, 
+is a $C^{\iy}$ diffeomorphism of $q$.
+
+Hence $\tilde{\ph}_{1,2}$ is $C^{\iy}$. Since this is likewise true for $\tilde{\ph}_{2,1}$, it is a diffeomorphism.
+\end{enumerate}
+\end{problem}
+\begin{problem}{\it Canonical one form}
+The projection $\pi:M\to X$ defined by $\pi(p,\zeta)=p$ is differentiable, because by using the same atlas as in problem 1, if $(U,V,\ph)$ is a chart at $p$ we have that $\ph\pi\tilde{\ph}^{-1}$ is the projection map $\tilde{V}=V\times \R^{n*}\to V$. Then $d\pi_q$ gives a map $T_qM\to T_pX$, where $\pi(q)=p$, so $d\pi_q^*$ gives a map on dual spaces in the opposite direction, $T_p^*X\to T_q^*M$. Since $\zeta\in T_p^*X$, we get $\al_q=d\pi_q^*\zeta\in T_q^*M$. Thus $q=(p,\zeta)\mapsto \al_q$ is a one-form on $M$.
+\end{problem}
+\begin{problem}{\it Functoriality}
+\subprob{(i)}
+Suppose $g(p_1,\zeta_1)=(p_2,\zeta_2)$. Let $(U_1,V_1,\ph_1)$ and $(U_2,V_2,\ph_2)$ be charts at $p_1$ and $p_2$, respectively. To show $g$ is a diffeomorphism, we need to show $\tilde{g}:=\tilde{\ph_2}\circ g \circ\tilde{\ph}_1^{-1}$ is a diffeomorphism:
+\[
+\xymatrix{
+\tilde{U}_1\ar[r]^{g}\ar[d]^{\tilde{\ph}_1}& \tilde{U}_2\ar[d]^{\tilde{\ph}_2}\\
+\tilde{V}_1\ar[r]^{\tilde g}&\tilde V_2
+}.
+\]
+Suppose $(p_1',(a_1,\ldots, a_n))=\tilde{\ph}_1(p_1,\zeta_1)\in \tilde V_1$, i.e. $p_1'=\ph_1(p_1)$ and $(a_1,\ldots, a_n)=\phi(\eta_1)$ where $\eta_1=(d\ph_1)_*\zeta_1\in T^*_{p_1'}V_1$. (As in problem 1, $\phi(\eta)=(\eta(e_1),\ldots, \eta(e_n))$.) Suppose furthermore $p_2'=\ph_2(p_2)$.  Then
+\[
+\tilde{g}(p_1',(a_1,\ldots, a_n))= (\ph_2f\ph_1^{-1}(p_1'), \phi[(d\ph_2^{-1})_{p_2'}^*(df^{-1})_{p_2}^*(d\ph_1)_{p_1}^*\eta_1]).
+\]
+Since $f$ is $C^{\iy}$, $\ph_2f\ph_1^{-1}$ is $C^{\iy}$, taking care of the first component. For the second component note that
+\begin{align*}
+\phi[(d\ph_2^{-1})_{p_2'}^*(df^{-1})_{p_2}^*(d\ph_1)_{p_1}^*\eta_1]
+&=\phi[\eta_1\circ (d\ph_1)_{p_1}\circ (df^{-1})_{p_2}\circ (d\ph_2^{-1})_{p_2'}]\\
+&=\phi[\eta_1\circ d(\ph_1\circ f^{-1}\circ \ph_2^{-1})_{p_2'}]\\
+&=\phi[\eta_1\circ d(\ph_2\circ f\circ \ph_1^{-1})_{p_1'}]\\
+&=[a_1\;a_2\;\cdots \;a_n]D(\ph_2\circ f\circ \ph_1^{-1})(p_1')^{-1}.
+\end{align*}
+This is $C^{\iy}$ since $\ph_2\circ f\circ \ph_1^{-1}$ is by assumption a  $C^{\iy}$ diffeomorphism. Since the same argument applies to $f^{-1}$, we get that $g$ is a diffeomorphism.\\
+
+\subprob{(ii)}
+Let $q_i=(p_i,\zeta_i)$ and $g(q_1)=q_2$ (so $f(p_1)=p_2$).
+
+The following diagram commutes, by examining its action on $(p,\zeta)$:
+\[
+\xymatrix{
+M_1\ar[r]^{g}\ar[d]^{\pi_1}&M_2\ar[d]^{\pi_2}\\
+X_1\ar[r]^f& X_2
+}\qquad
+\xymatrix{
+(p,\zeta)\ar[r]^{g}\ar[d]^{\pi_1}&(g(p_1),\zeta\circ (df^{-1})_{p_2})\ar[d]^{\pi_2}\\
+\zeta\ar[r]^f& \zeta\circ (df^{-1})_{p_2}
+}.
+\]
+Passing to maps on tangent spaces,
+\[
+\xymatrix{
+T_{q_1}M_1\ar[r]^{dg_{q_1}}\ar[d]^{(d\pi_1)_{q_1}}&T_{q_2}M_2 \ar[d]^{(d\pi_2)_{q_2}}\\
+T_{p_1}X_1\ar[r]^{df_{p_1}}& T_{p_2}X_2
+}.
+\]
+Taking dual spaces and transposes,
+\begin{equation}\label{p7-3-1}
+\xymatrix{
+T_{q_1}^*M_1&T_{q_2}^*M_2\ar[l]_{dg_{q_1}^*}\\
+T_{p_1}^*X_1\ar[u]_{(d\pi_{1})_{q_1}^*}& T_{p_2}^*X_2\ar[l]_{df_{p_1}^*}
+\ar[u]_{(d\pi_{2})_{q_2}^*}
+}.
+\end{equation}
+Thus
+\begin{align*}
+\al_1(q_1)&=(d\pi_1)_{q_1}^*\zeta_1\\
+&=(d\pi_1)_{q_1}^*df_{p_1}^*\zeta_2\\
+&=dg^*_{q_1}(d\pi_2)_{q_2}^* \zeta_2&\text{ by~(\ref{p7-3-1})}\\
+&=(dg^* \al_2)(q_1)
+\end{align*}
+giving $\al_1=dg^* \al_2$.
+\end{problem}
+\begin{problem} {\it Canonical one-form for $X=\R^n$}
+$\pi$ acts by $\pi(x_1,\ldots, x_n,\xi_1,\ldots, \xi_n)=(x_1,\ldots, x_n)$; its derivative with respect to $x_i$ is $e_i$ and its derivative with respect to $\xi_i$ is 0. 
+Hence writing $\xi=(\xi_1,\ldots, \xi_n)=\xi_1dx_1+\cdots +\xi_ndx_n$, 
+$\al_q=(d\pi)_q^*\xi=\xi\circ d\pi_q$ acts on the basis vectors $\pa{\pd{}{x_i}}_q, \pa{\pd{}{\xi_i}}_q$ by
+\begin{align*}
+\al_q\pa{\pd{}{x_i}}_q&=\xi\circ (d\pi)_q\pa{\pd{}{x_i}}_q=\xi\pa{\pd{}{x_i}}_p=\xi_i\\
+\al_q\pa{\pd{}{\xi_i}}_q&=\xi\circ (d\pi)_q\pa{\pd{}{\xi_i}}_q=\xi(0)=0.
+\end{align*}
+Hence 
+\[\al_q=\sum_{i=1}^n \xi_i(dx_i)_q\]
+and 
+\[\al=\sum_{i=1}^n\xi_i dx_i.\]
+This shows $\al$ is smooth.
+\end{problem}
+\begin{problem}{\it Symplectic form}
+First note $M$ is $2n$-dimensional.
+
+Since $M$ is locally diffeomorphic to an open subset of $T^*\R^n$, and differential forms are functorial by Problem 3, it suffices to prove the statement for $T^*\R^n$. From $\al=\sum_{i=1}^n \xi_idx_i$ we get
+\[
+\om=-d\al=-\sum_{i=1}^n d\xi_i\wedge dx_i=\sum_{i=1}^ndx_i\wedge d\xi_i.
+\]
+Since $d^2=0$, we have $d\om=-d^2\al=0$. 
+
+Now
+\[
+\om^{\wedge n}=\sum_{\pi \in S_n}dx_{\pi(1)}\wedge d\xi_{\pi(1)}\wedge \cdots \wedge dx_{\pi(n)}\wedge d\xi_{\pi(n)}=n!\,dx_1\wedge d\xi_1\wedge\cdots \wedge dx_n\wedge d\xi_n.
+\]
+To get the first equality, note that upon expanding $\pa{\sum_{i=1}^ndx_i\wedge d\xi_i}^{\wedge n}$, all terms with repeated one-forms equal 0, and all terms without repeated one-forms are given above. To get the second equality, note that if $\pi$ is composed of $k$ transpositions, then it takes $k$ transpositions to permute the $dx_i$'s and $k$ transpositions to permute the $d\xi_i$'s in $dx_{\pi(1)}\wedge d\xi_{\pi(1)}\wedge \cdots \wedge dx_{\pi(n)}\wedge d\xi_{\pi(n)}$, and so it takes $2k$ transpositions, i.e. an even permutation, to permute the term into $dx_1\wedge d\xi_1\wedge\cdots \wedge dx_n\wedge d\xi_n$. Hence all terms equal $dx_1\wedge d\xi_1\wedge\cdots \wedge dx_n\wedge d\xi_n$.
+
+Since $\om$ is closed and nondegenerate, it is symplectic.
+\end{problem}
+\begin{problem}{\it Hamiltonian vector fields}
+We have
+\begin{align*}
+\iota(v)(\om^{\wedge n})&=\begin{array}{cccccccc}
+ &\iota(v)\omega & \wedge & \omega & \wedge & \cdots & \wedge & \omega\\
++ & \omega & \wedge & \iota(v)\omega& \wedge & \cdots & \wedge & \omega\\
+ & \vdots &  &  & \vdots &  &  & \vdots\\
++ & \omega & \wedge & \omega & \wedge & \cdots & \wedge & \iota(v)\omega\end{array}\\
+&=n(\iota(v)\om)\wedge \om^{\wedge (n-1)}\\
+\implies \iota(v_p)(\om_p^{\wedge n})&=n(\iota(v_p)\omega_p)\wedge \om_p^{\wedge(n-1)}.
+\end{align*}
+The first equality comes from the derivation property $\iota(v)(\om\wedge \mu)=(\iota(v)\om)\wedge\mu+(-1)^k\om\wedge(\iota(v)\mu)$ when $\om$ is a $k$-form, applied multiple times. (Here $\om$ is a 2-form.) The second equality follows from the fact that moving a one-form $\iota(v)\om$ past the $2k$-form $\om^{\wedge k}$ preserves the sign. Indeed, by distributivity it suffices to show  that if $\mu$ is a decomposable $k$-form, then
+\[
+\mu\wedge dx=(-1)^k dx\wedge\mu.
+\]
+However this is apparent since the RHS is the LHS permuted by a cycle of length $k+1$, which has sign $(-1)^k$ (Problem 1.4.7).
+
+%Define $\ga_p:T_pM\to \Om^1(M)$ by
+%\[
+%\ga_p(e)=
+%\]
+%Note that $[\iota(v)\mu]_p$ depends only on $v(p)$. For $e\in T_pM$, we define $\iota(e)\mu$ to be $[\iota(v)\mu]_p$ where $v$ is any vector field such that $v(p)=e$.
+
+%Since $\om_p^{\wedge n}\neq 0$, we have that if $v\neq 0$, then $\iota(v)(\om_p^{\wedge n})\neq 0$. 
+%Note that if $N$ is a $n$-dimensional manifold and $v(p)\neq 0$, then $(\iota(v)\om)_p\ne 0$ for any nonzero $\om\in \Om^n(N)$. Indeed, by functoriality it suffices to check this for $N=\R^n$, and in this case, if $v=\sum_i f_i\pa{\pd{}{x_i}}$, then
+%\[
+%\iota(v)(dx_1\wedge \cdots \wedge dx_n)=\sum_i (-1)^{i-1} f_i(dx_1\wedge \cdots \wedge \widehat{dx_i}\wedge \cdots \wedge dx_n).
+%\]
+%This is nonzero at $p$ for $v(p)=(f_1(p),\ldots, f_n(p))\neq 0$. Since $\Om^n(N)$ is spanned by $dx_1\wedge \cdots \wedge dx_n$, the result follows.
+Note that if $N$ is a $n$-dimensional manifold and $e\in T_pN,\,e\neq 0$, then $\iota(e)\mu_p\ne 0$ for any $n$-form $\mu$ with $\mu_p\ne 0$. Indeed, by functoriality it suffices to check this for $N=\R^n$, and in this case, if $e=\sum_i a_i\pa{\pd{}{x_i}}_p$, then
+\[
+\iota(e)(dx_1\wedge \cdots \wedge dx_n)_p=\sum_i (-1)^{i-1} a_i(dx_1\wedge \cdots \wedge \widehat{dx_i}\wedge \cdots \wedge dx_n)_p.
+\]
+This is nonzero for $v(e)=(a_1,\ldots, a_n)\neq 0$. Since $\wedge^nT_p^*N$ is spanned by $(dx_1\wedge \cdots \wedge dx_n)_p$, the result follows.
+
+Since $\om^{\wedge n}_p\neq 0$ for any $p\in M$, by Problem 5, the above gives that for $e\in T_pM,e\neq 0$, $\iota(e)(\om_p^{\wedge n})\neq 0$. But this equals $n(\iota(e)\om_p)\wedge \om^{\wedge(n-1)}_p$. Hence $\iota(e)\om_p\neq 0$. Thus the map $e\mapsto \iota(e)\om_p$ is injective. Since it is a linear map from the $2n$-dimensional space $T_pM$ to the $2n$-dimensional space $T_p^*M$, it must be bijective.
+
+%Since $\om_p^{\wedge n}\neq 0$, if $v\neq 0$, then by the above $\iota(v)(\om_p^{\wedge n})\neq 0$. But this equals $n[(\iota(v)\om_p)\wedge \om_p^{\wedge (n-1)}]$, showing $\iota(v)\om_p\neq 0$. The map $v\mapsto \iota(v)\om_p$ can be viewed as a linear map from $T_pM$ to $\Om^1(M)$, since only $v_p$ matters above. The above shows this map is injective; since the domain and range have dimension $2n$ it is bijective.
+Applying this to each point $p$ of $M$, we get that there is exactly one value of $v_H(p)$ that will make $(\iota(v_H)\om)_p$ equal to $(dH)_p$. Hence
+ there exists exactly 1 vector field $v_H$ such that 
+\[\iota(v_H)\om=dH.\]
+%This follows from the general fact that if $e_1,\ldots, e_m$ is a basis of $T_pM$, $\eta_1,\ldots, \eta_m$ the dual basis of $T_p^*M$, and $v_p=\sum_i f_ie_i$, then \[[\iota (v)(\eta_1\wedge\cdots \wedge \eta_n)]_p=\sum_i (-1)^i f_i(\eta_1\wedge\cdots \wedge\hat{\eta_i}\wedge \cdots \wedge \eta_n).\]
+\end{problem}
+\begin{problem}{\it Conservation of energy}
+First note
+\[
+L_{v_H}H=\iota (v_H)dH=\iota(v_H)(\iota(v_H)\om)=0.
+\]
+%Fix $x$ and let $\ga(t)=f_t(x)$. Then, letting $p=\ga(t)$,
+Think of $x$ as fixed. Letting $p=f_t(x)$, 
+\[
+\frac{d}{dt} H(f_t(x))=(dH)_p\pa{\frac{df_t(x)}{dt}}=(dH)_p(v_H)=L_{v_H}H(p)=0.
+\]
+Hence
+\[f_t^*H(x)=H(f_t(x))=H(f_0(x))=H(x).\]
+\end{problem}
+\begin{problem}{\it Conservation of volume}
+By Problem 2.6.10 and Problem 7,
+\begin{align*}
+\frac{d}{dt} f_t^* \om
+&= f_t^*L_{v_H}\om\\
+&=f_t^*[d\iota(v_H)\om+\iota(v_H)\underbrace{d\om}_0]\\
+&=f_t^*d(dH)=0.
+\end{align*}
+Hence
+\[
+f_t^*\om=f_0^*\om=\om
+\]
+and
+\[
+f_t^*(\om^{\wedge n})=(f_t^*\om)^{\wedge n}=\om^{\wedge n}.
+\]
+\end{problem}
+
+\begin{lem}[Problem 2.6.10]
+If $f_t:U\to U$ is the one-parameter group of diffeomorphisms of $v$, and $\om\in \Om^k(U)$, then
+\[
+\frac{d}{dt} f_t^* \om
+= f_t^*L_{v}\om
+\]
+\end{lem}
+\begin{proof}
+We first show this for $t=0$. We proceed in 4 steps.
+\begin{enumerate}
+\item Proof for 0-forms: Let $\ph\in C^{\iy}(U)$. Then at $t=0$,
+\[
+\frac{d}{dt}f_t^*\ph(p)=(d\ph)_p\pa{\frac{df_t}{dt}(p)}=(d\ph)_p(v(p))=L_v\ph(p).
+\]
+\item If the theorem holds for $\om$ then it holds for $d\om$: We have
+\[
+\frac{d}{dt} f_t^*(d\om)=\frac{d}{dt}df_t^*\om =d\pa{\frac{d}{dt} f_t^* \om}=d(L_v\om)=L_v(d\om).\]
+The last equality follows from $d^2=0$ and
+\[
+dL_v \om=d(d\iota(v)\om+\iota(v)d\om)=d\iota(v)d\om =(d\iota(v)+\iota(v)d)d\om=L_vd\om.
+\]
+\item If the theorem holds for $\om_1$ and $\om_2$ then it holds for $\om_1\wedge \om_2$: Differentiating $f_t^*(\om_1\wedge \om_2)=f_t^*\om_1\wedge f_t^*\om_2$ at $t=0$ and using the product rule gives
+\begin{align*}
+\frac{d}{dt}f_t^*(\om_1\wedge \om_2)&=\frac{d}{dt}(f_t^*\om_1\wedge f_t^*\om_2)\\
+&=\pa{\frac{d}{dt} f_t^* \om_1}\wedge f_t^*\om_2=f_t^*\om_1\wedge \pa{\frac{d}{dt}f_t^*\om_2}\\
+&=L_v\om_1 \wedge f_t^*\om_2+\om_1\wedge f_t^*\om_2\\
+&=L_v\om_1 \wedge \om_2+\om_1\wedge L_v\om_2\\
+&=L_v(\om_1\wedge \om_2).
+\end{align*}
+
+\item Every $k$-form can be written in the form $\sum_I f_Idx_I$, so the result follows from 1-3.
+\end{enumerate}
+Now differentiate the identity
+\[
+f_{s+t}^* \om=f_t^*(f_s^*\om)
+\]
+with respect to $s$, set $s=0$, and use the result for $s=0$ to get
+\[
+\frac{d}{dt}f_t^*\om=f_t^*L_v\om
+\]
+for any $t$.
+\end{proof}
+%\begin{thebibliography}{9}
+%\bibitem{rudin} Rudin, W.: "Principles of Mathematical Analysis," McGraw-Hill, CA, 1976.
+%\end{thebibliography}
+\end{document}

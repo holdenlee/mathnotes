@@ -1,0 +1,527 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Arc}{\operatorname{Arc}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\vol}[0]{\operatorname{vol}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\sia}[0]{ $\si$-algebra}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\iy}[0]{\infty}
+\newcommand{\nl}[1]{\left \Vert #1\right \Vert_{L^1}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.952 Differential Forms} 
+\cfoot{} 
+\rfoot{\small PS \# 8} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.952 PSet \#8---Jordan-Brouwer Separation Theorem}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{4/24/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+%10:42
+\begin{thm}[Jordan-Brouwer separation] Let $X$ be a compact oriented connected $(n-1)$-dimensional submanifold of $\R^n$. Then $\R^n-X$ has exactly two connected components.
+\end{thm}
+For $p\in \R^n-X$ define $\ga_p:X\to S^{n-1}$ by
+\[
+\ga_p(x)=\frac{x-p}{\ab{x-p}}.
+\]
+Let
+\[
+W(X,p)=\deg \ga_p.
+\]
+\begin{problem}{\it (Winding number is the same in same component)}
+%10:45
+If $U$ is a connected component of $\R^n-X$ and $p_0,p_1\in U$, then $W(X,p_0)=W(X,p_1)$.
+
+\subprob{(a)}
+Suppose the line segment 
+\[p_t=(1-t)p_0+tp_1,\quad 0\le t\le 1\]
+lies in $U$. We claim $W(X,p_0)=W(X,p_1)$.
+
+Consider the homotopy
+\[
+F(x,t)=\ga_{p_t}(x)=\frac{x-(1-t)p_0-tp_1}{|x-(1-t)p_0-tp_1|}
+\]
+between $F(x,0)=\ga_{p_0}(x)$ and $F(x,1)=\ga_{p_1}(x)$. It is clearly $C^{\iy}$; we claim it is a proper homotopy. By continuity the inverse image of closed sets under $F$ is closed; since compact sets are closed the inverse images of compact sets are closed. However the domain of $F$, $X\times[0,1]$, is compact, since $X$ is compact. Thus closed sets of $X\times [0,1]$ are compact, showing inverse images of compact sets are compact.
+
+By invariance of degree under proper homotopy,
+\[
+W(X,p_0)=\deg \ga_{p_0}=\deg \ga_{p_1}=W(X,p_1).
+\]
+%10:50
+
+\subprob{(b)}
+\begin{lem}\label{p8-1-l1}
+Suppose $U$ is an open connected set in $\R^n$. Then for any $p_0,p_1\in U$, there exists a sequence of points $q_1,\ldots, q_N$ with $q_1=p_0$ and $q_N=p_1$, such that the line segment joining $q_i$ to $q_{i+1}$ is in $U$.
+\end{lem}
+\begin{proof}
+%We call the sequence $q_0,q_1,\ldots, q_N$ a path from $p_0$ to $p_1$.
+%
+Fix $p_0$. Let $S$ be the set of points $p_1$ for which the above statement is true. We show that $S$ is both open and closed in $U$.
+
+Given $p\in S$, since $p\in U$, there exists $\ep>0$ so that $B_{\ep}(p)\subeq U$. Now $p$ is connected to any point of $B_{\ep}(p)$ via a line segment entirely in $B_{\ep}(p)\subeq U$. Hence $B_{\ep}(p)\subeq S$, since given a point in $B_{\ep}(p)$ since we can let $q_1,\ldots, q_{N-1}$ be the points linking $p_0$ and $p$. Thus $S$ is open.
+
+Suppose $p'\in \ol{S}\cap U$. Choose $\ep>0$ so that $B_{\ep}(p')\subeq U$. Since $p'$ is in the closure of $S$ there exists $p\in S\cap B_{\ep}(p')$. Then the segment from $p$ to $p'$ is entirely contained in $B_{\ep}(p')\subeq U$. Hence $p'\in S$, since we can let $q_1,\ldots, q_{N-1}$ be the points linking $p_0$ and $p$. This shows $S$ is closed in $U$.
+
+Since $U$ is connected we conclude $S=\phi$ or $S=U$. Since $p_0\in S$, the latter is true.
+%11:01. Laundry!
+\end{proof}
+%11:17
+Now let $U$ be a connected component of $\R^n-X$. Since $X$ is closed, $\R^n-X$ and hence $U$ is open. By the lemma, any two points are connected by a sequence of segments in $U$, so by repeated application of (a), any two points in $U$ have the same winding number.
+\end{problem}
+\begin{problem}{\it ($\R^n-X$ has at most two connected components)}
+\subprob{(a)}
+For $q\in X$, we show that there exists an open set $W$ around $q$ such that $W-X$ has two components.
+
+By the canonical immersion theorem applied to the inclusion $i:X\to \R^n$, 
+%11:20
+there are
+neighborhoods $U$ and $V$ around $q$ in $X$ and $\R^n$, respectively, and 
+parameterizations $\ph_0:U_0\to U$ and $\psi_0:V_0\to V$ taking 0 to $q$, %, where $U$ is a neighborhood of $q$ in $X$ and $V$ is a neighborhood of $q$ in $\R^n$, 
+such that the following diagram commutes
+\[
+\xymatrix{
+U_0\ar[r]^{i_{\R^n}}\ar[d]^{\cong}_{\ph_0}
+& V_0\ar[d]^{\cong}_{\psi_0}\\
+U\ar[r]^i & V
+}
+\]
+where $i_{\R^n}$ is the inclusion map $\R^{n-1}\to \R^n$. %By shrinking $U$ as necessary we may assume it is connected. 
+We may assume $V_0\cap X=U_0$ (by intersecting $V_0$ with an open set whose intersection with $\R^{n-1}$ is $U_0$, as necessary). %and that $V$ is connected (replace $V$ with the connected component of $V$ containing $U$). 
+Now take an open ball $B_{\ep}(0)\subeq V_0$, and let its image by $\psi_0$ be $W$. Clearly, $B_{\ep}(0)-U_0$ has two components, hence its image under $\psi_0$ (a diffeomorphism), $W-U$, has two connected components.
+
+Moreover, if we let $H_1,H_2$ be the components of $B_{\ep}(0)-U_0$ and $W_1,W_2$ be the components of $W-U$, and $p_0$ be a point on $U_0\cap B_{\ep}(0)$ with image $q_0$, 
+the fact that $p_0\in \ol{H_1},\ol{H_2}$ implies that $q_0\in \ol{W_1},\ol{W_2}$, i.e. given a neighborhood $Y$ around $q_0$, $Y\cap W_1$ and $Y\cap W_2$ forms a {\it proper} partition of $Y-X$. (Caution: we don't know $Y\cap W_1,Y\cap W_2$ are connected.)\\
+
+\subprob{(b)}
+For each point $q\in X$, take a set $W_q$ as in (a). We claim that $A:=\pa{\bigcup_{q\in X} W_q}-X$ has at most two components. Fix $q_0$, and let $A_1$ and $A_2$ be the two components of $A$ that contain the two components of $W_{q_0}$. (Possibly $A_1=A_2$.) 
+Given $q\in X$, let $W_{q,1}$ and $W_{q,2}$ be the two components of $W_q-X$.
+Let
+\[
+S=\{q| W_{q,1}\cup W_{q,2}\subeq A_1\cup A_2\}.
+\]
+We claim that $S$ is both open and closed in $X$.
+
+Given $q\in S$, we show that $W_q\cap X\subeq S$. Since $W_q\cap X$ is open in $X$ this will show that $S$ is open. Take $q'\in W_q\cap X$. By the last remark in (a) %$q'\in \ol{W_{q,1}},\ol{W_{q,2}}$, so that set $V'_q\cap V'_q'$ 
+%$V'_{q,1}$ and $V'_{q,2'}$ forms a nonempty partition of $
+applied to $Y=W_q\cap W_{q'}$, 
+\[
+Y-X=(W_{q,1}\cap Y)\cup(W_{q,2}\cap Y)=(W_{q',1}\cap Y)\cup (W_{q',2}\cap Y)
+\]
+form two proper partitions of $Y-X$. Take a point of $W_{q',1}$ in $Y$. It is in one of $W_{q,1}$ or $W_{q,2}$, so in either $A_1$ or $A_2$. %Hence $W_{q',1}\subeq  A_1$ or $A_2$, and s
+Since $W_{q',1}$ is connected, it is entirely in $A_1$ or $A_2$. Similarly for $W_{q',2}$. Hence $q'\in S$.
+
+Given $q'\in \ol{S}\cap X$, we show that $q'\in S$. This will show $S$ is closed. Since $q'\in \ol{S}$ and $W_{q'}$ is an open set containing $q'$, there exists $q\in S\cap W_{q'}$. 
+%By the last remark in (a), $q\in \ol{A_1}\cap \ol{A_2}$, so $V_{q'}$, as an open set containing $q$, intersects $A_1$ and $A_2$. This forces $A_1$ and $A_2$ to be exactly $V_1$ and $V_2$, so 
+Now apply the last part of (a) to $Y=W_q\cap W_{q'}$, with the same argument as above. We get $q'\in S$.
+
+Since $S$ is both open and closed in $X$, $p_0\in S$, and $X$ is connected, we conclude $S=X$.\\
+
+Now consider an arbitrary point $r$ of $\R^n-X$. Take any point $x\in X$, and consider the ray $R=\{r+t(x-r):t\ge 0\}$. Since $R\cap X$ is closed, there is a smallest $t$ for which $r+t(x-r)\in X$. For some $\ep>0$, $s:=r+(t-\ep)(x-r)\in W_x$. Since no point on the segment joining $r$ and $s$ is in $X$, $r$ and $s$ are in the same component. By the above we know $s\in A_1$ or $A_2$. Thus $\R^n-X$ has at most two components.
+\end{problem}
+%12:15 that was uber annoying
+\begin{problem}{\it(Inverse image of $\ga_p$)}
+%12:24 back after laundry
+If $v\in S^{n-1}$, $x=p+tv$, $t>0$ then
+\[
+\ga_v(x)=\frac{(p+tv)-p}{|(p+tv)-p|}=\frac{tv}{|tv|}=v.
+\]
+
+Conversely, supppose $\ga_v(x)=v$. Then
+\[
+\ga_v(x)=\frac{x-p}{|x-p|}=v.
+\]
+Letting $t=|x-p|$ we see that $x=p+tv$.
+%12:27 ez.
+%skip the next for now.
+\end{problem}
+\begin{problem}{\it($(d\ga_p)_x$ bijective iff $v\nin T_pX$)}
+The map $\ga_p$ is the composition of the maps
+\[
+\tau_p:\R^n-\{p\}\to \R^n-\{0\},\quad \tau_p(x)=x-p
+\]
+and
+\[
+\pi:\R^n-\{0\}\to S^{n-1},\quad \pi(y)=\frac{y}{|y|}.
+\]
+Clearly $\pi$ is differentiable; we can compute its directional derivative along $h$ as follows.
+\begin{align}
+\nonumber
+(d\pi_y)(h)&=\lim_{t\to 0}\frac{\frac{y+ht}{|y+ht|}-\frac{y}{|y|}}{t}\\
+\nonumber
+&=\lim_{t\to 0} \frac{|y|(y+ht)-y|y+ht|}{|y||y+ht|t}\\
+\nonumber
+&=\lim_{t\to 0} \frac{y(|y|-|y+ht|)}{|y||y+ht|t}+\frac{ht|y|}{|y||y+ht|t}\\
+\nonumber
+&=\frac{y}{|y|^2}\pa{\lim_{t\to 0} \frac{|y|-|y+ht|}{t}}+\frac{h}{|y|}\\
+\label{p8-4-1}
+&=\frac{y}{|y|^3}y\cdot h+\frac{h}{|y|}\\
+\label{p8-4-2}
+&=\rc{|y|}\pa{h-\frac{y\cdot h}{|y|}\frac{y}{|y|}}=\rc{|y|}\Pi_y(h)
+\end{align}
+where we let $\Pi_y$ denote projection to the plane perpendicular to $y$.
+Note~(\ref{p8-4-1}) follows from L'H\^{o}pital's below:
+\begin{align*}
+\lim_{t\to 0}\frac{|y|-|y+ht|}{t}&=\lim_{t\to 0} \frac{|y|-\sqrt{|y|^2+2t(y\cdot h)+t^2h^2}}{t}\\&=\lim_{t\to 0} \rc{2}(|y|^2+2t(y\cdot h)+t^2h^2)^{-\rc 2} (2(y\cdot h)+2th^2)\\
+&=\rc{|y|}y\cdot h.
+\end{align*}
+From~(\ref{p8-4-2}), $\ker(d\pi_y)=\spn(y)=\spn(v)$. Consider $\ga_p$ as a map $\R^n-\{p\}\to S^{n-1}$, so $(d\ga_p)_x$ acts on $T_x\R^n$. Let $y=x-p,v=\pi(y)$. Note $(d\tau_p)_x$ is the ``identity" map from $T_x\R^n$ to $T_{x-p}\R^n$; hence the kernel of \[(d\ga_p)_{x}=(d\pi)_y\circ (d\tau_p)_x\] is just $\ker(d\pi_{y})=\spn(v)$ (but consider the vectors as having base point $x$). Thus considering the restriction of $\ga_p$ to $X$, $(d\ga_p)_x$ is injective iff $v\nin T_xX$. But since $X$ and $S^{n-1}$ both have dimension $n-1$, $(d\ga_p)_x$ is injective iff it is bijective. Putting the last two statements together, $(d\ga_p)_x$ is bijective iff $v\nin T_xX$, iff the ray $\{p+tv|t>0\}$ is not tangent to $X$ at $x$.
+\end{problem}
+\begin{problem}{\it(Regular values of $\ga_p$)}
+Let $v\in S^{n-1}$. Let $C$ be the set of critical points of $\ga_p$. Note the string of equivalences.
+\begin{enumerate}
+\item
+$v$ is a regular value of $\ga_p$.
+\item
+$v\nin \ga_p(C)$.
+\item 
+$\ga_p^{-1}(v)\cap C=\phi$.
+\item
+%No critical point is in the form $p+tv, t>0$, i.e. 
+(By problem 3, $\ga_p^{-1}(v)=\{p+tv|t>0\}$.)
+No point of $X$ in the form $p+tv,t>0$ is a critical point. 
+\item
+(By problem 4) $v\nin T_xX$ for any point of $X$ in the form $p+tv,t>0$, i.e. at each point of intersection of the ray with $X$, $v$ is not tangent to $X$.
+\end{enumerate}
+It remains to note that if $v$ is a regular value of $\ga_p$, then $\ga_p^{-1}(v)$ is finite, i.e. there are finitely many points on $\ga_p^{-1}(v)=\{p+tv\mid t>0\}$.
+\end{problem}
+%12:35, skip the next
+\begin{problem}{\it($\ga_p$ orientation-preserving)}
+%Let $v=\ga_p(x)$. By~(\ref{p8-4-2}) and the following discussion, $(d\ga_p)_x(h)\frac{|y|}\Pi_y(h)$ where $y=x-p$ and the vectors live in the appropriate tangent space ($(d\ga_p)_x:T_xX\to T_{\ga)p(x)}S^{n-1}$). 
+
+%Choose a positively oriented basis $e_1,\ldots, e_n$ of $\R^n$ so that $e_n=v$. 
+Let $\text{v}_1,\ldots, \text{v}_{n-1}$ be a positively oriented basis for $T_xX$, i.e. $\text{v}_1,\ldots, \text{v}_{n-1}\in T_xX$ and $v_1,\ldots, v_{n-1},v=\ga_p(x)$ is a positively oriented basis for $\R^n$. Let $\text{w}_i=(d\ga_p)_x(\text{v}_i)$. We need to show that $w_1,\ldots, w_{n-1},v$ is a positively oriented basis for $\R^n$ as well; this gives that $\text{w}_1,\ldots, \text{w}_{n-1}$ is a positively oriented basis for $T_vS^{n-1}$.
+
+However, %each $w_i$ is obtained by projecting $v_i$ to the plane perpendicular to $v$ and scaling by $\rc{|y|}$
+by~(\ref{p8-4-2}) and the following discussion it, $w_i=\rc{|y|}(v_i-c_iv)$ for some $c_i$, where $y=x-p$. Thus the change-of-basis matrix between $(v_1,\ldots, v_{n-1},v)$ and $(w_1,\ldots, w_{n-1},v)$ looks like
+\[
+\rc{|y|}\left[\begin{array}{ccccc}
+1 & 0 & \cdots & 0 & 0\\
+0 & 1 & \cdots & 0 & 0\\
+\vdots & \vdots & \ddots & \ddots & \vdots\\
+0 & 0 & \ddots & 1 & 0\\
+-c_{1} & -c_{2} & \cdots & -c_{n-1} & 1\end{array}\right]
+\]
+which has positive determinant. So $(v_1,\ldots, v_{n-1},v)$ positively oriented means $(w_1,\ldots, w_{n-1},v)$ positively oriented, as needed.
+\end{problem}
+\begin{problem}{\it ($\deg(\ga_p)$ counts intersections with orientation)}
+If $v$ is a regular point of $\ga_p$, then  by problem 3,
+\[
+\deg(\ga_p)=\sum_{x\in \ga_p^{-1}(v)}\si_x=\sum_{x\in X\cap \{p+tv|t>0\}} \si_x,
+\]
+i.e. it counts (with orientations) the number of points where the ray $\{p+tv|t>0\}$ intersects $X$.
+
+(Note there are a finite number of intersections by problem 5.)
+\end{problem}
+\begin{problem}{\it (Difference in degree counts intersections on ray in between, with orientation)}
+%12:39
+%Suppose $p_1=p+t_1v$. 
+Since $v$ is a regular value of $\ga_p$, by problem 5 the ray $\{p+tv\mid t>0\}$ intersects $X$ in a finite number of points and is not tangent to $X$ at any of those points. Since $\{p_1+tv\mid t>0\}\subeq \{p+tv\mid t>0\}$, the same is true of the ray $\{p_1+tv\mid t>0\}$. Hence by problem 5 (the other direction), $v$ is a regular value of $\ga_{p_1}$.
+
+%For $v$ a regular point of $\ga_p$, $p,p_1\in \R^n-X$ such that $p_1=p+t_1p, t_1>0$, 
+Let $t_1$ be so $p_1=p+t_1v$.
+By problem 7,
+\[
+\deg(\ga_p)-\deg(\ga_{p_1})=\sum_{x\in X\cap \{p_1+tv|t>0\}} \si_x
+-\sum_{x\in X\cap \{p+tv|t>0\}}\si_x=\sum_{x\in X\cap \{p+tv|0<t<t_1\}} \si_x,
+\]
+i.e. it counts (with orientation) the number of points on the ray lying between $p$ and $p_1$.
+\end{problem}
+%12:43
+\begin{problem}{\it ($\R^n-X$ has two components)}
+Given $v$ a regular point of $\ga_p$, with $x=p+t'v,t'>0$, by problem 5 the set $X\cap \{p+tv|t>0\}$ is finite, hence discrete. So the set $\{t|p+tv\in X\}$ i.e. the inverse image of $X\cap \{p+tv|t>0\}$ under the map $\ph(t)= p+tv$, is discrete. Thus there exists $\ep>0$ so that $\ph([t'-\ep,t'+\ep])$ intersects $X$ only at $x$, i.e. $x$ is the only point of $X$ between $p_-=p+(t'-\ep)v$ and $p_+=p+(t'+\ep)v$. So by problem 8,
+\[
+W(X,p_+)-W(X,p_-)=\deg(\ga_{p_+})-\deg(\ga_{p_-})=\pm 1,
+\]
+depending on the orientation at $X$. 
+Problem 1 says that points in the same component of $\R^n-X$ have the same winding number, so $p_+$ and $p_-$ must be in different components.
+
+Finally, a regular point $v$ exists by Sard's, so we can get $p_+$ and $p_-$ as above, showing $\R^n-X$ has at least two components. Combining this with problem 2, we get that $\R^n-X$ has exactly two components.
+\end{problem}
+\begin{problem}{\it($W(X,p)=0$ in unbounded component, $W(X,p)=\pm 1$ in bounded component)}
+Since $X$ is compact, $X$ is bounded. Choose $L$ so that $|x|<L$ when $x\in X$. 
+%12:52
+Now for $|p|>L$, using the triangle inequality,
+\begin{align*}
+\ga_p(x)+\frac{p}{|p|}&=\frac{x-p}{|x-p|}+\frac{p}{|p|}\\
+&=\frac{|p|(x-p)+|x-p|p}{|p||x-p|}\\
+&=\frac{|p|x-(|p|-|x-p|)p}{|p||x-p|}\\
+&\le\frac{\ab{|p|x}+\ab{(|p|-|x-p|)p}}{|p|(|p|-L)}\\
+&\le \frac{|p||x|+|x||p|}{|p|(|p|-L)}\\
+&< \frac{2L|p|}{|p|(|p|-L)}\\
+&\le \frac{2L}{|p|-L}
+\end{align*}
+which goes to 0 as $|p|\to \iy$. Take $\ep=1$; there exists $R$ so that $\frac{2L}{|p|-L}<\ep$ for $|p|>R$. 
+Since there are points on $S^{n-1}$ at more than distance 1 from $-\frac{p}{|p|}$, $\ga_p$ cannot be surjective, and hence has degree 0. This shows $W(X,p)=0$ for $p$ in the unbounded component.
+
+Now take $p,p_-,p_+$ as in problem 9. One of $p_-,p_+$ is in the unbounded component and has winding number 0. The other has winding number $\pm1$ by problem 9.
+
+(Problem 1 shows that the winding number is the same within each component.)
+%1:02 lunchtime!
+\end{problem}
+
+%\begin{thebibliography}{9}
+%\bibitem{rudin} Rudin, W.: "Principles of Mathematical Analysis," McGraw-Hill, CA, 1976.
+%\end{thebibliography}
+\end{document}

@@ -1,0 +1,413 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Arc}{\operatorname{Arc}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\vol}[0]{\operatorname{vol}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\sia}[0]{ $\si$-algebra}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\iy}[0]{\infty}
+\newcommand{\nl}[1]{\left \Vert #1\right \Vert_{L^1}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.952 Differential Forms} 
+\cfoot{} 
+\rfoot{\small PS \# 9} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.952 PSet \#9---DeRham's Theorem}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{4/30/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+\begin{thm}[DeRham] If $M$ is a connected $n$-dimensional manifold with finite topology and $\mathbb U=\{U_1,\ldots, U_N\}$ is a good cover, then
+\[
+H^k_{DR}(M)\cong \check{H}^k(\mathbb U,\R).
+\]
+\end{thm}
+Abbreviate $C^{k,\ell}=\check{C}^k(\mathbb U,\Om^{\ell})$,  
+$\check{C}^k=\check{C}^k(\mathbb U,\R)$, $C^k=\Om^k(M)$. For convenience in indexing we will also write $C^k=C^{-1,k}$ and $\check C^k=C^{k,-1}$, $C^{-1}=\check C^{-1}=0$. We have the Weyl diagram
+\[
+\xymatrix{
+&&&&&%&
+\\
+0\ar[r] & C^2 \ar[u]^{d^2} \ar[r]^{\de^{-1}}& C^{0,2} \ar[u]^{d^2} \ar[r]^{\de^{0}}& C^{1,2} \ar[u]^{d^2} \ar[r]^{\de^{1}}& C^{2,2} \ar[u]^{d^2} \ar[r]^{\de^{2}}& %C^{3,2} \ar[u]^{d^2} \ar[r]^{\de^{3}}&
+\\
+0\ar[r] & C^1 \ar[u]^{d^1} \ar[r]^{\de^{-1}}& C^{0,1} \ar[u]^{d^1} \ar[r]^{\de^{0}}& C^{1,1} \ar[u]^{d^1} \ar[r]^{\de^{1}}& C^{2,1} \ar[u]^{d^1} \ar[r]^{\de^{2}}&% C^{3,1} \ar[u]^{d^1} \ar[r]^{\de^{3}}&
+\\
+0\ar[r] & C^0 \ar[u]^{d^0} \ar[r]^{\de^{-1}}& C^{0,0} \ar[u]^{d^0} \ar[r]^{\de^{0}}& C^{1,0} \ar[u]^{d^0} \ar[r]^{\de^{1}}& C^{2,0} \ar[u]^{d^0} \ar[r]^{\de^{2}}&%C^{3,0} \ar[u]^{d^0} \ar[r]^{\de^{3}}&
+\\
+& 0 \ar[u] \ar[r]& \check C^{0} \ar[u]^{d^{-1}} \ar[r]^{\de^{0}}& \check C^{1} \ar[u]^{d^{-1}} \ar[r]^{\de^{1}}& \check C^{2} \ar[u]^{d^{-1}} \ar[r]^{\de^{2}}& %\check C^{3} \ar[u]^{d^{-1}} \ar[r]^{\de^{3}}&
+\\
+&& 0\ar[u]& 0\ar[u]& 0\ar[u]&%0\ar[u]&
+\\
+}
+\]
+Everything commutes, and all rows and columns are exact except the leftmost and bottommost. For the cochain complex $0\to C^0\to C^1\to\cdots$, let $Z^k$, $B^k$, and $H^k$ denote the $k$-cocycles, $k$-coboundaries, and $k$th cohomology group, respectively; for the cochain complex $0\to \check C^0\to \check C^1\to \cdots$, let $\check{Z}^k$, $\check B^k$, and $\check H^k$ denote the $k$-cocycles, $k$-coboundaries, and $k$th cohomology group, respectively.
+
+We define a map $\phi:H^k\to \check H^k$ as follows. Given $\om\in H^k$, find a representative $c_k\in Z^k$ of $\om$. 
+Choose $c_{i,k-i-1}$ and $c_{i+1,k-i-1}$ for $-1\le i\le k$ with $c_{i,j}\in C^{i,j}$ and such that $c_{-1,k}=c_k$ and 
+the maps $d$ and $\de$ operate as follows, for $-1\le i\le k$:
+\begin{equation}\label{commsq}
+\xymatrix{
+c_{i,k-i}\ar[r]^{\de^i} & 0\\
+c_{i,k-i-1}\ar[u]^{d^{k-i-1}} \ar[r]^{\de^i} &c_{i+1,k-i-1}\ar[u]^{d^{k-i-1}}
+}
+\end{equation}
+where $c_{-1,k+1}=0$.
+%and $\de^{-1}(c_k)=c_{0,k}$, $d^{-1}(\check{c}_k)=c_{k,0}$.
+
+Let $\check c_k=c_{k,-1}$.
+Then define $\ph([c_k])=[\check c_{k}]$. We claim that $\phi$ is an isomorphism. We must check the following.
+\begin{enumerate}
+\item Such $c_{i,j}$ and $\check c_k$ exist, and $\check{c}_k\in Z_k$.
+\item $[\check c_k]$ does not depend on the choice of representative $c_k$ for $\om$.
+\item $\ph$ is a (vector space) homomorphism.
+\item $\ph^{-1}$ exists.
+\end{enumerate}
+\section{Existence of $\check c_k$}
+We inductively define the $c_{i,k-i-1}$ and $c_{i+1,k-i-1}$ so that~(\ref{commsq}) commutes. First let $c_{0,k}=\de^{-1}(c_k)$.
+
+For the base case, let $c_{0,k}=\de^{-1}(c_k)$. Since $c_{-1,k}=c_k\in Z^k$, we have that $d^k(c_k)=0$. By commutativity of the below square we get
+\[
+\xymatrix{
+C^{k+1}\ar[r]^{\de^{-1}} & C^{0,k+1}\\
+C^k\ar[u]^{d^k} \ar[r]^{\de^{-1}}& C^{0,k}\ar[u]^{d^k}
+}\qquad 
+\xymatrix{
+0\ar[r]^{\de^{-1}} & 0\\
+c_k \ar[u]^{d^k}\ar[r]^{\de^{-1}}& c_{0,k}\ar[u]^{d^k}
+}
+\]
+
+Suppose that for $i<j$, we have found $c_{i,k-i-1}$ and $c_{i+1,k-i-1}$ such that~(\ref{commsq}) holds. Now we define $c_{j,k-j-1}$ and $c_{j+1,k-j-1}$. If $j>0$ then using~(\ref{commsq}) for $j-1$ gives that 
+\begin{align}
+\label{e1}
+d^{k-j}(c_{j,k-j})&=0\\
+\label{e2}
+c_{j,k-j}&=\de^{j-1}(c_{j-1,k-j}).
+\end{align}
+%%\[c_{j,k-j}\in \ker d^{k-j}.\]
+%If $j=0$, then by commutativity of the below square we similarly have %$c_{j,k-j}\in \ker d^{k-j}$:
+%$d^{k}(c_{0,k})=0$:
+%
+%where we used the fact $c_k\in Z^k=\ker \de^{-1}$. We also have $c_{0,k}=\de^{-1}(c_k)$ so both~(\ref{e1}) and~(\ref{e2}) hold, where we let $c_{-1,k}=c_k$ and $C^{-1,k}=C_k$.
+%%\[
+%%\d^{k}(c_{0,k})=d^k (\de^{-1}(c_{0,k}))=\de^{-1}
+%%\]
+
+By exactness of the column below, $\ker d^{k-j}=\im d^{k-j-1}$ so~(\ref{e1}) means we can find $c_{j,k-j-1}$ such that $d^{k-j-1}(c_{j,k-j-1})=c_{j,k-j}$. By exactness of the row below, $\im \de^{j-1}=\ker \de^{j}$ so~(\ref{e2}) means that $\de^{j}(c_{j,k-j})=0$. Let $c_{j+1,k-j-1}=\de^{j}(c_{j,k-j-1})$ and use commutativity of the square to get~(\ref{commsq}) for $j$:
+%
+%By commutativity of the square below, we get that the maps operate on $c_{j,k-j-1},c_{j,k-j},c_{j+1,k-1}$ as on the right.
+\[
+\xymatrix{
+&C^{j,k-j+1}&\\
+C^{j-1,k-j} \ar[r]^{\de^{j-1}}&C^{j,k-j}\ar[u]^{d^{k-j}}\ar[r]^{\de^j} & C^{j+1,k-j}\\
+&C^{j,k-j-1}\ar[u]^{d^{k-j-1}}\ar[r]^{\de^j} & C^{j+1,k-j-1}\ar[u]^{d^{k-j-1}}
+}
+\qquad
+\xymatrix{
+&0&\\
+c_{j-1,k-j} \ar[r]^{\de^{j-1}}&c_{j,k-j}\ar[u]^{d^{k-j}}\ar[r]^{\de^j} & 0\\
+&c_{j,k-j-1}\ar[u]^{d^{k-j-1}}\ar[r]^{\de^j} & c_{j+1,k-j-1}\ar[u]^{d^{k-j-1}}
+}
+\]
+
+By induction, we've defined all the $c_{i,k-i-1}$ and $c_{i+1,k-i-1}$. Letting $\check c_k=c_{k,-1}$ and $\check c_{k+1}=c_{k+1,-1}$, the final square is
+\[
+\xymatrix{
+c_{k,0}\ar[r]^{\de^k} & 0\\
+\check c_{k}\ar[u]^{d^{-1}} \ar[r]^{\de^k} &\check c_{k+1}\ar[u]^{d^{-1}}
+}
+\]
+But $d^{-1}$ is injective, so $\check c_{k+1}=0$. Thus $c_k\in Z^k$, as needed.
+
+\section{$\ph$ is well-defined}
+Suppose $[c_k]=[c_k']$. We need to show $[\check c_k]=[\check c_k']$, for any choices of $c_{i,j}$ and $c_{i,j}'$ above. Letting $c_{i,j}''=c_{i,j}'-c_{i,j}$,  $c_k''=c_k-c_k'$, and $\check c_{k}''=\check c_k-\check c_k'$, we still have~(\ref{commsq}) holding for all the $c_{i,j}''$s since $d$ and $\de$ are linear maps, and we need to show $[\check c_k'']=0$ given $[c_k'']=0$. Thus it suffices to show that if $[c_k]=0$, then given any choices of $c_{i,j}$, we get $[\check c_k]=0$.
+
+We prove the following statement by induction on $i$: For $0\le i\le k$, 
+there exists $c_{i,k-i-1}'\in \im \de^{i-1}$ such that $d^{k-i-1}(c_{i,k-i-1})=d^{k-i-1}(c_{i,k-i-1}')$. 
+For the base case, note that $[c_k]=0$ means that $c_k=d^{k-1} (c_{k-1})$ for some $c_{k-1}\in C^{k-1}$. Let $c_{0,k-1}'=\de^{-1}(c_{k-1})$. By commutativity,
+\[
+\xymatrix{
+C^k\ar[r]^{\de^{-1}}& C^{0,k}\\
+C^{k-1}\ar[r]^{\de^{-1}}\ar[u]^{d^{k-1}} & C^{0,k-1}\ar[u]^{d^{k-1}}.
+}\qquad
+\xymatrix{
+c_k\ar[r]^{\de^{-1}}& c_{0,k}\\
+c_{k-1}\ar[r]^{\de^{-1}}\ar[u]^{d^{k-1}} & c_{0,k-1}'\ar[u]^{d^{k-1}}.
+}
+\]
+as needed.
+
+Now assume the statement true for $i\le j$. Take $c_{j,k-j-1}'$ as in the claim. Since $d^{k-j-1}(c_{j,k-j-1})=d^{k-j-1}(c_{j,k-j-1}')$, by linearity 
+\[d^{k-j-1}(c_{j,k-j-1}-c_{j,k-j-1}')=0.\]
+Hence by exactness of the column shown below, there exists $c_{j,k-j-2}'$ so that 
+\[d^{k-2-j}(c_{j,k-j-2}')=c_{j,k-j-1}-c_{j,k-j-1}'.\]
+Let $c_{j+1,k-j-2}'=\de^{j}(c_{j,k-j-1})$. 
+Since $c_{j,k-j-1}'\in \im \de^{j-1}$, $\de^{j}(c_{j,k-j-1}')=0$ by exactness of the row shown below. Hence 
+\[
+\de^{j}(c_{j,k-j-1}-c_{j,k-j-1}')=\de^{j}(c_{j,k-j-1})=c_{j+1,k-j-1}.
+\]
+By commutativity of the square below, we get:
+\[
+\xymatrix{
+&C^{j,k-j}&\\
+C_{j-1,k-j-1}\ar[r]^{\de^{j-1}}&C_{j,k-j-1}\ar[u]^{d^{k-j-1}} \ar[r]^{\de^j}
+& C_{j+1,k-j-1}\\
+&C_{j,k-j-2}\ar[u]^{d^{k-j-2}} \ar[r]^{\de^j}
+& C_{j+1,k-j-2}\ar[u]^{d^{k-j-2}}
+}\qquad
+\xymatrix{
+0&\\
+c_{j,k-j-1}-c_{j,k-j-1}'\ar[u]^{d^{k-j-1}} \ar[r]^{\de^j}
+& c_{j+1,k-j-1}\\
+c_{j,k-j-2}'\ar[u]^{d^{k-j-2}} \ar[r]^{\de^j}
+& c_{j+1,k-j-2}'\ar[u]^{d^{k-j-2}}
+}
+\]
+So $c_{j+1,k-j-2}'$ satisfies the conditions for $j+1$.
+
+Continuing, we get $\check c_{k}':=c_{k,-1}$ such that $d^{-1}(\check c_k')=d^{-1}(c_k')$ and $\check c_k'\in \im\de^{k-1}$. But $d^{-1}$ is injective so $\check c_k=\check c_k'\in \im\de^{k-1}$.
+
+Hence $[\check c_k']=0$, as needed.
+\section{$\ph$ is linear}
+Given $c_k,c_k'\in C^k$, and choose $c_{i,j}$ and $c_{i,j}'$ as in~(\ref{commsq}). If we start with $c_k''=ac_k+c_k'\in C_k$ ($a\in \R$), then we can choose $c_{i,j}''=ac_{i,j}+c_{i,j}'$ since the $d$ and $\de$ are all linear maps, and get $\check c_k''=a\check c_k +\check c_k'$. Now take equivalence classes to get $\ph(a[c_k]+[c_k'])=a\ph([c_k])+\ph([c_{k}'])$.
+\section{$\ph$ has an inverse}
+Note the Weyl diagram is symmetric across its diagonal. So we can switch the roles of $C^k$ and $\check C^k$ to get a map $\theta:\check C^k\to C^k$. But when in forming the ``staircase" from $C^k$ to $\check C^k$, and the ``staircase" from $\check C^k$ to $C^k$, we may choose the same $c_{i,j}$. Hence $\ph\theta ([\check c_k])=[\check c_k]$ and $\theta\ph([c_k])=[c_k]$.
+\end{document}
