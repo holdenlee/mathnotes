@@ -93,6 +93,15 @@ Combinatorics/graph_theory/geometric_graph_theory/diagrams/*
 !Combinatorics/graph_theory/geometric_graph_theory/diagrams/*.asy
 !Combinatorics/graph_theory/geometric_graph_theory/research/*.tex
 
+!Combinatorics/probabilistic_method
+Combinatorics/probabilistic_method/*
+!Combinatorics/probabilistic_method/notes
+!Combinatorics/probabilistic_method/notes/main.tex
+!Combinatorics/probabilistic_method/notes/date.tex
+!Combinatorics/probabilistic_method/chapters
+!Combinatorics/probabilistic_method/chapters/*.tex
+
+
 !Computation/
 Computation/*
 
