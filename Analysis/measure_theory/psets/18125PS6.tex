@@ -1,0 +1,905 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+\newcommand{\ve}[1]{\left\Vert {#1}\right\Vert}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Arc}{\operatorname{Arc}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\vol}[0]{\operatorname{vol}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\sia}[0]{ $\si$-algebra}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\iy}[0]{\infty}
+\newcommand{\nl}[1]{\left \Vert #1\right \Vert_{L^1}}
+\newcommand{\iiy}[0]{\int_{(0,\iy)}}
+\newcommand{\ir}[0]{\int_{\R}}
+\newcommand{\dr}[2]{\frac{d{#1}}{d{#2}}}
+\newcommand{\prc}[1]{\pa{\frac{1}{#1}}}
+\newcommand{\sr}[2]{\sqrt{\frac{#1}{#2}}}
+\newcommand{\fc}[2]{\frac{#1}{#2}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.125 Real and Functional Analysis} 
+\cfoot{} 
+\rfoot{\small PS \# 6} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.125 Real and Functional Analysis PSet \#6}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{4/17/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+\begin{problem}{\it (6.2.8)}
+\subprob{(i)}
+First consider the case $q<\iy$. 
+Noting that $\ve{g}_{rs}=\pa{\int g^{rs}\,d\mu}^{\rc{rs}}=\ve{g^r}_s^{\rc r}$, and that $\frac qp>1$,
+\begin{align*}
+\ve{f}_{p}&=\ve{f^p}_1^{\rc p}\\
+&=\ve{f^p\cdot 1}_1^{\rc p}\\
+&\le\pa{\ve{f^p}_{\frac qp}\ve{1}_{\pa{1-\frac pq}^{-1}}}^{\rc p}&\text{by H\"older's inequality with }\frac qp,\pa{1-\frac pq}^{-1}\\
+&=\pa{\ve{f}_{q}^p\mu(E)^{1-\frac pq}}^{\rc p}\\
+&=\ve{f}_q\mu(E)^{\rc p-\rc q}.
+\end{align*}
+In particular if $\mu$ is a probability measure, $\mu(E)=1$ so this becomes $\ve{f}_p\le \ve{f}_q$, i.e. $\ve{f}_p$ is nondecreasing in $p$.
+
+Now consider the case $q=\iy$. Let
+\begin{equation}\label{p6-1-1}
+M=\ve{f}_{\iy} =\inf\{L\in [0,\iy]: |f|\le L\text{ (a.e., }\mu)\}.
+\end{equation}
+If $M=0$ the result is trivial, so assume $M\ne 0$. 
+Note $|f|\le M$ and $|f|^p\le M^p$ almost everywhere so
+%$\frac{|f|}{M}\le 1$ almost everywhere so
+\begin{equation}\label{p6-1-2}
+%\frac{\ve{f}_p}{\ve{f}_{\iy}}=\pa{\int \pf{|f|}{M}^p\,d\mu}^{\rc p}\le\pa{ \int 1\,d\mu}^{\rc p}=\mu(E)^{\rc p},
+\ve{f}_p=\pa{\int|f|^p\,d\mu}^{\rc p}\le\pa{ \int M^p\,d\mu}^{\rc p}=M\pa{ \int 1\,d\mu}^{\rc p}=\mu(E)^{\rc p}\ve{f}_{\iy}.%,
+\end{equation}
+%and
+%\begin{equation}\label{p6-1-2}
+%\ve{f}_p\le \mu(E)^{\rc p}\ve{f}_{\iy}
+%\end{equation}
+%as desired.\\
+
+\subprob{(ii)}
+Since $E$ is countable, there exist finite $E_1\subeq E_2\subeq \cdots$ such that $E=\bigcup_{n=1}^{\iy} E_n$. Then
+\begin{align*}
+\ve{f}_{L^p(\mu)}&=\pa{\sum_{x\in E} |f(x)|^p}^{\rc p}\\
+&=\lim_{n\to \iy} \pa{\sum_{x\in E_n} |f(x)|^p}^{\rc p}\\
+&=\lim_{n\to \iy} \ve{f|_{E_n}}_{L^p(\mu|E_n)}.
+\end{align*}
+Hence it suffices to prove the case when $E$ is finite; this would imply the result for $f$ restricted to $E_n$, with $\mu|E_n$; taking the limit would give the result for $f$.
+
+Suppose $E=\{1,\ldots, n\}$. Let $y_m=|f(m)|$. Note that 
+\[
+\frac{y_m}{\ve{f}_p}=\frac{y_m}{\pa{\sum_{m=1}^n y_m^p}^{\rc p}}\le 1.
+\]
+When $\iy>q>p$ and $0\le x\le 1$, $x^q\le x^p$. Hence this inequality holds for $x=\frac{y_m}{\ve{f}_p}$, and we get
+\[
+\frac{\ve{f}_q}{\ve{f}_p}=\frac{\pa{\sum_{m=1}^n y_m^q}^{\rc q}}{\ve f_p}=\pa{\sum_{m=1}^n \pf{y_m}{\ve f_p}^q}^{\rc q}
+\le\pa{\sum_{m=1}^n \pf{y_m}{\ve f_p}^p}^{\rc q}
+=\pa{\sum_{m=1}^n \frac{y_m^p}{\sum_{k=1}^n y_k^p}}^{\rc q}=1
+\]
+so $\ve{f}_q\le \ve{f}_p$ for $q>p$, as needed.
+
+Now consider the case $q=\iy$. Then $\ve{f}_{L^{\iy}(\mu)}=\sup_my_m=\lim_{n\to \iy}\ve{f}_{L^{\iy}(\mu|E_n)}$, so again we can reduce to the finite case. %, and %; note that $\frac{y_m}{\ve{f}_p}\le 1$ so 
+%\[
+%\frac{\ve{f}_q}{\ve{f}_p}=\frac{\max_{1\le m\le n} y_m}{\ve f_p}
+%\le\pa{\sum_{m=1}^n \pf{y_m}{\ve f_p}^p}^{\rc q}
+%=\pa{\sum_{m=1}^n \frac{y_m^p}{\sum_{k=1}^n y_k^p}}^{\rc q}=1
+%\]
+%For the case $q=\iy$, just note that $\lim_{p\to \iy}\ve{f}_{L^p(\mu)}=\ve{f}_{L^{\iy}(\mu)}$ by (iii) below. (We need to assume $f$ is $\mu$-integrable, here.)\\
+%The case $q=\iy$ follows from the above and the right-hand-side of the inequality~(\ref{p6-1-3}) below.\\
+In the finite case the result follows from the above and (iii) below.
+\[
+\ve{f}_p\ge \lim_{p\to \iy} \ve{f}_p=
+\ve{f}_{\iy}.
+\]
+
+\subprob{(iii)} 
+%Now
+%\[
+%\lim_{p\to \iy} \frac{\ve f_p}{\ve f_{\iy}}=\lim_{p\to \iy} \pa{\int \frac{|f|^p}{M^p}\,d\mu}^{\rc p}=\lim_{p\to \iy}\pa{\int \frac{|f|^p}{M^p}\,d\mu}^{\cancelto{0}{\lim_{p\to \iy}\rc p}}=1.
+%\]
+First suppose $\mu$ is finite. 
+Define $M$ as in~(\ref{p6-1-1}).
+Suppose $0<L<M$. Let $S=\{x:|f(x)|\ge L\}=\{x:|f(x)|<L\}^c$. By definition of $M$, $\mu(S)>0$.
+\[
+\frac{\ve{f}_p}{L}=
+\frac{\pa{\int |f|^p\,d\mu}^{\rc p}}{L}=\pa{\int \pf{|f|}{L}^p\,d\mu}^{\rc p}\ge
+\pa{\int_S\pf{|f|}{L}^p\,d\mu}^{\rc p}\ge 
+\pa{\int_S1\,d\mu}^{\rc p}\ge\mu(S)^{\rc p}.
+\]
+Hence
+\[
+\ve{f}\ge\mu(S)^{\rc p}L.
+\]
+Combining with~(\ref{p6-1-2}) gives
+\[
+\mu(S)^{\rc p}L\le \ve{f}_p\le \mu(E)^{\rc p}M.
+\]
+Taking $p\to \iy$ gives
+\[
+L\le\liminf_{p\to \iy} \ve{f}_p\le \limsup_{p\to \iy} \ve{f}_p\le M.
+\]
+Since $L$ was arbitrary in $(0,M)$ we conclude the limit exists and equals $M$.\\
+
+Now suppose $f$ is $\mu$-integrable. If $f=0$ a.e. then the result is trivial, so suppose this is not true. 
+%Next suppose $\ve{f}_{\iy}=\iy$. The set $A=\{x\mid f(x)\ge 1\}$ has finite measure. Then using $\ve{f}_{L^p(\mu)}\ge \ve{f|_{A}}_{L^p(\mu| A)}$ and the result for $f$ restricted to $A$,
+%\[
+%\lim_{p\to \iy} \ve{f}_{L^p(\mu)}\ge \lim_{p\to \iy}\ve{f|_{A}}_{L^p(\mu| A)}=\ve{f|_{A}}_{L^{\iy}(\mu|A)}=\iy=\ve{f}_{L^{\iy}(\mu)}.
+%\]
+%%Now take the limit as $N\to \iy$, noting that $f|_{A_N}$ is increasing with respect to $N$, to get the desired result.
+%
+%Now suppose $\mu(f\neq 0)>0$ and $\ve{f}_{\iy}<\iy$. 
+Define the measure $\mu_f$ by $\mu_f(\Ga)=\int_{\Ga}|f|\,d\mu$; then $\mu_f$ is finite. The first part of (iii) says that
+\begin{equation}\label{finitetoinf}
+\lim_{p\to \iy}\ve{f}_{L^{p-1}(\mu_f)}=\ve{f}_{L^{\iy}(\mu_f)}.
+\end{equation}
+
+First consider the LHS. We claim it equals $\lim_{p\to \iy}\ve{f}_{L^p(\mu)}$. As long as both integrals below are finite (they are nonzero since by assumption $\mu(f\ne0)>0$), 
+\[
+\lim_{p\to \iy} \ve{f}_{L^{p-1}(\mu_f)}=\lim_{p\to \iy} \ba{\pa{\int |f|^{p}\,d\mu}^{\rc{p-1}}}=\pa{\lim_{p\to \iy} \ve{f}_{L^p(\mu)}}^{\lim_{p\to \iy}\frac p{p-1}}=\lim_{p\to \iy} \ve{f}_{L^p(\mu)}\]
+%
+%Thus, the claim follows from this lemma and the fact that $|f|$ is integrable. (By redefining $f$ on a set of measure 0 we may assume $f$ is bounded.)
+%\begin{lem}
+%Let $(\mu,E)$ be a measure space and $f$ be a bounded function in $L^p(\mu)$. Then $f\in L^r(\mu)$ for all $r\ge p$.
+%\end{lem}
+%\begin{proof}
+%Note
+%\begin{align*}
+%\ve{f}_p^p=\int_E|f|^p\,d\mu&=\int_{\{x:|f|\ge 1\}} |f|^p \,d\mu+\int_{\{x:|f|<1\}} |f|^p\,d\mu\\
+%&\ge \mu(\{x:|f|\ge 1\}).
+%\end{align*}
+%Hence $f\in L^p(\mu)$ implies $ \mu(\{x:|f|\ge 1\})<\iy$. %But then for $r\ge p$, \[\int_{\{x:|f|\ge 1\}} |f|^r\,d\mu<\mu(\{x:|f|\ge 1\})\max|f|^r<\iy\], since $|f|$, and hence $|f|^r$, is bounded. 
+%Additionally noting that $\sup |f|^r<\iy$ since $f$ is bounded, we get
+%\begin{align*}
+%\ve{f}_r^r=\int_E|f|^r\,d\mu&=\int_{\{x:|f|\ge 1\}} |f|^r \,d\mu+\int_{\{x:|f|<1\}} |f|^r\,d\mu\\
+%&\le \mu(\{x:|f|\ge 1\})\sup|f|^r+\int_{\{x:|f|<1\}}|f|^p\,d\mu\\
+%&\le \mu(\{x:|f|\ge 1\})\sup|f|^r+\int_{E}|f|^p\,d\mu\\
+%&<\iy.
+%\end{align*}
+%Hence $f\in L^r(\mu)$.
+%\end{proof}
+
+Now we show the RHS of~(\ref{finitetoinf}) equals $\ve{f}_{L^{\iy}(\mu)}$. This will follow from definition of the $L^{\iy}$ norm and the following fact: For any $L$,
+\[
+\mu_f(\{|f|>L\})=0\iff \mu(\{|f|>L\})=0.
+\]
+Note $\mu_f(\{|f|>L\})=\int_{\{|f|>L\}} |f|\,d\mu$. But $\int_{\{|f|>L\}}|f|\,d\mu\ge \mu(\{|f|>L\})L$ so the ``$\implies$" direction holds. Conversely, $\mu(\{|f|>L\})=0$ implies $\int_{\{|f|>L\}} |f|\,d\mu=0$.
+
+Thus~(\ref{finitetoinf}) becomes
+\[
+\lim_{p\to\iy} \ve{f}_{L^p(\mu)}=\ve{f}_{L^{\iy}(\mu)}
+\]
+as needed. \\
+
+%, then the sets $A_N=\{x\mid f(x)\ge \rc N\}$ are finite. Use the above to get %the result for $f$ restricted to $A_N$, then take the limit as $N\to \iy$.\\
+%\[
+%\lim_{p\to \iy}\ve{f|_{A_N}}_{L^p(\mu| A_N)}=\ve{f|_{A_N}}_{L^{\iy}(\mu|A_N)}.
+%\]
+%Now take the limit as $N\to \iy$. (Note that we can exchange order of limits on the LHS because $\ve{f|_{A_N}}_{L^p(\mu| A_N)}$ is increasing in $N$.)??????????\\
+%
+%This is justified as long as $\lim_{p\to \iy}\pa{\int \frac{|f|^p}{M^p}\,d\mu}$ is nonnegative and finite, as we will show below.   
+%Note that $\frac{|f|^p}{M^p}$ is nondecreasing almost everywhere, namely on the set where $|f|\le M$. Hence $\int \frac{|f|^p}{M^p}\,d\mu$ is nondecreasing in $p$. Hence the above limit equals
+%\[
+%\lim_{N\to \iy} \int \frac{|f|^N}{M^N}\,d\mu
+%\]
+%with the limit taken over $N\in \Z$. But $\frac{|f|^N}{M^N}$ is nonincreasing and approaches $0$ for all $x\in \{x|f(x)< M\}$, while $\frac{|f|^N}{M^N}$ is constantly 1 for $x\in \{x|f(x)= M\}$ (we don't care about the remaining case since $\mu(\{x|f(x)>M\})=0$). %Hence $\frac{|f|^N}{M^N}\nearrow 1_S$ a.e. %If $\mu$ is finite, then $1_S$ is $\mu$-integrable, so by the Monotone Convergence Theorem
+%%By the Monotone Convergence Theorem,
+%%rephrase
+%Noting that $\frac{|f|^N}{M^N}\le \frac{|f|}{M}$ almost everywhere and the latter is integrable, by the Dominated Convergence Theorem,
+%\[
+%\lim_{N\to \iy} \int \frac{|f|^N}{M^N}\,d\mu=\int 1_S\,d\mu=\mu(S)<\iy,
+%\]
+%since either $\mu$ is finite or $f$ is $\mu$-integrable. Hence $\lim_{p\to \iy} \frac{\ve f_p}{\ve f_{\iy}}=1$, and $\lim_{p\to \iy} \ve{f}_p=\ve{f}_{\iy}$.\\
+
+\subprob{(iv)}
+By Tonelli's Theorem (4.1.5), $\int_{E_2} f(x_1,x_2)^p\,\mu_2(dx_2)$ and hence $\ve{f(x_1,\cdot)}_{L^{p}(\mu_2)}$ is measurable. Since the pointwise limit of a set of measureable functions is measurable (see lemma), and $\ve{f(x_1,x_2)}_{L^{p}(\mu_2)}\to \ve{f(x_1,x_2)}_{L^{\iy}(\mu_2)}$ by (iii), $\ve{f(x_1,\cdot)}_{L^{\iy}(\mu_2)}$ is measurable.
+
+\begin{lem}
+Let $(\mu,E)$ be a Borel measure, and let $f_n:E\to \R$ be a sequence of measurable functions that converges to $f$. Then $f$ is measurable.
+\end{lem}
+\begin{proof}
+It suffices to show that $f^{-1}(U)$ is measurable for each open set $U$. But 
+\[
+f^{-1}(U)=\bigcup_{N=1}^{\iy}\bigcap_{n=N}^{\iy} f_n^{-1}(U).
+\]
+($f^{-1}(U)$ is the set of $x$ such that $f_n(x)\in U$ for sufficiently large $n$, i.e. such that there exists $N$ such that $x\in f_n^{-1}(U)$ for all $n\ge N$.) The RHS is a measurable set since the $f_n$ are measurable functions. 
+\end{proof}
+%8:10-9:06
+%Why ptwise limit meas?
+\end{problem}
+\begin{problem}{\it (6.2.11)}
+\subprob{(i)}
+The given says 
+\begin{equation}\label{p6-2-0}
+\mu(f\ge t)\le \frac Ct\nu(f\ge t)
+\end{equation}
+for all $t$. Fixing $t$, we have 
+\begin{equation}\label{p6-2-1}
+\mu(f\ge t+\rc N)\le \frac C{t+\rc N}\nu(f\ge t+\rc N).
+\end{equation}
+Noting that 
+\[\{f>t\}=\bigcup_{N=1}^{\iy} \bc{f\ge t+\rc N}\]
+and hence
+\[\la(\{f>t\})=\lim_{N\to\iy}\la\pa{\bc{f\ge t+\rc N}}\]
+for any measure $\la$ on $\R$, taking the limit in~(\ref{p6-2-1}) gives
+\begin{equation}\label{p6-2-2}
+\mu(f>t)\le \frac C{t}\nu(f> t).
+\end{equation}
+Then using 5.1.7 with $\ph$ the indicated functions,
+\begin{align*}
+\ve{f}_p&=\int_{(0,\iy)} f^p\,d\mu\\
+&=p\int_{(0,\iy)}t^{p-1} \mu(f>t)\,dt&(\ph(x)=x^p,\,\ph'(x)=px^{p-1})\\
+&\le Cp\int_{(0,\iy)} t^{p-2} \nu(f>t)\,dt&\by{p6-2-2}\\
+&=\frac{Cp}{p-1}\int_{(0,\iy)} f^{p-1}\,d\nu&(\ph(x)=x^{p-1},\,\ph'(x)=(p-1)x^{p-2})\\
+&=\frac{Cp}{p-1}\int_{(0,\iy)} f^{p-1}g\,d\mu.
+\end{align*}
+Using this and H\"older's inequality with $\frac{p}{p-1}$ and $p$,
+\[
+\ve{f}_p^p\le \frac{Cp}{p-1}\ve{f^{p-1}g}_1\le \frac{Cp}{p-1}\ve{f^{p-1}}_{\frac{p}{p-1}}\ve{g}_p=\frac{Cp}{p-1}\ve{f}_{p}^{p-1}\ve{g}_p.
+\]
+
+\subprob{(ii)}
+If $f\in L^p$, then this gives 
+\begin{equation}
+\label{p6-2-3}
+\ve{f}_p\le \frac{Cp}{p-1}\ve{g}_p.
+\end{equation}
+
+If~(\ref{p6-2-0}) holds for $f$, then it holds for $f\wedge R$: Indeed, if $R\ge t$ then the only time when $f\neq f_R$ is when $f>R$, in which case $f_R=R\ge t$ as well, so $\{f\ge t\}=\{f_R\ge t\}$ and both sides of~(\ref{p6-2-0}) stay the same when replacing $f$ by $f_R$. If $R<t$ then $\{f_R\ge t\}=\phi$ so~(\ref{p6-2-0}) with $f_R$ says $0\le 0$, which is true.
+Hence~(\ref{p6-2-3}) works for $f\wedge R$:
+\[\ve{f_R}_p\le \frac{Cp}{p-1}\ve{g}_p.\]
+Now $f\wedge R\nearrow f$ as $R\to \iy$, so letting $R\to \iy$ and using Monotone Convergence gives the result.\\
+
+\subprob{(iii)}
+Let $\nu_{\ep}(\Ga)=\int_{\Ga}g\,d\mu_{\ep}$.
+
+If~(\ref{p6-2-0}) holds for $\mu$, then it holds for $\mu_{\ep}$: Indeed,
+\[
+\mu_{\ep}(f\ge t)=\mu(f\ge t\text{ and }f>\ep).
+\]
+Consider two cases. First, $t>\ep$. Then $\{f\ge t\}=\{f\ge t\text{ and }f>\ep\}$ and hence $\mu_{\ep}(f\ge t)=\mu(f\ge t)$. Both sides of~(\ref{p6-2-0}) remain unchanged when %$f$ is replaced by its restriction to $\{f>\ep\}$ and 
+$\mu$ is replaced by $\mu_{\ep}$. Second, $t\le \ep$. Then $\{f>\ep\}=\{f\ge t\text{ and }f>\ep\}$ and by~(\ref{p6-2-2}) with $t=\ep$, 
+\[
+\mu_{\ep} (f\ge t)=\mu(f>\ep)\le \frac C{\ep}\int_{f>\ep} g\,d\mu\le \frac Ct\int_{f>t} f\,d\mu_{\ep}.
+\]
+Either way,
+\[
+\mu_{\ep}(f\ge t)\le \frac Ct\nu_{\ep}(f\ge t)
+\]
+so (i) gives (since $\mu_{\ep}$ is a finite measure) %~(\ref{p6-2-3}) gives
+\begin{equation}\label{p6-2-4}
+\ve{f}_{L^p(\mu_{\ep})}\le \frac{Cp}{p-1}\ve{g}_{L^p(\mu_{\ep})}.
+\end{equation}
+
+Now since $\bigcup_{N=1}^{\iy} \bc{f>\rc{N}}=\{f>0\}$ and $\eta(\Ga)=\int_{\Ga}f^p\,d\la_{\R}$ is a measure, 
+\[
+\lim_{\ep\to \iy} \ve{h}_{L^p(\mu_{\ep})}
+=\lim_{N\to \iy} \pa{\int_{f>\rc N} h^p}^{\rc p}\\
+=\pa{\int_{f>0} h^p}^{\rc p}
+=\ve{h}_{L^p(\mu)}.
+\]
+Thus taking the limit in~(\ref{p6-2-4}) gives~(\ref{p6-2-0}).
+%9:45
+\end{problem}
+\begin{problem}{\it (6.3.18)}
+\subprob{(i)}
+\begin{enumerate}
+\item By 5.1.13(i) for $A=I$, $\int_{\R^N} e^{-\frac{|x|^2}{2}}\,dx=(2\pi)^{\frac N2}$. Hence
+\[
+\int_{\R^N} \ga(x)\,dx=\int_{\R^N}(2\pi)^{-\frac{N}{2}}e^{-\frac{|x|}2}\,dx=1.
+\]
+\item
+%By the change of variables $r=\sqrt{2x}$,
+%\[
+%\int_0^{\iy} r^{N-1}e^{-\frac{r^2}{2}}\,dr=\int_0^{\iy} 2^{\frac{N-1}2}x^{\frac{N-1}2}e^{-x}2^{\rc2}x^{-\rc2}\,dx=2^{\frac N2-1}\int_0^{\iy} x^{\frac N2-1}e^{-x}\,dx=2^{\frac N2-1}\Ga\pf N2.
+%\]
+%Hence
+\begin{align*}
+\ga_{\sqrt s}*\ga_{\sqrt t}&=\int_{\R^N} \ga_{\sqrt s}(y)\ga_{\sqrt t}(x-y)\,dy\\%1
+&=\int_{\R^N} \sqrt{s}^{-N} (2\pi)^{-\frac N2} e^{-\frac{|y|^2}{2s}}\sqrt{t}^{-N} (2\pi)^{-\frac N2} e^{-\frac{|x-y|^2}{2t}}\,dy\\%2
+&=(st)^{-\frac N2}(2\pi)^{-N}\int_{\R^N} e^{-\frac{|y|^2}{2s}-\frac{|x-y|^2}{2t}}\,dy\\%3
+&=(st)^{-\frac N2}(2\pi)^{-N}\int_{\R^N} e^{-|y|^2\pa{\rc{2s}+\rc{2t}}+\frac{x\cdot y}{t}-\frac{|x|^2}{2t}}\,dy\\%4
+&=(st)^{-\frac N2}(2\pi)^{-N}\int_{\R^N} e^{-\ab{\sqrt{\rc{2s}+\rc{2t}}y-\sqrt{\frac{s}{2(s+t)}}x}^2}e^{\pa{\frac{s}{2(s+t)t}-\rc{2t}}|x|^2}\,dy\\%5
+&=(st)^{-\frac N2}(2\pi)^{-N}e^{-\frac{|x|^2}{2(s+t)}}\int_{\R^N} e^{-\ab{\sqrt{\frac{s+t}{2st}}y-\sqrt{\frac{s}{2(s+t)}}x}^2}\,dy\\%6
+&=(st)^{-\frac N2}(2\pi)^{-N}e^{-\frac{|x|^2}{2(s+t)}}\int_{\R^N} e^{-\frac{|z|^2}2}\pf{st}{s+t}^{\frac N2}\,dz&y=\sr{st}{s+t}\pa{z+\sr{s}{s+t}}\\%7
+&=(s+t)^{-\frac N2}(2\pi)^{-N}e^{-\frac{|x|^2}{2(s+t)}}\int_{\R^N} e^{-\frac{|z|^2}2}\,dz\\
+&=(s+t)^{-\frac N2}(2\pi)^{-N}e^{-\frac{|x|^2}{2(s+t)}}(2\pi)^{\frac N2}&(5.1.13(i))\\
+&=(s+t)^{-\frac N2}(2\pi)^{-\frac N2}e^{-\frac{|x|^2}{2(s+t)}}\\
+&=\ga_{\sqrt{s+t}(x)}.
+\end{align*}
+\end{enumerate}
+
+\subprob{(ii)}
+\begin{enumerate}
+\item 
+\begin{align*}
+\int_{\R}\nu(\xi)\,d\xi&=\int_0^{\iy} \frac{e^{-\rc{\xi}}}{\sqrt{\pi}\xi^{\frac 32}}\,d\xi\\
+&=\int_{\iy}^0 \frac{e^{-\frac{t^2}{2}}t^3}{\sqrt{\pi}2^{\frac 32}}\cdot -4t^{-3}\,dt&\text{(COV: }\xi=2t^{-2})\\
+&=\int_0^{\iy} \frac{e^{-\frac{t^2}2}}{\sqrt{\pi/2}}\,dt=1.
+\end{align*}
+\item
+\begin{align*}
+\nu_{s^2}*\nu_{t^2}(\eta)&=\int_{\R} \nu_{s^2}(\xi)\nu_{t^2}(\eta-\xi) \,d\xi \\
+&=\int_0^{\eta} \rc{s^2}\frac{e^{-\rc{s^{-2}\xi}}}{\pi^{\rc2}(s^{-2}\xi)^{\frac32}}\rc{t^2}\frac{e^{-\rc{t^{-2}(\eta-\xi)}}}{\pi^{\rc2}(t^{-2}(\eta-\xi))^{\frac 32}}\,d\xi &(\nu(x)=0\text{ for }x\le 0)\\%2
+&=\frac{st}{\pi}\int_0^{\eta} \rc{(\xi(\eta-\xi))^{\frac 32}}e^{-\frac{s^2}{\xi}-\frac{t^2}{\eta-\xi}}\,d\xi\\%3
+&=\frac{st}{\pi} \int_0^{\iy} \rc{\pa{\frac{\eta y}{1+y}\frac{\eta}{1+y}}^{\frac 32}}e^{-\frac{s^2(1+y)}{\eta y}-\frac{t^2 (1+y)}{\eta}}\frac{\eta}{(1+y)^2}\,dy&\text{(COV: }\xi=\frac{\eta y}{1+y})\\%4
+&=\frac{st}{\pi}\int_0^{\iy} \frac{(1+y)}{\eta^2y^{\frac 32}} e^{-\frac{s^2(1+y)}{\eta y}-\frac{t^2 (1+y)}{\eta}}\,dy\\%5
+&=\frac{st}{\pi}\frac{e^{-\frac{s^2+t^2}{\eta}}}{\eta^2} \int_0^{\iy} (y^{-\frac 32}+y^{-\frac 12}) e^{-\frac{t^2}{\eta}y-\frac{s^2}{\eta y}}\,dy\\
+&=\frac{st}{\pi} \frac{e^{-\frac{s^2+t^2}{\eta}}}{\eta^2}\pa{\frac{\sqrt{\eta}}{s}+\frac{\sqrt{\eta}}{t}}\pi^{\rc 2}e^{-\frac{2st}{\eta}}&\text{(5.1.13(iv), }\al=\frac{t}{\sqrt{\eta}},\be=\frac{s}{\sqrt{\eta}})\\
+&=(s+t)\frac{e^{-\frac{(s+t)^2}{\eta}}}{\pi^{\rc2}\eta^{\frac 32}}\\
+&=\rc{(s+t)^2}\frac{e^{-\frac{(s+t)^2}{\eta}}}{\pi^{\rc2}((s+t)^{-2}\eta)^{\frac 32}}\\
+&=\nu_{(s+t)^2}(\eta).
+\end{align*}
+\end{enumerate}
+
+\subprob{(iii)}
+\begin{enumerate}
+\item By 5.2.20(ii), $\int_{\R^N}(1+|x|^2)^{\frac{N+1}{2}}\,dx=\frac{\om_N}{2}$. Hence 
+\[
+\int_{\R}P(x)\,dx=\int_{\R^N}\frac{2}{\om_N}(1+|x|^2)^{\frac{N+1}{2}}\,dx=1.
+\]
+\item 
+\begin{align*}
+\int_0^{\iy} \ga_{\sqrt{\frac{\xi}{2}}}(x)\nu_t^2(\xi)\,d\xi
+&=\int_0^{\iy} \sqrt{\frac{2}{\xi}}^N(2\pi)^{-\frac N2}e^{-\frac{\ab{\sqrt{\frac{2}{\xi}}x}^2}{2}}\rc{t^2}\frac{e^{-\rc{t^{-2}\xi}}}{\pi^{\rc2}(t^{-2}\xi)^{\frac32}}\,d\xi\\%1
+&=\frac{t}{\pi^{\frac{N+1}{2}}}\int_0^{\iy} \rc{\xi^{\frac N2+\frac 32}}e^{-\frac{|x|^2}{\xi}-\frac{t^2}{\xi}}\,d\xi\\%2
+&=\frac{t}{\pi^{\frac{N+1}{2}}}\int_{\iy}^{0}\frac{u^{\frac N2+\frac32}}{(|x|^2+t^2)^{\frac{N+3}{2}}}e^{-u}(|x|^2+t^2)\cdot-\rc{u^2}\,du&\text{(COV: }\xi=\frac{|x|^2+t^2}{u})\\%3
+&=\frac{t}{\pi^{\frac{N+1}{2}}}\rc{(|x|^2+t^2)^{\frac{N+1}{2}}}\int_0^{\iy} u^{\frac{N}{2}-\rc2}e^{-u} \,du \\
+&=\frac{t}{{\pi^{\frac{N+1}{2}}}}\frac{{\Ga\pa{\frac N2+\rc2}}}{(|x|^2+t^2)^{\frac{N+1}{2}}}\\
+&=t\frac{2}{\om_N}(t^2+|x|^2)^{-\frac{N+1}{2}}
+&\omega_N=\frac{2\pi^{\pf{N+1}2}}{\Ga\pf{N+1}{2}}\\
+&=t^{-N} \frac{2}{\om_N} (1+|t^{-1}x|^2)^{-\frac{N+1}{2}}=P_t(x).
+\end{align*}
+\item
+\begin{align*}
+P_s*P_t(x)&=\int_{\R^N}P_s(y)P_t(x-y)\,dy\\
+&=\int_{\R^N} \pa{\int_0^{\iy} \ga_{\sqrt{\frac{\xi_1}{2}}}(y)\nu_{s^2}(\xi_1)\,d\xi_1}\pa{\int_0^{\iy}\ga_{\sqrt{\frac{\xi_2}{2}}}(x-y)\nu_{t^2}(\xi_2)\,d\xi_2}\,dy\\
+&=\int_0^{\iy}\int_0^{\iy}\pa{\int_{\R^N} \ga_{\sr{\xi_1}{2}}(y)\ga_{\sr{\xi_2}{2}}(x-y)\,dy}\nu_{s^2}(\xi_1)\nu_{t^2}(\xi_2)\,d\xi_1\,d\xi_2\\
+&=\int_0^{\iy}\int_0^{\iy} \ga_{\sr{\xi_1}2}*\ga_{\sr{\xi_2}{2}}(x)\nu_{s^2}(\xi_1)\nu_{t^2}(\xi_2)\,d\xi_1\,d\xi_2\\
+&=\int_0^{\iy}\int_0^{\iy} \ga_{\sr{\xi_1+\xi_2}{2}}(x)\nu_{s^2}(\xi_1)\nu_{t^2}(\xi_2)\,d\xi_1\,d\xi_2\\
+&=\int_{\xi_1}^{\iy}\int_0^{\iy} \ga_{\sr{\be}2}(x)\nu_{s^2}(\xi_1)\nu_{t^2}(\be-\xi_1)\,d\xi_1\,d\be&\text{(COV: }\be=\xi_1+\xi_2\\
+&=\int_0^{\iy} \ga_{\sr{\be}2}(x)\int_{0}^{\iy}\nu_{s^2}(\xi_1)\nu_{t^2}(\be-\xi_1)\,d\xi_1\,d\be&(\nu_a(x)=0\text{ for }x<0)\\
+&=\int_0^{\iy}\ga_{\sr{\be}{2}}(x)\nu_{s^2}*\nu_{t^2}(\be)\,d\be\\
+&=\int_0^{\iy}\ga_{\sr{\be}{2}}(x)\nu_{(s+t)^2}(\be)\,d\be\\
+&=P_{s+t}(x).
+\end{align*}
+\end{enumerate}
+
+\subprob{(iv)}
+\begin{enumerate}
+\item
+\begin{align*}
+g_{\al}*g_{\be}(x)&=
+\int_{\R}g_{\al}(y)g_{\be}(x-y)\,dy\\
+&=\ir \Ga(\al)^{-1}y^{\al-1}e^{-y}\Ga(\be)^{-1}(x-y)^{\be-1}e^{-(x-y)}\,dy\\
+&=\frac{e^{-x}}{\Ga(\al)\Ga(\be)}\ir(x-y)^{\be-1} y^{\al-1}\,dy\\
+&=\frac{e^{-x}}{\Ga(\al)\Ga(\be)}\ir x^{\be-1}(1-t)^{\be-1}x^{\al-1} t^{\al-1}x\,dt&\text{(COV: }y=xt)\\
+&=\ba{\frac{\Ga(\al+\be)}{\Ga(\al)\Ga(\be)}B(\al,\be)}g_{\al+\be}(x).
+\end{align*}
+\item
+By 6.3.16, since $g_t\in L^1$,
+\[
+\int_{\R} g_{\al}*g_{\be}(x)\,dx=\int_{\R}g_{\al}(x)\,dx\int_{\R}g_{\be}(x)\,dx=1.
+\]
+Therefore, integrating the result in item 1 gives
+\[
+B(\al,\be)=\ir\frac{\Ga(\al)\Ga(\be)}{\Ga(\al+\be)}g_{\al+\be}(x)\,dx=\fc{\Ga(\al)\Ga(\be)}{\Ga(\al+\be)}.
+\]
+\end{enumerate}
+\end{problem}
+\begin{problem} {\it (6.3.20)}
+%\begin{lem}\label{p6-4-l1}
+%Suppose $h:\R\to \R$ is a $C^1$ map, and $\Ga$ is a set of measure 0. Then $h(\Ga)$ has measure 0.
+%\end{lem}
+%\begin{proof}
+%
+%\end{proof}
+\begin{enumerate}
+\item By the substitution $x=\frac{y}{\al}$,
+\[
+\iiy f(\al x)\,\mu(dx)=\iiy \frac{f(\al x)}{x}\,dx=\iiy \frac{f(y)}{y/\al}\frac{dy}{\al}=\iiy \frac{f(y)}{y}\,dy=\iiy f(x)\,\mu(dx).
+\]
+\item By the substitution $x=\rc y$ (which changes the sign of the integral),
+\[
+\iiy f\prc{x}\,d\mu(dx)=\iiy \frac{f(1/x)}x\,dx=-\iiy \frac{f(y)}{1/y}\frac{-dy}{y^2}=\iiy \frac{f(y)}{y}\,dy=\iiy f(x)\,\mu(dx).
+\]
+\end{enumerate}
+Let $f_1(x)=f(e^x)$ and $g_1(x)=g(e^x)$. We claim
+\begin{align}
+\La_{\mu}(f,g)&=\{x:\ln x\in \Ga(f_1,g_1)\}\label{p6-4-1}\\
+f\bullet g(x)&=f_1*g_1(\ln x)\label{p6-4-2}
+\end{align}
+Indeed, by the change of variables $y=e^{y_1}$,
+\[
+\iiy f\pf xyg(y)\,\mu(dy)
+=\ir f_1\pa{ \ln\pf xy}g(y)\rc y\,dy
+=\ir f_1(\ln x-y_1)g_1(y_1)\rc{e^{y_1}}e^{y_1}\,dy_1
+=f_1*g_1(\ln x).
+\]
+Putting absolute values in shows~(\ref{p6-4-1}); the above shows~(\ref{p6-4-2}). 
+%To get~(\ref{p6-4-3}),
+%\[
+%\ve{f\bullet g}_{L^p(\mu)}=\ve{f_1*g_1
+%\]
+
+Next note that if $h_1(x)=h(e^x)$ then, using the change of variables $x=e^u$, for $p\ne \iy$,
+\begin{align}
+%\ve{f\bullet g}_{L^p(\mu)}&=\ve{f*g}_{L^p(\la)}\label{p6-4-3}
+\nonumber
+\ve{h}_{L^p(\mu)}
+&=\pa{\int_{(0,\iy)}\frac{|h(x)|^p}{x}\,dx}^{\rc p}\\
+\nonumber
+&=\pa{\ir\frac{|h(e^u)|^p}{e^u}e^u\,du}^{\rc p}\\
+\nonumber
+&=\pa{\ir|h_1(u)|^p\,du}^{\rc p}\\
+\label{p6-4-3}
+&=\ve{h_1}_{L^p(\la)}.
+\end{align}
+For $p=\iy$ this is true as well. First we note the following:
+If a set $A$ in $\R$ has has $\la$-measure 0 iff $B=e^A$ (its image under $e^x$) has $\mu$-measure 0 in $\mu$. Indeed, by change of variables $x=e^u$,
+\begin{equation}\label{p6-4-4}
+\mu(B)=\iiy 1_B(x)\,\mu(dx)=\iiy \frac{1_B(x)}{x}\,\la(dx)=\ir \frac{1_B(e^u)}{e^u}e^u\,du=\ir 1_A(u)\,du=\la(A).
+\end{equation}
+Using this,
+\begin{align*}
+\ve{h}_{L^p(\mu)}&=\inf\{L\in [0,\iy]: |h|\le L\text{ (a.e., }\mu)\}\\
+&=
+\inf \{L\in [0,\iy]:\mu(\{x:h_1(\ln x)> L\})=0\}\\
+&=
+\inf \{L\in [0,\iy]:\la(\{x:h_1(x)> L\})=0\}\\
+&=\inf\{L\in [0,\iy]:|h_1|\le L\text{ (a.e., }\mu)\}\\
+&=\ve{h_1}_{L^p(\la)}.\end{align*}
+%using the fact that the image of a measure 0 set under a $C^1$ map $\R\to \R$ has measure 0.
+%(We only use the case where the map is $e^u$; this can be proved by Change of Variables as follows, where $A=e^B$.
+%\[
+%\int_{(0,\iy)} 1_A(x)\,\la(dx)=\int_{\R} 1_A(e^u)e^u\\la(du)=\int_{\R}1_B(u)e^u\,\la(du)=0.
+%\],
+
+The desired results then follow from the corresponding results for $*$:
+\begin{enumerate}
+\item By~(\ref{p6-4-2}), $f\bullet g(x)=f*g(\ln x)=g*f(\ln x)=g\bullet f(x)$.
+\item %Since $\la(\La(f_1,g_1)^c)=0$ and $e^x$ is a $C^1$ function, 
+By~(\ref{p6-4-4}), 
+$\mu(\La_{\mu}(f,g)^c)=\mu(\{e^x:x\in \La(f_1,g_1)^c\})=\la(\La(f_1,g_1)^c)=0$. %, where we used the fact that $e^x$ is $C^1$ and Lemma~\ref{p6-4-l1} below.
+%Indeed, letting $A=\{e^x:x\in \La(f_1,g_1)\}$ and $B=\{x:x\in \La(f_1,g_1)\}$, by change of variables and $\mu(B)=0$,
+%the image of a set of measure 0 under a $C^1$ map has measure 0 (see below).
+\item Using~(\ref{p6-4-3}), 
+\begin{align*}
+\ve{f\bullet g}_{L^r(\mu)}&=\ve{f_1*g_1(\ln x)}_{L^r(\mu)}\\
+&=\ve{f_1*g_1(x)}_{L^r(\la)}\\
+\ve{f}_{L^p(\mu)}&=\ve{f_1}_{L^p(\la)}\\
+\ve{g}_{L^p(\mu)}&=\ve{g_1}_{L^p(\la)}.
+\end{align*}
+Substituting into Young's inequality for $*$, $\ve{f_1*g_1(x)}_{L^r(\la)}\le \ve{f_1}_{L^p(\la)}\ve{g_1}_{L^q(\la)}$ for $p,q\in [1,\iy]$ such that $\rc r=\rc p+\rc q-1\ge 0$, we get
+\[
+\ve{f\bullet g}_{L^r(\mu)}\le\ve{f}_{L^p(\mu)}\ve g_{L^q(\mu)}.
+\]
+\end{enumerate}
+Applying $\ve{f\bullet g}_{L^p(\mu)}\le \ve{f}_{L^1(\mu)}\ve{g}_{L^p(\mu)}$ to $f(x)=\prc x^{\frac{\al}p}1_{[1,\iy)}(x)$ and $g(x)=x^{1-\frac{\al}{p}}\ph(x)$ gives
+{\scriptsize \[
+\ba{
+\ir
+\pa{
+\iiy \pf yx^{\frac{\al}{p}}1_{[1,\iy)} \pf xy y^{1-\frac{\al}p}\ph(y)\rc y\,dy
+}^p\,\rc x dx
+}^{\rc p}
+\le
+\pa{\iiy \prc x^{\frac{\al}p} 1_{[1,\iy)}(x)\rc x\,dx}
+\pa{\iiy x^{p-\al} \ph(x)^p\rc x\,dx}^{\rc p}.
+\]}
+The LHS equals
+\[
+\ba{
+\iiy
+\pa{
+\int_{(0,x)}  
+x^{-\frac{\al}{p}} \ph(y) \,dy
+}^p\rc x\,dx
+}^{\rc p}
+=
+\ba{\iiy \rc{x^{1+\al}}\pa{\int_{(0,x)}\ph(y)\,dy}^p\,dx}^{\rc p}.
+\]
+The RHS equals
+\[
+\pa{\int_{(1,\iy)} x^{-1+\frac{\al}{p}}\,dx}
+\pa{\iiy x^{p-\al-1} \ph(x)^p\,dx}^{\rc p}
+=
+\frac{p}{\al} \pa{\iiy \frac{(y\ph(y))^p}{y^{1+\al}}\,dy}^{\rc p}.
+\]
+%10:24
+\end{problem}
+\begin{problem}{\it(7.1.9)}
+We have
+\begin{align*}
+x&=\sum_{n=0}^{\iy} \an{x,e_n} e_n\\
+y&=\sum_{n=0}^{\iy}\an{y,e_n} e_n
+\end{align*}
+by 7.1.6. 
+
+\begin{lem}
+The inner product $\an{\cdot, \cdot}:H\times H\to \R$ on a Hilbert space $H$ is continuous. ($H\times H$ is given the product topology.)
+\end{lem}
+\begin{proof}
+Fix $(x,y)$. Suppose $\ve{x_1-x}<\ep$ and $\ve{y_1-y}< \ep$. Let $a=x_1-x,b=y_1-y$.  Then by Cauchy-Schwarz,
+\begin{align*}
+\an{x_1,y_1}-\an{x,y}&=\an{x+a,y+b}-\an{x,y}\\
+&=\an{a,y}+\an{x,b}+\an{a,b} \\
+&\le{\ve{a}{\ve{y}}}+{\ve{x}{\ve{b}}}+{\ve{a}{\ve{b}}}\\ &\le{\ep}\pa{{\ve{x}}+{\ve{y}}}+\ep^2
+\end{align*}
+which goes to 0 as $\ep\to 0$.
+\end{proof}
+%(Indeed, $\ve{x-\sum_{n=0}^N \an{x,e_n}e_n}^2=\sum_{n=N+1}^{\iy}|\an{x,e_n}|^2\to 
+Let $x_N=\sum_{n=0}^N \an{x,e_n}e_n$ and $y_N=\sum_{n=0}^N \an{y,e_n}e_n$. Since $x_N\to x$ and $y_N\to y$,
+\[
+\an{x,y}=\lim_{N\to \iy}\an{x_N,y_N}
+=\lim_{N\to \iy}\sum_{n=0}^N \an{x,e_n}\ol{\an{y,e_n}}
+=\sum_{n=0}^{\iy}\an{x,e_n}\ol{\an{y,e_n}}.
+\]
+By Cauchy-Schwarz,
+\[
+\sum_{n=0}^{\iy}\an{x,e_n}\ol{\an{y,e_n}}=\an{x,y}\le \ve{x}\ve{y}.
+\]
+%10:26
+\end{problem}
+\begin{problem}{\it(7.1.14)}
+\subprob{(i)}
+First we claim $L^{\perp}$ is closed. Since $\Pi_L$ is a linear contraction it is continuous; hence $f(x):=\ve{x-\Pi_L x}$ is continuous. But $x\in L$ iff $x=\Pi_Lx$, i.e. iff $f(x)=0$. Since $f$ is continuous, and $L^{\perp}=f^{-1}(0)$, $L^{\perp}$ is closed.
+
+Since $L^{\perp}$ is a closed subspace of a complete vector space of at most countable dimension, it is also a complete vector space of at most countable dimension, i.e. a Hilbert space. Hence it has an at most countable basis $E'=\{e_1',e_2',\ldots\}$. Supposing that $E=\{e_1,e_2,\ldots\}$ is a basis for $L$, we claim $S=E\cup E'$ is a basis for $H$. We check the following.
+\begin{enumerate}
+\item $\ol{\spn S}=H$. Let $x\in H$ and $\ep>0$ be given. Let $v=\Pi_L x$ and $v'=x-\Pi_L x$. Note that $x=v+v', v\in L,v'\in L^{\perp}$. Since $\spn E$ is dense in $L$ and $\spn E'$ is dense in $L'$, there are $w$ and $w'$ so that $\ve{v-w},\ve{v'-w'}\le \eph$. Note $w+w'\in \spn(S)$ and by the triangle inequality, $\ve{x-(w+w')}\le\ep$. Hence $\spn S$ is dense in $H$.
+\item $S$ is linearly dependent. Note $L\cap L^{\perp}=\{0\}$, since $\ve{\cdot}$ is positive except at 0. Hence if $\sum_i a_ie_i+\sum_ia_i'e_i'=0$ (assuming $\sum_i|a_i|^2+\sum_i|a_i'|^2<\iy$), we have $\sum_i a_ie_i=-\sum_ia_i'e_i'\in L\cap L^{\perp}=\{0\}$. Since $E$ and $E'$ are linearly independent, all coefficients are 0.
+\end{enumerate}
+Hence $S$ is a basis for $H$.\\
+
+%10:45
+\subprob{(ii)}
+We show if $E$ is an orthonormal basis for $L$ and $\tilde E$ is an orthonormal basis for $H$, then $E':=\tilde E\bs E$ is an orthonormal basis for $L^{\perp}$.
+
+Let $E=\{e_1,\ldots\}$ and $E'=\{e_1',\ldots\}$. First, note any element of $E'$ is perpendicular to every element of $E$, and hence perpendicular to every element of $\ol{\spn(E)}=L$, giving $E'\subeq L^{\perp}$. Linear independence of $E$ gives linear independence of $E'$. Finally, given $v\in L^{\perp}$, we can write $v=\sum_i a_ie_i+\sum_ia_i'e_i'$. But $v\in L^{\perp}$ gives $a_i=\an{v,e_i}=0$ so $v=\sum_i a_i'e_i'\in \ol{\spn(E')}$. Hence $E'$ is a basis for $L^{\perp}$.
+\end{problem}
+\begin{problem}{\it (7.2.13)}
+%11:01
+\subprob{(i)}
+By 7.1.8, if $\mu_1$ and $\mu_2$ are $\si$-finite measures with countably generated \sia s, and $\{e_{1,n}\}$ and $\{e_{2,n}\}$ are orthonormal bases for $L^2(\mu_1)$ and $L^2(\mu_2)$, then $\{e_{1,m}\times e_{2,n}\}$ is an orthonormal basis for $L^2(\mu_1\times \mu_2)$. The statement follows from induction, noting the base case is the fact that $\{ e_n(x)\}$ is an orthonormal basis for $L^2(\la_{[0,1]^N};\C)$ and $[0,1]^N$ is finite with countably generated \sia.\\
+
+\subprob{(ii)}
+Note the map $\Phi:L^2(\la_{[0,1]})\to L^2(\la_{[a,b]})$ defined by
+\[
+(\Phi u)(x)=(b-a)^{-\rc 2} u\pa{\frac{x-a}{b-a}}
+\]
+ is an isomorphism of Hilbert spaces. Indeed, if $f,g\in L^2(\la_{[0,1]})$,  then by the change of variables $x=\frac{y-a}{b-a}$,
+\[
+\int_0^1 f(x)\ol{g(x)}\,dx=\int_a^b f\pf{y-a}{b-a}\ol{g\pf{y-a}{b-a}} (b-a)^{-1}\,dy=\int_a^b (\Phi f)(x)\ol{(\Phi g)(x)}\,dx.
+\]
+%Putting in $u=f\ol{g}$ shows that 
+Thus $\Phi$ preserves inner product. Now $\Phi$ is an isomorphism since it has inverse $(\Phi^{-1} v)(x)=(b-a)^{\rc 2}v(a+(b-a)x)$. 
+
+Hence $\Phi$ takes an orthonormal basis to an orthonormal basis; $\{e_n\}$ becomes $\{(b-a)^{-\rc2} e_n\pf{x-a}{b-a}\}=\{e_n\pf{-a}{b-a}(b-a)^{-\rc2}e_n\pf{x}{b-a}\}$. We may rescale the elements independently by any complex numbers of absolute value 1 ($e_n\pf{-a}{b-a}$), so $\{(b-a)^{-\rc2}e_n\pf{x}{b-a}\}$ is also an orthonormal basis of $L^2(\la_{[a,b]})$.\\
+
+\subprob{(iii)}
+Let $E$ and $O$ be subspaces of even and odd functions in $L^2(\la_{[-1,1]};\R)$. We claim that $E$ and $O$ are closed and are orthogonal complements with $E\oplus O=L^2(\la_{[-1,1]})$.
+\begin{enumerate}
+\item They are closed: If $f_n \to f$ in $L^2$ then $f_n\to f$ in $\mu$-measure. Thus there is a subsequence $f_{n_i}$ converging almost everywhere to $f$. 
+%$f_n\to f$ a.e. 
+Supposing that $f_n\in E$ or $f_n\in O$ for all $n$, take the limit $i\to \iy$ in $f_{n_i}(x)=\pm f_{n_i}(x)$, to see that $f(x)=\pm f(x)$ a.e.
+\item $E\oplus O=L^2(\la_{[-1,1]})$: Given $f(x)$ with $f=f_e+f_o$, $f_e\in E$, $f_o\in O$,
+\begin{align*}
+f(x)&=f_e(x)+f_o(x)\\
+f(-x)&=f_e(x)-f_o(x).
+\end{align*}
+Solving gives the unique solution $f_e(x)=\frac{f(x)+f(-x)}{2}$ and $f_o(x)=\frac{f(x)+f(-x)}2$, and this works.
+\item $E,O$ are orthogonal complements: This follows from the above and the fact that if $f_e\in E$, $f_o\in O$, then
+\begin{align*}
+\int_{-1}^1 f_e(x)f_o(x)\,dx&=\int_{-1}^0 f_e(x)f_o(x)\,dx+\int_{0}^1 f_e(x)f_o(x)\,dx\\
+&=-\int_{1}^0 f_e(-x)f_o(-x)\,dx+\int_{0}^1 f_e(x)f_o(x)\,dx\\
+&=\int_0^1f_e(x)(-f_o(x))\,dx+\int_{0}^1 f_e(x)f_o(x)\,dx=0.
+\end{align*}
+\end{enumerate}
+%Let $S_e=\{1\}\cup \{\cos(2\pi nx)$ and $S_o=\{\sin(2\pi nx)\}$. 
+By (ii), $S=\bc{e_{[-1,1],n}=2^{-\rc2} e\pf{x}{2}}$ forms an orthonormal basis for $L^2([-1,1];\C)$. By taking real and complex parts and renormalizing, we see that $S_e\cup S_o$ forms an orthonormal basis for $L^2([-1,1];\C)$, where $S_e=\{2^{-\rc 2}\}\cup \{\cos\pi nx|n\in \N\}$ and $S_o=\{\sin\pi nx|n\in \N\}$. (They are clearly orthonormal; if $f\in L^2(\la_{[-1,1]};\R)$ is orthogonal to all elements of $S_e$ and $S_o$, then considered in $L^2(\la_{[-1,1]};\C)$ it is orthogonal to all elements of $S$ and hence is 0. This means $\ol{\spn(S_e\cup S_o)}^{\perp}=0$ so by 7.1.4, $S_e\cup S_o$ spans a dense subset of $H$.)
+
+Now we claim
+\begin{align*}
+E&=\ol{\spn(S_e)}\\
+O&=\ol{\spn(S_o)}.
+\end{align*}
+Since all functions in $S_e$ and $S_o$ are even or odd, respectively, and $E,O$ are closed, ``$\supeq$" holds. Now any element of $E$ can be written as an infinite linear combination of elements of $S_e\cup S_o$, but since $E\perp O$, in fact this representation is just a linear combination of elements of $S_e$, i.e. $E\subeq \ol{\spn(S_e)}$. Similarly $O\subeq \ol{\spn(S_o)}$.
+
+Now consider the maps $f:L^2([0,1],\R)\to L^2([-1,1],\R)$ defined by extending $f$ into an even or odd function and dividing by $\sqrt2$:\[f_e(x)=\frac{f(|x|)}{\sqrt 2},\quad \frac{\sign(x)f_o(|x|)}{\sqrt 2}.\]
+% (Note in the latter we may ignore defining the image of $f$ at 0 since we only care about defining a function a.e.) This clearly 
+%Let $S_e=\{1\}\cup \{\sqrt 2 \cos(\pi n)$ and $S_o=\{\sqrt 2\sin
+This is clearly bijective; it preserves inner product as $\int_{[-1,1]} f_eg_e\,dx=2\int_{[0,1]} f_eg_e\,dx=2\int_{[0,1]}\rc 2fg\,dx$ and similarly for $f_o,g_o$. Hence the inverse image of $S_e$ and $S_o$ under $f\mapsto f_e$ and $f\mapsto f_o$ will be orthonormal bases of $L^2(\la_{[0,1]};\R)$. These are the given bases.
+%11:58
+\end{problem}
+\begin{problem}{\it(7.2.14)}
+For $n\neq 0$, integrating by parts gives ($u=x,\,dv=e_n(x)dx=e^{-2\pi i nx}dx$)
+\begin{align*}
+\int_0^1 x\ol{e_n(x)}\,dx&=\left.\frac{xe^{-2\pi i nx}}{-2\pi in}\right|^1_0-\int_0^1 \frac{e^{2\pi inx}}{-2\pi i n}dx\\
+&=\rc{-2\pi i n}+\left .\frac{e^{-2\pi inx}}{(2\pi i n)^2}\right|^1_0\\
+&=\frac{i}{2\pi n}.
+\end{align*}
+For $n=0$, $\int_0^1 x\ol{e_n(x)}\,dx=\int_0^1x\,dx=\rc 2$. Hence %$f=\sum_{n\in \Z}\an{f,e_n}e_n$ and 
+\[
+\ve{f}^2=\sum_{n\in \Z} \ab{\an{f,e_n}}^2=\rc{4}+\sum_{n\in \Z-\{0\}}\ab{\frac{i}{2\pi n}}^2=\rc{4}+2\sum_{n\in \N}\rc{4\pi^2 n^2}
+=\rc{4}+\frac{1}{2\pi^2}\sum_{n\in \N}\rc{n^2}.
+\]
+But also
+\[
+\ve{f}^2=\int_0^1 x^2\,dx=\rc 3.
+\]
+Equating and solving for $\sum_{n\in \N}\rc{n^2}$ gives
+\[
+\sum_{n\in \N}\rc{n^2}=\frac{\pi^2}{6}.
+\]
+%12:14AM
+\end{problem}
+\begin{problem}{\it(7.2.15)}
+Since $\sum_{n\in \Z} |\an{\ph,e_n}e_n|=\sum_{n\in \Z}|\an{\ph,e_n}|<\iy$, by the Weierstrass M-Test the series converges uniformly. Suppose it converges pointwise to $\ph_2$. Since $\ph_2$ is the limit of a uniformly convergent sequence of continuous functions [the partial sums $\sum_{|n|\le N}\an{\ph,e_n}e_n$], it is continuous. Since the partial sums are bounded in absolute value by $\sum_{n\in \Z}|\an{\ph,e_n}|$, by Dominated Convergence the sum converges to $\ph_2$ in $L^2$. But we also know that the sum converges to $\ph$ in $L^2$ by 7.1.6, so $\ve{\ph-\ph_2}=0$, i.e. $\ph$ and $\ph_2$ agree except on a set of measure 0. But $f=\ph-\ph_2$ is continuous, so $f^{-1}(\R-\{0\})$ is open; if it is nonempty it would have measure greater than 0, a contradiction. Hence $\ph(x)=\ph_2(x)$ everywhere, as needed.
+
+Plugging in $x=0,1$ into $\ph=\sum_{n\in \Z}\an{\ph,e_n}e_n$ 
+gives $\ph(0)=\ph(1)=\sum_{n\in \Z} \an{\ph,e_n}$.
+%12:23
+\end{problem}
+%\begin{thebibliography}{9}
+%\bibitem{rudin} Rudin, W.: "Principles of Mathematical Analysis," McGraw-Hill, CA, 1976.
+%\end{thebibliography}
+\end{document}

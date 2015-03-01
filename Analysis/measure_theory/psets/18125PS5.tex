@@ -1,0 +1,791 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\bS}[0]{\mathbb{S}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\left\langle {#1}\right\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+\newcommand{\ve}[1]{\left\Vert {#1}\right\Vert}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Arc}{\operatorname{Arc}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\vol}[0]{\operatorname{vol}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\sia}[0]{ $\si$-algebra}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\iy}[0]{\infty}
+\newcommand{\nl}[1]{\left \Vert #1\right \Vert_{L^1}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+\allowdisplaybreaks[1]
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.125 Real and Functional Analysis} 
+\cfoot{} 
+\rfoot{\scriptsize PS \# 5} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.125 Real and Functional Analysis PSet \#5}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{4/14/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+\begin{problem}{\it (5.2.20)}
+\subprob{(i)}
+By Fubini,
+\begin{align*}
+\Ga(\al)\Ga(\be)&=\int_{(0,\iy)} \int_{(0,\iy)} s^{\al-1}e^{-s}t^{\be-1}e^{-t}\,ds\,dt\\
+&=\int_{(0,\iy)^2} s^{\al-1}t^{\be-1} e^{-(s+t)}\,d\la_{\R^2}.
+\end{align*}
+Note $F: (0,\iy)\times (0,1)\to (0,\iy)^2$ with $F(u,v)=(uv,u(1-v))$ is a diffeomorphism. Indeed, it has an inverse $F^{-1}(s,t)=\pa{t+s,\frac{s}{t+s}}$ hence is bijective and its Jacobian is $\det\smatt vu{1-u}{-u}=u\ne0$. Using the change of variables $(s,t)=F(u,v)$ gives (using Fubini)
+\begin{align*}
+\int_{(0,\iy)\times (0,1)} (uv)^{\al-1} (u(1-v))^{\be-1} e^{-(uv+u(1-v))}u\,d\la_{\R^2}
+&=\int_{(0,\iy)\times (0,1)}u^{\al+\be-1} e^{-u} v^{\al-1} (1-v)^{\be-1}\,d\la_{\R^2}\\
+&=\pa{\int_0^{\iy}u^{\al+\be-1} e^{-u}\,du}\pa{\int_0^1 v^{\al-1} (1-v)^{\be-1}\,dv}\\
+&=\Ga(\al+\be)B(\al,\be).
+\end{align*}
+Hence $B(\al,\be)=\frac{\Ga(\al)\Ga(\be)}{\Ga(\al+\be)}$.\\
+
+\subprob{(ii)}
+Changing to polar coordinates,
+\begin{align*}
+\int_{\R^N} \rc{(1+|x|^2)^{\la}}\,dx
+&=\int_0^{\iy}r^{N-1} \pa{
+\int_{\bS^{N-1}}\rc{(1+|r\om|^2)^{\la}}\la_{\bS^{N-1}}(d\om)
+}\,dr\\
+&=\int_0^{\iy}\frac{r^{N-1}}{(1+r^2)^{\la}} \int_{\bS^{N-1}} \,\la_{\bS^{N-1}}(d\om)\,dr\\
+&=\om_{N-1}\int_0^{\iy} \frac{r^{N-1}}{(1+r^2)^{\la}}\,dr.
+\end{align*}
+Making the substitution $r=\sqrt{\frac{x}{1-x}}$, and noting that as $x$ ranges from 0 to 1, $r$ ranges from 0 to $\iy$, we get
+\begin{align*}
+\om_{N-1}\int_0^1 \frac{\pf{x}{1-x}^{\frac{N-1}{2}}}
+{\pa{1+\frac{x}{1-x}}^{\la}}\rc{2}\pf{x}{1-x}^{-\rc2}\pf{1}{1-x}^2\,dx
+&=\frac{\om_{N-1}}{2}\int_0^1 (1-x)^{\la-\frac N2-1} x^{\frac N2-1}\,dx\\
+&=\frac{\om_{N-1}}{2}B\pa{\frac N2,\la-\frac N2}.
+\end{align*}
+By (i) and the fact $\frac{\om_{N-1}}{2}=\frac{\pi^{\frac N2}}{\Ga\pf N2}$, the above equals
+\[
+\frac{\pi^{\frac N2}}{\Ga\pf{N}{2}}\cdot \frac{\Ga\pf N2\Ga\pa{\la-\frac N2}}{\Ga(\la)}=\frac{\pi^{\frac N2}\Ga\pa{\la-\frac N2}}{\Ga(\la)}.
+\]
+For $\la=\frac{N+1}{2}$, this equals
+\[
+\frac{\pi^{\frac N2}\Ga\pf12}{\Ga\pf{N+1}{2}}=\frac{\pi^{\frac{N+1}{2}}}{\Ga\pf{N+1}{2}}=\frac{\om_N}{2}.
+\]
+
+\subprob{(iii)}
+Make the substitution $\xi=\sqrt{x}$.
+\begin{align*}
+\int_{-1}^1 (1-\xi^2)^{\la-1}\,d\xi&=2\int_0^1 (1-\xi^2)^{\la-1}\,d\xi\\
+&=2\int_0^1  (1-x)^{\la-1}\rc{2}x^{-\rc 2}\,dx\\
+&=\int_0^1(1-x)^{\la-1}x^{-\rc2}\,dx\\
+&=B\pa{\la,\rc2}=\frac{\Ga(\la)\Ga\pa{\rc2}}{\Ga\pa{\la+\rc2}}.
+\end{align*}
+In particular, noting that
+\[
+\frac{\om_N}{\om_{N-1}}=\left.{\frac{2\pi^{\frac{N+1}{2}}}{\Ga\pf{N+1}{2}}}\right/ \frac{2\pi^{\frac N2}}{\Ga\pf N2}=\frac{\Ga\pf N2\pi^{\rc2}}{\Ga\pf{N+1}{2}},
+\]
+we get
+\[
+\int_{(-1,1)}(1-\xi^2)^{\frac N2-1} =\frac{\Ga\pf N2\pi^{\rc2}}{\Ga\pf{N+1}{2}}=\frac{\om_N}{\om_{N-1}}.
+\]
+\end{problem}
+\begin{problem}{\it (5.2.21)}
+First note that 
+\[\int_{(-1,1)\times (\bS^{N-1})} g(\rh,\om)\,d\mu_N=\int_{(-1,1)\times \bS^{N-1}} (1-\rh^2)^{\frac N2-1}g(\rh,\om)\,d\la_{(-1,1)\times \bS^{N-1}}.\]
+Indeed this is true for characteristic functions by definition of $\mu_N$, so it is true for simple functions and for all measurable functions by Monotone Convergence.
+
+Then
+\begin{align}
+\nonumber
+&\quad\int_{(0,\iy)} r^N \pa{
+\iint_{(-1,1)\times \bS^{N-1}} F(r\Xi(\rh,\om))\mu_N(d\rh\times d\om)}\,dr\\
+\nonumber
+&=\int_{(0,\iy)}r^N\iint_{(-1,1)\times\bS^{N-1}} F(r\Xi(\rh,\om)) (1-\rh^2)^{\frac N2-1}\,\la_{(0,1)}\times \la_{\bS^{N-1}}(d\rh\times d\om)\,dr\\
+\nonumber
+&=\int_{-1}^1\int_0^{\iy} r^{N-1} \int_{\bS^{N-1}} rF(r\Xi(\rh,\om)) (1-\rh^2)^{\frac N2-1} \la_{\bS^{N-1}}(d\om)\,dr\,d\rh\\
+\nonumber
+&=\int_{-1}^1 \int_{\R^N} |x|F(x(1-y^2)^{\rc 2}, |x| y)(1-y^2)^{\rc N-1} \,\la_{\R^N} (dx)\,\la_{\R}(dy)\\
+\label{p5-2-1}
+&=\iint_{(-1,1)\times\R^N} |x|F(x(1-y^2)^{\rc 2}, |x| y)(1-y^2)^{\rc N-1} \,\la_{\R^{N+1}}(dx\times dy).
+\end{align}
+where in the next-to-last step we changed from polar to rectangular coordinates, changed $\rh$ to $y$, and noted that $r\Xi(\rh,\om)=(r(1-\rh^2)^{\rc 2} \om, r\rh)$, $r=|x|$, and $r\om =x$. The last step is Fubini.\\
+
+\subprob{(ii)}
+First note $\Phi$ is bijective. Indeed, we can let $y=\sin \theta$ where $-\frac{\pi}{2}< \theta<\frac{\pi}{2}$, so $(y,\sqrt{1-y^2})=(\sin\te,\cos\te)$, since 
+$\sin:\pa{-\frac{\pi}{2},\frac{\pi}{2}}\to (-1,1)$ is bijective. Given $(x',y')\in \R^{N+1}\bs\{(0,0)\}$ where $x\in \R^N,y\in \R$, in order for $\Phi(x,y)=(x',y')$ 
+we must have $(x\cos \theta, |x|\sin \theta)=(x',y')$. Comparing absolute 
+values gives that $|(x',y')|=|x|$, so we need $\cos \theta=\frac{x'}{|(x',y')|}$ and $\sin \theta =\frac{y'}{|(x',y')|}$. 
+This forces $x=|(x',y')|\frac{x'}{|x'|}$, $y=\sin^{-1}\theta$. Thus $\Phi^{-1}(x',y')=\pa{|(x',y')|\frac{x'}{|x'|},\sin^{-1}\pf{y'}{|(x',y')|}}$.
+
+Letting $x=(x_1,\ldots, x_N)$, we have $\Phi(x,y)=((1-y^2)^{\rc 2}x_1,\ldots ,(1-y^2)^{\rc 2}x_N,y\sqrt{x_1^2+\cdots x_N^2})$ and by cofactor expansion along the last row,
+\begin{align*}
+J\Phi(x,y)&=\left|\begin{array}{ccccc}
+(1-y^{2})^{\frac{1}{2}} & 0 & \cdots & 0 & -\frac{yx_{1}}{(1-y^{2})^{\frac{1}{2}}}\\
+0 & (1-y^{2})^{\frac{1}{2}} & \cdots & 0 & -\frac{yx_{2}}{(1-y^{2})^{\frac{1}{2}}}\\
+\vdots & \vdots & \ddots & \vdots & \cdots\\
+0 & 0 & \cdots & (1-y^{2})^{\frac{1}{2}} & -\frac{yx_{N}}{(1-y^{2})^{\frac{1}{2}}}\\
+\frac{yx_{1}}{|x|} & \frac{yx_{2}}{|x|} & \cdots & \frac{yx_{N}}{|x|} & |x|\end{array}\right|\\
+&=(1-y^2)^{\frac N2} |x|-\sum_{i=1}^{N} \cdot \frac{-y^2x_i^2}{|x|(1-y^2)^{\rc 2}} (1-y^2)^{\frac{N-1}{2}}\\
+&=(1-y^2)^{\frac N2} |x|+y^2|x|(1-y^2)^{\frac{N}{2}-1}\\
+&=|x|(1-y^2)^{\frac N2-1}.
+\end{align*}
+Since this is nonzero and $\Phi$ is bijective, it is a diffeomorphism. 
+Now~(\ref{p5-2-1}) equals
+\[
+\int_{(-1,1)}F(\Phi(x,y))\,J\Phi\,\la_{\R^{N-1}}=\int_{\R^{N+1}\bs\{0\}} F\,d\la_{\R^{N+1}}
+\]
+by change of variables.\\
+
+\subprob{(iii)}
+Substituting $F(z)=\ph(|z|)\psi\pf{z}{|z|}$ in (ii) gives
+\begin{multline}
+ \int_{(0,\iy)} r^N\iint_{(-1,1)\times \bS^{N-1}} \ph(|r\Xi(\rh,\om)|) \psi\pf{r\Xi(\rh,\om)}{|r\Xi(\rh,\om)|}\,\mu_N(d\rh\times d\om)\,dr\\
+=\int_{\R^{N+1}\bs\{0\}} \ph(|z|)\psi\pf{z}{|z|}\,d\la_{\R^{N+1}}(z).
+\label{p5-2-2}
+\end{multline}
+The LHS equals
+\[
+\pa{\int_{(0,\iy)} r^N\ph(r)\,dr}\pa{\iint_{(-1,1)\times \bS^{N-1}} \psi\pa{\Xi(\rh,\om)}\,\mu_N(d\rh\times d\om)}%=\int_{(0,\iy)} r^N\ph(r)\,dr \iint_{(-1,1)\times \bS^{N-1}} \psi\pf{r\Xi(\rh,\om)}{|r\Xi(\rh,\om)|}\,\mu_N(d\rh\times d\om).
+\]
+When $\Psi=1_{\Ga}$, $\Ga$ a measurable subset of $\bS^{N}$, this equals
+\begin{equation}
+\pa{\int_{(0,\iy)} r^N\ph(r)\,dr}\pa{\iint_{(-1,1)\times \bS^{N-1}} 1_{\Xi_*\Ga}(\rh,\om)\,\mu_N(d\rh\times d\om)}
+=\pa{\int_{(0,\iy)} r^N\ph(r)\,dr}(\Xi_*\mu_N)(\Ga).\label{p5-2-3}
+\end{equation}
+%When $\psi=1_{\Ga}$ 
+By changing to spherical coordinates, the RHS of~(\ref{p5-2-2}) equals
+\[
+\int_{0}^{\iy} r^N\int_{\bS^{N}} \ph(r)\psi(\om) \,\la_{\bS^{N}}(d\om)\,dr.
+\]
+Putting $\Psi=1_{\Ga}$ gives
+\begin{equation}
+\pa{\int_0^{\iy} r^N\ph(r)\,dr}\int_{\bS^N}1_{\Ga}(\om)\,\la_{\bS^{N}}(d\om)=
+\pa{\int_0^{\iy} r^N\ph(r)\,dr}\la_{\bS^{N}}(\Ga).\label{p5-2-4}
+\end{equation}
+Matching~(\ref{p5-2-3}) and~(\ref{p5-2-4}), and choosing $\ph(r)$ so that $\int_0^{\iy} r^N \ph(r)$ is finite and nonzero gives
+\[
+\la_{\bS^N}(\Ga)=(\Xi_*\mu_N)(\Ga),
+\]
+as needed.\\
+
+\subprob{(iv)}
+Let $T$ be a rotation sending $e_{N+1}$ to $\te$. Then by rotational invariance
+\begin{align*}
+\int_{\bS^{N}} f(\an{\te,\om}) \,\la_{\bS^N}(d\om)
+&=\int_{\bS^{N}} f(\an{\te,T\om}) \,\la_{\bS^N}(d\om)\\
+&=\int_{\bS^{N}} f(\an{T^{-1}\te,\om}) \,\la_{\bS^N}(d\om)\\
+&=\int_{\bS^{N}} f(\al(\om)) \,\la_{\bS^N}(d\om)
+\end{align*}
+where $\al(x_1,\ldots, x_{N+1}):=x_{N+1}$. Using (iii), this equals
+\begin{align*}
+\int_{\bS^N} f(\al(\om))(\Xi_*\mu_N)(d\om)
+&=\int_{(-1,1)\times \bS^{N-1}} f(\al((1-\rh^2)^{\rc 2}\om, \rh))\,d\mu_N.\\
+&=\int_{(-1,1)\times \bS^{N-1}} f(\rh)(1-\rh^2)^{\frac N2-1}\,\la_{(-1,1)}\times\la_{\bS^{N-1}}(d\rh\times d\om)\\
+&=\int_{\bS^{N-1}}\,d\la_{\bS^{N-1}}\int_{-1}^1 (1-\rh^2)^{\frac N2-1}f(\rh)\,d\rh \\
+&=\om_{N-1}\int_{(-1,1)} (1-\rh^2)^{\frac N2-1}f(\rh)\,d\rh.
+\end{align*}
+\end{problem}
+\begin{problem}{\it (5.2.25)}
+\subprob{(i)}
+Let $F(x_1,\ldots, x_N)=x_N-f(x_1,\ldots, x_{N-1})$. Since $f\in C^3(U;\R)$, $F\in C^3(U\times \R;\R)$. 
+By the given,
+\[
+M=\{(x_1,\ldots, x_N)|F(x_1,\ldots, x_n)=0, (x_1,\ldots, x_{N-1})\in U\}.
+\]
+%Given $(x_1,\ldots, x_{N})\in M$, we can take $r>0$ so that $B_{N-1}((x_1,\ldots, x_{N_1}),r)\in U$. Then $ 
+Moreover $\Psi:U\to M$ is clearly a bijection. 
+Note that 
+\[
+D\Psi=\left[\begin{array}{c}
+I_{N-1}\\
+\hline \nabla f\end{array}\right].
+\]
+Since the columns are linearly independent, $\partial_{x_i}\Psi(u),1\le i\le N-1$, form a basis for $T_u\Psi$, for every $u\in U$. 
+Hence $(\Psi, U)$ is a global coordinate chart.\\
+
+\subprob{(ii)}
+We have 
+\[[\an{\partial_{u_i} \Psi,\partial_{u_j} \Psi}]_{1\le i,j\le N-1}=(D\Psi)^T(D\Psi)=I_{N-1}+(\nabla f)^T\nabla f.\]
+Now, given a matrix $I_n+v^Tv$, $v\ne 0$, note that
+\[
+(I+v^Tv){v^T}=v^T+{v^T|v|^2}=(1+|v|^2){v^T}.
+\]
+For $w\perp v$ ($w$ a row vector), we have that the dot product $vw^T$ is 0. Hence
+\[
+(I+v^Tv)w^T=w^T.
+\]
+Hence $I+v^Tv$ has one eigenvalue $1+|v|^2$ and $n-1$ eigenvalues 1, and has determinant $1+|v|^2$. Applying this to our matrix we get
+\[
+J\Psi=\det\pa{[\an{\partial_{u_i} \Psi,\partial_{u_j} \Psi}]_{1\le i,j\le N-1}}^{\rc 2}=\det(I_{N-1}+(\nabla f)^T\nabla f)^{\rc 2}=\sqrt{1+|\nabla f|^2}.
+\]
+
+\subprob{(iii)}
+By 5.2.16 and (ii), since $M=\Psi(U)$,
+\begin{align*}
+\int_M \ph\,d\la_M&=\int_U (\ph\circ \Psi)\,J\Psi\,d\la_{\R^{N-1}}\\
+&=\int_U \ph(u,f(u))\sqrt{1+|\nabla f(u)|^2}\,du.
+\end{align*}
+\end{problem}
+\begin{problem} {\it (5.2.26)}
+\subprob{(i)}
+Since $\partial_{x_N}F$ is continuous, $M'=(\partial_{x_N}F)^{-1}(\R\bs \{0\})$ is open. It contains $M$. Take the connected component of $M'$ containing $M$ and call it $H$.
+
+The Jacobian of $\Phi$ is \[\det\left[\begin{matrix}
+\begin{matrix}
+I_{N-1} & 0\end{matrix}\\
+\hline \nabla F\end{matrix}\right]=\pd{F}{x_N}\ne 0\]
+so $\Phi:H\to \Phi(H)$ is a diffeomorphism.
+
+Since $F$ is $C^3$, $\Phi$ is $C^3$. Since $\Phi$ is a diffeomorphism and $\Phi$ is $C^3$, $f(u)=\pi_2(\Phi^{-1}(u,0))$ is $C^3$. ($\pi_2$ is the projection to the last coordinate; we need to project to the last coordinate to get a $\R$-valued function.)  
+Let $v=\Phi^{-1}(u,0)=(x_1,\ldots, x_N)$ and $\pi_1$ be projection to the first $N-1$ coordinates. Then $u=\pi_1(\Phi(v))$ and
+\[
+F(u,f(u))=F(\pi_1(\Phi(v)), \pi_2(v))=F(v)=0
+\]
+since $(x_1,\ldots, x_{N-1},F(v))=\Phi(v)=(u,0)$ implies $F(v)=0$. Since $\Phi$ is a diffeomorphism $H\to \Phi(H)$, $f(u)=\Phi^{-1}(u,0)$ is a bijection (and diffeomorphism) $U\to M$. (It surjects to $M$ since by definition $M$ is the set of $x$ such that $F(x)=0$, i.e. where the last component of $\Phi(x)$ is 0.) Hence $M$ is the graph of $f$. \\
+
+\subprob{(ii)}
+Note
+\begin{equation}\label{p5-4-1}
+D\Phi=\left[\begin{matrix}
+\begin{matrix}
+I_{N-1} & 0\end{matrix}\\
+\hline \nabla F\end{matrix}\right]
+\implies
+D\Phi^{-1}=
+\matt{I_{N-1}}{0}
+{-\left.\pd{F}{x_1}\right/\pd{F}{x_N}\;\cdots \;-\left.\pd{F}{x_{N-1}}\right/\pd{F}{x_N}}{-\pa{\pd{F}{x_N}}^{-1}}
+\end{equation}
+where to find $D\Phi^{-1}(x)$, the matrix is evaluated at $\Phi^{-1}(x)$. In the special case that $x=(u,0)$, the matrix is evaluated at $\Phi^{-1}(u,0)=(u, f(u))$.
+%where, to find $D\Phi^{-1}(u)$, the second matrix is evaluated at $(\pi_1(u),f(u))$, since $\Phi(\pi_1(u),f(u))=(\pi_1(u),F(\pi_1(u),u))$
+
+Since $f(u)=\pi_2(\Phi^{-1}(u,0))$, 
+\begin{align*}
+\sqrt{1+|\nabla f(u)|^2}
+&=\sqrt{1+\sum_{i=1}^{N-1} \pa{\pa{\pd{\Phi^{-1}(u,0)}{x_i}}_N}^2}\\
+&=\left.\sqrt{1+\sum_{i=1}^{N-1}\left.\ab{\pd{F}{x_i}}^2\right/\ab{\pd{F}{x_N}}^2}\right|_{x=(u,f(u))}&\text{ from last row of~(\ref{p5-4-1})}\\
+&=\left.\sqrt{\sum_{i=1}^{N}\left.\ab{\pd{F}{x_i}}^2\right/\ab{\pd{F}{x_N}}^2}\right|_{x=(u,f(u))}\\
+&=\frac{|\nabla F|}{\partial_{x_N}F}(u,f(u)).
+\end{align*}
+By the above and Problem 4,
+\begin{align*}
+\int_M\ph\,d\la_M&=\int_U \ph(u,f(u)) \sqrt{1+|\nabla f(u)|^2}\,du\\
+&=\int_U \frac{\ph|\nabla F|}{\partial_{x_N}F}(u,f(u))\,du
+\end{align*}
+\end{problem}
+\begin{problem}{\it(5.3.9)}
+First note by the product rule that
+\[
+\text{div}(u\nabla v-v\nabla u)=\cancel{\nabla u\cdot \nabla v}+u\text{div}(\nabla v)-\cancel{\nabla v\cdot \nabla u}-v\text{div}(\nabla u)=u\Delta v-v\Delta u.
+\]
+By the Divergence Theorem,
+\begin{align*}
+\int_G u\Delta v-v\Delta u\,d\la_{\R^N}
+&=\int_G \text{div}(u\nabla v-v\nabla u)\la_{\R^N}\\
+&=\int_{\partial G} \an{n,u\nabla v-v\nabla u}\,d\la_{\partial G}\\
+&=\int_{\partial G}u\an{n,\nabla v}-v\an{n,\nabla u}\,d\la_{\partial G}.
+\end{align*}
+
+Taking $v=1$, we have $\nabla v=0,\Delta v=0$ so the above reduces to
+\[
+\int_G \Delta u\,d\la_{\R^N}=\int_{\partial G} \an{n,\nabla u}\,d\la_{\partial G}.
+\]
+\end{problem}
+\begin{problem}{\it(5.3.13)}
+\subprob{(i)}
+Letting $g(z)=f(z+\zeta)$, defined on $G-\zeta=\{z:z=z'-\zeta\text{ for some }z'\in G\}$. Then we can replace $G$ by $G-\zeta$ and $f$ with $g$, so we may assume $0\in G$ and $\xi=0$.
+
+Now
+\begin{align*}
+\partial_{\ol z}\pf{f(z)}{z}&=
+\rc{2}\ba{\pd{}x\pf{f(x+iy)}{x+iy}+i\pd{}y\pf{f(x+iy)}{x+iy}}\\
+&=\rc{2}\frac{\pa{\pd{}xf(x+iy)}(x+iy)-f(x+iy)}{(x+iy)^2}
++\frac{i}{2}\frac{\pa{\pd{}yf(x+iy)}(x+iy)-if(x+iy)}{(x+iy)^2}\\
+&=\frac{\pd{}xf(x+iy)+i\pd{}yf(x+iy)}{2(x+iy)}\\
+&=\frac{\partial_{\ol{z}}f(z)}{z}.
+\end{align*}
+
+\subprob{(ii)}
+\[
+\eta(z)=
+\begin{cases}
+1&\text{if }|z|>1\\
+(1-16(1-|z|)^4)^4&\text{if }\rc2<|z|\le 1\\
+0&\text{if }|z|\le \rc 2.
+\end{cases}
+\]
+Each of the functions above has range in $[0,1]$ in their respective regions ($\rc2<|z|\le 1$ gives $0\le(1-|z|)^4<\rc{16}$ and $0< 1-16(1-|z|)^4\le 1$. 
+Since additionally each of the functions above is in $C^2$ on their respective regions, it suffices to show that $\eta$ is $C^2$ at $|z|=\rc 2$ and $|z|=1$. First note that we do have $\lim_{|z|\to \rc 2} \eta(z)=0$ and $\lim_{|z|\to 1}\eta(z)=1$, by substituting $|z|=\rc 2, 1$ in the second equation. Next note differentiaing the second function with respect to $x_i$ gives
+\[
+4(1-16(1-|z|^4))^3 \cdot -64(1-|z|)^3 \cdot -\frac{x_i}{|z|}
+\]
+which is 0 when either $|z|=\rc 2$ or 1. Differentiating this with respect to some $x_j$,using the product and chain rules, we get a sum of terms each of which has the factors $(1-16(1-|z|)^4)(1-|z|)$, which is 0 at $|z|=\rc 2, 1$. (Moreover the second derivatives are continuous functions of $z$.) The first and second derivatives match the first and second derivatives of $0$ and $1$, which are 0. Hence $\eta\in C^2_b(\R^2,[0,1])$.\\
+
+\subprob{(iii)}
+Let $\gamma(t)$ trace the boundary of $G$; note $re^{2\pi it}$ traces the boundary of $\ol{B(0,r)}$ for $t\in [0,1]$. 
+Since $\eta(r^{-1}z)=1$ for $|z|\ge r$, 
+\begin{align*}
+&2i\int_{G\bs \ol{B(0,r)}}\frac{\partial_{\bar z}f(z)}{z}\,d\la_{\R^2}\\
+&=2i\int_{G\bs \ol{B(0,r)}}\frac{\partial_{\bar z}[\eta(r^{-1}z)f(z)]}{z}\,d\la_{\R^2}&D\eta=0\text{ at }|z|=r\\
+&=2i\int_{G\bs \ol{B(0,r)}}\partial_{\bar z}(%\underbrace{
+\eta(r^{-1}z)f(z)/z%}_{f_r(z)}
+)
+\,d\la_{\R^2}&\text{by (i)}\\
+&=2i\int_{G}\partial_{\bar z}(%\underbrace{
+\eta(r^{-1}z)f(z)/z%}_{f_r(z)}
+)
+\,d\la_{\R^2}-2i\int_{\ol{B(0,r)}}\partial_{\bar z}(%\underbrace{
+\eta(r^{-1}z)f(z)/z%}_{f_r(z)}
+)
+\,d\la_{\R^2}\\
+&=\int_{0}^1\frac{\eta(r^{-1}z(t))f(z(t))}{z(t)}\,dz(t)-  \int_0^1 \cancel{\eta(e^{2\pi it})} \frac{f(re^{2\pi it})}{re^{2\pi it}}\,(2\pi ir e^{2\pi it}\,dt)&\text{by 5.3.10}\\
+&=\int_{0}^1\frac{f(z(t))}{z(t)}\,dz(t)-2\pi i\int_0^1 f(re^{2\pi it})\,dt
+\end{align*}
+Note we apply 5.3.10 to $f_r(z)$ rather than $\frac{f(z)}{z}$ because the former is continuous (being 0 in a neighborhood around the origin, the point of discontinuity of $\frac{f(z)}{z}$). 
+
+Letting $r\to 0$, we get $f(re^{2\pi it})\to f(0)$, so
+\[
+2i\int_{G} \frac{\partial_{\ol z}f(z)}{z}\,d\la_{\R^2}
+=\int_0^1 \frac{f(z(t))}{z(t)}\,dz(t)-2\pi if(0),
+\]
+as needed.
+\end{problem}
+\begin{problem}{\it(6.1.7)}
+\begin{align}
+\label{p5-7-1}
+0\le \int_E\pa{\al f_1\pm \rc{\al}f_2}^2\,d\mu
+&=\al^2\int_E f_1^2 \,d\mu\pm 2\int_E f_1f_2\,d\mu
++\rc{\al^2}\int_E f_2^2\,d\mu\\
+\implies
+\label{p5-7-2}
+2\ab{\int_E f_1f_2\,d\mu}&\le t\int_E f_1^2\,d\mu+\rc{t}\int f_2^2 \,d\mu.
+\end{align}
+(Put $\al=\sqrt t$.) This works as long as $f_1^2$ and $f_2^2$ are integrable. Below we assume that $f_1,f_2$ are nonnegative, since replacing each $f_i$ by $|f_i|$ does not change the RHS of~(\ref{cs}) and can only increase the LHS.
+\begin{enumerate}
+\item
+If $\int_E f_1^2\,d\mu =0$ then $2\ab{\int_E f_1f_2\,d\mu}\le \rc{t}\int_E f_2^2\,d\mu$ for any $t$. Taking $t\to \iy$, the RHS goes to 0; so the LHS equals 0. Switch the roles of $f_1,f_2$ to get the other conclusion.
+\item
+If neither of $\int_E f_i^2\,d\mu$ is $ 0$ for $i=1,2$, substitute
+\begin{equation}\label{cst}
+t=\frac{\pa{\int_E f_2^2\,d\mu}^{\rc 2}}{\pa{\int_E f_1^2\,d\mu}^{\rc 2}}\end{equation}
+and divide by 2 to get
+\begin{equation}\label{cs}
+\ab{\int_E f_1f_2\,d\mu}\le \pa{\int_E f_1^2\,d\mu}^{\rc 2}\pa{\int_E f_2^2\,d\mu}^{\rc 2}. 
+\end{equation}
+\item For a function $f$, let
+\[
+(f)_N(x)=\begin{cases}
+f(x),&\text{ if }f(x)\le N\\
+0,&\text{ if }f(x)>N.
+\end{cases}.
+\]
+Apply~(\ref{cs}) to $(f_1)_N$ and $(f_2)_N$. Since $(f_i)_N\nearrow f_i$, the LHS and RHS approach the corresponding integrals for $f_1$ and $f_2$ by Monotone Convergence Theorem.
+
+For $E$ unbounded, if $\int_E (f_i)_N^2\,d\mu=\iy$ for $i=1$ or 2, then $\int_E f_i^2\,d\mu=\iy$ as well and~(\ref{cs}) trivially holds. %Else the argument goes through for $(f_i)_N$ and $\int_E (f_i)_N^2\,d\mu\to \int_E (f_i)^2\,d\mu$ by Mon
+Else we can use the Monotone Convergence Theorem as before.
+\item If $f_1^2,f_2^2$ are $\mu$-integrable, then $\pa{\int_E (f_1)_N^2\,d\mu}^{\rc 2}\pa{\int_E (f_2)_N^2\,d\mu}^{\rc 2}$ is bounded, so $\int_E(f_1)_N(f_2)_N\,d\mu$ are bounded. As $N\to \iy$, $(f_1)_N(f_2)_N\nearrow f_1f_2$, so Monotone Convergence gives the existence of $\int_E f_1f_2\,d\mu$.
+
+If $f_1,f_2$ are not necessarily positive, we can split the integral on the left into 4 parts, depending on the signs of $f_1,f_2$, and apply the above to $|f_1|,|f_2|$ to get the existence of each of the 4 integrals.
+\item
+If $f_1=0$ or $f_2=0$ a.e., then $f_1f_2=0$ a.e. and the inequality holds. Suppose this does not occur.
+
+If equality holds in~(\ref{cs}), then choosing $t$ as in~(\ref{cst}), equality occurs in~(\ref{p5-7-2}) and in~(\ref{p5-7-1}) for $\al=\sqrt t$. Since the integrand is nonnegative, it must be almost everywhere 0, so $\al f_1\pm \rc{\al}f_2=0$ a.e.
+
+Suppose $\al f_1\pm \be f_2=0$ a.e. We may assume $\al>0$ (we've already taken care of $\al=0$). Then $\sqrt{\frac{\al}{\be}}f_1\pm \sqrt{\frac{\be}{\al}}f_2=0$ a.e. Replacing the $\al$ in~(\ref{p5-7-1}) by $\sqrt{\frac{\al}{\be}}$ gives equality in~(\ref{p5-7-1}) and hence~(\ref{cs}).
+\item
+By the Triangle Inequality and two applications of Cauchy-Schwarz,
+\begin{align*}
+\int_E(f_1+f_2)^2 \,d\mu
+&\le \int_E(|f_1|+|f_2|)|f_1+f_2| \,d\mu\\
+&\le \int_E|f_1||f_1+f_2|\,d\mu+\int_E|f_2||f_1+f_2|\,d\mu\\
+&\le \pa{\int_E f_1^2\,d\mu}^{\rc2}\pa{\int_E(f_1+f_2)^2\,d\mu}^{\rc2}
++\pa{\int_E f_2^2\,d\mu}^{\rc2}\pa{\int_E(f_1+f_2)^2\,d\mu}^{\rc2}\\
+&=\ba{\pa{\int_E f_1^2\,d\mu}^{\rc2}+\pa{\int_E f_2^2\,d\mu}^{\rc 2}}\pa{\int_E(f_1+f_2)^2\,d\mu}^{\rc 2}.
+\end{align*}
+If $\int_E(f_1+f_2)^2 \,d\mu=0$ then the result is obvious. Else
+dividing by $\pa{\int_E(f_1+f_2)^2 \,d\mu}^{\rc 2}$ gives Minkowski's inequality.
+\[
+\pa{\int_E (f_1+f_2)^2\,d\mu}^{\rc 2}\le \pa{\int_E f_1^2\,d\mu}^{\rc 2}+\pa{\int_E f_2^2\,d\mu}^{\rc 2}.
+\]
+\end{enumerate}
+
+\end{problem}
+\begin{problem}{\it(6.1.9)}
+\subprob{(0)}
+If $q\in C$, then for any $e\in \bS^{N-1}$, %choose $x$ so that $q-x$ is in the opposite direction from $e$, to get $\an{e,q-x}<0$.
+letting $x=q$ gives $\an{e,q-x}=0$, so $e_q$ does not exist.
+
+
+\begin{lem}\label{p5-8-l1}
+Suppose $N\ge 1$ and $A$ is a closed subset of $\bS^N$ with the property that given any two antipodal points of $\bS^N$, one of them is not in $A$. Then there exist two antipodal points, neither of which is in $A$.
+\end{lem}
+\begin{proof}
+Suppose by way of contradiction that for every pair of antipodal points, exactly one of them is in $A$. Then the set $A=\{-a|a\in A\}$ is exactly $\bS^N\bs A$. Clearly, $-A$ is also closed. But then $\bS^N=A\cup -A$ is the disjoint union of two closed sets. This is impossible as $\bS^N$ is connected.
+\end{proof}
+We prove the other direction by induction on dimension. By translation, we may assume $q=0\nin C$.
+For $N=1$ the result is obvious: if $0\nin C$, then all points of $C$ must be less than $0$, or all points of $C$ are greater than $0$; choose $e_q$ to be $1$ or $-1$, respectively. Suppose the claim holds for dimension $N$. For dimension $N+1$, let $\Phi:\R^{N+1}\to \bS^N$ be the map $\Phi(z)=\frac{z}{|z|}$. %Since $C$ is compact and $C\subeq \R^{N+1}\bs\{0\}$, $\Phi(C)$ is compact, hence closed. %By Lemma~\ref{p5-8-l1} $C$
+We show that there exists $z\in \bS^{N}$ such that $az\nin C$ for any $a$. Consider two cases.
+\begin{enumerate}
+\item Given any two antipodal points in $\ol{\Phi(C)}$, one of them is not in $\ol{\Phi(C)}$. Then by Lemma~\ref{p5-8-l1}, there exist two antipodal points $z,-z$ of $\bS^N$, neither of which are in $\ol{\Phi(C)}$, and hence not in $\Phi(C)$. This means $az\nin C$ for any $a$. 
+\item There exist two antipodal points in $\ol{\Phi(C)}$, say $z$ and $-z$. If neither of them are in $\Phi(C)$, then we are done. %If both of them are in $\Phi(C)$, then $C$ contains $az$ and $-bz$ for some $a,b>0$. 
+%By convexity, $C$ contains $\frac{b}{a+b}az+\pa{1-\frac b{a+b}}(-bz)=0$, contradiction. 
+Else $\Phi(C)$ contains exactly one of $\{z,-z\}$. Suppose it contains $z$. Since $-z\in \ol{\Phi(C)}$, for any $\ep>0$ there exists $z'\in C$ so that $|\Phi(z')-\Phi(-z)|<\ep$, i.e. $\ab{\frac{z'}{|z'|}+\frac{z}{|z|}}<\ep$. By convexity, the following point is in $C$:
+\[
+p:=\frac{|z'|}{|z|+|z'|}z+\frac{|z|}{|z|+|z'|}z'
+=\frac{\frac{z}{|z|}+\frac{z'}{|z'|}}{\rc{|z|}+\rc{|z'|}}
+\]
+However,
+\[
+|p|<\frac{\ep}{\rc{|z|}+\rc{|z'|}}\le \ep|z|.
+\]
+Since $|z|$ is fixed, letting $\ep\to 0$ we get points in $C$ arbitrarily close to 0. Since $C$ is closed, $0\in C$, contradiction.
+\end{enumerate}
+Now let $H$ be the hyperplane perpendicular to $z$, and let $\pi$ be  projection to $P$. By choice of $z$, $0\nin\pi(C)$. Note $\pi(C)$ is convex (as $\pi(tx_1+(1-t)x_2)=t\pi(x_1)+(1-t)\pi(x_2)$), and $H\cap \bS^{N}$ is related to $\bS^{N-1}$ by some orthogonal transformation. Thus by the induction hypothesis, there exists $e_q\in H\cap \bS^N$ such that $\an{e_q, q-y}>0$ for all $y\in \pi(C)$. But $\an{e_q,q-\pi(x)}=\an{e_q,q-x}$ since $e_q\in H$ and $\pi$ is projection to $H$. Hence $e_q$ works for $C$ as well.
+
+
+%If $\Phi(C)$ contains two antipodal points $z$ and $-z$, then $C$ contains $az$ and $-bz$ for some $a,b>0$. By convexity, $C$ contains $\frac{b}{a+b}az+\pa{1-\frac b{a+b}}(-bz)=0$, contradiction. Hence by Lemma~\ref{p5-8-l1}, there exist two antipodal points $z$ and $-z$ of $\bS^N$, neither of which are in $\Phi(C)$. This means $az\nin C$ for any $a$. Let $H$ be the hyperplane perpendicular to $z$, and let $\pi$ be  projection to $P$. By choice of $z$, $0\nin\pi(C)$. Note $\pi(C)$ is convex (as $\pi(tx_1+(1-t)x_2)=t\pi(x_1)+(1-t)\pi(x_2)$), and $H\cap \bS^{N}$ is related to $\bS^{N-1}$ by some orthogonal transformation. Thus by the induction hypothesis, there exists $e_q\in H\cap \bS^N$ such that $\an{e_q, q-y}>0$ for all $y\in \pi(C)$. But $\an{e_q,q-\pi(x)}=\an{e_q,q-x}$ since $e_q\in H$ and $\pi$ is projection to $H$. Hence $e_q$ works for $C$ as well.\\
+
+Thus to show that $q:=\int F\,d\mu\in C$, it suffices to show $e_q$ does not exist, that is, given any $e\in \bS^{N-1}$, there exists $x\in C$ such that
+\[
+\an{e,\int F(y)\,\mu(dy)-x}\le 0.
+\]
+Since $C$ is compact and $\an{e,x}$ is continuous, we may choose $x\in C$ to maximize $\an{e,x}$. Then
+\[
+\an{e,\int F(y)\,\mu(dy)-x}=\int \an{e, F(y)-x}\,\mu(dy)=\int \an{e, F(y)}-\an{e,x}\,\mu(dy)\le 0,
+\]
+since $F(y)\in C$ means $\an{e,F(y)}\le \an{e,x}$.\\
+
+
+%\begin{lem}
+%Given a closed, convex subset $C$ of $\R^N$, $x\nin C$ iff there is $e_x\in \bS^{N-1}$ such that $\an{e_x,q-x}>0$ for all $q\in C$.
+%\end{lem}
+%This is equivalent to the given statement (but I got the variables mixed up and I don't feel like fixing it).
+%\begin{proof}
+%If $x\in C$, then for any $e\in \bS^{N-1}$, %choose $x$ so that $q-x$ is in the opposite direction from $e$, to get $\an{e,q-x}<0$.
+%letting $q=x$ gives $\an{e,q-x}=0$, so $e_q$ does not exist.
+%
+%To prove the other direction, we proceed by induction on dimension. By translation we may assume $x=0$. For $N=1$ the result is obvious: if $0\nin C$, then all points of $C$ must be less than $0$, or all points of $C$ are greater than $0$. Suppose the claim holds for dimension $N$. For dimension $N+1$, let $e=(0,\ldots, 0,1)\in \bS^N$. Let $H$ be the hyperplane perpendicular to $e$. Note $H\cap \bS^N=\bS^{N-1}$, and $H\cap C\subeq \R^{N}$ is convex (as the intersection of convex sets). By the induction hypothesis there exists $e'\in\bS^{N-1}\subeq\bS^N$ such that $\an{e',q}> 0$ for all $q\in C\cap \R^N$. 
+%
+%Let $P$ be the (2-dimensional) plane containing $e$ and $e'$, let define $\pi_P$ to be the projection map onto $P$, and define $f$ by $f(y)$ be the angle that $\pi_P(y) makes with $e$, where the orientation is so that $e'$ makes an angle of $\frac{\pi}{2}$ with $e$. Note $f$ is a continuous map from its domain $D:=\{y:\pi_P(y)\ne 0\}$ to $\R/2\pi \Z$ (It can be thought of as the composition $D\to n
+%Let $v$ be a vector perpendicular to $e$ and $e'$ (for $N=1$, we consider $\R^2$ as being in $\R^3$), and let $T_{\te}$ denote rotation by $\te$ around $v$. Assume the orientation is such that a $\frac{\pi}2$ rotation sends $e$ to $e'$. 
+%
+%\begin{figure}[h!]
+%\centering
+%\includegraphics{pset5pic}
+%\end{figure}
+%
+%We will rotate $e$ until it satisfies the desired conditions. 
+%Let $e_{\te}=T_{\te} e$. Let $S$ denote the half space $\{q:\an{q-x,e}<0\}$. Let $S_{\te}$ denote the half space $\{q:\an{q-x,e_{\te}}<0\}$ and $H_{\te}$ denote the hyperplane perpendicular to $e_{\te}$. Let
+%\[
+%\al=\min\{\te:\te\ge 0,\, S_{\te}\cap S\cap C=\phi\}.
+%\]
+%Note that $\al$ exists since $\pi$ is certainly in the set. (To see the infimum of the set is the same as the minimum, note $\an{q-x,e_{\te}},\an{q-x,e}$ are continuous in $\te$ and uniformly continuous in $q$ for $q\in C$; $h(\te):=\min_q(\max(\an{q-x,e},\an{q-x,e_{\te}}))$ exists since $C$ is compact and is continuous in $\te$; $h(\te)\ge 0$ iff $\te\in\{\te:\te\ge 0,\, S_{\te}\cap S\cap C=\phi\}$; so the minimum of the set is the minimum of $h^{-1}(\R_{\ge0})$, which exists.) We claim that $e_{\al}$ works.
+%
+%We need to check $S_{\al}\cap C=\phi$. If $\al=0$ we are done. So assume $\al>0$. Since $S_{\al}\cap S\cap C=\phi$, it suffices to check that $S_{\al}\cap S^c\cap C=\phi$. Suppose by way of contradiction that $q\in S_{\al}\cap S^c\cap C$. Let $q'$ be such that $q'\in S\cap H_{\al}\cap C$ (which exists by choice of $\al$). %By convexity $tq'+(1-t)q\in C$ for all $t\in[0,1]$. 
+%But consider the linear functions $\an{tq'+(1-t)q-x,e}=t\an{q'-x,e}+(1-t)\an{q-x,e}$ and $\an{tq'+(1-t)q-x,e_{\al}}=t\an{q'-x,e_{\al}}+(1-t)\an{q-x,e_{\al}}$.\\
+%
+%\begin{tabular}{|c|c|c|}
+%\hline 
+% & $t=1$ & $t=0$\tabularnewline
+%\hline 
+%$\an{tq'+(1-t)q-x,e}$ & $<0$ & $>0$\tabularnewline
+%\hline 
+%$\an{tq'+(1-t)q-x,e_{\al}}$ & $0$ & $<0$\tabularnewline
+%\hline
+%\end{tabular}\\
+%
+%For $t\ne 1$ close enough to $1$, both functions are less than 0. But this means $tq'+(1-t)q\in S\cap S_{\al}$. But by convexity it is in $C$, contradicing the fact that $S_{\al}\cap S\cap C=\phi$. Thus $S_{\al}\cap C=\phi$, i.e. $\an{q-x,e_{\al}}\ge 0$ for all $q\in C$, as needed.
+%\end{proof}
+%\begin{figure}[h!]
+%\centering
+%\includegraphics{pset5pic2}
+%\end{figure}
+
+\subprob{(i)}
+If $g_1,g_2$ are continuous, then
+\begin{enumerate}
+\item At a point $y$ where $g_1(y)< g_2(y)$ or $g_1(y)>g_2(y)$, the inequality holds in a neighborhood of $y$, and hence, in a neighborhood of $y$, $g(y)=g_1(y)$ or $g(y)=g_2(y)$; thus $g_1\wedge g_2$ is continuous at $y$.
+\item At a point $y$ where $g_1(y)=g_2(y)$, given $\ep>0$ we can choose $\de_1,\de_2>0$ for $g_1,g_2$ for continuity and take $\de=\min(\de_1,\de_2)$ for $g_1\wedge g_2$.
+\end{enumerate}
+Letting $g=g_1\wedge g_2$, if $g_1,g_2$ are concave, then for all $t\in [0,1]$,
+\begin{align*}
+tg(x)+(1-t)g(y)&\le \min(tg_1(x)+(1-t)g_1(x),tg_2(x)+(1-t)g_2(x))\\
+&\le \min(g_1(tx+(1-t)y), g_2(tx+(1-t)y))\\
+&=g(tx+(1-t)y).
+\end{align*}
+In particular, if $g$ is nonnegative continuous convex, then $g\wedge n$ ($n\ge0$) is also. If Jensen's holds for bounded functions, then applying it to $g\wedge n$ we have
+\[
+g\pa{\int F \,d\mu}\wedge n \ge \int (g\circ F)\wedge n\,d\mu.
+\]
+As $n\to \iy$, the LHS approaches $g\pa{\int F\,d\mu}$ and the RHS approaches $\int g\circ F\,d\mu$ by Monotone Convergence.
+
+Thus it suffices to prove Jensen's for bounded functions.\\
+
+\subprob{(ii)}
+Suppose $(x_1,t_1),(x_2,t_2)\in \hat{C}$. Then for $t\in [0,1]$,
+\begin{align*}
+tt_1+(1-t)t_2&\le tg(x_1)+(1-t)g(x_2)&\text{ since }(x_1,t_1),(x_2,t_2)\in \hat{C}\\
+&\le g(tx_1+(1-t)x_2)&\text{ concavity}
+\end{align*}
+so $(tx_1+(1-t)x_2,tt_1+(1-t)t_2)\in \hat{C}$, and $\hat C$ is convex. Define $h(x,t)=g(x)-t$. Since $\hat C=h^{-1}([0,\iy))$, $h$ is continuous and $[0,\iy)$ is closed, we get $\hat C$ is closed.
+
+$\hat{F}$ is integrable since $F$ and $g\circ F$ both are ($g$ is bounded continuous, $F$ measurable). Since $\hat C$ is convex, applying part 0 gives $\int \hat F\,d\mu=\coltwo{\int F\,d\mu}{\int g\circ F\,d\mu}\in \hat C$. By definition of $\hat C$,
+\[
+\int g\circ F\,d\mu\le g\pa{\int F\,d\mu}.
+\]
+\end{problem}
+%\begin{thebibliography}{9}
+%\bibitem{rudin} Rudin, W.: "Principles of Mathematical Analysis," McGraw-Hill, CA, 1976.
+%\end{thebibliography}
+\end{document}

@@ -68,6 +68,8 @@ Analysis/measure_theory/notes/*
 !Analysis/measure_theory/notes/chapters
 Analysis/measure_theory/notes/chapters/*
 !Analysis/measure_theory/notes/chapters/*.tex
+!Analysis/measure_theory/psets/
+!Analysis/measure_theory/psets/*.tex
 
 
 !Combinatorics/

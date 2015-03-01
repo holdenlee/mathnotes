@@ -1,0 +1,768 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\bS}[0]{\mathbb{S}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Arc}{\operatorname{Arc}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\Leb}[0]{\operatorname{Leb}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\vol}[0]{\operatorname{vol}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\sia}[0]{ $\si$-algebra}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\iy}[0]{\infty}
+\newcommand{\nl}[1]{\left \Vert #1\right \Vert_{L^1}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.125 Real and Functional Analysis} 
+\cfoot{} 
+\rfoot{\scriptsize PS \# 4} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.125 Real and Functional Analysis PSet \#4}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{3/21/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+\begin{problem}{\it (3.3.17, Averaging near points of $\Leb(f)$)}
+\subprob{(i)}
+Since $x\in \Leb(f)$,
+\[
+\lim_{I\searrow \{x\}} \rc{\vol{I}}\int_I|f-f(x)|\,d\la_{\R}=0.
+\]
+But $-|f-f(x)|\le f-f(x)\le |f-f(x)|$ so
+\[
+\lim_{I\searrow \{x\}} \rc{\vol{I}}\int_I f-f(x)\,d\la_{\R}=0\implies \lim_{I\searrow \{x\}} \rc{\vol{I}}\int_I f\,d\la_{\R}=f(x).
+\]
+It suffices to note that the intervals $(x-\de,x]$ and $[x,x+\de)$ are shrinking to $\{x\}$ as $\de\searrow 0$, and that $\vol([x,x+\de))=\vol((x-\de,x])=\de$.\\
+
+\subprob{(ii)}
+Since $f$ is continuous with compact support by 3.2.18 we may treat the integrals as Riemann integrals. %(Implicitly we replace integrals over $\R$ with integrals over an interval containing the support of the integrand, use 3.2.18, and then write the integral over $\R$ again.)
+\begin{align*}
+f_{\ep}(x)&=\int_{\R} \rh_{\ep}(x-t) f(t)\,dt\\
+&=\int_{\R}\ep^{-1}\rh(\ep^{-1}(x-t))f(t)\,dt\\
+&=\int_{\R}\cancel{\ep^{-1}}\rho(-t')f(x+\ep t')\cancel{\ep} \,dt'&t\mapsfrom x+\ep t'\\
+&=\int_{0}^{\iy}\rho(-t)f(x+\ep t)\,dt+
+\int_{-\iy}^{0}\rho(-t)f(x+\ep t)\,dt\\
+&=\int_{0}^{\iy}\rho(-t)f(x+\ep t)\,dt+
+\int_{0}^{\iy}\rho(t)f(x-\ep t)\,dt
+\end{align*}
+(In the last step we made the substitution $t\mapsfrom -t$---this makes the limits of integration $\iy$ to 0, absorbing a negative sign from $-dt$ makes it $0$ to $\iy$.)
+
+Using integration by parts, and noting $\rh(\iy)=0$,
+\begin{align*}
+\int_{[0,\iy)} \rh(-t)f(x+\ep t)\,dt
+&=\left.\rh(-t)\int_0^t f(x+\ep u)\,du\right|^{\iy}_0-\int_0^{\iy} \pa{\int_0^t f(x+\ep u)\,du}(-\rh'(-t))\,dt\\
+&=0+\int_0^{\iy}\pa{\rh'(-t)\int_x^{x+\ep t} \rc{\ep}f(s)\,ds}\,dt
+\end{align*}
+where we made the substitution $u\mapsfrom \frac{s-x}{\ep}$ in the last step. Similarly, with the substitution $u\mapsfrom \frac{x-s}{\ep}$,
+\begin{align*}
+\int_{[0,\iy)} \rh(t)f(x-\ep t)\,dt
+&=\left.\rh(t)\int_0^t f(x-\ep u)\,du\right|^{\iy}_0-\int_0^{\iy} \pa{\int_0^t f(x-\ep u)\,du}\rh'(t)\,dt\\
+&=0-\int_0^{\iy}\pa{\rh'(t)\int_{x-\ep t}^x \rc{\ep}f(s)\,ds}\,dt
+\end{align*}
+
+Now we prove it for general $f\in L^1$. By linearity of integrals, and by splitting $f$ into a positive and negative part, it suffices to consider nonnegative $f$. 
+The set of continuous functions with compact support is dense in $L^1(\mu;\R)$ by 3.2.15. 
+Thus given any $f$, there exist a sequence of such functions $f_n$ converging to $f$ in $L^1$. 
+By replacing $f_n$ with $\max(\min(f,f_n),0)$ as necessary we may assume $0\le f_n\le f$. (This clearly preserves continuity, and $|f-f_n|$ does not increase after this replacement, so we still have $f_n\to f$.) 
+By the above we have
+\begin{equation}\label{p4-1-0}
+\int_{[0,\iy)} \rh(-t)f_n(x+\ep t) \,\la_{\R}(dt) =\int_{(0,\iy)} \rh'(t)\pa{\rc{\ep}\int_{[x,x+\ep t)}f_n(s)\,\la_{\R}(ds)}\,\la_{\R}(dt).
+\end{equation}
+%Now $f_n(x\pm \ep t)$ converges to $f(x\pm \ep t)$ in $L^1$ as well (just change variables). Since $\rh$ is bounded, the LHS converges to the corresponding integral for $f$. 
+
+Consider the LHS. Since $\rh$ is bounded,
+\[
+|\rh(-t)f_n(x+\ep t)|\le (\max |\rho|)f_n(x+\ep t).
+\]
+The right hand side is integrable over $t\in [0,\iy)$ (since $\max |\rho|$ is constant, $f_n$ is integrable, and $f_n(x+\ep t)$ is obtained from $f_n$ from substitution). Hence by Lebesgue dominated convergence it converges to the corresponding integral for $f$.
+
+Consider the RHS. Now
+\begin{align*}
+\ab{\rh'(t)\pa{\rc{\ep}\int_{[x,x+\ep t)}f_n(s)\,ds}}
+&\le |\rh'(t)|\pa{\rc{\ep}\int_{[x,x+\ep t)}f(s)\,ds}\\
+&\le |\rh'(t)|\rc{\ep}\int_{[0,\iy)}f(s)\,ds
+\end{align*}
+which is integrable because $|\rh'(t)|$ is integrable. Hence by Lebesgue dominated convergence the RHS of~\ref{p4-1-0} converges to the corresponding integral for $f$, and equality in~\ref{p4-1-0} holds for $f_n$ replaced by $f$.\\
+
+\subprob{(iii)}
+\begin{align}
+\nonumber
+\lim_{\ep\searrow 0} f_{\ep}(x) &=\lim_{\ep\searrow 0}
+\pa{
+\int_{[0,\iy)} \rh(-t) f(x+\ep t)\,\la_{\R}(dt)+\int_{[0,\iy)} \rh(t)f(x-\ep t)\,\la_{\R}(dt)
+}\\
+\nonumber
+&=\lim_{\ep\searrow 0}
+\pa{
+\int_0^{\iy}\rh'(-t)t\pa{\rc{\ep t} \int_{[x,x+\ep t)} f(s)\,\la_{\R}(ds)}\,\la_{\R}(dt)
+-
+\int_0^{\iy}\rh'(t)t\pa{
+\rc{\ep t}\int_{(x-\ep t,x]} f(s)\,\la_{\R}(ds)
+}\,\la_{\R}(dt)
+}\\
+\label{p4-1-1}
+&=\int_0^{\iy} \rh'(-t)tf(x)\,\la_{\R}(dt)-\int_0^{\iy} t\rh'(t) f(x)\,\la_{\R}(dt)\\
+\nonumber
+&=-\int_{-\iy}^0 \rh'(t)t f(x)\,\la_{\R}(dt)-\int_0^{\iy} t\rh'(t) f(x)\,\la_{\R}(dt)\\
+\nonumber
+&=-f(x)\int_{\R} t\rh'(t)\,\la_{\R}(dt).
+\end{align}
+In~(\ref{p4-1-1}) we took the limit inside the integrand and used (i). We justify this as follows: %on the set $[0,T]$,
+%\[
+%\rc{\ep t} \int_{[t,x+\ep t)} f(s)\,ds\to f(x)
+%\]
+%uniformly as $\ep\to 0$, simply from (i).
+Given $T,\ep'>0$ choose $\ep_0$ so that $\ab{\rc{\ep t} \int_{[x,x+\ep t)} f(s)\,ds- f(x)}\le \ep'$ for $0\le t\le T$, $0<\ep<\ep_0$. (By (i) the limit as $\ep t\to 0$ is $0$.) 
+%On $[T,\iy)$, it is bounded by $\frac LT$ where $L=\rc{\ep}\int_{\R}|f|\,dx+f(x)$. Hence
+Note furthermore, since $\rc{d} \int_{[x,x+d)} f(s)\,ds$ is continuous, has limit $f(x)$ as $d\to 0$ and as $d\to\iy$, it is bounded above, and therefore $\ab{\rc{\ep t} \int_{[x,x+\ep t)} f(s)\,ds- f(x)}$ is bounded for all $t$, say by $M$. Then
+\begin{align*}
+\int_0^{\iy} \ab{\rh'(-t)t\pa{\rc{\ep t}\int_{[x,x+\ep t)} f(s)\,ds-f(x)}}\,dt
+&\le \int_0^T|t\rh'(-t)|\ep'\,dt+M\int_T^{\iy} |t\rh'(-t)|\,dt\\
+&\le \ep'\int_0^{\iy}|t\rh'(-t)|\,dt+M\int_T^{\iy} |t\rh'(-t)|\,dt
+\end{align*}
+Choosing $T$ large and $\ep'\to 0$ this goes to 0, since $|t\rh'(t)|\in L^1$. Similarly for the other integral.
+
+%\begin{lem}
+%Let $f_n(x)$ be a sequence of functions converging to $f$ such that the convergence is uniform on each $[0,L]$. Then $\int_0^{\iy} f_n\,dx=\int_0^{\iy}$
+%\end{lem}
+%By integration by parts,
+Now
+\begin{align*}
+1=\int \rh\,d\la_{\R}&=\int_{-\iy}^{\iy} \rh\,dx&\text{by 3.2.18}\\
+&=t\rh(t)|^{\iy}_{-\iy}-\int_{-\iy}^{\iy}t\rh'(t)\,dt\\
+&=-\int_{-\iy}^{\iy}t\rh'(t)\,dt.
+\end{align*}
+Hence $\lim_{\ep\searrow 0}f_{\ep}(x)=f(x)$.
+
+\end{problem}
+\begin{problem}{\it (3.3.18, Continuous and singular functions)}
+\subprob{(i)}
+By Exercise 1.2.25(iii),
+\[
+\Arc(F;(c,d])=\lim_{\Vert C\Vert \searrow 0} \sum_{I\in \cal C} \sqrt{\vol(I)^2+(\De_IF)^2}.
+\]
+The covers
+\[
+\cal C_n=\bc{\ba{0,\rc{2^n}},\ba{\rc{2^n},\frac{2}{2^n}},\ldots,
+\ba{\frac{2^n-1}{2^n},1}
+}
+\]
+have mesh tending to 0, so
+\[
+\Arc(F;(c,d])=\lim_{n\to \iy}\sum_{I\in \cal C_n} \sqrt{\vol(I)^2+(\De_IF)^2}
+=\lim_{n\to\iy}L_n.
+\]
+
+\subprob{(ii)}
+\begin{align*}
+2^{-n}\sum_{k=0}^{2^n-1} \ba{
+(1+f_n(k2^{-n}))-\sqrt{1+f_n(k2^{-n})^2}
+}
+&=\sum_{k=0}^{2^n-1}[2^{-n} +(F((k+1)2^{-n})-F(k2^{-n}))]\\
+&\quad -\sum_{k=0}^{2^n-1} \sqrt{4^{-n}+(F((k+1)2^{-n})-F(k2^{-n}))^2}\\
+&=1+F(1)-F(0)-L_n=2-L_n.
+\end{align*}
+
+\subprob{(iii)}
+For $a\ge 0$,
+\begin{align*}
+&\frac{a}{1+a}\le (1+a)-\sqrt{1+a^2}\le \frac{2a}{1+a}\\
+\iff &(1+a)-\frac{2a}{1+a}\le \sqrt{1+a^2}\le (1+a)-\frac{a}{1+a}\\
+\iff &\frac{a^2+1}{a+1}\le \sqrt{1+a^2}\le \frac{a^2+a+1}{a+1}\\
+\iff &(a^2+1)^2\le (a+1)^2(a^2+1)\le (a^2+a+1)^2\\
+\iff &a^4+2a^2+1\le a^4+2a^3+2a^2+2a+1\le a^4+2a^3+3a^2+2a+1,
+\end{align*}
+the last statement clearly true.
+Hence
+\[
+\int_{[0,1)} \frac{1+f_n(x)-\sqrt{1-f_n(x)^2}}{2}\la_{\R}(dx)
+\le \int_{[0,1)} \frac{f_n(x)}{1+f_n(x)} \la_{\R}(dx) \le \int_{[0,1)} 1+f_n(x)-\sqrt{1-f_n(x)^2}\,\la_{\R}(dx).
+\]
+However, since $f_n(x)$ is constant on the intervals $[k2^{-n},(k+1)2^{-n})$, the integral on the RHS equals the sum in (ii), which equals $2-L_n$. Then the LHS equals $\frac{2-L_n}{2}$, as needed.\\
+
+\subprob{(iv)}
+By (i), $\lim_{n\to \iy} L_n=\Arc(F;[0,1])$.
+Note
+\[
+F'(x)=\lim_{I\searrow \{x\}} \frac{F(I^+)-F(I^-)}{I^+-I^-}
+\]
+since the expression is between $\frac{F(I^+)-F(x)}{I^+-x}$ and $\frac{F(I^-)-F(x)}{I^--x}$ which both approach 0 as $I^+,I^-\to x$. But $f_n(x)$ is just this difference quotient for $I$ an interval in the form $[k2^{-n},(k+1)2^{-n}]$ containing $x$; the lengths of these intervals go to 0 as $n\to \iy$. Hence $\lim_{n\to \iy} f_n(x)=F'(x)$ provided $F'(x)$ exists. 
+
+Take the limit of the expressions in (iii) as $n\to \iy$ to get
+\begin{equation}\label{p4-2-1}
+\frac{2-\Arc(F;[0,1])}{2}\le \int_{[0,1]}\frac{F'(x)}{1+F'(x)}\la_{\R}(dx)\le 2-\Arc(F;[0,1]).
+\end{equation}
+Note by Lebesgue dominated convergence we can take the limit inside the integrand in the middle term because $f_n(x)\in [0,1]$ for any $x,n$ and therefore $\frac{f_n(x)}{1+f_n(x)}\in [0,\rc 2]$; the $f_n$ are bounded by an integrable function, namely $\rc2$ on $[0,1]$. Moreover the integral is well-defined since $F'(x)$ exists almost everywhere by Lebesgue's differentiation theorem.
+
+By~(\ref{p4-2-1}), $\Arc(F;[0,1])=2$ iff $\int_{[0,1]}\frac{F'(x)}{1+F'(x)}\la_{\R}(dx)=0$, iff $\frac{F'(x)}{1+F'(x)}=0$ almost everywhere on $[0,1]$, iff $F'(x)=0$ almost everywhere, iff $\int_{[0,1]}F'(x)\,\la_{\R}(dx)=0$, iff $F$ is singular (the last result being part of Lebesgue's differentiation theorem, 3.3.15).
+\end{problem}
+\begin{problem}{\it (4.1.9, Slicing a $\mu_1\times \mu_2$-measurable set)}
+By symmetry it suffices to show each assertion for once choice of $(i,j)$.
+\begin{enumerate}
+\item $\Ga_{(1)}(x_2)\in \cal B_1$: Since $1_{\Ga}(x_1,x_2)$ is a measurable function on $\cal B_1\times \cal B_2$, by Lemma 4.1.2, $f(x)=1_{\Ga}(x,x_2)$ is measurable. Hence $f^{-1}(\{1\})=\Ga_{(1)}(x_2)\in \cal B_1$.
+\item $g(x_1):=\mu_2(\Ga_{(2)}(x_1))$ measurable: The measure of a set is the integral of its characteristic function, so
+\[
+g(x)=\int_{E_2} 1_{\Ga_{(2)}(x)}(x_2)\,\mu_2(dx_2)=\int_{E_2}1_{\Ga}(x,x_2)\,dx.\]
+This is measurable by Lemma 4.1.2.
+\item $(\mu_1\times \mu_2)(\Ga)=0\iff \mu_2(\Ga_{(2)}(x_1))=0$ for $\mu_1$-almost every $x_1\in E_1$: By Lemma 4.1.3,
+\begin{align*}
+(\mu_1\times\mu_2)(\Ga)&=
+\int_{E_1\times E_2} 1_{\Ga}(x_1,x_2)\,(\mu_1\times \mu_2)(dx_1\times dx_2)\\
+&=\int_{E_1}\pa{\int_{E_2} 1_{\Ga}(x_1,x_2)\,\mu_2(dx_2)}\,\mu_1(dx_1)\\
+&=\int_{E_1}\mu_2(\Ga_{(2)}(x_1))\,\mu_1(dx_1).
+\end{align*}
+The latter integral is 0 iff the integrand is 0 for $\mu_1$-almost every $x_1\in E_1$, as needed.
+
+By symmetry, $(\mu_1\times \mu_2)(\Ga)=0\iff \mu_1(\Ga_{(1)}(x_2))=0$ for $\mu_2$-almost every $x_2\in E_2$. Hence $\mu_2(\Ga_{(2)}(x_1))=0$ for $\mu_1$-almost every $x_1\in E_1$, iff $\mu_1(\Ga_{(1)}(x_2))=0$ for $\mu_2$-almost every $x_2\in E_2$.
+\end{enumerate}
+\end{problem}
+\begin{problem} {\it (4.1.10, Failure of product measure)}
+$\mu_1(\Ga)=|\Ga|$ is a measure because $|\phi|=0$ and for disjoint sets,
+\[
+\ab{\bigcup_{n=1}^{\iy} \Ga_n}=\sum_{n=1}^{\iy} |\Ga_n|.
+\]
+
+Let $\Ga=\{(x,x):x\in (0,1)\}$. Note that $\Ga\in \cal B_1\times \cal B_2$ because 
+\[
+\Ga=\bigcap_{n=1}^{\iy} S_n
+\]
+where
+\[
+\left(0,\rc n\right]^2\cup \ba{\rc n,\frac 2n}^2\cup \cdots \cup \left[\frac{n-1}{n},1\right)^2.
+\]
+(Indeed, $S_n$ contains $\Ga$ and only contains elements with horizontal and vertical distance at most $\rc n$ from $\Ga$.) Given $x_1$ or $x_2$, there is exactly one element $x_2$, $x_1$, respectively, such that $(x_1,x_2)\in \Ga$. In $E_2$, a 1-point set has measure 0, while in $E_1$ a 1-point set has measure 1. Hence
+\begin{align*}
+\int_{E_2} 1_{\Ga}(x_1,x_2)\,\mu_2(dx_2)&=0&\text{for every }x_1\in E_1,\\
+\int_{E_1} 1_{\Ga}(x_1,x_2)\,\mu_1(dx_1)&=1&\text{for every }x_2\in E_2.
+\end{align*}
+\end{problem}
+\begin{problem}{\it (4.2.8, Hyperplane has Hausdorff measure 0)}
+\begin{lem}
+Let $T$ be an isometry. Then $H^N(\Ga)=H^N(T\Ga)$.
+\end{lem}
+\begin{proof}
+Any cover $\cal C$ of $\Ga$ gives a covering for $T\Ga$, namely $T\cal C=\{TS:S\in \cal C\}$. Since isometries preserve distance, the radii of the sets are preserved. Hence $\sum_{C\in \cal C}\Om_N \rad(C)^N=\sum_{C\in T\cal C} \Om_N\rad(C)^N$. Conversely, by working with $T^{-1}$ any cover $\cal C$ of $T\Ga$ gives a covering of $\Ga$ with same value of the sum above.
+\end{proof}
+Given a hyperplane, there is isometry sending it to $Q=\{(x_1,\ldots, x_{n-1},0)\}$. Thus it suffices to show $H^N(Q)=0$.
+
+As shown in the text, $H^N$ is countably subadditive. Thus
+\[
+H^N(Q)\leq \sum_{a_1,\ldots, a_{n-1}\in \Z} H^N([a_1,a_1+1]\times \cdots \times [a_{n-1},a_{n-1}+1]\times \{0\}).
+\]
+Since each of the sets $[a_1,a_1+1]\times \cdots \times [a_{n-1},a_{n-1}+1]\times \{0\}$ can be sent to $S=[0,1]^{n-1}\times\{0\}$ by a translation it suffices to show that $S$ has Hausdorff measure 0. Let
+\[
+\cal C_d=\bc{\ba{\frac{k_1}{d},\frac{k_1+1}{d}}\times \cdots \times \ba{\frac{k_{n-1}}{d},\frac{k_{n-1}+1}{d}}\times\{0\}:\text{integers }k_1,\ldots, k_{n-1}\in [0,d-1]}
+\]
+Now the radius of each set in $C_d$ is $\frac{\sqrt{n-1}}{d}$, so
+\[
+\sum_{C\in \cal C} \Om_N\rad(C)^N=d^{N-1}\cdot \Om_N\cdot \pf{\sqrt{n-1}}{d}^N=\Om_N\frac{\sqrt{n-1}^N}{d}
+\]
+and $H^{N,\rc d}(\Ga)\leq \Om_N\frac{\sqrt{n-1}^N}{d}\to 0$ as $d\to \iy$.  Hence $H^N(\Ga)=0$.
+\end{problem}
+\begin{problem}{\it (5.1.11, Integrability of $|f|^p$)}
+By breaking $(0,\infty)$ into the intervals $[\rc{n+1},\rc{n}]$ and $[n,n+1]$ for $n\in \N$ and considering the maximum and minimum of $t^{p-1}\mu(|f|>t)$ on each interval, we get the following bound for $\int_{(0,\iy)}t^{p-1} \mu(|f|>t)\,\la_{\R}(dt)$:
+\begin{align*}
+& \sum_{n=1}^{\iy}\pa{\rc n-\rc{n+1}}\min\pa{\rc{n^{p-1}},\rc{(n+1)^{p-1}}}\mu(|f|>\rc{n})
++\sum_{n=1}^{\iy} \min(n^{p-1},(n+1)^{p-1})\mu(|f|>n+1)\\
+&\leq \sum_{n=1}^{\iy}\int_{[\rc{n+1},\rc{n}]}t^{p-1} \mu(|f|>t)\,\la_{\R}(dt)+\sum_{n=1}^{\iy}\int_{[n,n+1]}t^{p-1} \mu(|f|>t)\,\la_{\R}(dt)\\
+&\le \sum_{n=1}^{\iy}\pa{\rc n-\rc{n+1}}\max\pa{\rc{n^{p-1}},\rc{(n+1)^{p-1}}}\mu(|f|>\rc{n+1})
++\sum_{n=1}^{\iy} \max(n^{p-1},(n+1)^{p-1})\mu(|f|>n).
+\end{align*}
+The sums on the LHS and RHS can be written as
+\begin{gather}
+\sum_{n=1}^{\iy}\pa{\rc{n(n+1)}}\min\pa{\rc{n^{p-1}},\rc{(n+1)^{p-1}}}\mu(|f|>\rc{n})
++\sum_{n=2}^{\iy} \min((n-1)^{p-1},n^{p-1})\mu(|f|>n)
+\label{p4-6-1}\\
+\sum_{n=2}^{\iy}\pa{\rc{n(n-1)}}\min\pa{\rc{(n-1)^{p-1}},\rc{n^{p-1}}}\mu(|f|>\rc{n})
++\sum_{n=1}^{\iy} \min(n^{p-1},(n+1)^{p-1})\mu(|f|>n)
+\label{p4-6-2}
+\end{gather}
+By the limit comparison test~(\ref{p4-6-1}) converges iff~(\ref{p4-6-2}) converges iff
+\begin{equation}\label{p4-6-3}
+\sum_{n=1}^{\iy} \rc{n^{p+1}} \mu\pa{|f|>\rc{n}} +\sum_{n=1}^{\iy} n^{p-1}\mu(|f|>n)
+\end{equation}
+converges. Hence the integral is finite iff~(\ref{p4-6-3}) converges.
+\end{problem}
+\begin{problem}{\it (5.1.13)}
+\subprob{(i)}
+\begin{align}
+\nonumber
+\pa{\int_{\R} e^{-\frac{|x|^2}{2}}\,dx}^2
+&=\pa{\int_{\R} e^{-\frac{|x|^2}{2}}\,dx}
+\pa{\int_{\R} e^{-\frac{|y|^2}{2}}\,dy}\\
+\label{p4-7-1}
+&=\int_{\R}\int_{\R}e^{-\frac{|x|^2+|y|^2}{2}}\,dxdy\\
+\label{p4-7-2}
+&=\int_{\R^2} e^{-\frac{|x|^2}{2}}\,dx\\
+\label{p4-7-3}
+&=\int_{\bS^1}\int_{(0,\iy)} re^{-\frac{|r\om|^2}{2}}\,dr\,\la_{\bS}(d\om)\\
+\nonumber
+&=\int_{\bS^1}  \int_{(0,\iy)} re^{-\frac{r^2}{2}}\,dr \,\la_{\bS}(d\om)\\
+\label{p4-7-4}
+&=2\pi\int_0^{\iy} re^{-\frac{r^2}{2}}\,dr\\
+\nonumber
+&=2\pi[e^{-\frac{r^2}{2}}]^{\iy}_0=2\pi.
+\end{align}
+Note~(\ref{p4-7-1}) equals~(\ref{p4-7-2}) by Fubini's Theorem (and one is finite iff the other is). The next step~(\ref{p4-7-3}) comes from  Theorem 5.1.8. In~(\ref{p4-7-4}) we use $\la_{\bS^1}(\bS^1)=2\la_{\R^2}(B_{\R^2}(0,1)\bs \{0\})=2\pi$.
+
+Since $A$ is symmetric, we can write $A=PDP^{-1}$, where $P$ is orthogonal and $D$ is diagonal with entries $\la_1,\ldots, \la_n>0$. Then by Change of Variables (5.1.1) and (2.2.15) with $\det(P)=1$,
+\begin{align*}
+\int_{\R^N}e^{-\rc{2}\an{x,A^{-1}x}}\,dx
+&=\int_{\R^N}e^{-\rc{2}\an{P^{-1}x,D^{-1}P^{-1}x}}\,dx\\
+&=\int_{\R^N}e^{-\rc{2}\an{x,D^{-1}x}}\,[(P^{-1})_*\la_{\R}](dx)\\
+&=\int_{\R^N}e^{-\rc{2}\an{x,D^{-1}x}}\,\la_{\R}(dx)\\
+&=\int_{\R^N}e^{-\rc{2}(\la_1^{-1}x_1^2+\cdots+\la_n^{-1}x_n)}\,dx\\
+&=\prod_{i=1}^N\int_{\R} e^{-\rc2\la_i^{-1}x_i^2}\,dx_i&\text{by Fubini}\\
+&=\prod_{i=1}^N\int_{\R}e^{-\rc2x_i^2} \sqrt{\la_i}\,dx_i&\text{change of variables (5.1.1), }x_i\mapsfrom x_i\sqrt{\la_i}\\
+&=\prod_{i=1}^N \sqrt{\la_i}\sqrt{2\pi}=\det(A)^{\rc2}(2\pi)^{\frac N2}.
+\end{align*}
+
+\subprob{(ii)}
+Using integration by parts,
+\begin{align*}
+\int_{(0,\iy)} t^{\ga-1}e^{-t}\,dt
+&=\left.e^{-t}\frac{t^{\ga}}{\ga}\right|^{\infty}_0-\int_0^{\iy} \frac{t^{\ga}}{\ga}(-e^{-t})\,dt\\
+&=\rc{\ga}\Ga(\ga+1)
+\end{align*}
+so $\Ga(\ga+1)=\ga\Ga(\ga)$. Using $\Ga(1)=\int_0^{\iy} e^{-t}\,dt=1$, by induction, $\Ga(n+1)=n!$.
+
+Using the substitution $t=\frac{u^2}{2}$,
+\begin{align*}
+\Ga\pa{\rc 2}&=\int_0^{\iy} t^{-\rc 2}e^{-t}\,dt\\
+&=\int_0^{\iy}\sqrt 2 u^{-1} e^{-\frac{u^2}{2}}u\,du\\
+&=\frac{\sqrt{2}}{2}\int_{\R} e^{-\frac{u^2}{2}}\,du\\
+&=\frac{\sqrt{2}}{2}\sqrt{2\pi}=\sqrt{\pi}.
+\end{align*}
+
+\subprob{(iii)}
+We induct on $N$. For $N=1$ we have $\Om_1=\la_{\R}([-1,1])=2=\frac{\pi^{\rc2}}{\Ga(3/2)}$; for $N=2$, $\Om_2=\pi=\frac{\pi}{\Ga(2)}$. For the induction step $N\to N+2$:
+\begin{align*}
+\Om_{N+2}&=\la_{\R^{N+2}}(B_{\R^{N+2}}(0,1)\bs \{0\})\\
+&=\int_{B_{\R^{N+2}}(0,1)}\,d\la_{\R^{N+2}}\\
+&=\int_{x_{N+1}^2+x_{N+2}^2\le 1}\int_{x_1^2+\cdots +x_N^2\leq 1-x_{N+1}^2-x_{N+2}^2} \,d\la_{\R^{N}}\,d\la_{\R^2}\\
+&=\int_{x_{N+1}^2+x_{N+2}^2\leq 1} \la_{\R^N}\pa{B_N\pa{0,\sqrt{1-x_{N+1}^2-x_{N+2}^2}}}\,d\la_{\R^2}\\
+&=\int_{x_1^2+x_2^2\le 1}\Om_N \sqrt{1-x_1^2-x_2^2}^{N}\,d\la_{\R^2}&\text{by 5.1.1, 2.2.15}\\
+&=\Om_N\int_{\bS_1}\int_0^1 r(1-r^2)^{\frac N2}\,dr\la_{\bS^1}(d\om)\\
+&=2\pi \Om_N\ba{
+\frac{-(1-r^2)^{\frac N2+1}}{N+2}
+}^1_0\\
+&=\Om_N\cdot \frac{\pi}{(N+2)/2}\\
+&=\frac{\pi^{\frac N2}}{\Ga\pa{\frac N2+1}}\cdot \frac{\pi}{\frac N2+1}\\
+&=\frac{\pi^{\frac {N+2}2}}{\Ga\pa{\frac {N+2}2+1}}
+\end{align*}
+%where in the last step we use $\frac{N+1}{2}\Ga\pf{N+1}{2}=\Ga\pf{N+3}{2}$. 
+Then
+\[
+\om_{N-1}=\la_{\bS^{N-1}}(\bS^{N-1})=N\la_{\R^N}(B_N(0,1)\bs\{0\})=N\Om_N=2\frac{\pi^{\frac{N}2}}{\frac{\Ga(N/2+1)}{N/2}}=\frac{2\pi^{\frac N2}}{\Ga\pf{N}{2}}.
+\]
+
+\subprob{(iv)}
+Let 
+\begin{align*}
+A&=\int_{(0,\iy)} t^{-\frac 12} e^{-\al^2 t-\frac{\be^2}{t}}\,dt\\
+B&=\int_{(0,\iy)} t^{-\frac 32} e^{-\al^2 t-\frac{\be^2}{t}}\,dt.
+\end{align*}
+
+%By 5.1.10 (change of variables), with $F(t)=\al t^{-\rc 2} +\be t^{-\frac 32}$, 
+Making the substitution $s=\al t^{\rc 2} -\be t^{-\rc2}$ and 
+noting that as $t$ ranges from 0 to $\iy$, $s$ ranges from $-\iy$ to $\iy$,
+\begin{align}
+\nonumber
+\frac{e^{-2\al\be}}{\al}\int_{-\iy}^{\iy} e^{-s^2}\,ds
+&=\frac{e^{-2\al\be}}{\al}\int_{0}^{\iy}e^{-\al^2 t+2\al\be -\be^2t^{-1}}\pa{\rc2\al t^{-\rc 2}+\rc 2\be t^{-\frac 32}}\,dt\\
+\nonumber
+&=\rc{\al}\int_0^{\iy} t^{-\rc 2} e^{-\al^2 t-\frac{\be^2}{t}}\pa{\rc 2 \al+\rc 2\be t^{-1}
+}\,dt\\
+\label{p4-7-5}
+\implies \frac{e^{-2\al\be}}{\al}(2\pi)^{\rc2}&=\rc{2}A+\frac{\be}{2\al}B
+\end{align}
+Now making the substitution $t\mapsfrom \frac{\be^2}{\al^2u}$ gives
+\begin{align*}
+A&=\int_{\iy}^0 \frac{\al}{\be}u^{\rc2} e^{-\al^2u-\frac{\be^2}u}\frac{\be^2}{\al^2}\cdot -\rc{u^2}du\\
+&=\frac{\be}{\al}\int_{(0,\iy)} u^{-\frac 32}e^{-\al^2u-\frac{\be^2}u}\,du\\
+&=\frac{\be}{\al}B.
+\end{align*}
+Substituting this into~(\ref{p4-7-5}) gives $A=\frac{(2\pi)^{\rc2}e^{-2\al\be}}{\al}$. Then $B=\frac{\al}{\be}A=\frac{(2\pi)^{\rc2}e^{-2\al\be}}{\be}$.
+
+\end{problem}
+\begin{problem}{\it (5.1.14)}
+\subprob{(i)}
+\begin{enumerate}
+\item
+If $\Ga$ is nonempty open in $\bS^{N-1}$, %then $\Ga=\Ga'\cap \bS^{N-1}$ for some nonempty open $\Ga'\subeq \R^N$. 
+then considering $\Phi$ as a function $B^N(0,1)\bs\{0\}\to \bS^{N-1}$, $\Phi^{-1}(\Ga)$ must be a nonempty open set in $B^N(0,1)\bs\{0\}$ and hence in $\R$ (since the former is open). Hence
+\[
+\la_{\bS^{N-1}}(\Ga)=N\la_{B^N(0,1)\bs\{0\}}(\Phi^{-1}(\Ga))=N\la_{\R^N}(\Phi^{-1}(\Ga))>0
+\]
+since nonempty open sets in $\R^N$ has positive measure (every open set in $\R^N$ contains a rectangle).
+\item
+Note 
+\[
+\Phi(T_{\sO}(x))=\frac{T_{\sO}x}{|T_{\sO}x|}=\frac{T_{\sO}x}{|x|}=T_{\sO}\pf{x}{|x|}=T_{\sO}(\Phi(x)).
+\]
+Now
+\begin{align*}
+[(T_{\sO})_*\la_{\bS^{N-1}}](\Ga)
+&=\la_{\bS^{N-1}}(T_{\sO}^{-1}\Ga)\\
+&=N\la_{B^N(0,1)\bs\{0\}} (\Phi^{-1}T_{\sO}^{-1}\Ga)\\
+&=N\la_{B^N(0,1)\bs\{0\}} (T_{\sO}^{-1}\Phi^{-1}\Ga)&\text{ since }T_{\sO},\Phi\text{ commute}\\
+&=N\la_{B^N(0,1)\bs\{0\}}(\Phi^{-1}\Ga)&\la_{\R^N} \text{ invariant under }T_{\sO}\\
+&=\la_{\bS^{N-1}}(\Ga)
+\end{align*}
+so $\la_{\bS^{N-1}}$ is orthogonal invariant.
+\item Let $T$ be an orthogonal linear transformation taking $\xi$ to $-\xi$ and acting as the identity on $\xi^{\perp}$ (i.e. a reflection).
+\begin{align*}
+\int_{\bS^{N-1}} \an{\xi,\om}\la_{\bS^{N-1}}(d\om)
+&=\int_{\bS^{N-1}} \an{\xi,\om} [T_* \la_{\bS^{N-1}}](d\om)
+&\text{orthogonal invariance}\\
+&=\int_{\bS^{N-1}}\an{\xi, T\om} \,\la_{\bS^{N-1}}(d\om)
+&\text{by 5.1.1 (COV)}\\
+&=\int_{\bS^{N-1}}\an{T^{-1}\xi,\om}\,\la_{\bS^{N-1}}(d\om)\\
+&=\int_{\bS^{N-1}} \an{-\xi,\om}\,\la_{\bS^{N-1}}(d\om).\\
+&=-\int_{\bS^{N-1}} \an{\xi,\om}\,\la_{\bS^{N-1}}(d\om).
+\end{align*}
+Thus the integral equals 0.
+\item By linearity of the integral, $f(\xi,\eta):=\int_{\bS^{N-1}} \an{\xi,\om}\an{\eta,\om}\,\la_{\bS^{N-1}}(d\om)$ is a bilinear form in $\xi,\eta$. Since $\Om_N\an{\xi,\eta}$ is bilinear form, to show these are equal it suffices to show they agree on an orthonormal basis. Thus it suffices to show that $f(\xi,\eta)=0$ if $\xi\perp \eta$ and
+$f(\xi,\eta)=\Om_N$ if $\xi=\eta$. For the first part, let $T$ be the same transformation as above.
+\begin{align*}
+\int_{\bS^{N-1}} \an{\xi, \om}\an{\eta, \om} \,\la_{\bS^{N-1}}(d\om)
+&=\int_{\bS^{N-1}} \an{\xi, \om}\an{\eta, \om} [T_* \la_{\bS^{N-1}}](d\om)\\
+&=\int_{\bS^{N-1}}\an{\xi, T\om}\an{\eta, T\om} \,\la_{\bS^{N-1}}(d\om)\\
+&=\int_{\bS^{N-1}}\an{T^{-1}\xi, \om}\an{T^{-1}\eta, \om} \,\la_{\bS^{N-1}}(d\om)\\
+&=\int_{\bS^{N-1}}\an{-\xi, \om}\an{\eta, \om} \,\la_{\bS^{N-1}}(d\om)\\
+&=-\int_{\bS^{N-1}} \an{\xi, \om}\an{\eta, \om} \,\la_{\bS^{N-1}}(d\om).
+\end{align*}
+Thus the integral equals 0. 
+For the second part, first note $\la_{\bS^{n-1}}$ is orthogonally invariant, so we can replace $\om$ with $T_{\sO}\om$. Choosing $\sO$ sending $(1,0,\ldots, 0)$ to $\xi$, and using $\an{\xi, T_{\sO}\om}=\an{T_{\sO}^{-1}\xi,\om}$, we may assume $\xi=(1,0,\ldots, 0)$.  Then
+\begin{align*}
+\int_{\bS^{N-1}} \an{\xi,\om}^2 \,\la_{\bS^{N-1}}(d\om)
+&=\int_{\bS^{N-1}} \an{\xi,\om}^2 \,(\Phi_* N\la_{B(0,1)\bs\{0\}})(d\om)\\
+&=N\int_{B(0,1)\bs \{0\}} \an{\xi, \Phi(x)}^2 \,\la_{\R^N}(dx)\\
+&=N\int_{B(0,1)\bs \{0\}} \rc{|x|}\an{\xi, x}^2 \,\la_{\R^N}(dx)\\
+&=N\int_{B(0,1)\bs\{0\}}\frac{x_1^2}{x_1^2+\cdots +x_n^2}\,\la_{\R^N}(dx).
+\end{align*}
+But by symmetry, $\int_{B(0,1)\bs\{0\}}\frac{x_i^2}{x_1^2+\cdots +x_n^2}\,\la_{\R^N}(dx)$ are equal for all $i$. Summing over $1\le i\le n$ gives $\int_{B(0,1)\bs\{0\}}\,\la_{\R^N}(dx)=\Om_N$. Hence each is equal to $\rc{N}\Om_N$ and the integral above equals $\Om_N$, as needed.
+\end{enumerate}
+\subprob{(ii)}
+Define $\sO_{\theta}=\smatt{\cos\theta}{-\sin\theta}{\sin\theta}{\cos\theta}$. 
+%Now
+%\begin{align*} 
+%\int_{\bS^1} f\,d\nu&=\rc{2\pi} \int_{[0,2\pi]} \int_{\bS^1} f(\om)\,\nu(d\om)\,d\te\\
+%&=\rc{2\pi} \int_{[0,2\pi]} \int_{\bS^1} f(\om)\,\nu(d\om)\,d\te\\
+%&=\rc{2\pi}\int_{[0,2\pi]} \int_{\bS^1} f(\om)\,T_{\sO_{\te}}^*\nu(d\om)\,d\te&\text{orthogonal invariance}\\
+%&=\rc{2\pi} \int_{[0,2\pi]} \pa{
+%\int_{\bS^1} f\circ T_{\sO_{\te}}(\om)\,\nu(d\om)}\,d\te&\text{ by 5.1.1.}
+%\end{align*}
+%Applying this with $f=1_{\Ga}$ gives
+%\begin{align*}
+%\nu(\Ga)&=\rc{2\pi} \int_{[0,2\pi]} \int_{\bS^1} 1_{\Ga} (T_{\sO_{\te}}(\om))\,\nu(d\om)\,d\te\\
+%&=\rc{2\pi}  \int_{\bS^1} \int_{[0,2\pi]} 1_{\Ga} (T_{\sO_{\te}}(\om))\,d\te\,\nu(d\om).
+%%&=\rc{2\pi}\int_{[0,2\pi]} \int_{\bS^1}1_{T_{\sO_{\te}}^{-1}}(\om)\,\nu(d\om)\,d\te\\
+%%&=\rc{2\pi}\nu(T_{\sO_{\te}}^{-1}(\Ga))\,d\te)\\
+%%&=\rc{2\pi}\int_{[0,2\pi)} \nu(\Ga)\,d\te&(\nu \text{ rotationally invariant})\\
+%%&=\rc{2\pi}\nu(\Ga).
+%%&=\rc{2\pi}\int_{[0,2\pi]} \int_{\bS^1} 1_{\Ga} (T_{\sO_{\te}}(\om))\,\nu(d\om)\,d\te\\
+%\end{align*}
+
+We have
+\begin{align}
+\nonumber
+\nu(\Ga)&=\rc{2\pi}\int_{[0,2\pi)} \nu(\Ga)\,d\te\\
+\nonumber
+&=\rc{2\pi}\int_{[0,2\pi)} \nu(T_{\sO_{\te}}^{-1}(\Ga))\,d\te&(\nu \text{ rotationally invariant})\\
+\nonumber
+&=
+\rc{2\pi}\int_{[0,2\pi]} \int_{\bS^1}1_{T_{\sO_{\te}}(\Ga)^{-1}}(\om)\,\nu(d\om)\,d\te\\
+%\nonumber
+%&=\rc{2\pi}  \int_{\bS^1} \int_{[0,2\pi]} 1_{\Ga} (T_{\sO_{\te}}(\om))\,d\te\,\nu(d\om)\\
+%\nonumber
+%&=
+%\rc{2\pi} \int_{[0,2\pi]} \int_{\bS^1} 1_{\Ga} (T_{\sO_{\te}}(\om))\,\nu(d\om)\,d\te\\
+\label{p4-9-1}
+&=\rc{2\pi}  \int_{\bS^1} \int_{[0,2\pi]} 1_{\Ga} (T_{\sO_{\te}}(\om))\,d\te\,\nu(d\om).
+%&=\rc{2\pi}\int_{[0,2\pi]} \int_{\bS^1}1_{T_{\sO_{\te}}^{-1}}(\om)\,\nu(d\om)\,d\te\\
+%&=\rc{2\pi}\nu(T_{\sO_{\te}}^{-1}(\Ga))\,d\te)\\
+%&=\rc{2\pi}\int_{[0,2\pi)} \nu(\Ga)\,d\te&(\nu \text{ rotationally invariant})\\
+%&=\rc{2\pi}\nu(\Ga).
+\end{align}
+
+Note the inner integral is constant. Indeed, suppose $\om=(\cos\phi,\sin\phi)=\Psi(\phi)$. Since $T_{\sO_{\te}}$ is rotation by $\te$,
+\begin{align*}
+\int_{[0,2\pi]} 1_{\Ga} (T_{\sO_{\te}}(\om))\,d\te
+&=\int_{[0,2\pi]} 1_{\Ga}(\Psi(\te+\phi))\,d\te\\
+&=\int_{[0,2\pi]} 1_{\Ga}(\Psi(\te))\,d\te
+\end{align*}
+since as $\te$ ranges over $[0,2\pi]$, $\te+\phi$ also ranges over $[0,2\pi]$ modulo $2\pi$ (in the positive direction). Putting this in~(\ref{p4-9-1}) gives gives
+\begin{align*}
+%\rc{2\pi}\int_{\bS^1}\int_{[0,2\pi]} 1_{\Ga}(\Psi(\te))\,d\te\,\nu(d\om)
+\rc{2\pi}\int_{\bS^1}\int_{[0,2\pi]} 1_{\Ga}(\Psi(\te))\,\la_{[0,2\pi]}(d\te)\,\nu(d\om)
+&=\rc{2\pi}\int_{\bS^1}\int_{[0,2\pi)} %1_{\Psi_*\la_{[0,2\pi]}}(\te)
+1_{\Psi^{-1}\Ga}(\te) \,\la_{[0,2\pi]}(d\te)\,\nu(d\om)\\
+&=\rc{2\pi}\int_{\bS^1} \la_{[0,2\pi]}(\Psi^{-1}(\Ga))\,\nu(d\om)\\
+&=\frac{\nu(\bS^1)}{2\pi} (\Psi_*\la_{[0,2\pi]})(\Ga).
+\end{align*}
+
+In particular, since $\la_{\bS^1}$ is rotationally invariant by the previous problem, $\la_{\bS^1}=\frac{\la_{\bS^1}(\bS^1)}{2\pi}\mu=\mu$.
+
+
+\end{problem}
+\end{document}

@@ -1,0 +1,872 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Arc}{\operatorname{Arc}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\vol}[0]{\operatorname{vol}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\sia}[0]{ $\si$-algebra}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\iy}[0]{\infty}
+\newcommand{\nl}[1]{\left \Vert #1\right \Vert_{L^1}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.125 Real and Functional Analysis} 
+\cfoot{} 
+\rfoot{\scriptsize PS \# 3} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.125 Real and Functional Analysis PSet \#3}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{3/10/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+\begin{problem}{\it (2.2.36, Cauchy's Equation)}
+\subprob{(i)}
+Note $f(0x)=0$ (since $f(0)+f(0)=f(0+0)=f(0)$), $f(x)=x$, and if $f(nx)=nf(x)$, then %for all $x$, and a given $n\in \N$, then
+\[
+f((n+1)x)=f(nx)+f(x)=nf(x)+f(x)=(n+1)f(x).
+\]
+Hence by induction, $f(nx)=nf(x)$ for all $n\in \N_0$. Now
+\[
+f(-nx)+f(nx)=f(-nx+nx)=f(0)=0
+\]
+so $f(-nx)=-f(nx)=-nf(x)$, for all $n\in \N_0$. This shows $f(nx)=nf(x)$ for all integers $n$.
+
+Now suppose $q\in \Q$. Write $q=\frac mn$ with $m,n\in \Z$. Then
+\[
+nf(qx)=f(nqx)=f(mx)=mf(x)\implies f(qx)=\frac mn f(x)=qf(x).
+\]
+
+%Now suppose $\frac{f(x)}{x}\neq \frac{f(y)}y$ for some $x,y\neq 0$. Since the rationals are dense in the reals, for any $\ep>0$ there exists $q\in \Q$ such that $|qx-y|<\ep$. Then
+%\[
+%f(qx-y)=f(qx)-f(y)=qf(x)-f(y)=qx\pf{f(x)}{x}-y\pf{f(y)}{y}.
+%\]
+%As $\ep\to 0$, this quantity approaches $y\pa{\pf{f(x)}{x}-\pf{f(y)}{y}}\ne 0$. However, $f(0)=0$, so $f$ is not continuous. Thus, if $f$ is continuous, then $\frac{f(x)}{x}$ is constant, i.e. $f$ is linear.\\
+Now $f(q)=qf(1)$ for every $q\in \Q$. Since $f$ is continuous and $f(x)=xf(1)$ for $x$ in a dense set, we conclude $f(x)=xf(1)$.\\
+
+\subprob{(ii)}
+If $f$ is bounded on some open set, then it must be bounded on some open interval $(c-d,c+d)$. Suppose $|f(x)|<L$ on this interval. Given $\ep>0$, choose $N\in \N$ so that $N> \frac{2L}{\ep}$ and $N>\frac{2d}{L}$.
+%let $\de=\min\pa{\frac{b-a}{2L},\frac{b-a}{2}}$. 
+If $|x|<\frac{2d}{N}$, then $\frac{Nx}{2}<d$, so $c-Nx/2,c+Nx/2\in (c-d,c+d)$. Then
+\begin{align*}
+|f(x)|&=\ab{\rc N f(Nx)}\\
+&=\rc N|f(c+Nx/2)-f(c-Nx/2)|\\
+&\le \rc N\pa{|f(c+Nx/2)|+|f(c-Nx/2)|}\\
+&\le \rc N(2L)<\ep.
+\end{align*}
+Since $f(0)=0$, $f$ is continuous at 0. Take any $x_0\in \R$. Since $f(x)=f(x_0)+f(x-x_0)$ and $f(x-x_0)$ is continuous at $x_0$, $f(x)$ is continuous at $x_0$.
+Thus $f$ is continuous. By (i), $f$ is linear.\\
+
+\subprob{(iii)}
+Suppose $f$ is $\ol{\cal B_{\R}}^{\la_\R}$-measurable and additive. Now
+\[
+\bigcup_{N=1}^{\iy} f^{-1}([-N,N])=\R;
+\]
+$f^{-1}([-N,N])$ is a sequence of measurable sets increasing to $\R$. Thus
+\[
+\lim_{n\to \iy} f^{-1}([-N,N])=\la_{\R}(\R)=\iy.
+\]
+In particular, there exists $R$ so that $\Ga=f^{-1}([-R,R])$ has positive measure. 
+By Vitalli's Lemma (2.2.16), there exists $\de>0$ so that $(-\de,\de)\subeq \Ga-\Ga$.
+Given $|x|<\de$, write $x=y-z$ where $y,z\in \Ga$. Then
+\[
+|f(x)|=|f(y)-f(z)|\le |f(z)|+|f(y)|\leq 2R.
+\]
+Hence $f$ is bounded on $(-\de,\de)$. By (ii), $f$ is additive.
+\end{problem}
+\begin{problem}{\it (3.1.13, Measurable functions)}
+If $f$ is measurable, then $f^{-1}((a,\iy])$ and $f^{-1}([a,\iy])$ are both measurable, as $(a,\iy]$ and $[a,\iy]$ are open and closed, respectively, and hence measurable.
+
+For the converse, let $S$ be a dense set of $\R$. We claim that 
+\begin{equation}\label{allgen}
+\si(\{(a,\iy]:a\in S\})=\si(\{[a,\iy]:a\in S\})=\cal B_{\R}.
+\end{equation}
+Clearly $A:=\si(\{(a,\iy]:a\in S\})$ and $B:=\si(\{[a,\iy]:a\in S\})$ are subsets of $B_{\R}$.
+It suffices to check that all open sets are in these two sets, as $\cal B_{\R}$ is generated by open sets. 
+Since every open set is the union of a countable number of open intervals and possibly $\{\iy\},\{-\iy\}$, it suffices to show $A$ and $B$ contain open intervals $(a,b)$, $a,b\in \R$, and $\{\iy\},\{-\iy\}$.
+Since $S$ is dense in $\R$, there exists a sequence of points of $S$ with $a_n\searrow a$ and a sequence of points of $S$ with $b_n\nearrow b$, with $a_n\neq a$ for any $n$ and $b_n\neq b$ for any $b$. 
+Then
+\[
+(a,b)=(a,\iy]\bs [b,\iy]=\left.\bigcup_{n=1}^{\iy} (a_n,\iy]\right\backslash\bigcap_{n=1}^{\iy} (b_n,\iy]
+=
+\left.\bigcup_{n=1}^{\iy} [a_n,\iy]\right\backslash\bigcap_{n=1}^{\iy} [b_n,\iy]
+\]
+so $(a,b)\in A,B$. Note $\{\iy\}\in \cal A,B$ since choosing $a_n\to \iy$,
+\[
+\bigcap_{n=1}^{\iy} (a_n,\iy]=\{\iy\}.
+\]
+Similarly, choosing $a_n\to -\iy$,
+\[
+\pa{\bigcup_{n=1}^{\iy} (a_n,\iy]}^c=
+\{-\iy\}
+\]
+and similarly with half-open replaced by closed intervals. 
+This proves the claim. Because $f^{-1}$ preserves unions and complements,
+\[
+\{S\subeq \ol{\R}: f^{-1}(S)\text{ measurable}\}
+\]
+is a \sia. Since it contains either $A$ or $B$, by~(\ref{allgen}) it contains $\cal B_{\R}$, and $f$ is measurable. The proof for $(a,\iy]$ and $[a,\iy]$ replaced by $[-\iy,a)$, $[-\iy,a]$ is the same, but with all intervals reversed and $\iy$ replaced with $-\iy$.
+
+Since $f$ is measurable, $f\times g:\cal B\to \R^2$ is measurable. It suffices to note
+\begin{align*}
+\{f<g\}&=(f\times g)^{-1}(\{(x,y):x<y\})\\
+\{f\le g\}&=(f\times g)^{-1}(\{(x,y):x\le y\})\\
+\{f= g\}&=(f\times g)^{-1}(\{(x,y):x= y\})\\
+\{f\ne g\}&=(f\times g)^{-1}(\{(x,y):x\ne y\})
+\end{align*}
+and the sets in the arguments of the RHS are open, closed, closed, and open, respectively, so measurable.
+%Similarly, choosing $a_n\nearrow a$ and $b_n\searrow b$
+%\[
+%(a,b)=(a,\iy]-\bs [b,\iy]=\left.\bigcap_{n=1}^{\iy} [a_n,\iy]\right\backslash\bigcup_{n=1}^{\iy} (b_n,\iy].
+%\]
+%\]
+\end{problem}
+\begin{problem}{\it (3.1.14, Measure defined by integral)}
+Clearly, $\mu(\phi)=\phi$, so it suffices to check that if $\{\Ga_n:n\in \N\}$ is a sequence of pairwise disjoint measurable sets then
+\[
+\mu\pa{\bigcup_{n=1}^{\iy} \Ga_n}
+=\sum_{n=1}^{\iy} \mu(\Ga_n).
+\]
+Note that
+\[
+\sum_{n=1}^m f1_{\Ga_n}\nearrow f1_{\Ga}
+\]
+pointwise: indeed, given $x\in \Ga$, $x\in \Ga_{n}$ for exactly one $n$, so $(f1_{\Ga_i})(x)=f(x)$ for $i=n$ and $0$ for $i\neq n$. Then by the Monotone Convergence Theorem,
+\begin{align*}
+\mu(\Ga)&=\int_{\Ga} f\,d\nu\\
+&=\lim_{m\to \iy} \int_{\Ga}\sum_{n=1}^m f1_{\Ga_n}\,d\nu\\
+&=\lim_{m\to \iy} \sum_{n=1}^m \int_{\Ga} f1_{\Ga_n}\,d\nu&\text{additivity}\\
+&=\sum_{n=1}^{\iy} \int_{\Ga_n} f1_{\Ga_n}\,d\nu\\
+&=\sum_{n=1}^{\iy} \int_{\Ga_n} f\,d\nu\\
+&=\sum_{n=1}^{\iy} \mu(\Ga_n)
+\end{align*}
+as needed.
+
+Suppose that $\nu(B)=0$. For any simple function $\ph:B\to \R$,
+\[
+\mu(B)=\int_B \ph\,d\nu=\sum_{y\in \ph(B)} \cancelto{0}{\mu(\ph^{-1}(y))}=0
+\]
+since $\ph^{-1}(y)\subeq B$ and $\nu(B)=0$.
+Hence by definition of $\int_B f\,d\nu$ as a limit of integrals of simple functions, $\mu(B)=\int_Bf\,d\nu=0$. 
+Thus $\mu$ is absolutely continuous with respect to $\nu$.
+\end{problem}
+\begin{problem} {\it (3.1.15, Integrable function determined by integrals)}
+Suppose $\mu(f>g)=0$. Then
+\[
+\int_{\Ga}(f-g)\,d\mu
+\le \int_{\{f\le g\}\cap \Ga} (f-g)\,d\mu +\int_{\{f>g\}\cap \Ga}  f-g\,d\mu\le 0
+\]
+(We showed $\{f>g\}$ is measurable in 3.1.13; its complement is also measurable.) Note the first integral is nonpositive since $f-g\le 0$ on that set, and the second integral is 0 because $\mu(\{f>g\}\cap \Ga)\le \mu(f>g)=0$. Hence $\int_{\Ga}f\,d\mu\leq \int_{\Ga} g\,d\mu$.
+
+Conversely, suppose $\int_{\Ga}f\,d\mu\leq \int_{\Ga} g\,d\mu$ for every $\Ga\in \cal B$. Take $\Ga=\{f>g\}$. Then
+\[
+\int_{\{f>g\}}f\,d\mu\leq \int_{\{f>g\}} g\,d\mu
+\implies
+\int_{\{f>g\}}(f-g)\,d\mu\le 0.
+\]
+This implies $\mu(f-g>0)=0$ by Markov's inequality (3.1.6).
+
+Thus $\mu(f>g)=0$ iff $\int_{\Ga}f\,d\mu\le \int_{\Ga}g\,d\mu$ for every $\Ga\in \cal B$. Reversing $f$ and $g$, $\mu(f<g)=0$ iff $\int_{\Ga}f\,d\mu\ge \int_{\Ga}g\,d\mu$ for every $\Ga\in \cal B$. Putting these two together, $\mu(f\ne g)=0$ iff $\mu(f<g)=\mu(f>g)=0$ iff $\int_{\Ga}f\,d\mu\ge \int_{\Ga}g\,d\mu$ for every $\Ga\in \cal B$.
+\end{problem}
+\begin{problem}{\it(3.1.16, Law of large numbers)}
+\subprob{(i)}
+Note there are $\binom nm$ binary sequences $a_1,\ldots, a_n$ with $m$ 1's and $n-m$ 0's. Hence
+\[
+\be_p\pa{\sum_{i=1}^n \om(i)=m}
+=\sum_{\scriptsize
+\begin{array}{c}
+a_1,\ldots, a_n\in \{0,1\}\\
+a_1+\cdots +a_n=m
+\end{array}}
+\be_p((\om(1),\ldots, \om(n))=(a_1,\ldots, a_n))=\binom nm p^mq^{n-m}.
+\]
+Hence, since $e^{\la\sum_{i=1}^n (\om(i)-p)}$ attains the value $e^{\la(m-pn)}$ when $\sum_{i=1}^n\om(i)=m$, and the set of $\om$ satisfying the latter has measure $\binom nm p^mq^{n-m}$,
+\begin{align*}
+\int e^{\la\sum_{i=1}^n (\om(i)-p)}\be_p(d\om)
+&=\sum_{m=0}^n\binom nm p^mq^{n-m} e^{\la m-\la pn}\\
+&=\sum_{m=0}^n \binom nm(e^{\la q}p)^m (qe^{-\la p})^{n-m}\\
+&=(pe^{\la q}+qe^{-\la p})^n&\text{(Binomial theorem)}.
+\end{align*}
+
+Now
+consider
+\[f(\la)=\ln(pe^{\la q}+qe^{-\la p})=\ln((p^{\la}+q)e^{-p\la})=\ln(pe^{\la}+q)-p\la.\]
+Differentiating,
+\begin{align*}
+f'(\la)&=\frac{pe^{\la}}{pe^{\la}+q}-p=\frac{-q}{pe^{\la}+q}+1-p\\
+f''(\la)&=\frac{q}{(pe^{\la}+q)^2}\cdot pe^{\la}=\frac{pqe^{\la}}{(pe^{\la}+q)^2}.
+\end{align*}
+We calculate $f(0)=\ln(p+q)=\ln 1=0$ and $f'(0)=\frac{p}{1}-p=0$.
+Now
+\begin{align*}
+f''(\la)=\frac{pqe^{\la}}{(pe^{\la}+q)^2}
+&\le \rc 4\\
+\iff
+4pqe^{\la}&\le p^2e^{2\la}+2pqe^{\la}+q^2\\
+\iff 0&\le (pe^{\la}-q)^2
+\end{align*}
+which is true. Hence $f''(\la)\le \rc 4$. For $\la\ge 0$, this gives $f'(\la)\le f'(0)+\rc 4\la=\rc 4 \la$ and $f(\la)\le f(0)+\rc 8 \la^2=\frac{\la^2}{8}$. Hence
+\[(pe^{\la q}+qe^{-\la p})^n \le (e^{f(\la)})^n\le e^{\frac{n\la^2}{8}},\]
+showing and the integral estimate follows.\\
+
+\subprob{(ii)}
+By Markov's inequality, since the integrand is nonnegative,
+\[
+\be_p\pa{e^{\la
+\sum_{i=1}^n (\om(i)-p)}\ge e^{\la R}}
+\le \frac{\int e^{\la\sum_{i=1}^n (\om(i)-p)}\be_p(d\om)}{e^{\la R}}
+\le e^{-\la R+\frac{n\la^2}{8}}.
+\]
+The left-hand side is just $\be_p\pa{\sum_{i=1}^n (\om(i)-p)\ge R}$.
+
+Now take $\la=\frac{4R}{n}$ to get $-\la R+\frac{n\la^2}{8}=\frac{-2R^2}{n}$, and
+\begin{equation}\label{deviation}
+\be_p\pa{
+\sum_{i=1}^n (\om(i)-p)\ge R
+}\le e^{-\frac{2R^2}{n}}.
+\end{equation}
+
+Note the map sending $\om$ to $\om'$ with $\om'(i)=1-\om(i)$ is a measure-preserving map from 
+$(\Om, \cal B_{\Om}, \be_p)$ to $(\Om, \cal B_{\Om}, \be_q)$. Hence
+\begin{align*}
+\be_p\pa{\sum_{i=1}^n (\om(i)-p)\le -R}&=
+\be_q\pa{\sum_{i=1}^n (\om'(i)-p)\le -R}\\
+&=\be_q\pa{\sum_{i=1}^n((1-\om(i))-(1-q))\le -R}\\
+&=\be_q\pa{\sum_{i=1}^n(\om(i)-q)\ge R}\\
+&\le e^{-\frac{2R^2}{n}}.
+\end{align*}
+where in the last step we used~(\ref{deviation}) with $q$ instead of $p$.
+Replacing $R$ with $nR$, we get
+\begin{align}
+\nonumber
+\be_p\pa{
+\ab{\rc n
+\sum_{i=1}^n \om(i)-p
+}\ge R
+}
+&=
+\be_p\pa{
+\ab{
+\sum_{i=1}^n \om(i)-p
+}\ge nR
+}\\
+\nonumber&= \be_p\pa{
+\sum_{i=1}^n (\om(i)-p)\le -nR
+}+\be_p\pa{\sum_{i=1}^n (\om(i)-p)\ge nR}\\
+\label{devovn}&\le 2e^{-n2R^2}.
+\end{align}
+
+\subprob{(iii)}
+Let $A_x=\bc{\om:
+\ab{\rc{x^2}\sum_{i=1}^{x^2} \om(i)-p}\ge Cx^{-\rc 2}
+}$.
+Putting $n=x^2$ and $R=Cn^{-\rc 4}$ in~(\ref{devovn}) gives
+\[
+\be_p(A_x)\le 2e^{-2c^2x}
+\]
+Note
+\[
+\sum_{x=1}^{\iy} \be_p(A_x)\le \sum_{x=1}^{\iy}e^{-2c^2x}<\iy,
+\] 
+the sum being a convergent geometric series. Then by the Borel-Cantelli Lemma, $\be_p(\varlimsup_{x\to \iy} A_x)=0$, so $\be_p(\varliminf_{x\to \iy} A_x^c)=0$, i.e. 
+\begin{equation}\label{p3-5-1}
+\be_p\pa{
+\exists x\,\forall y\ge x,\ab{\rc{y^2}\sum_{i=1}^{y^2}\om(i)-p}\le Cy^{-\rc{2}}
+}=1.
+\end{equation}
+We claim that for appropriate choice of $C$,
+\begin{equation}\label{p3-5-2}
+\exists x\,\forall y\ge x,\ab{\rc{y^2}\sum_{i=1}^{y^2}\om(i)-p}\le Cy^{-\rc{2}}\implies 
+\exists m\,\forall n\ge m,\ab{\rc{n}\sum_{i=1}^n\om(i)-p}\le Cn^{-\rc{4}}.
+\end{equation}
+This will show that the measure of the latter set is 1 (as it is squeezed between the measure of the former and the measure of $\Om$ which is also 1).
+
+Indeed, suppose $x$ is such that the first statement is true. %We may suppose $x\ge 2$. 
+Take $m=x^2$. Given $n\ge m$, let $a=\fl{\sqrt n}$. %Note $n-a^2<(\fl n+1)^2-\fl n^2=2\fl n+1\le 2n+1$, so $\sum_{i=a^2+1}^n (\om(i)-p)\le n-a^2-1< 2n$.
+Note $n<(a+1)^2$. 
+Then by assumption
+\begin{align*}
+\ab{\rc{a^2}\sum_{i=1}^{a^2} \om(i)-p}&\ge Ca^{-\rc 2}\\
+\implies \ab{\sum_{i=1}^{a^2} (\om(i)-p)}&\ge Ca^{\frac 32}\\
+\implies \ab{\sum_{i=1}^n (\om(i)-p)}&\ge Ca^{\frac 32}\\
+\implies \ab{\rc{n}\sum_{i=1}^n \om(i)-p}&\ge \frac{Ca^{\frac 32}}{(a+1)^2}\geq \frac{C}{4}a^{-\rc2}\ge \frac C4 n^{-\rc4}
+\end{align*}
+where we used $\pf{a}{a+1}^2\geq \rc 4$. Taking $C=4$ gives this at most $n^{-\rc 4}$, as we wanted. This shows~(\ref{p3-5-2})
+%; together with~(\ref{p3-5-1}) we get
+%\[
+%\be_p\pa{
+%\exists m\,\forall n\ge m,\ab{\rc{n}\sum_{i=1}^n(\om(i)-p)}\le Cn^{-\rc{4}}
+%}=1
+%\]
+as needed.
+\end{problem}
+\begin{problem}{\it(3.1.17)}
+If $\ab{\rc n\sum_{i=1}^n \om(i)-p}\le n^{-\rc 4}$ for all $n\ge m$, then $\ab{\rc n\sum_{i=1}^n \om(i)}\to p$ as $n\to\iy$. Thus
+\[
+\bc{\om:
+\exists m\,\forall n\ge m,\ab{\rc{n}\sum_{i=1}^n(\om(i)-p)}\le Cn^{-\rc{4}}}\subeq \Om_p\subeq \Om.
+\]
+Since the left-hand side and right-hand side both have $\be_p$-measure 1, so does $\Om_p$. Suppose $p\neq p'$. If $\rc{n}\sum_{i=1}^n \om(i)\to p$ as $n\to \iy$, then $\rc{n}\sum_{i=1}^n \om(i)\not\to p'$. % for $p'\neq p$. 
+Hence $\Om_{p'}\subeq \Om_{p}^c$. But $\be_p(\Om_{p}^c)=1-\mu(\Om_p)=0$ so $\be_p(\Om_{p'})=0$. Now $\be_{p'}(\Om_p)=0$ and $\be_p(\Om_p^c)=1-\be_p(\Om_p)=0$ so $\be_p\perp \be_{p'}$.
+
+By (2.2.28), $\Phi_*\be_{\rc 2}=\la_{[0,1]}$. Note 
+\begin{enumerate}
+\item
+$\Omega_{p'}\subeq \hat{\Omega}$ since if $\lim_{n\to \iy} \rc{n}\sum_{i=1}^n \om(i)=p'<1$ then $\om$ must have infinitely many 0's.
+%since a sequence ending in infinitely many 1's would have $\lim_{n\to \iy}\rc n\sum_{i=1}^n \om(i)=1\ne p'$. 
+\item $B_{p'}=\Phi(\Om_{p'})$.
+\item $\Phi^{-1}(\Phi(\Om_{p'}))=\Om_{p'}$ since the only numbers in $[0,1]$ which are the image of more than 1 element in $\Om$ are the ones whose binary expansion terminates (i.e. ends in all 0's), and $\om\in \Om_{p'}$ cannot end in all 0's as $\lim_{n\to \iy} \rc n\sum_{i=1}^n \om(i)=p'>0$.
+\end{enumerate}
+Then
+\begin{align*}
+\mu_p(B_{p'})&=\Phi_*\be_p(B_{p'})\\
+&=\be_p(\Phi^{-1}(\Phi(\Om_{p'})))\\
+&=\be_p(\Om_{p'})\\
+%\end{align*}
+%Since $\Phi$ is injective on $\hat{\Omega}$,
+%\[
+%\Om_{p'}\subeq
+%\Phi^{-1}(\Phi(\Om_{p'}))
+%\subeq \Om_{p'}\cup (\Om\bs \hat{\Om}).
+%\]
+%However, the last term is countable: For any $n$ there are a finite number of $\om$ such that $\om(n)=0$ and $1=\om(n+1)=\om(n+2)=\cdots$, and we are taking the union over a countable number of $n\in \N$. Hence 
+%\[
+%\be(\Phi^{-1}(\Phi(B_{p'})))
+%=\be(\Om_{p'})
+=\begin{cases}
+1,&p=p'\\
+0,&p\ne p'.
+\end{cases}
+\end{align*}
+Thus for $p\ne p'$, $\mu_p(B_{p'})=0$. Also $\mu_{p'}(B_{p'}^c)=1-\mu_{p'}(B_{p'})=0$. Thus $\mu_p\perp \mu_{p'}$.
+
+Note $F_p$ is the distribution function for $\mu_p$, if we extend $\mu_p$ to $\R$ by decreeing that $(-\iy,0)\cup (1,\iy)$ has measure 0. Since $(0,x^+\wedge 1]\subeq (0,y^+\wedge 1]$ for $x\le y$, $F_p(x)$ is nondecreasing. %Consider $F_p$ and $\la_{\R}$ as a measure on $[0,1]$.
+ %By Problem, 2.2.39 $F_p=\mu_F$, so $F_p$ is singular to $\la_{\R}$ iff $F$ is a singular function. 
+For $p\neq \rc 2$, $\mu_p$ is singular to $\mu_{\rc 2}=\la_{[0,1]}=\la_{\R}|_{[0,1]}$. Hence by Problem 2.2.39, $F_p=\mu_F$ is singular. 
+
+Now we show $F$ is strictly increasing on $[0,1]$. Let $0\le x<y\le 1$ be given. There exists an interval inside $(x,y)$ in the form $(a2^{-n},(a+1)2^{-n})$ where $n\in \N$, $a\in \N_0$ and $0\le a< 2^n$. Now, since $F$ is nondecreasing,
+\begin{align*}
+F(y)-F(x)&\ge F_p((a+1)2^{-n})-F_p(a2^{-n})\\
+&\ge \mu_p((0,(a+1)2^{-n}))-\mu((0,a2^{-n}))\\
+&\ge \mu_p([a2^{-n},(a+1)2^{-n})).
+\end{align*}
+Now there exists exactly one binary sequence of $n$ terms so that
+\begin{equation}\label{binex}
+\sum_{m=1}^n\frac{a_m}{2^m}=a2^{-n}.
+\end{equation}
+Since $\sum_{m=n+1}^{\iy} a_{m}{2^{-m}}\in [0, 2^{-n})$ for any binary sequence $a_{n+1},\cdots$ (except the all 1's sequence which contributes 0 measure), we get that 
+\begin{align*}
+\mu_p([a2^{-n},(a+1)2^{-n}))&=\be_p(\Phi^{-1}([a2^{-n},(a+1)2^{-n})))\\
+&=\be_p(\{\om:\om(m)=a_m\text{ for }1\le m\le n\})\\
+&=p^{\sum_{m=1}^n a_m}q^{n-\sum_{m=1}^n a_m}>0.
+\end{align*}
+Hence $F(y)-F(x)>0$.%%%%SLEEPY
+
+We show that $F$ is continuous. Suppose $y>x$ is close to $x$. Choose the smallest interval in the form $[a2^{-n},(a+1)2^{-n}]$ containing both $y$ and $x$. Again choosing the $a_m$ as in~(\ref{binex}),
+\begin{align*}
+F(y)-F(x)&\le F((a+1)2^{-n})-F(a2^{-n})\\
+&=\mu_p([a2^{-n},(a+1)2^{-n}))\\
+%&=\be_p(\Phi^{-1}([a2^{-n},(a+1)2^{-n}))\\
+&=p^{\sum_{m=1}^n a_m}q^{n-\sum_{m=1}^n a_m}\\
+&\le\max(p,q)^n.
+\end{align*}
+As $y\to x$, the intervals shrink and $n\to \iy$, so the RHS goes to 0. Since $F(y)\ge F(x)$, this shows that $F$ is right continuous. Letting $y\nearrow x$, we proceed in exactly the same way with $F(x)-F(y)$ to get $F$ is left continuous.
+\end{problem}
+\begin{problem}{\it(3.2.16, Convergence in $\mu$-measure)}
+Suppose $f_n\to f$ in $\mu$-measure. 
+%Then
+%\[
+%\mu(|f_n-f|>\ep)\to 0\text{ as }n\to \iy \text{ for every }\ep>0.
+%\]
+For $0<\ep\le1$,
+\begin{align*}
+\int|f_n-f|\wedge 1\,d\mu
+&=\int_{|f_n-f|\ge \ep} |f_n-f|\wedge 1\,d\mu
++\int_{|f_n-f|<\ep} |f_n-f|\wedge 1 \,d\mu\\
+&\le  \int_{|f_n-f|\ge \ep} 1\,d\mu
++\int_{|f_n-f|<\ep} \ep \,d\mu\\
+&\le \mu(|f_n-f|\ge \ep)+\ep \mu(E).
+\end{align*}
+%Suppose $f_n\to f$ in $\mu$-measure.
+Given $\ep'>0$ we can let $\ep=\frac{\ep'}{2\mu(E)}$ and choose $N$ so that $\mu(|f_n-f|\ge \ep)<\frac{\ep'}{2}$ for $n\ge N$ (since $f_n\to f$ in $\mu$-measure). Then for $n\ge N$, $\int |f_n-f|\wedge 1 \,d\mu <\ep'$.  
+%As $\ep\to 0$, both terms go to zero. (The first term goes to 0 because $f_n\to f$ in $\mu$-measure.) 
+Hence $\int |f_n-f|\wedge1\,d\mu\to 0$ as $n\to\iy$.
+
+Conversely, suppose $\int |f_n-f|\wedge1\,d\mu\to 0$ as $n\to\iy$. For fixed $0<\ep\le1$, 
+\begin{align*}
+\int |f_n-f|\wedge 1\,d\mu
+&\ge \int_{|f_n-f|\ge \ep} |f_n-f|\wedge 1\,d\mu\\
+&\ge \int_{|f_n-f|\ge \ep} \ep\,d\mu\\
+&\ge  \ep\mu(|f_n-f|\ge\ep).
+\end{align*}
+As $n\to \iy$, $\int|f_n-f|\wedge 1\,d\mu\to 0$, so we must have $\ep\mu(|f_n-f|\ge \ep)\to 0$, and $\mu(|f_n-f|\ge \ep)\to 0$. This holds for all $0<\ep\le1$ (so {\it a fortiori} for $\ep>1$), so $f_n\to f$ in $\mu$-measure.
+
+\end{problem}
+\begin{problem}{\it(3.2.18, Riemann vs. Lebesgue integral)}
+%Let $S_n$ be the set of rectangles of the form
+\subprob{(i)}
+Let $J=[a_1,b_1]\times \cdots \times [a_N,b_N]$. 
+Fix $n$. Let $\de_m=\frac{b_m-a_m}{2^n}$ and define
+%\[
+%R(k_1,\ldots, k_N)=I_1(k_1)\times I_N(k_N)
+%%[a_1+k\de_1,a_1+(k+1)\de_1]\times \cdots \times [a_N+k\de_N,a_N+(k+1)\de_N]
+%\]
+%where 
+\[
+I_m(k)=[a_m+k\de_m,a_m+(k+1)\de_m].
+\]
+Let
+\[
+I_m'(k)=\begin{cases} [a_m+k\de_m,a_m+(k+1)\de_m),&0\le m< 2^n-1\\
+[a_m+k\de_m,a_m+(k+1)\de_m],&m= 2^n-1.\end{cases}
+\]
+%where $\de_m=\frac{b_m-a_m}{2^n}$ and $1\leq k\leq 2^n$. For a rectangle of the above form, let $R'=[a_1+k\de_1,a_1+(k+1)\de_1)\times \cdots \times [a_N+k\de_N,a_N+(k+1)\de_N)$.
+Let
+\[
+S_n=\{I_1(k_1)\times \cdots \times I_N(k_N):0\le k_m<2^n\}.
+\]
+For $R=I_1(k_1)\times \cdots \times I_N(k_N)\in S_n$, denote by $R'$ the rectangle $I_1'(k_1)\times \cdots \times I_N'(k_N)$. (We define the $R'$ so that they do not overlap.)
+Let
+\[g_n(x)=\inf_R f(x)\text{ for }x\in R'.\]
+Note that $g_n$ are simple functions such that $g_n\nearrow g$. Indeed, fixing $x$, $g_n(x)$ is increasing, because 
+if $x\in R_n',R_{n+1}'$ and $R_n'\in S_n$, $R'_{n+1}\in S_{n+1}$, then 
+$R_n\supeq R_{n+1}$, so
+%the rectangle $R_{n+1}'$ containing $x$ with $R_{n+1}\in S_{n+1}$  is contained inside the rectangle in $R_n',R_n\in S_n$ containing $x$, and 
+the infimum of $f$ over $R_{n+1}$ is at least the infimum over $R_n$. The $g_n$ converge to $g$, because the diameter of the rectangles goes to 0 and $f$ is continuous.
+
+Now the Riemann integral is the limit of the lower Riemann sum, so
+\begin{align*}
+(R)\int_J f(x)\,dx&=\lim_{\Vert \cal C\Vert\to 0} \sum_{R\in \cal C}\vol(R)\inf_R f(x)\\
+&=\lim_{n\to \iy}\sum_{R\subeq S_n} \vol(R')\inf_R f(x)&\vol(R)=\vol(R')\\
+&=\lim_{n\to \iy}\sum_{R\subeq S_n} \int_{R'} g_n(x)\,\la_{\R^N}(dx)\\
+&=\lim_{n\to \iy}\int_J g_n(x)\,\la_{\R^N}(dx)\\
+&=\int_J g(x)\,\la_{\R^N}(dx).
+\end{align*}
+In the last step we used the Monotone Convergence Theorem with $g_n\nearrow g$.
+
+For the second part, let $R_n$ be a rectangle containing $J_{\ep}$. We may assume that $R_n$ is large enough to contain $[-n,n]^N$, so $R_n\nearrow \R^N$. By the first part,
+\[
+\int_{R_n} f(x)\,\la_{\R^N}(dx)=(R)\int_{R_n} f(x)\,dx.
+\]
+Taking $n\to \iy$, the right-hand side becomes $\lim_{J\nearrow \R^N} (R)\int_J f(x)\,dx$ and the left-hand side becomes $\int_{\R^N} f(x)\,\la_{\R^N}(dx)$, as needed. (The last assertion follows from the fact that $\mu(\Ga)=\int_{\Ga}f\,\la_{\R^N}(dx)$ is a measure by 3.1.14, and so $R_n\nearrow \R^N$ gives $\lim_{n\to \iy} \mu(R_n)=\mu(\R^N)$.)\\
+
+\subprob{(ii)}
+Let $\cal C_1,\cal C_2,\ldots$ be a sequence of partitions such that $\cal C_{n+1}$ refines $\cal C_n$ and $\Vert \cal C_n\Vert\to 0$ as $n\to \iy$. %, and no $\cal C_n$ contains a discontinuity point (possible since there are only a countable number of them).
+Fix a choice function $\xi_n$ for $\cal C_n$, and let
+\[
+g_n(x)=\ph(\xi_n(I))\text{ when }I=[c,d]\text{ and }x\in (c,d].
+\]
+and let $g_n(x)=0$ on $(-\iy,a]\cup (b,\iy)$.
+%, since the Riemann-Steltjes integral equals the limit of the lower
+
+%Let $\hat{\psi}(x)=\psi((a\wedge x)\vee b)-\psi (a)$. 
+Now
+\begin{align*}
+(R) \int_J \ph(x)\,d\psi(x) &= \lim_{n\to \iy}\sum_{I\in \cal C_n}\ph(\xi_n(I))\De_I \psi\\
+&=\lim_{n\to \iy}\sum_{I=[c,d]\in \cal C_n}\ph(\xi_n(I))(\psi(d)-\psi(c))\\
+&=\lim_{n\to \iy}\sum_{I=[c,d]\in \cal C_n}\ph(\xi_n(I))\mu_{\psi}((c,d])\\
+%&=\lim_{n\to \iy}\sum_{I=[c,d]\in \cal C_n}\ph(\xi_n(I))\mu((c,d])\\
+&=\lim_{n\to \iy}\sum_{I=[c,d]\in \cal C_n}\int_{(c,d]} g_n(x)\, d\mu_{\psi}\\
+&=\lim_{n\to \iy}\int_{(a,b]}g_n(x)\,d\mu_{\psi}\\
+&=\lim_{n\to \iy}\int_{\R}g_n(x)\,d\mu_{\psi}&(\mu_{\psi}((-\iy,a]\cup (b,\iy))=0)\\
+&=\int_{\R} \ph(x)\,d\mu_{\psi}.
+\end{align*}
+We justify the last equality: %We have $g_n(x)=\ph(\xi_n(I))\to g(x)$ for all $x$: %such that $\psi$ is continuous at $x$: 
+as $n\to \iy$ 
+as the interval $I$ 
+such that $x\in I\in S_n$ 
+shrinks, and $g_n(x)=\ph(\xi_n(I))\to \ph(x)$ by continuity. %By~\cite[4.30]{rudin}, as a nondecreasing function $g$ has a countable number of discontinuities, so $\ph(\xi_I)\to \ph(x)$ almost everywhere. 
+Also note 
+%\[
+%\int_{\R}g_n(x)\,d\mu_{\psi}
+%<(\psi(b)-\psi(a))\max_{[a,b]}(\ph(x))<\iy.\]
+\[
+g_n(x)
+\le \max_{t\in J} \ph(t)
+\]
+%on all of $\R$ except $(-\iy, a)\cup (b,\iy)$ (which has measure 0 in $\mu_{\psi}$), 
+on $(a,b]$ (which is $\mu$-almost everywhere) 
+and the constant function $\max_{t\in J} \ph(t)$ is integrable on $\mu_{\psi}$ (as it is a finite measure space).
+Hence Lebesgue's Dominated Convergence Theorem
+ applies.
+\end{problem}
+\begin{problem}{\it(3.2.24, Uniform $\mu$-absolute continuity and integrability)}
+\subprob{(i)}
+Suppose $\cal K$ is uniformly $\mu$-absolutely continuous and $L=\sup_{f\in \cal K} \nl{f}<\iy$. Let $\ep>0$ be given. Take $\de>0$ so that $\int_{\Ga} |f|\,d\mu\le \ep$ for all $f\in \cal K$ and $\Ga\in \cal B$ with $\mu(\Ga)<\de$. Let $R>\frac{L}{\de}$. Then 
+by Markov's inequality,
+\[
+\mu(|f|\ge R)\le \frac{L}{R}<\de.
+\]
+Hence by choice of $\de$,
+\[
+\int_{\{|f|\ge R\}}f\,d\mu\le \ep
+\]
+for all $f\in \cal K$. This shows $\cal K$ is uniformly $\mu$-integrable.
+
+Conversely, suppose $\cal K$ is uniformly $\mu$-integrable. Given $\ep>0$, 
+choose $R$ so that $\int_{\{|f|\ge R\}}|f|\le \eph$ for any $f\in \cal K$. Then given $\Ga$ such that $\mu(\Ga)<\frac{\ep}{2R}$,
+\begin{align*}
+\int_{\Ga}|f|\,d\mu&=\int_{\Ga\cap \{|f|\ge R\}} |f|\,d\mu
++\int_{\Ga\cap \{|f|<R\}}|f|\,d\mu\\
+&\le \eph+R\mu(\Ga)\le \ep.
+\end{align*}
+showing $\cal K$ is uniformly $\mu$-absolutely continuous.
+Now if $\mu(E)<\iy$, then taking any $\ep>0$ and choosing $R$ so that $\int_{\{|f|\ge R\}}|f|\le \ep$ for all $f\in \cal K$,
+\begin{align*}
+ \int_E|f|\,d\mu &=\int_{\{|f|\ge R\}} |f|\,d\mu +\int_{\{|f|<R\}} |f|\,d\mu\\
+&\le \ep+R\mu(E)
+\end{align*}
+which is a bound independent of $f\in \cal K$. So $\sup_{f\in \cal K}\nl{f}<\iy$.\\
+
+\subprob{(ii)}
+Let $L=\sup_{f\in \cal K}\int |f|^{1+\de}\,d\mu$. By Markov's inequality,
+\begin{equation}\label{p3-9-1}
+\mu(|f|\ge k)=\mu(|f|^{1+\de}\ge k^{1+\de})\le \frac{L}{k^{1+\de}}.
+\end{equation}
+Let $m\in \N$.
+\begin{align*}
+\int_{|f|\ge m}|f|\,d\mu&\le 
+m\mu(|f|\ge m)+
+\sum_{R=m}^{\iy}\int_{R\le |f|<R+1} (|f|-m)\,d\mu&\text{ by 3.1.14}\\
+&\le m\mu(|f|\ge m)+\sum_{R=m}^{\iy}\mu(R\le |f|<R+1)(R+1-m)\\
+&=m\mu(|f|\ge m)+\sum_{R=m}^{\iy}
+\sum_{k=m+1}^{R+1}\mu(R\le |f|<R+1)
+\\
+&=m\mu(|f|\ge m)+\sum_{k=m+1}^{\iy}\sum_{R=k-1}^{\iy}\mu(R\le |f|<R+1)\\
+&=m\mu(|f|\ge m)+\sum_{k=m+1}^{\iy}\mu(|f|\ge k-1)\\
+&=\frac{mL}{m^{1+\de}}+\sum_{k=m}^{\iy}\frac{L}{R^{1+\de}}&\by{p3-9-1}\\
+&=\frac{L}{m^{\de}}+\sum_{R=m}^{\infty} \frac{L}{k^{1+\de}}.
+\end{align*}
+Both terms go to 0 as $m\to \iy$, the second because $\sum_{R=1}^{\iy}\rc{R^{1+\de}}$ is convergent. Hence $\cal K$ is uniformly $\mu$-integrable.\\
+
+\subprob{(iii)}
+Note that if $g$ is $\mu$-integrable, then by 3.1.14, $\mu'(\Ga)=\int_{\Ga} g\,d\mu$ is absolutely continuous with respect to $\mu$. By 2.1.27, this means that for each $\ep>0$ there is a $\de>0$ such that $\int_{\Ga}f\,d\mu<\ep$ whenever $\mu(\Ga)<\de$, i.e. $\{g\}$ is uniformly $\mu$-absolutely continuous. Then any finite group of $\mu$-integrable functions is also uniformly $\mu$-absolutely continuous, since we can take $\de$ to be the minimum of the $\de$'s chosen for individual functions.
+
+Since $f_n\to f$ in $L^1$, we can pick $N$ so that $\int|f_n-f|<\eph$ for $n>N$. By the above, we can choose $\de$ so that $\int_{\Ga}|f_n|\,d\mu<\eph<\ep$ whenever $n=1,\ldots, N$, or $\infty$, and $\mu(\Ga)<\de$. (We let $f_{\iy}=f$.) 
+We would also like $\int_{\Ga}|f_n|<\ep$ for $n>N$ and $\mu(\Ga)<\de$. Indeed, for such $n$ and $\Ga$,
+\[
+\int_{\Ga}|f_n|\,d\mu\le \int_{\Ga}|f_n-f|\,d\mu+\int_{\Ga}|f|\,d\mu
+\le \eph+\eph=\ep.
+\]
+Hence $\cal K$ is uniformly $\mu$-absolutely continuous. Note that $f_n\to f$ in $L^1(\mu;\R)$ implies $\int |f_n-f|\,d\mu\to 0$ as $n\to 0$, and hence there exists $C$ so that $\int |f_n-f|\,d\mu\le C$ for all $n$. 
+Then
+\[
+\int|f_n|\,d\mu\le \int |f|\,d\mu+\int |f_n-f|\,d\mu
+\le \int |f|\,d\mu+C
+\]
+so $\sup_{n\in \N}\nl{f_n}<\iy$, and $\sup_{n\in \N\text{ or }n=\iy} \nl{f_n}<\iy$. Thus by (i), $\cal K$ is uniformly $\mu$-integrable.
+
+Converse: %Given $\ep>0$, by uniform $\mu$-integrability choose $L$ so that $\int_{|f|\ge L}|f|\,d\mu\le \ep$ for all $f\in \cal K$. Since $f_n\to f$ in $\mu$-measure, $\mu(|f_n-f|\ge L)\to 0$ as $n\to \iy$. 
+For $\ep>0$,
+\begin{equation}\label{threethings}
+\int|f_n-f|\,d\mu\le \int_{|f_n-f|\ge L} |f_n-f|\,d\mu
++\int_{L>|f_n-f|\ge\ep}|f_n-f|\,d\mu
++\int_{|f_n-f|<\ep}|f_n-f|\,d\mu
+\end{equation}
+The first term of~(\ref{threethings}) is at most
+\[
+\int_{|f_n-f|\ge L}|f_n|+|f|\,d\mu
+\le \int_{|f_n|\ge L/2}|f_n|+|f|\,d\mu
++\int_{|f|\ge L/2}|f_n|+|f|\,d\mu.
+\]
+By uniform $\mu$-integrability applied to the four integrals on the RHS, this goes to 0 as $L\to \iy$. 
+The second term of~(\ref{threethings}) is at most
+\[
+L\mu(|f_n-f|\ge \ep)
+\]
+which goes to 0 as $n$ to $\iy$ since $f_n\to f$ in $\mu$-measure.
+The third term of~(\ref{threethings}) is at most
+\[
+\ep\mu(E)
+\]
+which goes to 0 as $\ep\to 0$. Thus by choosing $L,\ep$ appropriately, the first and last term can be made arbitrary small (say, $<\ept$). Then choosing $n$ large enough makes the second term arbitrarily small (say, $<\ept$). We conclude $\int |f_n-f|\,d\mu\to 0$ as $n\to \iy$, as needed.\\
+
+\subprob{(iv)}
+We've already shown in (i) that $\cal K$ uniformly $\mu$-integrable implies $\cal K$ uniformly $\mu$-absolutely continuous, and that the reverse direction holds. Thus it suffices to show that if $\cal K$ is uniformly $\mu$-integrable and tight then $\sup_{f\in \cal K}\nl{f}<\iy$. Choose any $\ep>0$ and choose $R$ so that
+\[
+\int_{|f|\ge R}|f|\,d\mu \le \ep
+\]
+for all $f\in \cal K$, 
+and by tightness choose $\Ga$ with finite measure such that 
+\[
+\sup_{f\in \cal K}\int_{\Ga^c} |f|\,d\mu\le \ep
+\]
+for all $f\in \cal K$.
+Then
+\begin{align*}
+\int |f|\,d\mu&=\int_{\Ga\cap \{|f|\ge R\}} |f|\,d\mu
++\int_{\Ga\cap \{|f|<R\}} |f|\,d\mu
++\int_{\Ga^c}|f|\,d\mu\\
+&\le \ep +R\mu(\Ga)+\ep
+\end{align*}
+independently of $f$.
+
+For the second part, the forward direction holds by the first part of (iii). For the reverse direction, given $\ep>0$, choose $\Ga$ so that $\mu(\Ga)<\iy$ and $\int_{\Ga^c}|f|\,d\mu\le \eph$. Then
+\[
+\int|f-f_n|\,d\mu=\int_{\Ga}|f-f_n|\,d\mu+\int_{\Ga^c}|f-f_n|\,d\mu\le 
+\int_{\Ga}|f-f_n|\,d\mu+\eph.
+\]
+Now by the converse of (iii) applied to the subspace $\Ga$, which has finite measure, $f\to f_n$ in $L^1(\mu; \Ga)$. Hence for large enough $n$ the first term is at most $\eph$, and $\int|f_n-f|\,d\mu<\ep$. This shows that $f_n\to f$ in $L^1$.
+\end{problem}
+%\begin{thebibliography}{9}
+%\bibitem{rudin} Rudin, W.: "Principles of Mathematical Analysis," McGraw-Hill, CA, 1976.
+%\end{thebibliography}
+\end{document}

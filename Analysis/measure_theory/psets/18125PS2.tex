@@ -1,0 +1,667 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Arc}{\operatorname{Arc}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\vol}[0]{\operatorname{vol}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\sia}[0]{ $\si$-algebra}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.125 Real and Functional Analysis} 
+\cfoot{} 
+\rfoot{\scriptsize PS \# 2} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.125 Real and Functional Analysis PSet \#2}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{2/19/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+\begin{problem}{\it (2.1.19, Measurable functions)}
+\subprob{(i)}
+To see $\Phi^{-1}$ preserves unions, follow this string of equivalences.
+\begin{enumerate}
+\item
+$x\in \Phi^{-1}\pa{\bigcup_{\al}B_{\al}}$.
+\item
+$\Phi(x)\in \bigcup_{\al}B_{\al}$.
+\item $\Phi(x)$ is in $B_{\al}$ for some $\al$.
+\item $x\in \Phi^{-1}(B_\al)$ for some $\al$.
+\item $x\in \bigcup_{\al} \Phi^{-1}(B_{\al})$.
+\end{enumerate}
+To see $\Phi$ preserves unions, follow this string of equivalences.
+\begin{enumerate}
+\item
+$y\in \Phi^{-1}\pa{\bigcup_{\al} B_{\al}}$.
+\item
+There exists $x\in \bigcup_{\al} B_{\al}$ such that $y=\Phi(x)$.
+\item
+$y=\Phi(x)$ for $x\in B_{\al}$, for some $\al$.
+\item
+$y\in \Phi(B_{\al})$ for some $\al$.
+\item $y\in \bigcup_{\al}\Phi(B_{\al})$.
+\end{enumerate}
+To see $\Phi^{-1}$ preserves differences, follow this string of equivalences.
+\begin{enumerate}
+\item
+$x\in \Phi^{-1}(B\bs A)$.
+\item
+$\Phi(x)\in B\bs A$.
+\item
+$\Phi(x)\in B$ and $\Phi(x)\nin A$.
+\item $x\in \Phi^{-1}(B)$ and $x\nin \Phi^{-1}(A)$.
+\item $x\in \Phi^{-1}(B)\bs\Phi^{-1}(B)$.
+\end{enumerate}
+To see $\Phi$ preserves differences when $\Phi$ is one-to-one,  follow this string of equivalences.
+\begin{enumerate}
+\item
+$x\in \Phi(B\bs A)$.
+\item
+$x=\Phi(y),y\in B\bs A$.
+\item 
+$x=\Phi(y)$ for some $y\in B$ and $x\neq \Phi(y)$ for any $y\in A$.
+\item
+$x\in \Phi(B)\bs \Phi(A)$.
+\end{enumerate}
+Note $2\implies 3$ follows from the fact that $\Phi(y)\neq \Phi(y')$ if $y\in B\bs A$ and $y'\in A$, simply because $\Phi$ is one-to-one.
+
+Finally, consider $\Phi:\{1,2\}\to \{1\}$ sending both elements to 1. Then
+\[
+\Phi^{-1}(\{1,2\}\bs\{1\})=\{1\}\neq \phi=\Phi(\{1,2\})\bs\Phi(\{1\}).
+\]
+
+\subprob{(ii)}
+%\begin{lem}
+%For a family of sets $\cal C\subeq \cal P(E)$, $\sigma(C)$ consists exactly of sets of the form
+%\begin{equation}\label{sform}
+%\bigcup_{i\geq 1} A_i\bs\bigcup_{i\geq 1} B_i
+%\end{equation}
+%where each $A_i,B_i$ is in $\cal C$ or equal to $E$.
+%\end{lem}
+%\begin{proof}
+%Given $A_i,B_i$ in $\cal C\subeq \sigma(\cal C)$, since $\sigma(\cal C)$ is a $\sigma$-algebra, $\bigcup_{i\geq 1}A_i,\bigcup_{i\geq 1}B_i$ is also in $\sigma(\cal C)$. Hence their difference is also in $\sigma(\cal C)$.
+%Note $E$ is in the form~(\ref{sform}). Now given $C_j=\bigcup_{i\geq 1} A_{i,j}\bs\bigcup_{i\geq 1} B_{i,j}$ of the form~(\ref{sform}) for $j\geq 1$, their union is of the above form, and $C_1\bs C_2$ is of the above form:
+%\begin{align*}
+%\bigcup_{j\geq 1} C_j&=
+%\end{align*}
+%\end{proof}
+%Suppose $\cal B'=\sigma(\cal C')$ and $\Phi^{-1}(C)\in \cal B$ for every $C\in \cal C'$. We claim that
+Note
+\[
+\cal S':=\{B\in \cal B'|\Phi^{-1}(B)\in \cal B\}
+\]
+is a $\sigma$-algebra because the following hold.
+\begin{enumerate}
+\item $E'\in \cal S'$: Indeed, $\Phi^{-1}(E')=E\in \cal B$.
+\item If $A_i\in \cal S'$ for $i\in \N$ then $\bigcup_{i=1}^{\infty}A_i\in \cal S'$: From (i),
+\[
+\Phi^{-1}\pa{\bigcup_{i=1}^{\infty}A_i}=\bigcup_{i=1}^{\infty} \Phi^{-1}(A_i)\in \cal B
+\]
+since each $\Phi^{-1}(A_i)$ is in $\cal B$ and $\cal B$ is a \sia.
+\item If $A\in \cal S'$, then $A^c\in \cal S$: Again from (i),
+\[
+\Phi^{-1}(E'\bs A)=\Phi^{-1}(E')\bs \Phi^{-1}(A)=E\bs \Phi^{-1}(A)\in \cal B,
+\]
+since $\Phi^{-1}(A)\in \cal B$ and $\cal B$ is a \sia.
+\end{enumerate}
+Given that $\cal B'=\sigma(\cal C')$ and $\Phi^{-1}(C)\in \cal B$ for every $C\in \cal C'$, we get $\cal C'\subeq \cal S'$. Since $\cal B'=\sigma(\cal C')$ is the smallest \sia{} containing $\cal C'$, we conclude $\cal B'= \cal S'$. In other words, for every $C\in \cal B'$, $\Phi^{-1}(C)\in \cal B$, i.e. $\Phi$ is measurable.\\
+
+In particular, if $E$ and $E'$ are topological spaces and $\Phi$ is continuous, then letting $\cal C'$ be the open sets of $E'$, we see that $\Phi^{-1}(C)$ is open for every $C\in \cal C'$ and hence inside $\cal B_E$. The above applies to show that $\Phi$ is a measurable map from $(E,\cal B_E)$ to $(E',\cal B_{E'})$.\\
+
+Now suppose $\Phi$ is one-to-one and $\Phi(E)\in \cal B'$. Then
+%, $\cal B=\sigma(\cal C)$, and $\Phi(C)\in \cal B'$ for all $C\in \cal C$. We claim that
+\[
+\cal S:=\{C\in \cal B|\Phi(C)\in \cal B'\}
+\]
+is a $\sigma$-algebra because the following hold.
+\begin{enumerate}
+\item $\Phi(E)\in \cal S$: By assumption.
+\item If $A_i\in \cal S$ for $i\in \N$ then $\bigcup_{i=1}^{\infty} A_i\in \cal S$: From (i),
+\[
+\Phi\pa{\bigcup_{i=1}^{\infty} A_i}=\bigcup_{i=1}^{\infty} \Phi(A_i)\in \cal B'
+\]
+since $\Phi(A_i)\in \cal B'$ and $\cal B'$ is a \sia.
+\item If $A\in \cal S$ then $A^c\in \cal S$: From (i) (using injectivity),
+\[
+\Phi(E\bs A)=\Phi(E)\bs \Phi(A)\in \cal B'
+\]
+since $\Phi(E),\Phi(A)\in \cal B'$.
+\end{enumerate}
+By assumption ($\cal B=\sigma(\cal C)$, and $\Phi(C)\in \cal B'$ for all $C\in \cal C$), $\cal C\subeq \cal S$. Since $\cal B=\si(\cal C)$ is the smallest \sia{} containing $\cal C$, we conclude $\cal B=\cal S$, i.e. for all $B\in \cal B$, $\Phi(B)\in \cal B'$.\\
+
+\subprob{(iii)}
+We verify the properties of measure in each case. First, let $\mu'$ be the pushforward of $\mu$.
+\begin{enumerate}
+\item
+$\mu'(\phi)=\mu(\Phi^{-1}(\phi))=\mu(\phi)=0$.
+\item
+Suppose $B_i'\in \cal B'$ for $i\in \N$, where the $B_i'$ are pairwise disjoint. Then the $\Phi^{-1}(B_i')$ are pairwise disjoint. Hence
+\begin{align*}
+\mu'\pa{\bigcup_{i=1}^{\infty} B_i}
+&=
+\mu\pa{\Phi^{-1}\pa{\bigcup_{i=1}^{\infty}B_i'}}\\
+&=\mu\pa{\bigcup_{i=1}^{\infty} \Phi^{-1}(B_i')}\\
+&=\sum_{i=1}^{\infty} \mu(\Phi^{-1}(B_i'))\\
+&=\sum_{i=1}^{\infty}\mu'(B_i').
+\end{align*}
+\end{enumerate}
+Now let $\mu$ be the pullback of $\mu'$ under $\Phi$, where $\Phi$ is one-to-one.
+\begin{enumerate}
+\item
+$\mu(\phi)=\mu'(\Phi(\phi))=\mu'(\phi)=0$.
+\item
+Suppose $B_i\in \cal B$ for $i\in \N$, where the $B_i$ are pairwise disjoint. Then the $\Phi(B_i)$ are pairwise disjoint, since $\Phi$ is one-to-one. Hence
+\begin{align*}
+\mu\pa{\bigcup_{i=1}^{\infty} B_i}
+&=
+\mu'\pa{\Phi\pa{\bigcup_{i=1}^{\infty}B_i}}\\
+&=\mu'\pa{\bigcup_{i=1}^{\infty} \Phi(B_i)}\\
+&=\sum_{i=1}^{\infty} \mu'(\Phi(B_i))\\
+&=\sum_{i=1}^{\infty}\mu(B_i).
+\end{align*}
+\end{enumerate}
+\end{problem}
+\begin{problem}{\it (2.1.21, Principle of inclusion and exclusion)}
+The formula holds for $n=2$ by 2.1.6. Now suppose it holds for $n$; we prove it for $n+1$. Given $\Ga_1,\ldots, \Ga_{n+1}$, we first apply the formula for $n=2$ to $\Ga_1\cap \cdots \cap \Ga_n$ and $\Ga_{n+1}$. Then
+we apply the induction hypothesis to the $n$ sets $\Ga_1,\ldots, \Ga_{n}$ as well as the $n$ sets $\Ga_1\cap \Ga_{n+1},\ldots, \Ga_n\cap \Ga_{n+1}$. (Note $\Ga_i$ and $\Ga_i\cap \Ga_{n+1}$ all have finite measure.)
+We write $[k]$ as shorthand for $\{1,\ldots, k\}$.
+\begin{align*}
+\mu(\Ga_1\cup \cdots \cup \Ga_{n}\cup \Ga_{n+1})
+&=
+\mu(\Ga_1\cup \cdots \cup \Ga_n)+\mu(\Ga_n)-\mu((\Ga_1\cup \cdots \cup \Ga_n)\cap \Ga_{n+1})\\
+&=
+\mu(\Ga_1\cup \cdots \cup \Ga_n)+\mu(\Ga_n)-\mu((\Ga_1\cap \Ga_{n+1})\cup \cdots \cup (\Ga_n\cap \Ga_{n+1}))\\
+&=-\pa{\sum_{\scriptsize\begin{array}{c}F\subeq [n]\\F\neq \phi\end{array}} (-1)^{|F|} \mu(\Ga_F)}
++\mu(\Ga_{n+1})
+-\sum_{\scriptsize\begin{array}{c} F\subeq [n]\\F\neq \phi\end{array}} (-1)^{|F|+1} \mu(|\Ga_{F}\cap \Ga_{n+1}|)\\
+%paren
+&=
+-\pa{\sum_{\scriptsize\begin{array}{c}n+1\nin F\subeq [n+1]\\F\neq \phi\end{array}} (-1)^{|F|} \mu(\Ga_F)}
+-\pa{\sum_{\scriptsize\begin{array}{c}n+1\in F\subeq  [n+1]\\F\neq \phi\end{array}} (-1)^{|F|} \mu(\Ga_F)}\\
+&=\sum_{\scriptsize\begin{array}{c}F\subeq [n+1]\\F\neq \phi\end{array}} (-1)^{|F|} \mu(\Ga_F)
+\end{align*}
+as needed.\\
+
+The probability that a set of $m$ points is fixed under $\pi$ is $\frac{(n-m)!}{n!}$, since there are $(n-m)!$ possibilities for $\pi$---it is determined on those $m$ points but can permute the other $n-m$ points in any way---and each permutation has probability $\rc{n!}$ of being chosen. Hence $\mu(\Ga_F)=\frac{(n-m)!}{n!}$ if $|F|=m$. Then using PIE,
+\begin{align*}
+\mu(A)&=1-\mu(\Ga_1\cup \cdots \cup \Ga_n)\\
+&=1+\sum_{\phi\neq F\subeq [n]} (-1)^{|F|} \mu(\Ga_F)\\
+&=1+\sum_{m=1}^{n}\sum_{\scriptsize\begin{array}{c}F\subeq [n]\\|F|=m\end{array}}(-1)^m\frac{(n-m)!}{n!}\\
+&=1+\sum_{m=1}^n (-1)^{m}\binom nm\frac{(n-m)!}{n!}\\
+&=\sum_{m=0}^n \frac{(-1)^m}{m!}.
+\end{align*}
+By the Taylor expansion of $e^x$ this approaches $\rc e$ as $n\to \infty$.
+\end{problem}
+\begin{problem} {\it (2.1.22, Lim inf and lim sup)}
+As mentioned, $\varliminf_{n\to \infty} B_n$ is the set of $x\in E$ that are in all but finitely many $B_n$ while $\varlimsup_{n\to \infty} B_n$ is the set of $x\in E$ that are in infinitely many $B_n$. An element in all but finitely many $B_n$ must be in infinitely many of them so $\varliminf_{n\to \infty} B_n\subeq \varlimsup_{n\to \infty}B_n$.\\
+
+Since $\varliminf_{n\to \infty} B_n$ and $\varlimsup_{n\to \infty}B_n$ are both obtained from the $B_n$ by a sequence of countable unions and intersections, they are in $\cal B$.\\
+
+Let $C_m=\bigcap_{n=m}^{\infty} B_n$. Note that $C_{m}\subeq C_{m+1}$ and $\bigcup_{m=1}^{\infty} C_m=\varliminf_{n\to \infty} B_n$. Hence $C_n\nearrow \varliminf_{n\to \infty} B_n$ and $\mu(C_n)\to \mu(\varliminf_{n\to \infty} B_n)$ as $n\to \infty$. Since $B_n\supeq C_n$, we get
+\[
+\mu(B_n)\geq \mu(C_n),
+\]
+%since $B_m\supeq \bigcap_{n=m}^{\infty}B_n$
+and taking the lim inf of both sides gives
+\begin{equation}\label{liminfineq}
+\varliminf_{n\to \infty}\mu(B_n)\geq \mu(\varliminf_{n\to \infty} B_n).
+\end{equation}
+
+Let $D_m=\bigcup_{n=m}^{\infty} B_n$. Note that $D_{m}\supeq D_{m+1}$ and $\bigcap_{m=1}^{\infty} D_m=\varlimsup_{n\to \infty} B_n$. Hence $D_n\searrow \varlimsup_{n\to \infty} B_n$ and $\mu(D_n)\to \mu(\varliminf_{n\to \infty} B_n)$ as $n\to \infty$ (here we used the fact that $\mu(D_1)<\infty$). Since $B_n\subeq D_n$, we get
+\[
+\mu(B_n)\leq \mu(D_n),
+\]
+%since $B_m\supeq \bigcap_{n=m}^{\infty}B_n$
+and taking the lim sup of both sides gives
+\begin{equation}\label{limsupineq}
+\varlimsup_{n\to \infty}\mu(B_n)\leq \mu(\varlimsup_{n\to \infty} B_n).
+\end{equation}
+
+If $\lim_{n\to \infty}B_n$ exists and $\mu\pa{\bigcup_{n=1}^{\infty} B_n}<\infty$ then combining~(\ref{liminfineq}) and~(\ref{limsupineq}) gives
+\[
+\varlimsup_{n\to \infty}\mu(B_n)\leq \mu(\lim_{n\to \infty} B_n)\leq \varliminf_{n\to \infty} \mu(B_n).
+\]
+But the LHS is clearly at least as large as the RHS, so equality holds everywhere, and $\mu(\lim_{n\to \infty} B_n)=\lim_{n\to \infty}\mu(B_n)$.
+\end{problem}
+\begin{problem} {\it (2.1.27, Absolute continuity)}
+We prove the contrapositive. Suppose that there exists $\ep>0$ so that for every $\de>0$ there exists a set $B\in \cal B$ such that $\mu(B)>\ep$ but $\nu(B)<\de$. Let $B_n$ be such a set for $\de=2^{-n}$. 
+Since $\mu$ is finite, we use~(\ref{limsupineq}) to get
+\[
+\mu\pa{\varlimsup_{n\to \infty} B_n}
+\geq \varlimsup_{n\to \infty}\nu(B_n)\geq \ep.
+\]
+However, by countable subadditivity,
+\[
+\nu\pa{\varlimsup_{n\to \infty} B_n}\leq \nu\pa{\bigcup_{n=m}^{\infty} B_n}\leq \sum_{n=m}^{\infty} \nu(B_n)
+<\sum_{n=m}\rc{2^n}
+\leq \rc{2^{m-1}}.
+\]
+Hence $\nu\pa{\varlimsup_{n\to \infty} B_n}=0$, and $\mu$ is not absolutely continuous with respect to $\nu$.\\
+
+For the second part, we've already shown the forward direction; we prove the reverse direction. Let $B$ be such that $\nu(B)=0$. Given $\ep>0$ take $\de>0$ such that $\mu(G)<\ep$ whenever $G$ is open and $\nu(G)<\de$. 
+Since $\nu$ is a regular Borel measure there exist closed $F$ and open $G$ such that $\nu(G\bs F)<\de$ and $F\subeq B\subeq G$. Since $\nu(B)=0$ we get $\nu(F)=0$ and so $\nu(G)=\nu(G\bs F)+\nu(F)<\de$. Then $\mu(G)<\ep$. Since $B\subeq G$ we get $\mu(B)< \ep$. Since this is true for any $\ep>0$, we conclude $\mu(B)=0$, as needed.
+\end{problem}
+\begin{problem} {\it (2.1.28, Singular measures)}
+%For the forward direction, 
+Suppose $\mu(B)=0=\nu(B^c)$.
+Given $\de>0$, since $\nu$ is a regular Borel measure, there exist closed $F$ and open $G$ so that $F\subeq  B^c\subeq G$ and $\nu(G\bs F)<\de$.
+Since $\nu(B^c)=0$, we get $\nu(G)=\nu(G\bs F)+\cancelto{0}{\nu(F)}<\de$.
+%As above, this means $\nu(B)\leq \de$. 
+Since $G^c\subeq B$, we get $\mu(G^c)\leq \mu(B)=0$.
+
+The reverse direction follows from this:
+\begin{lem}\label{singcrit}
+Suppose that $E$ is a metric space, $\nu,\mu$ are Borel measures on $E$, and %$\mu$ is finite. Further suppose 
+for every $\de>0$ there is a set $A$ such that $\nu(A)<\de$ and $\mu(A^c)=0$. Then $\mu\perp \nu$.
+\end{lem}
+\begin{proof}
+Take sets $A_n$ so that $\nu(A_n)<\rc{2^n}$ and $\mu(A_n^c)=0$. Let $B=\bigcup_{n=1}^{\infty} A_n^c$. Then
+\[
+\nu(B^c)=
+\nu\pa{\bigcap_{n=1}^{\infty} A_n}
+\leq \nu(A_n)< \rc{2^n}
+\]
+for any $n$ so $\nu(A^c)=0$. However, by countable subadditivity,
+\[
+\mu(B)\leq \sum_{n=1}^{\infty} \mu(A_n^c)=0.
+\]
+Hence $\mu\perp \nu$.
+\end{proof}
+
+\end{problem}
+\begin{problem}{\it(2.2.33, Cantor set)}
+\begin{lem}
+For $a=(a_1,\ldots, a_n)\in \{0,1\}^n$, let $f(a)=\frac{2a_1}{3}+\cdots +\frac{2a_{n}}{3}$. (For $n=0$, and $a$ the empty string $(\,)$, $f(a)=0$.)
+Then $C_0=[0,1]$ and for $n>0$,
+\[
+C_n=\bigcup_{a\in \{0,1\}^{n-1}}
+\ba{f(a),f(a)+\rc{3^n}}\cup \ba{f(a)+\frac{2}{3^n},f(a)+\rc{3^{n-1}}}.
+\]
+Moreover, the $2^n$ intervals in the above union are disjoint.
+\end{lem}
+\begin{proof}
+We proceed by induction on $n$. For $n=1$, the equation holds. Now suppose it holds for $n$, and that the intervals in the expression are disjoint. Now $C_{n+1}$ is obtained by deleting the middle third of each interval. Thus $\ba{f(a),f(a)+\rc{3^n}}$ becomes
+\[
+\ba{f(a),f(a)+\rc{3^{n+1}}}\cup \ba{f(a)+\frac{2}{3^{n+1}},f(a)+\rc{3^n}}
+=
+\ba{f(a'),f(a')+\rc{3^{n+1}}}\cup \ba{f(a')+\frac{2}{3^{n+1}},f(a')+\rc{3^n}}
+\]
+where $a'=(a_1,\ldots, a_{n-1},0)$.
+Similarly $\ba{f(a)+\frac{2}{3^n},f(a)+\rc{3^{n-1}}}$ becomes
+\begin{align*}
+&\quad\ba{f(a)+\frac{2}{3^n},f(a)+\frac{2}{3^n}+\rc{3^{n+1}}}\cup \ba{f(a)+\frac{2}{3^{n}}+\frac{2}{3^{n+1}},f(a)+\rc{3^{n-1}}}\\
+&=
+\ba{f(a'),f(a')+\rc{3^{n+1}}}\cup \ba{f(a')+\frac{2}{3^{n+1}},f(a')+\rc{3^{n}}}
+\end{align*}
+where $a'=(a_1,\ldots, a_{n-1},1)$.
+Hence
+\begin{align*}
+C_n&=\pa{\bigcup_{a\in \{0,1\}^{n},\,a_n=0} \ba{f(a),f(a)+\rc{3^{n+1}}}\cup \ba{f(a)+\frac{2}{3^{n+1}},f(a)+\rc{3^{n}}}}\\
+&\quad
+\cup
+\pa{\bigcup_{a\in \{0,1\}^{n},\,a_n=1}
+\ba{f(a),f(a)+\rc{3^{n+1}}}\cup \ba{f(a)+\frac{2}{3^{n+1}},f(a)+\rc{3^{n}}}
+}\\
+&=\bigcup_{a\in \{0,1\}^n} \ba{f(a),f(a)+\rc{3^{n+1}}}\cup
+\ba{f(a)+\frac{2}{3^{n+1}},f(a)+\rc{3^{n}}}.
+\end{align*}
+Note the intervals are disjoint because they are disjoint parts of disjoint intervals from the previous step.
+\end{proof}
+We see the following.
+\begin{enumerate}
+\item
+$C$ is closed: Each $C_n$ is the union of closed intervals so is closed; $C$ is the intersection of closed sets so is closed.
+\item
+$C$ is uncountable: Define $\Psi:\Om\to [0,1]$ by 
+\[\Psi(\om)=\sum_{i=1}^{\infty} \frac{2\omega(i)}{3^i}.\]
+Note that
+\[\Psi(\om)=f(a)+\frac{2\omega(n)}{3^n}+t\]
+where $a=(\omega(1),\ldots, \omega(n-1))$
+\[
+0\leq t\leq \sum_{m=n+1}^{\infty} \frac{2}{3^m}=\rc{3^n}.\]
+Hence,
+\[
+\Psi(\om)\in \ba{f(a),f(a)+\rc{3^n}}\cup \ba{f(a)+\frac{2}{3^n},f(a)+\rc{3^{n-1}}}\subeq C_n.
+\]
+This shows $\Psi(\om)\in C$. Moreover, if $\om_1,\om_2$ are distinct, choosing $n$ so that $\om_1(n-1)\neq \om_2(n-1)$, the above shows that $\Psi(\om_1)$ and $\Psi(\om_2)$ are in disjoint intervals.  Since $\Om$ is uncountable and $\Psi$ is injective, we conclude that $C$ is uncountable.
+\item
+$C$ has measure 0. Note $C_n$ is a union of $2^{n}$ disjoint intervals of length $\rc{3^n}$, so $\mu(C_n)=\pf 23^n$, which goes to 0 as $n\to \infty$. As $C\subeq C_n$, $\mu(C)\leq \mu(C_n)$ for any $n$ and $\mu(C)=0$.
+\end{enumerate}
+\end{problem}
+\begin{problem}{\it(2.2.36, Absolute continuity of distribution functions)}
+Suppose $F$ is absolutely continuous. For $\ep>0$, take $\de>0$ such that $\sum_{n=1}^{\infty} (F(b_n)-F(a_n))<\ep$ whenever $\{(a_n,b_n):n\geq 1\}$ is a sequence of mutually disjoint open intervals with $\sum_{n=1}^{\infty} (b_n-a_n)<\de$. Now suppose $|x-y|<\de$. Without loss of generality $x<y$. Taking $a_1=x,b_1=y$ and all other intervals to be empty, we get $\sum_{n=1}^{\infty} (b_n-a_n)<\de$ so $0\leq F(y)-F(x)\leq \ep$. This shows $F$ is uniformly continuous.
+(If we don't allow empty intervals, pick the other intervals so that they are disjoint and their lengths sum to less than $\de-(y-x)$.)\\
+
+Note that if $\mu_F$ is absolutely continuous with respect to $\la_{\R}$, then, since $\la_{\R}(\{a\})=0$, 
+\[F(a)-F(a-)=\mu_F(\{a\})=0\]
+for every $a$, so $F$ is continuous (it was already assumed right continuous). If $F$ is absolutely continuous, $F$ is continuous as shown above. Thus in proving the second part we may assume $F$ is continuous.
+
+We have that $F$ is absolutely continuous iff for any $\ep>0$, there exists $\de>0$ such that $\sum_{n=1}^{\infty} (F(b_n)-F(a_n))<\ep$ whenever $\{(a_n,b_n)|n\in \N\}$ is a sequence of mutually disjoint open intervals with $\sum_{n=1}^{\infty} (b_n-a_n)<\de$. By countable additivity,
+\begin{equation}\label{distreq1}
+\mu_F\pa{\bigcup_{n=1}^{\infty} (a_n,b_n)}=\sum_{n=1}^{\infty} (F(b_n-)-F(a_n)).
+\end{equation}
+and 
+\begin{equation}\label{distreq2}
+\la_{\R}\pa{
+\bigcup_{n=1}^{\infty} (a_n,b_n)}=\sum_{n=1}^{\infty} (b_n-a_n)
+.
+\end{equation}
+By continuity,~(\ref{distreq1}) gives
+\begin{equation}\label{distreq3}
+\mu_F\pa{\bigcup_{n=1}^{\infty} (a_n,b_n)}=\sum_{n=1}^{\infty} (F(b_n)-F(a_n)).
+\end{equation}
+\begin{lem}\label{openctun}
+Any open set of $\R$ can be written as a countable union of disjoint open intervals.
+\end{lem}
+\begin{proof}
+We can write $G$ as a union of (disjoint) connected components. The connected sets in $\R$ are intervals. Each of these intervals must be open since $G$ is open. $G$ is a countable union because each interval contains a rational number, and $\Q$ is countable.
+\end{proof}
+Thus 
+\begin{equation}\label{bij}
+\{(a_n,b_n)|n\in \N\}\leftrightarrow \bigcup_{n=1}^{\infty}(a_n,b_n)
+\end{equation}
+is a bijection between sequences of disjoint open intervals up to ordering, and open sets of $\R$.
+
+Then~(\ref{distreq3}) and~(\ref{distreq2}) show the condition for absolute continuity is equivalent to: for every $\ep>0$ there exists $\de>0$ such that there exists an open set $G$ so that $\mu_{F}(G)<\ep$ whenever $\la_{\R}(G)<\de$. 
+From Problem 4 (2.1.27), this is equivalent to $\mu_{F}$ being absolutely continuous with respect to $\la_{\R}$. (Note $\mu_F$ is finite as $F$ is bounded.)%, and hence $\mu_F(\R)=F(\infty)-F(-\infty)<\infty$.)
+\end{problem}
+\begin{problem}{\it(2.2.37, Singular distribution functions)}
+First suppose $\mu_F\perp \la_{\R}$. By Problem 5 (2.1.28), for each $\de>0$ there exists an open set $G$ with $\la_{\R}(G)<\de$ and $\mu_F(G^c)=0$. The second condition is equivalent to $\mu_F(\R)=\mu_F(G)$. By~(\ref{distreq1}),~(\ref{distreq2}), and the bijection~(\ref{bij}), this is equivalent to: for each $\de>0$ there exists a sequence $\{(a_n,b_n)|n\in \N\}$ of mutually disjoint open intervals with $\sum_{n=1}^{\infty} (b_n-a_n)<\de$ and $F(\infty)-F(-\infty)=\sum_{n=1}^{\infty} (F(b_n-)-F(a_n))$. 
+We claim that any choice of $\{(a_n,b_n)|n\in \N\}$ satisfying the above equation also satisfies $F(\infty)-F(-\infty)=\sum_{n=1}^{\infty} (F(b_n)-F(a_n))$.
+Indeed,
+since $F$ is increasing,
+\[ F(\infty)-F(-\infty)=\sum_{n=1}^{\infty}(F(b_n-)-F(a_n))
+\leq
+\sum_{n=1}^{\infty}(F(b_n)-F(a_n))\leq \mu_F(\R)=F(\infty)-F(-\infty)\]
+so equality holds everywhere. We can find appropriate disjoint intervals for every $\de>0$, so $F$ is singular.
+%If $\{(a_n,b_n)\}$ is chosen to satisfy the second condition for some $\de$, then the above shows $\sum_{n=1}^{\infty}(F(b_n)-F(a_n))\leq F(\infty)-F(-\infty)$ so the same choice of intervals satisfies the first condition for $\de$.
+
+Conversely, suppose $F$ is singular. For $\de>0$, take disjoint intervals $\{(a_n,b_n)|n\in \N\}$ such that $\sum_{n=1}^{\infty}(b_n-a_n)<\de$ and $\sum_{n=1}^{\infty}(F(b_n)-F(a_n))=F(\infty)-F(-\infty)$. Now let $A=\bigcup_{n=1}^{\infty}(a_n,b_n]$. Then by countable additivity
+\[
+\mu_F(A)=\sum_{n=1}^{\infty} \mu_F((a_n,b_n])=\sum_{n=1}^{\infty} F(b_n)-F(a_n)=F(\infty)-F(-\infty)=\mu_F(\R)
+\]
+and
+\[
+\la_{\R}(A)=\sum_{n=1}^{\infty} \la_{\R}((a_n,b_n])=\sum_{n=1}^{\infty} (b_n-a_n)<\de.
+\]
+%Since $\la_{\R}$ is regular there exists an open set $G$ containing $B$ such that $\la_{\R}(G)<\de$. (Choose $F\subeq G\subeq B$ so that $\la_{\R}(G\bs F)\leq \de-\sum_{n=1}^{\infty} (b_n-a_n)$.) Now $\mu_F(B)\leq \mu(G)\leq \mu_F(\R)$ so equality holds.
+
+This shows that for every $\de>0$ there exists a set $A$ such that $\la_{\R}(A)<\de$ and $\mu_F(A)=\mu_F(\R)$ (i.e. $\mu_F(A^c)=0$). By Lemma~\ref{singcrit}, $\mu\perp \la_{\R}$.
+
+%$F$ is singular iff for each $\de>0$ there exists a sequence $\{(a_n,b_n):n\geq 1\}$ of mutually disjoint open intervals with $\sum_{n=1}^{\infty} (b_n-a_n)<\de$ and $F(\infty)-F(-\infty)=\sum_{n=1}^{\infty} (F(b_n)-F(a_n))$.
+%We claim this is equivalent to: for each $\de>0$ there exists a sequence $\{(a_n,b_n):n\geq 1\}$ of mutually disjoint open intervals with $\sum_{n=1}^{\infty} (b_n-a_n)<\de$ and $F(\infty)-F(-\infty)=\sum_{n=1}^{\infty} (F(b_n-)-F(a_n))$. 
+%Indeed, note %if the latter is true than the first statement holds with the same choices of intervals, since the fact that $F$ is increasing gives 
+%Since $F$ is increasing,
+%\[ F(\infty)-F(-\infty)=\sum_{n=1}^{\infty}(F(b_n-)-F(a_n))
+%\leq
+%\sum_{n=1}^{\infty}(F(b_n)-F(a_n))\leq F(\infty)-F(-\infty).\]
+%If $\{(a_n,b_n)\}$ is chosen to satisfy the second condition for some $\de$, then the above shows $\sum_{n=1}^{\infty}(F(b_n)-F(a_n))\leq F(\infty)-F(-\infty)$ so the same choice of intervals satisfies the first condition for $\de$.
+%Now suppose $\{(a_n,b_n)\}$ is chosen to satisfy the first condition for $\de$. Consider $\{(a_n,b_n+\ep_n)\}$, for $\sum_{n=1}^{\infty}\ep_n<\de-(\sum_{n=1}^{\infty}(b_n-a_n))$. Now
+%\[
+%\sum_{n=1}^{\infty} (F(b_n+\ep_n)-F(a_n))\geq \sum_{n=1}^{\infty} (F(b_n)-F(a_n))
+%\]
+%
+% since $F(b_n-\ep_n)<F(b_n)$.
+%We claim that $F$ is left continuous at each $b_n$. Suppose $F$ is not left continuous at $b_n$; then $F(b_n-)<F(b_n)$. But 
+
+%By~(\ref{distreq1}),~(\ref{distreq2}), and the bijection~(\ref{bij}), the second statement is equivalent to: for each $\de>0$ there exists an open set $G$ with $\la_{\R}(G)<\de$ and $\mu(\R)=\mu(G)$. Note $\mu(\R)=\mu(G)$ iff $\mu(G^c)=0$. By Problem 5 (2.1.28), the above statement is true iff $\mu\perp \la_{\R}$.
+\end{problem}
+\end{document}
