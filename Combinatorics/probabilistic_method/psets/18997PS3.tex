@@ -1,0 +1,561 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+%\newcommand{\cal}[1]{\mathcal{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\prc}[1]{\pa{\rc{#1}}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\iy}[0]{\infty}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.997 Probabilistic Method} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 3} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.997 Probabilistic Method Problem Set \#3}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{3/22/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+\begin{problem}{\it (3.1, $R(k,k)$)}
+\begin{lem}\label{binomest}
+\[
+\binom nk \le \rc e\pf{en}{k}^k.
+\]
+\end{lem}
+\begin{proof}
+By integral estimation,
+\begin{align*}
+\ln k!&=\sum_{m=1}^k \ln m\\
+&\ge \int_{1}^k\ln x\,dx\\
+&=k\ln k-k+1.
+\end{align*}
+Exponentiating gives $k!>e\pf ke^k$. Hence
+\[
+\binom nk=\frac{n(n-1)\cdots (n-k+1)}{k!}\le\frac{n^k}{k!}\le \rc e\pf{en}{k}^k.
+\]
+\end{proof}
+
+Let $a=\left.\fl{\frac ke2^{\frac k2}}\right/\frac ke2^{\frac k2}$, and 
+put $n=\fl{\frac ke2^{\frac k2}}=a\frac ke2^{\frac k2}$ in
+\[
+R(k,k)> n-\binom nk 2^{1-\binom k2}
+\]
+and use the above estimate to get
+\begin{align*}
+R(k,k)&>a\frac ke 2^{\frac k2}-\rc e\pf{en}{k}^k 2^{1-\binom k2}\\
+&=\pa{a-\rc k\pf{en}{k}^k 2^{1-\frac{k^2}{2}}}\frac ke 2^{\frac k2}.\\
+&=\pa{a-\frac {2a^k}k}\frac ke 2^{\frac k2}.
+\end{align*}
+For $k\ge 3$, we have $1-\frac{1}{2^{\frac k2}}<a\le 1$, and $\frac{1}{2^{\frac k2}}=o(1)$. Since $\frac {2a^k}k\le \frac{2}{k}=o(1)$ as well,  %Hence $1-\frac{k}{2^{\frac k2}}<a^k\le 1$. Note $1-\frac{k}{2^{\frac k2}}$ is bounded below by a constant $C$ since its limit is 1. %Hence $1-\frac{1}{2^{\frac k2}}-\frac k2
+%-\frac {2}k<a-\frac {2a^k}k \le1$.
+%Thus 
+%This shows 
+$R(k,k)\ge (1-o(1))\frac ke 2^{\frac k2}$.
+\end{problem}
+\begin{problem}{\it (3.2, $R(4,k)$)}
+Consider a complete graph with $n$ vertices. Call the first color red and the second blue. Color each edge in the graph red with probability $p$ and blue with probability $1-p$. The probability that a given set of $4$ vertices forms a red $K_4$ is $p^{\binom 42}$ and the probability that a given set of $k$ vertices forms a blue $K_k$ is $(1-p)^{\binom k2}$.
+
+Let $X$ be the total number of red $K_4$'s and blue $K_k$'s.  %by the union bound the probability that there is a red $K_k$ or blue $K_t$ is
+By linearity of expectation, since there are $\binom n4$ groups of $4$ vertices and $\binom nk$ groups of $k$ vertices.
+\[
+\E(X)= \binom n4 p^{6}+\binom nk(1-p)^{\binom k2}.
+\]
+There exists a coloring with at most $\E(X)$ red $K_4$'s and blue $K_k$'s. Pick a vertex from each red $K_4$ and blue $K_k$ and delete it. We obtain a graph with at least $n-\E(X)$ vertices and no red $K_4$ or blue $K_k$. This shows that for any $n\in \N$ and any $p\in [0,1]$,
+\[
+R(4,k)> n- \binom n4 p^{6}-\binom nk(1-p)^{\binom k2}.
+\] 
+
+Assume $k\ge 3$. Now pick $n=a\pf{k}{\ln k}^2$ and $p=\frac{2\ln k}{k}$, where $a$ is to be chosen (depending on $k$ to make $n$ an integer, but close to a constant). Using Lemma~\ref{binomest},
+\begin{align*}
+R(4,k)&
+\ge n-\frac{n^4}{24}p^6-\pf{en}{k}^k (1-p)^{\binom k2}\\
+&\ge n-\frac{n^4}{24}p^6-\pf{en}{k}^k e^{-p\binom k2}\\
+&= a\pf{k}{\ln k}^2 -\rc{24} a^4\pf{k}{\ln k}^82^6\pf{\ln k}{k}^6
+- \pf{eak}{(\ln k)^2}^ke^{-\frac{2\ln k}{k}\binom k2}\\
+&=a\pf{k}{\ln k}^2-\frac{2^6a^4}{24}\pf k{\ln k}^2 -\pf{eak}{(\ln k)^2}^k k^{-(k-1)}\\
+&=\pa{a-\frac{8}{3}a^4}\pf{k}{\ln k}^2-\frac{k(ea)^k}{(\ln k)^{2k}}.
+\end{align*}
+Fix $a'\in \pa{0,\sqrt[3]{\frac 38}}$, and choose $a$ to be as close to $a'$ as possible, so that $n$ is an integer. Since $\pf{k}{\ln k}^2\to \iy$, we have $a\to a'$ as $k\to \iy$.
+
+Note the last term above goes to 0 as $k\to \iy$ because $\frac{k}{(\ln k)^k}\to 0$ and $\pf{ea}{\ln k}^k\to 0$. %Choosing any $0<a<\sqrt[3]{\frac 38}$ shows that $R(4,k)=\Om(\pf{k}{\ln k}^2)$.
+Since $a$ converges to $a'$ as $k\to \iy$, for large $k$, $a-\frac{8}{3}a^4$ is bounded below by some $c>0$. Hence $R(4,k)=\Om(\pf{k}{\ln k}^2)$.
+\end{problem}
+\begin{problem} {\it (3.3, Independent set in 3-uniform hypergraph)}
+Let $G$ be a 3-uniform hypergraph with $n$ vertices and $m\ge \frac n3$ edges. 
+Take a random subset $A$ by placing each vertex of $G$ in $A$ independently with probability $p$. Let $X=|A|$; then $\E(X)=np$. 
+Let $Y$ be the number of edges in the subgraph induced by $A$. The probability that a given edge is in $A$ is $p^3$, since each of its vertices, independently, has probability $p$ of being in $A$. Since there are $m$ edges, by linearity of expectation, $\E(Y)=mp^3$.
+
+Now $\E(X-Y)=np-mp^3$. There exists a subset $A$ such that $X-Y\ge np-mp^3$. For each edge in the subgraph induced by $A$, choose one of its vertices. Upon removing these vertices, we get a set of at least $X-Y\ge np-mp^3$ vertices with no edges between them, i.e. an independent set of size at least $np-mp^3$.
+
+Now take $p=\pf n{3m}^{\rc2}$ (legal since $m\ge \frac n3$). Then we get an independent set of size at least
+\[
+np-mp^3=n\pf n{3m}^{\rc 2}-m\pf{n}{3m}^{\frac 32}=\frac{2n^{\frac 32}}{3\sqrt 3 \sqrt m}.
+\]
+\end{problem}
+\begin{problem} {\it (3.4, Even directed cycle)}
+We show that in fact, the statement holds when each outdegree is at least $\log_2n-\al \log_2\log_2 n$ where $\al\in[0,\rc 2)$.
+\begin{lem}
+Let $G$ be a directed graph, whose vertices are colored in two colors such that for every vertex $v$, there exists a vertex $w$ such that there is an edge from $v$ to $w$, and $w$ is colored oppositely from $v$. Then $G$ has a directed even cycle.
+\end{lem}
+\begin{proof}
+Choose any vertex $v_1$. Once $v_k$ is chosen, choose $v_{k+1}$ to be adjacent to $v_k$ along an outgoing edge, of the opposite color as $v_k$. At some point, a vertex will be repeated. Say that the first repeated vertex is $v_k$, and $v_k=v_j$, $j<k$. Then $v_j,v_{j+1},\ldots, v_k$ is a simple cycle, since $v_k$ is the first repeated vertex. Since the colors of vertices in the cycle alternate, it must have even length.
+\end{proof}
+The following is Corollary 3.5.2 in the text.
+\begin{thm}
+\[m(d)=\Om\pa{2^d\pf{d}{\ln d}^{\rc2}}.\]
+In other words, there exists $C$ such that for every $d\ge 2$, any $d$-uniform hypergraph with at most $C2^d\pf{d}{\ln d}^2$ edges can be colored with two colors, so that no edge is monochromatic.
+\end{thm}
+We will only need the weaker bound
+\[
+m(d)=\Om\pa{2^dd^{\al'}},\text{ for any }\al'\in\left[0,\rc 2\right).
+\]
+
+Given a directed graph $G$ all of whose vertices have outdegree at least $\de=\log_2n-\al\log_2\log_2n$, for each vertex $v$ let $S_v$ be a set of vertices consisting of $v$ and $\ce{\de}-1$ vertices adjacent along an outgoing edge. Choose $\al'$ so that $\al<\al'<\rc 2$.
+Take $C$ such that $m(d)>C2^dd^{\al'}$ for $d\ge 2$. Let $D$ be a positive constant less than 1. For large enough $n$, 
+\begin{align*}
+m(\ce{\de})&\ge C2^{\ce{\de}}\ce{\de}^{\al'}\\
+&\ge C2^{\de} \de^{\al'}\\
+&=Cn(\log_2 n)^{-\al} (\log_2 n-\al\log_2\log_2n)^{\al'}\\
+&\ge Cn(\log_2 n)^{-\al} D(\log_2n)^{\al'}\\
+&=CDn(\log_2 n)^{\al'-\al}\ge n.
+\end{align*}
+Consider the $\ce{\de}$-uniform hypergraph whose vertices are the vertices of $G$ and whose edges are the $n$ sets $S_v$. 
+By the above calculations, (for large enough $n$) there exists a coloring so that none of the $S_v$ are monochoromatic, i.e. so that each vertex leads to a vertex of a different color. By the lemma, $G$ has an even cycle.
+\end{problem}
+\begin{problem} {\it (4.1, $P(X=0)$)}
+%For a random variable $X$ with mean $\mu$ and standard deviation $\si$, Chebyshev's inequality states
+%\[
+%P(|X-\mu|\ge \la\si)\le \rc{\la^2}
+%\]
+%for any $\la>0$.
+%
+%Letting $\la=\frac{\mu}{\sigma}$ gives
+%\[
+%P(X=0)\leq P(|X-\mu|\geq \mu)=P(|X-\mu|\geq \la\sigma)\leq \rc{\la^2}=\frac{\si^2}{\mu^2}=\frac{\Var(X)}{\E(X)^2}.
+%\]
+Let $p_k=P(X=k)$. By the Cauchy-Schwarz inequality,
+\[
+\pa{
+\sum_{k\ge 0}kp_k
+}^2\le \pa{\sum_{k>0} p_k}\pa{\sum_{k\ge 0} k^2p_k}.
+\]
+(Note the $k=0$ terms for $kp_k$ and $k^2p_k$ are 0.) We rewrite this as
+\begin{align*}
+\E(X)^2&\le (1-P(X=0))\E(X^2)\\
+\implies P(X=0)\E(X^2)&\le \E(X^2)-\E(X)^2\\
+\implies P(X=0)\E(X^2)&\le \Var(X)\\
+\implies P(X=0)&\le \frac{\Var(X)}{\E(X^2)}.
+\end{align*}
+
+\end{problem}
+\begin{problem} {\it (4.2)}
+
+We show the inequality with $c=\frac{\sqrt{5}-2}{2}$.
+\begin{lem}
+Let $a_1,\ldots, a_k$ be any real numbers, and $\ep_1,\ldots, \ep_k$ independent random variables taking the values $-1$ and 1 each with probability $\rc2$. Let $X=\ep_1a_1+\cdots +\ep_ka_k$. Then
+\[
+\Var(X)=a_1^2+\cdots +a_k^2
+\]
+and
+\[
+P(|X|\le 1)\ge 1-(a_1^2+\cdots +a_k^2).
+\]
+\end{lem}
+\begin{proof}
+Let $X_i=\ep_ia_i$. Note $\Var(X_i)=\E((\ep_ia_i)^2)=a_i^2$. 
+Since the $X_i$ are independent, we have
+\[
+\Var(X)=\Var(X_1)+\cdots +\Var(X_k)=a_1^2+\cdots +a_k^2.
+\]
+Clearly, $\E(X_i)=0$ so $\E(X)=0$. By Chebyshev's inequality with $\la=\rc{\sqrt{a_1^2+\cdots +a_k^2}}$ and $\si=\sqrt{a_1^2+\cdots +a_k^2}$, we get
+\[
+P(|X|\ge 1)=P(|X-\E(X)|\ge \la \si)\le \rc{\la^2}= a_1^2+\cdots +a_k^2.
+\]
+Since $P(|X|\le 1)\ge 1-P(|X|\ge 1)$, this proves the second part.
+\end{proof}
+
+Let $\la=\sqrt 5-2$. Note %$\la^2+4\la-1=0$ and 
+$\frac{1-\la^2}{8}=\frac{\la}{2}$ and $c=\frac{\la}{2}$. Consider two cases.
+\begin{enumerate}
+\item
+There exists $a_i$ with $a_i^2\ge \la$. Without loss of generality, $a_1^2\ge \la$. Then %$a_2^2+\cdots +a_n^2=1-a_1^2\le \frac 45$, so 
+by the lemma,
+\[
+P(|\ep_2a_2+\cdots +\ep_ka_k|\le 1)%\ge 1-P(|\ep_2a_2+\cdots +\ep_ka_k\ge 1|)\ge 1-\frac45=\rc 5.
+\ge 1-(a_2^2+\cdots +a_n^2)=a_1^2\ge \la.
+\]
+Since $|a_1|\le 1$, given that $|\ep_2a_2+\cdots +\ep_ka_k|\le 1$, if $\ep_1$ is such that $\ep_1a_1$ has opposite sign from $\ep_2a_2+\cdots +\ep_ka_k$, then we also have $|X|\le 1$. Thus
+\[
+P(|X|\le 1)\ge\rc 2P(|\ep_2a_2+\cdots +\ep_ka_k|\le 1)\ge\frac{\la}{2}.
+\]
+
+\item
+There does not exist $a_i$ with $a_i^2\ge \la$. Let $k$ be the greatest index so that
+\[
+a_1^2+a_2^2+\cdots +a_k^2\le \frac{1+\la}{2}.
+\]
+(Note $k\ge 1$ since $a_1^2< \la<\frac{1+\la}{2}$.) 
+Let $A=a_1^2+\cdots +a_k^2$. 
+By the maximality assumption, $a_1^2+\cdots +a_k^2+a_{k+1}^2>\frac{1+\la}{2}$. Since $a_{k+1}^2<\la$, we conclude $A>\frac{1-\la}{2}$. 
+%Then 
+%\[
+%a_1^2+\cdots +a_k^2,\,a_{k+1}^2+\cdots +a_{n}^2\in [\frac 25, \frac 35],
+%\]
+%since these two expressions sum to 1.
+Thus by the lemma,
+\begin{align*}
+P(|\ep_1a_1+\cdots +\ep_ka_k|\le 1)&\ge 1-(a_1^2+a_2^2+\cdots +a_k^2) =1-A.\\
+P(|\ep_{k+1}a_{k+1}+\cdots +\ep_na_n|\le 1)&\ge 1-(a_{k+1}^2+\cdots +a_n^2)=A.
+\end{align*}
+By symmetry, 
+\[
+%P(\ep_1a_1+\cdots +\ep_ka_k \in [0,1])&=
+%P(\ep_1a_1+\cdots +\ep_ka_k\in [-1,0])\\
+%&\ge \frac{1-A}2
+%\\
+P(\ep_{k+1}a_{k+1}+\cdots +\ep_na_n\in [0,1])=
+P(\ep_{k+1}a_{k+1}+\cdots +\ep_na_n\in [-1,0])
+\ge\frac{A}{2}.
+\]
+Now, noting $A\in [\frac{1-\la}{2},\frac{1+\la}{2}]$ implies $A(1-A)\ge \pf{1-\la}{2}\pf{1+\la}{2}=\frac{1-\la^2}{4}$,
+\begin{align*}
+P(|X|\le 1)&\ge P(\ep_1a_1+\cdots +\ep_ka_k \in [0,1])P(\ep_{k+1}a_{k+1}+\cdots +\ep_na_n\in [-1,0])\\
+&\quad +P(\ep_1a_1+\cdots +\ep_ka_k \in [-1,0))P(\ep_{k+1}a_{k+1}+\cdots +\ep_na_n\in [0,1])\\
+&\ge P(\ep_1a_1+\cdots +\ep_ka_k \in [0,1])\pf A2+P(\ep_1a_1+\cdots +\ep_ka_k \in [-1,0))\pf A2\\
+&=P(|\ep_1a_1+\cdots +\ep_ka_k|\le 1)\pf A2\\
+&\ge (1-A)\pf A2\ge \frac{1-\la^2}{8}=\frac{\la}{2}
+\end{align*}
+as needed.
+\end{enumerate}
+\end{problem}
+\begin{problem} {\it (4.3)}
+%Given the conditions of the problem, we can divide the $a_i$ into at most 10 groups such that each group has 
+We need the following estimate. The proof is similar to Chebyshev's inequality.
+\begin{lem}\label{p3-7-l1}
+Let $a_1,\ldots, a_n$ be vectors in $\R^2$, and $\ep_1,\ldots, \ep_n$ be independently chosen to be $\pm 1$ with probability $\rc2$. Then
+\[
+P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert\ge R}\le\frac{\sum_{k=1}^n \Vert a_k\Vert^2}{R^2}. 
+\]
+\end{lem}
+\begin{proof}
+First we calculate $\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2}$. Let $a_k=(x_k,y_k)$. Now
+\[
+\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2} =\E((\ep_1x_1+\cdots +\ep_nx_n)^2+(\ep_1y_1+\cdots +\ep_ny_n)^2)\]
+Expanding, noting that $\E(\ep_i\ep_jx_ix_j)=\E(\ep_i\ep_jy_iy_j)=0$ for $i\ne j$ (since $\ep_i\ep_j$ has equal probability of being $\pm1$), the expected value equals
+\[
+\E(\ep_1^2x_1^2)+\cdots +\E(\ep_n^2 x_n^2)+\E(\ep_1^2 y_1^2)+\cdots +\E(\ep_n^2y_n^2)=x_1^2+\cdots +x_n^2+y_1^2+\cdots +y_n^2=\sum_{k=1}^n \Vert a_k\Vert^2.
+\]
+
+By Markov's inequality,
+\begin{align*}P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert\ge R}&=
+P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2\ge R^2}\\
+&\le \frac{\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2}}{R^2}\\
+&=\frac{\sum_{k=1}^n \Vert a_k\Vert^2}{R^2}.
+\end{align*}
+\end{proof}
+\begin{lem}\label{p3-7-l2}
+Let $a_1,\ldots, a_n$ be vectors in $\R^2$, all of length at most $r$. Then there exist $\ep_1,\ldots, \ep_n\in \{-1,1\}$ so that
+\[
+\Vert\ep_1a_1+\cdots +\ep_na_n\Vert\le \sqrt 2r.
+\]
+\end{lem}
+\begin{proof}
+For $\ep=(\ep_1,\ldots, \ep_n)\in \{-1,1\}^n$ and $i\neq j$, let $\cal P_{i,j}(%\ep_1,\ldots, \widehat{\ep_i}, \ldots, \widehat{\ep_j},\ldots, \ep_n)$ (where a hat denotes omission) 
+\ep)$ be the (possibly degenerate) parallelogram bounded by the 4 vertices $v\pm a_i\pm a_j$, where $v=\sum_{k\neq i,j; 1\le k\le n} \ep_ia_i$. Let $\cal P=\bigcup_{1\le i<j\le n, \ep\in \{-1,1\}^n} \cal P_{i,j}(\ep)$. Note that if $Q_1Q_2Q_3Q_4$ is one of these parallelograms, then we have $Q_2=Q_1\pm 2a_i$ for some $i$, and similarly for the other adjacent pairs of vertices.
+
+We claim that $\cal P$ contains the origin. First we show that $\cal P$ is convex. %$P$ is bounded by a finite number of line segments, so it suffices to show that there is no reflex angle on the boundary. %, i.e. there do not exist 
+Let $Q$ be a vertex on the boundary of $\cal P$, %and $Q_1,Q_2$ be neighboring vertices, i.e. 
+and $QQ_1$ and $QQ_2$ be edges of $\cal P$, with $Q_1\ne Q_2$ (i.e. $QQ_1,QQ_2$ are edges of some $\cal P_{i,j}(\ep)$.)
+As mentioned, $Q_1=Q\pm 2a_i$ for some $i$ and $Q_2=Q\pm 2a_j$ for some $j$, for $i\neq j$. 
+Suppose the directed angle $\angle Q_1QQ_2$ is in the range $[0^{\circ},180^{\circ}]$. Let $Q'=Q\pm 2a_i\pm 2a_j$, where the two signs match the signs in $Q_1$ and $Q_2$, respectively. Then $Q_1QQ_2Q'$ is one of the parallelograms, in particular, $P$ contains the angle $\angle Q_1QQ_2$. %So, if we draw a small circle around $Q$ containing no other vertex of $\cal P$, and mark the arcs on the circle that are inside $\cal P$, then the unmarked areas form arcs of measure greater than $180^{\circ}$, i.e. there can only be one unmarked arc, and the marked arc is continuous. 
+This shows that $\cal P$ has no reflex angle on the boundary. $\cal P$ has a well-defined outer boundary that traces a convex polygon, and has no ``holes" (because holes would cause reflex angles as well). Hence $\cal P$ is convex. Since $\cal P$ is clearly symmetric around the origin, it must contain the origin.
+
+Hence we can take a parallelogram $\cal P_{i,j}(\ep)$ containing the origin. Suppose by way of contradiction that all its vertices $P_1,P_2,P_3,P_4$ are at a distance greater than $\sqrt 2 r$ from the origin $O$. One of the angles $\angle P_1OP_2,\angle P_2OP_3,\angle P_3OP_4,\angle P_4OP_1$ is at least $90^{\circ}$, say WLOG $P_1OP_2$. Then by Pythagorean's inequality $|P_1P_2|^2\ge |OP_1|^2+|OP_2|^2> 2(\sqrt 2r)^2$ so $|P_1P_2|>2r$. But $|P_1P_2|=2a_i$ for some $i$, and $a_i>r$, contradiction. Thus one of $P_1,P_2,P_3,P_4$ is at most a distance of $\sqrt 2r$ from $O$, proving the lemma. 
+%\begin{enumerate}
+%\item $P$ has a well-defined outer boundary, 
+%\end{enumerate}
+\end{proof}
+Back to the problem, let $i_0=0$, let $i_1$ be the largest integer so that $\Vert a_1\Vert^2 +\cdots +\Vert a_{i_1}\Vert ^2\le \rc{20}$, let $i_2$ be the largest integer so that $\Vert a_{i_1+1}\Vert^2 +\cdots +\Vert a_{i_2}\Vert^2 \le \rc {20}$, and so on. (Note $i_{j+1}>i_j$ because $\Vert a_i\Vert^2\le \rc{100}$ for all $i$.) Suppose this divides the $a_i$ into $t$ groups. For $0\le j<t-1$, by the maximality assumption on $i_{j+1}$,  $\Vert a_{i_j+1}\Vert^2 +\cdots +\Vert a_{i_{j+1}}\Vert ^2+\Vert a_{i_{j+1}+1}\Vert^2 >\rc {20}$; since $\Vert a_{i_{j+1}+1}\Vert^2\le \rc{100}$, we conclude $\Vert a_{i_j+1}\Vert^2 +\cdots +\Vert a_{i_{j+1}}\Vert^2 >\rc{25}$. Thus we've divided the $a_i$ into $t$ groups, and in all of them except the last, the sum of the squares of the absolute values is in the interval $(\rc{25},\rc{20}]$. This shows $t\le 25$.
+
+By Lemma~\ref{p3-7-l1},
+\[
+P\pa{\left\Vert\sum_{k=i_j+1}^{i_{j+1}} \ep_ka_k\right\Vert\ge \rc{\sqrt {18}}}\le18\sum_{k=i_j+1}^{i_{j+1}} \Vert a_k\Vert^2\le \frac{18}{20}
+\]
+so 
+\[
+P\pa{\left\Vert\sum_{k=i_j+1}^{i_{j+1}} \ep_ka_k\right\Vert\le \rc{\sqrt {18}}}\ge \frac{1}{10}.
+\]
+Thus the probability that $\left\Vert\sum_{k=i_j+1}^{i_{j+1}} \ep_ka_k\right\Vert\le \rc{\sqrt {18}}$ for each $0\le j<t$ is at least $\rc{10^t}\ge \rc{10^{25}}$. 
+Let $v_j=\sum_{k=i_j+1}^{i_{j+1}} \ep_ka_k$. 
+Let $S$ be the set of $\ep=(\ep_1,\ldots, \ep_n)$ such that $\left\Vert v_j\right\Vert\le \rc{\sqrt {18}}$ for all $j$; call $v=\sum_{k=1}^n \ep_ka_k$ the vector associated to $\ep$. 
+We say two vectors $\ep,\ep'$ are equivalent if
+\[
+(\ep_{i_j+1},\ldots, \ep_{i_{j+1}})=\pm(\ep_{i_j+1}',\ldots, \ep_{i_{j+1}}')
+\]
+for each $j$. This divides $S$ into equivalence classes, each containing $2^t$ elements. Note that the vectors associated to the $2^t$ elements in the equivalence class of $\ep$ are in the form $\om_0v_0+\cdots +\om_{t-1}v_{t-1}$ where $\om_i=\pm 1$. Since $\Vert v_i\Vert \le \rc{\sqrt{18}}$, by Lemma~\ref{p3-7-l2} there exists a choice of $\om_0,\ldots, \om_{t-1}$ so that $\Vert \om_0v_0+\cdots+ \om_{t-1}v_{t-1}\Vert \le\frac{\sqrt 2}{\sqrt{18}}=\rc{3}$ (in fact, there exist two choices, by symmetry). Hence in each equivalence class $C$ of $S$, at least 2 of the $2^t$ elements of $C$ have associated vectors with absolute value at most $\rc{3}$. Thus
+\begin{align*}
+P\pa{
+\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert\le \rc 3
+}&\ge P\pa{\bigwedge_{j=0}^{t-1}\pa{\left\Vert\sum_{k=i_j+1}^{i_{j+1}} \ep_ka_k\right\Vert\le \rc{\sqrt {18}}}}\cdot \frac{2}{2^t}\\
+&\ge\frac{1}{10^{25}}\cdot \rc{2^{24}}.
+\end{align*}
+\end{problem}
+\end{document}

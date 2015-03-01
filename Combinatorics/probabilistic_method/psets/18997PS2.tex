@@ -1,0 +1,412 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+%\newcommand{\cal}[1]{\mathcal{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\prc}[1]{\pa{\rc{#1}}}
+\newcommand{\bs}[0]{\backslash}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.997 Probabilistic Method} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 1} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.997 Probabilistic Method Problem Set \#2}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{2/20/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it (2.1, Hypergraph with no monochromatic edges)}
+Independently color each edge with one of the four colors with probability $\rc 4$. Given an edge $e$, the probability that it is monochromatic is 
+\[
+P(e \text{ monochromatic})=\rc{4^{n-1}}
+\]
+since the probability that all its vertices are a given color is $\pa{\rc{4}}^n$ and there are 4 choices for the color. Letting $X_e$ be the indicator function for $e$ being monochromatic and $X$ be the number of monochromatic edges, we have by linearity of expectation
+\[
+\E(X)=\sum_{e\in E} \E(X_e)=\sum_{e\in E}P(e \text{ monochromatic})\leq |E|\rc{4^{n-1}}=1.
+\]
+Next note that if all vertices are colored the same color, $X=n\geq 2>E(X)$. Hence there exists a coloring so that $X<E(X)$, i.e. $X=0$, i.e. there is no monochromatic edge.
+\end{problem}
+\begin{problem}{\it (2.2, Subset avoiding an equation)}
+We show the problem holds with $c=\rc{7}$.
+\begin{st}
+Consider the case where $A\subeq \Z\bs\{0\}$.
+\end{st}
+Take $p>2$ a prime so that $p>2\max_{a\in A}|a|$ and $p$ is in the form $7k+2$. Then no two elements of $A$ are equal modulo $p$ (since they are between $-\frac{p}{2}$ and $\frac{p}{2}$). Let $A'$ be $A$ considered as a subset of $\Z/p\Z$.
+
+Let $I=\pa{\frac 37p,\frac 47p}$ as a subset of $\Z/p\Z$. 
+We claim there exists $m$ so that
+\[
+|mA'\cap I|>\frac{1}{7}n.
+\]
+Note that $I$ consists of the $k+1$ integers $3k+1,\ldots, 4k+1$. Choose the number $m$ at random among $1,\ldots, p-1$, each with probability $\rc{p-1}$. Since $p$ is prime, for $a\in A'$, $ma$ ranges through all nonzero residues modulo $p$ as $m$ ranges through $1,\ldots, p-1$. (Remember that $a\neq 0$.)
+The probability that $ma\in I$ is hence $\frac{k+1}{7k+1}>\rc{7}$. Let $X_a$ be the indicator function for $ma\in I$, and $X=|mA'\cap I|$. Then by linearity of expectation
+\[
+\E(X)=\sum_{a\in A'} \E(X_a)=\sum_{a\in A'}P(ma\in I)>\frac{n}{7}.
+\] 
+Hence there exists $m$ so that $mA'\cap I>\frac{1}{7}n$. Let $B=\{a\in A|ma\bmod{p}\in I\}$. If $b_1,b_2,b_3,b_4\in B$ and $b_1+2b_2=2b_3+2b_4$ then this equation holds modulo $p$ and multiplying by $m$ gives
+\[
+mb_1+2mb_2\equiv 2mb_3+2mb_4\pmod{p}.
+\]
+However, $mb_1,mb_2,mb_3,mb_4\bmod{p}$ are all in $I$. Thus the left hand side is in $3I=\pa{\frac{2}{7}p,\frac 57p}$ while the right hand side is in $4I=\pa{\frac 57 p,p}\cup\left[0,\frac 27p\right)$. These are disjoint sets in $\Z/p\Z$, contradiction. So $B$ is the desired set.\\
+
+\begin{st}
+Approximate reals with integers.
+\end{st}
+\begin{thm}[Dirichlet]
+Let $\al_1,\ldots, \al_n$ be real numbers and $\ep>0$. There exists a positive integer $N$ and integers $m_k$ so that $|N\al_k-m_k|<\ep$. Moreover, $N$ can be chosen arbitrarily large.
+\end{thm}
+\begin{proof}
+Choose a positive integer $r$ so that $\rc{r}<\ep$. 
+Consider the $n$-tuple $S_N:=(\{N\al_1\},\ldots, \{N\al_n\})$. They all fall in one of the rectangles
+\[
+\left[
+\frac{t_1}{r},\frac{t_1+1}{r}
+\right)\times \cdots
+\times
+\left[
+\frac{t_n}{r},\frac{t_n+1}{r}\right)
+\]
+where $t_i=0,1,\ldots$ or $r-1$. Hence by the Box Principle, there exist $M$ and $M'$ so that $S_M$ and $S_{M'}$ fall in the same rectangle. Without loss of generality $M>M'$. Then we can take $N=M-M'$, $m_k=\fl{M\al_k}-\fl{M'\al_k}$ and find that $|N\al_k-m_k|<\rc{r}<\ep$. 
+
+To see we can choose $N$ arbitrarily large, let $N_0\in \N$ be given, Find $N'>0$ and $m_k'$ so that $|N'\al_k-m_k'|<\frac{\ep}{N_0}$. Then let $N=N_0\al_k\geq N_0$ and $m_k=N_0m_k'$.
+\end{proof}
+Now given $A=\{a_1,\ldots, a_n\}\subeq \R\bs \{0\}$, let $\ep=\rc{7}$ in the lemma and choose $N$ large enough so that $N\min_{a\in A}|a|>1$ and $N\min_{a,b\in A,\,a\neq b}|a-b|>1$; then we will have $m_k\neq 0$ in the lemma and $m_i\neq m_j$ for $i\neq j$. 
+We may replace $A$ with $NA$ as scaling doesn't change whether $b_1+2b_2= 2b_3+2b_4$ holds, so we can assume $|a_k-m_k|<\rc{7}$.
+
+Now apply Step 1 to $\{m_1,\ldots, m_n\}$ to find $B'=\{m_{i_1},\ldots, m_{i_j}\}$ so that $|B'|>\frac{n}{7}$ and so that
+\begin{equation}\label{p2-2-1}
+b_1+2b_2\neq 2b_3+2b_4
+\end{equation}
+for any $b_1,b_2,b_3,b_4\in B'$. Since this is an inequality in integers, the two sides must differ by at least 1.
+Now take $B=\{a_{i_1},\ldots, a_{i_n}\}$. Replacing the $b_i$ in~(\ref{p2-2-1}) with their corresponding elements in $B$, we get that the new LHS differs from the old LHS by less than $\frac{3}{7}$, and the new RHS differs from the old RHS by less than $\frac{4}{7}$. Thus equality still cannot hold, and $B$ is the desired set.
+\end{problem}
+\begin{problem} {\it (2.5, No monochromatic copy of $H$)}
+Let $G$ be the graph with $n$ vertices and $t$ edges containing no copy of $H$. 
+We show that $k$ copies of $G$ suffice to cover $K_n$. Labeling the vertices of $G$ and $K_n$ with $1,\ldots, n$, each permutation $\si$ of $\{1,\ldots, n\}$ gives a way of embedding $G$ into $K_n$. Call the imbedded graph $\si(G)$. For $e$ an edge in $G$, let $\si(e)$ denote the corresponding edge in $\si(G)$.
+
+Take $k$ independent random permutations $\si_1,\ldots, \si_k$, each permutation chosen with probability $\rc{n!}$. Given an edge $e\in K_n$ and an index $i$,
+\[
+P(e\in \sigma(G))=\frac{t}{\binom n2}
+\]
+since there are $t$ edges in $G$ and $\binom n2$ edges in $K_n$, and for $e'\in G$, $\sigma(e')$ has equal probability of being any edge in $K_n$, and $\sigma(e')\neq \si(e'')$ for $e'\neq e''$. Then using the the independence of the $\sigma_i$ and linearity of expectation,
+\begin{align*}
+P(e\nin \sigma_i(G))&=1-\frac{t}{\binom n2}\\
+P(e\nin \sigma_i(G)\text{ for any }i,1\leq i\leq k)&=\pa{1-\frac{t}{\binom n2}}^k\\
+\E(\text{number of edges of }K_n\text{ not in any }\sigma_i(G))
+&=\sum_{e\in K_n}P(e\nin \sigma_i(G)\text{ for any }i,1\leq i\leq k)\\
+&\leq |E(K_n)|P(e\nin \sigma_i(G)\text{ for any }i,1\leq i\leq k)\\
+&\leq \binom n2\pa{1-\frac{t}{\binom n2}}^k.
+\end{align*}
+Using the estimate $1-x<e^{-x}$ for $x\neq 0$, 
+\begin{align*}
+\E(\text{number of edges not in any }\sigma_i(G))
+&\leq \binom n2 e^{-\frac{tk}{\binom n2}}\\
+&<\binom n2 e^{-\frac{n^2\ln n}{\binom n2}}\\
+&<\binom n2n^{-2}\\
+&<1.
+\end{align*}
+Hence there exists $\sigma_1,\ldots, \sigma_k$ so that every edge of $K_n$ is in one of the $\sigma_i(G)$. Let $E_i$ be the set of edges in $\sigma_i(G)$ not in $\sigma_j(G)$ for $j<i$. Then the $E_i$ form a partition of the edges of $K_n$. Color $E_i$ with color $i$. Since $E_i$ is contained in $\sigma_i(G)$, it does not contain a copy of $H$. The resulting coloring does not give rise to a monochromatic copy of $H$.
+\end{problem}
+\begin{problem} {\it (2.7, Sperner's Lemma)}
+Note $X\leq 1$ always, since if $i,j\in \{i:\{\sigma(1),\ldots, \sigma(i)\}\in \cal F\}$ and $i<j$, then
+\[
+\{\sigma(1),\ldots, \sigma(i)\}\sub\{\sigma(1),\ldots, \sigma(j)\}
+\]
+would be an inclusion of sets contained in $\cal F$. Hence
+\begin{equation}\label{p2-4-1}
+\E(X)\leq 1.
+\end{equation}
+On the other hand, for each set $A\in \cal F$, let $X_A$ be the indicator function for the event that
+\[
+\{\sigma(1),\ldots, \sigma(|A|)\}=A.
+\]
+Then $X=\sum_{A\in \cal F}X_A$ so by linearity of expectation,
+\begin{align*}
+\E(X)&=\sum_{A\in \cal F} \E(X_A)\\
+&=\sum_{A\in \cal F}P(\{\sigma(1),\ldots, \sigma(|A|)\}=A)\\
+&=\sum_{A\in \cal F}\rc{\binom{n}{|A|}}
+\end{align*}
+since there are $\binom{n}{|A|}$ subsets of size $|A|$ and $\{\sigma(1),\ldots, \sigma(|A|)\}$ is equally likely to be any of those. But the maximum of $\binom{n}{k}$ is attained when $k=\fl{\frac n2}$. Hence
+\begin{equation}\label{p2-4-2}
+\E(X)\geq |\cal F|\rc{\binom{n}{\fl{\frac n2}}}.
+\end{equation}
+Putting~(\ref{p2-4-1}) and~(\ref{p2-4-2}) together give
+\[
+|\cal F|\leq \binom{n}{\fl{\frac n2}}.
+\]
+\end{problem}
+\begin{problem} {\it (2.9, List coloring of bipartite graph)}
+Let $A$ and $B$ be the two classes in the bipartite graph. 
+For each color that appears in some list, either cross it out from all vertices in $A$, or cross it out from all vertices in $B$, with probability $\rc{2}$. For a vertex $v$, let $S'(v)$ be the list of colors remaining after this operation.
+
+Note that
+\[
+P(S'(v)=\phi)=\prc{2}^{|S(v)|}\leq \prc{2}^{\log_2 n}\leq \rc{n}\]
+because each color in $S(v)$ has probability $\rc{2}$ of being crossed out from the list. Let $X_v$ be the indicator function for $S'(v)=\phi$ and $X$ be the number of $v$ such that $S'(v)=\phi$. By linearity of expectation,
+\[
+\E(X)=\sum_{v\in V}\E(X_v)=\sum_{v\in V}P(S'(v)=\phi)\leq |V|\rc{n}=1.
+\]
+However, if $n>2$, then without loss of generality $A$ has more than 1 vertex. Crossing out each color from all vertices in $A$, we have that $S'(v)=\phi$ for all $v\in A$, and hence $X>1\geq \E(X)$ in this case. Therefore there must exist $X$ so that $X<\E(X)$, i.e. $X=0$,i.e. there exists a method of deletion so that every vertex still has a nonempty list.
+
+Now color each vertex $v$ with any color from $S'(v)$. For every color, it can only appear in $B$ or only appear in $A$, since it was either crossed out from all lists in $A$ or all lists in $B$. Since all edges are between $A$ and $B$, this is a proper coloring.
+\end{problem}
+\end{document}

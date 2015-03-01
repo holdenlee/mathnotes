@@ -1,0 +1,295 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+%\newcommand{\cal}[1]{\mathcal{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\prc}[1]{\pa{\rc{#1}}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\iy}[0]{\infty}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.997 Probabilistic Method} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 1} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.997 Probabilistic Method Problem Set \#1}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{2/7/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it(1.1)}
+
+\end{problem}
+\begin{problem}{\it (1.2)}
+\end{problem}
+\begin{problem} {\it (1.4)}
+
+\end{problem}
+\begin{problem} {\it (1.6)}
+
+\end{problem}
+\begin{problem} {\it (1.8)}
+\end{problem}
+\begin{problem} {\it (1.10)}
+
+\end{problem}
+\end{document}

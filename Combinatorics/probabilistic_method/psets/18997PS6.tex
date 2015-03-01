@@ -1,0 +1,533 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+%\newcommand{\cal}[1]{\mathcal{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\prc}[1]{\pa{\rc{#1}}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\iy}[0]{\infty}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.997 Probabilistic Method} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 5} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.997 Probabilistic Method Problem Set \#6}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{5/4/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it(9.1)}
+We first show the following. 
+\begin{clm}\label{c1}
+There exists a $c>1$ such that the following holds: For every $n\ge 1$,
+there exists a 3-regular bipartite graph with color classes $A,B$ each containing $n$ vertices, such that for every $k\le \frac n2$, every group of $k$ vertices in either $A$ or $B$ is connected to at least $ck$ vertices in $B$ or $A$, respectively.
+
+%(In fact, we can take $c=\frac 87$.)
+\end{clm}
+
+Consider three independent random matchings between the vertices of $A$ and $B$, with each matching equally likely to be chosen. Let $G$ be the bipartite graph with these edges. 
+Given a set $S$ of $k$ vertices in $A$ and a set $T$ of $\fl{ck}\le n$ vertices in $B$, the probability that $S$ is only connected to vertices in $T$ in a random matching is
+\[\frac{\binom{\fl{ck}}{k}}{\binom{n}{k}},\] 
+since any $k$-element set of $B$ is equally likely to be the set of neighbors of $A$, and $\binom{\fl{ck}}{k}$ of these sets lie in $T$. 
+Hence the probability that $S$ is only connected to vertices in $T$ in $G$ is \[\left(\frac{\binom{\fl{ck}}{k}}{\binom{n}{k}}\right)^3.\]
+By the union bound the probability that {\it some} $k$-subset of $A$ has all neighbors inside {\it some} $\fl{ck}$-subset of $B$ is at most
+\[
+\left(\frac{\binom{\fl{ck}}{k}}{\binom{n}{k}}\right)^3\cdot\binom nk\binom n{\fl{ck}}=\frac{\binom{\fl{ck}}{k}^3\binom n{\fl{ck}}}{\binom nk^2}.
+\]
+Thus letting $p$ be the probability that for {\it some} $k\le \frac n2$, there exists a $k$-element subset of $A$ with at most $ck$ neighbors in $B$, we get
+\[
+%%P\pa{\text{for some }k\le \frac n2,\,\exists\text{ a $k$-element subset of $A$ with at most $ck$ neighbors in $B$}}
+p\le\sum_{k=1}^{\fl{\frac n2}} \frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}.
+\]
+
+We bound this sum in two steps.
+\begin{st}
+For sufficiently large $n$, sufficiently small $c>1$,
+\[
+\sum_{1\le k\le\frac n{6}}\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}< \rc 4.
+\]
+\end{st}
+Using the approximation
+\[
+\pf nk^k\le \binom nk\le \pf {en}k^k,
+\]
+and letting $d=\frac{\fl{ck}}k$, for $c$ close enough to 1,
+\begin{align*}
+\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}
+&=\frac{\binom{dk}{(d-1)k}^3\binom{n}{dk}}{\binom nk^2}\\
+&\le \frac{\pf{ed}{d-1}^{3(d-1)k}\pf{en}{dk}^{dk}}{\pf nk^{2k}}\\
+%&=e^3 d^3 \pa{e^{d} d^{-d} \pf kn ^{2-d}}^k\\
+&\le \pa{d^{2d-3} e^{4d-3} (d-1)^{-3(d-1)} \pf kn^{2-d}}^k\\
+&\le{\underbrace{\pa{c^{2c-3} e^{4c-3} (c-1)^{-3(c-1)} \pf kn^{2-c}}}_{b(c,k,n)} }^k
+%&\le e^3 c^3 \pa{e^c\pf kn^{2-c}}^k%\\
+%&\le e^3 c^3 \pa{e^c \prc 6^{2-c}}^k.
+\end{align*}
+(since $(c-1)^{-(c-1)}$ is decreasing for $c>1$ close to 1). We have $\lim_{c\to 1^+} b(c,k,n)=\frac{ek}{n}$. 
+%Note $\lim_{c\to 1} e^c \pf kn^{2-c}=\frac{ek}{n}$, 
+So for $c$ close enough to 1 and $k\le \frac n{6}$, $b\le \rc2$. 
+Then $b^k\le \prc 2^k$. Hence
+\[
+\sum_{1\le k\le \frac n{6}} \frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}
+\le \sum_{1\le k\le 4}\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}+e^3\sum_{5\le k\le \frac n6} \prc 2^k
+=\sum_{1\le k\le 4}\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}+\frac{e}{2^4}.
+\]
+It is clear that the first term goes to 0 as $n\to \iy$, so for sufficiently large $n$ and $c$ sufficiently close to 1, this is at most $\rc 4$. %(Note $\frac{e^3}{2^6}<\rc 4$.)
+
+\begin{st}
+For sufficiently large $n$, sufficiently small $c>1$,
+\[
+\sum_{\frac n6< k\le \frac n2} \frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}< \rc 4.
+\]
+\end{st}
+We use the formula
+\[
+\binom{n}{k}=2^{n\pa{-\frac kn \log_2 \pf kn-\pa{1-\frac kn}\log_2\pa{1-\frac kn}+o(1)}}=\pf kn^{-k}\pa{1-\frac kn}^{-(n-k)}2^{no(1)},\quad 0<k<n.
+\]
+(Note the $o(1)$ can be bounded independently of $k,n$.) Then letting $d=\frac{\fl{ck}}{k}$ and $r=\frac{k}{n}$,
+\begin{align*}
+\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}
+&=\frac{\binom{dk}{k}^3\binom{n}{dk}}{\binom nk^2}\\
+&=\frac{\prc d^{-3rn}\pa{1-\rc d}^{-3(d-1)rn} (dr)^{-drn} (1-dr)^{-n(1-dr)}}{r^{-2nr}(1-r)^{-2n(1-r)}}\\
+&=\pa{\pa{d^{d-3}\pa{1-\rc d}^{3d-3}}^{-r}r^{r(2-d)}(1-r)^{2(1-r)}(1-dr)^{-(1-dr)}}^{n}.
+\end{align*}
+Note $d^{d-3}\pa{1-\rc d}^{3d-3}\to 1$ as $d\to 1^+$. Note $d$ can be assumed arbitrarily close to $c$, by letting $n$ be sufficiently large. As $r<1$, this means we for sufficiently large $n$ and $c$ close to 1,
+$\pa{d^{d-3}\pa{1-\rc d}^{3d-3}}^{-r}$ can be made as close to 1 as needed. For the rest of the expression $r^{r(2-d)}(1-r)^{2(1-r)}(1-dr)^{-(1-dr)}$, note that it is continuous in $d$ and $r\in [\rc 6,\rc 2]$, so as $d\to 1^+$, it converges uniformly to the function $r^{r}(1-r)^{1-r}$ on $r\in [\rc 6,\rc 2]$. This is clearly bounded away from 1, less than 1, for $r$ in this interval. Therefore there exists $q<1$ so that for $n$ sufficiently large and $c$ sufficiently close to 1, $\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}\le q^n$. Then the desired sum is at most $\pa{\frac{n}{2}-\frac{n}{6}+1}q^n$, which is less than $\rc 4$ for sufficiently large $n$.\\
+
+Taking $n$ sufficiently large to work for steps 1 and 2, we have $p<\rc2$, but by symmetry $p$ also equals the probability that for some $k\le \frac n2$, there exists a $k$-element subset of $B$ with at most $ck$ neighbors in $A$, and the probability of either one of these events happening is less than 1. This proves the claim~\ref{c1} for large $n$, say $n> N$.\\ %for $n\ge 5$.
+
+For $n\le N$, take any three matchings of the bipartite graph so that they  form a connected graph. (In one matching match the $i$th vertex to the $i$th vertex; in another match the $i$th with $(i+1)$th (modulo $n$).) For every group of $k\le \frac n2$ vertices in $A$ or $B$, we claim its set of neighbors has at least $k+1$ elements. Since the graph is 3-regular, the number $e$ of edges between $A$ and $N(A)$ is $3|A|$, and is also at most $3|N(A)|$. Hence $|N(A)|\ge |A|$, with equality only if there are no edges from $N(A)$ to outside $A$. But this is impossible as we chose a connected graph. 
+%we claim for each $n$ there exists a bipartite graph on $2n$ edges such that for every $k\le \frac n2$, every group of $k$ vertices in either $A$ or $B$ is connected to at least $k+1$ vertices in $B$ or $A$. 
+Then the constant $\frac{\frac N2+1}{\frac N2}$ works in this case, and we can take the minimum of the constants for the $n<N$ and $n\ge N$ cases. 
+%The probability that a given set $S$ of $k$ vertices in $A$ only has neighbors in a given set $T$ of $k$ vertices in $B$ is $\rc{\binom nk^3}$, since in any one of the matchings any $k$-element subset of $B$ is equally likely to be the set of neighbors of $A$. Note this event is equivalent to saying $T$ only has neighbors in $S$, by counting and the fact that the graph is 3-regular. Summing over all subsets $S\sub A$ and $T\sub B$ with $k\le\frac n2$, we get that the probability that for some $k\le \frac n2$, some set of $k$ vertices in $A$ is connected to only $k$ vertices in $B$, is at most
+%\[
+%\sum_{k=1}^{\fl{\frac n2}} \frac{\binom nk^2}{\binom nk^3}\le \fl{\frac n2}\rc n<1.
+%\]
+%Thus there exists a bipartite graph on $2n$ vertices satisfying the desired condition.
+
+%
+%We show that for $c=\frac {r+1}{r}$, $r=7$,
+%\begin{equation}\label{p6-1-1}
+%\sum_{k=1}^{\fl{\frac n2}}\frac{\binom{\fl{ck}}{k}^3}{\binom nk^2}<\rc 2.
+%\end{equation}
+%To show this, we show that
+%\begin{equation}\label{p6-1-2}
+%\frac{\left.\binom{c(k+1)}{k+1}^3\right/\binom n{k+1}^2}{\left.\binom{ck}{k}^3\right/\binom nk^2}<1
+%\end{equation}
+%for $1\le k\le \frac n2-1$. 
+%Now
+%\begin{equation}\label{p6-1-3}
+%\frac{\left.\binom{c(k+1)}{k+1}^3\right/\binom n{k+1}^2}{\left.\binom{ck}{k}^3\right/\binom nk^2}
+%=\frac{\frac{\pa{\pa{c(k+1)}\pa{ck+c-1}\fp k}^3}{(k+1)!^3}
+%\cdot
+%\frac{k!^3}{\pa{\pa{ck}\fp k}^3}}
+%{\frac{(n\fp{k+1})^2}{(k+1)!^2}\cdot \frac{k!^2}{(n\fp k)^2}}
+%=c^3\frac{[\pa{ck+c-1}\fp k]^3}{[\pa{ck}\fp k]^3}\cdot \frac{(k+1)^2}{(n-k)^2}
+%\end{equation}
+%Note that by telescoping
+%\begin{equation}\label{p6-1-4}
+%\prod_{j=0}^{r-1}\frac{\pa{\frac ck+\rc{r}-\frac{j}{r}}\fp k}{\pa{ck-\frac{j}{r}}\fp k}
+%=\frac{ck+\rc r}{ck-\frac{r-1}{r}-k+1}=\frac{ck+\rc r}{(c-1)k+\rc r}\le
+%\frac{c}{c-1}=r+1
+%\end{equation}
+%By term-by-term comparison, the first term in the product is largest. Hence
+%%\begin{equation}\label{p6-1-5}
+%%\frac{\pa{\frac 43k+\rc{3}}\fp k}{\pa{\frac 43k}\fp k}\le \frac{\pa{\frac 43k}\fp k}{\pa{\frac 43k-\rc 3}\fp k}\le \frac{\pa{\frac 43k-\rc{3}}\fp k}{\pa{\frac 43k-\frac 23}\fp k}
+%%\end{equation}
+%%Then~(\ref{p6-1-4}) and~(\ref{p6-1-5}) give
+%\[
+%\frac{\pa{ck+\rc{r}}\fp k}{\pa{ck}\fp k}\le (r+1)^{\frac 3r}.
+%\]
+%Putting this into~(\ref{p6-1-3}), and plugging in $c=\frac 87$, $r=7$ we get 
+%\[
+%\frac{\left.\binom{c(k+1)}{k+1}^3\right/\binom n{k+1}^2}{\left.\binom{ck}{k}^3\right/\binom nk^2}
+%\le
+%c^3\cdot (r+1)^{\frac 3r}\cdot \frac{(k+1)^2}{(n-k)^2}
+%<
+%4\cdot \frac{(k+1)^2}{(n-k)^2}.
+%\]
+%Using this and induction, we get
+%\[
+%\frac{\binom{ck}{k}^3}{\binom nk^2}
+%\le4^{k-1}\pf{k(k-1)\cdots 1}{n(n-1)\cdots (n-k+1)}^2\frac{\binom{c}{1}^3}{n^2}
+%=\frac{c^3}{n^2}\frac{4^{k-1}}{\binom nk^2}.
+%\]
+%Then
+%\[
+%\sum_{k=1}^{\fl{\frac n2}} \frac{\binom{\fl{ck}}{k}^3}{\binom nk^2}
+%\le \frac{c^3}{n^2}\sum_{k=1}^{\fl{\frac n2}}\frac{4^{k-1}}{\binom nk^2}.
+%\]
+%Note that the ratios between successive terms is $\frac{(k+1)^2}{(n-k)^2}$ which is increasing in $k$. (I.e. the sequence is log-convex.) Hence the largest term must either be the first term or the last term. But for the last term, $\binom nk\ge \frac{2^{n}}{n+1}$ because it is the largest out of $\binom nk$ for $0\le k\le n$. Hence the last term is
+%\[
+%\frac{c^3}{n^2}\frac{4^{\frac n2-1}}{4^n/(n+1)^2}
+%\]
+%For $c=\frac 87$, this is at least $\frac 2n$ iff $\pf 87^2 (n+1)^2<2^{n+3}n$, which is true (it's true for 2 and 3, and note that in passing from $n\ge 3$ to $n+1$ the right hand side becomes at least twice as big, while the left hand side does not). The first term $\frac{c^3}{n^2}=\frac{(8/7)^3}{n^2}$ is also less than $\frac{1}{n}$. Hence all terms are less than $\frac{1}{n}$, and the sum is less than $\fl{\frac n2}\rc n\le \rc 2$.
+%
+%%Assuming $n\ge 5, k\le \frac{n}{2}-1\le 1.5$, this is less than 1, showing~(\ref{p6-1-2}). Hence all terms in the sum in~(\ref{p6-1-1}) Then
+%%\[
+%%\sum_{k=1}^{\fl{\frac n2}}\frac{\binom{\frac 43k}{k}^3}{\binom nk^2}\le \sum_{k=1}^{\fl{\frac n2}}\frac{\binom{\fl{\frac 43k}}{k}^3}{\binom nk^2}\le \fl{\frac n2} \frac{4/3}{n^2}<\rc 2,\]
+%%showing~(\ref{p6-1-1}). 
+%We have $p<\rc2$, but by symmetry $p$ also equals the probability that for some $k\le \frac n2$, there exists a $k$-element subset of $B$ with at most $ck$ neighbors in $A$, and the probability of one of these happening is less than 1. This proves the claim~\ref{c1}. %for $n\ge 5$.
+%%
+%%For $2\le n\le 4$, consider the following graphs:
+%%\vspace{1in.}
+%%They all satisfy the conditions of the claim for $c=\frac 43$ as well, simply because the number of neighbors of each vertex is greater than $\frac 43\frac{n}{2}$.
+%%
+%
+%Now we finish the problem given the claim. If $n=1$ then the problem statement is obvious, as long as $c'\le 2$. So assume $n>1$. 
+% Let the graph be as in the claim; we show that it is a $(2n,3,c')$ expander where $c'=\rc 2+\frac{c}{2}=\frac{15}{14}$. Take a subset $S$ of size at most $n$ and consider two possibilities.
+%\begin{enumerate}
+%\item $|S\cap A|,|S\cap B|\le \fl{\frac n2}$. Without loss of generality, $|S\cap A|\ge |S\cap B|$. By the claim, $S\cap A$ is adjacent to at least $c|S\cap A|$ vertices in $B$. At least $c|S\cap A|-|S\cap B|$ of them are not in $S$. Now $|S\cap A|\ge|S\cap B|$ implies
+%\[
+%c|S\cap A|-|S\cap B|\ge \frac{c}{2}|S|-\frac 12|S|=\pa{\frac c2-\rc 2}|S|,
+%\]
+%so $S$ is adjacent to at least $\pa{\frac c2-\rc 2}|S|$ vertices not in $S$.
+%\item $\max(|S\cap A|,|S\cap B|)>\frac n2$. Without loss of generality, $|S\cap A|>\frac n2$. Taking a subset $A'$ of size $\frac n2$, by the claim $A'$ is adjacent to at least $\frac{cn}{2}$ vertices. Since $|S|\le n$, $|S\cap B|<\frac n2$, so less than $\frac n2$ of these vertices are in $S$. That means $A'$, and hence $S$, is adjacent to at least $\pa{\frac c2-\rc 2}n\ge \pa{\frac c2-\rc 2}|S|$ vertices not in $S$.
+%\end{enumerate}
+
+\end{problem}
+\begin{problem}{\it (9.2)}
+\begin{thm}[Corollary 9.2.5]
+Given $G=(V,E)$ a $(n,d,\la)$-graph, for every two sets of vertices $B$ and $C$ of $G$, where $|B|=bn$ and $|C|=cn$, we have
+\[
+|e(B,C)-cbdn|\le \la\sqrt{bc}n.
+\]
+If equality holds, then $|N_B(v)|=bd$ for every $v\in V\bs C$ and $|N_C(v)|=cd$ for every $v\in V\bs B$.
+\end{thm}
+\begin{proof}
+This is Corollary 9.2.5. The second statement holds from symmetry and the fact that one of the inequalities used in the proof is
+\[
+\sum_{v\in C}(|N_B(v)|-bd)^2\le\sum_{v\in V}(|N_B(v)|-bd)^2.
+\]
+\end{proof}
+%Let $B$ and $C$ be two distinct color classes. By assumption, $|B|=|C|=\frac nk$. Hence by the above theorem,
+%\begin{align*}
+%\ab{e(B,C)-\rc{k^2} dn}&\le \la\rc k n\\
+%e(B,C)&\ge \frac nk \pa{\frac dk-\la}>0
+%\end{align*}
+%where we used the assumption that 
+For a color $y$, let $B_y$ denote the set of vertices not adjacent to any vertex of color $y$. 
+Suppose by way of contradiction that no vertex of $G$ has a neighbor of each of the $k$ colors. 
+%Then for every vertex $v$, there exists a color $c$ such that $v$ is not adjacent to any vertex of color $c$. 
+Then every vertex is in some $B_y$. Take $z$ to be the color such that $|B_z|$ is largest. Since there are $n$ vertices and $k$ colors, $|B_z|\ge \frac{n}{k}$. 
+Let $B$ be a subset of $B_z$ vertices with $\frac{n}{k}$ elements, and $C$ be the set of vertices of color $z$. 
+We have
+\[e(B,C)=0.\]
+By assumption, $|C|=\frac nk$. Hence by the theorem above,
+\begin{align*}
+\ab{e(B,C)-\rc{k^2} dn}&\le \la\rc k n\\
+e(B,C)&\ge \rc{k^2}dn-\la\rc{k}n=\frac nk \pa{\frac dk-\la}\ge 0,
+\end{align*}
+where we used the assumption $k\la \le d$. Equality must hold everwhere above, so by the theorem, $N_C(v)=\frac dk$ for every $v\nin V\bs B$. In particular, every vertex outside of $B$ has a neighbor of color $z$. Hence $|B_z|=|B|=\frac nk$; since $B_z$ was assumed largest among the $B_y$ and $\bigcup B_y=V$, we conclude $|B_y|=\frac nk$ for each $y$. By the argument above applied to each $B_y$, we get if a vertex $v$ is in $B_z$, then it is adjacent to exactly $\frac dk$ vertices of each color $y\ne z$, but not adjacent to any element of color $z$. Thus $v$ has degree $(k-1)\frac dk$, contradicting the fact that $G$ is $d$-regular.
+\end{problem}
+\begin{problem} {\it (Ramsey numbers)}
+\subprob{(i)}
+We use the following (proved in class):
+\begin{thm}
+There exists a constant $c$ depending on $H$ such that if $H=(A\cup B,E)$ is a bipartite graph such that all vertices in $B$ have degree at most $r$, then $\text{ex}(n,H)\le cn^{2-\rc r}$. 
+\end{thm}
+We're given that $H$ is bipartite with maximum degree at most $a\ln n$ for some $a$. Choose $c$ as above, so $\text{ex}(N,H)\le cN^{2-\rc {a\ln n}}$.  Suppose 
+\begin{equation}\label{biparteq}
+cN^{2-\rc {a\ln n}}<\rc{2}\binom N2.
+\end{equation}
+Then no matter how $K_N$ is colored with two colors, one of the colors contains at least $\rc{2}\binom N2$ edges. By~(\ref{biparteq}) and the theorem applied to the subgraph of that color, there is a copy of $H$ in that color.
+
+Thus it suffices to show that there is $N=n^{O(1)}$ such that~(\ref{biparteq}) holds for all $n\ge 2$. (For $n=1$, trivially $r(H)=1$.) Put in $N=n^k$ and rewrite~\ref{biparteq} as follows:
+\begin{align*}
+cN^{2-\rc{a\ln n}}&<\frac{N(N-1)}{4}\\
+\iff cn^{k\pa{2-\rc{a\ln n}}}&<\frac{n^k(n^k-1)}{4}\\
+\iff 4cn^{2k-\frac{k}{a\ln n}}+{n^k}&<n^{2k}\\
+\iff 4cn^{-\frac {k}{a\ln n}}+n^{-k}&<1.
+\end{align*}
+%As $n\to \iy$, the left hand side of the above goes to 0 (indeed, $\lim_{n\to \iy}
+Note
+\[\lim_{n\to \iy} n^{\rc{\ln n}}=e^{\lim_{n\to \iy} \ln \pa{n^{\rc{\ln n}}}}
+=e^{\lim_{n\to \iy} \rc{\ln n}\ln (n)}
+=e,\]
+so if $k$ is fixed, then
+\[
+\lim_{n\to \iy} 4cn^{-\frac{k}{a\ln n}}+n^{-k}=4ce^{-\frac k{a}}.
+\]
+Choose $k'\in \N$ such that $4ce^{-\frac {k'}{a}}<1$. Then there exists $L$ so that $4cn^{-\frac{k}{a\ln n}}+n^{-k}<1$ for all $n\ge L$. Now if $n\ge 2$ is fixed, $4cn^{-\frac{k}{a\ln n}}+n^{-k}$ is decreasing in $k$ and 
+\[
+\lim_{k\to \iy} 4cn^{-\frac{k}{a\ln n}}+n^{-k}=0.
+\]
+Thus there exists $k\ge k'$ such that $4cn^{-\frac{k}{a\ln n}}+n^{-k}<1$ for all $n<L$. For $n\ge L$ we also have $4cn^{-\frac{k}{a\ln n}}+n^{-k}\le 4cn^{-\frac{k'}{a\ln n}}+n^{-k'}<1$. Then $N=n^k$ satisfies~(\ref{biparteq}) for all $n$, as needed.\\
+
+\subprob{(ii)}
+Suppose $H$ has $n$ vertices and average degree $f(n)\log_2 n$ where $f(n)=\omega(1)$, i.e. $\lim_{n\to \iy}f(n)=\iy$. Then $H$ has $\frac{nf(n)\log_2 n}{2}$ edges. Label the vertices of $H$ from 1 to $n$.
+
+Color each edge of $K_N$ red or blue with probability $\rc 2$. 
+Given an ordered set of $n$ vertices in $K_N$, the probability that the imbedding of $H$ into those $n$ vertices, following the order, is monochromatic is $2\prc 2^{\frac{nf(n)\log_2 n}{2}}$: there are 2 colors to choose from, and each of the $\frac{nf(n)\log_2 n}{2}$ imbedded edges has $\rc 2$ chance of being that color.
+
+Since there are $N\fp n=N(N-1)\cdots (N-n+1)$ ordered sets of $n$ vertices, the probability that there is some monochromatic copy of $H$ in $K_N$ is at most
+\[
+2\prc 2^{\frac{nf(n)\log_2 n}{2}}N\fp n
+\le 2n^{-\frac{nf(n)}{2}} N^n.
+\]
+If $N\le n^k$, then the RHS is at most
+\[
+2n^{-\frac{nf(n)}{2}+kn}=2n^{n\pa{k-\frac{f(n)}2}}.
+\]
+Since $f(n)\to \iy$, this is less than 1 for sufficiently large $n$. Thus if $N\le n^k$, then for sufficiently large $n$ there exists a coloring of $K_N$ with no monochromatic copy of $H$, showing $r(H)=n^{\om(1)}$.
+\end{problem}
+\end{document}

@@ -1,0 +1,1121 @@
+\section{1}
+
+\begin{problem}{\it(1.1)}
+\subprob{(A)}
+Consider a complete graph with $n$ vertices. Call the first color red and the second blue. Color each edge in the graph red with probability $p$ and blue with probability $1-p$. The probability that a given set of $k$ vertices forms a red $K_k$ is $p^{\binom k2}$ and the probability that a given set of $t$ vertices forms a blue $K_t$ is $(1-p)^{\binom t2}$. There are $\binom nk$ groups of $k$ vertices and $\binom nt$ groups of $t$ vertices. Hence by the union bound the probability that there is a red $K_k$ or blue $K_t$ is
+\[
+P(\text{there is a red }K_k\text{ or }K_t)\leq \binom nk p^{\binom k2}+\binom nt(1-p)^{\binom t2}<1.
+\]
+Hence there exists a coloring of $K_n$ such that there is no red $K_k$ and no blue $K_t$, giving $r(k,t)>n$.\\
+
+\subprob{(B)}
+Suppose $t\geq 2$ and $n\geq \frac{ct^{3/2}}{(\ln t)^{3/2}}$, where $c$ is a constant to be chosen. Let
+\[
+p=\frac{\ln t}{t-1}=\frac{\frac t2\ln t}{\binom t2}.
+\]
+Then
+\begin{align*}
+\binom n4 p^{6}+\binom nt (1-p)^{\binom t2}
+&\leq \binom n4 p^6 +\binom nt e^{-p\binom t2}\\
+&\leq \frac{n^4}{24} \pf{\ln t}{t-1}^6+\frac{n^t}{t!}t^{-t/2}\\
+&\leq \frac{c^4}{24}\frac{t^6}{(\ln t)^6} \pf{\ln t}{t-1}^6 + \frac{c^{t}t^{3t/2}}{(\ln t)^{3t/2}}\rc{t!}t^{-t/2}\\
+&\sim \frac{c^4}{24}+\frac{c^{t}t^{3t/2}}{(\ln t)^{3t/2}} \frac{e^t}{t^t\sqrt{2\pi t}} t^{-t/2}\\
+&\sim \frac{c^4}{24}+\pf{ce}{(\ln t)^{3/2}}^t\rc{\sqrt{2\pi t}}&\text{as }t\to \infty.
+\end{align*}
+The latter term goes to 0 as $t\to \infty$, and the left term is constant. Thus choosing $c>0$ so that $c^4<24$, we find that $\binom n4 p^{6}+\binom nt (1-p)^{\binom t2}<1$ for large $n$, and hence that $r(4,n)\geq \frac{ct^{3/2}}{(\ln t)^{3/2}}$ for sufficiently large $n$, as needed. %(Clearly, we can choose $c$ larger so this works for small $n$ as well.)
+
+\end{problem}
+\begin{problem}{\it (1.2)}
+Color each vertex of $H$ with one of the four colors, independently with probability $\rc 4$. Given an edge in $H$, the probability that none of its $n$ incident vertices are colored with color $i$ is $\frac{3^n}{4^n}$ (for fixed $i=1,2,3,$ or $4$). Hence the probability that its vertices are colored with at most three colors is less than $4\cdot \frac {3^n}{4^n}$. (Strict inequality holds because we overcount the probability in the cases where they are colored in at most 2 colors.) The probability that some edge has its vertices colored with at most three colors is
+\[
+P< 4\cdot \frac {3^n}{4^n}\cdot |E|\leq 4\cdot \frac{3^n}{4^n}\cdot \frac{4^{n-1}}{3^n}\leq 1.
+\]
+Hence there exists a coloring such that in every edge all four colors are represented.
+\end{problem}
+\begin{problem} {\it (1.4)}
+
+Fix $p\in [0,1]$. Pick randomly and independently each vertex with probability $p$. Let $X$ be the set of picked vertices. %Then
+%\begin{equation}\label{l2-1}
+%\E(|X|)=pn.\end{equation}
+Let $Y$ be the set in vertices in $V-X$ with no neighbors in $X$, and let $X'=X\cup Y$. Let $Z$ be the set of vertices in $V-X'$ all of whose neighbors are in $X'$. Let $A=X'\cup Z$. 
+
+We show that $A, B=V-A$ works---i.e. every vertex in $B$ is adjacent to some vertex of $A$ and some vertex of $B$.
+
+A vertex in $B$ cannot have neighbors in $Z$ because the vertices in $Z$ have only vertices in $X'$ as neighbors. A vertex in $B$ cannot only have neighbors in $X'$ because then it would be in $Z$ instead. Hence  a vertex in $B$ cannot only have neighbors in $A$.
+
+A vertex with only neighbors in $B$ {\it a fortiori} only has neighbors  in $V-X$, so must be in $Y$, and hence is not in $B$. This proves our claim.
+
+The probability that a vertex is in $Y$ is (since there is probability $1-p$ that a given vertex is in $V-X$; we care about the vertex and its neighbors)
+\[
+P(v\in Y)=(1-p)^{\deg(v)+1}\leq (1-p)^{\de+1}.
+\]
+Now we estimate the probability that a vertex is in $Z$. Now $v\in Z$ means that $v\in B-X$ and $v$ is only adjacent to vertices in $X'=X\cup Y$. %, so $v\in V-Y$ and every vertex adjacent to $v$ is either in $X$ or in $Y$, i.e. in $V-X$ and only has neighbors in $V-X$. Let $N$ be the set of vertices adjacent to $v$ and let $d=|N|$. %Let $S$ be a $k$-element subset of $N$ with $k>0$. Then
+%\[
+%P(v\in V-Y,\wedge S\subeq X\wedge N-S\subeq Y)=(1-p)^{k+d-1}p^{d-k}
+%\]
+%because there is probability $1-p$ that the NONO
+%Let $H$ be the induced subgraph of $G$ containing the vertices $N-\{v\}$, and let $H_1$ be any connected component of $H$. Now, if $v\in Z$, then either all vertices in $H_1$ are in $X$, or some vertex $w$ in $H_1$ is in $Y$. The first case has probability at most probability $p$ of happening (a crude estimate that will be enough for our purposes). In the second case, $w\in Y$ implies that all neighbors of $w$ in $H_1$ are in $V-X$. But then since these vertices are neighbors of $v$ and they are not in $X$, they must be in $Y$ as well. Repeating the argument with these vertices and noticing $H_1$ is connected, we get that all vertices in $H_1$ are in $X$. Now 
+Take any vertex $w$ adjacent to $v$. Now $w\in X$ with probability $p$ and $w\in Y$ with probability $(1-p)^{\deg(w)+1}\leq (1-p)^{\de+1}$ as above. Hence
+\[
+P(v\in Z)\leq p+(1-p)^{\de+1}.
+\]
+
+Hence by linearity of expectation, for any vertex $v$,
+\begin{align*}
+\E(|A|)&=\E(|X|)+\E(|Y|)+\E(|Z|)\\
+&=n(P(v\in X)+P(v\in Y)+P(v\in Z))\\
+&\leq n(p+(1-p)^{\de+1}+(p+(1-p)^{\de+1}))\\
+&=2n(p+(1-p)^{\de+1})\\
+&\leq 2n(p+e^{-p(\de+1)}).
+\end{align*}
+Putting in $p=\frac{\ln(\de+1)}{\de+1}$, we get
+\[E(|A|)\leq 2n\frac{\ln(\de+1)+1}{\de+1}=O\pf{\ln \de}{\de}.\]
+\end{problem}
+\begin{problem} {\it (1.6)}
+\begin{lem}
+Let $G$ be a tournament with $n$ vertices. Let $S_v=\{v\}\cup \{w|v\text{ dominates }w\}$. 
+There exists a vertex $v$ such that $|S_v|> \frac{n}{2}$.
+\end{lem}
+\begin{proof}
+If we sum the outdegree of each vertex, we count all the edges once:
+\[
+\sum_{v\text{ vertex}}\text{out}(v)=\frac{n(n-1)}{2}.
+\]
+Hence there exists $v$ such that $\text{out}(v)\geq \frac{n-1}{2}$, and $|S_v|=\text{out}(v)+1\geq \frac{n+1}{2}$.
+\end{proof}
+Suppose $G$ has less than $n=\rc 2\cdot k2^k$ vertices. We show that $G$ has a dominating set of $k$ vertices. Suppose by way of contradiction that it does not.
+
+Let $V$ be the set of vertices. We pick $v_1$ so that $|S_{v_1}|>\frac{n}{2}$. Now given $v_1,\ldots, v_i,\,(i<k-1)$, let $W_i=V-\bigcup_{j=1}^i S_{v_j}$. Given that
+\[
+m:=|W_i|< \frac{n}{2^i},
+\]
+we choose $v_{i+1}$ inductively as follows. Consider the induced subgraph with vertex set $W_i$. It has $m$ vertices, so by the lemma we can choose $v_{i+1}$ among these vertices so that $|S_{v_{i+1}}\cap W_i|>\frac{m}{2}$. Then
+\[
+|W_{i+1}|=|W_i-S_{v_{i+1}}|<\frac{m}{2}< \frac{n}{2^{i+1}}.
+\]
+Hence we can choose $v_1,\ldots, v_k$ so that
+\[
+%\ab{V-\bigcup_{j=1}^{k-1} S_{v_k}}
+|W_{k-1}|< \frac{n}{2^{k-1}}=k.
+\]
+%By assumption, this set is not empty. Let $v$ be any vertex in $\bigcup_{j=1}^k S_{v_k}$. 
+%Since $|W|<k$, we have $|W\cup \{v\}|\leq k$ so by our assumption there is a vertex $x$ dominating $W\cup \{v\}$. It cannot be in 
+Since $W_{k-1}$ has less than $k$ vertices, by assumption there exists a vertex $v_k$ such that $v_k$ dominates $W_{k-1}$. Then $\{v_1,\ldots, v_k\}$ is a dominating set of $k$ vertices (since $\bigcup_{j=1}^k S_{v_j}=V$), a contradiction.
+
+Hence a tournament with no dominating $k$-set contains at least $\rc{2}k2^k$ vertices.
+\end{problem}
+\begin{problem} {\it (1.8)}
+Let $W$ be a random infinite binary string, where each digit is equal to 0 or 1 with (independent) probability $\rc 2$. For a binary string $S$, let $l(S)$ denote the length of $S$. Then the probability that $W$ starts with $l(S)$ is $\rc{2^{l(S)}}$. Now, the fact that no two member of $F$ is a prefix of another one means that the events ``$W$ starts with $S$" and ``$W$ starts with $T$," for distinct $S,T\in F$, are disjoint. Hence the probability that $W$ starts with some string in $F$ is
+\begin{align*}
+P(W\text{ starts with some }S\in F)&=\sum_{S\in F} P(W\text{ starts with }S\in F)\\
+&=\sum_{S\in F}\frac{1}{2^l(S)}\\
+&=\sum_{i=1}^{\infty}\sum_{S\in F, \,l(S)=i}\rc{2^i}\\
+&=\sum_{i=1}^{\infty} \frac{N_i}{2^i}.
+\end{align*}
+Since this is a probability, it is at most 1, as needed.
+\end{problem}
+\begin{problem} {\it (1.10)}
+Fix $l$ with $1\leq l\leq n$. Take a permutation of the rows at random, with each permutation having $\frac{1}{n!}$ probability of being chosen. Fix a column $C$; take a subset $S$ of numbers from that column with $l$ elements. The probability that those numbers are in order down the column in the permuted matrix is $\frac{1}{l!}$ since all orderings of those numbers are equally likely. There are $\binom{n}{l}$ subsets of $l$ numbers, so
+\[P(C\text{ has a increasing sequence of length }l)\leq \binom{n}{l}\frac{1}{l!}.\]
+There are $n$ columns, so
+\[P(\text{Some column has a increasing sequence of length }l)\leq \binom{n}{l}\frac{n}{l!}.\]
+If this is less than 1, then there exists a permutation with no column containing an increasing sequence of length $l$.
+
+%We show this holds for $l=\ce{3\sqrt n}$. Note
+Let $l=\ce{c\sqrt n}$ where $c>e$. Note, using Stirling's formula for $n\to \infty$, 
+\begin{align*}
+\binom{n}{l}\frac{n}{l!}&=\frac{n!n}{l!^2 (n-l)!}\\
+&=\Theta\pa{ \frac{\sqrt{2\pi n}\pf ne^n n^2}{2\pi c\sqrt n\pf{c^2n}{e^2}^{c\sqrt n}\cdot \sqrt{2\pi (n-c\sqrt n)}\pf{n-c\sqrt n}e^{n-c\sqrt n}}}\\
+&=\Theta \pa{\frac{n^{n-c\sqrt{n}+2}}{(n-c\sqrt n)^{n-c\sqrt n+\rc 2}} \frac{e^{c\sqrt n}}{c^{1+2c\sqrt n}}}\\
+&=\Theta\pa{\ba{\pf{n}{n-c\sqrt n}^{\sqrt n-c}\cdot \frac{e^c}{c^{2c}}}^{\sqrt n} n^{3/2}}\\
+&=\Theta\pa{\ba{\frac{e^cn^{\frac{3/2}{\sqrt n}}}{c^{2c}\pa{1-\frac{c}{\sqrt{n}}}^{\sqrt n-c}}}^{\sqrt n}}.
+\end{align*}
+Note in the second line we used $(n-l)!=(n-l+1)!/(n-l+1)$, which is asymptotically at least Stirling's formula for $n-c\sqrt n$, divided by $n$.
+
+Now note \[\lim_{n\to \infty}\pa{1-\frac{c}{\sqrt{n}}}^{\sqrt n-c}=\lim_{x\to \infty}\pa{1-\frac{c}{x}}^{x}\pa{1-\frac{c}{x}}^{-c}=e^{-c}\]  and \[\lim_{n\to \infty}n^{\frac{3/2}{\sqrt n}}=\lim_{x\to \infty} x^{\frac 3x}=e^{\lim_{x\to\infty} \frac{3\ln x}{x}}=e^0=1.\]
+Hence
+\[
+\lim_{n\to \infty}\frac{e^cn^{\frac{3/2}{\sqrt n}}}{c^{2c}\pa{1-\frac{c}{\sqrt{n}}}^{\sqrt n-c}}
+=\pf ec^{2c}<1.
+\]
+Thus for $c>e$, $\binom{n}{l}\frac{n}{l!}\to 0$ as $n\to \infty$. We can find $L$ so that $\binom{n}{l}\frac{n}{l!}<1$ whenever $n>L$, so
+\begin{equation}\label{p1-10-1}
+P(\text{Some column has a increasing sequence of length }l=\ce{c\sqrt n})<1
+\end{equation}
+for $n>L$. 
+Now choose a larger value $c'$ instead of $c$ as necessary so that
+this holds for all $n$, for example, take $c'=\min(c,\sqrt{L}+1)$ (so that for $n\leq L$, the probability above is trivially 0). Then there must exist a permutation so that no column has an increasing sequence of length $l\geq c'\sqrt{n}$.
+%\[
+%\lim_{n\to \infty}\pf{n-c\sqrt n}{n}^{n-c\sqrt n}
+%=\lim_{n\to \infty}\frac{\pa{1-\frac c{\sqrt n}}^{n}}{\pa{1-\frac c{\sqrt n}}^{c\sqrt n}}
+%= \lim_{x\to \infty}\frac{\pa{\pa{1-\frac c{x}}^{x}}^2}{\pa{1-\frac c{x}}^{cx}}
+%=\frac{e^{-c}}{e^{-2c}}
+%\]
+
+\end{problem}
+
+\section{2}
+\begin{problem}{\it (2.1, Hypergraph with no monochromatic edges)}
+Independently color each edge with one of the four colors with probability $\rc 4$. Given an edge $e$, the probability that it is monochromatic is 
+\[
+P(e \text{ monochromatic})=\rc{4^{n-1}}
+\]
+since the probability that all its vertices are a given color is $\pa{\rc{4}}^n$ and there are 4 choices for the color. Letting $X_e$ be the indicator function for $e$ being monochromatic and $X$ be the number of monochromatic edges, we have by linearity of expectation
+\[
+\E(X)=\sum_{e\in E} \E(X_e)=\sum_{e\in E}P(e \text{ monochromatic})\leq |E|\rc{4^{n-1}}=1.
+\]
+Next note that if all vertices are colored the same color, $X=n\geq 2>E(X)$. Hence there exists a coloring so that $X<E(X)$, i.e. $X=0$, i.e. there is no monochromatic edge.
+\end{problem}
+\begin{problem}{\it (2.2, Subset avoiding an equation)}
+We show the problem holds with $c=\rc{7}$.
+\begin{st}
+Consider the case where $A\subeq \Z\bs\{0\}$.
+\end{st}
+Take $p>2$ a prime so that $p>2\max_{a\in A}|a|$ and $p$ is in the form $7k+2$. Then no two elements of $A$ are equal modulo $p$ (since they are between $-\frac{p}{2}$ and $\frac{p}{2}$). Let $A'$ be $A$ considered as a subset of $\Z/p\Z$.
+
+Let $I=\pa{\frac 37p,\frac 47p}$ as a subset of $\Z/p\Z$. 
+We claim there exists $m$ so that
+\[
+|mA'\cap I|>\frac{1}{7}n.
+\]
+Note that $I$ consists of the $k+1$ integers $3k+1,\ldots, 4k+1$. Choose the number $m$ at random among $1,\ldots, p-1$, each with probability $\rc{p-1}$. Since $p$ is prime, for $a\in A'$, $ma$ ranges through all nonzero residues modulo $p$ as $m$ ranges through $1,\ldots, p-1$. (Remember that $a\neq 0$.)
+The probability that $ma\in I$ is hence $\frac{k+1}{7k+1}>\rc{7}$. Let $X_a$ be the indicator function for $ma\in I$, and $X=|mA'\cap I|$. Then by linearity of expectation
+\[
+\E(X)=\sum_{a\in A'} \E(X_a)=\sum_{a\in A'}P(ma\in I)>\frac{n}{7}.
+\] 
+Hence there exists $m$ so that $mA'\cap I>\frac{1}{7}n$. Let $B=\{a\in A|ma\bmod{p}\in I\}$. If $b_1,b_2,b_3,b_4\in B$ and $b_1+2b_2=2b_3+2b_4$ then this equation holds modulo $p$ and multiplying by $m$ gives
+\[
+mb_1+2mb_2\equiv 2mb_3+2mb_4\pmod{p}.
+\]
+However, $mb_1,mb_2,mb_3,mb_4\bmod{p}$ are all in $I$. Thus the left hand side is in $3I=\pa{\frac{2}{7}p,\frac 57p}$ while the right hand side is in $4I=\pa{\frac 57 p,p}\cup\left[0,\frac 27p\right)$. These are disjoint sets in $\Z/p\Z$, contradiction. So $B$ is the desired set.\\
+
+\begin{st}
+Approximate reals with integers.
+\end{st}
+\begin{thm}[Dirichlet]
+Let $\al_1,\ldots, \al_n$ be real numbers and $\ep>0$. There exists a positive integer $N$ and integers $m_k$ so that $|N\al_k-m_k|<\ep$. Moreover, $N$ can be chosen arbitrarily large.
+\end{thm}
+\begin{proof}
+Choose a positive integer $r$ so that $\rc{r}<\ep$. 
+Consider the $n$-tuple $S_N:=(\{N\al_1\},\ldots, \{N\al_n\})$. They all fall in one of the rectangles
+\[
+\left[
+\frac{t_1}{r},\frac{t_1+1}{r}
+\right)\times \cdots
+\times
+\left[
+\frac{t_n}{r},\frac{t_n+1}{r}\right)
+\]
+where $t_i=0,1,\ldots$ or $r-1$. Hence by the Box Principle, there exist $M$ and $M'$ so that $S_M$ and $S_{M'}$ fall in the same rectangle. Without loss of generality $M>M'$. Then we can take $N=M-M'$, $m_k=\fl{M\al_k}-\fl{M'\al_k}$ and find that $|N\al_k-m_k|<\rc{r}<\ep$. 
+
+To see we can choose $N$ arbitrarily large, let $N_0\in \N$ be given, Find $N'>0$ and $m_k'$ so that $|N'\al_k-m_k'|<\frac{\ep}{N_0}$. Then let $N=N_0\al_k\geq N_0$ and $m_k=N_0m_k'$.
+\end{proof}
+Now given $A=\{a_1,\ldots, a_n\}\subeq \R\bs \{0\}$, let $\ep=\rc{7}$ in the lemma and choose $N$ large enough so that $N\min_{a\in A}|a|>1$ and $N\min_{a,b\in A,\,a\neq b}|a-b|>1$; then we will have $m_k\neq 0$ in the lemma and $m_i\neq m_j$ for $i\neq j$. 
+We may replace $A$ with $NA$ as scaling doesn't change whether $b_1+2b_2= 2b_3+2b_4$ holds, so we can assume $|a_k-m_k|<\rc{7}$.
+
+Now apply Step 1 to $\{m_1,\ldots, m_n\}$ to find $B'=\{m_{i_1},\ldots, m_{i_j}\}$ so that $|B'|>\frac{n}{7}$ and so that
+\begin{equation}\label{p2-2-1}
+b_1+2b_2\neq 2b_3+2b_4
+\end{equation}
+for any $b_1,b_2,b_3,b_4\in B'$. Since this is an inequality in integers, the two sides must differ by at least 1.
+Now take $B=\{a_{i_1},\ldots, a_{i_n}\}$. Replacing the $b_i$ in~(\ref{p2-2-1}) with their corresponding elements in $B$, we get that the new LHS differs from the old LHS by less than $\frac{3}{7}$, and the new RHS differs from the old RHS by less than $\frac{4}{7}$. Thus equality still cannot hold, and $B$ is the desired set.
+\end{problem}
+\begin{problem} {\it (2.5, No monochromatic copy of $H$)}
+Let $G$ be the graph with $n$ vertices and $t$ edges containing no copy of $H$. 
+We show that $k$ copies of $G$ suffice to cover $K_n$. Labeling the vertices of $G$ and $K_n$ with $1,\ldots, n$, each permutation $\si$ of $\{1,\ldots, n\}$ gives a way of embedding $G$ into $K_n$. Call the imbedded graph $\si(G)$. For $e$ an edge in $G$, let $\si(e)$ denote the corresponding edge in $\si(G)$.
+
+Take $k$ independent random permutations $\si_1,\ldots, \si_k$, each permutation chosen with probability $\rc{n!}$. Given an edge $e\in K_n$ and an index $i$,
+\[
+P(e\in \sigma(G))=\frac{t}{\binom n2}
+\]
+since there are $t$ edges in $G$ and $\binom n2$ edges in $K_n$, and for $e'\in G$, $\sigma(e')$ has equal probability of being any edge in $K_n$, and $\sigma(e')\neq \si(e'')$ for $e'\neq e''$. Then using the the independence of the $\sigma_i$ and linearity of expectation,
+\begin{align*}
+P(e\nin \sigma_i(G))&=1-\frac{t}{\binom n2}\\
+P(e\nin \sigma_i(G)\text{ for any }i,1\leq i\leq k)&=\pa{1-\frac{t}{\binom n2}}^k\\
+\E(\text{number of edges of }K_n\text{ not in any }\sigma_i(G))
+&=\sum_{e\in K_n}P(e\nin \sigma_i(G)\text{ for any }i,1\leq i\leq k)\\
+&\leq |E(K_n)|P(e\nin \sigma_i(G)\text{ for any }i,1\leq i\leq k)\\
+&\leq \binom n2\pa{1-\frac{t}{\binom n2}}^k.
+\end{align*}
+Using the estimate $1-x<e^{-x}$ for $x\neq 0$, 
+\begin{align*}
+\E(\text{number of edges not in any }\sigma_i(G))
+&\leq \binom n2 e^{-\frac{tk}{\binom n2}}\\
+&<\binom n2 e^{-\frac{n^2\ln n}{\binom n2}}\\
+&<\binom n2n^{-2}\\
+&<1.
+\end{align*}
+Hence there exists $\sigma_1,\ldots, \sigma_k$ so that every edge of $K_n$ is in one of the $\sigma_i(G)$. Let $E_i$ be the set of edges in $\sigma_i(G)$ not in $\sigma_j(G)$ for $j<i$. Then the $E_i$ form a partition of the edges of $K_n$. Color $E_i$ with color $i$. Since $E_i$ is contained in $\sigma_i(G)$, it does not contain a copy of $H$. The resulting coloring does not give rise to a monochromatic copy of $H$.
+\end{problem}
+\begin{problem} {\it (2.7, Sperner's Lemma)}
+Note $X\leq 1$ always, since if $i,j\in \{i:\{\sigma(1),\ldots, \sigma(i)\}\in \cal F\}$ and $i<j$, then
+\[
+\{\sigma(1),\ldots, \sigma(i)\}\sub\{\sigma(1),\ldots, \sigma(j)\}
+\]
+would be an inclusion of sets contained in $\cal F$. Hence
+\begin{equation}\label{p2-4-1}
+\E(X)\leq 1.
+\end{equation}
+On the other hand, for each set $A\in \cal F$, let $X_A$ be the indicator function for the event that
+\[
+\{\sigma(1),\ldots, \sigma(|A|)\}=A.
+\]
+Then $X=\sum_{A\in \cal F}X_A$ so by linearity of expectation,
+\begin{align*}
+\E(X)&=\sum_{A\in \cal F} \E(X_A)\\
+&=\sum_{A\in \cal F}P(\{\sigma(1),\ldots, \sigma(|A|)\}=A)\\
+&=\sum_{A\in \cal F}\rc{\binom{n}{|A|}}
+\end{align*}
+since there are $\binom{n}{|A|}$ subsets of size $|A|$ and $\{\sigma(1),\ldots, \sigma(|A|)\}$ is equally likely to be any of those. But the maximum of $\binom{n}{k}$ is attained when $k=\fl{\frac n2}$. Hence
+\begin{equation}\label{p2-4-2}
+\E(X)\geq |\cal F|\rc{\binom{n}{\fl{\frac n2}}}.
+\end{equation}
+Putting~(\ref{p2-4-1}) and~(\ref{p2-4-2}) together give
+\[
+|\cal F|\leq \binom{n}{\fl{\frac n2}}.
+\]
+\end{problem}
+\begin{problem} {\it (2.9, List coloring of bipartite graph)}
+Let $A$ and $B$ be the two classes in the bipartite graph. 
+For each color that appears in some list, either cross it out from all vertices in $A$, or cross it out from all vertices in $B$, with probability $\rc{2}$. For a vertex $v$, let $S'(v)$ be the list of colors remaining after this operation.
+
+Note that
+\[
+P(S'(v)=\phi)=\prc{2}^{|S(v)|}\leq \prc{2}^{\log_2 n}\leq \rc{n}\]
+because each color in $S(v)$ has probability $\rc{2}$ of being crossed out from the list. Let $X_v$ be the indicator function for $S'(v)=\phi$ and $X$ be the number of $v$ such that $S'(v)=\phi$. By linearity of expectation,
+\[
+\E(X)=\sum_{v\in V}\E(X_v)=\sum_{v\in V}P(S'(v)=\phi)\leq |V|\rc{n}=1.
+\]
+However, if $n>2$, then without loss of generality $A$ has more than 1 vertex. Crossing out each color from all vertices in $A$, we have that $S'(v)=\phi$ for all $v\in A$, and hence $X>1\geq \E(X)$ in this case. Therefore there must exist $X$ so that $X<\E(X)$, i.e. $X=0$,i.e. there exists a method of deletion so that every vertex still has a nonempty list.
+
+Now color each vertex $v$ with any color from $S'(v)$. For every color, it can only appear in $B$ or only appear in $A$, since it was either crossed out from all lists in $A$ or all lists in $B$. Since all edges are between $A$ and $B$, this is a proper coloring.
+\end{problem}
+
+\section{3}
+\begin{problem}{\it (3.1, $R(k,k)$)}
+\begin{lem}\label{binomest}
+\[
+\binom nk \le \rc e\pf{en}{k}^k.
+\]
+\end{lem}
+\begin{proof}
+By integral estimation,
+\begin{align*}
+\ln k!&=\sum_{m=1}^k \ln m\\
+&\ge \int_{1}^k\ln x\,dx\\
+&=k\ln k-k+1.
+\end{align*}
+Exponentiating gives $k!>e\pf ke^k$. Hence
+\[
+\binom nk=\frac{n(n-1)\cdots (n-k+1)}{k!}\le\frac{n^k}{k!}\le \rc e\pf{en}{k}^k.
+\]
+\end{proof}
+
+Let $a=\left.\fl{\frac ke2^{\frac k2}}\right/\frac ke2^{\frac k2}$, and 
+put $n=\fl{\frac ke2^{\frac k2}}=a\frac ke2^{\frac k2}$ in
+\[
+R(k,k)> n-\binom nk 2^{1-\binom k2}
+\]
+and use the above estimate to get
+\begin{align*}
+R(k,k)&>a\frac ke 2^{\frac k2}-\rc e\pf{en}{k}^k 2^{1-\binom k2}\\
+&=\pa{a-\rc k\pf{en}{k}^k 2^{1-\frac{k^2}{2}}}\frac ke 2^{\frac k2}.\\
+&=\pa{a-\frac {2a^k}k}\frac ke 2^{\frac k2}.
+\end{align*}
+For $k\ge 3$, we have $1-\frac{1}{2^{\frac k2}}<a\le 1$, and $\frac{1}{2^{\frac k2}}=o(1)$. Since $\frac {2a^k}k\le \frac{2}{k}=o(1)$ as well,  %Hence $1-\frac{k}{2^{\frac k2}}<a^k\le 1$. Note $1-\frac{k}{2^{\frac k2}}$ is bounded below by a constant $C$ since its limit is 1. %Hence $1-\frac{1}{2^{\frac k2}}-\frac k2
+%-\frac {2}k<a-\frac {2a^k}k \le1$.
+%Thus 
+%This shows 
+$R(k,k)\ge (1-o(1))\frac ke 2^{\frac k2}$.
+\end{problem}
+\begin{problem}{\it (3.2, $R(4,k)$)}
+Consider a complete graph with $n$ vertices. Call the first color red and the second blue. Color each edge in the graph red with probability $p$ and blue with probability $1-p$. The probability that a given set of $4$ vertices forms a red $K_4$ is $p^{\binom 42}$ and the probability that a given set of $k$ vertices forms a blue $K_k$ is $(1-p)^{\binom k2}$.
+
+Let $X$ be the total number of red $K_4$'s and blue $K_k$'s.  %by the union bound the probability that there is a red $K_k$ or blue $K_t$ is
+By linearity of expectation, since there are $\binom n4$ groups of $4$ vertices and $\binom nk$ groups of $k$ vertices.
+\[
+\E(X)= \binom n4 p^{6}+\binom nk(1-p)^{\binom k2}.
+\]
+There exists a coloring with at most $\E(X)$ red $K_4$'s and blue $K_k$'s. Pick a vertex from each red $K_4$ and blue $K_k$ and delete it. We obtain a graph with at least $n-\E(X)$ vertices and no red $K_4$ or blue $K_k$. This shows that for any $n\in \N$ and any $p\in [0,1]$,
+\[
+R(4,k)> n- \binom n4 p^{6}-\binom nk(1-p)^{\binom k2}.
+\] 
+
+Assume $k\ge 3$. Now pick $n=a\pf{k}{\ln k}^2$ and $p=\frac{2\ln k}{k}$, where $a$ is to be chosen (depending on $k$ to make $n$ an integer, but close to a constant). Using Lemma~\ref{binomest},
+\begin{align*}
+R(4,k)&
+\ge n-\frac{n^4}{24}p^6-\pf{en}{k}^k (1-p)^{\binom k2}\\
+&\ge n-\frac{n^4}{24}p^6-\pf{en}{k}^k e^{-p\binom k2}\\
+&= a\pf{k}{\ln k}^2 -\rc{24} a^4\pf{k}{\ln k}^82^6\pf{\ln k}{k}^6
+- \pf{eak}{(\ln k)^2}^ke^{-\frac{2\ln k}{k}\binom k2}\\
+&=a\pf{k}{\ln k}^2-\frac{2^6a^4}{24}\pf k{\ln k}^2 -\pf{eak}{(\ln k)^2}^k k^{-(k-1)}\\
+&=\pa{a-\frac{8}{3}a^4}\pf{k}{\ln k}^2-\frac{k(ea)^k}{(\ln k)^{2k}}.
+\end{align*}
+Fix $a'\in \pa{0,\sqrt[3]{\frac 38}}$, and choose $a$ to be as close to $a'$ as possible, so that $n$ is an integer. Since $\pf{k}{\ln k}^2\to \iy$, we have $a\to a'$ as $k\to \iy$.
+
+Note the last term above goes to 0 as $k\to \iy$ because $\frac{k}{(\ln k)^k}\to 0$ and $\pf{ea}{\ln k}^k\to 0$. %Choosing any $0<a<\sqrt[3]{\frac 38}$ shows that $R(4,k)=\Om(\pf{k}{\ln k}^2)$.
+Since $a$ converges to $a'$ as $k\to \iy$, for large $k$, $a-\frac{8}{3}a^4$ is bounded below by some $c>0$. Hence $R(4,k)=\Om(\pf{k}{\ln k}^2)$.
+\end{problem}
+\begin{problem} {\it (3.3, Independent set in 3-uniform hypergraph)}
+Let $G$ be a 3-uniform hypergraph with $n$ vertices and $m\ge \frac n3$ edges. 
+Take a random subset $A$ by placing each vertex of $G$ in $A$ independently with probability $p$. Let $X=|A|$; then $\E(X)=np$. 
+Let $Y$ be the number of edges in the subgraph induced by $A$. The probability that a given edge is in $A$ is $p^3$, since each of its vertices, independently, has probability $p$ of being in $A$. Since there are $m$ edges, by linearity of expectation, $\E(Y)=mp^3$.
+
+Now $\E(X-Y)=np-mp^3$. There exists a subset $A$ such that $X-Y\ge np-mp^3$. For each edge in the subgraph induced by $A$, choose one of its vertices. Upon removing these vertices, we get a set of at least $X-Y\ge np-mp^3$ vertices with no edges between them, i.e. an independent set of size at least $np-mp^3$.
+
+Now take $p=\pf n{3m}^{\rc2}$ (legal since $m\ge \frac n3$). Then we get an independent set of size at least
+\[
+np-mp^3=n\pf n{3m}^{\rc 2}-m\pf{n}{3m}^{\frac 32}=\frac{2n^{\frac 32}}{3\sqrt 3 \sqrt m}.
+\]
+\end{problem}
+\begin{problem} {\it (3.4, Even directed cycle)}
+We show that in fact, the statement holds when each outdegree is at least $\log_2n-\al \log_2\log_2 n$ where $\al\in[0,\rc 2)$.
+\begin{lem}
+Let $G$ be a directed graph, whose vertices are colored in two colors such that for every vertex $v$, there exists a vertex $w$ such that there is an edge from $v$ to $w$, and $w$ is colored oppositely from $v$. Then $G$ has a directed even cycle.
+\end{lem}
+\begin{proof}
+Choose any vertex $v_1$. Once $v_k$ is chosen, choose $v_{k+1}$ to be adjacent to $v_k$ along an outgoing edge, of the opposite color as $v_k$. At some point, a vertex will be repeated. Say that the first repeated vertex is $v_k$, and $v_k=v_j$, $j<k$. Then $v_j,v_{j+1},\ldots, v_k$ is a simple cycle, since $v_k$ is the first repeated vertex. Since the colors of vertices in the cycle alternate, it must have even length.
+\end{proof}
+The following is Corollary 3.5.2 in the text.
+\begin{thm}
+\[m(d)=\Om\pa{2^d\pf{d}{\ln d}^{\rc2}}.\]
+In other words, there exists $C$ such that for every $d\ge 2$, any $d$-uniform hypergraph with at most $C2^d\pf{d}{\ln d}^2$ edges can be colored with two colors, so that no edge is monochromatic.
+\end{thm}
+We will only need the weaker bound
+\[
+m(d)=\Om\pa{2^dd^{\al'}},\text{ for any }\al'\in\left[0,\rc 2\right).
+\]
+
+Given a directed graph $G$ all of whose vertices have outdegree at least $\de=\log_2n-\al\log_2\log_2n$, for each vertex $v$ let $S_v$ be a set of vertices consisting of $v$ and $\ce{\de}-1$ vertices adjacent along an outgoing edge. Choose $\al'$ so that $\al<\al'<\rc 2$.
+Take $C$ such that $m(d)>C2^dd^{\al'}$ for $d\ge 2$. Let $D$ be a positive constant less than 1. For large enough $n$, 
+\begin{align*}
+m(\ce{\de})&\ge C2^{\ce{\de}}\ce{\de}^{\al'}\\
+&\ge C2^{\de} \de^{\al'}\\
+&=Cn(\log_2 n)^{-\al} (\log_2 n-\al\log_2\log_2n)^{\al'}\\
+&\ge Cn(\log_2 n)^{-\al} D(\log_2n)^{\al'}\\
+&=CDn(\log_2 n)^{\al'-\al}\ge n.
+\end{align*}
+Consider the $\ce{\de}$-uniform hypergraph whose vertices are the vertices of $G$ and whose edges are the $n$ sets $S_v$. 
+By the above calculations, (for large enough $n$) there exists a coloring so that none of the $S_v$ are monochoromatic, i.e. so that each vertex leads to a vertex of a different color. By the lemma, $G$ has an even cycle.
+\end{problem}
+
+\section{4}
+\begin{problem} {\it (4.1, $P(X=0)$)}
+%For a random variable $X$ with mean $\mu$ and standard deviation $\si$, Chebyshev's inequality states
+%\[
+%P(|X-\mu|\ge \la\si)\le \rc{\la^2}
+%\]
+%for any $\la>0$.
+%
+%Letting $\la=\frac{\mu}{\sigma}$ gives
+%\[
+%P(X=0)\leq P(|X-\mu|\geq \mu)=P(|X-\mu|\geq \la\sigma)\leq \rc{\la^2}=\frac{\si^2}{\mu^2}=\frac{\Var(X)}{\E(X)^2}.
+%\]
+Let $p_k=P(X=k)$. By the Cauchy-Schwarz inequality,
+\[
+\pa{
+\sum_{k\ge 0}kp_k
+}^2\le \pa{\sum_{k>0} p_k}\pa{\sum_{k\ge 0} k^2p_k}.
+\]
+(Note the $k=0$ terms for $kp_k$ and $k^2p_k$ are 0.) We rewrite this as
+\begin{align*}
+\E(X)^2&\le (1-P(X=0))\E(X^2)\\
+\implies P(X=0)\E(X^2)&\le \E(X^2)-\E(X)^2\\
+\implies P(X=0)\E(X^2)&\le \Var(X)\\
+\implies P(X=0)&\le \frac{\Var(X)}{\E(X^2)}.
+\end{align*}
+
+\end{problem}
+\begin{problem} {\it (4.2)}
+
+We show the inequality with $c=\frac{\sqrt{5}-2}{2}$.
+\begin{lem}
+Let $a_1,\ldots, a_k$ be any real numbers, and $\ep_1,\ldots, \ep_k$ independent random variables taking the values $-1$ and 1 each with probability $\rc2$. Let $X=\ep_1a_1+\cdots +\ep_ka_k$. Then
+\[
+\Var(X)=a_1^2+\cdots +a_k^2
+\]
+and
+\[
+P(|X|\le 1)\ge 1-(a_1^2+\cdots +a_k^2).
+\]
+\end{lem}
+\begin{proof}
+Let $X_i=\ep_ia_i$. Note $\Var(X_i)=\E((\ep_ia_i)^2)=a_i^2$. 
+Since the $X_i$ are independent, we have
+\[
+\Var(X)=\Var(X_1)+\cdots +\Var(X_k)=a_1^2+\cdots +a_k^2.
+\]
+Clearly, $\E(X_i)=0$ so $\E(X)=0$. By Chebyshev's inequality with $\la=\rc{\sqrt{a_1^2+\cdots +a_k^2}}$ and $\si=\sqrt{a_1^2+\cdots +a_k^2}$, we get
+\[
+P(|X|\ge 1)=P(|X-\E(X)|\ge \la \si)\le \rc{\la^2}= a_1^2+\cdots +a_k^2.
+\]
+Since $P(|X|\le 1)\ge 1-P(|X|\ge 1)$, this proves the second part.
+\end{proof}
+
+Let $\la=\sqrt 5-2$. Note %$\la^2+4\la-1=0$ and 
+$\frac{1-\la^2}{8}=\frac{\la}{2}$ and $c=\frac{\la}{2}$. Consider two cases.
+\begin{enumerate}
+\item
+There exists $a_i$ with $a_i^2\ge \la$. Without loss of generality, $a_1^2\ge \la$. Then %$a_2^2+\cdots +a_n^2=1-a_1^2\le \frac 45$, so 
+by the lemma,
+\[
+P(|\ep_2a_2+\cdots +\ep_ka_k|\le 1)%\ge 1-P(|\ep_2a_2+\cdots +\ep_ka_k\ge 1|)\ge 1-\frac45=\rc 5.
+\ge 1-(a_2^2+\cdots +a_n^2)=a_1^2\ge \la.
+\]
+Since $|a_1|\le 1$, given that $|\ep_2a_2+\cdots +\ep_ka_k|\le 1$, if $\ep_1$ is such that $\ep_1a_1$ has opposite sign from $\ep_2a_2+\cdots +\ep_ka_k$, then we also have $|X|\le 1$. Thus
+\[
+P(|X|\le 1)\ge\rc 2P(|\ep_2a_2+\cdots +\ep_ka_k|\le 1)\ge\frac{\la}{2}.
+\]
+
+\item
+There does not exist $a_i$ with $a_i^2\ge \la$. Let $k$ be the greatest index so that
+\[
+a_1^2+a_2^2+\cdots +a_k^2\le \frac{1+\la}{2}.
+\]
+(Note $k\ge 1$ since $a_1^2< \la<\frac{1+\la}{2}$.) 
+Let $A=a_1^2+\cdots +a_k^2$. 
+By the maximality assumption, $a_1^2+\cdots +a_k^2+a_{k+1}^2>\frac{1+\la}{2}$. Since $a_{k+1}^2<\la$, we conclude $A>\frac{1-\la}{2}$. 
+%Then 
+%\[
+%a_1^2+\cdots +a_k^2,\,a_{k+1}^2+\cdots +a_{n}^2\in [\frac 25, \frac 35],
+%\]
+%since these two expressions sum to 1.
+Thus by the lemma,
+\begin{align*}
+P(|\ep_1a_1+\cdots +\ep_ka_k|\le 1)&\ge 1-(a_1^2+a_2^2+\cdots +a_k^2) =1-A.\\
+P(|\ep_{k+1}a_{k+1}+\cdots +\ep_na_n|\le 1)&\ge 1-(a_{k+1}^2+\cdots +a_n^2)=A.
+\end{align*}
+By symmetry, 
+\[
+%P(\ep_1a_1+\cdots +\ep_ka_k \in [0,1])&=
+%P(\ep_1a_1+\cdots +\ep_ka_k\in [-1,0])\\
+%&\ge \frac{1-A}2
+%\\
+P(\ep_{k+1}a_{k+1}+\cdots +\ep_na_n\in [0,1])=
+P(\ep_{k+1}a_{k+1}+\cdots +\ep_na_n\in [-1,0])
+\ge\frac{A}{2}.
+\]
+Now, noting $A\in [\frac{1-\la}{2},\frac{1+\la}{2}]$ implies $A(1-A)\ge \pf{1-\la}{2}\pf{1+\la}{2}=\frac{1-\la^2}{4}$,
+\begin{align*}
+P(|X|\le 1)&\ge P(\ep_1a_1+\cdots +\ep_ka_k \in [0,1])P(\ep_{k+1}a_{k+1}+\cdots +\ep_na_n\in [-1,0])\\
+&\quad +P(\ep_1a_1+\cdots +\ep_ka_k \in [-1,0))P(\ep_{k+1}a_{k+1}+\cdots +\ep_na_n\in [0,1])\\
+&\ge P(\ep_1a_1+\cdots +\ep_ka_k \in [0,1])\pf A2+P(\ep_1a_1+\cdots +\ep_ka_k \in [-1,0))\pf A2\\
+&=P(|\ep_1a_1+\cdots +\ep_ka_k|\le 1)\pf A2\\
+&\ge (1-A)\pf A2\ge \frac{1-\la^2}{8}=\frac{\la}{2}
+\end{align*}
+as needed.
+\end{enumerate}
+\end{problem}
+\begin{problem} {\it (4.3)}
+%Given the conditions of the problem, we can divide the $a_i$ into at most 10 groups such that each group has 
+We need the following estimate. The proof is similar to Chebyshev's inequality.
+\begin{lem}\label{p3-7-l1}
+Let $a_1,\ldots, a_n$ be vectors in $\R^2$, and $\ep_1,\ldots, \ep_n$ be independently chosen to be $\pm 1$ with probability $\rc2$. Then
+\[
+P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert\ge R}\le\frac{\sum_{k=1}^n \Vert a_k\Vert^2}{R^2}. 
+\]
+\end{lem}
+\begin{proof}
+First we calculate $\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2}$. Let $a_k=(x_k,y_k)$. Now
+\[
+\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2} =\E((\ep_1x_1+\cdots +\ep_nx_n)^2+(\ep_1y_1+\cdots +\ep_ny_n)^2)\]
+Expanding, noting that $\E(\ep_i\ep_jx_ix_j)=\E(\ep_i\ep_jy_iy_j)=0$ for $i\ne j$ (since $\ep_i\ep_j$ has equal probability of being $\pm1$), the expected value equals
+\[
+\E(\ep_1^2x_1^2)+\cdots +\E(\ep_n^2 x_n^2)+\E(\ep_1^2 y_1^2)+\cdots +\E(\ep_n^2y_n^2)=x_1^2+\cdots +x_n^2+y_1^2+\cdots +y_n^2=\sum_{k=1}^n \Vert a_k\Vert^2.
+\]
+
+By Markov's inequality,
+\begin{align*}P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert\ge R}&=
+P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2\ge R^2}\\
+&\le \frac{\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2}}{R^2}\\
+&=\frac{\sum_{k=1}^n \Vert a_k\Vert^2}{R^2}.
+\end{align*}
+\end{proof}
+\begin{lem}\label{p3-7-l2}
+Let $a_1,\ldots, a_n$ be vectors in $\R^2$, all of length at most $r$. Then there exist $\ep_1,\ldots, \ep_n\in \{-1,1\}$ so that
+\[
+\Vert\ep_1a_1+\cdots +\ep_na_n\Vert\le \sqrt 2r.
+\]
+\end{lem}
+\begin{proof}
+For $\ep=(\ep_1,\ldots, \ep_n)\in \{-1,1\}^n$ and $i\neq j$, let $\cal P_{i,j}(%\ep_1,\ldots, \widehat{\ep_i}, \ldots, \widehat{\ep_j},\ldots, \ep_n)$ (where a hat denotes omission) 
+\ep)$ be the (possibly degenerate) parallelogram bounded by the 4 vertices $v\pm a_i\pm a_j$, where $v=\sum_{k\neq i,j; 1\le k\le n} \ep_ia_i$. Let $\cal P=\bigcup_{1\le i<j\le n, \ep\in \{-1,1\}^n} \cal P_{i,j}(\ep)$. Note that if $Q_1Q_2Q_3Q_4$ is one of these parallelograms, then we have $Q_2=Q_1\pm 2a_i$ for some $i$, and similarly for the other adjacent pairs of vertices.
+
+We claim that $\cal P$ contains the origin. First we show that $\cal P$ is convex. %$P$ is bounded by a finite number of line segments, so it suffices to show that there is no reflex angle on the boundary. %, i.e. there do not exist 
+Let $Q$ be a vertex on the boundary of $\cal P$, %and $Q_1,Q_2$ be neighboring vertices, i.e. 
+and $QQ_1$ and $QQ_2$ be edges of $\cal P$, with $Q_1\ne Q_2$ (i.e. $QQ_1,QQ_2$ are edges of some $\cal P_{i,j}(\ep)$.)
+As mentioned, $Q_1=Q\pm 2a_i$ for some $i$ and $Q_2=Q\pm 2a_j$ for some $j$, for $i\neq j$. 
+Suppose the directed angle $\angle Q_1QQ_2$ is in the range $[0^{\circ},180^{\circ}]$. Let $Q'=Q\pm 2a_i\pm 2a_j$, where the two signs match the signs in $Q_1$ and $Q_2$, respectively. Then $Q_1QQ_2Q'$ is one of the parallelograms, in particular, $P$ contains the angle $\angle Q_1QQ_2$. %So, if we draw a small circle around $Q$ containing no other vertex of $\cal P$, and mark the arcs on the circle that are inside $\cal P$, then the unmarked areas form arcs of measure greater than $180^{\circ}$, i.e. there can only be one unmarked arc, and the marked arc is continuous. 
+This shows that $\cal P$ has no reflex angle on the boundary. $\cal P$ has a well-defined outer boundary that traces a convex polygon, and has no ``holes" (because holes would cause reflex angles as well). Hence $\cal P$ is convex. Since $\cal P$ is clearly symmetric around the origin, it must contain the origin.
+
+Hence we can take a parallelogram $\cal P_{i,j}(\ep)$ containing the origin. Suppose by way of contradiction that all its vertices $P_1,P_2,P_3,P_4$ are at a distance greater than $\sqrt 2 r$ from the origin $O$. One of the angles $\angle P_1OP_2,\angle P_2OP_3,\angle P_3OP_4,\angle P_4OP_1$ is at least $90^{\circ}$, say WLOG $P_1OP_2$. Then by Pythagorean's inequality $|P_1P_2|^2\ge |OP_1|^2+|OP_2|^2> 2(\sqrt 2r)^2$ so $|P_1P_2|>2r$. But $|P_1P_2|=2a_i$ for some $i$, and $a_i>r$, contradiction. Thus one of $P_1,P_2,P_3,P_4$ is at most a distance of $\sqrt 2r$ from $O$, proving the lemma. 
+%\begin{enumerate}
+%\item $P$ has a well-defined outer boundary, 
+%\end{enumerate}
+\end{proof}
+Back to the problem, let $i_0=0$, let $i_1$ be the largest integer so that $\Vert a_1\Vert^2 +\cdots +\Vert a_{i_1}\Vert ^2\le \rc{20}$, let $i_2$ be the largest integer so that $\Vert a_{i_1+1}\Vert^2 +\cdots +\Vert a_{i_2}\Vert^2 \le \rc {20}$, and so on. (Note $i_{j+1}>i_j$ because $\Vert a_i\Vert^2\le \rc{100}$ for all $i$.) Suppose this divides the $a_i$ into $t$ groups. For $0\le j<t-1$, by the maximality assumption on $i_{j+1}$,  $\Vert a_{i_j+1}\Vert^2 +\cdots +\Vert a_{i_{j+1}}\Vert ^2+\Vert a_{i_{j+1}+1}\Vert^2 >\rc {20}$; since $\Vert a_{i_{j+1}+1}\Vert^2\le \rc{100}$, we conclude $\Vert a_{i_j+1}\Vert^2 +\cdots +\Vert a_{i_{j+1}}\Vert^2 >\rc{25}$. Thus we've divided the $a_i$ into $t$ groups, and in all of them except the last, the sum of the squares of the absolute values is in the interval $(\rc{25},\rc{20}]$. This shows $t\le 25$.
+
+By Lemma~\ref{p3-7-l1},
+\[
+P\pa{\left\Vert\sum_{k=i_j+1}^{i_{j+1}} \ep_ka_k\right\Vert\ge \rc{\sqrt {18}}}\le18\sum_{k=i_j+1}^{i_{j+1}} \Vert a_k\Vert^2\le \frac{18}{20}
+\]
+so 
+\[
+P\pa{\left\Vert\sum_{k=i_j+1}^{i_{j+1}} \ep_ka_k\right\Vert\le \rc{\sqrt {18}}}\ge \frac{1}{10}.
+\]
+Thus the probability that $\left\Vert\sum_{k=i_j+1}^{i_{j+1}} \ep_ka_k\right\Vert\le \rc{\sqrt {18}}$ for each $0\le j<t$ is at least $\rc{10^t}\ge \rc{10^{25}}$. 
+Let $v_j=\sum_{k=i_j+1}^{i_{j+1}} \ep_ka_k$. 
+Let $S$ be the set of $\ep=(\ep_1,\ldots, \ep_n)$ such that $\left\Vert v_j\right\Vert\le \rc{\sqrt {18}}$ for all $j$; call $v=\sum_{k=1}^n \ep_ka_k$ the vector associated to $\ep$. 
+We say two vectors $\ep,\ep'$ are equivalent if
+\[
+(\ep_{i_j+1},\ldots, \ep_{i_{j+1}})=\pm(\ep_{i_j+1}',\ldots, \ep_{i_{j+1}}')
+\]
+for each $j$. This divides $S$ into equivalence classes, each containing $2^t$ elements. Note that the vectors associated to the $2^t$ elements in the equivalence class of $\ep$ are in the form $\om_0v_0+\cdots +\om_{t-1}v_{t-1}$ where $\om_i=\pm 1$. Since $\Vert v_i\Vert \le \rc{\sqrt{18}}$, by Lemma~\ref{p3-7-l2} there exists a choice of $\om_0,\ldots, \om_{t-1}$ so that $\Vert \om_0v_0+\cdots+ \om_{t-1}v_{t-1}\Vert \le\frac{\sqrt 2}{\sqrt{18}}=\rc{3}$ (in fact, there exist two choices, by symmetry). Hence in each equivalence class $C$ of $S$, at least 2 of the $2^t$ elements of $C$ have associated vectors with absolute value at most $\rc{3}$. Thus
+\begin{align*}
+P\pa{
+\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert\le \rc 3
+}&\ge P\pa{\bigwedge_{j=0}^{t-1}\pa{\left\Vert\sum_{k=i_j+1}^{i_{j+1}} \ep_ka_k\right\Vert\le \rc{\sqrt {18}}}}\cdot \frac{2}{2^t}\\
+&\ge\frac{1}{10^{25}}\cdot \rc{2^{24}}.
+\end{align*}
+\end{problem}
+\begin{problem}{\it (4.4)}
+We write $\E(X|P)$ to denote the expected value of $X$ given that $P$ is true. 
+\begin{lem}
+Let $\la'=\E(X|X\ge \la)$ and $\si'^2=P(X<\la)\E(X|X<\la)^2+P(X\ge \la)\E(X|X\ge \la)^2$. Then
+\begin{align*}
+\la&\le \la'\\
+\si^2&\ge \si'^2.
+\end{align*}
+\end{lem}
+\begin{proof}
+The first statement is obvious. For the second, note that for any random variable $Y$, we have $\E(Y^2)\ge \E(Y)^2$ since $\Var(Y)=\E(Y^2)-\E(Y)^2\ge 0$. Hence
+\begin{align*}
+\si^2=\E(X^2)&= P(X<\la)\E(X^2|X<\la)+P(X\ge \la)\E(X^2|X\ge \la)\\
+&\ge P(X<\la)\E(X|X<\la)^2+P(X\ge \la)\E(X|X\ge \la)^2=\si'^2.
+\end{align*}
+\end{proof}
+Letting $p=P(X\ge \la)$, note that $P(X<\la)=1-p$ and
+\[
+P(X<\la)\E(X|X<\la)+P(X\ge \la)\E(X|X\ge \la)=\E(X)=0
+\]
+we get that $\E(X|X<\la)=-\frac{p}{1-p}\la'$. Hence $\si'^2=(1-p)\pa{\frac p{1-p}\la'}^2+p\la'^2$. Then by the lemma,
+\begin{align*}
+p\pa{1+\pf{\la}{\si}^2}&
+\le p\pa{1+\pf{\la'}{\si'}^2}\\
+&=p\pa{1+\frac{\la'^2}{(1-p)\pa{\frac p{1-p}\la'}^2+p\la'^2}}\\
+&=p\pa{1+\frac{1-p}{p}}=1.
+\end{align*}
+Hence $p\le (1+(\frac{\la}{\si})^2)^{-1} =\frac{\si^2}{\si^2+\la^2}$, as needed.
+\end{problem}
+\begin{problem}{\it (4.5)}
+We use the same lemma as in the last pset.
+\begin{lem}\label{p4-2-l1}
+Let $a_1,\ldots, a_n$ be vectors in $\R^2$, and $\ep_1,\ldots, \ep_n$ be independently chosen to be $\pm 1$ with probability $\rc2$. Then
+\[
+P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert\ge R}\le\frac{\sum_{k=1}^n \Vert a_k\Vert^2}{R^2}. 
+\]
+\end{lem}
+\begin{proof}
+First we calculate $\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2}$. Let $a_k=(x_k,y_k)$. Now
+\[
+\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2} =\E((\ep_1x_1+\cdots +\ep_nx_n)^2+(\ep_1y_1+\cdots +\ep_ny_n)^2)\]
+Expanding, noting that $\E(\ep_i\ep_jx_ix_j)=\E(\ep_i\ep_jy_iy_j)=0$ for $i\ne j$ (since $\ep_i\ep_j$ has equal probability of being $\pm1$), the expected value equals
+\[
+\E(\ep_1^2x_1^2)+\cdots +\E(\ep_n^2 x_n^2)+\E(\ep_1^2 y_1^2)+\cdots +\E(\ep_n^2y_n^2)=x_1^2+\cdots +x_n^2+y_1^2+\cdots +y_n^2=\sum_{k=1}^n \Vert a_k\Vert^2.
+\]
+
+By Markov's inequality,
+\begin{align*}P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert\ge R}&=
+P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2\ge R^2}\\
+&\le \frac{\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2}}{R^2}\\
+&=\frac{\sum_{k=1}^n \Vert a_k\Vert^2}{R^2}.
+\end{align*}
+\end{proof}
+\begin{cor}\label{p4-2-c2}
+Let $a_1,\ldots, a_n$ be vectors in $\R^2$, and $\ep_1,\ldots, \ep_n$ be independently chosen to be $0$ or $1$ with probability $\rc2$. 
+Let $a=\frac{a_1+\cdots +a_n}{2}$. 
+Then
+\[
+P\pa{\left\Vert\pa{\sum_{k=1}^n \ep_ka_k}-a\right\Vert\ge R}\le\frac{\sum_{k=1}^n \Vert a_k\Vert^2}{4R^2}. 
+\]
+\end{cor}
+\begin{proof}
+Note
+\[\pa{\sum_{k=1}^n \ep_ka_k}-a=\rc{2}\sum_{k=1}^n\ep_k'a_k\]
+where the variables $\ep_k':=2\ep_k-1$ are $-1$ or $1$ with probability 1. By Lemma~\ref{p4-2-l1}, 
+\begin{align*}
+P\pa{\left\Vert\pa{\sum_{k=1}^n \ep_ka_k}-a\right\Vert\ge R}
+&=\pa{\left\Vert\sum_{k=1}^n\ep_k'a_k\right\Vert\ge 2R}\\
+&\le \frac{\sum_{k=1}^n \Vert a_k\Vert^2}{4R^2}.
+\end{align*}
+\end{proof}
+Let $c=100$. Letting $a_k=v_k$ and $\ep_k$ be as in the corollary, and noting that $\Vert v_k\Vert^2=x_k^2+y_k^2\le 2\pf{2^{n/2}}{c\sqrt n}^2=\frac{2^{n+1}}{c^2n}$, 
+%Assuming $\la\ge 1$, so $(\la+1)^2\le 4\la^2$, we have
+\begin{align*}
+P\pa{\left\Vert\pa{\sum_{k=1}^n \ep_kv_k}-a\right\Vert< R}
+&\ge 1-\frac{\sum_{k=1}^n \Vert v_k\Vert^2}{4R^2}\\
+%&\ge 1-\frac{n\pf{2^{n/2}}{k\sqrt n}^2}{4R^2}\\
+&\ge 1-\frac{2^{n+1}}{4c^2R^2}.
+\end{align*}
+Each choice of $(\ep_1,\ldots, \ep_n)$ corresponds to choosing a subset of $v_1,\ldots, v_k$ to sum up, so the total number $s$ of subsets $I$ with $\left\Vert\pa{\sum_{i\in I} a_i}-a\right\Vert<R$ satisfies
+\begin{equation}\label{p4-2-1}
+s\geq 2^n\pa{1-\frac{2^{n+1}}{4c^2R^2}}=2^n-\frac{2^{2n-1}}{c^2 R^2}.
+\end{equation}
+Next note the number $l$ of distinct lattice points $p$ in $S=\{p:\Vert p-a\Vert<R\}$ is at most $\pi(R+\sqrt 2)^2$. Indeed, for each lattice point $p=(x,y)$ in $S$ associate with it the square $S_p=[x,x+1)\times [y,y+1)$. These squares are non-overlapping and contained completely in $\{p:\Vert p-a\Vert<R+\sqrt 2\}$, by the triangle inequality. The area of this region is $\pi(R+\sqrt 2)^2$, so there are at most this many squares (each square has area 1). Assuming $R\ge 1$, we have $\frac{(R+\sqrt 2)^2}{R^2}<9$ so
+\begin{equation}\label{p4-2-2}
+l< 9\pi R^2\text{ when }R\ge 1.
+\end{equation}
+We find $R$ so that
+\begin{align}
+\label{p4-2-3}
+9\pi R^2&<2^n-\frac{2^{2n-1}}{c^2 R^2}\\
+\nonumber
+\iff 9\pi R^4-2^nR^2+\frac{2^{2n-1}}{c^2}&<0.
+\end{align}
+Since the problem is trivially true for $n\le 10$ (as then $x_i,y_i<\frac{2^{5}}{100}$ so equal 0), we may assume $n>10$. 
+Let $R=\sqrt{\frac{2^{n-1}}{9\pi}}$; note $R>1$. Now
+\begin{align*}
+9\pi R^4-2^nR^2+\frac{2^{2n-1}}{c^2}&=\frac{2^{2n-2}}{9\pi}-\frac{2^{2n-1}}{9\pi}+\frac{2^{2n-1}}{c^2}\\
+&=2^{2n-2}\pa{-\frac{1}{9\pi}+\frac2{c^2}}<0
+\end{align*}
+since $c=100$. Hence~(\ref{p4-2-3}) holds. Combining with~(\ref{p4-2-1}) and~(\ref{p4-2-2}) gives $s>l$, i.e. there are more subsets that give sums in $S$ than lattice points in $S$. Thus there must exist two distinct sets $I'$ and $J'$ so that
+\[
+\sum_{i\in I'} v_i=\sum_{j\in J'} v_j.
+\]
+Note $I:=I'\bs I'\cap J'$ and $J:=J'\bs I'\cap J'$ are disjoint. 
+Subtracting $\sum_{i\in I'\cap J'} v_i$ from the above gives
+\[
+\sum_{i\in I}v_i=\sum_{j\in J} v_j
+\]
+as needed.
+\end{problem}
+\begin{problem} {\it (5.3)}
+First delete colors from each $S(v)$ until they are all of size $10d$. For each vertex, color it randomly with a color from $S(v)$, each color being chosen with probability $\rc{10d}$ and colors of distinct vertices being independent. 
+Let 
+\[T=\{(e,c)|\text{edge }e=vw,\text{ color }c\in S(v)\cap S(w)\}.\]
+For $(e,c)\in T$, let $A_{e,c}$ denote the event that both $v$ and $w$ are colored with $c$. Note
+\begin{enumerate}
+\item The event that the random coloring of $G$ is proper is exactly the event $\bigwedge_{(e,c)\in T} \overline{A_{e,c}}$. 
+\item
+$P(A_{e,c})=\rc{100d^2}$ since $v$ and $w$ each have (independent) probability $\rc{10d}$ of being colored with $c$. 
+\item
+Each $A_{e,c}$ is mutually independent of all but $20d^2-1$ of the other events: $A_{e,c}$ is mutually independent of all the $A_{e',c'}$ except those where $e'$ and $e$ share a vertex. Given that $e'=vw'$ and $e=vw$, the number of possible $(e',c')\in T$ is at most $10d^2$, since there are $10d$ colors in $S(v)$, and given $c'\in S(v)$ there are at most $d$ neighboring vertices $w'$ such that $c'\in S(w')$. By symmetry, given that $e'=v'w$ then number of possible $(e',c')$ is at also most $10d^2$. We subtract 1 because we don't want to count $(e,c)$.
+\end{enumerate}
+By the symmetric case of the Lov\'asz Local Lemma with $p=\rc{100d^2}$ and $d'=20d^2-1$, noting
+\[
+ep(d'+1)=e\cdot \rc{100d^2}\cdot 20d^2=\frac e5<1,
+\] 
+we get that $P\pa{\bigwedge_{(e,c)\in T} \overline{A_{e,c}}}>0$. I.e., by item 1, there exists a proper list coloring.
+\end{problem}
+\begin{problem} {\it (5.4)}
+\begin{lem}
+Given a cyclic graph $G$ with $2n$ vertices and $n$ disjoint pairs of vertices $V_1, \ldots, V_n$, we can color the graph with 2 colors such that
+\begin{enumerate}
+\item
+No $V_i$ is monochromatic.
+\item
+No three consecutive vertices in $G$ are monochromatic.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+Label the vertices of $G$ in order: $1,2,\ldots, 2n$. 
+Consider the graph $G'$ whose vertices are $1,2,\ldots, 2n$ and whose edges are the pairs $V_i$ plus the pairs $(1,2),(3,4),\ldots, (2n-1,2n)$. Call these edges of the first and second kind, respectively. Note that the edges of the first kind are all disjoint, and likewise for edges of the second kind. Given a cycle in $G'$, its edges must alternate between edges of the first and second kinds, so it must be an even cycle. $G'$ has no odd cycles, so is bipartite, meaning that we can color $G$ so that neither the pairs $V_i$, nor the pairs $(2k-1,2k)$, are monochromatic. The latter condition gives item 2 above.
+\end{proof}
+Returning to the problem, we show in fact that we can color $G$ with 4 colors (i.e. partition it into 4 sets) such that
+\begin{enumerate}
+\item
+Each color class contains exactly one vertex of each $V_i$.
+\item 
+No color class contains two consecutive vertices in $G$.
+\end{enumerate}
+Each color class then satisfies the conditions of the problem.
+
+First, arbitrarily split each $V_i$ into two pairs, $V_{i,1}\cup V_{i,2}$. Apply the lemma to get a coloring where no $V_{i,j}$, and no triplet of consecutive vertices, is monochromatic. Two vertices of $V_i$ will be colored in each color, say red and blue. Let $R_i$ be the red vertices of $V_i$ and $B_i$ be the blue vertices of $V_i$.
+
+Label the vertices of $G$ with $1,\ldots, 4n$ around the cycle. Let $G'$ be a graph with the same vertices but with edges $R_i$ and $B_i$; and with edges connecting adjacent vertices in $G$ of the same color. Call these edges of the first and second kind, respectively. Note that the edges of the first kind are disjoint, and the edges of the second kind are disjoint since no three consecutive vertices in $G$ have the same color. Thus again every cycle in $G'$ is even, and $G'$ is bipartite. Call the two classes in a bipartition ``light" and ``dark." So now each vertex is assigned one of 4 colors, light red, dark red, light blue, and dark blue.
+
+Consider $V_i$. It has two red vertices and two blue vertices. The red vertices are neighboring in $G'$ and the blue vertices are neighboring in $G'$, so they are assigned different shades, and $V_i$ has all vertices differently colored. Any adjacent vertices of the same color in the first coloring are adjacent in $G'$ so assigned different shades. Thus the coloring satisfies the required conditions.
+\end{problem}
+
+\section{5}
+
+\section{6}
+\begin{problem}{\it(6.1)}
+Note $Q$ equals the probability that in a random subgraph $H$ of $G$ obtained by picking each edge of $G$ with probability $\rc2$, that both $H$ and $G\bs H$ are connected, where $G\bs H$ consists of the vertices of $G$ and the edges of $G$ not in $H$. (Just associate one color with ``being in $H$" and the  other color with ``not being in $H$.")
+
+Note ``$H$ connected" is a monotone increasing graph property and ``$G\bs H$ connected" is a monotone decreasing graph property (with respect to $H$), because deleting an edge in $H$ corresponds to adding an edge in $G\bs H$. Thus by Theorem 6.3.2 applied to the set of edges of $G$, we get that
+\begin{align*}
+P(H\text{ connected  and }G\bs H\text{ connected})
+&\le P(H\text{ connected})P(G\bs H\text{ connected})\\
+&=P(H\text{ connected})^2.
+\end{align*}
+The last follows from the fact that the distribution for $H$ and $G\bs H$ is the same, since $H$ is equally likely to be any subgraph $H_0$ of $G$, and in particular, the probability that $H=H_0$ is the same as the probability that $H=G\bs H_0$.
+
+Thus $Q\le P^2$.
+\end{problem}
+\begin{problem}{\it (6.3)}
+Note for any vertex $v$, ``$v$ has degree at most $k-1$" is a monotone decreasing graph property. 
+
+Label the vertices $v_1,\ldots, v_{2k}$. By repeated application of 6.3.3, (basically an induction; in the induction step noting that if $P_1$ and $P_2$ are monotone decreasing then so it $P_1\wedge P_2$),
+\[
+P(v_1,\ldots,v_{2k}\text{ all have degree }\le k-1)\ge
+\prod_{i=1}^{2k} P(v_1\text{ has degree }\le k-1)=\pf12^{2k}=\rc{4^k}.
+\]
+The equality come from the fact that there are $2k-1$ edges coming out of $v$, each chosen independently with probability $\rc 2$, so the degree of $v$ gives a binomial distribution symmetric around $\frac{2k-1}{2}$. In particular, it is as likely to have degree at most $k-1$ as degree at least $k$, i.e. both probabilities are $\rc2$.
+\end{problem}
+
+\section{7}
+\begin{problem} {\it (7.2)}
+\begin{lem}
+\[\E[\chi(H)]\ge 500.\]
+\end{lem}
+\begin{proof}
+We show that given $U\subeq V$, $\chi(G[U])+\chi(G[U^c])\ge 1000$. Indeed, take proper colorings of $G[U]$ and $G[U^c]$ with $\chi(G[U])$ and $\chi(G[U^c])$ different colors, such that the colors used in $U$ are different from any color used in $U^c$. This gives a proper coloring of $G$, since the only edges in $G$ neither in $G[U]$ nor $G[U^c]$ are those between $U$ and $U^c$, which will be between different colors. Since $\chi(G)=1000$, there must be at least 1000 colors used.
+
+Now summing $\chi(G[U])+\chi(G[U^c])\ge 1000$ over all $2^{|V|}$ subsets $U\subeq V$ and dividing by $2^{|V|+1}$ gives $\E[\chi(H)]\ge 500$.
+\end{proof}
+
+Color $G$ properly with 1000 colors, and let $A_1,\ldots, A_{1000}$ be the color classes. Note that each $A_i$ is an independent set. 
+%Consider the martingale with
+%\[
+%X_j(U)=\E\ba{\chi(G[W])\left|\pa{\bigcup_{i=1}^j A_i}\cap W=\pa{\bigcup_{i=1}^j A_i}\cap U\right.},
+%\]
+%i.e. $X_j(U)$ is the expected value of the chromatic number of $G[W]$, where $W$ is a random subset of $V$ that matches $U$ on $A_1,\ldots, A_j$. Note $X_0(U)=E[\chi(H)]$, while $X_{1000}(U)=\chi(H)$. %It is a martingale since $X_j$ is the conditional expectation of $\chi(H)$ given information that includes the information at previous steps $0,1,\ldots, j-1$.
+%Further note that $|X_{i+1}-X_i|\le 1$. Indeed, if 
+
+%Let $U\cap \bigcup_{i=1}^j A_i=U'$. Then
+%\begin{align*}
+%X_j(U)=X_j(U')&=\rc{2^{|A_{j+1}|}}\sum_{W_{j+1}\subeq A_{j+1}} \E\ba{\chi(G[W])\left|\pa{\bigcup_{i=1}^{j+1} A_i}\cap W=U'\cup W_{j+1}\right.}\\
+%&=\rc{2^{|A_{j+1}|}}\sum_{W_{j+1}\subeq A_{j+1}}X_j(U'\cup W_{j+1})
+%\end{align*}
+%Given the value of $X_j$ and given $U'$, $X_{j+1}$ has equal probability of being any of the terms in the sum above; averaging over all $U'$ with $X_j,\ldots, X_1,X_0$ fixed, we get $\E(X_{j+1}|X_j,\ldots,X_1,X_0)=X_j$ and hence 
+% that $X_0,X_1,\ldots, X_{1000}$ is a martingale. 
+%We claim that $|X_{j+1}(U)-X_j(U)|\le 1$. 
+%Indeed, letting $U\cap \bigcup_{i=1}^j A_i=U'$ and $U\cap A_{j+1}=V_{j+1}$, we have $X_j$ as above and hence
+%\begin{align*}
+%&X_j(U)-X_{j+1}(U)\\
+%&=\rc{2^{|A_{j+1}|}}\sum_{W_{j+1}\subeq A_{j+1}} \E\ba{\chi(G[W])\left|\pa{\bigcup_{i=1}^{j+1} A_i}\cap W=U'\cup W_{j+1}\right.}\\
+%&\quad - \E\ba{\chi(G[W])\left|\pa{\bigcup_{i=1}^{j+1} A_i}\cap W=U'\cup U_{j+1}\right.}\\
+%&=\rc{2^{|A_{j+1}|+\cdots +|A_{1000}|}}
+%\sum_{\scriptsize\begin{array}{c} W_{j+1}\subeq A_{j+1}\\W''\subeq A_{j+2}\cup \cdots \cup A_{1000}\end{array}}
+%\chi\pa{
+%G\ba{
+%U'\cup W_{j+1}\cup W''
+%}
+%}-\chi\pa{G\ba{U'\cup U_{j+1}\cup W''}}.
+%\end{align*}
+%But $\chi\pa{
+%G\ba{
+%U'\cup W_{j+1}\cup W''
+%}
+%}-\chi\pa{G\ba{U'\cup U_{j+1}\cup W''}}\le 1$ for each $W_{j+1},W''$ since at worst $U'\cup W_{j+1}\cup W''$ can be colored the same as $G\ba{U'\cup U_{j+1}\cup W''}$, except with each vertex of $W_{j+1}$ given a different color, and similarly for the opposite inequality. This shows that $|X_{j+1}-X_j|\le 1$.
+Let $B_j=\bigcup_{i=1}^j A_j$; consider the gradation $B_0\sub B_1\sub\cdots\sub B_{1000}=V$. Let $L:\cal P(V)\to \Z$ be the function $L(W)=\chi(G[W])$. Let 
+\[
+X_j(U)=\E[L(W)|B_j\cap W=B_j\cap U].
+\]
+In other words, $X_j(U)$ is the expected value of the chromatic number of $G[W]$, where $W$ is a random subset of $V$ that matches $U$ on $A_1,\ldots, A_j$. Note $X_0(U)=\E[\chi(H)]$, while $X_{1000}(U)=\chi(H)$. (Here $H=G[U]$.)
+
+We show $L$ satisfies the Lipschitz condition. Suppose $W,W'$ differ only on $B_{j+1}-B_j=A_{j+1}$. Color $G[W]$ as follows: color the vertices in $W\cap A_{j+1}^c$ the same as in $W'\cap A_{j+1}^c$, and then color the vertices in $W\cap A_{j+1}$ another color (which is okay since $A_{j+1}$ is an independent set). Then we have a proper coloring of $G[W]$ with at most $\chi(G[W'])+1$ colors. So $L(W)\le L(W')+1$. The other inequality similarly holds, so $|L(W)-L(W')|\le 1$.
+
+Now apply Theorem 7.4.1 to $X_i$ (but stated in terms of subsets, rather than functions), to conclude $|X_{i+1}-X_i|\le 1$ for $0\le i<1000$. 
+
+Let $\mu=\E[\chi(H)]$; by the lemma $\mu\ge 500$.
+By Azuma's inequality with $m=1000$ and $\la=\sqrt{10}$,
+\begin{align*}
+P[\chi(H))\le 400]&\le P[\chi(H)-\mu\le -100]\\
+&=P[X_{1000}-X_0<-\sqrt{10}\sqrt{1000}]\\
+&=e^{-\frac{\sqrt{10}^2}{2}}\\
+&=e^{-5}<\rc{100}.
+\end{align*}
+\end{problem}
+\begin{problem} {\it (7.3)}
+
+Let $\ep=\rc{300}$. Let $u=u(n,\ep)$ be the least integer so that $P(\chi(G)\le u)>\ep$. Define $Z(G)$ to be the maximal size of a set of vertices for which the induced graph can be $u$-colored, and let $Y=n-Z$. Note $Z$ (and hence $Y$) satisfies the vertex Lipschitz condition since if we add a vertex, $Z$ either stays the same or increases by 1. Let $\mu=\E[Y]$ and use Azuma's inequality on the vertex exposure martingale to get
+\begin{align*}
+P(Y\le \mu-\la\sqrt{n-1})&<e^{-\frac{\la^2}2}\\
+P(Y\ge \mu-\la\sqrt{n-1})&<e^{-\frac{\la^2}2}.
+\end{align*}
+Let $\la=\sqrt{-2\ln \ep}$ so this becomes
+\begin{align*}
+P(Y\le \mu-\la\sqrt{n-1})&<\ep\\
+P(Y\ge \mu-\la\sqrt{n-1})&<\ep.
+\end{align*}
+Now $P(Y=0)=P(Z=n)=P(\chi(G)\le u)>\ep$ so the first inequality forces $\mu\le \la\sqrt{n-1}$. The second inequality then gives
+\[
+P(Y\ge 2\la\sqrt{n})\le P(Y\ge \mu+\la\sqrt{n-1})< \ep.
+\]
+In other words, there is probability at least $1-\ep$ that there is a $u$-coloring of all but at most $2\la\sqrt n$ vertices. Call these set of uncolored vertices $U$.
+
+Since $\chi(G)\sim \frac{n}{2\log_2 n}$ almost surely, there exists $c$ so that $P\pa{\chi(G)\le \frac{cn}{\log n}}\ge 1-\ep$ for all $n>1$. Assuming $|U|\le 2\la \sqrt n$, applying this to $G[U]$ we get that
+\begin{align*}
+1-\ep&\le 
+P\pa{\chi(G[U])\le \frac{c(2\la\sqrt n)}{\log(2\la\sqrt n)}}\\
+&=P\pa{\chi(G[U])\le \frac{c2\la\sqrt n}{\log (2\la)+\rc 2\log{ n}}}\\
+&\le P\pa{\chi(G[U])\le \frac{c' \sqrt n}{\log n}}
+\end{align*}
+for some appropriate constant $c'$.
+
+Given $|U|\le 2\la \sqrt n$, with probability at least $1-\ep$, $G[U]$ can be colored with at most $\frac{c'\sqrt n}{\log n}$ further colors, giving a coloring of $G$ with at most $u+\frac{c'\sqrt n}{\log n}$ colors. By minimality of $u$, there is probability at least $1-\ep$ that $u$ colors are needed for $G$. Hence
+\[
+P\pa{u\le \chi(G)\le u+\frac{c'\sqrt n}{\log n}}\ge 1-3\ep=.99
+\]
+\end{problem}
+
+\section{8}
+\section{9}
+
+\begin{problem}{\it(9.1)}
+We first show the following. 
+\begin{clm}\label{c1}
+There exists a $c>1$ such that the following holds: For every $n\ge 1$,
+there exists a 3-regular bipartite graph with color classes $A,B$ each containing $n$ vertices, such that for every $k\le \frac n2$, every group of $k$ vertices in either $A$ or $B$ is connected to at least $ck$ vertices in $B$ or $A$, respectively.
+
+%(In fact, we can take $c=\frac 87$.)
+\end{clm}
+
+Consider three independent random matchings between the vertices of $A$ and $B$, with each matching equally likely to be chosen. Let $G$ be the bipartite graph with these edges. 
+Given a set $S$ of $k$ vertices in $A$ and a set $T$ of $\fl{ck}\le n$ vertices in $B$, the probability that $S$ is only connected to vertices in $T$ in a random matching is
+\[\frac{\binom{\fl{ck}}{k}}{\binom{n}{k}},\] 
+since any $k$-element set of $B$ is equally likely to be the set of neighbors of $A$, and $\binom{\fl{ck}}{k}$ of these sets lie in $T$. 
+Hence the probability that $S$ is only connected to vertices in $T$ in $G$ is \[\left(\frac{\binom{\fl{ck}}{k}}{\binom{n}{k}}\right)^3.\]
+By the union bound the probability that {\it some} $k$-subset of $A$ has all neighbors inside {\it some} $\fl{ck}$-subset of $B$ is at most
+\[
+\left(\frac{\binom{\fl{ck}}{k}}{\binom{n}{k}}\right)^3\cdot\binom nk\binom n{\fl{ck}}=\frac{\binom{\fl{ck}}{k}^3\binom n{\fl{ck}}}{\binom nk^2}.
+\]
+Thus letting $p$ be the probability that for {\it some} $k\le \frac n2$, there exists a $k$-element subset of $A$ with at most $ck$ neighbors in $B$, we get
+\[
+%%P\pa{\text{for some }k\le \frac n2,\,\exists\text{ a $k$-element subset of $A$ with at most $ck$ neighbors in $B$}}
+p\le\sum_{k=1}^{\fl{\frac n2}} \frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}.
+\]
+
+We bound this sum in two steps.
+\begin{st}
+For sufficiently large $n$, sufficiently small $c>1$,
+\[
+\sum_{1\le k\le\frac n{6}}\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}< \rc 4.
+\]
+\end{st}
+Using the approximation
+\[
+\pf nk^k\le \binom nk\le \pf {en}k^k,
+\]
+and letting $d=\frac{\fl{ck}}k$, for $c$ close enough to 1,
+\begin{align*}
+\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}
+&=\frac{\binom{dk}{(d-1)k}^3\binom{n}{dk}}{\binom nk^2}\\
+&\le \frac{\pf{ed}{d-1}^{3(d-1)k}\pf{en}{dk}^{dk}}{\pf nk^{2k}}\\
+%&=e^3 d^3 \pa{e^{d} d^{-d} \pf kn ^{2-d}}^k\\
+&\le \pa{d^{2d-3} e^{4d-3} (d-1)^{-3(d-1)} \pf kn^{2-d}}^k\\
+&\le{\underbrace{\pa{c^{2c-3} e^{4c-3} (c-1)^{-3(c-1)} \pf kn^{2-c}}}_{b(c,k,n)} }^k
+%&\le e^3 c^3 \pa{e^c\pf kn^{2-c}}^k%\\
+%&\le e^3 c^3 \pa{e^c \prc 6^{2-c}}^k.
+\end{align*}
+(since $(c-1)^{-(c-1)}$ is decreasing for $c>1$ close to 1). We have $\lim_{c\to 1^+} b(c,k,n)=\frac{ek}{n}$. 
+%Note $\lim_{c\to 1} e^c \pf kn^{2-c}=\frac{ek}{n}$, 
+So for $c$ close enough to 1 and $k\le \frac n{6}$, $b\le \rc2$. 
+Then $b^k\le \prc 2^k$. Hence
+\[
+\sum_{1\le k\le \frac n{6}} \frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}
+\le \sum_{1\le k\le 4}\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}+e^3\sum_{5\le k\le \frac n6} \prc 2^k
+=\sum_{1\le k\le 4}\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}+\frac{e}{2^4}.
+\]
+It is clear that the first term goes to 0 as $n\to \iy$, so for sufficiently large $n$ and $c$ sufficiently close to 1, this is at most $\rc 4$. %(Note $\frac{e^3}{2^6}<\rc 4$.)
+
+\begin{st}
+For sufficiently large $n$, sufficiently small $c>1$,
+\[
+\sum_{\frac n6< k\le \frac n2} \frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}< \rc 4.
+\]
+\end{st}
+We use the formula
+\[
+\binom{n}{k}=2^{n\pa{-\frac kn \log_2 \pf kn-\pa{1-\frac kn}\log_2\pa{1-\frac kn}+o(1)}}=\pf kn^{-k}\pa{1-\frac kn}^{-(n-k)}2^{no(1)},\quad 0<k<n.
+\]
+(Note the $o(1)$ can be bounded independently of $k,n$.) Then letting $d=\frac{\fl{ck}}{k}$ and $r=\frac{k}{n}$,
+\begin{align*}
+\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}
+&=\frac{\binom{dk}{k}^3\binom{n}{dk}}{\binom nk^2}\\
+&=\frac{\prc d^{-3rn}\pa{1-\rc d}^{-3(d-1)rn} (dr)^{-drn} (1-dr)^{-n(1-dr)}}{r^{-2nr}(1-r)^{-2n(1-r)}}\\
+&=\pa{\pa{d^{d-3}\pa{1-\rc d}^{3d-3}}^{-r}r^{r(2-d)}(1-r)^{2(1-r)}(1-dr)^{-(1-dr)}}^{n}.
+\end{align*}
+Note $d^{d-3}\pa{1-\rc d}^{3d-3}\to 1$ as $d\to 1^+$. Note $d$ can be assumed arbitrarily close to $c$, by letting $n$ be sufficiently large. As $r<1$, this means we for sufficiently large $n$ and $c$ close to 1,
+$\pa{d^{d-3}\pa{1-\rc d}^{3d-3}}^{-r}$ can be made as close to 1 as needed. For the rest of the expression $r^{r(2-d)}(1-r)^{2(1-r)}(1-dr)^{-(1-dr)}$, note that it is continuous in $d$ and $r\in [\rc 6,\rc 2]$, so as $d\to 1^+$, it converges uniformly to the function $r^{r}(1-r)^{1-r}$ on $r\in [\rc 6,\rc 2]$. This is clearly bounded away from 1, less than 1, for $r$ in this interval. Therefore there exists $q<1$ so that for $n$ sufficiently large and $c$ sufficiently close to 1, $\frac{\binom{\fl{ck}}{k}^3\binom{n}{\fl{ck}}}{\binom nk^2}\le q^n$. Then the desired sum is at most $\pa{\frac{n}{2}-\frac{n}{6}+1}q^n$, which is less than $\rc 4$ for sufficiently large $n$.\\
+
+Taking $n$ sufficiently large to work for steps 1 and 2, we have $p<\rc2$, but by symmetry $p$ also equals the probability that for some $k\le \frac n2$, there exists a $k$-element subset of $B$ with at most $ck$ neighbors in $A$, and the probability of either one of these events happening is less than 1. This proves the claim~\ref{c1} for large $n$, say $n> N$.\\ %for $n\ge 5$.
+
+For $n\le N$, take any three matchings of the bipartite graph so that they  form a connected graph. (In one matching match the $i$th vertex to the $i$th vertex; in another match the $i$th with $(i+1)$th (modulo $n$).) For every group of $k\le \frac n2$ vertices in $A$ or $B$, we claim its set of neighbors has at least $k+1$ elements. Since the graph is 3-regular, the number $e$ of edges between $A$ and $N(A)$ is $3|A|$, and is also at most $3|N(A)|$. Hence $|N(A)|\ge |A|$, with equality only if there are no edges from $N(A)$ to outside $A$. But this is impossible as we chose a connected graph. 
+%we claim for each $n$ there exists a bipartite graph on $2n$ edges such that for every $k\le \frac n2$, every group of $k$ vertices in either $A$ or $B$ is connected to at least $k+1$ vertices in $B$ or $A$. 
+Then the constant $\frac{\frac N2+1}{\frac N2}$ works in this case, and we can take the minimum of the constants for the $n<N$ and $n\ge N$ cases. 
+%The probability that a given set $S$ of $k$ vertices in $A$ only has neighbors in a given set $T$ of $k$ vertices in $B$ is $\rc{\binom nk^3}$, since in any one of the matchings any $k$-element subset of $B$ is equally likely to be the set of neighbors of $A$. Note this event is equivalent to saying $T$ only has neighbors in $S$, by counting and the fact that the graph is 3-regular. Summing over all subsets $S\sub A$ and $T\sub B$ with $k\le\frac n2$, we get that the probability that for some $k\le \frac n2$, some set of $k$ vertices in $A$ is connected to only $k$ vertices in $B$, is at most
+%\[
+%\sum_{k=1}^{\fl{\frac n2}} \frac{\binom nk^2}{\binom nk^3}\le \fl{\frac n2}\rc n<1.
+%\]
+%Thus there exists a bipartite graph on $2n$ vertices satisfying the desired condition.
+
+%
+%We show that for $c=\frac {r+1}{r}$, $r=7$,
+%\begin{equation}\label{p6-1-1}
+%\sum_{k=1}^{\fl{\frac n2}}\frac{\binom{\fl{ck}}{k}^3}{\binom nk^2}<\rc 2.
+%\end{equation}
+%To show this, we show that
+%\begin{equation}\label{p6-1-2}
+%\frac{\left.\binom{c(k+1)}{k+1}^3\right/\binom n{k+1}^2}{\left.\binom{ck}{k}^3\right/\binom nk^2}<1
+%\end{equation}
+%for $1\le k\le \frac n2-1$. 
+%Now
+%\begin{equation}\label{p6-1-3}
+%\frac{\left.\binom{c(k+1)}{k+1}^3\right/\binom n{k+1}^2}{\left.\binom{ck}{k}^3\right/\binom nk^2}
+%=\frac{\frac{\pa{\pa{c(k+1)}\pa{ck+c-1}\fp k}^3}{(k+1)!^3}
+%\cdot
+%\frac{k!^3}{\pa{\pa{ck}\fp k}^3}}
+%{\frac{(n\fp{k+1})^2}{(k+1)!^2}\cdot \frac{k!^2}{(n\fp k)^2}}
+%=c^3\frac{[\pa{ck+c-1}\fp k]^3}{[\pa{ck}\fp k]^3}\cdot \frac{(k+1)^2}{(n-k)^2}
+%\end{equation}
+%Note that by telescoping
+%\begin{equation}\label{p6-1-4}
+%\prod_{j=0}^{r-1}\frac{\pa{\frac ck+\rc{r}-\frac{j}{r}}\fp k}{\pa{ck-\frac{j}{r}}\fp k}
+%=\frac{ck+\rc r}{ck-\frac{r-1}{r}-k+1}=\frac{ck+\rc r}{(c-1)k+\rc r}\le
+%\frac{c}{c-1}=r+1
+%\end{equation}
+%By term-by-term comparison, the first term in the product is largest. Hence
+%%\begin{equation}\label{p6-1-5}
+%%\frac{\pa{\frac 43k+\rc{3}}\fp k}{\pa{\frac 43k}\fp k}\le \frac{\pa{\frac 43k}\fp k}{\pa{\frac 43k-\rc 3}\fp k}\le \frac{\pa{\frac 43k-\rc{3}}\fp k}{\pa{\frac 43k-\frac 23}\fp k}
+%%\end{equation}
+%%Then~(\ref{p6-1-4}) and~(\ref{p6-1-5}) give
+%\[
+%\frac{\pa{ck+\rc{r}}\fp k}{\pa{ck}\fp k}\le (r+1)^{\frac 3r}.
+%\]
+%Putting this into~(\ref{p6-1-3}), and plugging in $c=\frac 87$, $r=7$ we get 
+%\[
+%\frac{\left.\binom{c(k+1)}{k+1}^3\right/\binom n{k+1}^2}{\left.\binom{ck}{k}^3\right/\binom nk^2}
+%\le
+%c^3\cdot (r+1)^{\frac 3r}\cdot \frac{(k+1)^2}{(n-k)^2}
+%<
+%4\cdot \frac{(k+1)^2}{(n-k)^2}.
+%\]
+%Using this and induction, we get
+%\[
+%\frac{\binom{ck}{k}^3}{\binom nk^2}
+%\le4^{k-1}\pf{k(k-1)\cdots 1}{n(n-1)\cdots (n-k+1)}^2\frac{\binom{c}{1}^3}{n^2}
+%=\frac{c^3}{n^2}\frac{4^{k-1}}{\binom nk^2}.
+%\]
+%Then
+%\[
+%\sum_{k=1}^{\fl{\frac n2}} \frac{\binom{\fl{ck}}{k}^3}{\binom nk^2}
+%\le \frac{c^3}{n^2}\sum_{k=1}^{\fl{\frac n2}}\frac{4^{k-1}}{\binom nk^2}.
+%\]
+%Note that the ratios between successive terms is $\frac{(k+1)^2}{(n-k)^2}$ which is increasing in $k$. (I.e. the sequence is log-convex.) Hence the largest term must either be the first term or the last term. But for the last term, $\binom nk\ge \frac{2^{n}}{n+1}$ because it is the largest out of $\binom nk$ for $0\le k\le n$. Hence the last term is
+%\[
+%\frac{c^3}{n^2}\frac{4^{\frac n2-1}}{4^n/(n+1)^2}
+%\]
+%For $c=\frac 87$, this is at least $\frac 2n$ iff $\pf 87^2 (n+1)^2<2^{n+3}n$, which is true (it's true for 2 and 3, and note that in passing from $n\ge 3$ to $n+1$ the right hand side becomes at least twice as big, while the left hand side does not). The first term $\frac{c^3}{n^2}=\frac{(8/7)^3}{n^2}$ is also less than $\frac{1}{n}$. Hence all terms are less than $\frac{1}{n}$, and the sum is less than $\fl{\frac n2}\rc n\le \rc 2$.
+%
+%%Assuming $n\ge 5, k\le \frac{n}{2}-1\le 1.5$, this is less than 1, showing~(\ref{p6-1-2}). Hence all terms in the sum in~(\ref{p6-1-1}) Then
+%%\[
+%%\sum_{k=1}^{\fl{\frac n2}}\frac{\binom{\frac 43k}{k}^3}{\binom nk^2}\le \sum_{k=1}^{\fl{\frac n2}}\frac{\binom{\fl{\frac 43k}}{k}^3}{\binom nk^2}\le \fl{\frac n2} \frac{4/3}{n^2}<\rc 2,\]
+%%showing~(\ref{p6-1-1}). 
+%We have $p<\rc2$, but by symmetry $p$ also equals the probability that for some $k\le \frac n2$, there exists a $k$-element subset of $B$ with at most $ck$ neighbors in $A$, and the probability of one of these happening is less than 1. This proves the claim~\ref{c1}. %for $n\ge 5$.
+%%
+%%For $2\le n\le 4$, consider the following graphs:
+%%\vspace{1in.}
+%%They all satisfy the conditions of the claim for $c=\frac 43$ as well, simply because the number of neighbors of each vertex is greater than $\frac 43\frac{n}{2}$.
+%%
+%
+%Now we finish the problem given the claim. If $n=1$ then the problem statement is obvious, as long as $c'\le 2$. So assume $n>1$. 
+% Let the graph be as in the claim; we show that it is a $(2n,3,c')$ expander where $c'=\rc 2+\frac{c}{2}=\frac{15}{14}$. Take a subset $S$ of size at most $n$ and consider two possibilities.
+%\begin{enumerate}
+%\item $|S\cap A|,|S\cap B|\le \fl{\frac n2}$. Without loss of generality, $|S\cap A|\ge |S\cap B|$. By the claim, $S\cap A$ is adjacent to at least $c|S\cap A|$ vertices in $B$. At least $c|S\cap A|-|S\cap B|$ of them are not in $S$. Now $|S\cap A|\ge|S\cap B|$ implies
+%\[
+%c|S\cap A|-|S\cap B|\ge \frac{c}{2}|S|-\frac 12|S|=\pa{\frac c2-\rc 2}|S|,
+%\]
+%so $S$ is adjacent to at least $\pa{\frac c2-\rc 2}|S|$ vertices not in $S$.
+%\item $\max(|S\cap A|,|S\cap B|)>\frac n2$. Without loss of generality, $|S\cap A|>\frac n2$. Taking a subset $A'$ of size $\frac n2$, by the claim $A'$ is adjacent to at least $\frac{cn}{2}$ vertices. Since $|S|\le n$, $|S\cap B|<\frac n2$, so less than $\frac n2$ of these vertices are in $S$. That means $A'$, and hence $S$, is adjacent to at least $\pa{\frac c2-\rc 2}n\ge \pa{\frac c2-\rc 2}|S|$ vertices not in $S$.
+%\end{enumerate}
+
+\end{problem}
+\begin{problem}{\it (9.2)}
+\begin{thm}[Corollary 9.2.5]
+Given $G=(V,E)$ a $(n,d,\la)$-graph, for every two sets of vertices $B$ and $C$ of $G$, where $|B|=bn$ and $|C|=cn$, we have
+\[
+|e(B,C)-cbdn|\le \la\sqrt{bc}n.
+\]
+If equality holds, then $|N_B(v)|=bd$ for every $v\in V\bs C$ and $|N_C(v)|=cd$ for every $v\in V\bs B$.
+\end{thm}
+\begin{proof}
+This is Corollary 9.2.5. The second statement holds from symmetry and the fact that one of the inequalities used in the proof is
+\[
+\sum_{v\in C}(|N_B(v)|-bd)^2\le\sum_{v\in V}(|N_B(v)|-bd)^2.
+\]
+\end{proof}
+%Let $B$ and $C$ be two distinct color classes. By assumption, $|B|=|C|=\frac nk$. Hence by the above theorem,
+%\begin{align*}
+%\ab{e(B,C)-\rc{k^2} dn}&\le \la\rc k n\\
+%e(B,C)&\ge \frac nk \pa{\frac dk-\la}>0
+%\end{align*}
+%where we used the assumption that 
+For a color $y$, let $B_y$ denote the set of vertices not adjacent to any vertex of color $y$. 
+Suppose by way of contradiction that no vertex of $G$ has a neighbor of each of the $k$ colors. 
+%Then for every vertex $v$, there exists a color $c$ such that $v$ is not adjacent to any vertex of color $c$. 
+Then every vertex is in some $B_y$. Take $z$ to be the color such that $|B_z|$ is largest. Since there are $n$ vertices and $k$ colors, $|B_z|\ge \frac{n}{k}$. 
+Let $B$ be a subset of $B_z$ vertices with $\frac{n}{k}$ elements, and $C$ be the set of vertices of color $z$. 
+We have
+\[e(B,C)=0.\]
+By assumption, $|C|=\frac nk$. Hence by the theorem above,
+\begin{align*}
+\ab{e(B,C)-\rc{k^2} dn}&\le \la\rc k n\\
+e(B,C)&\ge \rc{k^2}dn-\la\rc{k}n=\frac nk \pa{\frac dk-\la}\ge 0,
+\end{align*}
+where we used the assumption $k\la \le d$. Equality must hold everwhere above, so by the theorem, $N_C(v)=\frac dk$ for every $v\nin V\bs B$. In particular, every vertex outside of $B$ has a neighbor of color $z$. Hence $|B_z|=|B|=\frac nk$; since $B_z$ was assumed largest among the $B_y$ and $\bigcup B_y=V$, we conclude $|B_y|=\frac nk$ for each $y$. By the argument above applied to each $B_y$, we get if a vertex $v$ is in $B_z$, then it is adjacent to exactly $\frac dk$ vertices of each color $y\ne z$, but not adjacent to any element of color $z$. Thus $v$ has degree $(k-1)\frac dk$, contradicting the fact that $G$ is $d$-regular.
+\end{problem}
+\begin{problem} {\it (Ramsey numbers)}
+\subprob{(i)}
+We use the following (proved in class):
+\begin{thm}
+There exists a constant $c$ depending on $H$ such that if $H=(A\cup B,E)$ is a bipartite graph such that all vertices in $B$ have degree at most $r$, then $\text{ex}(n,H)\le cn^{2-\rc r}$. 
+\end{thm}
+We're given that $H$ is bipartite with maximum degree at most $a\ln n$ for some $a$. Choose $c$ as above, so $\text{ex}(N,H)\le cN^{2-\rc {a\ln n}}$.  Suppose 
+\begin{equation}\label{biparteq}
+cN^{2-\rc {a\ln n}}<\rc{2}\binom N2.
+\end{equation}
+Then no matter how $K_N$ is colored with two colors, one of the colors contains at least $\rc{2}\binom N2$ edges. By~(\ref{biparteq}) and the theorem applied to the subgraph of that color, there is a copy of $H$ in that color.
+
+Thus it suffices to show that there is $N=n^{O(1)}$ such that~(\ref{biparteq}) holds for all $n\ge 2$. (For $n=1$, trivially $r(H)=1$.) Put in $N=n^k$ and rewrite~\ref{biparteq} as follows:
+\begin{align*}
+cN^{2-\rc{a\ln n}}&<\frac{N(N-1)}{4}\\
+\iff cn^{k\pa{2-\rc{a\ln n}}}&<\frac{n^k(n^k-1)}{4}\\
+\iff 4cn^{2k-\frac{k}{a\ln n}}+{n^k}&<n^{2k}\\
+\iff 4cn^{-\frac {k}{a\ln n}}+n^{-k}&<1.
+\end{align*}
+%As $n\to \iy$, the left hand side of the above goes to 0 (indeed, $\lim_{n\to \iy}
+Note
+\[\lim_{n\to \iy} n^{\rc{\ln n}}=e^{\lim_{n\to \iy} \ln \pa{n^{\rc{\ln n}}}}
+=e^{\lim_{n\to \iy} \rc{\ln n}\ln (n)}
+=e,\]
+so if $k$ is fixed, then
+\[
+\lim_{n\to \iy} 4cn^{-\frac{k}{a\ln n}}+n^{-k}=4ce^{-\frac k{a}}.
+\]
+Choose $k'\in \N$ such that $4ce^{-\frac {k'}{a}}<1$. Then there exists $L$ so that $4cn^{-\frac{k}{a\ln n}}+n^{-k}<1$ for all $n\ge L$. Now if $n\ge 2$ is fixed, $4cn^{-\frac{k}{a\ln n}}+n^{-k}$ is decreasing in $k$ and 
+\[
+\lim_{k\to \iy} 4cn^{-\frac{k}{a\ln n}}+n^{-k}=0.
+\]
+Thus there exists $k\ge k'$ such that $4cn^{-\frac{k}{a\ln n}}+n^{-k}<1$ for all $n<L$. For $n\ge L$ we also have $4cn^{-\frac{k}{a\ln n}}+n^{-k}\le 4cn^{-\frac{k'}{a\ln n}}+n^{-k'}<1$. Then $N=n^k$ satisfies~(\ref{biparteq}) for all $n$, as needed.\\
+
+\subprob{(ii)}
+Suppose $H$ has $n$ vertices and average degree $f(n)\log_2 n$ where $f(n)=\omega(1)$, i.e. $\lim_{n\to \iy}f(n)=\iy$. Then $H$ has $\frac{nf(n)\log_2 n}{2}$ edges. Label the vertices of $H$ from 1 to $n$.
+
+Color each edge of $K_N$ red or blue with probability $\rc 2$. 
+Given an ordered set of $n$ vertices in $K_N$, the probability that the imbedding of $H$ into those $n$ vertices, following the order, is monochromatic is $2\prc 2^{\frac{nf(n)\log_2 n}{2}}$: there are 2 colors to choose from, and each of the $\frac{nf(n)\log_2 n}{2}$ imbedded edges has $\rc 2$ chance of being that color.
+
+Since there are $N\fp n=N(N-1)\cdots (N-n+1)$ ordered sets of $n$ vertices, the probability that there is some monochromatic copy of $H$ in $K_N$ is at most
+\[
+2\prc 2^{\frac{nf(n)\log_2 n}{2}}N\fp n
+\le 2n^{-\frac{nf(n)}{2}} N^n.
+\]
+If $N\le n^k$, then the RHS is at most
+\[
+2n^{-\frac{nf(n)}{2}+kn}=2n^{n\pa{k-\frac{f(n)}2}}.
+\]
+Since $f(n)\to \iy$, this is less than 1 for sufficiently large $n$. Thus if $N\le n^k$, then for sufficiently large $n$ there exists a coloring of $K_N$ with no monochromatic copy of $H$, showing $r(H)=n^{\om(1)}$.
+\end{problem}
+

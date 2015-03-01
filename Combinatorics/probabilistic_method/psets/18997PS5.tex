@@ -1,0 +1,396 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+%\newcommand{\cal}[1]{\mathcal{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\prc}[1]{\pa{\rc{#1}}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\iy}[0]{\infty}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.997 Probabilistic Method} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 5} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.997 Probabilistic Method Problem Set \#5}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{4/18/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it(6.1)}
+Note $Q$ equals the probability that in a random subgraph $H$ of $G$ obtained by picking each edge of $G$ with probability $\rc2$, that both $H$ and $G\bs H$ are connected, where $G\bs H$ consists of the vertices of $G$ and the edges of $G$ not in $H$. (Just associate one color with ``being in $H$" and the  other color with ``not being in $H$.")
+
+Note ``$H$ connected" is a monotone increasing graph property and ``$G\bs H$ connected" is a monotone decreasing graph property (with respect to $H$), because deleting an edge in $H$ corresponds to adding an edge in $G\bs H$. Thus by Theorem 6.3.2 applied to the set of edges of $G$, we get that
+\begin{align*}
+P(H\text{ connected  and }G\bs H\text{ connected})
+&\le P(H\text{ connected})P(G\bs H\text{ connected})\\
+&=P(H\text{ connected})^2.
+\end{align*}
+The last follows from the fact that the distribution for $H$ and $G\bs H$ is the same, since $H$ is equally likely to be any subgraph $H_0$ of $G$, and in particular, the probability that $H=H_0$ is the same as the probability that $H=G\bs H_0$.
+
+Thus $Q\le P^2$.
+\end{problem}
+\begin{problem}{\it (6.3)}
+Note for any vertex $v$, ``$v$ has degree at most $k-1$" is a monotone decreasing graph property. 
+
+Label the vertices $v_1,\ldots, v_{2k}$. By repeated application of 6.3.3, (basically an induction; in the induction step noting that if $P_1$ and $P_2$ are monotone decreasing then so it $P_1\wedge P_2$),
+\[
+P(v_1,\ldots,v_{2k}\text{ all have degree }\le k-1)\ge
+\prod_{i=1}^{2k} P(v_1\text{ has degree }\le k-1)=\pf12^{2k}=\rc{4^k}.
+\]
+The equality come from the fact that there are $2k-1$ edges coming out of $v$, each chosen independently with probability $\rc 2$, so the degree of $v$ gives a binomial distribution symmetric around $\frac{2k-1}{2}$. In particular, it is as likely to have degree at most $k-1$ as degree at least $k$, i.e. both probabilities are $\rc2$.
+\end{problem}
+\begin{problem} {\it (7.2)}
+\begin{lem}
+\[\E[\chi(H)]\ge 500.\]
+\end{lem}
+\begin{proof}
+We show that given $U\subeq V$, $\chi(G[U])+\chi(G[U^c])\ge 1000$. Indeed, take proper colorings of $G[U]$ and $G[U^c]$ with $\chi(G[U])$ and $\chi(G[U^c])$ different colors, such that the colors used in $U$ are different from any color used in $U^c$. This gives a proper coloring of $G$, since the only edges in $G$ neither in $G[U]$ nor $G[U^c]$ are those between $U$ and $U^c$, which will be between different colors. Since $\chi(G)=1000$, there must be at least 1000 colors used.
+
+Now summing $\chi(G[U])+\chi(G[U^c])\ge 1000$ over all $2^{|V|}$ subsets $U\subeq V$ and dividing by $2^{|V|+1}$ gives $\E[\chi(H)]\ge 500$.
+\end{proof}
+
+Color $G$ properly with 1000 colors, and let $A_1,\ldots, A_{1000}$ be the color classes. Note that each $A_i$ is an independent set. 
+%Consider the martingale with
+%\[
+%X_j(U)=\E\ba{\chi(G[W])\left|\pa{\bigcup_{i=1}^j A_i}\cap W=\pa{\bigcup_{i=1}^j A_i}\cap U\right.},
+%\]
+%i.e. $X_j(U)$ is the expected value of the chromatic number of $G[W]$, where $W$ is a random subset of $V$ that matches $U$ on $A_1,\ldots, A_j$. Note $X_0(U)=E[\chi(H)]$, while $X_{1000}(U)=\chi(H)$. %It is a martingale since $X_j$ is the conditional expectation of $\chi(H)$ given information that includes the information at previous steps $0,1,\ldots, j-1$.
+%Further note that $|X_{i+1}-X_i|\le 1$. Indeed, if 
+
+%Let $U\cap \bigcup_{i=1}^j A_i=U'$. Then
+%\begin{align*}
+%X_j(U)=X_j(U')&=\rc{2^{|A_{j+1}|}}\sum_{W_{j+1}\subeq A_{j+1}} \E\ba{\chi(G[W])\left|\pa{\bigcup_{i=1}^{j+1} A_i}\cap W=U'\cup W_{j+1}\right.}\\
+%&=\rc{2^{|A_{j+1}|}}\sum_{W_{j+1}\subeq A_{j+1}}X_j(U'\cup W_{j+1})
+%\end{align*}
+%Given the value of $X_j$ and given $U'$, $X_{j+1}$ has equal probability of being any of the terms in the sum above; averaging over all $U'$ with $X_j,\ldots, X_1,X_0$ fixed, we get $\E(X_{j+1}|X_j,\ldots,X_1,X_0)=X_j$ and hence 
+% that $X_0,X_1,\ldots, X_{1000}$ is a martingale. 
+%We claim that $|X_{j+1}(U)-X_j(U)|\le 1$. 
+%Indeed, letting $U\cap \bigcup_{i=1}^j A_i=U'$ and $U\cap A_{j+1}=V_{j+1}$, we have $X_j$ as above and hence
+%\begin{align*}
+%&X_j(U)-X_{j+1}(U)\\
+%&=\rc{2^{|A_{j+1}|}}\sum_{W_{j+1}\subeq A_{j+1}} \E\ba{\chi(G[W])\left|\pa{\bigcup_{i=1}^{j+1} A_i}\cap W=U'\cup W_{j+1}\right.}\\
+%&\quad - \E\ba{\chi(G[W])\left|\pa{\bigcup_{i=1}^{j+1} A_i}\cap W=U'\cup U_{j+1}\right.}\\
+%&=\rc{2^{|A_{j+1}|+\cdots +|A_{1000}|}}
+%\sum_{\scriptsize\begin{array}{c} W_{j+1}\subeq A_{j+1}\\W''\subeq A_{j+2}\cup \cdots \cup A_{1000}\end{array}}
+%\chi\pa{
+%G\ba{
+%U'\cup W_{j+1}\cup W''
+%}
+%}-\chi\pa{G\ba{U'\cup U_{j+1}\cup W''}}.
+%\end{align*}
+%But $\chi\pa{
+%G\ba{
+%U'\cup W_{j+1}\cup W''
+%}
+%}-\chi\pa{G\ba{U'\cup U_{j+1}\cup W''}}\le 1$ for each $W_{j+1},W''$ since at worst $U'\cup W_{j+1}\cup W''$ can be colored the same as $G\ba{U'\cup U_{j+1}\cup W''}$, except with each vertex of $W_{j+1}$ given a different color, and similarly for the opposite inequality. This shows that $|X_{j+1}-X_j|\le 1$.
+Let $B_j=\bigcup_{i=1}^j A_j$; consider the gradation $B_0\sub B_1\sub\cdots\sub B_{1000}=V$. Let $L:\cal P(V)\to \Z$ be the function $L(W)=\chi(G[W])$. Let 
+\[
+X_j(U)=\E[L(W)|B_j\cap W=B_j\cap U].
+\]
+In other words, $X_j(U)$ is the expected value of the chromatic number of $G[W]$, where $W$ is a random subset of $V$ that matches $U$ on $A_1,\ldots, A_j$. Note $X_0(U)=\E[\chi(H)]$, while $X_{1000}(U)=\chi(H)$. (Here $H=G[U]$.)
+
+We show $L$ satisfies the Lipschitz condition. Suppose $W,W'$ differ only on $B_{j+1}-B_j=A_{j+1}$. Color $G[W]$ as follows: color the vertices in $W\cap A_{j+1}^c$ the same as in $W'\cap A_{j+1}^c$, and then color the vertices in $W\cap A_{j+1}$ another color (which is okay since $A_{j+1}$ is an independent set). Then we have a proper coloring of $G[W]$ with at most $\chi(G[W'])+1$ colors. So $L(W)\le L(W')+1$. The other inequality similarly holds, so $|L(W)-L(W')|\le 1$.
+
+Now apply Theorem 7.4.1 to $X_i$ (but stated in terms of subsets, rather than functions), to conclude $|X_{i+1}-X_i|\le 1$ for $0\le i<1000$. 
+
+Let $\mu=\E[\chi(H)]$; by the lemma $\mu\ge 500$.
+By Azuma's inequality with $m=1000$ and $\la=\sqrt{10}$,
+\begin{align*}
+P[\chi(H))\le 400]&\le P[\chi(H)-\mu\le -100]\\
+&=P[X_{1000}-X_0<-\sqrt{10}\sqrt{1000}]\\
+&=e^{-\frac{\sqrt{10}^2}{2}}\\
+&=e^{-5}<\rc{100}.
+\end{align*}
+\end{problem}
+\begin{problem} {\it (7.3)}
+Let $\ep=\rc{300}$. Let $u=u(n,\ep)$ be the least integer so that $P(\chi(G)\le u)>\ep$. Define $Z(G)$ to be the maximal size of a set of vertices for which the induced graph can be $u$-colored, and let $Y=n-Z$. Note $Z$ (and hence $Y$) satisfies the vertex Lipschitz condition since if we add a vertex, $Z$ either stays the same or increases by 1. Let $\mu=\E[Y]$ and use Azuma's inequality on the vertex exposure martingale to get
+\begin{align*}
+P(Y\le \mu-\la\sqrt{n-1})&<e^{-\frac{\la^2}2}\\
+P(Y\ge \mu-\la\sqrt{n-1})&<e^{-\frac{\la^2}2}.
+\end{align*}
+Let $\la=\sqrt{-2\ln \ep}$ so this becomes
+\begin{align*}
+P(Y\le \mu-\la\sqrt{n-1})&<\ep\\
+P(Y\ge \mu-\la\sqrt{n-1})&<\ep.
+\end{align*}
+Now $P(Y=0)=P(Z=n)=P(\chi(G)\le u)>\ep$ so the first inequality forces $\mu\le \la\sqrt{n-1}$. The second inequality then gives
+\[
+P(Y\ge 2\la\sqrt{n})\le P(Y\ge \mu+\la\sqrt{n-1})< \ep.
+\]
+In other words, there is probability at least $1-\ep$ that there is a $u$-coloring of all but at most $2\la\sqrt n$ vertices. Call these set of uncolored vertices $U$.
+
+Since $\chi(G)\sim \frac{n}{2\log_2 n}$ almost surely, there exists $c$ so that $P\pa{\chi(G)\le \frac{cn}{\log n}}\ge 1-\ep$ for all $n>1$. Assuming $|U|\le 2\la \sqrt n$, applying this to $G[U]$ we get that
+\begin{align*}
+1-\ep&\le 
+P\pa{\chi(G[U])\le \frac{c(2\la\sqrt n)}{\log(2\la\sqrt n)}}\\
+&=P\pa{\chi(G[U])\le \frac{c2\la\sqrt n}{\log (2\la)+\rc 2\log{ n}}}\\
+&\le P\pa{\chi(G[U])\le \frac{c' \sqrt n}{\log n}}
+\end{align*}
+for some appropriate constant $c'$.
+
+Given $|U|\le 2\la \sqrt n$, with probability at least $1-\ep$, $G[U]$ can be colored with at most $\frac{c'\sqrt n}{\log n}$ further colors, giving a coloring of $G$ with at most $u+\frac{c'\sqrt n}{\log n}$ colors. By minimality of $u$, there is probability at least $1-\ep$ that $u$ colors are needed for $G$. Hence
+\[
+P\pa{u\le \chi(G)\le u+\frac{c'\sqrt n}{\log n}}\ge 1-3\ep=.99
+\]
+\end{problem}
+\end{document}

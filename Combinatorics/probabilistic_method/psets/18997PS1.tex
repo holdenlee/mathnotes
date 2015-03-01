@@ -1,0 +1,425 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+%\newcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\Theta}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.997 Probabilistic Method} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 1} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.997 Probabilistic Method Problem Set \#1}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{2/7/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it(1.1)}
+\subprob{(A)}
+Consider a complete graph with $n$ vertices. Call the first color red and the second blue. Color each edge in the graph red with probability $p$ and blue with probability $1-p$. The probability that a given set of $k$ vertices forms a red $K_k$ is $p^{\binom k2}$ and the probability that a given set of $t$ vertices forms a blue $K_t$ is $(1-p)^{\binom t2}$. There are $\binom nk$ groups of $k$ vertices and $\binom nt$ groups of $t$ vertices. Hence by the union bound the probability that there is a red $K_k$ or blue $K_t$ is
+\[
+P(\text{there is a red }K_k\text{ or }K_t)\leq \binom nk p^{\binom k2}+\binom nt(1-p)^{\binom t2}<1.
+\]
+Hence there exists a coloring of $K_n$ such that there is no red $K_k$ and no blue $K_t$, giving $r(k,t)>n$.\\
+
+\subprob{(B)}
+Suppose $t\geq 2$ and $n\geq \frac{ct^{3/2}}{(\ln t)^{3/2}}$, where $c$ is a constant to be chosen. Let
+\[
+p=\frac{\ln t}{t-1}=\frac{\frac t2\ln t}{\binom t2}.
+\]
+Then
+\begin{align*}
+\binom n4 p^{6}+\binom nt (1-p)^{\binom t2}
+&\leq \binom n4 p^6 +\binom nt e^{-p\binom t2}\\
+&\leq \frac{n^4}{24} \pf{\ln t}{t-1}^6+\frac{n^t}{t!}t^{-t/2}\\
+&\leq \frac{c^4}{24}\frac{t^6}{(\ln t)^6} \pf{\ln t}{t-1}^6 + \frac{c^{t}t^{3t/2}}{(\ln t)^{3t/2}}\rc{t!}t^{-t/2}\\
+&\sim \frac{c^4}{24}+\frac{c^{t}t^{3t/2}}{(\ln t)^{3t/2}} \frac{e^t}{t^t\sqrt{2\pi t}} t^{-t/2}\\
+&\sim \frac{c^4}{24}+\pf{ce}{(\ln t)^{3/2}}^t\rc{\sqrt{2\pi t}}&\text{as }t\to \infty.
+\end{align*}
+The latter term goes to 0 as $t\to \infty$, and the left term is constant. Thus choosing $c>0$ so that $c^4<24$, we find that $\binom n4 p^{6}+\binom nt (1-p)^{\binom t2}<1$ for large $n$, and hence that $r(4,n)\geq \frac{ct^{3/2}}{(\ln t)^{3/2}}$ for sufficiently large $n$, as needed. %(Clearly, we can choose $c$ larger so this works for small $n$ as well.)
+
+\end{problem}
+\begin{problem}{\it (1.2)}
+Color each vertex of $H$ with one of the four colors, independently with probability $\rc 4$. Given an edge in $H$, the probability that none of its $n$ incident vertices are colored with color $i$ is $\frac{3^n}{4^n}$ (for fixed $i=1,2,3,$ or $4$). Hence the probability that its vertices are colored with at most three colors is less than $4\cdot \frac {3^n}{4^n}$. (Strict inequality holds because we overcount the probability in the cases where they are colored in at most 2 colors.) The probability that some edge has its vertices colored with at most three colors is
+\[
+P< 4\cdot \frac {3^n}{4^n}\cdot |E|\leq 4\cdot \frac{3^n}{4^n}\cdot \frac{4^{n-1}}{3^n}\leq 1.
+\]
+Hence there exists a coloring such that in every edge all four colors are represented.
+\end{problem}
+\begin{problem} {\it (1.4)}
+
+Fix $p\in [0,1]$. Pick randomly and independently each vertex with probability $p$. Let $X$ be the set of picked vertices. %Then
+%\begin{equation}\label{l2-1}
+%\E(|X|)=pn.\end{equation}
+Let $Y$ be the set in vertices in $V-X$ with no neighbors in $X$, and let $X'=X\cup Y$. Let $Z$ be the set of vertices in $V-X'$ all of whose neighbors are in $X'$. Let $A=X'\cup Z$. 
+
+We show that $A, B=V-A$ works---i.e. every vertex in $B$ is adjacent to some vertex of $A$ and some vertex of $B$.
+
+A vertex in $B$ cannot have neighbors in $Z$ because the vertices in $Z$ have only vertices in $X'$ as neighbors. A vertex in $B$ cannot only have neighbors in $X'$ because then it would be in $Z$ instead. Hence  a vertex in $B$ cannot only have neighbors in $A$.
+
+A vertex with only neighbors in $B$ {\it a fortiori} only has neighbors  in $V-X$, so must be in $Y$, and hence is not in $B$. This proves our claim.
+
+The probability that a vertex is in $Y$ is (since there is probability $1-p$ that a given vertex is in $V-X$; we care about the vertex and its neighbors)
+\[
+P(v\in Y)=(1-p)^{\deg(v)+1}\leq (1-p)^{\de+1}.
+\]
+Now we estimate the probability that a vertex is in $Z$. Now $v\in Z$ means that $v\in B-X$ and $v$ is only adjacent to vertices in $X'=X\cup Y$. %, so $v\in V-Y$ and every vertex adjacent to $v$ is either in $X$ or in $Y$, i.e. in $V-X$ and only has neighbors in $V-X$. Let $N$ be the set of vertices adjacent to $v$ and let $d=|N|$. %Let $S$ be a $k$-element subset of $N$ with $k>0$. Then
+%\[
+%P(v\in V-Y,\wedge S\subeq X\wedge N-S\subeq Y)=(1-p)^{k+d-1}p^{d-k}
+%\]
+%because there is probability $1-p$ that the NONO
+%Let $H$ be the induced subgraph of $G$ containing the vertices $N-\{v\}$, and let $H_1$ be any connected component of $H$. Now, if $v\in Z$, then either all vertices in $H_1$ are in $X$, or some vertex $w$ in $H_1$ is in $Y$. The first case has probability at most probability $p$ of happening (a crude estimate that will be enough for our purposes). In the second case, $w\in Y$ implies that all neighbors of $w$ in $H_1$ are in $V-X$. But then since these vertices are neighbors of $v$ and they are not in $X$, they must be in $Y$ as well. Repeating the argument with these vertices and noticing $H_1$ is connected, we get that all vertices in $H_1$ are in $X$. Now 
+Take any vertex $w$ adjacent to $v$. Now $w\in X$ with probability $p$ and $w\in Y$ with probability $(1-p)^{\deg(w)+1}\leq (1-p)^{\de+1}$ as above. Hence
+\[
+P(v\in Z)\leq p+(1-p)^{\de+1}.
+\]
+
+Hence by linearity of expectation, for any vertex $v$,
+\begin{align*}
+\E(|A|)&=\E(|X|)+\E(|Y|)+\E(|Z|)\\
+&=n(P(v\in X)+P(v\in Y)+P(v\in Z))\\
+&\leq n(p+(1-p)^{\de+1}+(p+(1-p)^{\de+1}))\\
+&=2n(p+(1-p)^{\de+1})\\
+&\leq 2n(p+e^{-p(\de+1)}).
+\end{align*}
+Putting in $p=\frac{\ln(\de+1)}{\de+1}$, we get
+\[E(|A|)\leq 2n\frac{\ln(\de+1)+1}{\de+1}=O\pf{\ln \de}{\de}.\]
+\end{problem}
+\begin{problem} {\it (1.6)}
+\begin{lem}
+Let $G$ be a tournament with $n$ vertices. Let $S_v=\{v\}\cup \{w|v\text{ dominates }w\}$. 
+There exists a vertex $v$ such that $|S_v|> \frac{n}{2}$.
+\end{lem}
+\begin{proof}
+If we sum the outdegree of each vertex, we count all the edges once:
+\[
+\sum_{v\text{ vertex}}\text{out}(v)=\frac{n(n-1)}{2}.
+\]
+Hence there exists $v$ such that $\text{out}(v)\geq \frac{n-1}{2}$, and $|S_v|=\text{out}(v)+1\geq \frac{n+1}{2}$.
+\end{proof}
+Suppose $G$ has less than $n=\rc 2\cdot k2^k$ vertices. We show that $G$ has a dominating set of $k$ vertices. Suppose by way of contradiction that it does not.
+
+Let $V$ be the set of vertices. We pick $v_1$ so that $|S_{v_1}|>\frac{n}{2}$. Now given $v_1,\ldots, v_i,\,(i<k-1)$, let $W_i=V-\bigcup_{j=1}^i S_{v_j}$. Given that
+\[
+m:=|W_i|< \frac{n}{2^i},
+\]
+we choose $v_{i+1}$ inductively as follows. Consider the induced subgraph with vertex set $W_i$. It has $m$ vertices, so by the lemma we can choose $v_{i+1}$ among these vertices so that $|S_{v_{i+1}}\cap W_i|>\frac{m}{2}$. Then
+\[
+|W_{i+1}|=|W_i-S_{v_{i+1}}|<\frac{m}{2}< \frac{n}{2^{i+1}}.
+\]
+Hence we can choose $v_1,\ldots, v_k$ so that
+\[
+%\ab{V-\bigcup_{j=1}^{k-1} S_{v_k}}
+|W_{k-1}|< \frac{n}{2^{k-1}}=k.
+\]
+%By assumption, this set is not empty. Let $v$ be any vertex in $\bigcup_{j=1}^k S_{v_k}$. 
+%Since $|W|<k$, we have $|W\cup \{v\}|\leq k$ so by our assumption there is a vertex $x$ dominating $W\cup \{v\}$. It cannot be in 
+Since $W_{k-1}$ has less than $k$ vertices, by assumption there exists a vertex $v_k$ such that $v_k$ dominates $W_{k-1}$. Then $\{v_1,\ldots, v_k\}$ is a dominating set of $k$ vertices (since $\bigcup_{j=1}^k S_{v_j}=V$), a contradiction.
+
+Hence a tournament with no dominating $k$-set contains at least $\rc{2}k2^k$ vertices.
+\end{problem}
+\begin{problem} {\it (1.8)}
+Let $W$ be a random infinite binary string, where each digit is equal to 0 or 1 with (independent) probability $\rc 2$. For a binary string $S$, let $l(S)$ denote the length of $S$. Then the probability that $W$ starts with $l(S)$ is $\rc{2^{l(S)}}$. Now, the fact that no two member of $F$ is a prefix of another one means that the events ``$W$ starts with $S$" and ``$W$ starts with $T$," for distinct $S,T\in F$, are disjoint. Hence the probability that $W$ starts with some string in $F$ is
+\begin{align*}
+P(W\text{ starts with some }S\in F)&=\sum_{S\in F} P(W\text{ starts with }S\in F)\\
+&=\sum_{S\in F}\frac{1}{2^l(S)}\\
+&=\sum_{i=1}^{\infty}\sum_{S\in F, \,l(S)=i}\rc{2^i}\\
+&=\sum_{i=1}^{\infty} \frac{N_i}{2^i}.
+\end{align*}
+Since this is a probability, it is at most 1, as needed.
+\end{problem}
+\begin{problem} {\it (1.10)}
+Fix $l$ with $1\leq l\leq n$. Take a permutation of the rows at random, with each permutation having $\frac{1}{n!}$ probability of being chosen. Fix a column $C$; take a subset $S$ of numbers from that column with $l$ elements. The probability that those numbers are in order down the column in the permuted matrix is $\frac{1}{l!}$ since all orderings of those numbers are equally likely. There are $\binom{n}{l}$ subsets of $l$ numbers, so
+\[P(C\text{ has a increasing sequence of length }l)\leq \binom{n}{l}\frac{1}{l!}.\]
+There are $n$ columns, so
+\[P(\text{Some column has a increasing sequence of length }l)\leq \binom{n}{l}\frac{n}{l!}.\]
+If this is less than 1, then there exists a permutation with no column containing an increasing sequence of length $l$.
+
+%We show this holds for $l=\ce{3\sqrt n}$. Note
+Let $l=\ce{c\sqrt n}$ where $c>e$. Note, using Stirling's formula for $n\to \infty$, 
+\begin{align*}
+\binom{n}{l}\frac{n}{l!}&=\frac{n!n}{l!^2 (n-l)!}\\
+&=\Theta\pa{ \frac{\sqrt{2\pi n}\pf ne^n n^2}{2\pi c\sqrt n\pf{c^2n}{e^2}^{c\sqrt n}\cdot \sqrt{2\pi (n-c\sqrt n)}\pf{n-c\sqrt n}e^{n-c\sqrt n}}}\\
+&=\Theta \pa{\frac{n^{n-c\sqrt{n}+2}}{(n-c\sqrt n)^{n-c\sqrt n+\rc 2}} \frac{e^{c\sqrt n}}{c^{1+2c\sqrt n}}}\\
+&=\Theta\pa{\ba{\pf{n}{n-c\sqrt n}^{\sqrt n-c}\cdot \frac{e^c}{c^{2c}}}^{\sqrt n} n^{3/2}}\\
+&=\Theta\pa{\ba{\frac{e^cn^{\frac{3/2}{\sqrt n}}}{c^{2c}\pa{1-\frac{c}{\sqrt{n}}}^{\sqrt n-c}}}^{\sqrt n}}.
+\end{align*}
+Note in the second line we used $(n-l)!=(n-l+1)!/(n-l+1)$, which is asymptotically at least Stirling's formula for $n-c\sqrt n$, divided by $n$.
+
+Now note \[\lim_{n\to \infty}\pa{1-\frac{c}{\sqrt{n}}}^{\sqrt n-c}=\lim_{x\to \infty}\pa{1-\frac{c}{x}}^{x}\pa{1-\frac{c}{x}}^{-c}=e^{-c}\]  and \[\lim_{n\to \infty}n^{\frac{3/2}{\sqrt n}}=\lim_{x\to \infty} x^{\frac 3x}=e^{\lim_{x\to\infty} \frac{3\ln x}{x}}=e^0=1.\]
+Hence
+\[
+\lim_{n\to \infty}\frac{e^cn^{\frac{3/2}{\sqrt n}}}{c^{2c}\pa{1-\frac{c}{\sqrt{n}}}^{\sqrt n-c}}
+=\pf ec^{2c}<1.
+\]
+Thus for $c>e$, $\binom{n}{l}\frac{n}{l!}\to 0$ as $n\to \infty$. We can find $L$ so that $\binom{n}{l}\frac{n}{l!}<1$ whenever $n>L$, so
+\begin{equation}\label{p1-10-1}
+P(\text{Some column has a increasing sequence of length }l=\ce{c\sqrt n})<1
+\end{equation}
+for $n>L$. 
+Now choose a larger value $c'$ instead of $c$ as necessary so that
+this holds for all $n$, for example, take $c'=\min(c,\sqrt{L}+1)$ (so that for $n\leq L$, the probability above is trivially 0). Then there must exist a permutation so that no column has an increasing sequence of length $l\geq c'\sqrt{n}$.
+%\[
+%\lim_{n\to \infty}\pf{n-c\sqrt n}{n}^{n-c\sqrt n}
+%=\lim_{n\to \infty}\frac{\pa{1-\frac c{\sqrt n}}^{n}}{\pa{1-\frac c{\sqrt n}}^{c\sqrt n}}
+%= \lim_{x\to \infty}\frac{\pa{\pa{1-\frac c{x}}^{x}}^2}{\pa{1-\frac c{x}}^{cx}}
+%=\frac{e^{-c}}{e^{-2c}}
+%\]
+
+\end{problem}
+\end{document}

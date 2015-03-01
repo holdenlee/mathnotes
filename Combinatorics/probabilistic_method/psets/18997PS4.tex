@@ -1,0 +1,437 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+%\newcommand{\cal}[1]{\mathcal{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+\newcommand{\Var}{\operatorname{Var}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\prc}[1]{\pa{\rc{#1}}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\iy}[0]{\infty}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.997 Probabilistic Method} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 1} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.997 Probabilistic Method Problem Set \#4}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{4/3/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it (4.4)}
+We write $\E(X|P)$ to denote the expected value of $X$ given that $P$ is true. 
+\begin{lem}
+Let $\la'=\E(X|X\ge \la)$ and $\si'^2=P(X<\la)\E(X|X<\la)^2+P(X\ge \la)\E(X|X\ge \la)^2$. Then
+\begin{align*}
+\la&\le \la'\\
+\si^2&\ge \si'^2.
+\end{align*}
+\end{lem}
+\begin{proof}
+The first statement is obvious. For the second, note that for any random variable $Y$, we have $\E(Y^2)\ge \E(Y)^2$ since $\Var(Y)=\E(Y^2)-\E(Y)^2\ge 0$. Hence
+\begin{align*}
+\si^2=\E(X^2)&= P(X<\la)\E(X^2|X<\la)+P(X\ge \la)\E(X^2|X\ge \la)\\
+&\ge P(X<\la)\E(X|X<\la)^2+P(X\ge \la)\E(X|X\ge \la)^2=\si'^2.
+\end{align*}
+\end{proof}
+Letting $p=P(X\ge \la)$, note that $P(X<\la)=1-p$ and
+\[
+P(X<\la)\E(X|X<\la)+P(X\ge \la)\E(X|X\ge \la)=\E(X)=0
+\]
+we get that $\E(X|X<\la)=-\frac{p}{1-p}\la'$. Hence $\si'^2=(1-p)\pa{\frac p{1-p}\la'}^2+p\la'^2$. Then by the lemma,
+\begin{align*}
+p\pa{1+\pf{\la}{\si}^2}&
+\le p\pa{1+\pf{\la'}{\si'}^2}\\
+&=p\pa{1+\frac{\la'^2}{(1-p)\pa{\frac p{1-p}\la'}^2+p\la'^2}}\\
+&=p\pa{1+\frac{1-p}{p}}=1.
+\end{align*}
+Hence $p\le (1+(\frac{\la}{\si})^2)^{-1} =\frac{\si^2}{\si^2+\la^2}$, as needed.
+\end{problem}
+\begin{problem}{\it (4.5)}
+We use the same lemma as in the last pset.
+\begin{lem}\label{p4-2-l1}
+Let $a_1,\ldots, a_n$ be vectors in $\R^2$, and $\ep_1,\ldots, \ep_n$ be independently chosen to be $\pm 1$ with probability $\rc2$. Then
+\[
+P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert\ge R}\le\frac{\sum_{k=1}^n \Vert a_k\Vert^2}{R^2}. 
+\]
+\end{lem}
+\begin{proof}
+First we calculate $\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2}$. Let $a_k=(x_k,y_k)$. Now
+\[
+\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2} =\E((\ep_1x_1+\cdots +\ep_nx_n)^2+(\ep_1y_1+\cdots +\ep_ny_n)^2)\]
+Expanding, noting that $\E(\ep_i\ep_jx_ix_j)=\E(\ep_i\ep_jy_iy_j)=0$ for $i\ne j$ (since $\ep_i\ep_j$ has equal probability of being $\pm1$), the expected value equals
+\[
+\E(\ep_1^2x_1^2)+\cdots +\E(\ep_n^2 x_n^2)+\E(\ep_1^2 y_1^2)+\cdots +\E(\ep_n^2y_n^2)=x_1^2+\cdots +x_n^2+y_1^2+\cdots +y_n^2=\sum_{k=1}^n \Vert a_k\Vert^2.
+\]
+
+By Markov's inequality,
+\begin{align*}P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert\ge R}&=
+P\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2\ge R^2}\\
+&\le \frac{\E\pa{\left\Vert\sum_{k=1}^n \ep_ka_k\right\Vert^2}}{R^2}\\
+&=\frac{\sum_{k=1}^n \Vert a_k\Vert^2}{R^2}.
+\end{align*}
+\end{proof}
+\begin{cor}\label{p4-2-c2}
+Let $a_1,\ldots, a_n$ be vectors in $\R^2$, and $\ep_1,\ldots, \ep_n$ be independently chosen to be $0$ or $1$ with probability $\rc2$. 
+Let $a=\frac{a_1+\cdots +a_n}{2}$. 
+Then
+\[
+P\pa{\left\Vert\pa{\sum_{k=1}^n \ep_ka_k}-a\right\Vert\ge R}\le\frac{\sum_{k=1}^n \Vert a_k\Vert^2}{4R^2}. 
+\]
+\end{cor}
+\begin{proof}
+Note
+\[\pa{\sum_{k=1}^n \ep_ka_k}-a=\rc{2}\sum_{k=1}^n\ep_k'a_k\]
+where the variables $\ep_k':=2\ep_k-1$ are $-1$ or $1$ with probability 1. By Lemma~\ref{p4-2-l1}, 
+\begin{align*}
+P\pa{\left\Vert\pa{\sum_{k=1}^n \ep_ka_k}-a\right\Vert\ge R}
+&=\pa{\left\Vert\sum_{k=1}^n\ep_k'a_k\right\Vert\ge 2R}\\
+&\le \frac{\sum_{k=1}^n \Vert a_k\Vert^2}{4R^2}.
+\end{align*}
+\end{proof}
+Let $c=100$. Letting $a_k=v_k$ and $\ep_k$ be as in the corollary, and noting that $\Vert v_k\Vert^2=x_k^2+y_k^2\le 2\pf{2^{n/2}}{c\sqrt n}^2=\frac{2^{n+1}}{c^2n}$, 
+%Assuming $\la\ge 1$, so $(\la+1)^2\le 4\la^2$, we have
+\begin{align*}
+P\pa{\left\Vert\pa{\sum_{k=1}^n \ep_kv_k}-a\right\Vert< R}
+&\ge 1-\frac{\sum_{k=1}^n \Vert v_k\Vert^2}{4R^2}\\
+%&\ge 1-\frac{n\pf{2^{n/2}}{k\sqrt n}^2}{4R^2}\\
+&\ge 1-\frac{2^{n+1}}{4c^2R^2}.
+\end{align*}
+Each choice of $(\ep_1,\ldots, \ep_n)$ corresponds to choosing a subset of $v_1,\ldots, v_k$ to sum up, so the total number $s$ of subsets $I$ with $\left\Vert\pa{\sum_{i\in I} a_i}-a\right\Vert<R$ satisfies
+\begin{equation}\label{p4-2-1}
+s\geq 2^n\pa{1-\frac{2^{n+1}}{4c^2R^2}}=2^n-\frac{2^{2n-1}}{c^2 R^2}.
+\end{equation}
+Next note the number $l$ of distinct lattice points $p$ in $S=\{p:\Vert p-a\Vert<R\}$ is at most $\pi(R+\sqrt 2)^2$. Indeed, for each lattice point $p=(x,y)$ in $S$ associate with it the square $S_p=[x,x+1)\times [y,y+1)$. These squares are non-overlapping and contained completely in $\{p:\Vert p-a\Vert<R+\sqrt 2\}$, by the triangle inequality. The area of this region is $\pi(R+\sqrt 2)^2$, so there are at most this many squares (each square has area 1). Assuming $R\ge 1$, we have $\frac{(R+\sqrt 2)^2}{R^2}<9$ so
+\begin{equation}\label{p4-2-2}
+l< 9\pi R^2\text{ when }R\ge 1.
+\end{equation}
+We find $R$ so that
+\begin{align}
+\label{p4-2-3}
+9\pi R^2&<2^n-\frac{2^{2n-1}}{c^2 R^2}\\
+\nonumber
+\iff 9\pi R^4-2^nR^2+\frac{2^{2n-1}}{c^2}&<0.
+\end{align}
+Since the problem is trivially true for $n\le 10$ (as then $x_i,y_i<\frac{2^{5}}{100}$ so equal 0), we may assume $n>10$. 
+Let $R=\sqrt{\frac{2^{n-1}}{9\pi}}$; note $R>1$. Now
+\begin{align*}
+9\pi R^4-2^nR^2+\frac{2^{2n-1}}{c^2}&=\frac{2^{2n-2}}{9\pi}-\frac{2^{2n-1}}{9\pi}+\frac{2^{2n-1}}{c^2}\\
+&=2^{2n-2}\pa{-\frac{1}{9\pi}+\frac2{c^2}}<0
+\end{align*}
+since $c=100$. Hence~(\ref{p4-2-3}) holds. Combining with~(\ref{p4-2-1}) and~(\ref{p4-2-2}) gives $s>l$, i.e. there are more subsets that give sums in $S$ than lattice points in $S$. Thus there must exist two distinct sets $I'$ and $J'$ so that
+\[
+\sum_{i\in I'} v_i=\sum_{j\in J'} v_j.
+\]
+Note $I:=I'\bs I'\cap J'$ and $J:=J'\bs I'\cap J'$ are disjoint. 
+Subtracting $\sum_{i\in I'\cap J'} v_i$ from the above gives
+\[
+\sum_{i\in I}v_i=\sum_{j\in J} v_j
+\]
+as needed.
+\end{problem}
+\begin{problem} {\it (5.3)}
+First delete colors from each $S(v)$ until they are all of size $10d$. For each vertex, color it randomly with a color from $S(v)$, each color being chosen with probability $\rc{10d}$ and colors of distinct vertices being independent. 
+Let 
+\[T=\{(e,c)|\text{edge }e=vw,\text{ color }c\in S(v)\cap S(w)\}.\]
+For $(e,c)\in T$, let $A_{e,c}$ denote the event that both $v$ and $w$ are colored with $c$. Note
+\begin{enumerate}
+\item The event that the random coloring of $G$ is proper is exactly the event $\bigwedge_{(e,c)\in T} \overline{A_{e,c}}$. 
+\item
+$P(A_{e,c})=\rc{100d^2}$ since $v$ and $w$ each have (independent) probability $\rc{10d}$ of being colored with $c$. 
+\item
+Each $A_{e,c}$ is mutually independent of all but $20d^2-1$ of the other events: $A_{e,c}$ is mutually independent of all the $A_{e',c'}$ except those where $e'$ and $e$ share a vertex. Given that $e'=vw'$ and $e=vw$, the number of possible $(e',c')\in T$ is at most $10d^2$, since there are $10d$ colors in $S(v)$, and given $c'\in S(v)$ there are at most $d$ neighboring vertices $w'$ such that $c'\in S(w')$. By symmetry, given that $e'=v'w$ then number of possible $(e',c')$ is at also most $10d^2$. We subtract 1 because we don't want to count $(e,c)$.
+\end{enumerate}
+By the symmetric case of the Lov\'asz Local Lemma with $p=\rc{100d^2}$ and $d'=20d^2-1$, noting
+\[
+ep(d'+1)=e\cdot \rc{100d^2}\cdot 20d^2=\frac e5<1,
+\] 
+we get that $P\pa{\bigwedge_{(e,c)\in T} \overline{A_{e,c}}}>0$. I.e., by item 1, there exists a proper list coloring.
+\end{problem}
+\begin{problem} {\it (5.4)}
+\begin{lem}
+Given a cyclic graph $G$ with $2n$ vertices and $n$ disjoint pairs of vertices $V_1, \ldots, V_n$, we can color the graph with 2 colors such that
+\begin{enumerate}
+\item
+No $V_i$ is monochromatic.
+\item
+No three consecutive vertices in $G$ are monochromatic.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+Label the vertices of $G$ in order: $1,2,\ldots, 2n$. 
+Consider the graph $G'$ whose vertices are $1,2,\ldots, 2n$ and whose edges are the pairs $V_i$ plus the pairs $(1,2),(3,4),\ldots, (2n-1,2n)$. Call these edges of the first and second kind, respectively. Note that the edges of the first kind are all disjoint, and likewise for edges of the second kind. Given a cycle in $G'$, its edges must alternate between edges of the first and second kinds, so it must be an even cycle. $G'$ has no odd cycles, so is bipartite, meaning that we can color $G$ so that neither the pairs $V_i$, nor the pairs $(2k-1,2k)$, are monochromatic. The latter condition gives item 2 above.
+\end{proof}
+Returning to the problem, we show in fact that we can color $G$ with 4 colors (i.e. partition it into 4 sets) such that
+\begin{enumerate}
+\item
+Each color class contains exactly one vertex of each $V_i$.
+\item 
+No color class contains two consecutive vertices in $G$.
+\end{enumerate}
+Each color class then satisfies the conditions of the problem.
+
+First, arbitrarily split each $V_i$ into two pairs, $V_{i,1}\cup V_{i,2}$. Apply the lemma to get a coloring where no $V_{i,j}$, and no triplet of consecutive vertices, is monochromatic. Two vertices of $V_i$ will be colored in each color, say red and blue. Let $R_i$ be the red vertices of $V_i$ and $B_i$ be the blue vertices of $V_i$.
+
+Label the vertices of $G$ with $1,\ldots, 4n$ around the cycle. Let $G'$ be a graph with the same vertices but with edges $R_i$ and $B_i$; and with edges connecting adjacent vertices in $G$ of the same color. Call these edges of the first and second kind, respectively. Note that the edges of the first kind are disjoint, and the edges of the second kind are disjoint since no three consecutive vertices in $G$ have the same color. Thus again every cycle in $G'$ is even, and $G'$ is bipartite. Call the two classes in a bipartition ``light" and ``dark." So now each vertex is assigned one of 4 colors, light red, dark red, light blue, and dark blue.
+
+Consider $V_i$. It has two red vertices and two blue vertices. The red vertices are neighboring in $G'$ and the blue vertices are neighboring in $G'$, so they are assigned different shades, and $V_i$ has all vertices differently colored. Any adjacent vertices of the same color in the first coloring are adjacent in $G'$ so assigned different shades. Thus the coloring satisfies the required conditions.
+\end{problem}
+\end{document}

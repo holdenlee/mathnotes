@@ -100,7 +100,9 @@ Combinatorics/probabilistic_method/*
 !Combinatorics/probabilistic_method/notes/date.tex
 !Combinatorics/probabilistic_method/notes/chapters
 !Combinatorics/probabilistic_method/notes/chapters/*.tex
-
+!Combinatorics/probabilistic_method/psets
+!Combinatorics/probabilistic_method/psets/*.tex
+!Combinatorics/probabilistic_method/psets/18997PS*.pdf
 
 !Computation/
 Computation/*
