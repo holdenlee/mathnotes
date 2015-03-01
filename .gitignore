@@ -155,6 +155,13 @@ Number theory/automorphic_forms/*
 !Number theory/automorphic_forms/eichler_shimura2.tex
 !Number theory/automorphic_forms/eichler_shimura2.pdf
 
+!Number theory/automorphic_forms/psets
+Number theory/automorphic_forms/psets/*
+!Number theory/automorphic_forms/psets/18785PS*.tex
+!Number theory/automorphic_forms/psets/18785PS*.pdf
+
+
+
 !Number theory/arithmetic_geometry
 Number theory/arithmetic_geometry/*
 !Number theory/arithmetic_geometry/18.787

@@ -1,0 +1,657 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\newcommand{\bb}[1]{\mathbb{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\PSL}{\operatorname{PSL}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\mmod}[1]{\,(\text{mod}^{\times} #1)}
+\newcommand{\nmod}[1]{\,(\text{mod}\, #1)}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.785 Analytic Number Theory} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 4} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+\allowdisplaybreaks[1]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.785 Analytic Number Theory Problem Set \#4}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{2/21/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it (Nonvanishing Poincar\'e series)}
+The $n$th Fourier coefficient of $P_n(z)$, the Poincar\'e series of weight $k$, is
+\[
+p(n,n)=1+\frac{2\pi}{i^kh}\sum_{c>0} c^{-1}S_{\Ga}(n/h,n/h;c) J_{k-1}\pf{2\pi n}{ch}.
+\]
+To show that the Poincar\'e series does not vanish, it suffices to show $p(n,n)\neq 0$. For this, it suffices to show that $|A|<1$ where $A=\frac{2\pi}{i^kh}\sum_{c>0} c^{-1}S_{\Ga}(n/h,n/h;c) J_{k-1}\pf{2\pi n}{ch}$. Note that any $c$ in the sum is an integer because $\Ga\subeq \SL_2(\Z)$.
+
+We assume $k> 4$ and the smallest $c$ is greater than $1$ (so at least 2). Below $C_1,C_2,\ldots$ will represent constants.
+
+First,~\cite[4.1]{rankin} gives the bound
+\[
+J_{k}(x)\leq (2\pi k)^{ -\rc 2}
+\pf{ex}{2k}^k.
+\]
+Hence (noting $h\ge 1$),
+\[
+J_{k-1}\pf{4\pi n}{ch}\le
+(2\pi(k-1))^{-\rc 2} \pf{2\pi en}{(k-1)ch}^{k-1}
+\le C_1(2\pi e)^k\frac{n^{k-1}}{(k-1)^{k-\rc 2}c^{k-1}}.
+\]
+From Proposition 4.9.1,
+\[
+|S_{\Ga}(m,n;c)|\leq c^2\cdot c(s,s)^{-1}.
+\]
+Putting these two estimates together, and letting $c_0=c(s,s)$,
+\begin{align}
+\label{c0sum}
+A& \le C_2(2\pi e)^k \frac{n^{k-1}}{c_0(k-1)^{k-\rc 2}}
+\sum_{c\ge c_0}\rc{c^{k-3}}\\
+\nonumber 
+&\le C_2(2\pi e)^k \frac{n^{k-1}}{c_0(k-1)^{k-\rc 2}}\int_{c_0-1}^{\infty}\rc{x^{k-3}}\,dx\\
+\nonumber
+&=C_2(2\pi e)^k \frac{n^{k-1}}{c_0(k-1)^{k-\rc 2}}\frac{(c_0-1)^{-k+4}}{k-4}.
+\end{align}
+This is at most 1 if
+\begin{align*}
+n^{k-1}&\le C_3(2\pi e)^{-k}(k-1)^{k-\rc 2}(k-4)c_0^{-1}(c_0-1)^{k-4}\\
+\Leftarrow
+n&\le C_4k(c_0-1)\\
+\Leftarrow 
+n&\le C_5kc_0.
+\end{align*}
+%\begin{lem}
+%There is a constant $C$ so that $c_0\le C\mu(D)$.
+%\end{lem}
+%\begin{proof}
+%$c_0^{-1}$ is the radius of the largest isometric circle bounding the fundamental domain. Thus other circles bounding the fundamental domain can only intersect it 
+%\end{proof}
+Thus if $n\le C_5kc_0$ then $P_n(z)$ does not vanish.
+
+If instead $c_0=1$, then by letting $n\leq Ckc_0=Ck$ with appropriate $C$, we may assume that term $c=1$ in the sum~(\ref{c0sum}) is less than a constant, say $\rc 2$, since
+\[
+C_2(2\pi k)^k\frac{n^{k-1}}{(k-1)^{k-\rc2}}\rc{c_0^{k-4}}\leq C_2(2\pi e)^k \frac{C(Ck)^{k-1}}{(k-1)^{k-\rc 2}}\leq C_2(2\pi eC)^k \pf{k}{k-1}^{k-1}
+\leq C_2(2\pi eC)^k\cdot e.
+\]
+Then it suffices for the rest of the terms to sum to at most $\rc 2$. Replacing the lower limit in the integral estimate with $c_0$, the proof goes the same as before with modified constants.
+\end{problem}
+\begin{problem}{\it (Kloosterman sums)}
+\subprob{(A) $S(m,n;c)=S(n,m;c)$}
+The definition of $S(m,n;c)$ is symmetric in both $m$ and $n$:
+\[
+S(n,m;c)=\sum_{d_1d_2\equiv 1\nmod{c}} e\pf{nd_1+md_2}{c}.
+\]
+
+\subprob{(B) $S(an,m;c)=S(n,am;c)$ if $\gcd(a,c)=1$}
+\begin{align}
+\nonumber S(an,m;c)&=\sum_{d_1d_2\equiv 1\nmod{c}}e\pf{and_1+md_2}{c}\\
+\nonumber &=\sum_{d\mmod{c}}e\pf{and+m\ol{d}}{c}\\
+&=\sum_{d\mmod{c}}e\pf{an(\ol{a}d)+m\ol{\ol{a}d}}{c}
+\label{replacea}\\
+\nonumber &=\sum_{d\mmod{c}}e\pf{nd+am\ol{d}}{c}\\
+\nonumber &=\sum_{d_1d_2\equiv 1\nmod{c}}e\pf{nd_1+amd_2}{c}\\
+\nonumber &=S(n,am;c)
+\end{align}
+In~(\ref{replacea}), we replaced $d$ with $\ol{a}d$; this is legitimate since $\gcd(a,c)=1$ and as $d$ ranges over the units modulo $c$, so does $\ol{a}d$.\\
+
+\subprob{(C) $S(n,m,c)=\sum_{d|\gcd(c,m,n)} dS(mnd^{-2},1;cd^{-1})$}
+We prove this for $c=p^r$ a prime power.
+\begin{lem}\label{rpsum}
+%Suppose $r>1$. Then
+\[\sum_{d\mmod{p^r}} e\pf{d}{p^r}=\begin{cases}
+-1,&r>1\\
+0,&r=1.
+\end{cases}
+\]
+\end{lem}
+\begin{proof}
+For $r=1$, just note that the sum of roots of unity $\sum_{d\nmod p}e\pf{d}{p}=0$. 
+
+For $r>1$, using the fact that the sum of $k$th roots of unity is 0 for any $k>1$, \[\sum_{d\mmod{p^r}} e\pf{d}{p^r}=\sum_{d\nmod{p^r}}e\pf{d}{p^r}-\sum_{d\nmod{p^{r-1}}}e\pf{d}{p^{r-1}}=0-0=0.\]
+\end{proof}
+\begin{lem}\label{p4-2-l2}
+%Let $l$ be such that $p\nmid l$. Then 
+Suppose $p|m$ and $r\geq 2$. Then $S(m,1;p^r)=0$.
+\end{lem}
+\begin{proof}
+Write $m=p^kl$ with $p\nmid l$. Consider two cases.
+\begin{enumerate}
+\item
+$k<r$: Then
+\begin{align}
+\nonumber
+S(m,1;p^r)&=\sum_{d\mmod{p^r}} e\pf{p^kld+\ol d}{p^r}\\
+\nonumber
+&=\sum_{x\nmod{p^k}}\sum_{a\mmod{p^{r-k}}} e
+\pf{p^kl(p^{r-k}x+a)+\ol{p^{r-k}x+a}}{p^r}\\
+\label{kloosumsum}
+&=\sum_{a\mmod{p^{r-k}}} \sum_{x\nmod{p^k}}e
+\pf{p^kla+\ol{p^{r-k}x+a}}{p^r}
+\end{align}
+%Now $p^kl(p^{r-k}x+a)+\ol{p^kx+a}\equiv p^kla+\ol{p^kx+a}\nmod{p^r}$. 
+As $x$ ranges from $1$ to $p^{k}$, $\ol{p^{r-k}x+a}$ attains the values $\ol{a}+p^{r-k}b$ for all $b\nmod{p^k}$. Now the $e
+\pf{p^kla+\ol{a}+p^{r-k}b}{p^r}$ for $a$ fixed and $b$ varying modulo $p^k$ are equally spaced on the unit circle so sum to 0. Hence the inner sum in~(\ref{kloosumsum}) is 0.
+\item
+$k \geq r$: Then
+\begin{align*}
+S(m,1;p^r)&=\sum_{d\mmod{p^r}} e\pf{p^kl\ol d+d}{p^r}\\
+&=\sum_{d\mmod{p^r}} e
+\pf{d}{p^r}\\
+&=0
+\end{align*}
+by Lemma~\ref{rpsum}.
+%Now the numbers $e
+%\pf{d}{p^r}$ for $d$ a unit modulo $p^r$ can be put in groups of $p$, namely, by placing $d+kp^{r-1}$ in the same class for residues $k$ modulo $p$. The numbers in each group sum to 0 (being equally spaced around the circle) so the sum is again 0.
+\end{enumerate}
+\end{proof}
+Let $\gcd(n,m,c)=p^k$. Write $n=p^kn'$ and $m=p^km'$; note that $p$ does not divide both $m'$ and $n'$. 
+
+%First consider the case $c=p$. If $p|m,n$ then note $S(mn,1;p)=\sum_{d\mmod p} e\pf{d}{p}=-1$ by Lemma~\ref{rpsum}, and $S(m,n;p)$ has all terms 1 as $p|m,n$. Hence
+%\[
+%\sum_{d|\gcd(c,m,n)}dS(mnd^{-2},1;cd^{-1})=pS(m'n',1;1)+S(mn,1;p)=p-1=S(m,n;p).
+%\]
+%If $p\nmid m,n$ then 
+%\[
+%\sum_{d|\gcd(c,m,n)}dS(mnd^{-2},1;cd^{-1})=S(mn,1;p)=S(m,n;p)
+%\]
+%using (B) as either $p\nmid m$ or $p\nmid n$.
+
+%Consider 3 cases.
+%\begin{enumerate}
+%\item $k=0$: Then the equation reads $S(m,n;c)=S(mn,1;c)$, which holds by (B) since one of $m,n$ is relatively prime to $c$.
+%\item $0<k<r$: 
+%Now suppose $r>1$. 
+Then
+\begin{align*}
+\sum_{d|\gcd(c,m,n)} dS(mnd^{-2},1;cd^{-1})
+&=\sum_{d|p^k} dS(m'n'p^{2k}d^{-2},1;p^rd^{-1})\\
+&=\sum_{i=0}^k p^iS(m'n'p^{2k-2i},1;p^{r-i})
+\end{align*}
+If $k<r$ then all terms except the last are 0 by Lemma~\ref{p4-2-l2}, so this equals 
+\begin{align}
+\label{p4-1-1}
+p^kS(m'n',1;p^{r-k})
+&=p^kS(m',n';p^{r-k})\\
+\nonumber
+&=p^k\sum_{d\mmod{p^{r-k}}} e\pf{m'd+n'\ol{d}}{p^{r-k}}\\
+\label{p4-1-2}
+&=\sum_{d\mmod{p^r}} e\pf{p^km'd+p^kn'\ol{d}}{p^{r}}\\
+\nonumber
+&=S(m,n;c)
+\end{align}
+In~(\ref{p4-1-1}) we used (B), noting that one of $m',n'$ is relatively prime to $p$, and in~(\ref{p4-1-2}) we note that the invertible residues modulo $p^r$ cover the invertible residues modulo $p^{r-k}$, $p^k$ times.
+
+If instead $k=r$ then all terms except the last two are 0 by Lemma~\ref{p4-2-l2}, and the sum equals
+\begin{align*}
+p^rS(m'n',1;1)+p^{r-1}S(m'n'p^2,1;p)
+&=
+p^r-p^{r-1}\\
+&=\ph(p^r)\\
+&=S(p^rm',p^rn';p^r).
+\end{align*}
+Note we used $S(m'n',1;p)=\sum_{d\mmod p}e\pf dp=-1$ by Lemma~\ref{rpsum}.
+%\end{enumerate}
+
+\subprob{(D) $S(m,n;c)=S(\ol{d_1}m,\ol{d_1}n;d_2)S(\ol{d_2}m,\ol{d_2}n;{d_1})$}
+Denote by $f(r_1,r_2)$ the unique residue modulo $d_1d_2$ which is congruent to $r_1$ modulo $d_2$ and $r_2$ modulo $d_1$. (It's well defined by the Chinese Remainder Theorem.)
+\begin{align*}
+S(\ol{d_1}m,\ol{d_1}n;d_2)S(\ol{d_2}m,\ol{d_2}n;{d_1})
+&=\sum_{a_1\mmod{d_2}}e\pf{m\ol{d_1}a_1+n\ol{d_1}\ol{a_1}}{d_2} 
+\sum_{a_2\mmod{d_1}}e\pf{m\ol{d_2}a_2+n\ol{d_2}\ol{a_2}}{d_1}\\
+&=
+\sum_{\scriptsize\begin{array}{c}a_1\mmod{d_2}\\a_2\mmod{d_1} \end{array}}
+e\pf{
+(m\ol{d_1}a_1d_1+m\ol{d_2}a_2d_2)+
+(n\ol{d_1}\ol{a_1}d_1+m\ol{d_2}\ol{a_2}d_2)
+}
+{d_1d_2}\\
+&=\sum_{\scriptsize\begin{array}{c}a_1\mmod{d_2}\\a_2\mmod{d_1} \end{array}}
+e\pf{f(ma_1,ma_2)+f(n\ol{a_1},n\ol{a_2})}
+{d_1d_2}.\\
+&=\sum_{\scriptsize\begin{array}{c}a_1\mmod{d_2}\\a_2\mmod{d_1} \end{array}}
+e\pf{mf(a_1,a_2)+n\ol{f(a_1,a_2)}}
+{d_1d_2}\\
+&=\sum_{a\mmod{d_1d_2}} e\pf{ma+n\bar{a}}{d_1d_2}\\
+&=S(m,n;c).
+\end{align*}
+We used the fact that the units modulo $d_1d_2$ are exactly the residues which are units both modulo $d_1$ and modulo $d_2$, by the Chinese Remainder Theorem.
+\end{problem}
+\begin{problem}{\it (Sali\'e sum)}
+\subprob{(A)}
+\begin{lem}\label{gausssum}
+Suppose $2m$ is relatively prime to $c$. Then
+\[
+%\pf dc\sum_{t\nmod c} e\pf{ndt^2}{c}
+%=
+%\sum_{t\nmod c} e\pf{nt^2}{c}.
+\pf mc g(n,c)=g(mn,c).
+\]
+\end{lem}
+\begin{proof}
+From~\cite[4.8]{iwaniec}, $g(n,c)=\ep_c\pf nc\sqrt c$ where 
+\[
+\ep_c=\begin{cases}
+1,&c\equiv1\pmod 4\\
+i,&c\equiv 3\pmod 4.
+\end{cases}
+\]
+Hence 
+\[\pf mc g(n,c)=\ep_c \pf mc\pf nc \sqrt c=\ep_c\pf{mn}{c}\sqrt c=g(mn,c).
+\]
+\end{proof}
+\begin{comment}
+\begin{proof}
+Note $g(m,c)$ for fixed $c$ is constant for $m$ a quadratic residue relatively prime to $c$, because if $m\equiv j^2\nmod m$, then
+\[
+g(m,c)=\sum_{t\nmod c}e\pf{(jt)^2}{c}
+=\sum_{t\nmod c}e\pf{t^2}{c}=g(1,c),
+\]
+by replacing $jt$ with $t$. Similarly, if $m$ is a quadratic nonresidue relatively prime to $c$, then we can write $m\equiv j^2k\nmod m$ where $k$ is a fixed quadratic nonresidue relatively prime to $c$, and find
+\[
+g(m,c)=\sum_{t\nmod c}e\pf{k(jt)^2}{c}
+=\sum_{t\nmod c}e\pf{kt^2}{c}=g(k,c).
+\]
+
+Now suppose $c=p^a$ where $p\neq 2$. Then
+\begin{align*}
+\sum_{t\mmod{p^a}}e\pf{t^2}{p^a}+\sum_{t\nmod p^a} e\pf{kt^2}{p^a}
+&=
+\pa{\sum_{t\mmod{p^a}}e\pf{t^2}{p^a}
++\sum_{t\mmod{p^{a-1}}}e\pf{t^2}{p^{a-2}}
++\cdots 
++\sum_{t\mmod{1}}e\pf{t^2}{p^{-a}}}\\
+&\quad
++\pa{\sum_{t\nmod c} e\pf{kt^2}{c}
+\sum_{t\mmod{p^{a-1}}}e\pf{kt^2}{p^{a-2}}
++\cdots +
++\sum_{t\mmod{1}}e\pf{kt^2}{p^{-a}}
+}\\
+&=2\pa{\sum_{t\mmod{p^a}}e\pf{t}{p^a}+\cdots 
++\sum_{t\mmod{1}}e\pf{t}{p^{-a}}}\\
+&=0
+\end{align*}
+by Lemma.
+
+Note that for $m$ a quadratic residue and $m'$ not a quadratic residue, we have
+\[
+g(m,c)+g(m',c')=\sum_{t\nmod c}e\pf{t^2}{c} + \sum_{t\nmod c} e\pf{kt^2}{c}=2\sum_{t\mmod c}
+\]
+\end{proof}
+\end{comment}
+\begin{lem}[Ramanujan sum]
+Let $\zeta_q$ be a primitive $q$th root of unity, and let
+\[
+c_q(n)=\sum_{a\mmod{q}}\zeta_q^{an}.
+\]
+Then
+\[
+c_q(n)=\sum_{d|\gcd(q,n)}d\mu\pf qd.
+\]
+\end{lem}
+\begin{proof}
+Let $\eta_q(n)=\sum_{k=1}^q \zeta_q^{kn}$. Since all $q$th roots of unity are primitive $d$th roots of unity for exactly one $d|q$,
+\[
+\eta_q(n)=\sum_{d|q}c_d(n).
+\] 
+By M\"obius inversion,
+\[
+c_q(n)=\sum_{d|q}\mu\pf qd \eta_d (n).
+\]
+But the sum $\eta_q(n)=\sum_{k=1}^d \zeta_d^{nk}$ is 0 unless $d|n$, in which case it equals $d$ (each term being 1). This gives the lemma.
+\end{proof}
+
+\begin{align}
+\nonumber
+\hat{F}(y)&=\sum_{x\nmod c} \sum_{d\mmod c} \pf dc e\pf{m\ol{d} +ndx^2}{c}e\pf{-yx}{c}\\
+\nonumber
+&=\sum_{d\mmod c}\sum_{x\nmod c} \pf dc e\pf
+{nd\pa{x-\frac{y}{2nd}}^2-\frac{y^2-4mn}{4nd}}
+{c}\\
+\nonumber
+&=\sum_{d\mmod c}\sum_{t\nmod c} \pf dc e\pf{ndt^2-\frac{y^2-4mn}{4nd}}
+{c}\\
+\nonumber
+&=\sum_{d\mmod c}\pf dc g(nd,c)e\pf{-\frac{y^2-4mn}{4nd}}{c}\\
+\nonumber
+&=\sum_{d\mmod c}g(nd^2,c)e\pa{\frac{-(y^2-4mn)}{c}\cdot \rc{4n}\cdot \rc{d}}&\text{by Lemma~\ref{gausssum}}
+\\
+\label{gcdthing}
+&=g(n,c)\sum_{d\mmod c}e\pa{\frac{\gcd(4mn-y^2,c)d}{c}}\\
+\nonumber
+&=g(n,c)\sum_{d|\gcd(4mn-y^2,c)} d\mu\pf cd.
+\end{align}
+In~(\ref{gcdthing}) we replaced $\rc d$ by $4nd\cdot \frac{\gcd(4mn-y^2,c)}{c}$, which is legit since $4n\cdot \frac{\gcd(4mn-y^2,c)}{c}$ is a unit modulo $c$. We used $g(nd^2,c)=\sum_{t\pmod{c}}e\pf{n(dt)^2}{c}
+=\sum_{t\pmod{c}}e\pf{nt^2}{c}=g(n,c)$, since as $t$ ranges over units modulo $c$ so does $dt$.
+\\
+
+\subprob{(B)}
+Taking the inverse Fourier Transform of (A) gives
+\begin{align}
+\nonumber
+F(x)&=\rc{c}\sum_{y\nmod c} \pa{e\pf {xy}{c}
+g(n,c)\sum_{d|\gcd(4mn-y^2,c)}d\mu\pf cd
+}\\
+\label{allbutonedrop}
+&=g(n,c)\rc{c}\sum_{d|c} \ba{d\mu\pf cd \sum_{y\nmod c,d|4mn-y^2} e\pf{xy}{c}}\\
+%&=g(n,c)\rc{\cancel c}\sum_{d|c} \ba{\cancel d\mu\pf cd\cancel{\frac cd}  \sum_{y\nmod d, 4mn\equiv y^2\nmod d} e\pf{xy}c}\\
+%&=g(n,c)\sum_{d|c} \mu\pf cd\sum_{y\nmod d,y^2\equiv mn\nmod d} e\pf{2xy}{c}&\text{replacing }y\text{ with }2y\,(c\text{ odd})\\
+\nonumber
+&=g(n,c)\rc c\sum_{y^2\equiv 4mn\nmod c}ce\pf{xy}{c}\\
+\nonumber
+&=g(n,c)\sum_{y^2\equiv mn\nmod c}e\pf{2xy}{c}%\\
+%\nonumber
+%&=g(n,c)\sum_{y^2\equiv mn\nmod c} e\pf{2xy}{c}.
+\end{align}
+%Replacing $y$ with $2y$ is allowed because $2\nmid c$ implies $2\nmid d$.
+%For the last step, we used M\"obius inversion with 
+Note that in~(\ref{allbutonedrop}) the inner sum for $d\neq c$ is 0, because a solution $y$ to $d|4 mn-y^2$ can be grouped with the solutions $y+dk$ for $0\leq k<\frac cd$, and the resulting $e\pf{xy}{c}$ are evenly spaced around the unit circle (for $x$ invertible modulo $c$) and sum to 0.
+
+In particular, putting in $x=1$ gives
+\[
+T(m,n;c)=g(n,c)\sum_{y^2\equiv mn\nmod c} e\pf{2y}{c}.
+\]
+\end{problem}
+\begin{problem}{\it (Line bundles)}
+\subprob{(A)}
+Let $K=\R$ or $\C$.
+
+The trivial line bundle $\pi':M\times K\to M$ has the nonvanishing section $g$ defined by
+\[g(m)=(m,1).\]
+
+Conversely suppose there is a nonvanishing section $f:M\to L$. Let $\pi:L\to M$ be the projection map. We find a way to identify $L$ with $M\times K$ so that $f$ is identified with the map $m\mapsto (m,1)$ given above. Define $h:L\to M\times K$ as follows: 
+\[
+h(l)=\pa{\pi(l),\frac{l}{f(\pi(l))}}.
+\]
+Since the fiber above $\pi(l)$ is a one-dimensional vector space and $f(\pi(l))$ does not correspond to the zero vector (as $f$ is nonvanishing), the division is well-defined. We claim that the following commutes:
+\[
+\xymatrix{
+L\ar^h[r]& M\times K\\
+M\ar^f[u]\ar^g[ru]
+}
+\]
+Indeed, $h(f(m))=\pa{m,\frac{f(m)}{f(m)}}=(m,1)=g(m)$. Note $h$ is a diffeomorphism: given $l\in L$, we can choose an open neighborhood $U$ around $\pi(l)$ so that $\pi^{-1}(U)=U\times K$; then the map from $U\times K\to M\times K$ induced by $h:L\to M\times K$ is clearly a diffeomorphism.
+%$h$ is an homeomorphism because it 
+It remains to note that $h$ carries $\pi^{-1}(l)$ bijectively to $\pi'^{-1}(l)$, and it is a linear transformation here, for each $l$.\\
+
+\subprob{(B)}
+The M\"obius strip is not isomorphic to $S^1\times \R$.
+
+We identify $S^1$ with the reals modulo 1. 
+Let $U_1=(0,1)$ and $U_2=(.9,1)\cup [0,.1)$. As a set, let $L$ be a copy of $S^1\times \R$. Let $\pi:L\to S^1$ be the projection map.
+Give $\pi^{-1}(U_1)$ the same topology as the usual topology $U_1\times \R\subeq L$. %inherits from $S^1\times \R$. 
+However, define the topology on $U_2$ as follows: Let $h:\pi^{-1}(U_2)\to U_2\times \R$ be the map defined by
+\[
+h((x,y))=\begin{cases}
+(x,y),&x\in (.9,1)\\
+(x,-y),&x\in [0,.1)
+\end{cases}
+\]
+and topologize $\pi^{-1}(U_2)$ so that $h$ is a homeomorphism. Note the topology on $U_1\cap U_2$ is consistent in both cases: on the component $(.9,1)$ $h$ is simply the identity map on sets, while on the component $(0,.1)$ $h$ is the map $(a,b)\to (a,-b)$ which is a automorphism of $(0,.1)\times \R$. $L$ is known as the M\"obius strip.
+
+Now let $f$ be any section $S^1\to L$. Write $f$ as $f(x)=(x,f_1(x))$. Then from the topology on $L$, in order for $f$ to be continuous,
+\[
+f(0)=-\lim_{x\to 1^-}f(x).
+\]
+If $f_1(0)=0$ then $f$ vanishes, else, $f_1(0)$ and $f_1(1-\ep)$ are of different sign for small $\ep$, so $f_1$ vanishes somewhere on $(0,1)$ and again $f$ vanishes. Thus by (A), $L\ncong S^1\times \R$. 
+\end{problem}
+\begin{thebibliography}{9}
+\bibitem{iwaniec} Iwaniec, H.: ``Topics in Classical Automorphic Forms," AMS, 1997.
+\bibitem{rankin} Rankin, R.: ``The Vanishing of Poincar\'e Series," {\it Proceedings of the Edinburgh Mathematical Society} (1980), 23, 151-161.
+\end{thebibliography}
+\end{document}

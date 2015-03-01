@@ -1,0 +1,524 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{6pt}
+{6pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\newcommand{\bb}[1]{\mathbb{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\left\langle {#1}\right\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\PSL}{\operatorname{PSL}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\mmod}[1]{\,(\text{mod}^{\times} #1)}
+\newcommand{\nmod}[1]{\,(\text{mod}\, #1)}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+\newcommand{\iy}[0]{\infty}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.785 Analytic Number Theory} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 6} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+\allowdisplaybreaks[1]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.785 Analytic Number Theory Problem Set \#7}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{3/22/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it (Describing $Y_0(N)$)}
+\subprob{(A)}
+\begin{thm}\cite[VI.5.1.1, VI.5.3]{silv}
+The following categories are equivalent:
+\begin{enumerate}
+\item
+Elliptic curves over $\C$ and isogenies.
+\item
+$\C/\La$ where $\La$ is a lattice, and analytic maps (which are in the form multiplication by a complex number, taking $\La$ to $\La'$)
+%\item
+%Lattices $\La\sub \C$ up to homothety, with
+%\[
+%\text{Map}(\La_1,\La_2)=\{\al\in \C:\al\La_1\subeq \La_2\}.
+%\]
+%(Composition of maps is multiplication.)
+\end{enumerate}
+Moreover, if $\La$ is the lattice corresponding to $E$, then $E\cong \C/\La$ as complex Lie groups.
+\end{thm}
+Let $S$ be the set of pairs $(E,C)$ modulo equivalence. Define $\theta:\cal H\to S$ by
+\[
+\theta(z)=(\C/\La(z,1),\La(z,\rc N)/\La(z,1)).
+\]
+(By the theorem $\C/\La(z,1)$ corresponds to a unique elliptic curve.)
+We show that $z\sim z'$ in $Y_0(N)$ iff $\theta(z)\sim \theta(z')$ in $S$. This will show that $\theta$ is in fact a map $Y_0(N)\to S$ and is injective.
+
+%We have $z\sim z'$ iff $z'=
+Suppose $\theta(z)=\theta(z')$. Then %there must be an isomorphism between the elliptic curves corresponding to $\C/\La(z,1)$ and $\C/\La(z',1)$, i.e. %by the equivalence of categories, there is $\al\in \C$ so that $\al \La(z,1)\subeq \La(z',1)$ and $\rc{\al}\La(z',1)=\La(z,1)$, i.e. $\al\La(z,1)=\La(z',1)$.
+we must have %$\La(z,1)=\La(z',1)$ up to isomorphism, i.e. up to multiplication by a complex number
+$\al \La(z,1)=\La(z',1)$ for some $\al$. Let $z'=\ga z$ where $\ga\in\SL_2(\Z)$.  Then
+\[
+\La(z',1)=\La\pa{\frac{az+b}{cz+d},1}=\rc{cz+d}\La\pa{az+b,cz+d}.
+\]
+Thus $\al=\rc{cz+d}$. Then $\theta(z)=\theta(z')$ iff $\rc{cz+d}\La(z,\rc{N})/\La(z,1)=\La(z',\rc{N})/\La(z',1)$. Since the image of $\La(z,\rc{N})/\La(z,1)$ under $\rc{cz+d}$ will consist of $N$ points, this will be true iff $\rc{N}$ is in the image, i.e. there exist integers $u,j$ such that 
+\[
+\rc{cz+d}\pa{uz+\frac{j}{N}}=\rc{N}.
+\]
+Rearranging gives this equivalent to
+\[
+\pa{u-\frac cN}z-\frac{d-j}{N}=0.
+\]
+Noting $z,1$ are $\R$-linearly independent, $u,j$ exist iff $N|c$, in which case we can take $u=\frac cN$ and $j=d$. Thus $\theta(z)=\theta(z')$ iff $z'=\ga z$ with $\ga\in \Ga_0(N)$.
+
+%$(z,1)$ and $(z',1)$ are related by an element $\ga=\smatt abcd\in\Ga(1)$. Now $\ga(z,1)=(az+b,cz+d)\sim\pa{\frac{az+b}{cz+d},1}$ so $z'=\frac{az+b}{cz+d}=\ga z$.
+%
+%We also must have $\La(z,\rc N)=\La(z',\rc N)$ up to homothety. Say $(z,\rc N)$ and $(z',\rc N)$ are related by $\ga'=\smatt {a'}{b'}{c'}{d'} \in\Ga(1)$, up to multiplication by a complex number. Then
+%%we must have
+%%\[
+%%\ga\coltwo z{1/N}=\coltwo{z'}{1/N}
+%%\]
+%%for some $\ga\in \Ga(1)$. This gives
+%%\[
+%%\ga
+%%\]
+%\[ 
+%\ga\pa{z,\rc N}=\pa{a'z+b'\rc N,c'z+d'\rc N}\sim\pa{\frac{a'z+b'/N}{Nc'z+d'},\rc N}.
+%\]
+%so $z'=\frac{az+b/N}{Ncz+d}$, and $z,z'$ are related by an element in $\Ga_0(N)$. (Why?) 
+%%So $z,z'$ are related by an element in $\Ga_0(N)$. 
+%Conversely, if $\ga z=z'$ with $\ga=\smatt ab{Nc'}{d}\in \Ga_0(N)$, then  $\La(z,\rc N)$ and $\La(z',\rc N)$ are related by $\smatt a{Nb}cd$.
+%reversing the above we can find $\ga$ and $\ga'$ that take $(z,1)$ to $(z',1)$ and $(z,\rc N)$ to $(z', \rc N)$.
+
+%Note $\theta$ is surjective because any elliptic curve corresponds to $\La(z,1)$ for some $z\in \cal H$, and why?
+Now we prove surjectivity. Any elliptic curve is associated to some $\C/\La(z,1)$ with $z\in \cal H$; any cyclic subgroup of size $N$ is generated by some $\frac{az+b}{N}$ with $\gcd(a,b,N)=1$. By adding a multiple of $N$ to $a$, we may assume $\gcd(a,b)=1$. By B\'ezout there exists $\smatt ab{c}d\in SL_2(\Z)$. Now
+\begin{align*}
+\pa{\C/\La(z,1),\bc{k\frac{az+b}{N},0\le k< N}}&
+= \pa{\C/\La(az+b,cz+d),\bc{k\frac{az+b}{N},0\le k< N}}\\
+&=\rc{az+b}\pa{\C/\La\pa{\frac{cz+d}{az+b},1},\bc{\frac{k}{N},0\le k<N}}\\
+&\sim \pa{\C/\La\pa{\frac{cz+d}{az+b},1},\La\pa{\frac{cz+d}{az+b},\rc N}/\La\pa{\frac{cz+d}{az+b},1}}\\
+&=\theta\pa{\frac{cz+d}{az+b}}.
+\end{align*}
+\subprob{(B)}
+We claim that $Y(N)$ is in bijection with the set $S$ of triplets $(E,x_1,x_2)$, where $x_1$ and $x_2$ generate $E[n]$ and such that $e_m(x_2,x_1)=e^{\frac{2\pi i}{n}}$, modded out by equivalence (isomorphism of elliptic curves $E\to E'$ taking $x_1,x_2$ to $x_1',x_2'$).
+Define the map by
+\[
+\theta(z)=\pa{\C/\La(z,1), \frac{z}{N}, \rc N}.
+\]
+
+First we show $z\sim z'$ iff $\theta(z)\sim \theta(z')$. This will show $\theta$ is well-defined and injective. If $\theta(z)\sim \theta(z')$, then writing $z'=\ga z$, $\ga=\smatt abcd$ as before, the isomorphism $\C/\La(z,1)\to \C/\La(z',1)$ must be multiplication by $\rc{cz+d}$. 
+%Now $\frac{z}{N}, \rc{N}$ gets sent to $\frac{z'}{N},\rc{N}$ iff there exist integers $u,v,w,x$ such that
+%\begin{align*}
+%\frac{z/N}{cz+d}&=uz'+v+\frac{z'}{N}\\
+%\iff \frac{z}{N}&=\underbrace{\pa{ua+vc+\frac{a}{N}}}_{=0} z+\underbrace{\pa{b+\frac{b}{N}+vd}}_{=0}\\
+%\frac{1/N}{cz+d}&=wz'+x+\rc{N}\\
+%\iff \rc{N}&=\underbrace{\pa{wa+xc+\frac{c}{N}}}_{=0}z+\underbrace{\pa{wb+wd+\frac{d}{N}}}_{=0}.
+%\end{align*}
+%For the first to hold we need $a\equiv 1\pmod N$ and $N|b$ in which case we can take... For the second to hold we need $N|c$ and $d\equiv 1\pmod N$ in which case we can take...
+Now
+\begin{align*}
+\frac{1/N}{cz+d}&=\rc{N}\pa{a-c\pf{az+b}{cz+d}}\\
+&=\frac{a-cz'}{N}\\
+\frac{z/N}{cz+d}&=\rc{N}\pa{-b+d\pf{az+b}{cz+d}}\\
+&=\frac{-b+dz'}{N}.
+\end{align*}
+We need 
+\begin{align*}
+\frac{z/N}{cz+d}&\equiv \frac{z'}{N}\pmod{\La(z',1)}\\
+\frac{1/N}{cz+d}&\equiv \frac{1}{N}\pmod{\La(z',1)}.
+\end{align*}
+By the above this is true iff $a\equiv d\equiv 1\pmod N$ and $b\equiv c\equiv 0\pmod N$, i.e. $\ga\in \Ga(N)$, i.e. $z\sim z'$.
+
+For surjectivity, suppose $(\C/\Ga(z,1), \frac{az+b}{N},\frac{cz+d}{N})\in S$. Now since the Weil pairing is alternating and bilinear, and $e_m(\rc{N},\frac{z}{N})=e^{\frac{2\pi i}{N}}$. 
+\[
+e_m\pa{
+\frac{cz+d}{N}
+,\frac{az+b}{N}}=e^{\frac{2\pi i}{N}\det\smatt abcd}.
+\]
+Hence $ad-bc\equiv 1\pmod N$. Since $\{\frac{az+b}{N},\frac{cz+d}{N}\}$ is a basis, $\gcd(a,b,N)=1$. By adding a constant multiple of $N$ to $a$ we may assume $\gcd(a,b)=1$. Now
+\[
+\det\matt  ab{c+rN}{d+sN}=ad-bc+(sa-rb)N.
+\]
+By B\'ezout we can choose $r,s$ so that the determinant is 1. Replacing $a,b,c,d$ by $a,b,c+rN, d+sN$, we assume $\ga\in \SL_2(\Z)$. Now
+\begin{align*}
+\pa{\C/\Ga(z,1), \frac{az+b}{N},\frac{cz+d}{N}}&= 
+\pa{\C/\Ga\pa{az+b,cz+d},\frac{az+b}{N},\frac{cz+d}{N}}\\
+&\sim \pa{\C/\Ga\pa{\frac{az+b}{cz+d},1},\frac{az+b}{N(cz+d)},\frac{1}{N}}\\
+&=\theta\pa{\frac{az+b}{cz+d}}.
+\end{align*}
+
+\end{problem}
+\begin{problem}{\it (Two definitions of Hecke operator)}
+
+Note $z\in X_0(N)$ corresponds to $(\C/\La(z,1),\La(z,\rc N)/\La(z,1))$ via the isomorphism in problem 1, and this corresponds to the map
+\[
+\C/\La(z,1)\to \C/\La(z,\rc N).
+\]
+
+Assume $p$ does not divide $N$.
+Then
+\[
+%\Ga_0(N)
+%\matt{1}00{p}
+%\Ga_0(N)=
+\Ga_0(N)
+\matt{p}00{1}
+\Ga_0(N)=
+\Ga_0(N)\matt p001 \sqcup \bigsqcup_{k=0}^{p-1}\Ga_0(N)\matt 1k0p.
+\]
+Hence as a correspondence, $T(p)$ takes $z$ to $\{pz\}\cup \{\frac{z+k}{p}:0\leq k<p\}$, which by our bijection above, corresponds to the maps
+\begin{align*}
+\C/\La(pz,1)&\to \C/\La(pz,\rc N)\\
+\C/\La(\frac{z+k}{p},1)&\to \C/\La(\frac{z+k}{p},\rc N).
+\end{align*}
+
+Now we calculate the Hecke operator as a correspondence on the moduli space for $X_0(N)$. 
+There are $p+1$ subgroups of order $p$ in $\C/\La(z,1)$; they are $\La(z,\rc p)$ and $\La(\frac{z+k}{p},1),0\le k<p$. These correspond to the maps
+\begin{align*}
+\C/\La(z,\rc p)&\to \C/\an{\La(z,\rc p),\La(z, \rc N)}\\
+&\quad = \C/\La(z,\rc{pN}).\\
+\C/\La(\frac{z+k}{p}, 1)&\to \C/\an{\La(\frac{z+k}{p},1),\La(z,\rc N)}\\
+&\quad = \C/\La(\frac{z+k}{p},\rc N).
+\end{align*}
+The second map is the same as the one calculated above; the first maps match after scaling by $p$.
+\end{problem}
+\begin{problem}{\it (Weil conjectures for $\Pj^N$)}
+Note
+\[
+|\Pj^N(\F_{q^n})|=\ab{\frac{\F_{q^n}^{N+1}-\{0\}}{\F_{q^n}^{\times}}}
+=\frac{(q^n)^{N+1}-1}{q^n-1}
+=1+q^n+\cdots +q^{nN}.
+\]
+Hence
+\begin{align*}
+e^{\sum_{n=1}^{\iy} |\Pj^N(\F_{q^n})|\frac{T^n}{n}}
+&=e^{\sum_{n=1}^{\iy} (1+q^n+\cdots +q^{nN})\frac{T^n}{n}}\\
+&=e^{-\ln(1-t)-\ln(1-qt)-\cdots -\ln(1-q^Nt)}\\
+&=\frac{1}{(1-t)(1-qt)\cdots (1-q^Nt)}.
+\end{align*}
+We check the Weil conjectures.
+\begin{enumerate}
+\item
+Rationality: $Z(V;T)\in \Q(T)$.
+\item
+Functional equation:
+\begin{align*}
+Z\pa{\Pj^N;\rc{q^NT}}&=\rc{\pa{1-\rc{q^NT}}\cdots \pa{1-\rc T}}\\
+&=q^{1+2+\cdots +N} T^{N+1}\rc{(q^NT-1)\cdots (t-1)}\\
+&=(-1)^{N+1}q^{n\ep/2} T^{\ep}Z(\Pj^N;T)
+\end{align*}
+where $\ep=N+1$.
+\item 
+Riemann hypothesis:
+Take $P_1(T)=\cdots =P_{2n-1}(T)=1$, $P_{2k}(T)=1-q^{k}T$ for $0\le k\le N$. Then
+\[
+Z(\Pj^N;T)=\frac{P_1(T)\cdots P_{2N-1}(T)}{P_0(T)P_2(T)\cdots P_{2N}(T)}.
+\]
+\end{enumerate}
+\end{problem}
+\begin{problem}{\it (Isogenous elliptic curves have same number of points over finite field)}
+\subprob{(A)}
+For an elliptic curve $E$, let $E^{(q)}$ denote the elliptic curve whose defining equation is the same as that for $E$ but with all coefficients raised to the $q$th power. Let $\phi_E:E\to E^{(q)}$ be the $q$th power (Frobenius) map. Let $\psi:E_1\to E_2$ be an isogeny over $\F_q$; note that it induces an isogeny $\psi^{(q)}:E_1^{(q)}\to E_2^{(q)}$ such that the following commute:
+\[
+\xymatrix{
+E_1\ar[r]^{\psi}\ar[d]^{\phi_{E_1}} &E_2\ar[d]^{\phi_{E_2}}\\
+E_1^{(q)}\ar[r]^{\psi^{(q)}}&E_2^{(q)}
+}\quad
+\xymatrix{
+E_1\ar[r]^{\psi}\ar[d]^{1-\phi_{E_1}} &E_2\ar[d]^{1-\phi_{E_2}}\\
+E_1^{(q)}\ar[r]^{\psi^{(q)}}&E_2^{(q)}
+}
+\]
+This is since %Because if $\psi((x,y))=(x',y')$ then $\psi(x^p)
+$\phi$ is not only a morphism $E\to E^{(q)}$ but also an automorphism on $\F_q$. The above gives
+\begin{equation}\label{p7-4-1}
+\deg_s(\phi_{E_2})\deg_s(\psi)=\deg_s(\phi_{E_2}\psi)
+=\deg_s(\psi^{(q)}\phi_{E_1})=\deg_s(\psi^{(q)})\deg_s(\phi_{E_1}).
+\end{equation}
+and similarly
+\begin{equation}\label{p7-4-2}
+\deg_s(1-\phi_{E_2})\deg_s(\psi)=\deg_s((1-\phi_{E_2})\psi)
+=\deg_s(\psi^{(q)}(1-\phi_{E_1}))=\deg_s(\psi^{(q)})\deg(1-\phi_{E_1}).
+\end{equation}
+Since $\deg_s(\phi_{E_1})=\deg_s(\phi_{E_2})=1$, from~(\ref{p7-4-1}) we get $\deg_s(\psi)=\deg_s(\psi^{(q)})$. Putting this in~(\ref{p7-4-2}) we get $\deg_s(1-\phi_{E_1})=\deg_s(1-\phi_{E_2})$. However the separable degree of a morphism is the size of the kernel, and $\ker(1-\phi_E)$ is simply $E(\F_{q})$, since $\phi$ fixes exactly the points of $\F_q$. Hence 
+we get 
+$|E_1(\F_q)|=|E_2(\F_q)|$ as needed.\\
+%the above becomes
+%\[
+%\ker(\psi)|E_1(\F_q)|=\ker(\psi^{(q)})|E_2(\F_q)|
+%\]
+%and it suffices to show %$|E_1(\F_q)|=|E_2(\F_q)|$ it suffices to show that
+%\[
+%\ker(\psi)=\ker(\psi^{(q)}).
+%\]
+%However, this is clear since why?
+
+\subprob{(B) Converse}
+The converse holds as well.
+\begin{thm}\cite[III.7.7]{silv}
+If $K$ is a finite field, then
+\[
+\Hom_K(E_1,E_2)\otimes \Q_l\cong \Hom_K(V_{\ell}(E_1),V_{\ell}(E_2))
+\]
+via the natural map.
+\end{thm}
+Given that $E_1$ and $E_2$ have the same number of points over $K$, we want to show $E_1$ and $E_2$ are isogenous, i.e. $\Hom_K(E_1,E_2)\neq 0$. By this theorem it suffices to show that $\Hom_K(V_{\ell}(E_1),V_{\ell}(E_2))\neq 0$.
+
+Let $\phi$ be the Frobenius morphism on $E$.
+Note that $\deg(1-\phi)$ is the number of points of the elliptic curve $E$ in $K$, and that $\tr(\phi_{\ell})=1+\deg(\phi)-\deg(1-\phi)$. Moreover, it can be shown that $V_{\ell}(E)$ is a semisimple representation of $G(\ol{K}/K)=\an{\phi}$.
+
+Now let $\phi,\phi'$ denote the Frobenius morphisms on $E,E'$. From the above considerations and the assumption, $\tr(\phi_{\ell})=\tr(\phi'_{\ell})$, i.e. the characters corresponding to the Galois representations $V_{\ell}(E_1)$ and $V_{\ell}(E_2)$ are equal.
+By semisimplicity we can write $V_{\ell}(E_1)=\bigoplus n_iV_i$ and $V_{\ell}(E_2)=\bigoplus n_i'V_i$ where $V_i$ are the irreducible representations. Equality of characters says that $n_i=n_i'$, so $V_{\ell}(E_1)\cong V_{\ell}(E_2)$ and $\Hom_K(V_{\ell}(E_1),V_{\ell}(E_2))\neq 0$, as needed.
+\end{problem}
+\begin{thebibliography}{9}
+\bibitem{silv} Silverman, J.: "The Arithmetic of Elliptic Curves," Springer, 1986.
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,633 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\newcommand{\bb}[1]{\mathbb{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\PSL}{\operatorname{PSL}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\ol}[1]{\overline{#1}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.785 Analytic Number Theory} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 3} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+\allowdisplaybreaks[1]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.785 Analytic Number Theory Problem Set \#3}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{2/21/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it (Invariant measure)}
+\subprob{(A) Bruhat decomposition}
+Since $S\in \SL_2(\R)$, $B\cup BSB\subeq \SL_2(\R)$.
+
+Now we show that for $M=\smatt abcd\in \SL_2(\R)$, $M\in B$ iff $c= 0$ and $M\in BSB$ iff $c\neq 0$. The first is obvious. For the second, note that the matrices in $BSB$ are in the form
+\[
+\matt ef0{e^{-1}}\matt 0{-1}10\matt gh0{g^{-1}}
+=
+\matt {fg}{fh-eg^{-1}}{e^{-1}g}{e^{-1}h},\quad e,g\neq 0.
+\]
+The lower left entry is hence nonzero. Conversely, if $c=0$, then $M$ can be written in the above form by letting
+\begin{align*}
+e&=c^{-1}\\
+f&=a\\
+g&=1\\
+h&=dc^{-1}.
+\end{align*}
+(Note this gives $b=\frac{ad-1}{c}$ which is true since $\det(M)=1$.)
+Hence $M\in BSB$. This shows $\SL_2(\R)=B\sqcup BSB$.\\
+
+\subprob{(B)}
+\begin{enumerate}
+\item $|y|^{-2}dxdy$ is invariant under diagonal matrices: The matrix $\matt a00{a^{-1}}\in \SL_2(\R)$ corresponds to the transformation $z\mapsto c z$ or $x+yi\mapsto cx+cyi$, where $c=a^2$. Then $|y|^{-2}dxdy$ becomes
+\[
+|cy|^{-2}d(cx)d(cy)=|y|^{-2}dxdy.
+\]
+\item $|y|^{-2}dxdy$ is invariant under unipotent matrices: The matrix $\matt 1a01$ corresponds to the transformation $z\mapsto z+a$, or $x+yi\mapsto (x+a)+yi$. Then $|y|^{-2}dxdy$ becomes
+\[
+|y|^{-2}d(x+a)dy=|y|^{-2}dxdy.
+\]
+\item $|y|^{-2}dxdy$ is invariant under $S$: $S$ corresponds to the transformation $z\mapsto-\rc z$, or $r\cis \theta \mapsto -\rc{r}\cis(-\theta)$. Noting that the Jacobian from rectangular to polar coordinates is $r$,
+\[
+|y|^{-2}dxdy= \frac{r}{|r\sin\theta|^2}drd\theta.
+\]
+Under $S$, this gets sent to
+\[
+\frac{\rc{r}}{\ab{\rc{r^2}\sin\theta}^2}d\pa{-\rc{r}}d(-\theta)
+=
+\frac{-r^3}{|r\sin\theta|^2}\cdot \frac{dr}{r^2}\cdot (-d\theta)
+=
+\frac{r}{|r\sin\theta|^2}drd\theta,
+\]
+which is the same as the original expression.
+\end{enumerate}
+Now note that $B=DU$, where $D$ is the subgroup of diagonal matrices in $\SL_2(\R)$ and $U$ is the subgroup of unipotent matrices, as
+\[
+\matt a00{a^{-1}}\matt 1{ba^{-1}}01=\matt ab0{a^{-1}}.
+\]
+Since $|y|^{-2}$ is invariant under $D$, $U$, and $S$, it is invariant under $B$ and $BSB$. Hence by the Bruhat decomposition it is invariant under $\SL_2(\R)$.
+\end{problem}
+\begin{problem}{\it (Genus)}
+\subprob{(A)}
+By the Riemann-Hurwitz formula, for $f:\cal R\to \cal R'$ a holomorphic map of compact Riemann surfaces that is $m$-to-1 at finitely many points,
+\begin{equation}\label{rhur}
+2g(\cal R)-2=m(2g(\cal R')-2)+\sum_{p\in \cal R} (e_p-1),
+\end{equation}
+where $e_p$ is the ramification index of $p$. We also have the following: For $p'\in \cal R'$,
+\begin{equation}\label{sumram}
+m=\sum_{p\in \cal R, f(p)=p'}e_p.
+\end{equation}
+
+Let $\Ga'=\SL_2(\Z)$. For a group $G\subeq \SL_2(\Z)$, let $\overline{G}$ denote its image in $\PSL_2(\Z)$. 
+Putting in $\cal R'=\Ga'\bs\cal H^*$ and $\cal R=\Ga\bs \cal H^*$, and noting that $g(\SL_2(\Z)\bs \cal H^*)=0$, $m=\mu=[\Ga':\Ga]$,~(\ref{rhur}) becomes
+\[
+g(\Ga\bs \cal H^*)=1-\mu+\rc{2}\sum_{p\in \Ga\bs \cal H^*} (e_p-1).
+\]
+
+Now the only nonequivalent cusp of $\Ga'$ is $\infty$ and the only nonequivalent elliptic points of $\Ga'$ %$\Ga\bs\cal H^*$ all lie over 
+are $i$ and $\om=e^{\frac{2\pi i}{3}}$, by Proposition 3.5.3. 
+Thus the stabilizer of any elliptic point $z$ of $\overline{\Ga'}$ is a subgroup $\ol{\Ga'}_z$ conjugate to one of the following subgroups.
+\begin{align}
+\overline{\Ga'}_{\omega}&=\bc{
+\pm I,\pm \smatt 0{-1}{1}{-1},\pm \smatt {-1}{1}{-1}{0}
+}
+\label{stabom}\\
+\overline{\Ga'}_{i}&=\bc{
+\pm I,\pm \smatt 0{-1}{1}{0}
+}\label{stabi}
+\end{align}
+These groups have order 2 and 3 in $\PSL_2(\Z)$, respectively. If $z\in \cal H^*$ elliptic in $\Ga'=\SL_2(\Z)$ remains elliptic under $\Ga$, we must have $\Ga'_z\subeq \Ga$; in this case $e_z=[\overline{\Ga'}_z:\overline{\Ga}_z]=1$. Otherwise, $e_z=[\overline{\Ga'}_z:\overline{\Ga}_z]=|\ol{\Ga'}_z|$.
+
+First consider the points of $\Ga\bs \cal H^*$ lying over $i$. Note $\nu_2$ is the number of such points with $e_z=1$. Let $a$ be the number of points with $e_z=2$.
+ By~(\ref{sumram}),
+\[\mu=2a+\nu_2,\]
+so $a=\frac{\mu-\nu_2}{2}$. Hence
+\begin{equation}\label{v2}
+\sum_{p\in \Ga\bs \cal H^*,\, f(p)=i}(e_p-1)=a= \frac{\mu-\nu_2}{2}.
+\end{equation}
+
+Next consider the points of $\Ga\bs \cal H^*$ lying over $\omega$. Note $\nu_3$ is the number of points with $e_z=1$. Let $b$ be the number of points with $e_z=3$.
+ By~(\ref{sumram}),
+\[\mu=3a+\nu_3,\]
+so $a=\frac{\mu-\nu_3}{3}$. Hence
+\begin{equation}\label{v3}
+\sum_{p\in \Ga\bs \cal H^*,\, f(p)=\omega}(e_p-1)=a= \frac{2(\mu-\nu_3)}{3}.
+\end{equation}
+
+Finally consider the cusps of $\overline{\Ga}$. We claim that if $p$ is a cusp of $\Ga'$, then it is a cusp of $\Ga$. Indeed, if $\ga$ is a parabolic element of $\Ga'$ fixing $p$, then since $\Ga$ has finite index in $\Ga'$, some nonzero power $\ga^m$ is contained in $\Ga$; it fixes $p$. (Note $\ga^m\neq I$ since $\ga$ has infinite order.) Hence using~(\ref{sumram}),
+\begin{equation}\label{vinf}
+\sum_{p\in \Ga\bs \cal H^*,\, f(p)=\infty}(e_p-1)=\pa{\sum_{p\in \Ga\bs \cal H^*,\, f(p)=\infty}e_p}-\nu_{\infty}=\mu-\nu_{\infty}.
+\end{equation}
+
+We've accounted for all elliptic points and cusps of $\Ga$. Putting ~(\ref{v2}),~(\ref{v3}), and~(\ref{vinf}) into~(\ref{rhur}) gives
+\begin{equation}\label{genus}
+g=1+\frac{\mu}{12}-\frac{\nu_2}{4}-\frac{\nu_3}{3}-\frac{\nu_{\infty}}{2}.
+\end{equation}
+
+\subprob{(B)}
+Below, $p$ will always represent a prime.
+\begin{lem}
+\[
+[\PSL_2(\Z):\overline{\Ga_0(N)}]=N\prod_{p|N}\pa{1+\rc p}.
+\]
+\end{lem}
+\begin{proof}
+Let $G$ be the group
+\[
+\{
+(a,y)|a\in (\Z/N\Z)^{\times},y\in \Z/N\Z
+\}/\{\pm(1,0)\}
+\]
+with the operation
+\[
+(a,y)(a',y')=(aa',ay'+a'^{-1}y).
+\]
+The fact that $G$ is a group can be shown directly, or by noting that the group structure on $G$ is the ``pushforward" of the group structure on $\Ga_0(N)$ by $\pi$ below.
+We claim that
+\[
+1\to \overline{\Ga(N)}\to \overline{\Ga_0(N)} \xr{\pi}G\to 1
+\]
+is a short exact sequence, where 
+\[
+\pi\pa{\matt ab{Nc}d}=(a,b)\bmod N.
+\]
+We verify:
+\begin{enumerate}
+\item
+$\pi$ is surjective: Given $(\ol{a},\ol{b})\in G$, we can choose $b$ so that $a\equiv \ol{a}\pmod N,b\equiv \ol{b}\pmod N$ so that $\gcd(a,b)=1$.
+Let $d$ be an integer such that $ad\equiv 1\pmod N$. By B\'ezout's Theorem we can find $k,l$ so that $ak-lb=\frac{1-ad}{N}$. Then $a(d+kN)-Nlb=1$, and the following  matrix is in $\SL_2(\Z)$.
+\[
+\pi\pa{\matt ab{Nl}{d+kN}}=(a,b).
+\]
+\item
+$\ker(\pi)=\overline{\Ga(N)}$: The inclusion $\overline{\Ga(N)}\subeq \ker (\pi)$ is clear.
+Conversely, if $A=\matt ab{Nc}d\in \Ga_0(N)$, $\pi(A)=(1,0)$, then $a\equiv 1\pmod N$ and $b\equiv 0\pmod N$; moreover $ad-(Nc)d=1$ and $a\equiv 1\pmod N$ imply $b\equiv 1 \pmod N$. 
+\end{enumerate}
+%$G$ is a group because
+%\begin{align*}
+%[(a,b,y)(a',b',y')](a'',b'',y'')=(aa'a'',bb'b'',aa'y+ab''y+b'b''y)=(a,b,y)(
+%\end{align*}
+First suppose $N\neq 2$.
+Then $|G|=\rc{2}\ph(N)N$, so
+\[
+[\PSL_2(\Z):\ol{\Ga_0(N)}]=\frac{[\PSL_2(\Z):\ol{\Ga(N)}]}{|G|}=\frac{\frac{N^3}{2}\prod_{p|N}\pa{1-\rc{p^2}}}{N\prod_{p|N}\pa{1-\rc p}}=N\prod_{p|N}\pa{1+\rc p}.
+\]
+For $N=2$, $[\PSL_2(\Z),\ol{\Ga(N)}]=6$ and $|G|=2$, so $[\PSL_2(\Z):\ol{\Ga_0(N)}]=3$ (and the above formula works as well).
+\end{proof}
+\begin{lem}
+The equivalence classes of elliptic points of order 2 in $\Ga_0(N)$ are in bijection with the solutions to $a^2+1\equiv 0\pmod N$, and the elliptic points of order 3 in $\Ga_0(N)$ are in bijection with the solutions to $a^2+a+1\equiv 0\pmod N$.
+\end{lem}
+\begin{proof}
+Let $z$ be an elliptic point of order 2 in $\Ga_0(N)$. Its stabilizer subgroup in $\PSL_2(\Z)$ is conjugate to~(\ref{stabi}), and must be the same as the stabilizer subgroup in $\overline{\Ga_0(N)}$. 
+Let $\ga z=z$ with $\ga\neq \pm 1$. Then $\ga$ is conjugate to $\smatt 0{-1}{1}0$ and has characteristic polynomial $x^2+1$. It must have trace 0 and be in $\overline{\Ga_0(N)}$. Hence modulo $N$ it is in the form
+\begin{equation}\label{formofmat}
+\matt ab0{a^{-1}},\quad a+a^{-1}\equiv 0\pmod N.
+\end{equation}
+This gives $a$ so that $a^2+1\equiv 0\pmod N$.
+Note that the map $z\mapsto a$ is well-defined because equivalent $z$ get sent to the same $a$: If $z_1$ and $z_2$ are elliptic points with $\ga_jz_j=z_j,\ga_j\neq \pm I$ and $\tau z_1 =z_2,\tau\in \ol{\Ga_0(N)}$, 
+then $\tau \ga_1\tau^{-1}z_2=z_2$ so $\tau \ga_1\tau^{-1}=\ga_2$. Working modulo $N$, we write $\ga_1=\smatt ab0{a^{-1}}$, $\tau=\smatt cd0{c^{-1}}$ and hence
+\[
+\ga_2=\tau \ga_1\tau^{-1}=\matt a{-ad+c^2b+ca^{-1}d}0{a^{-1}}
+\]
+which has the same upper-left-hand entry.
+
+Let $m$ be the number of solutions to $a^2+1\equiv 0\pmod N$. Note for every such solution, $\smatt a{1}{-a^2-1}{-a}$ is an elliptic matrix with upper lefr corner $a$, so there are at least $m$ $\Ga_0(N)$-inequivalent elliptic points of order 2.
+It suffices to show there are at most $m$ distinct elliptic points of order 2.
+\begin{lem}
+For each
+\[(z,t)\in P:=\frac{(\Z/N\Z)^2-\{(0,0)\}}{(\Z/N\Z)^{\times}}\]
+take an integer matrix of the form
+$\smatt xyzt$. These matrices
+form a set of right coset representatives for ${\Ga_0(N)}$ in $\SL_2(\Z)$ (or of $\overline{\Ga_0(N)}$ in $\PSL_2(\Z)$). 
+\end{lem}
+\begin{proof}
+First note that coset representatives for ${\Ga_0(N)}$ in $\SL_2(\Z)$ correspond to coset representatives for ${\Ga_0(N)}/{\Ga(N)}$ in $\SL_2(\Z/N\Z)$. Thus we work modulo $N$.
+We show that the map (of sets)
+\begin{align*}
+\SL_2(\Z/N\Z)\bs (\Ga_0(N)/\Ga(N))&\to P\\
+\matt xyzt&\mapsto(z,t)
+\end{align*}
+is well-defined and bijective. For each $(z,t)\in P$ we can find a matrix of the above form by B\'ezout, so this map is surjective.
+
+First, it is well-defined: If $\smatt {a^{-1}}b0{a}\in \Ga(N)$, then 
+\begin{equation}\label{checkcoset}
+\matt {a^{-1}}b0{a}
+\matt xyzt=\matt {a^{-1}x+bz}{a^{-1}y+bt}{az}{at}.
+\end{equation}
+whose bottom row is just the original multiplied by $a$.
+
+It remains to show that the map is injective, i.e. every matrix in the form $\smatt {x'}{y'}{az}{at}\in \SL_2(\Z)$ with $a\in (\Z/N\Z)^{\times}$ is in the same coset. Suppose $\smatt{x}{y}{z}{t}\in \SL_2(\Z/N\Z)$ is the coset representative. Assume $z\neq 0$ (if $z=0$, work with $t$ instead of $z$; the argument is similar).
+Then given $\smatt {x'}{y'}{az}{at}\in \SL_2(\Z)$, we have $ax't-ay'z=1$ so $x't-y'z=a^{-1}$. Taking this modulo $\gcd(z,N)$ gives $x't\equiv a^{-1}\pmod{\gcd(z,N)}$, which has a unique solution for $x'$ modulo $\gcd(z,N)$. Hence there are $\frac{N}{\gcd(z,N)}$ possible values of $x'$ modulo $N$. The value of $x'$ uniquely determines $y'$, so there are $\frac{N}{\gcd(z,N)}$ matrices with bottom row $az,at$. 
+Fixing $a$ and letting $b$ range over the residues modulo $N$ in~(\ref{checkcoset}), $a^{-1}x+bz$ can take $\frac{N}{\gcd(z,N)}$ values. Hence all the matrices with bottom row $az,at$ are in the coset $\Ga_0(N)\matt{x}{y}zt$, as needed.
+\end{proof}
+Let $\ga_1,\ga_2\neq \pm I$ be stabilizers for elliptic points $p_1,p_2$ in ${\Ga_0(N)}$, and suppose $p_1,p_2$ are $\Ga_0(N)$-inequivalent. By Proposition 3.5.3, we can write $\ga_j=M_jSM_j^{-1}$, where $S=\smatt 0{-1}{1}0$ and $M_j\in \PSL_2(\Z)$. Write
+$M_j=A_jR_j$ where $R_j$ is one of the coset representatives above and $A_j\in \ol{\Ga_0(N)}$. Then
+\begin{align*}
+\ga_1&=A_1R_1SR_1^{-1}A_1^{-1}\\
+\ga_2&=A_2R_2SR_2^{-1}A_2^{-1}
+\end{align*}
+
+Let $R=\matt xyzt$ be a coset representative chosen above. Then
+\[
+RS R^{-1}=\matt{yt+xz}{-x^2-y^2}{t^2+z^2}{-yt-zx}.
+\]
+In order for this to be in $\Ga_0(N)$, we must have 
+\begin{equation}\label{sqeq}
+t^2+z^2\equiv 0\pmod N.
+\end{equation}
+We count the number of $(t,z)\in P$ that make this equation true. Note that $\gcd(t,z)=1$. Let $g=\gcd(t,N)$. If~(\ref{sqeq}) holds then $g|z$ giving $g=1$. Thus we can divide the equation above by $z^2$ and let $x=\frac tz$ to get $x^2+1\equiv 0\pmod N$. Each solution $(t,z)$ corresponds to a solution $x$. Thus there are $m$ coset representatives $R$ such that $RSR^{-1}\in \ol{\Ga_0(N)}$. 
+
+Now if $R_1=R_2$, then $\ga_2=A_2A_1^{-1}\ga_1A_1A_2^{-1}$ so $\ga_1,\ga_2$ are conjugate in $\ol{\Ga_0(N)}$ and $p_1,p_2$ are $\Ga_0(N)$-equivalent. The number of $\Ga_0(N)$-inequivalent elliptic points is hence at most the number of distinct coset representatives $R$ such that $RSR^{-1}\in \Ga_0(N)$, which equals $m$. But we've already shown there are at least $m$ distinct elliptic points, so the number must equal exactly $m$.
+
+For the case that $z$ is an elliptic point of order 3, we have $\ga z=z$ for some $\ga$ conjugate to $T=\smatt0{-1}{1}{-1}$ instead. The proof is the same with minor changes.
+\begin{enumerate}
+\item
+The trace is 1 so we have $a^2+a+1\equiv 0\pmod N$ in~(\ref{formofmat}) instead.
+\item
+The map $z\mapsto a$ is sujective because the elliptic point corresponding to $\smatt {a}{1}{-a^2-a-1}{-1-a}$ maps to $a$.
+\item 
+Keeping the same notation, 
+the bottom-left entry in $RTR^{-1}$ is $z^2+tz+t^2$ instead of $t^2+z^2$.
+\end{enumerate}
+\end{proof}
+It remains to count the number of solutions to $a^2+1\equiv 0\pmod N$. Let $p|N,p\neq 2$. The number of solutions to $a^2\equiv -1\pmod p$ is 2 if $-1$ is a square modulo $p$ and 0 otherwise. By Hensel's Lemma solutions lift uniquely to modulo $p^{v_p(n)}$. The number of solutions to $a^2\equiv -1\pmod{2^{\al}}$ is 1 if $\al=1$ and 0 if $\al>1$. Hence by the Chinese Remainder Theorem the total number of solutions is
+\begin{equation}\label{ell2}
+\nu_2=\begin{cases}
+\prod_{p|N,\,p\neq 2}\pa{1+\pf{-1}{p}},&4\nmid N\\
+0,&4| N.
+\end{cases}
+\end{equation}
+%Now for the elliptic points of order 3, we consider
+Now $a^2+a+1\equiv 0\pmod N$ has no solutions if $2|N$. If $2\nmid N$, then rewrite as $(2a+1)^2\equiv -3\pmod N$. For $p\neq 2,3$, this equation has 2 solutions if $-3$ is a square mod $p$ and 0 otherwise; solutions mod $p$ lift to solutions mod $p^{v_p(n)}$. For $p=3$, we see that there is 1 solution mod 3 but none mod 9. Hence
+\begin{equation}\label{ell3}
+\nu_3=\begin{cases}
+\prod_{p|N,\,p\neq 2,3}\pa{1+\pf{-3}{p}},&2\nmid N,\,9\nmid N\\
+0,&\text{else}.
+\end{cases}
+\end{equation}
+
+Finally, we count the cusps.
+\begin{lem}
+Suppose $z\in \cal H$, $\Ga'$ is a discrete subgroup of $\SL_2(\R)$, $\Ga\subeq \Ga'$ is a subgroup of finite index, and $\sigma_1,\ldots, \sigma_k\in \Ga'$ are such that $\sigma_j(z)$ are all the $\Ga$-inequivalent points. Then
+\[
+\Ga'=\bigsqcup_{j=1}^k\Ga\sigma_j\Ga'_z.
+\]
+\end{lem}
+\begin{proof}
+Given $\ga\in \Ga'$, there exists $\sigma_j$ such that $\ga(z)$ is $\Ga$-equivalent to $\sigma_j(z)$. This means there exists $A\in \Ga$ such that $\ga(z)=A\sigma_j(z)$. Then $\sigma_j^{-1}A^{-1}\ga(z)=z$ so there exists $\tau\in \Ga'_z$ such that $\sigma_j^{-1}A^{-1}\ga=\tau$. Rearranging gives
+\[
+\ga=A\sigma_j\tau\in \Ga\sigma_j\Ga'_z.
+\]
+These double cosets are disjoint because if $\ga\in \Ga\sigma_j\Ga'_z$, then $\ga(z)$ is $\Ga$-equivalent to $\sigma_j(z)$, and by assumption different $\sigma_j(z)$ are $\Ga$-inequivalent.
+\end{proof}
+Take $\Ga'=\SL_2(\Z)$, $\Ga=\Ga_0(\Z)$, and $z=0=\smatt 0{-1}{1}0\infty$; then $\sigma_1(z),\ldots, \sigma_k(z)$ are all the cusps, and $\nu_{\infty}$ is the number of double cosets $\Ga_0(N)\bs \Ga'/\Ga'_z$. Considering our coset representatives $\smatt **zt$, two of them are in the same double coset if they are related on the right by an element of $\Ga'_z=\bc{\smatt 10n1}$. Now
+\[
+\matt **zt\matt 10n1=\matt **{nt+z}{t}.
+\]
+Thus the number of double cosets is the number of pairs $(z,t)$ under the equivalence relation $(z,t)\sim (z',t')$ if $z'=nt+z,t=t'$ for some $n$. Fixing $t$, there are $\ph(\gcd(n/t,t))$ inequivalent choices for $z$. Hence
+\begin{equation}\label{cusp}
+\nu_{\infty}=\sum_{d|N}\ph(\gcd(n,n/d)).
+\end{equation}
+Now we can put~(\ref{ell2}),~(\ref{ell3}), and~(\ref{cusp}) into~(\ref{genus}) to get $g(X_0(N))$.
+\end{problem}
+\begin{problem} {\it (Picard's Little Theorem)}
+Suppose $f$ is an entire function omitting two values $y_1,y_2$.
+
+Note $\mu_2=6$ so
+\[
+g(X(2))=\left.1+\mu_N\cdot \frac{N-6}{12N}\right|_{N=2}=0.
+\]
+The number of cusps is
+\[
+\frac{\mu_N}{N}=3.
+\]
+%Let $a,b,\infty$ be the cusps. 
+There is one cusp at $\infty$ and two inequivalent cusps on $\R$.
+Note that $\Ga(2)\bs \cal H$ is analytically isomorphic to $\C-\{y_1,y_2\}$ (say, via $\ph$) since they both have genus 0 and two finite points omitted.%\footnote{As shown in~cite{Ahl}, an explicity isomorphism is given by $\la\pa{\frac{\om_2}{\om_1}}
+(From~\cite{mir}, any compact Riemann surface of genus 0 and no cusps is analytically isomorphic to the Riemann sphere.)
+
+Thus $f$ induces a holomorphic map $g: \C\to \Ga(2)\bs \cal H$.
+Now $\cal H$ is a covering space of $\Ga(2)\bs \cal H$ so $g$ induces a analytic map $h$ so that the following diagram commutes. (Here $\pi$ is the projection map.)
+\[
+\xymatrix{
+&\cal H\ar^{\pi}[d]\\
+\C\ar^{g}[r]\ar^{h}[ru]\ar^{f}[rd]& \Ga(2)\bs \cal H\ar^{\ph}_{\cong}[d]\\ &\C-\{y_1,y_2\}.
+}
+\]
+Now $u(z)=e^{iz}$ is an analytic map from $\cal H$ to $D-\{0\}$ ($D$ being the unit disc centered at 0). Hence $u(h(z))$ is an entire function with image contained in $D$. Then $u(h(z))$ is bounded so constant by Liouville's Theorem. But the inverse image of any point under $u$ is discrete, so this means that $h(z)$ is constant, and $f(z)=\ph(\pi(h(z))$ is constant.
+\end{problem}
+\begin{problem} {\it (An automorphic form)}
+For $\ga=\matt abcd\in \SL_2(\Z)$,
+\begin{align}
+\nonumber  \ga(z)&=\frac{az+b}{cz+d}\\
+\label{gd1}
+\ga'(z)&=\frac{\cancelto{1}{ad-bc}}{(cz+d)^2}
+%\ga''(z)&=\frac{-2}{(cz+d)^3}
+\end{align}
+
+We differentiate the equation 
+\begin{equation}\label{fgak}
+f|[\ga]_k(x)=f(\ga(x))(cx+d)^{-k}=f(x)
+\end{equation}
+and use~(\ref{gd1}) and~(\ref{fgak}) to obtain
+\begin{align}
+\nonumber f'(x)&=f'(\ga(x))\ga'(x)(cx+d)^{-k}-kf(\ga(x))(cx+d)^{-k-1}\\
+ &=f'(\ga(x))(cx+d)^{-2-k}-kf(x)(cx+d)^{-1}
+\label{fd1}\\
+\label{fdg1} f'(\ga(x))&=(cx+d)^{k+1}(f'(x)(cx+d)+kf(x)).
+\end{align}
+Now differentiate $f'(x)$ again and use~(\ref{gd1}),~(\ref{fgak}), and~(\ref{fdg1}) to obtain
+\begin{align}
+\nonumber f''(x)&=f''(\ga(x))\ga'(x)(cx+d)^{-2-k}-f'(\ga(x))(k+2)(cx+d)^{-3-k}\\
+\nonumber &\quad -kf'(x)(cx+d)^{-1}+kf(x)(cx+d)^{-2}\\
+\nonumber &= f''(\ga(x))(cx+d)^{-4-k}-(2+k)(cx+d)^{-2}(f'(x)(cx+d)+kf(x))\\
+\nonumber &\quad -kf'(x)(cx+d)^{-1}+kf(x)(cx+d)^{-2}\\
+\nonumber
+f''(\ga(x))&=f''(x)(cx+d)^{k+4}+(k+2)(cx+d)^{k+2}(f'(x)(cx+d)+kf(x))\\
+&\quad +kf'(x)(cx+d)^{k+3}-kf(x)(cx+d)^{k+2}.\label{fdg2}
+\end{align}
+Use~(\ref{fgak}), ~(\ref{fdg1}), and~(\ref{fdg2}) to write
+\begin{align*}
+g(\ga(x))&=(k+1)f'(\ga(x))^2-kf(\ga(x))f''(\ga(x))\\
+&=(k+1)(cx+d)^{2k+2}\ba{
+f'(x)^2(cx+d)^2+2kf(x)f'(x)(cx+d)+k^2f(x)^2
+}\\
+&\quad-kf(x)(cx+d)^k
+[
+f''(x)(cx+d)^{k+4}+(k+2)(cx+d)^{k+2}(f'(x)(cx+d)+kf(x))\\
+&\quad
++kf'(x)(cx+d)^{k+3}-kf(x)(cx+d)^{k+2}
+]\\
+&=(cx+d)^{2k+4}\ba{(k+1)f'(x)^2-kf''(x)}\\
+&\quad +(cx+d)^{2k+3}\ba{
+2k(k+1)f(x)f'(x)-k(k+2)f(x)f'(x)-k^2f(x)f'(x)}\\
+&\quad +(cx+d)^{2k+2}\ba{
+k^2(k+1)f(x)^2-k^2(k+2)f(x)^2+k^2f(x)^2
+}\\
+&=(cx+d)^{2k+4} [(k+1)f'(x)^2-kf''(x)]\\
+&=(cx+d)^{2k+4} g(x)
+\end{align*}
+Hence $g|[\ga]_{2k+4}=g$, and $g$ is a weight $(2k+4)$-modular form. (Note that since $f$ is holomorphic, so are its derivatives, and so $g$ is holomorphic.)
+
+If $f$ is a modular form, then translating a cusp to $\infty$ we can write the Fourier expansion as
+\[
+f(z)=\sum_{n\geq 0} a_ne^{2\pi inz}.
+\]
+Note $f'(z)=\sum_{n\geq 1} 2\pi ina_ne^{2\pi inz}$ has no constant term, and neither does $f''(z)$. Hence $g(z)=(k+1)f'(z)^2-kf(z)f''(z)$ has no constant term, and is a cusp form.
+\end{problem}
+\end{document}

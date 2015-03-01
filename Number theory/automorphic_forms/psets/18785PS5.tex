@@ -1,0 +1,518 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{6pt}
+{6pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\newcommand{\bb}[1]{\mathbb{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\PSL}{\operatorname{PSL}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\mmod}[1]{\,(\text{mod}^{\times} #1)}
+\newcommand{\nmod}[1]{\,(\text{mod}\, #1)}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+\newcommand{\iy}[0]{\infty}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.785 Analytic Number Theory} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 5} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+\allowdisplaybreaks[1]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.785 Analytic Number Theory Problem Set \#5}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{3/11/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it }
+\subprob{(A)}
+Since $\Ga_0(N)$ acts on $S_k(\Ga_1(N))$ by the slash operation and the subgroup $\Ga_1(N)$ fixes $S_k(\Ga_1(N))$, $S_k(\Ga_1(N))$ is a representation of $\Ga_0(N)/\Ga_1(N)$.
+%The following sequence is exact:
+%\[
+%1\to \Ga_1(N)\to \Ga_0(N)\to (\Z/N\Z)^{\times}\to 1
+%\]
+%where 
+The kernel of the map $\Ga_0(N)\to (\Z/N\Z)^{\times}$ given by
+\[
+\matt abcd\mapsto d\pmod n
+\]
+ is the set of elements $\smatt abcd\in \Ga_0(N)$ where $d\equiv 1\pmod n$. However, since $c\equiv 0\pmod n$ and the determinant is 1, this forces $a\equiv 1 \pmod n$, and $\smatt abcd\in \Ga_1(N)$.
+Hence the kernel is $\Ga_1(N)$ and $\Ga_0(N)/\Ga_1(N)=(\Z/N\Z)^{\times}$ by the isomorphism sending the class of $\smatt abcd$ to $d\pmod n$.
+
+Since $S_k(\Ga_1(N))$ is a finite-dimensional representation of $\Ga_0(N)/\Ga_1(N)=(\Z/N\Z)^{\times}$, it decomposes into irreducible representations of $(\Z/N\Z)^{\times}$. Thus we can write
+\[
+S_k(\Ga_1(N))=\bigoplus_{\rho_N} V_{\rho_N}
+\]
+where the sum is over all irreducible representations of $(\Z/N\Z)^{\times}$, and $V_{\rho_N}$ is the subspace where $\Ga_0(N)/\Ga_1(N)=(\Z/N\Z)^{\times}$ acts by $\rho_N$. 
+(Specifically, $\smatt abcd\in \Ga_0(N)/\Ga_1(N)$, corresponding to $d\nmod p\in (\Z/N\Z)^{\times}$, acts by $\rho_N(d)$.)
+These are the same as the characters $\chi_N$ since all irreducible representations of $(\Z/N\Z)^{\times}$ are one-dimensional. If $\chi_N$ corresponds to $\rho_N$, 
+then by definition, $V_{\rho_N}=S_k(\Ga_0(N),\chi_N)$, giving the desired result.\\
+
+\subprob{(B)}
+Let $f$ be a modular form of weight $k$ on a congruence subgroup containing $\Ga(n)$.
+
+Let $N=n^3$, and let $\al=\smatt n0n{\rc n}$. Then for any $\matt abcd\in \Ga_1(N)$, we have
+\[
+\al\matt abcd \al^{-1}=\matt{a-n^2b}{n^2b}{a+\frac{c}{n^2}-n^2b-d}{n^2b+d}\equiv \matt 1001\pmod n
+\]
+since $a\equiv d\equiv 1\pmod{n^3}$, and $c\equiv 0\pmod{n^3}$. This shows that for any $\be\in \Ga_1(N)$, $\al\be\al^{-1}\in \Ga(n)$ so 
+\[f|[\al\be\al^{-1}]_k=f\text{ for all }\be\in \Ga_1(N).\]
+Then
+\[
+f|[\al]_k|[\be]_k=f|[\al]_k\text{ for all }\be\in \Ga_1(N)
+\]
+so $f|[\al]_k\in M_k(\Ga_1(N))$.
+\end{problem}
+\begin{problem}{\it }
+Consider $f(z)=e^{e^{-iz}}$ on the strip $\Re z\in [-\pi,\pi]$. We verify:
+\begin{enumerate}
+\item
+$f(z)=O(1)$ when $\Re(z)=\pm \pi$: If $z=\pm \pi+iy$ with $y\in \R$, then
+\[
+f(z)=e^{e^{-y\pm \pi i}}
+=e^{-e^{-y}}< e^0=1.
+\]
+\item
+$f(z)\neq O(1)$ when $\Re(z)=0$: If $z=iy$, $y\in \R$, then
+\[
+f(z)=e^{e^{-i(iy)}}=e^{e^{y}}\]
+which is clearly not bounded.
+\end{enumerate}
+\end{problem}
+\begin{problem}{\it }
+\begin{lem}[Schreier's subgroup lemma]
+Let $G$ be a group, $H$ a subgroup, and $T$ a right transversal of $H$ in $G$ containing 1. For every $g\in G$, let $\ol{g}$ be the unique element $t\in T$ such that $Hg=Ht$.
+
+Suppose $G$ is generated by the set $S$. Then 
+\[
+\{ts(\ol{ts})^{-1}:s\in S,t\in T\}
+\] 
+generates $H$.
+\end{lem}
+Let $G=\SL_2(\Z)$ and $H=\Ga_0(5)$. By the algorithm in PSet 2, problem 5, we find coset representatives of $H$ in $G$ to be
+\[
+I, \quad \matt 0{-1}10,\quad \matt0{-1}11,\quad \matt0{-1}12,\quad \matt 0{-1}1{-1},\quad \matt0{-1}1{-2}.
+\]
+Note $G$ is generated by $S=\bc{ \smatt 1101,\smatt0{-1}10}$. Thus the lemma gives the following generators for $\Ga_0(5)$:\\
+
+\begin{tabular}{c|c|c|c|c|c|c}
+$s\backslash r$ & $I_{2}$ & $\matt0{-1}10$ & $\matt0{-1}11$ & $\matt0{-1}12$ & $\matt0{-1}1{-1}$ & $\matt0{-1}1{-2}$\tabularnewline
+\hline 
+$\matt1101$ & $\matt1101$ & $I_{2}$ & $I_{2}$ & $\matt10{-5}1$ & $I_{2}$ & $I_{2}$\tabularnewline
+\hline 
+$\matt0{-1}10$ & $I_{2}$ & $-I_{2}$ & $\matt1{-1}01$ & $\matt{-2}{-1}52$ & $-\matt1101$ & $\matt2{-1}5{-2}$\tabularnewline
+\end{tabular}\\
+
+To show $f$ is a modular form for $\Ga_0(N)$, i.e. invariant under all elements of $\Ga_0(N)$, it suffices to show $f$ is invariant under all the matrices in the above table. It is clear that $f$ is invariant under $\pm I_2$. $f$ is invariant under the translation $\smatt 1{\pm1}01$ because it has a Fourier series expansion.
+%Suppose we know $f$ is invariant under $\ga=\smatt {-2}{-1}52$. Noting  %\ga(\ol z)=\ol{\ga(z)}$, and 
+%$f(-z)=\ol{f(z)}$ by looking at the Fourier expansion, we have
+%\begin{align*}
+%f|\matt2{-1}5{-2}_k
+%&=f|\matt{-1}001\matt {-2}{-1}52\matt 100{-1}_k\\
+%&=(5z-2)^{-k}f(-\ga(-z))=(-5(-z)-2)^{-k}\ol{f(\ga(-z))}=\ol{f(-z)}=f(z).
+%\end{align*}
+It suffices to show $f$ is invariant under $\smatt 10{-5}1$ and $\smatt {-2}{-1}52$.
+
+First we show that 
+\begin{equation}\label{f1n}
+f|\smatt 0{-1}{N}0_k=f,
+\end{equation}
+i.e. 
+\[f(z)=\sqrt{N}^{-k/2}z^{-k} f\pf{-1}{Nz}.\] 
+By the given functional equation,
+\begin{align}
+\nonumber
+L(s)&=\frac{L^*(s)(2\pi)^s}{\sqrt N^s\Ga(s)}\\
+\nonumber
+&=\frac{i^{-k}L^*(k-s)(2\pi)^s}{\sqrt N^s\Ga(s)}\\
+\nonumber
+&=\frac{i^{-k}\cdot[(2\pi)^{-(k-s)}\sqrt N^{k-s}\Ga(k-s)L(k-s)]\cdot (2\pi)^s}{\sqrt N^s\Ga(s)}\\
+\label{p5-3-1}
+&=\frac{i^{-k}\Ga(k-s)L(k-s)(2\pi)^{2s-k}}{\sqrt N^{2s-k} }
+%&=\frac{i^{-k} L^*(k-s)(2\pi)^{k-s}}{\sqrt N^{k-s}\Ga(k-s)}\cdot\frac{(2\pi)^s\Ga(k-s)}{\sqrt N^{2s-k}\Ga(s)}
+\end{align}
+By Proposition 5.1.2, for $\si$ large enough, for $y\in \R$,
+\begin{align}
+\nonumber
+f(iy)-a_0&=\rc{2\pi i}\int_{\si-i\iy}^{\si+i\iy}\Ga(s)L(s)(2\pi y)^{-s}\,ds\\
+\nonumber
+&=\rc{2\pi i}\int_{\si-i\iy}^{\si+i\iy} 
+\frac{i^{-k}\Ga(k-s)L(k-s)(2\pi)^{2s-k}}{\sqrt N^{2s-k} }%
+\Ga(s)(2\pi y)^{-s}\,ds&\by{p5-3-1}\\
+%&=\rc{2\pi i}\int_{\si-i\iy}^{\si+i\iy} \frac{(-i)^k \Ga(k-s)L^*(k-s)}{(2\pi)^{k-s}\sqrt N^{2s-k}}\rc{y^s}\,ds\\
+\nonumber
+&=\sqrt{N}^{-k}(iy)^{-k} \rc{2\pi i}\int_{\si-i\iy}^{\si+i\iy}\Ga(k-s) L(k-s) \pf{2\pi}{Ny}^{-(k-s)}\,ds\\
+\label{usecauchy}
+&=\sqrt{N}^{-k}(iy)^{-k} \pa{\rc{2\pi i}\int_{(k-\si)-i\iy}^{(k-\si)+i\iy}\Ga(k-s) L(k-s) \pf{2\pi}{Ny}^{-(k-s)}\,ds-\sqrt N^{k}(iy)^k a_0}\\
+\nonumber
+&=\sqrt{N}^{-k}(iy)^{-k} \rc{2\pi i}\int_{\si-i\iy}^{\si+i\iy}\Ga(s) L(s) \pf{2\pi}{Ny}^{-s}\,ds-a_0\\
+\nonumber
+&=\sqrt{N}^{-k} (iy)^{-k} f\pf{i}{Ny}-a_0
+\end{align}
+%Note $\Ga(\si+it)\sim \sqrt{2\pi} |t|^{\si-\rc 2}e^{-\pi |t|/2}\to 0$ when $\si\to \iy$. Note $L(\si+it)$ is a absolutely convergent Dirichlet series so is bounded when $\si$ is fixed, and 
+%$\pf{2\pi}{Ny}^{-(\si+it)}$ has absolute value $\pf{2\pi}{Ny}^{-\si}$. So for $\si$ large, $\Ga(s)L(s)\pf{2\pi}{Ny}^{-s}\to 0$. For $
+%%Note~(\ref{usecauchy}) by Cauchy's Theorem: 
+%Since $L(s)$ is bounded in vertical strips, so is $\Ga(s)L(s)\pf{2\pi}{Ny}^{-(k-s)}$: 
+We have $|\Ga(\si+it)|\sim\sqrt{2\pi} |t|^{\si-\rc 2}e^{-\pi |t|/2}\to 0$ as $|t|\to \iy$, $L(s)$ bounded in vertical strips by assumption, and that the absolute value of $\pf{2\pi}{Ny}^{-s},s=\si+it$ is determined by $\si$. Hence $\Ga(s)L(s)\pf{2\pi}{Ny}^{-s}\to 0$ as $|t|\to\iy$, so $\Ga(k-s)L(k-s)\pf{2\pi}{Ny}^{-(k-s)}\to 0$ as $|t|\to\iy$. Thus by Phragm\'en-Lindel\"of, $\Ga(k-s)L(k-s)\pf{2\pi}{Ny}^{-(k-s)}$ is bounded on vertical strips, and our use of Cauchy's Theorem to move the path of integration in~(\ref{usecauchy}) is justified.
+This shows~(\ref{f1n}).
+
+Now note that
+\[
+\matt{1}{0}{-5}1=-\matt01{-5}0 \matt1101\matt01{-5}0^{-1}.
+\]
+Since $f$ is invariant under slashing by both $ \matt1101$ and $\matt01{-5}0$, it is invariant under $\matt 10{-5}1$.
+
+%\begin{lem}\label{dcoset}
+%Let $\Ga=\Ga_0(5)$. Then 
+%\[
+%\Ga\matt 2001\Ga=\Ga\matt 2001\cup \Ga\matt 1002\cup \Ga \matt1102.
+%\]
+%\end{lem}
+%\begin{proof}
+%To show ``$\subeq$", we have to show that given $\matt ab{5c}d\in\Ga$, 
+%\[M:=\matt 2001 \matt ab{5c}d=\matt{2a}{2b}{5c}{d}\]
+%is in one of the cosets on the right. Now $M\in \Ga Q$ if $MQ^{-1}\in \Ga$. Thus we calculate $MQ^{-1}$ for $Q=\smatt 2001,\smatt 1002, \smatt1102$.
+%\begin{align*}
+%M\matt 2001^{-1}&=\matt{a}{2b}{\frac{5c}{2}}{d}\\
+%M\matt 1002^{-1}&=\matt{2a}{b}{5c}{\frac d2}\\
+%M\matt 1102^{-1}&=\matt{2a}{-a+b}{5c}{\frac{-5c+d}{2}}.
+%\end{align*}
+%The resulting matrix is in $\Ga$ iff its entries are integers. (The lower-left hand corner is a multiple of 5 in all cases.) The first is integral iff $c$ is even, and in this case $M\in \Ga\smatt 2001$; the second is integral iff $d$ is even, and in this case $M\in \Ga\smatt 1002$; ithe third is integral iff $c$ and $d$ are both odd and $M\in\Ga\smatt 1102$. ($c,d$ cannot be both even as that would cause the determinant of $\smatt abcd$ to be divisible by 2.) This exhausts all cases and shows the ``$\subeq$" direction.
+%
+%To show ``$\supeq$" we only have to show some element of $\Ga\matt 2001\Ga$ is in each of the three cosets. To do this, by the above we only need to show that there exist $\smatt ab{5c}d\in \Ga$ such that $c$ is even, such that $d$ is even; and such that $c$ and $d$ are both odd. But this is obvious. (For example $I, \smatt 11{-5}{-4},\smatt{-4}{-1}{5}{1}$.)
+%\end{proof}
+\begin{lem}
+%Let $T(n)$ be the Hecke operator for $\Ga_0(5)$. Then
+%\[T(2)f=a(2)f.\]
+\[f|\matt 2001_k+f|\matt1002_k+f|\matt1102_k=2^{1-\frac k2} a(2)a(n).\]
+\end{lem}
+\begin{proof}
+%Using the decomposition in Lemma~\ref{dcoset}, $T(2)f=f|\smatt 2001+f|\smatt 1002+f|\smatt 1102$. 
+%Note
+%\[
+%L(s)(1-a(2)2^{-s}+2^{k-1}4^{-s})(1-5^{k/2-1}5^{-s})\prod_{p\neq 2,5} (1-a(p)p^{-s}
+%\]
+%Note that the Dirichlet series $\frac{L(s)}{L_2(s)}$ has no even terms. Let
+%\[
+%\frac{L(s)}{L_2(s)}=\sum_{n\ge1,\,2\nmid n}c(n)n^{-s}.
+%\]
+%Now $\frac{L(s)}{L_2(s)}\cdot \rc{L_2(s)}=L(s)$ gives
+%\[
+%\pa{\sum_{n\ge1,\,2\nmid n}c(n)n^{-s}}(1-a(2)2^{-s}+2^{k-1}4^{-s})=\sum_{n\ge1}a(n)n^{-s}.
+%\]
+%Matching coefficients on each side gives $c(n)=a(n)$ for $2\nmid n$, and $a(2n)=-a(2)a(n)$ for $2\nmid n$.
+We calculate
+\begin{align*}
+f|\matt 2001_k+f|\matt1002_k+f|\matt1102_k
+&=\sum_{n=0}^{\iy} a(n)\ba{
+2^{\frac k2}e(2nz)+2^{-\frac k2}e\pf{nz}{2} +2^{-\frac k2} e\pf{n(z+1)}{2}
+}\\
+&=\sum_{n=0}^{\iy} a(n)\ba{
+2^{\frac k2}e(2nz)+2^{-\frac k2}e\pf{nz}{2}\pa{1+e\pf n2}
+}\\
+&=\sum_{n=0}^{\iy} a(n)
+2^{\frac k2}e(2nz)+\sum_{n\ge 0,\,n\text{ even}}2^{1-\frac k2}e\pf{nz}{2}\pa{1+e\pf n2}\\
+&=\sum_{n=0}^{\iy}\pa{a\pf n2 2^{\frac k2}+a(2n)2^{1-\frac k2}}e(nz)
+\end{align*}
+where, for convenience, we set $a(n)=0$ for $n\nin \N$. Let $b(n)=a\pf n2 2^{\frac k2}+a(2n)2^{1-\frac k2}$.
+
+Now consider the $p=2$ term in the Euler product:
+\[
+\rc{1-a(2)2^{-s}+2^{k-1}4^{-s}}=\sum_{n=0}^{\infty}c_n2^{-ns}
+\]
+Rewriting this with $2^{-s}=x$,
+\begin{align*}
+\rc{1-a(2)x+2^{k-1}x^2}&=\sum_{n=0}^{\infty}c_nx^n\\
+\implies 1&=(1-a(2)x+2^{k-1}x^2)\sum_{n=0}^{\infty}c_nx^n
+\end{align*}
+Matching the coefficients of $x^{j+1}$ on both sides gives
+\[
+c_{j+1}-a(2)c_{j}+2^{k-1}c_{j-1}=0,\quad j\ge0
+\]
+(where $c_{-1}=0$).
+Since $c_j=a(2^j)$, this rewrites to
+\[
+2^{k-1}a(2^{j-1})+a(2^{j+1})=a(2)a(2^j).
+\]
+Since $f$ has an Euler product expansion, $a(m)$ is multiplicative. Given $m$, suppose $2^{j-1}||m$. Then multiplying the above by $a\pf m{2^{j-1}}$ gives
+\[
+2^{k-1}a(m)+a(4m)=a(2)a(2m).
+\]
+Thus $b(n)=a\pf n2 2^{\frac k2}+a(2n)2^{1-\frac k2}=2^{1-\frac k2} a(2)a(n)$. (If $n$ is odd, then $b(n)=a(2n)2^{1-\frac k2}=2^{1-\frac k2}a(2)a(n)$ as well.)
+\end{proof}
+\end{problem}
+Let $w=\smatt 01{-5}0$. 
+Now $f|[w]_k=f$ from~(\ref{f1n}), so
+\[
+f\left|\ba{w\matt 20{-5}1w^{-1}}_k\right.=f.
+\]
+Hence
+\begin{align*}
+f|\matt 2001_k+f|\matt1002_k+f|\matt1102_k
+&=f\left|\ba{w\matt 2001w^{-1}}\right._k+f\left|\ba{w\matt1002w^{-1}}\right._k+f\left|\ba{w\matt1102w^{-1}}\right._k\\
+&=f|\matt1002_k+f|\matt 2001_k+f|\matt20{-5}1_k.
+\end{align*}
+This shows $f|\smatt1102=f|\smatt 20{-5}1$. Slashing by $\rc 2 \smatt2101$ gives
+\[
+f|\matt 21{-5}{-2}=f|\matt1101=f.
+\]
+
+Similar results would probably hold for other $N$, with similar proof. 
+%\begin{thebibliography}{9}
+%\bibitem{iwaniec} Iwaniec, H.: ``Topics in Classical Automorphic Forms," AMS, 1997.
+%\bibitem{rankin} Rankin, R.: ``The Vanishing of Poincar\'e Series," {\it Proceedings of the Edinburgh Mathematical Society} (1980), 23, 151-161.
+%\end{thebibliography}
+\end{document}

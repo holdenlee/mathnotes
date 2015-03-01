@@ -1,0 +1,465 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.785 Analytic Number Theory} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 2} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+\allowdisplaybreaks[1]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.785 Analytic Number Theory Problem Set \#2}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{2/13/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it (Commensurability)}
+\subprob{(A)}
+It follows directly from the definition that commensurability is reflexive and symmetric. We prove it is transitive. Suppose $\Ga\sim \Ga'$ and $\Ga'\sim \Ga''$. Then
+\[
+[\Ga:\Ga\cap \Ga']<\infty,\quad [\Ga':\Ga'\cap \Ga'']<\infty.
+\]
+Note that there is an injection (of sets)
+\[
+\frac{\Ga\cap \Ga'}{\Ga\cap \Ga'\cap \Ga''}\hr \frac{\Ga'}{\Ga'\cap \Ga''}.
+\]
+Hence
+\begin{align*}
+[\Ga:\Ga\cap \Ga'']\leq [\Ga:\Ga\cap \Ga'\cap \Ga'']
+&=[\Ga:\Ga\cap \Ga'][\Ga\cap \Ga':\Ga\cap \Ga'\cap\Ga'']\\
+&\leq [\Ga:\Ga\cap \Ga'][\Ga':\Ga'\cap\Ga'']<\infty.
+\end{align*}
+By symmetry $[\Ga'':\Ga\cap \Ga'']<\infty$ as well. Hence $\Ga\sim \Ga''$.
+
+Hence commensurability is an equivalence relation.\\
+
+\subprob{(B)}
+Suppose $\Ga$ is discrete and commensurable with $\Ga'$; we will show $\Ga'$ is discrete. The subgroup $\Ga\cap \Ga'$ is discrete, so we may replace $\Ga$ with $\Ga\cap \Ga'$ and assume $\Ga\subeq \Ga'$.
+
+
+%coset representatives of $\Ga$ in $\Ga'$, where $n=[\Ga':\Ga]<\infty$. %Let $x\in \Ga'$. 
+Since $\{1\}$ is open in $\Ga$, there exists an open set $U\subeq \Ga'$ such that $U\cap \Ga=\{1\}$.
+For each coset of $\Ga$ that $U$ intersects, choose an element $x_i$.
+Let $x_1=1,x_2,\ldots, x_n$ be the chosen elements. ($n$ is finite since $[\Ga':\Ga]<\infty$.)
+Since multiplication is a homeomorphism, $x_i^{-1}U$ are all open in $\Ga'$. 
+Let $V=\bigcap_{i=1}^n x_i^{-1}U$.
+If $x\in V$ then $x_ix\in U$ for all $i$. However the $x_ix$ are all in different cosets of $\Ga$ in $\Ga'$, so they must represent all $n$ cosets that intersect $U$, in particular, $\Ga$. Hence $x_ix\in \Ga$ for some $i$. Since $x_ix\in U$, from definition of $\Ga$ we get $x_ix=1$.
+%and $x\in x_i^{-1}\Ga \cap U$. Hence $x=x_i^{-1}$, and by replacing $U$ with $\bigcap_{i=1}^n x_i^{-1}U$ we may assume $U\subeq \{x_i^{-1}|1\leq i\leq n\}$.
+Hence $x=x_i^{-1}$. This shows that $V\subeq \{x_i^{-1}|1\leq i\leq n\}$. Note  $1\in V$.
+
+Since $G$ is a $T_1$-space, for $2\leq i\leq n$ there exists a neighborhood $W_i$ around $1$ containing $1$ but not $x_i^{-1}$. Then $W=\bigcap_{i=2}^n W_i$ is a neighborhood around $1$ containing $1$ but none of the other $x_i$. Then $V\cap W=\{1\}$ is open in $\Ga'$. All translates of $\{1\}$ in $\Ga'$ are open in $\Ga'$ so $\Ga'$ is discrete.\\
+
+\subprob{(C)}
+\begin{lem}\label{p2-1-l1}
+Let $X$ be a locally compact topological space on which the group $H$ acts.  Then $H\backslash X$ is locally compact.
+\end{lem}
+\begin{proof}
+Let $\bar x$ be a point in $H\bs X$; suppose it is the image of $x\in X$ under $\pi:X\to H\bs X$. By local compactness of $X$ there exists a compact set $K_x$ around $x$ containing a neighborhood $U_x$ of $x$. Let $V_x=\pi (U_x)$. Then
+\begin{equation}\label{p2-1-1}
+\pi^{-1}(V_x)=\bigcup_{h\in H} h U_x,
+\end{equation}
+which is open because the translates $h U_x$ are all open. Since $\pi$ is a quotient map, $V_x$ is open. Now $\pi(K_x)$ is a compact subset of $H\bs X$ containing $V_x$. Hence $H\bs X$ is locally compact.
+\end{proof}
+\begin{lem}\label{p2-1-l2}
+Let $X$ be a topological space on which the group $H$ acts.
+Suppose $H\bs X$ is compact, $H'\subeq H$, and $[H:H']$ is finite. 
+%\begin{enumerate}
+%\item
+%Then $H\backslash X$ is locally compact.
+%\item
+%If $H\backslash X$ is compact, $H'\subeq H$ acts on $X$, and $[H:H']$ is finite, 
+Then $H'\bs X$ is compact.
+%\end{enumerate}
+\end{lem}
+\begin{proof}
+Let $\bar x$ be a point in $H\bs X$; suppose it is the image of $x\in H'\bs X$ under $\pi:H'\bs X\to H\bs X$. %By local compactness of $H'\bs X$ there exists a compact set $K_x$ around $x$ containing a neighborhood $U_x$ of $x$. Let $V_x=\pi (U_x)$. Then
+%\begin{equation}\label{p1-1-2}
+%\pi^{-1}(V_x)=\bigcup_{h\in H} h U_x,
+%\end{equation}
+%which is open because the translates $h U_x$ are all open. Since $\pi$ is a quotient map, $V_x$ is open. %%Now $\pi(K_x)$ is a compact subset of $H\bs X$ containing $V_x$. %Hence $H\bs X$ is locally compact.
+Define $U_x,V_x,K_x$ as in Lemma~\ref{p2-1-l1} but with the quotient map $\pi:H'\bs X\to H\bs X$ instead. As shown, $V_x$ is open.
+
+%For the second part, s
+Since $H\bs X$ is compact and covered by $V_x$, there exist $x_1,\ldots, x_n$ such that $H\bs X=\bigcup_{m=1}^n V_{x_m}$. 
+Let $h_1,\ldots, h_l$ be coset representatives of $H'$ in $H$, where $l=[H:H']<\infty$. Then
+\[
+\bigcup_{m=1}^n
+\bigcup_{k=1}^l
+ h_kK_{x_m}\supeq 
+\bigcup_{m=1}^n
+\bigcup_{k=1}^l
+ h_kU_{x_m}\supeq
+\bigcup_{m=1}^n 
+\pi^{-1}(V_{x_m})
+= \pi^{-1}\pa{\bigcup_{m=1}^n V_{x_m}}
+=\pi^{-1}(H\bs X)
+=H'\bs X.
+\]
+Now each $K_{x_m}$ (and hence each $h_kK_{x_m}$) is compact, so $H'\bs X$ is a finite union of compact subsets and hence compact.
+\end{proof}
+Suppose that the conditions in the problem hold and $\Ga\bs G$ is compact.
+Since $G$ is locally compact, from Lemma~\ref{p2-1-l1}, $\Ga'\cap \Ga\bs G$ is locally compact.
+Thus we can apply Lemma~\ref{p2-1-l2} with $X=G$, $H=\Ga$, and $H'=\Ga'\cap \Ga$, to find that $\Ga\cap \Ga'\bs G$ is compact.
+Then the quotient space $\frac{\Ga\cap\Ga' \bs G}{\Ga'}=\Ga'\bs G$ is also compact, as needed. %Hence it suffices to show that if $\Ga\bs G$ is compact, then 
+
+%We may assume $\Ga'\subeq \Ga$, and replace $G$ with $\Ga'\bs G$ and $\Ga$ with $\Ga'\bs \Ga$. Since $[\Ga:\Ga']$ was assumed finite, we now have that $\Ga$ is finite. Note $\Ga\bs G$ is compact by the lemma.
+%Then we are left to show that if $\Ga\bs G$ is compact, $G$ is locally compact, and $\Ga$ is finite, then $G$ is compact. 
+
+\end{problem}
+\begin{problem}{\it (Geodesics)}
+\subprob{(A)}
+Suppose $L$ is the half line defined by $\Re (z)=k$. Then the fractional linear transformation $\ga(z)=z-k$, i.e. given by $\ga=\pa{\begin{smallmatrix}1&-k\\0&1\end{smallmatrix}}$ maps $L$ to the positive imaginary axis.
+
+Now suppose $L$ is a semicircle centered at $(x,0)$ with radius $r$. First translate $-x$ units to the origin, and then dilate by $\rc r$. Thus it suffices to find a fractional linear transformation sending the unit semicircle centered at the origin to the positive imaginary axis. We claim that $\ga(z)=\frac{2z+2}{-z+1}$ works. Indeed, for $t=\cos \theta$, $u=\sin\theta$, $t+ui$ on the semicircle,
+\begin{align*}
+\ga(t+ui)&=\frac{2[(t+1)+ui]}{(-t+1)-ui}\\
+&=\frac{2[(t+1)+ui][(-t+1)+ui]}{(t-1)^2+u^2}\\
+&=\frac{2[(1-t^2-u^2)]}{(t-1)^2+u^2}\\
+&=\frac{4ui}{(t-1)^2+u^2}\\
+&=\frac{4\sin\theta}{(\cos\theta-1)^2+\sin^2\theta}i\\
+&=\frac{2\sin\theta}{1-\cos\theta}i\\
+&=2\pa{\cot\frac{\theta}{2}}i
+\end{align*}
+so $\ga$ maps the semicircle surjectively to the positive imaginary axis.\\
+
+\subprob{(B)}
+Given any two points in $\mathcal H$, there is a half-line or semicircle $L$ going through them and orthogonal to the real axis. Indeed, if $x,y$ have the same real part then the first case holds; in the second case $x,y$ are on the circle centered at the intersection of their perpendicular bisector with the real axis. By (A) an element $\ga\in \SL_2(\R)$ transforms $L$ into the positive imaginary axis. Suppose it sends $x,y$ to $ai,bi$ with $a<b$.
+
+We show that the unique geodesic between $ai$ and $bi$ is the vertical line segment joining them. 
+Since fractional linear transformations are isometries under the measure $d\mu=\frac{ds}{y}$, applying $\ga^{-1}$ we may then conclude that the geodesic between $x$ and $y$ is the segment or arc of $L$ in between them.
+
+Let $(x(t),y(t))$ be such that $x(0)+y(0)i=ai$ and $x(1)+y(1)i=bi$. Then
+\begin{align*}
+\int\, ds&=\int\rc{y} \sqrt{dx^2+dy^2}\\
+&=\int_0^1\rc{y(t)}\sqrt{x'(t)^2+y'(t)^2}\,dt\\
+&\geq\int_0^1\frac{y'(t)}{y(t)}\,dt\\
+&=\left.\ln(y(t))\right|^b_{t=a}\\
+&=\ln b-\ln a
+\end{align*}
+with equality only if $x'(t)=0$ for all $t$, i.e. $x(t)\equiv 0$, and $y'(t)$ is always positive, i.e. $y(t)$ is increasing from $a$ to $b$. This path is just the line segment from $ai$ to $bi$.
+\end{problem}
+\begin{problem} {\it (Set of elliptic points has no limit point)}
+Suppose that $x$ is an elliptic point of $\Ga$. Since $\Ga$ is a discrete subgroup of $G$, by Proposition 3.1.2(b), there exists a neighborhood $U$ of $x$ such that if $\ga\in \Ga$ and $U\cap \ga U\neq \phi$ then $\ga x=x$. Suppose $y$ is an elliptic point of $\Ga$ and $y\in U$. Then there exists $\ga$ so that $\ga y=y$. Then $y\in U\cap \ga U$ so $U\cap\ga U\neq \phi$ and $\ga x=x$. But $\ga$ can only fix one point in $\mathcal H$, so
+$y=x$. Thus $U\cap \Ga=\{x\}$, and $x$ is not a limit point.
+\end{problem}
+\begin{problem} {\it (Fundamental domains have the same volume)}
+Let $X$ be the topological space and $D'$ and $D$ be two fundamental domains. We assume the boundaries of $D$ and $D'$ have zero volume. %Let $\text{Bd}(Y)$ denote the boundary $\overline{Y}-Y$ of $Y$.
+
+Note that $d\mu$ is invariant under $\ga$ because it is the Haar measure. Note $\Ga$ is countable as it is a discrete subgroup of $PSL_2(\R)$, which has a countable base. Hence by countable additivity (noting that  $D'\cap \ga(%\bar 
+D)$ for different $\ga$ %have empty interior, as pairwise intersections of $D'\cap \ga(\bar D)$ 
+are disjoint) %they cannot have a common intersection with $D$ since 
+\begin{align*}
+\mu(D')&=\sum_{\ga\in \Ga} \mu(D'\cap \ga(%\bar 
+D))\\
+&=\sum_{\ga\in \Ga}\mu(%\bar 
+D\cap \ga^{-1}(D'))&\text{(invariance of }d\mu\text{ under }\ga^{-1})\\
+&=\mu\pa{\bigcup_{\ga\in \Ga}%\bar
+ D\cap \ga^{-1}(D')},
+\end{align*}
+the last step following since $%\bar{D}
+D \cap \ga^{-1}(D')$ are disjoint (otherwise there would be two $\Ga$-equivalent points in $D'$). 
+Now $\bigcup_{\ga\in \Ga} D\cap \ga^{-1}(D')$ is contained in $\bar D$. Hence $\mu(D')\leq \mu(\bar D)=\mu(D)$. Similarly $\mu(D)\leq \mu(D')$. Hence $\mu(D)=\mu(D')$.
+
+%Now we claim that $E=\bigcup_{\ga\in \Ga} D\cap \ga^{-1}(D')$ has closure equal to $\bar D$. Otherwise there exists a point $x$ and an open neighborhood $U\ni x$ such that $U\cap E=\phi$. Let $U'=U\cap D$ (which is open). Then $V=\bigcup_{\ga\in \Ga} \ga(U')$ is open, and hence $X-V$ is closed. But $D'\subeq X-V$ and so $\bigcup_{\ga\in \Ga}\bar{D'}\subeq X-V$, a contradicting that it equals $X$. So $\bar E=\bar D$, and the volume equals $\mu(E)=\mu(\bar E)=\mu(\bar D)=\mu(D)$ as needed.
+%Now the boundary of $\bigcup_{\ga\in \Ga}D\cap \ga^{-1}(D')$ is contained in $\text{Bd}(D)\cup \bigcup_{\ga\in \Ga}\ga^{-1}(\text{Bd}(D'))$. But the boundary of $D'$ has measure 0, so $\ga^{-1}(\bar{D'}-D')$, and hence $E$, has measure 0.
+%Then the volume equals 
+\end{problem}
+\begin{problem} {\it (Co-compact iff no parabolic elements)}
+Suppose $\Ga$ has no parabolic elements. Then $\mathcal{H}^*=\mathcal{H}\cup P_{\Ga}=\mathcal{H}$. Hence $\Ga\bs \mathcal H=\Ga\bs \mathcal H^*$. But the latter is compact because $\Ga$ is Fuschian of the first kind. (Use Proposition 3.6.2(3), which says every fundamental domain has finite volume, and Siegel's Theorem.)
+
+Now suppose $\Ga$ has a parabolic element. Let $z$ be a cusp of $\Ga$, considered in $\Ga\bs\mathcal H^*$. Since $\Ga\bs\mathcal H^*$ is a Riemann surface we can take a neighborhood $U$ around $z$ homeomorphic to the unit disc $D$ in $\C$, such that $\bar{U}\cong \bar{D}$. %We may take $U$ small enough so that $U$ contains no other cusp; i.e. every other point of $U$  is in $\mathcal H$. 
+Now consider $\bar{U}\cap\Ga\bs \mathcal{H}$. If $\Ga\bs\mathcal H$ were compact, then $\bar{U}\cap \Ga\bs \mathcal H$ would be compact (since it is a closed subset). Now
+$\bar{U}\cap  \Ga\bs \mathcal H=\bar{U}-P_{\Ga}$. However, there can be at most a countable number of cusps since $\Ga$ is countable. Hence $\bar{U}\cap \mathcal H\cong \bar{D}-S$ where $S$ is a countable set containing 0. Since every disc around 0 contains uncountably many elements, 0 is a limit point of $\bar{D}-S$. Hence $\bar{D}-S\subeq \C$ is not closed and hence not compact, a contradiction. 
+Hence $\mathcal H$ is not compact.
+\end{problem}
+\begin{problem} {\it(Fundamental domain for $\Ga_0(N)$)}
+\begin{enumerate}
+\item Find coset representatives: let $S=\smatt 0{-1}{1}0$ and $T=\smatt1101$. %and $T'=\smatt 1{-1}01$. %Start with a list containing a single matrix $I=\smatt 1001$. At each stage, place the matrices currently on the list in the set $A$, and multiply those matrices by $S$ and $T$ on the left.
+Consider a ``tree" as follows. Let $I=\smatt 1001$ be the root, with a single branch leading to $S$. At the $n$th stage, each leaf gives rise to several more vertices: if the leaf is labeled with the matrix $M$, then let its descendants be labeled with $MS$, $MT$, or $MT^{-1}$. If $M$ was obtained from the previous stage by multiplication by $S$, then we do not include the $MS$ branch (because $S^2=-I$ is the identity transformation). If $M$ was obtained from the previous stage by multiplication by $T, T^{-1}$ then we do not include the $T^{-1},T$ branch, respectively, since these are inverses.
+
+Now choose elements of the tree as follows. Choose $I$, and at stage $n$, look at the marked elements in the $n$th level of the tree. Look at all the descendants of those elements, and mark those whose $\Ga_0(N)$-coset has not been represented by previous marked elements. Continue until we reach a level where no elements are marked. We will stop since $\Ga_0(N)$ has finite index in $\SL_2(\Z)$, and we get all the coset representatives since $S=\smatt 0{-1}{1}0$ and $T=\smatt1101$ generate $\SL_2(\Z)$. (For each coset there's an element that can be written as a word containing a minimal number of $S$, $T$, and $T^{-1}$'s; such an element will be picked, as no subword ending at the rightmost letter will be replaceable with a smaller subword representing the same coset.)
+
+(Note that we do not have a branch from $I$ to $T$ because $T\in \Ga_0(N)$.)
+
+\item Let $D$ be the standard fundamental domain. For each vertex on the graph, consider its matrix $M$ and associate to it the region $M\bar D$.
+
+Note that $T\bar D$ is simply $\bar D$ translated by 1, so is adjacent to $\bar D$ (by the side defined by $\Re(z)=\rc{2}$, $\Im(z)\geq \sqrt 3/2$). Note that $S\bar D$ is the inversion of $\bar D$, which is adjacent to $\bar D$ via the circular arc of radius 1 in $\bar D$. Hence for any matrix $M$, $M\bar D$ and $MS\bar D$ are adjacent, and $M\bar D$ and $MT\bar D$ are adjacent. Thus the fundamental regions corresponding to the matrices that are adjacent in the tree are adjacent, and the regions corresponding to the marked matrices form a connected domain $D'$.
+
+%Let $M_1,\ldots, M_n$ be the coset representatives.
+
+\item Find the bounding geodesics: Each marked matrix in the tree such that its descendants are not both marked has a side that is a side of $D'$. To find these sides, apply the fractional transformation corresponding to that matrix to the vertices of $D$: $\pm\rc{2}+\frac{\sqrt3}{2}i,i,\infty$. Then connect them with geodesics (vertical rays or semicircles orthogonal to the real axis) and pick out the boundary.
+
+(If an element has all its descendants marked, then it is surrounded on all sides by other regions in $D'$.)
+
+\item The interior of $D'$ is a fundamental domain. First we check that no two elements in the interior of $D'$ are related by an element of $\Ga_0(N)$. Let $q_1,q_2$ be two elements in $D'^{\circ}$. %Since $D$ is a fundamental domain for $\SL_2(\Z)$, there exist $\ga_1,\ga_2\in \SL_2(\Z)$ and $p_1,p_2\in \overline{D}$ such that $\ga_1 p_1=q_1,\ga_2 p_2=q_2$. Then $
+Then there exist coset representatives $M_1,M_2$ such that $q_1=M_1p_1$ and $q_2=M_2p_2$ where $p_1,p_2\in \overline{D}$. Supposing that $q_1,q_2$ are related by an element of $\Ga_0(N)$, we have that $p_1,p_2$ are related by an element of $\SL_2(\Z)$. 
+First assume $p_1$ and $p_2$ are in $D$; then they must be equal since $D$ is a fundamental region for $\SL_2(\Z)$. Then we must have $M_1=M_2$ and hence $q_1=q_2$. Now suppose $p_1,p_2$ are on the boundary of $D$. Then $q_1,q_2$ must be on the boundary of some region in $D'$. Let $B$ be the union of these boundaries; note $B$ has empty interior.
+
+Let $S$ be the set of points of $D'^{\circ}$ that are $\Ga_0(N)$-equivalent to a different point in $D'^{\circ}$. We claim that $S$ is open. Then since $S\subeq B$, it will follow that $S=\phi$. 
+
+Take $p\in S$; suppose $\ga p=q$, $\ga\in \Ga_0(N)$, $p\neq q$. Since $\ga$ is a homeomorphism, there exist disjoint neighborhoods $U,V$ around $p,q$ contained in $D'^{\circ}$ so that $\ga$ is a homeomorphism $U\to V$. Then $p\in U\subeq S$. Hence $S$ is open, as needed.
+
+%However, since $D'$ is open it is easy to see that the set of points of $D'$ that are $\Ga_0(N)$-equivalent to another point in $D'$ is open. Hence the set of such points is $\phi$.
+
+Finally we show $D'$ ``tiles" $\cal H$. Indeed,
+\[
+\bigcup_{\ga\in \Ga_0(N)}\ga D'=\bigcup_{\ga\in \Ga_0(N)} \bigcup_{M\text{ coset representative}}\ga M\overline{D}
+=\bigcup_{\ga\in \SL_2(\Z)} \ga \overline{D}=\mathcal H.
+\]
+\end{enumerate}
+\end{problem}
+\end{document}

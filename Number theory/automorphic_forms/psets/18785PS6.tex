@@ -1,0 +1,564 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{6pt}
+{6pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\newcommand{\bb}[1]{\mathbb{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\left\langle {#1}\right\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\PSL}{\operatorname{PSL}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\mmod}[1]{\,(\text{mod}^{\times} #1)}
+\newcommand{\nmod}[1]{\,(\text{mod}\, #1)}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+\newcommand{\iy}[0]{\infty}
+\newcommand{\nequiv}[0]{\not\equiv}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.785 Analytic Number Theory} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 6} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+\allowdisplaybreaks[1]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.785 Analytic Number Theory Problem Set \#6}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{3/16/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it (Simultaneous eigenfunctions of Hecke operators, with no Euler product expansion)}
+\subprob{(A) Simultaneous eigenfunction}
+\begin{lem}\label{p6-1-1}
+Every double coset $\Ga_0(N)\al \Ga_0(N)$ with $\al\in G_0(N)$ is one of the double cosets
+\[
+\Ga_0(N)
+\matt{d_1}00{d_2}
+\Ga_0(N)
+\]
+where $d_1,d_2\in (\Z_N^{\times})_{\ge 0}$ and $\frac{d_2}{d_1}\in \N$ is relatively prime to $N$. 
+\end{lem}
+\begin{proof}
+There exists $n$ relatively prime to $N$ so that $n\al \in \GL_2(\Z)$. 
+By the elementary divisors theorem we can write
+\begin{equation}\label{p6-1-00}
+n\al=\ga_1 D'\ga_2\text{ for some }\ga_1,\ga_2\in \Ga(1).
+\end{equation}
+where $D'=\smatt{d_1'}00{d_2'}$ with positive $d_2'|d_1'$. Let $d_i=\frac{d_i'}{n}$ and $D=\rc nD=\smatt{d_1}00{d_2}$.
+The determinant of the LHS in~(\ref{p6-1-00}) is $n^2\det(\al)\in \Z_N^{\times}$ (since $\det(\al)\in \Z_N^{\times}$). The determinant of the RHS is $d_1'd_2'$. Since $d_1',d_2'$ are integers, $d_1'$ and $d_2'$ must be in $\Z_N^{\times}$. Since $n$ is relatively prime to $N$, $d_1$ and $d_2$ are also in $\Z_N^{\times}$.
+
+Let $d=\frac{d_1}{d_2}$. Note $d=\frac{d_1'}{d_2'}\in \N$ and $d\in\Z_N^{\times}$, so is a whole number relatively prime to $N$. 
+Now
+\[
+\al =\ga_1D\ga_2.%\text{ for some} \ga_1,\ga_2\in \Ga(1),\,\frac{d_1}{d_2}
+\]
+Let $\be_2=\smatt vx{dy}z\in \Ga_0(d)$. Let
+\[
+\be_1=(D\be_2D^{-1})^{-1}.
+\]
+Then
+\begin{equation}\label{p6-1-0}
+\al=\ga_1\be_1 D\be_2 \ga_2.
+\end{equation}
+Note
+\[
+D\be_2D^{-1}=\matt{d_1}00{d_2}\matt vx{dy}z\matt{\rc{d_1}}00{\rc{d_2}}=\matt v{dx}{y}{z}\in \Ga(1)
+\]
+so $\be_1\in \Ga(1)$.
+
+Now we claim we can choose $\be_2\in \Ga_0(d)$ so that $\be_2 \ga_2\in \Ga_0(N)$. If $\ga_2=\smatt stuv$, then
+\[
+\be_2\ga_2=\matt{ws+xu}{wt+xv}{dys+zu}{dy+tzv}.
+\]
+We will use the following.
+\begin{lem}\label{p6-1-sublem}
+Let $A,B,C$ be integers such that $\gcd(A,B,C)=1$. Then there exists $k\in \Z$ such that 
+\[
+\gcd(A,B+kC)=1.
+\]
+\end{lem}
+\begin{proof}
+%Let $g=\gcd(B,C)$. Since $\gcd(A,g)=1$, 
+%\[
+%\gcd(A,B+kC)=\gcd(A,B'+kC')
+%\]
+%where $B'=\frac Bg$ and $C'=\frac Cg$. Now $B',C'$ have 
+For every prime $p$ dividing $A$, $p$ does not divide both $B$ and $C$, so there exists a residue $r_p$ modulo $p$ such that $B+r_pC\nequiv p\pmod p$. Now choose $k$ so that $k\equiv r_p\pmod p$ for every $p|A$.
+\end{proof}
+Let $y=-u$ and $z=ds+Nk,\,k\in\Z$. So $dy=-du$. Now $\gcd(-du,ds, N)=1$ since $\gcd(u,s)=1$ (else $\ga_2$ would not be invertible) and $\gcd(N,d)=1$. Hence by the lemma above we can find $k$ so that $\gcd(dy,z)=1$. Then by B\'ezout we can choose $v,x$ to make $\be_2$ have determinant 1, and hence be in $\Ga_0(d)$. Note the bottom left entry of $\be_2 \ga_2$ is $Nku$ so $\be_2\ga_2\in \Ga_0(N)$.
+
+%Choose $k$ so $z'$ has no factor in common with $\frac{y'}{\gcd(y',N)}$.  
+%Note $d$ has no common factor with $N$, and $\gcd(s,u,N)=1$; else the left row of $\ga_2$ would be have a common factor with $N$ so $\ga_2\nin \GL_2(\Z_N)$. Hence $\gcd(y',z',N)=1$. 
+%Let $y=\frac{y'}{\gcd(y',z')}$ and $z=\frac{z'}{\gcd(y',z')}$. Then $\gcd(y,z)=1$ so by B\'ezout we can choose $v,x$ to make $\be_2$ have determinant 1, and hence be in $\Ga_0(d)$. Note the bottom left entry of $\be_2 \ga_2$ is 0 so $\be_2\ga_2\in \Ga_0(N)$.
+
+Let $\ga_1'=\ga_1\be_1$ and $\ga_2'=\be_2\ga_2=\smatt{s'}{t'}{Nu'}{v'}$. 
+We have $\ga_2'\in \Ga_0(N)$. We show that this forces $\ga_1'\in \Ga_0(N)$. Let $\ga_1'=\smatt{s''}{t''}{u''}{v''}$. Then modulo $N$, the lower-left entry of $\al=\ga_1'D\ga_2'$ is $s'u''d_1+Nu'v''d_2$. Since $\al\in G_0(N)$, this must be divisible by $N$. Since $N$ is relatively prime to $d_1$ and to $s'$ (since $N$ already divides the bottom-left entry of $\ga_2'$), we conclude $N|u''$, and $\ga_2'\in \Ga_0(N)$. Thus~(\ref{p6-1-0}) follows, as needed.
+\end{proof}
+%, we can ensure $N$ divides the lower left hand entry $dys+zu$. Indeed,
+\begin{lem}\label{p6-1-2}
+Suppose $p$ is a prime not dividing $N$. Then
+\[
+\Ga_0(N)
+\matt{1}00{p}
+\Ga_0(N)=
+\Ga_0(N)
+\matt{p}00{1}
+\Ga_0(N)=
+\Ga_0(N)\matt p001 \sqcup \bigsqcup_{k=0}^{p-1}\Ga_0(N)\matt 1k0p.
+\]
+\end{lem}
+\begin{proof}
+We first show that every element in the LHS is in the RHS. It suffices to show that every element $\smatt{pa}{pb}{Nc}{d}=\smatt p001\smatt ab{Nc}d$ is in (exactly) one of the cosets, i.e. $\smatt{pa}{pb}{Nc}{d}M^{-1}\in \Ga_0(N)$ for exactly one of the coset representatives $M$ listed above. We have
+\begin{align}
+\label{p6-1-m1}
+\matt{pa}{pb}{Nc}{d}\matt 1k0p^{-1}&=\matt{pa}{-ak+b}{Nc}{\frac{-Nck+d}p}\\
+\label{p6-1-m2}
+\matt{pa}{pb}{Nc}d\matt p001^{-1}&=\matt{a}{pb}{\frac{Nc}p}d.
+\end{align}
+The first is in $\Ga_0(N)$ iff $Nck\equiv d\pmod p$. If $c\nequiv 0\pmod p$, since $p\nmid N$, there is exactly one value of $k$ such that this holds. %If $d\equiv 0\pmod p$ then $k=0$ works. 
+If $c\equiv 0\pmod p$, then $d\nequiv 0\pmod p$; else the matrix would not be invertible in $\GL_2(\Z_N)$. Hence $Nck\nequiv d\pmod p$ for any choice of $k$, so~(\ref{p6-1-m1}) does not have integral entries, but~(\ref{p6-1-m2}) does, and is in $\Ga_0(N)$.
+
+To show the RHS is included in the LHS, it suffices to show that all of the cases above are attainable. We can let $c=1$ and vary $d$ modulo $p$ to get the first $p$ cases. (Since we can vary $d$ by multiples of $p$, we can choose $d$ relatively 
+prime to $N$.) The other entries can be chosen by B\'ezout's. That the last case is attainable is obvious, since we took $\smatt p001$ as the double coset representative. %arises with $\smatt0{-1}10\smatt 100p\smatt01{-1}0=\smatt p001$.
+\end{proof}
+%By Lemmas~\ref{p6-1-1} and~\ref{p6-1-2}, 
+$G_0(N)$ can be generated as follows.
+\begin{equation}\label{geng0}
+G_0(N)=\an{
+\Ga_0(N);\matt p001,\,p\text{ prime not dividing }N
+%;\matt d00d,d\in\Q
+}
+\end{equation}
+Indeed, first note $\smatt p001$ being in the group above implies $\matt 100p$ is in the group above, by the fact that they are in the same double coset (Lemma~\ref{p6-1-2}). By multiplying by matrices of this form or their inverse we can get to any double coset representative in Lemma~\ref{p6-1-1}.
+%Indeed, given $\smatt{d_1}00{d_2}$ as in the lemma, by multiplying by matrices of the form $\smatt 100p$ or their inverses we can get $\smatt{d_1/d_2}000$, and by multiplying by $\matt{d_2}00{d_2}$ we get $\smatt{d_1}00{d_2}$. 
+Since $\Ga_0(N)$ is also in the group above, by Lemma~\ref{p6-1-1} we get everything.
+
+Now $\De(z)$ is a modular form for $\Ga(1)$ and hence for $\Ga_0(N)$. Letting $\ga=\smatt ab{Nc}d$,
+\[
+\De(N\ga z)=\De\pf{Naz+Nb}{Ncz+d}=\De\pf{a(Nz)+Nb}{c(Nz)+d}=\De(Nz),
+\]
+so $\De(Nz)$ is a modular form for $\Ga_0(N)$ as well.
+
+To show $\De(z)+\De(Nz)$ is a simultaneous eigenfunction for the Hecke operators, by~\ref{geng0} it suffices to show that $\De(z)+\De(Nz)$ is an eigenfunction for the $T|\smatt p001$. %, with the same eigenvalues
+Using the decomposition in Lemma~\ref{p6-1-2},
+\[
+T|\matt p001(\De(z)+\De(6z))=p^{5}\sum_{k=0}^{p-1} \De(z)|\matt 1k0p+\De(z)|\matt p001+\sum_{k=0}^{p-1} \De(6z)|\matt 1k0p+\De(6z)|\matt p001.
+\]
+Let $\De(z)=(2\pi)^{12}\sum_{n=0}^{\iy}a_ne(nz)$. Then
+\begin{align}
+\label{p6-1-sum}
+\sum_{k=0}^{p-1} \De(z)|\matt 1k0p
+&=(2\pi)^{12}p^{-6}(pa_0+pa_pe(z)+pa_{2p}e(2z)+\cdots )\\
+\nonumber
+\De(z)|\matt p001
+&=(2\pi)^{12}p^{6}(a_0+a_1e(pz)+a_2e(2pz)+\cdots)\\
+\nonumber
+\sum_{k=0}^{p-1} \De(6z)|\matt 1k0p
+&=(2\pi)^{12}p^{-6}(pa_0+pa_pe(6z)+pa_{2p}e(12z)+\cdots )\\
+\nonumber
+\De(6z)|\matt p001
+&=(2\pi)^{12}p^{6}(a_0+a_1e(6pz)+a_2e(12pz)+\cdots)
+\end{align}
+Note the first equation follows from the fact that 
+\begin{align*}
+\sum_{k=0}^{p-1}\De(z)|\matt 1k0p&=p^{-6}\sum_{k=0}^{p-1} \De\pf{z+k}{p}\\
+&=(2\pi)^{12}p^{-6}\sum_{k=0}^{p-1} \sum_{n=0}^{\iy} a_n e(nk/p)e(nz/p)\\
+&=(2\pi)^{12}p^{-6} \sum_{n=0}^{\iy} \sum_{k=0}^{p-1}a_n e(nk/p)e(nz/p)
+\end{align*}
+The inner sum is 0 (sum of roots of unity) for $p\nmid n$ and $p$ for $p\mid n$, giving~(\ref{p6-1-sum}). The third equation follows similarly. Matching coefficients gives that the coefficient of $e(nz)$ in $\De(z)+\De(6z)$ is
+\begin{equation}\label{p6-1-3}
+b_n=p^{5}(p^{-5}a_{pn}+p^6a_{\frac np}+p^{-5}a_{\frac{pn}6}+p^6a_{\frac n{6p}})
+\end{equation}
+where for convenience we let $a_m=0$ if $m$ is an invalid index.
+But we know
+\begin{align*}
+a_{mn}&=a_ma_n,&m\perp n\\
+a_{p^{n+1}}&=a_pa_{p^n}-p^{11}a_{p^{n-1}}.
+\end{align*}
+Hence
+\begin{align*}
+a_{np}&=a_pa_n-p^{11}a_{\frac np}\\
+a_pa_n&=a_{np}+p^{11}a_{\frac np}.
+\end{align*}
+Together with~(\ref{p6-1-3}), we get
+\[
+b_n={a_p}(a_n+a_{n/6})
+\]
+showing that $T|\smatt p001(\De(z)+\De(6z))={a_p}(\De(z)+\De(6z))$, as needed.\\
+
+\subprob{(B) No Euler expansion}
+Write $\De(z)$ as before. Then
+\[
+\De(6z)=(2\pi)^{12}(a_0+a_1e(6z)+a_2(12z)+\cdots ).
+\]
+Let $\De(z)+\De(6z)=(2\pi)^{12}\sum_{n=0}^{\iy} c_n e(6nz)$. Then since $\De(z)$ has coefficients of $e(2z)$ and $e(3z)$ equal to 0 while the coefficient of $e(6z)$ equal to $a_1=1$, 
+\begin{align*}
+c_2&=a_2\\
+c_3&=a_3\\
+c_6&=a_6+1\\
+c_6&=c_2c_3+1\neq c_2c_3.
+\end{align*}
+Since $c_n$ is not multiplicative, $\De(z)+\De(6z)$ cannot have an Euler product expansion.
+\end{problem}
+\begin{problem}{\it (Modular equation)}
+\subprob{(A) $F(X,Y)=F(Y,X)$}
+Replacing $z$ with $-\rc{Nz}$ in 
+\[
+F(j(z),j(Nz))=0
+\]
+gives
+\begin{align*}
+F\pa{
+j\pa{-\rc{Nz}},j\pa{-\rc z}
+}=0.
+\end{align*}
+Note that $j$ is invariant under $\ga=\smatt0{1}{-1}0\in \SL_2(\Z)$ which sends $z$ to $-\rc{z}$. Hence $j\pa{-\rc{Nz}}=j(Nz)$, $j\pa{-\rc z}=j(z)$, and we get
+\[
+F(j(Nz),j(z))=0.
+\]
+Since $F(X,Y)$ is irreducible in $\C[X,Y]$, so is $F(Y,X)$. 
+Then $F(Y,j)$ is also the irreducible polynomial of $Y$ over $\C(j)$, so replacing $j$ with $X$, this says that $F(Y,X)|F(X,Y)$. The only way for this to happen is if $F(X,Y)=cF(Y,X)$. We have $F(X,Y)=cF(Y,X)=c^2F(X,Y)$, so $c=\pm 1$. If $c=-1$, then $F(X,Y)=-F(Y,X)$, and putting $X=Y$ gives $F(X,X)=0$. This shows $X-Y|F(X,Y)$, which is impossible since $F(X,Y)$ is irreducible with degree $[\Ga(1):\Ga_0(N)]>1$. Thus $F(X,Y)=F(Y,X)$.\\
+
+\subprob{(B) $N=p\implies F(X,Y)\equiv X^{p+1}+Y^{p+1}-X^pY^p-XY\pmod{p}$}
+\begin{lem}
+Let $\ga_1,\ldots, \ga_{p+1}$ be coset representatives for $[\Ga(1):\Ga_0(p)]$. Then 
+\[
+\{j(p\ga_1z),\ldots,j(p\ga_{p+1}z)\}=\{j(pz)\}\cup\bc{j\pf{z+k}{p}:0\le k<p}.
+\]
+\end{lem}
+\begin{proof}
+There are indeed $p+1$ coset representatives because $\mu=N\prod_{\text{prime } q|N}\pa{1+\frac{1}{q}}=p+1$ in this case.
+%We can take $\ga_{p+1}=I$; this gives $
+%
+Given $\ga=\smatt abcd$, we have $p\ga z=\smatt{pa}{pb}cdz$. 
+For any $\ga'\in \Ga(1)$, we have $j(\ga'p\ga z)=j(p\ga z)$ since $j$ is invariant under $\Ga(1)$. By Lemma 6.3.1 we can multiply $\smatt{pa}{pb}cd$ on the left by some matrix in $\Ga(1)$ to get some $\smatt {a'}{b'}0{d'}$ with $a'd'=\det\smatt{pa}{pb}cd=p$ and $0\le b'<d'$. The $p+1$ possible matrices are $\smatt p001$ and $\smatt 1{k}0p$ for $0\leq k<p$. We claim that all these are in fact attained. Let $M$ be one of these matrices. Then by the Elementary Divisors Theorem there exist $A,B\in \Ga(1)$ such that $AMB=\smatt p001$. But then $M=A^{-1}NB$, so $j(Mz)=j(A^{-1}NBz)$, and we could have picked $B$ as a coset representative (the choice doesn't matter anyways). The lemma follows upon noting that $\smatt p001z=pz$ and $\smatt 1{k}0pz=\frac{z+k}{p}$.
+\end{proof}
+Let $\zeta_p$ be a $p$th root of unity. %and let $\mfp=\an{1-\zeta_p}$. 
+We have that $1-\zeta_p|p$: indeed 
+\[
+p=x^{p-1}+\cdots +1|_{x=1}=(1-\zeta_p)\cdots (1-\zeta^{p-1}).
+\]
+When we expand $j\pf{z+k}{p}$, its coefficients are roots of unity times the coefficients of $j(z)$. However, roots are unity are congruent to $1$ modulo $\mfp$, since $\zeta_p^k-1=(\zeta_p-1)(\zeta_p^{k-1}+\cdots +1)$. Then
+\begin{align*}
+%F(j(z),Y)&=\prod_{i=1}^{p+1}(Y-j(
+%F(X,j(pz))%&=F(j(pz),X)\\
+F(j(z),Y)%&=F(j(\\
+&=\prod_{i=1}^{p+1}(Y-j(\ga_ipz))\\
+&=(Y-j(pz))\prod_{k=1}^{p}\pa{Y-j\pf{z+k}{p}}\\
+&\equiv (Y-j(pz))\pa{Y-j\pa{\frac zp}}^p\pmod{1-\zeta_p} \\
+&\equiv (Y-j(z)^p)\pa{Y^p-j(z)}\pmod{1-\zeta_p},
+\end{align*}
+the last equation following because raising the $j$ function to the $p$th power is the same, modulo $p$, as raising each term to the $p$th power, and the coefficients (which are integers) are not affected modulo $p$, while the exponents are multiplied by $p$. 
+Replacing $j(z)$ by $X$ we get
+\[F(X,Y)\equiv (Y-X^p)(Y^p-X)\equiv X^{p+1}+Y^{p+1}-X^pY^p-XY \pmod{1-\zeta_p}.\]
+However, $\an{1-\zeta_p}\cap \Z=\an{p}$ (it contains $\an{p}$, and $\an{p}$ is maximal in $\Z$), and we know $F(X,Y)$ has integer coefficients, so congruence holds modulo $p$.
+\end{problem}
+\begin{problem}{\it (Rank of Jacobian Matrix)}
+The problem follows from the more general theorem.
+\begin{thm}
+Let $C$ be an affine algebraic variety in $\A^n(\ol{k})$ corresponding to the ideal generated by $\phi_1,\ldots, \phi_m$, and let $P$ be a point on $C$. Then
+\[
+n=\dim_{\ol k}(\mm_P/\mm_P^2)+\rank[D_j\phi_i(P)].
+\]
+\end{thm}
+\begin{proof}
+Let $\ma_P$ denote the maximal ideal of $\ol{k}[x_1,\ldots, x_n]$ corresponding to $P$, i.e. if $P=(a_1,\ldots, a_n)$ then $\ma_p=\an{x_1-a_1,\ldots, x_n-a_n}$. Let $\sO_P$ denote the local ring at $P$, i.e. $(\ol{k}[C])_{\an{x_1-a_1,\ldots, x_n-a_n}}$. Let $\mm_P$ denote the maximal ideal of $\sO_P$.
+
+Let $\theta$ denote the map $\ol{k}(C)\to \ol{k}^n$ defined by
+\[
+\theta(f)=\pa{
+\pd{f}{x_1}(P),\ldots, \pd{f}{x_n}(P)
+}.
+\]
+Since any element of $\ma_P$ has $P$ as root with multiplicity at least 1, any element of $\ma_P^2$ has $P$ as root with multiplicity at least 2, so $\te(\ma_P^2)=0$ and $\te$ induces a map $\te':%\ol{k}(C)\to \ol{k}^n$.
+%Consider $\th'$ restricted to $
+\ma_P/\ma_P^2\to \ol{k}^n$. We claim this is an isomorphism of vector spaces. %First note that $x_i-a_i$ forms a basis for $\ma_P$: it spans the space of all linear polynomials vanishing at $P$, and $\ma_P^2$ contains all polynomials with minimal term of degree at least 2
+This is clear when we translate $P$ to the origin: In this case, $\ma_P$ is the space of all polynomials without constant term, $\ma_P^2$ is the space of all polynomials without constant or linear term, and the basis $\{x_1,\ldots, x_n\}$ for $\ma_P/\ma_P^2$ gets sent to the standard basis $\{e_1,\ldots, e_n\}$ for $\ol{k}^n$. Thus
+\begin{equation}\label{p6-3-1}
+\dim_{\ol k} \ma_P/\ma_P^2=n.
+\end{equation}
+
+Next, let $I=\an{\phi_1,\ldots, \phi_m}$. Since the $i$th row of $[D_j\phi_i(P)]$ is the the image of $\phi_i$ under $k$,
+\begin{equation}\label{p6-3-2}
+\rank [D_j\phi_i(P)]=\dim_{\ol k} \te(I)=\dim_{\ol k} (\te'((I+\ma_P^2)/\ma_P^2))=\dim_{\ol k}((I+\ma_P^2)/\ma_P^2).
+\end{equation}
+The last statement follows since $\te'$ is an isomorphism.
+
+Now note
+\begin{align*}
+\mm_P&=(\ma_P/I)_P=\ma_P/I_P\\
+\mm_P^2&=((\ma_P^2+I)/I)_P=(\ma_P^2+I_P)/I_P\\
+\mm_P/\mm_P^2&=\ma_P/(\ma_P^2+I).
+\end{align*}
+Hence
+\begin{equation}\label{p6-3-3}
+\dim_{\ol k} \mm_P/\mm_P^2=\dim_{\ol k} \ma_P/(\ma_P^2+I).
+\end{equation}
+
+Putting together~(\ref{p6-3-1}),~(\ref{p6-3-2}), and~(\ref{p6-3-3}) gives
+\begin{align*}
+n=\dim_{\ol k}(\ma_P/\ma_P^2)&= \dim_{\ol k}(\ma_P/(\ma_P^2+I))+\dim((\ma_P^2+I)/\ma_P^2)\\
+&=\dim_{\ol k}(\mm_P/\mm_P^2)+\rank [D_j\phi_i(P)].
+\end{align*}
+\end{proof}
+Since $\dim_{\ol{k}} \mm_P/\mm_P^2\geq \dim \ol{k}[C]_P=\dim\ol{k}[C]$ (the last equality since we're localizing at a maximal ideal), and for curves we have $\dim\ol{k}(C)=1$, we get
+\[
+\rank [D_j\phi_i(P)]=n-\dim_{\ol{k}}(\mm_P/\mm_P^2)\le n-1
+\]
+as needed.
+
+(Alternatively, assuming \bwoc{} that $\rank [D_j\phi_i(P)]=n$, the theorem gives $\mm_P/\mm_P^2=0$. But by Nakayama's Lemma, this implies $\mm_P=0$. Since this is true for every point $P$, the only maximal ideal of $\ol{k}[C]$ is 0, and $\ol{k}(C)=\ol{k}$, contradiction.)
+%Now returning to the problem, if $\rank [D_j\phi_i(P)]=n$ then the theorem gives $\dim(\mm_P/\mm_P^2)=0$, i.e. $\mm_P/\mm_P^2=0$. But by Nakayama's Lemma, this implies $\mm_P=0$. Since this is true for every point $P$, $\ol{k}(C)$ 
+\end{problem}
+\end{document}

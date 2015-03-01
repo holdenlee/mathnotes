@@ -1,0 +1,430 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+\usepackage{stmaryrd}%mapsfrom
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{6pt}
+{6pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\newcommand{\bb}[1]{\mathbb{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\PSL}{\operatorname{PSL}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\mmod}[1]{\,(\text{mod}^{\times} #1)}
+\newcommand{\nmod}[1]{\,(\text{mod}\, #1)}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+\newcommand{\iy}[0]{\infty}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.785 Analytic Number Theory} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 6} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+\allowdisplaybreaks[1]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.785 Analytic Number Theory Problem Set \#8}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{4/7/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+%Example problems
+\begin{problem}{\it (Odd Maass forms)}
+We assume $\smatt 0{-1}10\in \Ga$.
+
+Let $g(z)=\rc{4\pi i} \pd fx(z)$. Note that if $z=x+yi$,
+\[
+f(z)=f_0(y)+\sum_{n\ne 0}a(n)2y^{\rc 2} K_{s-\rc 2}(2\pi |n|y)e(nx)
+\]
+then
+\[
+g(z)=\rc{4\pi i}\pd fx (z)=\rc{4\pi i}\sum_{n\ne 0} a(n)2y^{\rc 2}K_{s-\rc 2} (2\pi |n|y) 2\pi ine(nx).
+\]
+Using this and the identity
+\[
+\int_0^{\iy} K_{s-\rc2}(y)y^w\frac{dy}{y}=2^{w-2} \Ga\pf{w+s+1/2}2\Ga\pf{w-s+1/2}2,
+\]
+we get
+\begin{align*}
+\int_0^{\iy} g(iy) y^{w+\rc2}\frac{dy}{y}
+&=\int_0^{\iy}\rc{4\pi i}\sum_{n\ne 0} a(n)2y^{w+1}K_{s-\rc 2} (2\pi |n|y) 2\pi ine(nx)\,\frac{dy}y\\
+&=\rc{2\pi } \sum_{n\ne 0}a(n)\int_0^{\iy} K_{s-\rc 2}(2\pi |n|y)2\pi ny^{w+1}\frac{dy}y\\
+&=\rc{2\pi } \sum_{n\ne 0}a(n)\int_0^{\iy} K_{s-\rc 2}(y) 2\pi n\frac{y^{w+1}}{2^{w+1}|n|^{w+1}\pi^{w+1}}\frac{dy}y
+&\pa{y\mapsfrom \frac{y}{2\pi |n|}}\\
+&=\rc{2\pi}\sum_{n\neq 0} \frac{a(n)}{|n|^w \sign(n)2^{w}\pi^{w}}\int_0^{\iy} K_{s-\rc 2}(y) y^{w+1}\frac{dy}{y}\\
+&=\rc{2\pi}\sum_{n\ne 0} \frac{a(n)}{|n|^w \sign(n)2^{w}\pi^{w}} 2^{w-1}\Ga\pf{w+s+3/2}2\Ga\pf{w-s+3/2}2\\
+&=\rc{2\pi}\sum_{n=1}^{\iy}\frac{2a(n)}{2n^w\pi^w}\Ga\pf{w+s+3/2}2\Ga\pf{w-s+3/2}2&(a(-n)=-a(n))\\
+&=\rc{2\pi}\pi^{-w}\Ga\pf{w+s+3/2}2\Ga\pf{w-s+3/2}2\sum_{n=1}^{\iy} \frac{a(n)}{n^w}\\
+&=\rc{2\pi} L^*(w,f).
+\end{align*}
+Multiplying by $2\pi$ fives
+\[
+L^*(w,f)=2\pi \int_0^{\iy} g(iy)y^{w+\rc2}\frac{dy}{y}.
+\]
+Note the RHS defines an absolutely convergent function for all $w$, since $K_{s-\rc 2}(y)\sim (2\pi^{-1}y)^{-\rc 2} e^{-y}$ gives the convergence of the sum when $y\to \iy$, and the transformation $f(iy)=f(i/y)$ gives convergence when $y\to 0$. This gives the analytic continuation of $L^*(w,f)$.
+
+Next note that $f(iy)=f\pf iy$ gives $g(iy)=g\pf iy$ so
+\begin{align*}
+L^*(-1-w,f)&=2\pi \int_0^{\iy} g(iy) y^{-w-\rc2}\frac{dy}{y}\\
+&=2\pi \int_0^{\iy} g\pf iy y^{-w-\rc 2}\frac{dy}{y}\\
+&=2\pi \int_{\iy}^0 g(iu) u^{w+\rc 2} u\cdot -\frac{du}{u^2}&\pa{y\mapsfrom \rc u}\\
+&=2\pi \int_0^{\iy} g(iu) u^{w+\rc 2}\frac{du}{u}\\
+&=L^*(w,f).
+\end{align*}
+\end{problem}
+\begin{problem}{\it (Properties of convolution)}
+If $Y\in \fg$ and $e^{tY}z=u(t)+iv(t)$, then $Y$ acts on functions by
+\[
+\left.\frac{du(t)}{dt}\right|_{t=0} \pd{}{x} +i\left.\frac{dv(t)}{dt}\right|_{t=0}\pd{}{y}.
+\]
+Since we want derivatives at $t=0$, it suffices to calculate the $x$ and $y$ derivatives of $(I+tY)z$; the higher order terms in the power series expansion of $e^{tY}$ have derivative 0 at $t=0$. For $Y=F$,
+\[
+(I+tF)z=\matt 10t1 (x+iy)=\frac{x+iy}{t(x+iy)+1}=\frac{tx^2+ty^2+x}{(tx+1)^2+(ty)^2}+\frac{y}{(tx+1)^2+(ty)^2} i.
+\]
+Taking the derivative with respect to $t$ and setting $t=0$ gives
+\[
+\frac{(x^2+y^2)-(tx^2+ty^2+x)(2(tx+1)x+2ty^2)}{((tx+1)^2+(ty)^2)^2}
+-\frac{y(2(tx+1)x+2ty^2)}{((tx+1)^2+(ty)^2)^2}i=(y^2-x^2)-2xyi.
+\]
+Hence
+\[
+F=(y^2-x^2)\pd{}x-2xy\pd{}y.
+\]
+Simlarly, 
+\[
+(I+tH)z=\matt{1+t}00{1-t}(x+iy)=\frac{1+t}{1-t}(x+yi).
+\]
+Taking the derivative with respect to $t$ and setting $t=0$ gives
+\[
+\frac{2}{(1-t)^2}(x+iy)=2x+2yi.
+\]
+Hence
+\[
+H=2x\pd{}x+2y\pd{}y.
+\]
+Then
+{\small
+\begin{align*}
+\cal C&=\rc 2 H^2+EF+FE\\
+&=\rc2\cdot 2\pa{
+x\pd{}x2\pa{x\pd{}x+y\pd{}y}
++y\pd{}y2\pa{x\pd{}x+y\pd{}y}
+}
++\pd{}x\pa{
+(y^2-x^2)\pd{}x-2xy\pd{}y
+}\\
+&\quad +\pa{2(y^2-x^2)\pd{^2}{x^2}-4xy\pd{^2}{y\partial x}}\\
+&=2\pa{
+x\pa{\pd{}x+x\pd{^2}{x^2}}
++\cancel{2xy\pd{^2}{x\partial y}}
++y\pa{\pd{}y+y\pd{^2}{y^2}}
+}
++\pa{-2x\pd{}{x}+(y^2-x^2)\pd{^2}{x^2}-2y\pa{\pd{}y+\cancel{x\pd{^2}{x\partial y}}}}\\
+&\quad+\pa{(y^2-x^2)\pd{^2}{x^2}-\cancel{2xy\pd{^2}{y\partial x}}}\\
+&=2y^2\pa{\pd{^2}{x^2}+\pd{^2}{y^2}}=-\rc{2}\De.
+\end{align*}}
+\end{problem}
+\begin{problem}{\it (Properties of convolution)}
+\subprob{(i)}
+Given that $f$ is continuous and $g\in C_0^{\iy}(G)$, 
+\[
+(f*g)(x)=\int_G f(y)g(y^{-1}x)\,dy
+\]
+is in $C^{\iy}(G)$ because the integrand $f(y)g(y^{-1}x)$ is a $C^{\iy}$ function in $y$ that vanishes off a compact set; to take derivatives of $f*g$ we may take them inside the integral.
+
+Given $D\in \cal U(\fg)$,
+\begin{align*}
+D(f*g)&=\frac{d}{dt}(f*g)(xe^{tD})|_{t=0}\\
+&=\frac{d}{dt}\int_G f(y)g(y^{-1}xe^{tD})\,dy|_{t=0}\\
+&=\int_G f(y) \frac{d}{dt} g(y^{-1}xe^{tD})|_{t=0}\,dy\\
+&=\int_G f(y)Dg(y^{-1}x)\,dy.
+\end{align*}
+
+\subprob{(ii)}
+Given $f,g,h$ locally integrable with $g,h$ having compact support,
+\begin{align*}
+(f*(g*h))(x)&=\int_G f(xy)(g*h)(y^{-1})\,dy\\
+&=\int_G f(xy)\int_G g(y^{-1}z)h(z^{-1})\,dz\,dy\\
+&=\int_G \int_G f(xy) g(y^{-1}z)h(z^{-1})\,dy\,dz&\text{(Fubini)}\\
+&=\int_G \int_G f(xy)g(y^{-1}z)\,dy\,h(z^{-1}) \,dz\\
+&=\int_G \int_G f(xzy)g(y^{-1})\,dy\,h(z^{-1}) \,dz&(y\mapsfrom z^{-1}y)\\
+&=\int_G (f*g)(xz)h(z^{-1})\,dz\\
+&=((f*g)*h)(x).
+\end{align*}
+%Changing the order of integration is justified since the 
+Note the integrand in the double integral is integrable because if $g$ has support $K_1$ and $h$ has support $K_2$ then $g(y^{-1}z)h(z)$, as a function of $(y,z)$, has support contained in $K_2K_1^{-1}\times K_2$, which is compact.
+\end{problem}
+\begin{problem}{\it (Converging harmonic functions)}
+For a set $S$ let $B_r(S)=\{x|\exists y\in S, d(x,y)<r\}$.
+
+Let $K$ be a compact subset of $U$. Choose $R$ so that $B_R(K)\subeq U$. Let $\ph\in C^{\iy}(B_R(0))$ be radially symmetric with integral 1. Let $\ph_y(x)=\ph(x-y)$. Note $\ph_y$ has support contained in $U$. By the Mean Value Property for harmonic functions,
+\begin{align*}
+f_i(y)&=f_i(y)\int_{B_R(0)}\ph(x)\,dx\\
+&=f_i(y) 2\pi \int_0^R r\ph(r) \,dr\\
+&=\int_0^R r\ph(r)2\pi f_i(y)\,dr\\
+&=\int_0^R \int_0^{2\pi} r\ph(r(\cos\theta,\sin\theta)) f_i(y+r(\cos\theta,\sin\theta)) \,d\te\,dr&\text{MVP and radial symmetry of }\ph\\
+&=\int_{B_R(y)} \ph(x-y)f_i(x)\,dx\\
+&=(f_i*\ph)(y)=\int_{B_R(y)} \ph_y(x)f_i(x)\,dx.
+\end{align*}
+By assumption $(f_i*\ph)(y)$ converges as $i\to \iy$, so $f_i(y)$ converges pointwise on $K$.
+
+Let $B=\{\ph_y|y\in K\}$. 
+The $T_{f_i}$ are linear operators on the test functions with $\sup_{i\in \N}| T_{f_i}(g)|<\iy$ for each $g\in B$, since $T_{f_i}(g)=\int_{B_R(y)} \ph_y(x)f_i(x)\,dx$ converges to a finite limit. 
+Hence by the uniform boundedness principle for Fr\'echet spaces, the $T_{f_i}$ are equicontinuous, giving that the $f_i$ are equicontinuous. (Equicontinuity of the $T_{f_i}$ and the fact that $\ph_{y'}\to \ph_y$ when $y'\to y$ give that, for a given $\ep>0$, there exists $\de>0$ so that $d(y,y')<\de$ implies $\sup_y| T_{f_i}\ph_{y'}-T_{f_i}\ph_{y}|<\ep$. But this equals $\sup_y| f_i(y')-f_i(y)|$ by our calculations above so we get $\sup_y| f_i(y')-f_i(y)|<\ep$ for all $y,y'$ with $d(y,y')<\de$.) 
+Since the $f_i$ are equicontinuous and converge pointwise, they converge uniformly.
+
+To see $f=\lim_{i\to \iy} f_i$ is harmonic, take the limit of
+\[
+f_i(y)=\rc{\pi R^2}\int_{B_R(y)} f_i(x)\,dx
+\]
+as $i\to \iy$, now legal since the $f_i$ converge uniformly, to conclude that the mean value property holds for $f$, and hence that $f$ is harmonic.
+\end{problem}
+\end{document}

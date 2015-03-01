@@ -1,0 +1,515 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{3pt}
+{3pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+%\newcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+\newcommand{\nequiv}[0]{\not\equiv}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+       }
+\makeatother
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.785 Analytic Number Theory} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 1} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.785 Analytic Number Theory Problem Set \#1}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{2/4/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+%\begin{align*}
+%4(d_1(n)-d_3(n))
+%&=\left(\frac{c_j}{2}+1\right)d_1\left(\frac n{q_m^{c_m}}\right)+\frac{c_j}{2}d_3\left(\frac n{q_m^{c_m}}\right)\\
+%&\quad -\left(\frac{c_j}{2}+1\right)d_3\left(\frac n{q_m^{c_m}}\right)-\frac{c_j}{2}d_1\left(\frac n{q_m^{c_m}}\right)\\
+%&=d_1\left(\frac n{q_m^{c_m}}\right)-d_3\left(\frac n{q_m^{c_m}}\right)\\
+%&=(b_1+1)\cdots (b_k+1)\end{align*}
+%
+%$4(d_1(n)-d_3(n))=\left(\frac{c_j}{2}+1\right)d_1\left(\frac n{q_m^{c_m}}\right)+\frac{c_j}{2}d_3\left(\frac n{q_m^{c_m}}\right)-\left(\frac{c_j}{2}+1\right)d_3\left(\frac n{q_m^{c_m}}\right)-\frac{c_j}{2}d_1\left(\frac n{q_m^{c_m}}\right)\\=d_1\left(\frac n{q_m^{c_m}}\right)-d_3\left(\frac n{q_m^{c_m}}\right)=(b_1+1)\cdots (b_k+1)$
+%$1-\frac13+\frac 15-\cdots=\lim_{N\to \infty} \frac 1N\left(\left\lfloor \frac N1\right\rfloor-\left\lfloor \frac N3\right\rfloor+\left\lfloor \frac N5\right\rfloor-\cdots\right)= \lim_{N\to \infty} \sum_{n\equiv 1\pmod 4} \left\lfloor \frac Nn\right\rfloor -\left\lfloor \frac N{n+2}\right\rfloor.$
+%\begin{align}
+%\nonumber
+%&\quad\frac{1}{N}\left(\left\lfloor \frac N1\right \rfloor -\left\lfloor\frac N3\right \rfloor +\left\lfloor\frac  N5\right \rfloor -\cdots\right)-\left(1-\frac 13+\frac 15-\cdots\right)\\
+%\nonumber
+%&= \left|\frac 1N\sum_{n\equiv 1\pmod 4} \left(\left\lfloor \frac Nn \right\rfloor-\left\lfloor \frac N{n+2}\right\rfloor\right)
+%-\frac 1N\sum_{n\equiv 1\pmod 4} \left(\frac Nn-\frac N{n+2}\right)\right|\\
+%\nonumber
+%&\le\frac 1N \left(\sum_{\scriptsize\begin{array}{c} n\equiv 1\pmod 4\\ n\le \sqrt N\end{array}}\left| \left\{\frac Nn\right\}-\left\{ \frac N{n+2}\right\}\right|\right.\\
+%&\quad \left.+\sum_{\scriptsize\begin{array}{c} n\equiv 1\pmod 4\\ n> \sqrt N\end{array}} \left(\frac Nn-\frac N{n+2}+\left\lfloor \frac Nn\right\rfloor-\left\lfloor \frac N{n+2}\right\rfloor\right)\right)\\
+%\nonumber
+%&\le\frac 1N \left(\sum_{\scriptsize\begin{array}{c} n\equiv 1\pmod 4\\ n\le \sqrt N\end{array}}\left| \left\{\frac Nn\right\}-\left\{ \frac N{n+2}\right\}\right| \right.\\
+%&\quad\left.+\sum_{\scriptsize\begin{array}{c} n\equiv 1\pmod 4\\ n> \sqrt N\end{array}} \left(\frac Nn-\frac N{n+4}+\left\lfloor \frac Nn\right\rfloor-\left\lfloor \frac N{n+4}\right\rfloor\right)\right)\\
+%\nonumber
+%&\le\frac 1N\left( 2\sqrt N+\frac{N}{\sqrt N}+\frac{N}{\sqrt N}\right)\\
+%\nonumber
+%&\le\frac {4N}{\sqrt N}\to 0 \text{ as }N\to \infty.
+%\end{align}
+
+\begin{problem}{}
+Label the edges of the fundamental parallelogram as follows.
+\[
+\xymatrix{
+& \al+\omega_2 \ar[rr]^{C_2} & & \al+\omega_1+\omega_2\ar[ld]^{C_3} \\
+\al\ar[ur]^{C_1} & &\al+\omega_1 \ar[ll]^{C_4}&
+}
+\]
+We calculate $\int_{\partial P} \frac{zf'(z)}{f(z)}\,dz$ in two ways.
+
+\textbf{Way 1:} 
+\[
+\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=\ba{
+\int_{C_1} \frac{zf'(z)}{f(z)}\,dz
++\int_{C_3} \frac{zf'(z)}{f(z)}\,dz
+}
++\ba{
+\int_{C_2} \frac{zf'(z)}{f(z)}\,dz
++\int_{C_4} \frac{zf'(z)}{f(z)}\,dz
+}.
+\]
+Noting that $C_3$ is just $C_1$ shifted by $\omega_1$ and reversed, and that $C_2$ is just $C_4$ shifted by $\omega_2$ and reversed, this equals
+\[
+\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=
+\int_{C_1} \ba{\frac{zf'(z)}{f(z)}
+-\frac{(z+\omega_1)f'(z+\omega_1)}{f(z+\omega_1 )}
+}\,dz
++
+\int_{C_4} \ba{\frac{zf'(z)}{f(z)}- \frac{(z+\omega_2)f'(z+\omega_2)}{f(z+\omega_2)}
+}\,dz.
+\]
+Since $f$ is elliptic, $f(z)=f(z+\omega_1)=f(z+\omega_2)$, giving
+\[
+\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=
+-\omega_1\int_{C_1} \frac{f'(z)}{f(z)} \,dz-\omega_2\int_{C_4} \frac{f'(z)}{f(z)}\,dz.
+\]
+Now $\ln(f(z))$ can be defined in a neighborhood around $C_1$ and $C_4$, since $f$ has no poles or zeros on $\partial P$. Since $f(\al)=f(\al+\omega_1)=f(\al+\omega_2)$, we have $\ln(f(\al+\omega_1))-\ln(f(\al))=2\pi i c_1$ and $\ln(f(\al))-\ln(f(\al+\omega_2))=2\pi i c_2$ for some integers $c_1$ and $c_2$. But these equal the above integrals by definition of $\ln f(z)$, so
+\begin{equation}\label{p1-1-1}
+\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=
+-2\pi i(\omega_1 c_1+\omega_2 c_2).
+\end{equation}
+
+\textbf{Way 2:}
+Note $\Res_a \frac{f'(z)}{f(z)}=\ord_a f$ so $\Res_a \frac{zf'(z)}{f(z)}=a \ord_a f$. Letting $a_k$ be the poles and zeros of $f$ in $P$, we get by Cauchy's Theorem that
+\begin{equation}\label{p1-1-2}
+\int_{\partial P} \frac{zf'(z)}{f(z)}=2\pi i\sum_{k} \Res_{a_k} \frac{f'(z)}{f(z)}=2\pi i \sum_{k}m_k a_k.
+\end{equation}
+Equating~(\ref{p1-1-1}) and~(\ref{p1-1-2}) give
+\[
+\sum_{k}m_ka_k=-\omega_1c_1-\omega_2c_2\equiv 0\pmod{\La}.
+\]
+\end{problem}
+\begin{problem}{\it }
+For $\al\in \La$, let $P_{\al}=\{\al+t_1\omega_1+t_2\omega_2|t_i\in [0,1)\}$. Let $d$ be the diameter of $P$. Let $C_{m,n}=\{x:m\leq |x|< n\}$. Let
+\[
+\mathcal R_n=\bigcup_{\al\in \La\cap C_{n-1,n}}P_{\al}.
+\]
+The area of ${\cal R}_n$ is related to the number of points of $\La$ in the annulus
+by a constant:
+\begin{equation}\label{p1-2-1}
+[{\cal R}_n]=|\La\cap C_{n-1,n}|[P]
+\end{equation}
+($[\cdot ]$ denotes area.) 
+Next note that no point of ${\cal{R}}_n$ can be more than distance $d$ away from $C_{n-1,n}$, since each $P_{\al}$ has diameter $d$ and contains the point $\al\in C_{n-1,n}$. Hence $R_n\subeq C_{n-d-1,n+d}$, and for $n\geq d+1$,
+\begin{equation}\label{p1-2-2}
+[{\cal R}_n]\leq [C_{n-d-1,n+d}]=\pi((n+d)^2-%\min((n-m-1)^2,0)\leq \pi[(4m+2)n+(m+1)^2].
+(n-d-1)^2)\leq\pi(4d+2)n.
+\end{equation}
+From~(\ref{p1-2-1}) and~(\ref{p1-2-2}) we get
+\[
+|\La\cap C_{n-1,n}|\leq \frac{\pi(4d+2)}{[P]}n
+\]
+%(For $n\geq m+1$ check this by expanding; for $n<m$, 
+Hence for $s>2$, letting $m=\ce{d}$,
+\[
+\sum_{\la\in \La-\{0\}} \frac{1}{|\la|^s}=\sum_{\la\in (\La-\{0\})\cap C_{0,m}}\rc{|\la|^s} +\sum_{n=m+1}^{\infty}\sum_{\la\in \La\cap C_{n-1,n}} \rc{|\la|^s}.
+\]
+The first sum is finite since a lattice is discrete, while
+\[
+\sum_{\la\in \La\cap C_{n-1,n}} \rc{|\la|^s}\leq 
+|\La\cap C_{n-1,n}|\rc{(n-1)^s}
+\leq \frac{\pi(4d+2)}{[P]}\cdot \frac{n}{(n-1)^s}.
+\]
+Hence the second sum converges by comparison to the convergent series $\sum_{n\geq 1} \rc{n^{s-1}}$ (since $s-1>1$).
+
+%Thus $\sum_{\la\in \La-\{0\}} \frac{1}{\la^p}$ converges absolutely.
+\end{problem}
+\begin{problem} {\it }
+\subprob{(A)}
+There exists $\al$ such that $\al\La_1=\La_2$ (the lattices are homothetic) if and only if their corresponding elliptic curves are isomorphic, $E(\La_1)\cong E(\La_2)$. The $j$-invariant of $\La$ is equal to the $j$-invariant of $E(\La)$ so it suffices to show that two elliptic curves in the form $y^2=x^3+ax+b$ are isomorphic iff their $j$-invariants are equal.
+
+(The equation of $E(\La)$ is $y^2=4x^3-g_2x-g_3=0$ which under change of coordinates becomes $y^2=x^3-4g_2x-16g_3$. By definition the $j$-invariant of this elliptic curve is $j(E)=\frac{1728(4(-4g_2)^3)}{16(4(-4g_2)^3+27(-16g_3)^2)}=\frac{1728g_2^3}{g_2^3-27g_3^2}=j(\La)$.)
+
+Let $y^2=x^3+ax+b$ be an elliptic curve. %and $a'y^2=b'x^3+c'x+d'$ be the equation of two elliptic curves. 
+Two elliptic curves are isomorphic over $\C$ iff they are related by a change of coordinates; the only possible change of coordinates keeping this form of the equation are $x=u^2x',y=u^3y'$
+which transform the equation to
+\begin{equation}\label{p1-3-1}
+y'^2=x'^3+a'x'+b',\quad a'=\frac{a}{u^4},b'=\frac{b}{u^6}.
+\end{equation}
+The new $j$-invariant is
+\[
+j'=\frac{1728(4a')^3}{16(4a'^3+27b'^2)}=\frac{1728(4a)^3}{16(4a^3+27b^2)}=j.
+\]
+Hence if two elliptic curves are isomorphic then their $j$-invariants are equal. Conversely, suppose the $j$-invariants of $y^2=x^3+ax+b$ and $y^2=x^3+a'x+b'$ are equal. Then $\frac{1728(4a')^3}{16(4a'^3+27b'^2)}=\frac{1728(4a)^3}{16(4a^3+27b^2)}$, giving $a^3b'^2=a'^3b^2$. Either none of $a,a',b,b'$ are zero, or $a,a'$ are zero, or $b,b'$ are zero (since $a,b$ can't both be zero, and neither can $a',b'$). Hence one of $\pf{b}{b'}^{\rc 6}$ or $\pf{a}{a'}^{\rc 4}$ is defined (or they're both defined and equal). Taking $u$ in~(\ref{p1-3-1}) to be this value transforms the first equation into the second. Hence if two elliptic curves have the same $j$-invariant then they are isomorphic.\\
+
+\subprob{(B)(i)}
+Let $\La_1$ be the set of all points in $\La$ in the first quadrant or on the positive real axis. Then $\La^*=\La_1\cup i\La_1\cup i^2\La_1\cup i^3\La_1$. Hence
+\begin{align*}
+G_6(\La)&=\sum_{\la\in \La^*}\rc{\la^6}\\
+&=\sum_{\la\in \La_1}\pa{\rc{\la^6}+\rc{(i\la)^6}+\rc{(-\la)^6}+\rc{(-i\la)^6}}\\
+&=\sum_{\la\in \La_1}\pa{\rc{\la^6}-\rc{\la^6}+\rc{\la^6}-\rc{\la^6}}\\
+&=0.
+\end{align*}
+Then $g_3=0$ and hence 
+\[j(\La)=\frac{1728g_2^3}{g_2^3-27\cancelto{0}{g_3}^2}=1728.\]
+
+\subprob{(ii)}
+Let $\La_1$ be all the points of $\La$ between the positive real axis and the ray with angle $\frac{2\pi}{3}$, including the positive real axis but not the other ray. Let $\omega=e^{\frac{2\pi i}{3}}$. Then $\La^*=\La_1\cup \omega\La_1\cup \omega^2\La_1$ so
+\begin{align*}
+G_4(\La)&=\sum_{\la\in \La^*}\rc{\la^4}\\
+&=\sum_{\la\in \La_1}\pa{\rc{\la^4}+\rc{(\omega \la)^4}+\rc{(\omega^2)^4}}\\
+&=\sum_{\la\in \La_1}(1+\omega+\omega^2)\rc{\la^4}\\
+&=0.
+\end{align*}
+Thus $g_2=0$ and $j(\La)=0$.
+\end{problem}
+\begin{problem} {\it }
+\subprob{(A)}
+Taking logs,
+\[
+\ln \sigma(z)=\ln(z)+\sum_{\la\in \La^*} \ln\pa{1-\frac{z}{\la}}+\frac{z}{\la} +\rc{2} \pf{z}{\la}^2.
+\]
+%This converges absolutely because expanding in Taylor series,...
+
+Then
+\begin{align*}
+\frac{d}{dz}\ln \sigma(z)&=\rc z+\sum_{\la\in \La^*} \frac{-1/\la}{1-\frac z{\la}}+\rc{\la}+\frac{z}{\la^2}\\
+\frac{d^2}{dz^2}\ln \sigma(z)&=-\rc{z^2}+\sum_{\la\in \La^*} -\rc{\la^2}\pf{1}{1-\frac{z}{\la}}^2+\frac{1}{\la^2}=-\wp(z).
+\end{align*}
+
+\subprob{(B)}
+By periodicity $\wp(z)=\wp(z+\la)$. Integrating twice and using (A) gives
+\[
+\ln\sigma(z+\la)=\ln\sigma(z)+az+b
+\]
+for some constants $a,b$. 
+Exponentiating gives
+\[
+\sigma(z+\la)=e^{az+b}\sigma(z).
+\]
+
+\subprob{(C)(i)}
+If $\sum_{k=1}^r n_i(z_i)=\la$, then replace it with $\pa{\sum_{k=1}^r n_i(z_i)} - (\la)+(0)$, to make it equal to 0. (This is okay since modulo $\La$, $(\la)=(0)$.)
+
+From the infinite product, $\sigma(z)$ has a simple zero at each $z\in \La$ and no other zeros or poles. 
+Let $f(z)=\prod_{k=1}^r \sigma(z-z_k)^{n_k}$; note $f$ is meromorphic. From the above observation, $f(z)$ has a zero/pole of  order $n_k$ at each $z_k$,  %(actually, at each $z_k+\la,\la\in \La$), 
+and no other zeros modulo $\La$, so $\text{div}(f)=\sum_{k=1}^r n_i(z_i)$.
+
+Next we show that $f$ is elliptic. From (B), for $\la\in \La$ we have
+\begin{align*}
+f(z+\la)&=\prod_{k=1}^r \sigma(z+\la-z_k)^{n_k}\\
+&=\prod_{k=1}^r e^{n_k(a(z-z_k)+b)}\sigma(z-z_k)^{n_k}\\
+&=e^{(az+b)\sum_{k=1}^r n_k+(-a)\sum_{k=1}^rn_kz_k} f(z)=f(z).
+\end{align*}
+Hence $f$ is elliptic.\\
+
+\subprob{(ii)}
+First we show that $f$ is an analytic isomorphism. Let $(x,y)$ on the elliptic curve be given. Now $\wp(z)-x$ is a non-constant elliptic function, so it has a zero, say $z=a$. Since $\wp$ is even $z=-a$ is also a zero, and $\wp'(z)=\pm \wp(a)$ depending on whether $z=a$ or $-a$. Now $(x,\pm\wp'(a))$ are exactly the points on $E$ with first coordinate $x$ (from the equation $y^2=ax^3+bx+c$). Hence $f$ is surjective. (Note $0$ gets sent to the point at infinity.)
+
+Now suppose $\phi(z_1)=\phi(z_2)$. %for $z_1\nequiv z_2\pmod \La$. 
+Then $\wp(z)-\wp(z_1)$ has zeros $z_1,z_2$. Since $\wp(z)-\wp(z_1)$ has exactly two zeros (since it has one pole of order 2), and $\wp$ is even, $z_1=\pm z_2$. (If $2z_1\equiv 0\pmod{\La}$ then $\wp(z)-\wp(z_1)$ has a double zero at $z_1$, and that is the only zero.) But $\wp'(z_1)$ is odd so
+\[
+\wp'(z_1)=\wp'(z_2)=\wp'(\pm z_1)=\pm\wp'(z_1)
+\]
+so either $z_1\equiv z_2\pmod{\La}$ or $\wp'(z_1)=0,z_1\nequiv z_2\pmod{\La}$.
+Let $\omega_1,\omega_2$ generate $\La$ and let $\omega_3=\omega_1+\omega_2$. 
+ Note $\wp'(\omega_m/2)=0$ because $\wp'$ is odd and $\omega_m/2\equiv -\omega_m/2\pmod{\La}$.
+Since the equation of the elliptic curve is cubic in $x$, and $(\wp(z),\wp'(z))\in E$, these three are the only possible values of $\wp(z)$ given that $\wp'(z)=0$. 
+Since $\wp(z)-\wp(\omega_m/2)$ is even, it has a double zero at $\omega_m/2$; since its only pole is of order 2 this is its only zero modulo $\La$. Hence $\wp(z)\neq \wp(\omega_m)$ for $z\nequiv \omega_m\pmod{\La}$. This shows $\phi$ is injective.
+
+Next to show that $\phi$ is analytically an isomorphism, note $\frac{dx}{y}$ is a nonvanishing holomorphic differential on $E$, and
+\[\phi^*(dx/y)=d\wp(z)/\wp'(z)=dz\]
+is nonvanishing holomorphic on $\C/\La$.
+
+%, because the equation for $E$ has two solutions $(x,\pm y)$.
+
+From part (i), there exists $f$ such that
+\[\text{div}(f)=(z_1+z_2)-(z_1)-(z_2)+(0).\]
+Since every elliptic function is a rational combination of $\wp$ and $\wp'$, we can write $f=F(\wp,\wp')$ for some $F\in \C(x,y)$. The function $f$ on $\C/\La$ corresponds to $F$ on $E$, since $f=F\circ \phi$. Since $\phi$ is an analytic isomorphism, it preserves zeros and poles:
+\[
+\text{div}(F)=(\phi(z_1+z_2))-(\phi(z_1))-(\phi(z_2))+(0).
+\]
+Hence $(\phi(z_1+z_2))-(\phi(z_1))-(\phi(z_2))+(0)$ is a principal divisor. 
+From~\cite[III.3.5]{s}, $\phi(z_1+z_2)-\phi(z_1)-\phi(z_2)+0=0$, so $\phi(z_1+z_2)=\phi(z_1)+\phi(z_2)$. \\
+
+\subprob{(D)}
+Note $\wp(z)$, and hence $\wp(z)-\wp(a)$, has a pole of multiplicity 2 at $z=0$ and no other poles. Hence its zeros have total multiplicity 2. Now $\wp(z)-\wp(a)$ has a zero at $z=a$; since it is even it has a zero at $z=-a$. (If $a\equiv -a\pmod{\La}$ then this is a zero of multiplicity 2.) By the construction in (C), $\frac{\sigma(z+a)\sigma(z-a)}{\sigma(z)^2}$ has zeros and poles with the same orders as $\wp(z)-\wp(a)$. Now the quotient between these two functions is entire and bounded (since its maximum and minimum are attained on the (closed) fundamental parallelogram, which is compact), so a constant, by Liouville's Theorem.
+
+To find the constant, we note that $z^2(\wp(z)-\wp(a))$ equals 1 at $z=0$ (the coefficient of $\rc{z^2}$ in the Laurent expansion is 1), while (using the fact that the expansion of $\sigma(z)$ is $z+\cdots$, and $\sigma$ is odd as $\La^*=-\La^*$)
+\[z^2\left.\frac{\sigma(z+a)\sigma(z-a)}{\sigma(z)^2}\right|_{z=0}
+=
+\sigma(a)\sigma(-a)=-\sigma(a)^2.
+%a\prod_{\la\in \La^*} \pa{1-\frac{a}{\la}}\pa{1+\frac{a}{\la}}e^{a^2/\la}
+%=
+%-a^2\prod_{\la\in \La^*} \pa{1-\frac{a^2}{\la}}e^{a^2/\la}
+%=-\sigma(a)^2
+\]
+Hence the constant is $-\rc{\sigma(a)^2}$, and
+\[
+\wp(z)-\wp(z)=-\frac{\sigma(z+a)\sigma(z-a)}{\sigma(z)^2\sigma(a)^2}.
+\]
+
+\end{problem}
+\begin{thebibliography}{9}
+\bibitem{s} Silverman, J.: "The Arithmetic of Elliptic Curves," Springer, 1986.
+\end{thebibliography}
+
+\end{document}

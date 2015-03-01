@@ -1,0 +1,444 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+
+\newtheoremstyle{norm}
+{6pt}
+{6pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\newcommand{\bb}[1]{\mathbb{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+\newcommand{\ve}[1]{\left\Vert{#1}\right\Vert}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\PSL}{\operatorname{PSL}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\mmod}[1]{\,(\text{mod}^{\times} #1)}
+\newcommand{\nmod}[1]{\,(\text{mod}\, #1)}
+\newcommand{\set}[2]{\bc{\left. {#1}\right|{#2}}}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+\newcommand{\iy}[0]{\infty}
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+       }
+       {
+       }
+\makeatother
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape 18.785 Analytic Number Theory} 
+\cfoot{} 
+\rfoot{\footnotesize PS \# 10} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+\allowdisplaybreaks[1]
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{18.785 Analytic Number Theory Problem Set \#10}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{4/24/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+%Example problems
+\begin{problem}{\it ($f$ cuspidal iff $\tilde{f}\in L^2(\Ga\bs G)$)}
+First suppose $f$ is cuspidal. Then its norm with respect to the Petersson inner product is well defined, i.e.
+\[
+\iint_{\Ga\bs H} |f(z)|^2 y^m\frac{dxdy}{y^2}
+\]
+converges. Noting that $d\mu=\frac{dx dy}{y^2}$ and that $y=\Im[g(i)]=|j(g,i)|^{-2}$, this equals 
+\[
+\int_{\Ga\bs G} |j(g,i)^{-m}f(g(i))|^2\,d\mu=\int_{\Ga\bs G} \tilde{f}(g)\,d\mu
+\]
+so the latter converges.
+
+Conversely suppose $\tilde{f}\in L^2(\Ga\bs G)$. 
+By conjugation we may assume $P=P_0$ with the cusp at infinity. 
+Now $\tilde{f}-\tilde{f}_P$ is rapidly decreasing so $\tilde{f}-\tilde{f}_P\in L^2$. By the triangle inequality,
+\[
+\ve{\tilde{f}_P}\le \ve{\tilde{f}-\tilde{f}_P}+\ve{\tilde{f}}<\iy.
+\]
+Now $\tilde{f}_P=j(g,i)^{-m}a_0$ where $a_0$ is the constant term at the cusp. 
+As above,
+\[
+\ve{\tilde{f}_P}^2=\int_{\Ga\bs G} |\tilde{f}(g)|^2\,d\mu=|a_0|^2\int_{\Ga\bs H} y^{m}\frac{dxdy}{y^2}.
+\]
+%where $a_0$ is the constant term at the cusp. 
+Taking a fundamental domain, it contains some region in the form $[a,b]\times [c,\iy)$, and the above integral diverges. Therefore $a_0=0$. This shows that $f$ is actually a cusp form.
+%thm 9.2.4
+\end{problem}
+\begin{problem}{\it($\displaystyle \cal A(\Ga,J,\chi)=\bigoplus_{i=1}^q \cal A(\Ga,J_i,\chi)$)}
+First suppose $f\in \cal A(\Ga,J,\chi)$. Let
+\[
+P_j(x)=\prod_{\scriptsize\begin{array}{c} 1\le i\le q\\i\ne j\end{array}}(x-\la_i)^{n_i}.
+\]
+Since the $P_i$ are relatively prime there exist $g_i$ such that 
+\[
+\sum_{i=1}^q g_iP_i=1.
+\]
+Then
+\[
+f=\sum_{i=1}^q \underbrace{[(g_iP_i)(\cal C)]f}_{\in \cal A(\Ga, J_i,\chi)}\in \sum_{i=1}^q \cal A(\Ga,J_i,\chi).
+\]
+To see the inclusion, note that $(\cal C-\la_i)^{n_i}(g_iP_i)(\cal C)f=g_iP(\cal C)f=0$.
+
+It is clear that each $\cal A(\Ga,J_i,\chi)\subeq \cal A(\Ga,J,\chi)$. Thus we are left to show the sum is actually a direct sum. Suppose 
+\[
+f_1+\cdots +f_q=0
+\]
+where $f_i\in \cal A(\Ga, J_i,\chi)$. Operate by $P_j(\cal C)$, and note this annihilates every term except $f_j$. We get $P_j(\cal C)f_j=0$. However, we also know $(\cal C-\la_j)^{n_j}f_j=0$. Since $\gcd(P_j(x),(x-\la_j)^{n_j})=1$, we get $f_j=0$. Hence $f_1=\cdots =f_q=0$, showing the sum is a direct sum.
+\end{problem}
+\begin{problem}{\it (Integral over $N$ is 0)}
+First we make several reductions.
+\begin{enumerate}
+\item $f$ can be written as a sum of functions having specific $K$-type, so we may assume $f(gk)=f(g)\chi(k),g\in G,k\in K$ for some character $\chi$. 
+\item By problem 2, $f$ is a sum of $f_i\in \cal A(\Ga,J_i,\chi)$, so it suffices to solve the problem for the $f_i$, i.e. we may assume $(\cal C-\la)^m$ annihilates $f$. 
+\item Next, we may assume $N,A$ are the groups $\bc{\smatt 1x01|x\in \R}$ and $\bc{\smatt t00{t^{-1}}|t>0}$ since every other $p$-pair is obtained by conjugation. 
+\item Finally, note every $g\in G$ can be written as $g=n_ga_gk_g$ with $n_g\in N$, $a_g\in A$, and $k_g\in K$. Then
+\[
+\int_Nf(ng)\,dn=\int_Nf(na_g)\chi(k_g)\,dn
+\]
+so it suffices to show that $\int_N f(na)\,dn=0$ for each $a\in A$.
+\end{enumerate}
+
+Let
+\[
+\ph(g)=\int_N f(ng)\,dn
+\]
+and
+\[
+\phi(t)=\ph\matt{e^t}{0}{0}{e^{-t}}.
+%\int_N f\pa{n\matt{e^t}{0}{0}{e^{-t}}}\,dn.
+\]
+Since $A=\bc{\smatt{e^t}{0}{0}{e^{-t}}|t\in \R}$, it suffices to show that $\phi(t)\equiv 0$. The fact that $f$ is integrable over $G=NAK$ gives that $\ph$ is integrable over $AK$, so the following is finite:
+\begin{align*}
+%\int_{G=NAK} |f(g)|\,dg&=\int_{K}\int_A\int_N |f(nak)|a^{-2}\,dn\,da\,dk\\
+\int_K\int_A |\ph(ak)|a^{-2}\,da\,dk
+&=\int_K\int_A |\ph(a)\chi(k)|a^{-2}\,da\,dk\\
+&=\int_A|\ph(a)|a^{-2}\,da \int_K |\chi(k)|\,dk.
+\end{align*}
+Since the second integral is positive, $\int_A|\ph(a)|a^{-2}<\iy$. But this equals $\int_t \phi(t)e^{-2t}\,dt$. So we have
+%
+%
+%\begin{align*}
+%\int_{NA} f(g)\,dg&=\int_{A}\int_N f(na)\,dn\,da\\
+%&=\int_{A}\ph(a)\,da\\
+%&=
+\begin{equation}\label{finite}
+\int_t \phi(t)e^{-2t}\,dt<\iy.
+\end{equation}
+%\end{align*}
+%This is finite as $f\in L^1(G)$ by assumption. 
+
+%We claim that $\cal C$ acts on the function 
+%$v(g)=\int_A f(na)\,da$ at 
+Write $Y\phi(t)$ as shorthand for $(Y\ph)(g)|_{g=\smatt{e^t}00{e^{-t}}}$. %where
+%\[
+%v(g)=\int_N f(ng)\,dn.
+%\]
+We claim that
+\begin{equation}\label{caction}
+\cal C\phi(t)=\pa{\rc2\frac{d^2}{dt^2}-\frac{d}{dt}}\phi(t).
+\end{equation}
+
+First we show $H\phi(t)=\frac{d}{dt}\phi(t)$.%, i.e. %Letting 
+%$u(g)=f\pa{ng}$, 
+%It suffices to show that 
+%\[H\ph(g)|_{g=\smatt {e^t}00{e^{-t}}}=\frac{d}{dt}\ph\pa{\matt {e^t}00{e^{-t}}}.\]
+%since integrating over $n\in N$ gives the result. 
+Indeed,
+\begin{align*}
+H\phi(t)&=
+H\ph(g)|_{g=\smatt {e^t}00{e^{-t}}}\\
+&=\left.\frac{d}{dt_1}\ph\pa{
+\matt {e^t}00{e^{-t}}
+e^{t_1H}}\right|_{t_1=0}\\
+&
+=\left.\frac{d}{dt_1}\ph\pa{
+\matt {e^t}00{e^{-t}}
+\matt {e^{t_1}}00{e^{-t_1}}
+}\right|_{t_1=0}\\
+&
+=\left.\frac{d}{dt_1}\ph\pa{
+\matt {e^{t+t_1}}00{e^{-(t+t_1)}}}\right|_{t_1=0}
+\\
+&
+=\left.\frac{d}{dt_1}\ph\pa{
+\matt {e^{t_1}}00{e^{-t_1}}}\right|_{t_1=t}
+\\
+&=\frac{d}{dt}\phi(t).
+\end{align*}
+
+Next we show $EF\ph(t)=0$. First note $\ph(g)$ is left $N$-invariant since the integral is over $n\in N$ and $n$ appears on the left in the argument of $f$. Note
+\begin{align*}
+\matt{e^t}{0}{0}{e^{-t}}e^{t_1E}&=\matt{e^t}{0}{0}{e^{-t}}\matt 1{t_1}01\\
+&=\matt{e^t}{t_1e^t}0{e^{-t}}\\
+&=\underbrace{\matt{1}{t_1e^{2t}}{0}{1}}_{\in N}\matt{e^t}00{e^{-t}}.
+\end{align*}
+Now
+\begin{align*}
+EF\ph(g)|_{g=\smatt{e^t}{0}{0}{e^{-t}}}&=\left.\pd{^2}{t_1\partial t_2} \ph\pa{
+\matt{e^t}00{e^{-t}}e^{t_1E}e^{t_2F}
+}\right|_{t_1=t_2=0}\\
+&=\left.\pd{^2}{t_1\partial t_2} \ph\pa{
+\matt{1}{e^{2t}t_1}{0}{1}
+\matt{e^t}00{e^{-t}}e^{t_2F}
+}\right|_{t_1=t_2=0}\\
+&=\left.\pd{^2}{t_1\partial t_2} 
+\ph\pa{\matt{e^t}00{e^{-t}}e^{t_2F}
+}\right|_{t_1=t_2=0}&\text{left $N$-invariance}\\
+&=0.
+\end{align*}
+
+Putting the above two results together and using $\cal C=\rc2 H^2-H+EF$ gives~(\ref{caction}).
+
+Now $(\cal C-\la)^mf=0$ gives $(\cal C-\la)^m\phi(t)=0$, which turns into the differential equation
+\[
+\pa{\rc 2\frac{d^2}{dt^2}-\frac{d}{dt}+\la}^m\phi=0.
+\]
+Since the quadratic $\rc 2x^2-x+\la$ has vertex at 1, its zeros are $1\pm s$ for some $s$. Then
+\[
+\phi(t)=p(t)e^{t(1+s)}+q(t)e^{t(1-s)}=e^t(p(t)e^{ts}+q(t)e^{-ts})
+\]
+for some polynomials $p,q$. Since $f$ is $\cal Z$-finite, $K$-finite, and integrable so is $\ph$; hence $\ph$, and hence $\phi$ is bounded by PSet 9 question 3.
+
+We claim one of $p(t)$ or $q(t)$ is 0. 
+Else $\phi(t)$ grows at least like $e^t$: Indeed, if $|p(t)e^{ts}|\nsim|q(t)e^{-ts}|$ are of different orders then the larger one is at least constant. If $|p(t)e^{ts}|\sim|q(t)e^{-ts}|$, then $s=is'$ is pure imaginary, the leading terms of $p$ and $q$ are the same,
+ and the expression in parenthesis is 
+\[2p(t)\cos s'\theta+[q(t)-p(t)]e^{ts}=p(t)\pa{\cos s'\theta +\frac{q(t)-p(t)}{p(t)} e^{ts}}\]
+which does not approach 0 as $\cos s'\theta $ is infinitely often 1 and $\frac{q(t)-p(t)}{p(t)}\to 0$.
+
+WLOG, $q(t)=0$. BWOC, $p(t)\neq 0$. Then for $\phi$ to be bounded, $\Re s=-1$ and $p(t)$ is constant. 
+We've shown that $\phi(t)e^{-2t}=p(t)e^{t(-1+s)}$ is integrable~(\ref{finite}). But if $\Re s=-1$ and $p(t)\ne 0$, this blows up as $t\to -\iy$. Hence $p(t)=0$ and $\phi(t)=0$, exactly what we need.
+
+\end{problem}
+\end{document}
