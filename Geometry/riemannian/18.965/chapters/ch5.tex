@@ -1,0 +1,209 @@
+\lecture{Thu. 9/20/12}
+
+As a reminder, homework is due Tuesday by 3PM in 2-285.
+
+Today we'll finally relate the Riemannian metric on a manifold with an affine connection. Our main theorem is the Levi-Civita Theorem~\ref{thm:levi-civita}, which says that a Riemannian metric automatically gives a unique symmetric compatible connection. We'll give ways to explicitly calculate what the connection is, i.e. calculate the christoffel symbols.
+
+\subsection{Symmetric connections}
+
+Given a manifold $M$, an affine connection $\nabla$ is a way of differentiating one vector field in the direction of another. It is linear, and satisfies the Leibniz rule in one variable (and only depends on the value at the point for the other variable).
+
+\begin{df}
+For vector fields $X,Y\in \mathfrak X(M)$, $\nabla$ is a \textbf{symmetric} connection if
+\[
+\nabla_XY-\nabla_YX=[X,Y].
+\] 
+\end{df}
+
+In particular, if on $M$ we have coordinates $(x_1,\ldots, x_n)$ and $X=\pd{}{x_i}$ and $Y=\pd{}{x_j}$ then
+$[X,Y]=0$, so it doesn't matter which order we take the derivative:
+\[
+\nabla_{\pd{}{x_i}}\pd{}{x_j}=\nabla_{\pd{}{x_j}}\pd{}{x_i}.
+\]
+
+Recall that we defined the Christoffel symbols by
+\[
+\np{x_i}\pd{}{x_i}=\Ga_{ij}^k \pd{}{x_k}.
+\]
+If $\nabla$ is symmetric,
+\begin{align*}
+\np{x_i}\pd{}{x_j}&=\np{x_j}\pd{}{x_i}\\
+\implies\Ga_{ij}^k\pd{}{x_k}&=\Ga_{ji}^k\pd{}{x_k}\\
+\implies \Ga_{ij}^k&=\Ga_{ji}^k.
+\end{align*}
+%lie 0 doesn't mean christoffels 0.
+The converse is true as well.
+\begin{pr}
+$\nabla$ is symmetric if and only if there are local coordinates everywhere such that $\Ga_{ij}^k=\Ga_{ji}^k$.
+\end{pr}
+Let $(x_1,\ldots, x_m)$ be coordinates of a point on $M$. The points of $TM$ are $(p,v)$ with $p\in M$ and $v\in T_pM$. The coordinates of a point on $TM$ are
+\[
+\pa{
+x_1,\ldots, x_n,y_1\pd{}{x_1},\ldots, y_n\pd{}{x_n}
+}.
+\]
+If $M$ is a Riemannian manifold, another tangent bundle is often used.
+\begin{df}
+Let $(M,g)$ be a Riemannian manifold. Then
+\[
+T^1M=T^1M/SM:=\set{(p,v)}{p\in M,\,T_pM,\,g(v,v)=1}
+\]
+is called the \textbf{unit tangent bundle} or \textbf{unit sphere bundle}.
+\end{df}
+Note that $SM$ has dimension $2n-1$. In the study of dynamic systems, one looks at flows on unit tangent bundles.
+
+From now on, we assume all connections to be symmetric. We give an alternate condition for a symmetric connection to be compatible with the metric (in some texts this is taken as a definition).
+\begin{pr}\llabel{pr:965-5-4}
+Let $(M,g)$ be a manifold with a Riemannian metric and $\nabla$ be a connection. We say that a symmetric connection is \textbf{compatible} with the metric if for $X,Y,Z\in \mathfrak X(M)$,
+\[
+X(g(Y,Z))=g(\nabla_XY,Z)+g(Y,\nabla_XZ).
+\]
+\end{pr}
+\begin{proof}
+See Do Carmo~\cite[p. 52, Corollary 3.3]{dC}. (Note this is a corollary of Proposition 3.2 in the book, which is Proposition~\ref{pr:965-5-p1} here. The order is somewhat inverted in the lecture and in these notes.)
+\end{proof}
+\begin{ex}
+In the canonical example $M=\R^n$, $g=\an{\cdot,\cdot}$, and the condition holds because it is just the Leibniz rule.
+\end{ex}
+\subsection{Levi-Civita connection}
+Suppose again we have a smooth manifold with a connection compatible with the metric. We'll try to ``isolate" $\nabla_XY$, so we can express it only using information from the Riemannian metric (i.e. without other terms $\nabla_*\bullet$), as follows. We write (permuting the variables)
+\begin{align*}
+X(g(Y,Z))&=g(\nabla_XY,Z)+g(Y,\nabla_XZ)\\
+Y(g(Z,X))&=g(\nabla_YZ,X)+g(Z,\nabla_YX)\\
+-(\;Z(g(X,Y))&=g(\nabla_ZX,Y)+g(X,\nabla_ZY)\;)
+\end{align*}
+Adding the first two equations and subtracting the third,
+\begin{align}
+\nonumber
+Xg(Y,Z)+Yg(Z,X)-Zg(X,Y)
+&=g(\nabla_XY,Z)+{\color{blue}g(Y,\nabla_XZ)}+{\color{red}g(\na_YZ,X)}\\
+\nonumber
+&\quad
++g(\na_YZ,X)+g(Z,\na_YX)-{\color{blue}g(\na_ZX,Y)}-{\color{red}g(X,\na_Z Y)}\\
+\llabel{eq:965-5-1}
+&={\color{blue} g(Y,[X,Z])}+{\color{red} g(X,[Y,Z])}+g(\na_XY,Z)+g(Z,\na_YX).
+\end{align}
+%lie brackets nothing to do with connection. Left with connection on as few objects as possible.
+We used the fact that $g$ is linear and symmetric.
+Now using $\na_YX=\na_XY+[Y,X]=\na_{X}Y-[X,Y]$,
+\begin{align*}
+g(\na_XY,Z)+g(Z,\na_YX)&=g(Z,\na_XY)+g(Z,\na_YX)\\
+&=2g(Z,\na_XY)-g(Z,[X,Y]).
+\end{align*}
+We hence get that~\eqref{eq:965-5-1} equals
+\[
+g(Y,[X,Z])+g(X,[Y,Z])-g(Z,[X,Y])+2g(Z,\nabla_XY).
+\]
+Moving the connection to the left-hand side gives
+\begin{equation}\label{eq:965-5-2}
+g(Z,\na_XY)=\rc2\pa{
+Xg(Y,Z)+Yg(Z,X)-Zg(X,Y)+g(Z,[X,Y])-g(Y,[X,Z])-g(X,[Y,Z])
+}
+\end{equation}
+%Connection only comes in on left-hand side 
+Note that if want to know how a connection is defined, it suffices to know the inner product of $\nabla_XY$ with any vector field field (Just let $Z$ vary over an orthonormal basis at a point).
+Thus we see from~\eqref{eq:965-5-2} that there is only one connection that is compatible. This proves that given $(M,g)$ there exists at most one compatible connection.
+
+Conversely, defining the connection by~\eqref{eq:965-5-2}, it is easy to check that the connection is compatible with the metric.
+\begin{thm}[Levi-Civita]\llabel{thm:levi-civita}
+Given a Riemannian manifold, there is a unique symmetric and compatible connection called the \textbf{Levi-Civita connection}. It is given by~\eqref{eq:965-5-2}.
+\end{thm}
+Note that positive definiteness wasn't necessary here (but non-degeneracy matters).
+%But we used it...?
+%Other things that define it.
+
+Suppose we have a Riemannian manifold and coordinates $(x_1,\ldots, x_n)$. Defining (locally)
+\[
+g_{ij}=g\pa{
+\pd{}{x_i},\pd{}{x_j}
+},
+\]
+because $g$ is symmetric 
+we have that $(g_{ij})_{ij}$ is a symmetric $n\times n$ matrix at each point.
+
+Define $(g^{ij})_{ij}=(g_{ij})^{-1}$, i.e. so that $\sum_kg_{ik}g^{kj}=\de_{ij}$. Since $(g_{ij})$ is symmetric, so is $(g^{ij})$.
+
+Specializing the formula~\eqref{eq:965-5-2} to $X=\pd{}{x_i}$, $Y=\pd{}{x_j}$, and $Z=\pd{}{x_k}$, noting the Lie brackets are 0 we get
+\begin{equation}\label{eq:965-5-3}
+g\pa{
+\pd{}{x_k},\np{x_i}\pd{}{x_j}
+}=\rc2\pa{
+\pd{}{x_i}g_{jk}+\pd{}{x_j}g_{ki}-\pd{}{x_k}g_{ij}
+}
+\end{equation}
+We rewrite the LHS using Christoffel symbols:
+\[g\pa{\pd{}{x_k},\Ga_{ij}^{\ell}\pd{}{x_{\ell}}}=\Ga_{ij}^{\ell} g\pa{\pd{}{x_k},\pd{}{x_{\ell}}}=\Ga_{ij}^{\ell}g_{k\ell}.\]
+%&\text{rewriting using Christoffel symbols}
+From inverse matrices, (note $g_{k\ell}=g_{\ell k}$)
+\begin{equation}\label{eq:965-5-4}
+\sum_{\ell,k} \Ga_{ij}^{\ell}g_{\ell k} g^{ks} = \sum_{\ell} \Ga_{ij}^{\ell} \de_{\ell s}=\Ga_{ij}^s.
+\end{equation}
+To find a Christoffel symbol, we use~\eqref{eq:965-5-3} and~\eqref{eq:965-5-4} to get
+\[
+\Ga_{ij}^s=\sum_{\ell,k}\Ga_{ij}^{\ell}g_{\ell k}g^{ks}=\rc{2}\pa{
+\pd{}{x_i}g_{jk}+\pd{}{x_j}g_{ki}-\pd{}{x_j}{g_{ki}}-\pd{}{x_k}g_{ij}}g^{ks}.
+\]
+This shows in a even more transparent way that there is only one connection; it tells us what $\Ga_{ij}^s=\an{\pd{}{x_s},\Ga_{ij}\np{x_i}\pd{}{x_j}}$ has to be for each $i,j,s$.
+
+%useful in general relativity, metric not positive definition. We didn't use, but we did use that $g_{ij}$ invertib, exactly saying nondegenerate symmetric bilinear form, that's all we used. 
+
+\begin{ex}
+In $\R^n$, for $v=(v_1,\ldots, v_n)$ and $w=(w_1,\ldots, w_n)$. We have the usual inner product
+\[
+\an{v,w}=v_1w_1+\cdots+v_nw_n.
+\]
+We have $\R^{n+1}=\R^n\times \R$; think of $\R^{n}$ as space, and $\R$ as time.
+Define the inner product
+\[
+\an{(v_1,\ldots, v_n,t_1),(w_1,\ldots, w_n,t_2)}=v_1w_1+\cdots +v_nw_n-t_1t_2.
+\]
+This is a nondegenerate symmetric bilinear form. %Definitely invertible.
+It gives us a natural metric on spacetime, which is positive definite on space but not time. General relativity is about this kind of structure on a manifold.
+\end{ex}
+Let $(M,g)$ be equipped with a Levi-Civita connection $\na$. Let $I\to M$ be a curve and $V$ a vector field along the curve. Remember that there is just one covariant derivative, determined by $\na$ and the conditions it has to satisfy (Leibniz rule, etc.). 
+
+\begin{pr}\label{pr:965-5-p1}
+Let $V$ and $W$ be vector fields along the curve. We have
+\beq{eq:965-5-5}
+\fc{d}{dt}g(V,W)=g\pa{\cvd V,W}+g\pa{V,\cvd W}.
+\eeq
+\end{pr}
+\begin{proof}
+Writing $V=a_i\pd{}{x_i}$, $W=b_j\pd{}{x_j}$, and $a_i=a_i(t)$, we have $g(V,W)=a_ib_jg\pa{\pd{}{x_i},\pd{}{x_j}}$. Taking the derivative,
+\beq{eq:965-5-6}
+\fc{d}{dt} g(V,W)=a_i'b_jg_{ij}+a_ib_j'g_{ij}+a_ib_j\fc{d}{dt}g_{ij}.
+\eeq
+We have  %just saying directional derivtive
+\bal
+\fc{d}{dt}g_{ij}&=c'(g_{ij})=c'g\pa{\pd{}{x_i},\pd{}{x_j}}\\
+&=g\pa{\na_{c'}\pd{}{x_i},\pd{}{x_j}}+g\pa{\pd{}{x_i},\na_{c'}\pd{}{x_j}}
+&\text{compatibility}
+\end{align*}
+Equation~\eqref{eq:965-5-6} then becomes 
+\begin{equation}\label{eq:965-5-8}
+\fc{d}{dt}g(V,W)=a_i'b_jg_{ij} +a_ib_j'g_{ij}+a_ib_j \pa{(\na_{c'} \pd{}{x_i},\pd{}{x_j}}+a_ib_j g\pa{\pd{}{x_i},\na_{c'}\pd{}{x_j}}.
+%=\cvd \pd{}{x_j}
+\end{equation}% one of properties of cvd along currve
+We have
+\begin{align}\llabel{965-5-7}
+\cvd V&=a_i\cvd \pd{}{x_i}+a_i'\pd{}{x_i}&
+\cvd W&=b_j\cvd \pd{}{x_j}+b_j'\pd{}{x_j}
+\end{align}
+Using~\eqref{965-5-7}, the right-hand side of~\eqref{eq:965-5-5} becomes
+\[
+g\pa{\cvd V,W}+g\pa{V,\cvd W}=%& =
+a_ib_jg\pa{\cvd\pd{}{x_i},\pd{}{x_j}}+a_i'b_j g_{ij}%\pa{\pd{}{x_i},\pd{}{x_j}}
++a_ib_j g\pa{\pd{}{x_i},\cvd\pd{}{x_j}}+a_ib_j'g_{ij}
+%&=a-j b_j g(\pd{}{} ,\cvd)\fixme{FIX}
+\]
+which equals~\eqref{eq:965-5-8}, as needed.
+\end{proof}
+
+\begin{pr}
+Suppose $c$ is a curve and $V_1,V_2$ are parallel vector fields along $c$, i.e. $\cvd V_i=0$.
+Then $g(V_1,V_2)$ is constant along the curve. In particular, the length of a parallel vector field $|V|:=\sqrt{g(V,V)}$ is constant along the curve. 
+\end{pr}
+\begin{proof}
+This follows from Proposition~\ref{pr:965-5-p1}. %~\eqref{eq:965-5-5}.
+\end{proof}
+Take an orthonormal basis $\{e_1,\ldots, e_n\}$ for the tangent space at $c(0)$. We know that if we parallel translate, then we get a unique parallel vector field. This gives $n$ parallel vector fields along the curve. Now $g(e_i,e_j)$ is constant; initially it was $g(e_i,e_j)=\de_{ij}$, so it remains so on the curve. We have constructed an orthonormal frame along the curve; for each point we get an orthonormal basis. Next time we'll use this idea to talk about geodesics.

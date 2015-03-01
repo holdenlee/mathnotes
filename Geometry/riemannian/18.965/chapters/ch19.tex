@@ -1,0 +1,186 @@
+\lecture{Thu. 11/15/12}
+
+Let $(M,g)$ be a Riemannian manifold and let $c:[a,b]\to M$ be a curve. Recall that we defined the length $L(c)=\int_a^b |c'|\,ds$ and the energy $E(c)=\int_a^b|c'|^2\,ds$/
+
+If we have a one parameter family of curves $F:[a,b]\times (-\ep,\ep)\to M$ with
+\[F(s,0)=c(s),\qquad F(a,t)=c(a),\qquad F(b,t)=c(b)\]
+then we saw that 
+\begin{align*}
+\ddd tE(F(\bullet,t))&=-\int_a^b \an{\pd Ft,\cvs \pd Fs}\,ds\\
+\rb{\ddt{}{t}}_{t=0} E(F(\bullet,t))&= -\int_a^b \an{V,LV}\,ds&\text{if $c$ is a geodesic}
+\end{align*}
+where $V=\pd Ft$ and $LV$ is defined as
+\[
+LV=\cvs \cvs V+R(c',V)c'
+\]
+for $v$ a vector field along $c$. This is called the stability operator, second variational operator, or Jacobi operator. Note $LV=0$ iff $V$ is a Jacobi field.
+
+We say a geodesic is stable if $\rb{\ddt{}{t}}_{t=0}E\ge 0$ for all variations that fix the endpoints.
+
+For example, we looked at $S^2\subeq \R^3$ the unit sphere: the geodesic is stable iff it has length at most $\pi$ (Example~\ref{ex:stable-geo-sphere}).
+
+We have that if $c$ is a geodesic that minimizes length, then it also minimizes energy, and hence is stable.
+
+\subsection{Bonnet-Myers Theorem}
+
+We copy the argument for $S^2$ to get a general theorem.
+
+Given a $n$-dimensional Riemannian manifold $(M^n,g)$, the Ricci curvature is the trace of the quadratic form given by the curvature:
+\[
+\Ric_M(V,V)=\tr(\an{T(V,\cdot)V,\cdot})
+\]
+where $V$is a unit vector. For instance, if $M=S^n$, then $\Ric_M(V,V)=n-1$.
+
+\begin{thm}[Bonnet-Myers]
+Let $(M^n,g)$ be a $n$-dimensional Riemannian manifold satisfying 
+\[
+\Ric_M\ge (n-1)k^2
+\]
+for some constant $k>0$. Then $M$ is compact, and 
+\[
+\diam(M)\le \fc{\pi}{k}.
+\]
+\end{thm}
+(Here, $\diam(M)=\sup_{p,q\in M}d(p,q)$.)
+
+Bonnet proved the theorem for sectional curvature in the late 1800's; Myers generalized it to the Ricci curvature.
+\begin{proof}%metric , distances smaller
+%By multiplying the metric by $K^2$ %look at way curv defined. new metric
+We can modify the metric by a constant: let
+\[
+\wt g=k^2 g,\qquad \wt M=\pa{M,k^2g}.
+\]
+Then $K_{\wt M}=\rc{k^2}K_M$ and it suffices to show $\Ric_{\wt M}\ge n-1$, i.e., it suffices to prove the statment for $k=1$.
+
+We use the same idea that geodesics longer than $\pi$ are not stable (Example~\ref{ex:stable-geo-sphere}). Take two points $p,q$. It suffices to prove that for each pair and each minimizing geodesic $\ga$ between them, we have
+\[
+L(\ga)=d(p,q)\le \pi.
+\]
+Assume by way of contradiction that $L(\ga)>\pi$. 
+Suppose $\ga:[0,\ell]\to M$ and $\ell>\pi$.
+
+%If we take any single field, the curvature tensor comes in. Instead of taking single vector field look at all.
+%%secional curvture in good shape
+Take a parallel orthogonal frame $E_1,\ldots, E_{n-1}\in \ga'(t)^{\perp}$ on $\ga$. For each $i$ we consider a variation that fixes the endpoints: let $V_i=\phi E_i$. where $\phi$ is a function such that $\phi(0)=\phi(\ell)=0$. 
+We look at the energy of a variation. For each $i$, 
+\[\rb{\ddt{}{t}}_{t=0} E(V_i)\ge 0.\]
+We have $LV=V''+R(c',V)c'$ so summing these equations gives
+\[
+0\le \rc2\sum_{i=1}^{n-1} \rb{\ddt{}{t}}_{t=0} E(V_i)=-\int_0^{\ell} \an{V_i,LV_i}\,ds.
+\]
+We have $V_i=\phi E_i$ so
+\bal
+V_i'&=\phi'E_i\\
+V_i''&=\phi''E_i.
+\end{align*}
+Thus we get 
+%sectionalcurv in patch spanned by these 2 orth c', E_i
+\begin{align}
+\nonumber
+0%&\le -(n-1)\int_0^{\ell} \phi''\phi-2\int_0^{\ell} \phi^2\\
+&\le-(n-1)\int_0^{\ell} \phi''\phi -\sum_{i=1}^{n-1} \int_0^{\ell} \phi^2 \an{E_i,R(\ga',E_i)\ga'}\\
+\nonumber
+&=-(n-1)\int_0^{\ell} \phi''\phi - \int_0^{\ell}\phi^2\Ric(\ga',\ga')\\
+\nonumber
+&\le -(n-1)\int_0^{\ell} \phi''\phi -(n-1)\int_0^{\ell} \phi^2
+&\Ric(M)\ge n-1\\
+\llabel{eq:965-19.1}
+\implies 0&\ge \int_0^{\ell}\phi''\phi+\int_0^{\ell}\phi^2&\text{ for all $\phi$ with $\phi(0)=0=\phi(\ell)$.}
+\end{align}
+%Neeced to be.Complete. May assume Ricci curvature of round unit sphere of same dim, then diameter is at most that of sphere. 
+Taking a page from Example~\ref{ex:stable-geo-sphere}, we let $\phi=\sin\pa{\fc{s}{\ell}\pi}$.
+Then
+%Single variation won'tdo as good. Look at all variations, frameof.
+\begin{align*}
+\phi'&=\fc{\pi}{\ell}\cos \pa{\fc s{\ell}\pi}\\
+\phi''&=-\pf{\pi}{\ell}^2\cos \pa{\fc s{\ell}\pi}
+\end{align*}
+%$\ell>\pi$
+Plugging into~\eqref{eq:965-19.1} we get $\ell\le \pi$, as needed.
+
+Since $M$ is bounded and complete, it must be compact.
+\end{proof}
+Note the maximum possible diameter is attained by a unit sphere of radius $r$, so Bonnet-Myers tells us that a manifold with Ricci curvature at least $c$ has diameter at most that of the unit sphere with curvature $c$.
+ %Ricci curvature of round unit sphere of same dim, then diameter is at most that of sphere. 
+%Proofis simple
+
+%We make 1 observation.
+\begin{cor}
+Suppose $(M,g)=0$ for a Riemannian manifold $(M,g)$ and $\Ric(M)\ge c>0$. Then the fundamental group $\pi_1(M)$ is finite.
+\end{cor}
+\begin{proof}
+If $\wt M\to M$ is a cover, we can pull back the metric to $M$.  %(because locally at each point metrics are isometry. Curvature carried locally, same. 
+Since the curvature is given by the metric, the curvature is the same on $\wt M$ and on the corresponding point on $M$. 
+
+Apply this to the case where $\wt M$ is the universal cover. We obtain that $\wt M$ is compact. Hence it has a finite number of sheets over $M$. The number of sheets equals the number of elements of $\pi_1(M)$, so $\pi_1(M)$ is finite.
+\end{proof}
+
+\begin{thm}[Synge Theorem]
+Let $M$ be closed (i.e., complete, compact, and without boundary) with positive sectional curvature everywhere ($K_M>0$). Suppose the dimension of $M$ is even, and that $I:M\to M$ is an orientation preserving isometry. Then $I$ has a fixed point.
+\end{thm}
+(If $M$ is odd and $I$ is an orientation reversing isometry, then the same conclusion holds. The idea is the same. See~\cite[Theorem 9.3.7]{dC}.)
+\begin{proof}
+%Given $f:M\to M$, define the displacement function $d$ by $d(p)=d_M(p,f(p))$.
+
+Suppose by way of contradiction that $I$ has no fixed point. Consider the displacement function $d(p)=d_M(p,I(p))$. This is a continuous (in fact Lipschitz) map defined on a compact manifold, so it attains a minimum for some $p_0$: %compose things semi-Lipscitz
+%Then
+\[
+\min_{p\in M}d(p)= d(p_0)>0.
+\]
+By completeness, we can let $\ga$ be a minimizing geodesic between $p_0$ and $I(p_0)$. We claim that the angle between $\ga$ and $I(\ga)$ must be $\pi$.
+
+\ig{19-1}{1}
+
+Indeed, letting $q$ be midpoint of $\ga$, the distance from $q$ to $I(q)$ is at least the distance along the second half of $\ga$ and then the first half of $I(\ga)$:
+\[
+d(q,I(q))\ge d(p_0)=d(q,I(p_0))+d(I(p_0),I(q)).
+\]
+Equality holds so the second half of $\ga$ together with the first half of $I(\ga)$ must give a geodesic from $q$ to $I(q)$. This means in particular that the derivative of $\ga$ and $I(\ga)$ at $I(p_0)$ must be the same, $(I\circ \ga)'(0)=\ga'(\ell)$. Thus the angle between $\ga$ and $I(\ga)$ is $\pi$.
+
+%This was in-class explanation. I like book's explanation better.
+%More formally, this follows from the first variation formula. We have
+%\[
+%\ddd tE=\rb{\an{\pd Ft,c'}}^{\ell}_0 -\int_0^{\ell} \an{\pd Ft,c''}\,ds.
+%\]
+%(Consider $c$ in Euclidean space. Move curves in. Fig 2. According to the formula, the derivative in this case is the dot product of the 2 vectors, which is negtive.)
+%
+%(Only mimizing among competitors keeping same endpoint.)
+%
+%If corner, draw a geodesic, varying curve to geodesic we decrease the energy, contradiction(?).
+
+%%Minimized, positive value for displacement. $I$ of picture
+Thus we have the following picture.
+
+\ig{19-3}{1}
+
+Let $P$ be parallel translation along $\ga$. Then we have that
+\[
+W:=dI^{-1}\circ P:T_{p_0}M\to T_{p_0}M
+\]
+is an orientation-preserving isometry. We saw that $dI(\ga'(0))=\ga'(\ell)$ above, so %have 
+\[
+(dI^{-1} \circ P) (\ga'(0)) =\ga'(0).
+\]
+Because $W$ is an isometry it maps the orthogonal complement to the orthogonal complement:
+\[
+W((\ga'(0))^{\perp})=(\ga'(0))^{\perp}.
+\]
+But an isometry in Euclidean space is just made up of rotations on 2-dimensional spaces (in some basis), so there is one direction where $W(v)=v\perp \ga'$.
+%second variation come in.
+
+Let $V$ be the vector field along $\ga$ that is the parallel translation of $v$. The fact that $W(v)=v$ exactly says that the geodesic starting at $I(p_0)$ with direction $V(\ell)$ is $I(\ga)$.
+
+We use the second variation and $K_M>0$ to obtain a contradiction.
+
+Consider 
+\[
+\ddt{}{t}E=-\int_0^{\ell} \an{V,LV}\,ds, \qquad LV=V''+R(\ga',V)\ga'=R(\ga',V)\ga'.
+\]
+We have %simply sectional curve in 2 plane. because v orth \ga'. Just give sect curv in 2 plane spanned by 2 vectors \ga' and v
+\[
+\ddt{}{t}E=-\int_0^{\ell}\an{V,LV}\,ds = -\int_0^{\ell}K(\ga',V)<0.
+\]
+%We'll use this to contradict that the minimal value of the displacement was achieved at $p_0$. Fig 4. Then 
+This means that the displacement wasn't minimized at $p_0$ because other geodesics that are close by have shorter length, specifically, the geodesics in the variation given by $V$.
+%Deriv of this curve exactly parallel translation. Because $v$ fixed point of $W$. Exactly what you identify.
+\end{proof}

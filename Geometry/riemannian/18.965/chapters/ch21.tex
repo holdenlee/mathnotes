@@ -1,0 +1,179 @@
+\lecture{Tue. 11/27/12}
+
+Last time we defined the index form. Let $\ga:[a,b]\to M$ be a geodesic, and let $V$ be a vector field along $\ga$. Then
+\[
+I(V,V)=\int_a^b (\an{V',V'}-\an{R(\ga',V)\ga',V})\,ds.
+\]
+We showed in Lemma~\ref{lem:index-lemma} that if $\ga$ has no conjugate points, and $V, J$ are vector fields along $\ga$ such that $V(a)=J(a)=0$, $V(b)=J(b)$,  and $J$ is Jacobi then 
+\[
+I(V,V)\ge I(J,J)
+\]
+with equality iff $V=J$.
+
+Let $F:[a,b]\times (-\ep,\ep)\to M$ be a variation such that %. Let 
+\[
+F(\bullet, 0)=\ga,\qquad F(a,\bullet)=\ga(a),\qquad F(b,\bullet)=\ga(b).
+\]
+Let $V=\pdd t F$. Letting $LV=\fc{D^2}{\pl s^2} V+R(\ga',V)\ga' = V''+R(\ga',V)\ga'$, we have
+\begin{align*}
+\rb{\pdd t}_{t=0} E&=0\\
+\rb{\fc{\pl^2}{\pl t^2}}_{t=0} E(F(\bullet,t))&=-\int_a^b \an{V,LV}\\
+&=-\int_a^b\an{V,V''} + \an{V,R(\ga',V)\ga'}\\
+&=I(V,V).
+\end{align*}
+We used 
+\begin{align*}
+\an{V,V'}'=\an{V',V'}+\an{V,V''}
+\end{align*}
+and noted that $\an{V,V'}$ vanishes at both endpoints. 
+(If it doesn't vanish at both endpoints, there are some additional terms.)
+
+We'll prove the Rauch comparison theorem~\ref{thm:rauch} and then mention what can be done in higher dimensions (see the first chapter of~\cite{CM}, \ul{A Course in Minimal Surfaces}, AMS 2011, GTM, Colding-Minicozzi).
+\subsection{Rauch Comparison Theorem}
+Suppose that $M_1^n$ and $M_2^n$ have the same dimension. Let $\ga_1,\ga_2$ be unit speed geodesics on $M_1$ and $M_2$, parametrized on the same interval $[a,b]$.  Let $\X(\ga_i)$ be the space of smooth vector fields along $\ga_i$. Let 
+\[\phi:\X(\ga_1)\to \X(\ga_2)\]
+be defined as follows. Let $E_1,\ldots, E_{n-1}\perp \ga_1'$ be parallel vector fields along $\ga_1$ and let $\wt E_1,\ldots, \wt E_{n_1}$ be parallel vector fields along $\wt E_i\perp \ga_2'$. If
+\[
+V=f_1E_1+\cdots +f_{n-1}E_{n-1}+f_n\ga_1'
+\]
+then define
+\[
+\phi(V)=f_1\wt E_1+\cdots +f_{n-1}\wt E_{n-1}+f_n\ga_2'.
+\]
+At any $s\in[a,b]$, we have
+\[
+\an{V_1,V_2}(s)=\an{\phi(V_1),\phi(V_2)}(s).
+\]
+Define
+\bal
+K_1(s)&=\inf\set{K(\Pi)}{\Pi \text{ is a 2-plane at $\ga_1(s)$ containing $\ga_1'(s)$}}\\
+K_2(s)&=\sup\set{K(\Pi)}{\Pi \text{ is a 2-plane at $\ga_2(s)$ containing $\ga_2'(s)$}}.
+\end{align*}
+Note the asymmetry. The statement is that one manifold is more curved than the other. This is almost always applied when one of the manifolds have constant curvature, in which there is no $\inf$ or $\sup$ involved.
+\begin{thm}[Rauch comparison theorem]\llabel{thm:rauch}
+Let the setup be as above. Assume there are no conjugate points along $\ga_i$.
+
+If $K_1(s)\ge K_2(s)$ for all $s\in [a,b]$, then for any pair of Jacobi fields $J_1$ along $\ga_1$ and $J_2$ along $\ga_2$ such that 
+\[
+J_1(a)=0,\qquad J_2(a)=0, \qquad |J_1'(a)|=|J_2'(a)|,
+\]
+then 
+\[|J_1(b)|\le |J_2(b)|.\] 
+\end{thm}
+The picture is as follows. Let $p\in M$ and consider $\exp_p:T_pM\to M$. Let $\Pi\subeq T_pM$ be a subspace. Consider the length of $\exp(\pl B_{\ep}(0))$. We looked at the Taylor expansion~\eqref{eq:965-11-3}; the first nontrivial term is a curvature term, the sectional curvature of the 2-plane. If the sectional curvature is positive, the term has a negative sign. The length is smaller than what it is in Euclidean space. 
+
+\ig{21-1}{1}
+
+If you take something that is positively curved, the image has smaller length than the circle that it is mapped from. Positively curved means that geodesics are spreading less rapidly than in Euclidean space. %This is just a more fancy version of the theorem. 
+When you calculate the length of $\exp(\pl B_{\ep}(0))$, you are calculating the derivative of the exponential map, which is given by a Jacobi field. Thus we see that Rauch Comparison~\ref{thm:rauch} would give information about the length of $\exp(\pl B_{\ep}(0))$ relative to $\pl B_{\ep}(0)$.
+%Infinitesimal version. 
+
+Consider the special case where $M_2$ has constant sectional curvature, say 0. Say that $M_2$ is 2-dimensional, so $M_2$ is just a plane. Suppose $K_1(s)$ is positive everywhere, so $J_1$ is on a positively curved manifold, and $J_2$ is in Euclidean space. At the very beginning, these two geodesics spread out at the same rate $|J_1'(a)|=|J_2'(a)|$. The statement is that the Jacobi field in the positively curved manifold is spreading out less rapidly, $|J_1(b)|\le |J_2(b)|$.
+%J_1(b) if vanishes then can get screwed up.
+
+%More curved, spread less rapidly apart. 
+
+\begin{proof}[Proof of Theorem~\ref{thm:rauch}]
+Let $v_i=|J_i|^2$. Note that
+\beq{eq:965-21-2}
+\ddd s\pf{v_2}{v_1}\ge 0 \iff \fc{|J_2|^2}{|J_1|^2} \text{ increases.}
+\eeq
+If we can additionally show then 
+\beq{eq:965-21-1}
+\lim_{s\to 0^+} \fc{|J_2|^2}{|J_1|^2}=1,
+\eeq
+then we get 
+\[
+|J_2(b)|^2\ge |J_1(b)|^2\implies |J_2(b)|\ge |J_1(b)|,
+\]
+which is exactly what we wanted to prove.
+
+First we show~\eqref{eq:965-21-1}. Recall the Taylor expansion~\eqref{eq:965-11-2} of $h_i=|J_i|^2$. The first nontrivial term is the curvature term, which is negligible. The only term that matters is the nonzero term $|J_i'(a)|$. Thus the ratio goes to 1.
+%h_i(0)=0, h_'(0)=...
+
+It suffices to show~\eqref{eq:965-21-2}. We have
+\beq{eq:965-21-3}
+0\le \pf{v_2}{v_1}'=\fc{v_2'v_1-v_1'v_2}{v_1^2}\iff v_2'v_1\ge v_1'v_2\iff \fc{v_2'}{v_2}\ge \fc{v_1}{v_1'}.
+\eeq
+(We can take the quotient because we assumed there are no conjugate points.)
+
+
+We want to show that $\fc{v_2'(s_0)}{v_2(s_0)}\ge \fc{v_1'(s_0)}{v_1(s_0)}$. Define
+\[
+U_i=\fc{J_i}{|J_i(s_0)|},\qquad i=1,2.
+\]
+Consider the index form $I(U_i,U_i)$ on $\ga_i|_{[a,s_0]}$. By definition,
+\[
+I(U_i,U_i)=\int_a^{s_0} (\an{U_i',U_i'}-\an{R(\ga_i',U_i)\ga_i',U_i})\,ds.
+\]
+If $J$ is a Jacobi field along a geodesic $\ga:[a,s_0]\to M$, then by definition
+\[
+I(J,J)=\int_a^{s_0} (\an{J',J'}-\an{R(\ga',J)\ga',J})\,ds
+\]
+Using $\an{J',J}'=\an{J'',J}+\an{J',J'} = \an{J',J'}-\an{R(\ga',J)\ga', J}$, get 
+\bal
+I(J,J)&=\an{J',J}|^{s_0}_a=\an{J'(s_0),J(s_0)}.
+\end{align*}
+Then 
+\begin{align*}
+I(U_i,U_i)&= \an{U_i',U_i}(s_0)\\
+&=\an{\fc{J_i'(s_0)}{\ab{J_i(s_0)}},\fc{J_i(s_0)}{\ab{J_i(s_0)}}}\\
+&=\fc{\an{J_i'(s_0),J_i(s_0)}}{|J_i(s_0)|^2}\\
+&=\rc{2} \fc{v_i'(s_0)}{v_i(s_0)}.
+\end{align*}
+Thus~\eqref{eq:965-21-1} is equivalent to $I(U_2,U_2)\ge I(U_1,U_1)$. We have to prove an inequality about index forms, so it's helpful to have a way to move vector fields between $\ga_1$ and $\ga_2$. This is where $\phi$ comes in!
+
+($\phi$ was almost canonical but involved a choice of parallel frame. We identify an orthonormal basis at one point.)
+
+%|U_2(s_0)|=|U_1(s_0)|=1. 
+By choice of orthonormal basis $\wt E_i$ we may assume $\phi(U_2)(s_0)=U_1(s_0)$ (the tangential components have to be the same). %why?
+Now
+\begin{align*}
+I(U_2,U_2)&=\int_a^{s_0} (\an{U_2',U_2'}-\an{R_{M_1}(\ga_2',U_2)\ga_2',U_2})\,ds\\
+&=\int_a^{s_0} (\an{U_2',U_2'}-|U_2|^2K(\ga_2',U_2))\,ds
+\end{align*}
+Now note if $V=f_1E_1+\cdots +f_{n-1}E_{n-1}+f_n\ga'$, then $\phi(V)=f_1\wt{E_1}+\cdots +f_{n-1}\wt E_{n-1}+f_n\ga'$. We have $V'=f_1'E_1+\cdots +f_{n-1}'E_{n-1}+f_n\ga'$ and $\phi(V')=f_1'\wt{E_1}+\cdots +f_{n-1}'\wt E_{n-1}+f_n'\ga'$. Then (note $\phi(U_2)$ may not be Jacobi)
+\begin{align*}
+I(\phi(U_2),\phi(U_2))&=\int_a^{s_0} (\an{\phi(U_2)',\phi(U_2)'}-\an{R_{M_1}(\ga_2',\phi(U_2))\ga_2',\phi(U_2)})\,ds.\\
+&=\int_a^{s_0} (\an{\phi(U_2)',\phi(U_2)'}-|\phi(U_2)|^2K(\ga_2',\phi(U_2)))\,ds
+%norm of vfs same
+%secti curv times $|U_2|^2$. 
+%M_1 more curved than M_2
+\end{align*}
+Thus using the fact that $M_1$ is more curved than $M_2$, we get
+\[
+I(U_2,U_2)\ge I(\phi(U_2),\phi(U_2)).
+\]
+But $\phi(U_2)$ is a vector field along $\ga_1|_{[a,s_0]}$. At 0 it is 0 and at $s_0$, we arranged for $\phi(U_2)(s_0)=U_1(s_0)$. Since $U_1$ is a Jacobi field with same vector value, by the minimizing property (since there is no conjugate point), we get
+\[
+I(U_2,U_2)\ge I(\phi(U_2),\phi(U_2))\ge I(U_1,U_1).
+\]
+This is exactly what we wanted to prove.
+\end{proof}
+Note that we actually proved something a bit stronger, that the ratio $\fc{|J_2|}{|J_1|}$ is nondecreasing.
+
+\begin{ex}
+Consider manifolds $M_1^n, M_2^n$. Suppose $M_2$ has constant sectional curvature, $K_{M_2}=c^2$, $0$, or $-c^2$. Consider Jacobi fields that initially vanish. Let $J=J_2$.
+\begin{itemize}
+\item
+If $K_{M_2}=c^2$, $J(0)=0$, $|J'(0)|=1$, and $J$ is orthogonal to the geodesic, then we can write
+\[J=\rc{c}\sin(cs)E\]
+where $E$ is a parallel vector field.
+The statement is then
+\[
+|J_1(0)|\le \fc{|J_1'(0)|}{c}\sin(cs)=|J_2|.
+\]
+%Greater than or equal to a positive constant, then 
+Thus the Jacobi field must vanish no later than $\fc{\pi}{c}$. Rauch comparison holds up to that point. This is a standard way that Rauch comparison is applied. (The other is when $M_1$ has constant sectional curvature, and the inequalities are reversed.)
+\item
+If $K_{M_2}=0$, we can write
+\[
+J(s)=sE.
+\]
+\item
+If $K_{M_2}=-c^2$, then we can write
+\[
+J=\rc{c} \sinh(cs)E.
+\]
+\end{itemize}
+\end{ex}

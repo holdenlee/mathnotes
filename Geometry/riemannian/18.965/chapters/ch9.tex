@@ -1,0 +1,184 @@
+\lecture{Thu. 10/4/12}
+Given a manifold $M$ with a symmetric connection $\nabla$, recall that we defined $R(X,Y)Z=\nb_Y\nb_XZ-\nb_X\nb_Y Z+\nb_{[X,Y]}Z$. In fact, this is a function $R:T_pM\times T_pM\times T_pM\to T_pM$ since it only depends on the value at the point.
+
+\subsection{Symmetries of the curvature operator}
+We prove the Bianchi identity.
+\begin{proof}
+The LHS is
+\begin{align*}
+&\qquad{\color{blue}\nb_Y\nb_XZ}-{\color{purple} \nb_X\nb_YZ}+\nb_{[X,Y]}Z\\
+&\quad+{\color{red}\nb_Z\nb_YX}-{\color{blue}\nb_Y\nb_ZX}+\nb_{[Y,Z]}X\\
+&\quad+{\color{purple}\nb_X\nb_ZY}-{\color{red}\nb_Z\nb_X Y}+\nb_{[Z,X]}Y\\
+&=\quad {\color{purple}\nb_X[Z,Y]} +{\color{blue}\nb_Y [X,Z]}+{\color{red}\nb_Z[Y,X]}& \text{$\nb$ is symmetric}\\
+&\quad+\nb_{[X,Y]}Z+\nb_{[Y,Z]}X+\nb_{[Z,X]}Y\\
+&=[X,[Z,Y]]+[Y,[X,Z]]+[Z,[Y,X]]\\
+&=0.
+\end{align*}
+We see the Bianchi identity holds because of the Jacobi identity. 
+\end{proof}
+
+Now we explore some other symmetries of the curvature operator.
+\begin{pr}\llabel{pr:965-9-1}
+Let $(M,g)$ be a manifold with a non-degenerate symmetric bilinear form, and let $\nabla$ be the Levi-Civita connection.
+
+Let $X,Y,Z,V\in T_pM$. Define %curvature tensor
+\[
+(X,Y,Z,V):=g(R(X,Y)Z,V).
+\]
+Then the following hold.
+\begin{align*}
+(X,Y,Z,V)+(Y,Z,X,V)+(Z,X,Y,V)&=0\\
+(X,Y,Z,V)&=-(Y,X,Z,V)\\
+(X,Y,Z,V)&=-(X,Y,V,Z)\\
+(X,Y,Z,V)&=(Z,V,X,Y)
+\end{align*}
+\end{pr}
+\begin{proof}
+The first follows from the Bianchi identity.
+
+For the second identity, we use
+\[
+R(X,Y)Z=\nb_Y\nb_X Z-\nb_X\nb_YZ+\nb_{[X,Y]}Z=-R(Y,X)Z.
+\]
+
+To see the third identity, it is enough to show $(X,Y,Z,Z)=0$. Then by linearity
+\bal
+0&=(X,Y,Z+V,Z+V)\\%-(X,Y,Z-V,Z-V)=(X,Y
+&=(X,Y,Z,V)+(X,Y,V,Z)+\cancelto{0}{(X,Y,Z,Z)}+\cancelto{0}{(X,Y,V,V)}\\
+\implies (X,Y,Z,V) &=-(X,Y,V,Z).
+\end{align*}
+We now prove that $(X,Y,Z,Z)=0$ by using the fact that $\nb$ is compatible with the connection, i.e. $Xg(Y,Z)=g(\nb_XY,Z)+g(Y,\nb_XZ)$ (Proposition~\ref{pr:965-5-4}). We have
+\begin{align}
+\nonumber
+(X,Y,Z,Z)&=g(R(X,Y)Z,Z)\\
+\nonumber
+&=g(\nb_Y\nb_X Z-\nb_X\nb_Y Z+\nb_{[X,Y]} Z,Z)\\
+\nonumber
+&=Yg(\nb_XZ,Z)-g(\nb_XZ,\nb_Y Z) -Xg(\nb_YZ,Z) +g(\nb_YZ,\nb_XZ)+g(\nb_{[X,Y]}Z,Z)\\
+&=\rc2YXg(Z,Z)-\rc2XYg(Z,Z)+g(\nb_{[X,Y]}Z,Z)\llabel{eq:787-9-1}\\
+\nonumber&=\rc2[Y,X]g(Z,Z)+g(\nb_{[X,Y]}Z,Z)\\
+\nonumber&=g(\nb_{[Y,X]}Z,Z)+g(\nb_{[X,Y]}Z,Z)=0.
+\end{align}
+where~\eqref{eq:787-9-1} follows from $Xg(Z,Z)=2g(\nb_XZ,Z)$, i.e. $g(\nb_XZ,Z)=\rc2Xg(Z,Z)$.
+
+The proof of the last identity is similar.
+\end{proof}
+\subsection{Curvature}
+We now define the curvature from the curvature tensor. There are 3 types of curvatures (that we will be concerned with):
+\begin{enumerate}
+\item
+sectional curvature
+\item
+Ricci curvature
+\item 
+scalar curvature
+\end{enumerate}
+\subsubsection{Sectional curvature}
+\begin{df}
+Let $V$ be a $n$-dimensional vector space with an inner product. Let $X,Y\in V$. Consider the area\footnote{If you compute this thinking of $X,Y$ in $\R^2$, this is just the formula for the area of a parallelogram.}
+\[
+|X\wedge Y|=\sqrt{|X|^2|Y|^2-\an{X,Y}^2}
+\]
+Define the \textbf{sectional curvature} as follows. At $(M,g)$ with $p\in M$, let $\Pi$ be a 2-dimensional subspace of $T_pM$ and define
+\[
+K(p,\Pi):=\fc{(X,Y,X,Y)}{|X\wedge Y|^2} %why restrict 2-d
+\]
+where $X,Y$ span $\Pi$.
+\end{df}
+{\it A priori} this depends on $X$ and $Y$. We have to show this is well-defined, i.e. $K$ depends only on $\Pi$ and not on the basis $\{X,Y\}$.
+\begin{proof}[Proof that $K$ is well-defined]
+%Consider the quantity
+%dvu!
+%linearly independent- denom not 0.
+We show changing the basis does not change $K$. It suffices to show $K$ is invariant under
+\begin{enumerate}
+\item
+scaling. We have
+\[
+\fc{(X,Y,X,Y)}{|X\wedge Y|^2}=\fc{(\la X,Y,\la X,Y)}{|\la X\wedge Y|^2}
+\]
+and this is likewise true if we replace $Y$ by $\la Y$.
+\item
+replacing $X\mapsfrom X+Y$ or $Y\mapsfrom X+Y$. We have by expanding that
+\[
+\fc{(X+Y,Y,X,Y)}{|(X+Y)\wedge Y|^2}=\fc{(X,Y,X,Y)}{|X\wedge Y|^2}=\fc{(X,X+Y,X,X+Y)}{|X\wedge (X+Y)|^2}.
+\]
+%(Just expand as we did...)
+\end{enumerate}
+We can go from any basis to another using these operations, which don't change $K$, so $K$ is well-defined.
+\end{proof}
+Saying that a manifold has positive sectional curvature is philosophically like saying a function is convex. This is a strong condition.
+\subsubsection{Ricci curvature}
+In contrast, saying that a manifold has positive {\it Ricci} curvature is like saying a function is subharmonic.%\footnote{Talk about what subharmonic means. See 18.152 notes.}
+
+\begin{df}
+Fix an element $X\in T_pM$. %be a Ricci tensor. 
+Define the bilinear form $Q(Y,Z):T_pM\times T_pM\to \R$ by
+\[
+Q(Y,Z):=(X,Y,X,Z);
+\]
+note that $Q$ is a symmetric bilinear form. %$Q(Y,Z)$ is also denoted by $\Ric(X,Y)$.
+Define the \textbf{Ricci curvature} as the trace of the bilinear form:\footnote{$\Ric(X,Y)$ is not defined. In my opinion this notation is a bit odd. (The book just writes $\Ric(X)$.)}
+\[\Ric(X,X):=\tr(Q).\]
+\end{df}
+%Span orthogonal complement?
+For $|X|=1$, i.e. $g(X,X)=1$, take an orthonormal basis $e_1=X,\ldots, e_n$ for $T_pM$. Then we have
+\begin{align*}
+\Ric(X,X)&=\tr(Q)\\
+&=\sui Q(e_i,e_i)=(X,e_i,X,e_i)=\cancelto{0}{(X,e_1,X,e_1)}+\sum_{1<i\le n} (X,e_i,X,e_i).
+\end{align*}
+%orth bassi
+%n-1planes, sum of sectional curvatures
+Think of the Ricci curvature as follows: Given some point and some direction, we look at the average curvature in all 2-planes that contain that direction. %Think of a point, tangent space at point, unit sphere in tangent space, sphere, average over all planes contain given vector, get Ricci curvature
+
+The Ricci curvature is like an average or trace. The following analogy may be helpful: Given a function, the Hessian is a quadratic form, and the Laplacian is the trace of the Hessian. Knowing the sectional curvature is like knowing the Hessian of a function, and knowing the Ricci curvature is like knowing the Laplacian.
+
+\subsubsection{Scalar curvature}
+The scalar curvature is the most flexible notion of curvature, in the sense that conditions on the scalar curvature are weaker than conditions on the other curvatures. In fact, it is so flexible that these conditions say little unless we are in dimension 3; the Ricci curvature is usually the most useful.
+
+To get to scalar curvature from Ricci curvature, we take another trace.
+%Skip end of chapter (tensors)
+\begin{df}
+Let $p\in M$. Define the \textbf{scalar curvature} $\Scal_p\in \R$ by
+\[
+\Scal_p=\sui \Ric(e_i,e_i)
+\]
+where $e_i$ is an orthonormal basis of $T_pM$.
+\end{df}
+%\subsection{Jacobi fields}
+%\fixme{This section is not edited.}
+%Let $f:[a,b]\times (-\ep,\ep)\to M$ is a parameterized surface. \fixme{figure} Assume that for $t$ fixed, $s\to f(s,t)$ is a geodesic.
+%
+%For instance,
+%%if think about in polar coordinates, then exactly of this form. 
+%the exponential map  $\exp_p:T_pM\to M$ in polar coordinates is of this form ($s=r,t=\te$).
+%
+%Let $V$ be a vector field along a parametrized surface. We proved that (Lemma~\ref{lem:vf-ps})
+%\[
+%\cvd \fc{D}{\pl s} V-\fc{D}{\pl s}\cvd V=R\pa{\pd fs,\pd ft}V.
+%\]
+%Now look at
+%\bal
+%\fc{D}{\pl s}\fc{D}{\pl s}\pd fs
+%&=\cvs\cvd\pd fs-\cvd\cancelto{0}{\cvs\pd fs}
+%+R\pa{\pd ft,\pd fs}\pd fs\\
+%%image straight lines geodesics, this is 0
+%&=R\pa{\pd ft,\pd fs}\pd fs.
+%%v for t fixed. Vector field along curve
+%\end{align*}
+%Letting $V=\pd ft$, if $t$ is fixed, consider $s\mapsto f(s,t)$ with $V''=R(v,\ga')\ga'$. We get
+%\[
+%V''+R(\ga',V)\ga'=0.
+%\]
+%This is called the Jacobi equation.
+%
+%Starting with a parameterized surface, fix t, geodesic (that one will have constant speed). Par surface with that property, take der, get $V$. Along each geodesic we get this equation. 
+%%switch, penalty is curvature.
+%\begin{df}
+%Suppose $M$ is a manifold, $\ga$ is a geodesic, and $V$ is a vector field along $\ga$. Then $V$ \textbf{satisfies the Jacobi equation} along $\ga$ if 
+%\[
+%V''+R(\ga',V)\ga'=0
+%\]
+%where $V''$ is the second covariant derivative.
+%\end{df}
+%Next time we'll see how the Jacobi equations gives us the first explanation for geometric notion of curvature.

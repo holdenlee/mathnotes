@@ -1,0 +1,174 @@
+\lecture{Tue. 10/2/12}
+
+%\fixme{Add an introduction (Motivation, etc.)}
+
+\subsection{Curvature}
+Let $M^n$ be a Riemannian manifold with Levi-Civita connection $\nabla$. Define the curvature as follows.
+%difference, 3rd order der.
+\begin{df}
+For $X,Y,Z\in \X(M)$ define the \textbf{curvature} operator as follows.
+\[
+R(X,Y)Z:=\nabla_Y\nabla_X Z-\nabla_X\nabla_Y Z+\nabla_{[X,Y]}Z
+\]
+\end{df}
+Think of this as a difference in second order derivatives. Note there are different conventions for the curvature operator. 
+
+\begin{pr}\llabel{pr:965-8-1}
+$R$ is linear in each variable:
+\begin{align*}
+R(X_1+X_2,Y)Z&=R(X_1,Y)Z+R(X_2,Y)Z\\
+R(X,Y_1+Y_2)Z&=R(X,Y_1)Z+R(X,Y_2)Z\\
+R(X,Y)(Z_1+Z_2)&=R(X,Y)Z_1+R(X,Y)Z_2
+\end{align*}
+and for $f\in C^{\iy}(M)$,
+\[
+R(fX,Y)Z=R(X,fY)Z=R(X,Y)fZ=fR(X,Y).
+\]
+\end{pr}
+Assuming that this is the case, $(R(X,Y)Z)(p)$ only depends on the value of $X$, $Y$, and $Z$ at $p$. Indeed, write $X=a_i\pdd{x_i}$, $Y=b_j\pdd{x_j}$, and $Z=c_k\pdd{x_k}$. Then using linearity in each variable,
+\begin{align*}
+R(X,Y)Z&=R\pa{a_i\pdd{x_i},b_j\pdd{x_j}}\pa{c_k\pdd{x_k}}\\
+&=a_ib_jc_kR\pa{\pdd{x_i},\pdd{x_j}}\pdd{x_k}.
+\end{align*}
+\begin{proof}
+The connection is linear in each variable, so the first set of equations holds.
+
+Now using
+\bal
+[X,Y]h&=XYh-YXh\\
+[fX,Y]h&=fXY(h)-Y(f)X(h)-fYX(h)=f[X,Y](h)-Y(f)X(h)
+\end{align*}
+we calculate
+\begin{align*}
+R(fX,Y)Z&=\nabla_Y\nabla_{fX} Z-\nabla_{fX}\nabla_Y Z+\nabla_{[fX,Y]}Z\\
+&=\nabla_Y f\nabla_X Z-f\nabla_X\nabla_Y Z+f\nabla_{[X,Y]}Z-Y(f)\nabla_XZ\\
+&=\cancel{Y(f)\nabla_XZ}+f\nabla_Y\nabla_X Z-f\nabla_X\nabla_Y Z+f\nabla_{[X,Y]}Z-\cancel{Y(f)\nabla_XZ}\\
+&=fR(X,Y)Z.
+\end{align*}
+The proof for $Y$ is similar; we carry out the proof for $Z$.
+\begin{align*}
+R(X,Y)(fZ)&=\nabla_Y\nabla_X (fZ)-\nabla_X\nabla_Y (fZ)+\nabla_{[X,Y]}Z\\
+&=\nabla_YX(f)Z+\nabla_Yf\nabla_XZ -\nabla_XY(f)Z-\nabla_Xf\nabla_Y Z+[X,Y](f)Z+f\nabla_{[X,Y]}Z\\
+&=\cancel{\color{blue}YX(f)Z}+\cancel{\color{red}X(f)\nb_YZ} +\cancel{\color{purple}Y(f)\nb_XZ}+\cancel{f\nb_Y\nb_XZ}\\
+&\quad -\cancel{\color{blue}XY(f)Z}-\cancel{\color{purple}Y(f)\nb_X Z}-\cancel{\color{red}X(f)\nb_Y Z}-\cancel{f\nb_X\nb_YZ}+\cancel{[X,Y](f)Z}+f\nb_{[X,Y]}Z\\
+&=fR(X,Y)Z.
+\end{align*}
+\end{proof}
+%fix z, lie bracket measure extent to which vector fields commute, Curvature measures measures difference w/ respect to...
+Let's look at the special case of coordinate fields. Let $X=\pdd{x_i}$, $Y=\pdd{x_j}$, and $Z=\pdd{x_k}$. The Lie bracket is 0, so 
+\[
+R\pa{\pdd{x_i},\pdd{x_j}}\pdd{x_k}=\np{x_j}\np{x_i}\pdd{x_k}-\np{x_i}\np{x_j} \pdd{x_k}
+\]
+If we want to define the curvature in this way on coordinate fields, then we are forced to add the term $\nb_{[X,Y]}$ on noncoordinate fields in order for the linearity properties to hold. This ensures that $R$ depends only on $X$, $Y$, and $Z$ at a point.
+\begin{df}
+Define the curvature symbols by
+\[
+R\pa{\pdd{x_i},\pdd{x_j}}\pdd{x_k}=R_{ijk}^{\ell}\pdd{x_{\ell}}.
+\]
+%(Hence, $R_{ijk}^{\ell}=
+\end{df}
+%The Lie bracket is forced upon you: Suppose 
+Suppose now we have a parametrized surface $f:[a,b]\times (-\ep,\ep)\to M$ (see Definition~\ref{df:psurf}) and a smooth curve $c:[a,b]\to M$. Let $V$ is a vector field along $c$. We know the covariant derivative $\cvd V$ is a linear operator, satisfies the Leibniz rule, and if $V=X|_c$ then it should coincide with the connection. Recall that (Proposition~\ref{pr:covar-commute})
+\[
+\cvd \pd fs=\cvs \pd ft.
+\]
+Just like we defined vector fields on curves, we can define vector fields on surfaces.
+\begin{df}
+Define a \textbf{vector field along a parametrized surface} to be a smooth map
+\[
+V:[a,b]\times (-\ep,\ep)\to TM
+\]
+with $V(s,t)\in T_{f(s,t)}M$.
+\end{df}
+We derive a nice formula for the curvature of a vector field along a parametrized surface, in terms of covariant derivatives.
+\begin{lem}\llabel{lem:vf-ps}
+We have
+\[
+\cvd \fc{D}{\pl s} V-\fc{D}{\pl s}\cvd V=R\pa{\pd fs,\pd ft}V.
+\]
+\end{lem}
+\begin{proof}
+First assume that $V$ is the restriction of a vector field on $M$. Then
+\[
+\fc{D}{\pl s} V=\nb_{\pd fs}V,\qquad \cvd V=\nb_{\pd ft} V.
+\]
+Writing $f=(f_1,\ldots , f_n)$ and letting the basis elements be $(X_1,\ldots, X_n)$ where $X_i=\pdd{x_i}$, we have
+$
+\pd fs=\pd{f_i}s\pdd{x_i}$ and hence
+\[
+\nb_{\pd fs} V=\pd{f_i}s\np{x_i} V
+\]
+Thus we get
+\bal
+\cvd\fc{D}{\pl s} V&=\cvd \pa{\pd{f_i}{s}\np{x_i}V}\\
+&=\pd{^2f_i}{t\pl s} \np{x_i}V +\pd{f_i}s\cvd \np{x_i}V\\
+&=\pd{^2f_i}{t\pl s} \np{x_i}V + \pd{f_i}s \pd{f_j}t\np{x_j}\np{x_i}V.
+%&=\pd{^2f_i}{t\pl s} \np{x_i}V+\pd{f_i}s\pd{f_j}t \np{x_j}\np{x_i}V.
+\end{align*}
+Switching the variables we get
+\begin{align*}
+\fc{D}{\pl s}\cvd V&=\pd{^2f_i}{s\pl t} \np{x_i}V+\pd{f_i}t\pd{f_j}s \np{x_j}\np{x_i}V.
+\end{align*}
+Subtracting gives (since partial derivatives commute)
+\[
+\cvd\fc{D}{\pl s} V-\fc{D}{\pl s}\cvd V
+=
+\pd{f_i}s\pd{f_j}t \np{x_j}\np{x_i}V-\pd{f_i}t\pd{f_j}s \np{x_j}\np{x_i}V.
+\]
+Note that $\ba{\pd ft,\pd fs}=0$.
+
+In the general case, write $V=c_i(s,t)\pdd{x_i}$, so we have
+\bal
+\fc{D}{\pl s}V&=\pd{c_i}{s}\pdd{x_i}+c_i \fc{D}{\pl s} \pdd{x_i}\\
+\cvd\fc{D}{\pl s}V&=\pd{^2c_i}{t\pl s}\pdd{x_i}+\pd{c_i}s\cvd \pdd{x_i} +\pd{c_i}t\fc{D}{\pl s} \pdd{x_i}+c_i\cvd \fc{D}{\pl s}\pdd{x_i}.
+\end{align*}
+Switching $t$ and $s$, we get an equation for $\fc{D}{\pl s}\cvd V$. Subtracting the two equations we get
+\begin{align*}
+\cvd \fc{D}{\pl s}V - \fc{D}{\pl s} \cvd V
+&=c_i\cvd \cvs\pdd{x_i}-c_i\fc{D}{\pl s}\cvd \pdd{x_i}\\
+&=c_iR\pa{\pd fs,\pd ft}\pdd{x_i}&\text{from the first part}
+&=R\pa{\pd fs,\pd ft}\pa{c_i\pdd{x_i}}=R\pa{\pdd s,\pdd t}V.
+\end{align*}
+%people interested in conformal structures: 4th order curvature. 
+\end{proof}
+\begin{ex}
+Consider the case $M=\R^n$. Then
+\[
+R\pa{\pdd{x_i},\pdd{x_j}}\pdd{x_k}
+=\np{x_j}\np{x_i}\pdd{x_k}-\np{x_i}\np{x_j} \pdd{x_k}+\nb_{[\pdd{x_i},\pdd{x_j}]} \pdd{x_k}=0.
+\]
+since $\nb_X\pa{\pdd{x_i}}=0$ for all $i$ and $X$.
+
+%how much is it curved?
+%deend on 2 vec
+\end{ex}
+%\subsubsection{Bianchi identity}
+\begin{pr}[Bianchi identity]
+We have
+\[
+R(X,Y)Z+R(Y,Z)X+R(Z,X)Y=0
+\]
+\end{pr}
+\begin{proof}
+This follows from the Jacobi identity for the Lie bracket. We'll give a detailed proof next lecture.
+\end{proof}
+\subsection{Sectional curvature}
+We want to represent the curvature with a number.
+
+Let $V$ be a $n$-dimensional vector space, and $v_1,v_2\in V$. Then
+\[
+|v_1\wedge v_2|=\sqrt{|v_1|^2|v_2|^2-\an{v_1,v_2}^2}.
+\]
+
+
+Let $M$ be a manifold and $p\in M$. Let $r_1,r_2\in R$. Define
+\[
+K(p,\pi) =\fc{g(R(v_1,v_2)v_1,v_2)}{|v_1\wedge v_2|^2}
+\]
+where $\pi$ is the linear span of $v_1$ and $v_2$.
+
+Suppose we have a surface in 3-space, say a sphere, and we take a point. The curvature at that point is given by the formula for $K(p,\pi)$. However, this formula is difficult to work with. How can we think intuitively thing about the curvature? Imagine the points that are a distance of $\ep$ away from a point; they form a curve. We compare the length of this curve with the corresponding curve in Euclidean space. Look at the corresponding curve in Euclidean space. Look at the difference between the two lengths and dividing by some power of the radius, as $r\to 0$
+this quantity  goes to the curvature.
+
+%We could definitely say sign. 
+A circle on a sphere has smaller length than in Euclidean space, so a circle has positive curvature. We'll give the details in the next few lectures. %Difference sign. As go to 0, will...

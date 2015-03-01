@@ -1,0 +1,168 @@
+\lecture{Thu. 11/29/12}
+
+\subsection{Comparing volumes}
+Last time we showed that if we have two Riemannian manifold $(M_1^n,g)$ and $(M_2^n,g)$, and 
+\[
+\sup_{\ga_1} K_{M_1}\le \inf_{\ga_2} K_{M_2}
+\]
+where $\ga_i:[0,\ell]\to M_i$ are a unit speed geodesic with no conjugate points, then we have the Rauch Comparison Theorem~\ref{thm:rauch}: If $J_i$ are Jacobi fields along $\ga_i$ with $J_i(0)=0$, $|J_1'(0)|=|J_2'(0)|$, then
+\[
+\ddd s\pf{J_1}{J_2}\ge 0.
+\]
+
+As a consequence, we have the following.
+\begin{cor}
+Assume the conditions above, and that the manifolds are complete.
+
+If $M_1$ has constant curvature, $K_{M_1}=c$, and $K_{M_2}\ge c=K_{M_1}$, then
+\[
+\Vol(B_{r}^{M_1}(p_1))\ge \Vol(B_r^{M_2}(p_2)).
+\]
+\end{cor}
+\begin{proof}
+Let $M=M_2$. Consider the exponential map $\exp_p: T_pM\to M$. 
+
+We claim that $B_r(p)$ is the image of $B_r(0)\sub T_pM$ under $\exp_p$:
+\[
+B_r(p)=\exp_p(B_r(0)).
+\]
+Because the manifold is complete, for any $q\in B_r(p)$ there exists a minimizing unit speed geodesic from $p$ to $q$. The length of $\ga$ is $d(p,q)\le r$. Hence $B_r(p)\subeq \exp_p(B_r(0))$. The other inclusion is clear, because the a point in the image of $B_r(0)$ is connected to $p$ by a geodesic of length less than $r$. We have to be careful, however, about overcovering.
+
+%careful don't overcover
+%never continue past conjugate point. After the conjugate point, the geodesic doesn't minimize anymore. Jacobi field is infinitesimal variation of geodesics. 
+%infinitesimally two competing geodesics. Other one make nontrivial angle.
+%Infinitesimal picture easy make rigorous.
+\begin{df}
+Define the \textbf{cut locus} $\text{Cut}_p$ in $T_pM$ as the set of points $y\in T_pM$ such that the map $s\mapsto \exp_p(sy)$ for $0\le s\le 1$ is a minimizing geodesic.
+\end{df}
+Note these geodesics have no conjugate points. Observe that $\text{Cut}_p$ is star convex: if $y\in \text{Cut}_p$ then the line segment joining 0 and $y$ is in $\text{Cut}_p$.
+
+We see that
+\[
+B_r(p)=\exp_p(\text{Cut}_p\cap B_r(0)).
+\]
+Note that $\text{Cut}_p\cap B_r(0)\to B_r(p)$ is now a diffeomorphism; % except possibly at the boundary; 
+there is no overcovering. %except at the boundary (which has volume 0).
+
+As an example, take the round unit sphere. We have
+\[
+\text{Cut}_p= \ol{B_{\pi}(0)}\subeq T_pM.
+\]
+Note that $\pl B_{\pi}(0)$ is mapped to a single point, but the boundary doesn't contribute to the volume.
+As another example, consider the cylinder of radius 1.
+
+\ig{22-3}{1}
+
+Then the cut locus is given by $\R\times [-\pi,\pi]$.
+%we are ignoring whether... in the case of the sphere, the cut locus is really the closed ball.
+
+Suppose first for simplicity $M$ is a manifold with $K_M\ge 0$ and $M_1=\R^n$. We need to show that $\Vol(B_r(p))\le \Vol(B_r(0))$ where $B_r(0)\subeq \R^n$. We have $\text{Cut}_p\cap B_r(0)\to M$.
+Note that Jacobi fields along the geodesics given by segments in $\text{Cut}_p\cap B_r(0)$ have no conjugate points, because they are inside the image of the cut locus. Geodesics have to minimize, so there cannot be conjugate points. 
+
+%one euclid space.
+By the Rauch Comparison Theorem~\ref{thm:rauch}, $\fc{|J^{\R^n}|}{|J|}$ is increasing. We have $|J|\le |J^{\R^n}|$. This says that the  %norm in a direction, exactly 
+derivative is less than or equal to the derivative Euclidean space, where it is the identity. From this we can get the inequality for volumes.
+
+In general, to show $\Vol(B_r^{M_1}(p_1))\ge \Vol(B_r^{M_2}(p_2))$, consider the map 
+\[
+B_r^{M_1}(p_1)\xra{\exp_p^{-1}} T_{p_1}M_1\xra{I} T_{p_2}M_2\xra{\exp_p} B_r^{M_2}(p_2).
+\]
+Calculating the Jacobian of this map and using the Rauch Comparison Theorem as before gives the inequality. (In the case one of the $M_i$ is Euclidean space, the exponential map is the identity, and we reduce to the first case.)
+%tang space of those 2 points. isometry from one to other. compose exponential map with inverse of exp map of other. 
+\end{proof}
+
+\subsection{Matrix Ricotti equation}
+
+Let $M$ be a Riemannian manifold and $\ga$ be a unit speed geodesic. We defined the second variational operator $LV=V''+R(\ga',V)\ga'$ where $V$ is a vector field along $\ga$. The Jacobi equation is $LV=0$; any $V$ satisfying this is a Jacobi field.
+
+Consider a Jacobi field that vanishes initially, $J(0)=0$. %tang part same on any manifold
+Let $E_1,\ldots, E_{n-1}$ be an orthonormal parallel vector fields along $\ga$, all orthogonal to $\ga'$. For $J\perp \ga$, we can write $J=j_1E_1+\cdots + j_{n-1}E_{n-1}$. 
+
+Consider $n-1$ linearly independent Jacobi fields with $J_i(0)=0$ and $J_i'(0)=E_i(0)$. Then any Jacobi field $J\perp \ga$ satisfying $J(0)=0$ can be written $J=c_1J_1+\cdots +c_{n-1}J_{n-1}$.
+
+Define a matrix $A=(a_{ij})$ to be a $(n-1)\times (n-1)$ matrix-valued function along $[0,\ell]$, where the $j$th column are the coefficients in the linear combination
+\[
+J_j=\sum_{i=1}^{n-1} a_{ij}E_i.
+\]
+By definition $A'=(a_{ij}')$ and $A''=(a_{ij}'')$. Now $J_j'=\sum_{i=1}^{n-1} a_{ij}'E_i$ and $J_j''=\sum_{i=1}^{n-1} a_{ij}''E_i$. The Jacobi equation is
+\[
+J_j''+R(\ga',J_j)\ga'=0.
+\]
+We would like the Jacobi equation to give a equation---some ODE---for the matrix $A$. (Everything we do with matrices can be found in~\cite{AB}.)
+
+Now $R(\ga'(s),\bullet)\ga'(s)$ is a symmetric map $T_{\ga(s)}M\to T_{\ga(s)}M$. We can think of this as a map $(\ga'(s))^{\perp}\to (\ga'(s))^{\perp}$. Let $R=(R_{ij})_{1\le i,j\le n-1}$ be the matrix representing this operator in the basis $E_i$. Now $A''=(J_1'',\ldots, J_{n-1}'')$. The Jacobi equation $J''+R(\ga',J)\ga'=0$ now becomes 
+\begin{equation}
+A''+RA=0.
+\end{equation}
+Indeed, this is just $a_{ij}''+R_{ik}a_{kj}=0$. The advantage of this equation is that you can think of $A,R$ as functions $[0,\ell]\to \cal M_{(n-1)\times(n-1)}(\R)$. Note both $R, A$ are symmetric.
+Why are we interested in writing the Jacobi equation like this? If $A$ is invertible, consider 
+\[U=A'A^{-1}.\]
+(Note that $A(0)=0$ but $\ddd tA(0)=I$ so $A$ is invertible for small $t$; it is invertible as long as there is no conjugate points. If $A$ does not have full rank, then there is a nontrivial linear combination of Jacobi fields at that point, i.e., there is a conjugate point.)
+Using $(AB)'=A'B+AB'$, we hve
+\[
+0=I'=(AA^{-1})'=A'A^{-1} + A(A^{-1})'\implies (A^{-1})'=-A^{-1}A'A^{-1}.
+\]
+Now 
+\begin{align*}
+U'&=A''A^{-1} + A'(A^{-1})'\\
+&= A''A^{-1} + A'(-A^{-1}A'A^{-1})\\
+&=A''A^{-1} - (A'A^{-1})^2\\
+&=-(RA)A^{-1} -U^2=-R-U^2.
+\end{align*}
+We get 
+\begin{equation}\llabel{eq:ricotti}
+U'+U^2+R=0.
+\end{equation}
+This is called the {\it Matrix Ricotti equation}. %Rauch comparison theorem, get more general stuff
+The advantage of this equation is that it is a first order equation; the disadvantage is that it is not a linear equation.
+
+The second reason $A$ is so useful is that $\det(A)$ is the Jacobian of $\exp_{\ga(s)}$.\\
+
+\cpbox{
+%If you want to compute areas and volumes then you can get 
+The Ricotti equation is useful for getting bounds on areas and volumes.}
+%initially vanishes, derivative unit, identity matrix.
+
+\vskip0.15in
+
+At each point of the geodesic we can take the trace of~\eqref{eq:ricotti} to get
+\beq{eq:ricotti-trace}
+\tr(U)'+\tr(U^2)+\tr(R)=0.
+\eeq
+But
+\[
+\tr(R)=\sum_{i=1}^{n-1}R_{ii}
+=\sum_{i=1}^{n-1}\an{R(\ga',E_i)\ga',E_i}=\Ric_{\ga(s)}(\ga'(s))
+\]
+so we can rewrite~\eqref{eq:ricotti-trace} as
+\[
+\tr(U)'+\tr(U^2)+\Ric_{\ga(s)}(\ga'(s))=0.
+\]
+Note if $B$ is a symmetric $(n-1)\times(n-1)$ matrix, then the Cauchy-Schwarz inequality gives
+\[
+\tr(B)\le (n-1)\tr(B^2).
+\]
+Then we obtain
+\[
+\tr(U)'+\fc{\tr(U)^2}{n-1}+\Ric_{\ga(s)}(\ga'(s))\le0.
+\]
+Defining $u=\tr(U)$, this can be written more simply as
+\beq{eq:ricotti-ineq}
+u'+\fc{u^2}{n-1}+\Ric_{\ga(s)}(\ga'(s))\le0.
+\eeq
+This is called the {\it Ricotti inequality}. 
+We've eliminated the matrices by taking the trace, but now we only have inequality. This differential inequality is useful because it is easy to estimate.
+In particular, if $\Ric\ge 0$, then
+\[
+u'+\fc{u^2}{n-1}\le 0.
+\]
+Let $v$ be $u$ but in Euclidean space. Then $\Ric=0$, and in the Cauchy-Schwarz inequality we have equality iff only the identity and $B$ are constant multiples of each other. If you write down what $A$ is on any space form it is a constant function times the identity. (On Euclidean space it's linear, on the sphere it's sine, on the hyperbolic space it's sinh.) Thus the Cauchy-Schwarz inequality is actually equality. In the two inequalities applied (Cauchy and $\Ric$), we have equality
+\[
+v'+\fc{v^2}{n-1}=0.
+\]
+If we have 2 solutions that are initially the same, a simple Ricotti comparison argument with %cf. integrating factor
+\[
+[(u-v)e^{\int (u+v)}]'=[(u^2-v^2)+(u'-v')]e^{\int (u+v)}\ge0
+\]
+gives a sign on the derivative. %function will always have a sign.
+Ricotti is very useful in estimating volumes.

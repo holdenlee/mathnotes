@@ -1,0 +1,246 @@
+\lecture{Thu. 11/8/12}
+
+Today we'll finish talking about space forms. We'll show that the 3 spaces of constant curvature we already know are the only simply connected spaces of constant curvature. Here is the main theorem.
+
+\begin{thm}\llabel{thm:space-forms}
+Let $M^n$ be a complete simply connected manifold of constant curvature $\kappa$.
+\begin{enumerate}
+\item
+If $\kappa=-1$, $M\cong H^n$ ($M$ is isometric to hyperbolic space). 
+\item
+If $\kappa=0$, $M\cong \R^n$. 
+\item
+If $\ka=-1$, $M\cong S^n$.
+\end{enumerate}
+\end{thm}
+As we've said, we can take care of different $\ka$ by scaling.
+%\la^2, scale by $\rc{\la}$.
+
+If $M$ is not simply connected, then the universal cover is simply connected, and is one of $H^n$, $\R^n$, and $S^n$. Let's consider some examples.
+
+\begin{enumerate}
+\item
+$\kappa=1$: The cylinder $S^1\times \R^{n-1}$. This is not $\R^n$. However, if you take the universal cover, i.e., unroll the cylinder, you do get $\R^n$. 
+\item 
+$\kappa=-1$:
+We can have hyperbolic surfaces of genus $g>1$.
+
+For a compact manifold (closed without boundary), there is just one number that matters topologically, and that is the genus. %g0 sphere. g1 torus. 
+%Genus 2 all have hyperbolic metric.
+The sphere has genus 0, the torus has genus 1, and all compact complete manifolds of genus 2 with constant curvature are hyperbolic.
+
+There are tons of things with constant negative curvature.
+\item 
+$\ka=0$: 
+$\R\Pj^n$, or any quotient of $S^n$ by a linear group action without fixed points. 
+$\R\Pj^n$ is the space of rays through origin (i.e., a pair of antipodal points of $S^n$). We identify east and west, etc. In the first week of class, we showed this is a manifold; it is $S^n$ modulo the antipodal transformation. The group action is $\Z/2$ because if you flip twice, you get back where you started. Note $\Z/2$ is part of the orthogonal group. 
+
+More generally, we can take any finite subset of the orthogonal  group with no fixed points. %spherical space form. 
+The fundamental group is the group you quotiented by. This describes all of the manifolds with constant positive curvature.
+Milnor listed all subgroups of orthogonal group that can act, and put them in categories.
+
+As another example, quotienting by $\Z/p$ we  get lens spaces. The fundamental group is $\Z/p$. %More complicated. 
+\end{enumerate}
+Note that simply connected implies oriented, but quotients may not be orientable. For instance $\R\Pj^n$ in certain dimensions is unorientable, even though it has flat metric. The fundamental group is $\Z/2$ in those dimensions. 
+
+This is not the end of the story. Lots interesting things are still going on in 3-manifold theory. There is not too much going on in the study of flat or positively curved surfaces. Almost the whole field concerned with the study of hyperbolic manifolds. 
+After geometricization, there are  8 possible manifold geometries. The hyperbolic is the most interesting. %Admit pos neg curv. Not whole story. 
+It is basically a group question (what groups can act on hyperbolic space?), and the groups can be extremely complicated.
+
+\subsection{Curvature $\ka=0$, $-1$}
+We will prove Theorem~\ref{thm:space-forms} for $\ka=0,-1$ at same time. The case for $\ka=1$ is different. For $\ka=0,-1$, if the space is simply connected, then $\exp_p$ is a global diffeomorphism by Hadamard's Theorem, and we have a natural map to start working with. In the case $\ka=-1$ we can also consider a map from the tangent space to the model space $H^n$. %Take the inverse. 
+By taking the inverse of one and composing, we have a map from the manifold to $H^n$. 
+
+In the case of $S^n$, $\exp_p$ will not be globally defined.
+
+To show the isometry, we actually construct a isometry. In the cases $\ka=0,-1$, nat cand right in front of us, and we just have to show it works. In the case $\ka=1$, we have to go through more work to find it.
+
+We'll use a technical result and defer its proof.
+
+We write the proof for $\R^n$; the same proof holds for $H^n$. Let $p\in M$ and $\ol p\in \R^n$ (or $H^n$). We identify $T_p\R^n=\R^n=T_pM$. We have the exponential maps are globally well-defined invertible diffeomorphisms by Hadamard's Theorem~\ref{thm:hadamard}:
+\[
+\exp_M:T_pM\to M,\qquad \exp_{\ol M}: T_p\R^n\to \R^n.
+\]
+\ig{17-1}{1}
+
+\begin{enumerate}
+\item
+Set $f=\exp_M\circ \exp_{\ol M}^{-1}:\ol M\to M$. We have $f(\ol p)=p$. Both exponential maps (and their inverses) are diffeomorphisms, so $f$ is a local diffeomorphism.
+\item
+By a theorem of Cartan, $f$ is a local isometry. We'll come back to proving this (it is somewhat of a pain).
+\begin{thm}[Cartan]\llabel{thm:cartan}
+Suppose $f:M\to \ol M$ is a local diffeomorphism, $f(p)=\ol p$, and $df_p=\id$ (i.e., we identify $T_pM=T_{\ol p}\ol M$. Let $\ga:[0,\ell]\to M$ be a geodesic from $p$ to $q$, let $\ol{\ga}=f\circ \ga$, let $P_t$ be parallel transport from $p$ along $\ga$, and let $\ol P_t$ be the parallel transport from $\ol p$ to $\ol{\ga}(t)$. Define the map $\phi_{\ell}:T_qM\to T_{f(q)}\ol M$ on tangent spaces by the following.
+%only way possibly map tangent spaces. parallel transport back
+%id map at first order
+\[
+\phi_{\ell}=\ol P_{\ell}\circ P_{\ell}^{-1}.
+\]
+If 
+\[\an{R(x,y)u,v}=\an{\ol R(\phi_{\ell}(x),\phi_{\ell}(y))\phi_{\ell}(u),\phi_{\ell}(v)}
+\] for all $x,y,u,v$, and all $q$ in a neighborhood of $p$, then $f$ is a local isometry at $p$. %one thing out of proof $df_p=$ isometry. id spaces. What mean identify? You've picked an isom between them/
+\end{thm}
+\ig{17-2}{1}
+
+(When we parallel transport back from $q$ to $p$, the vector now automatically lives in $T_{\ol p}\ol M$ because $df_p$ is the identity.)
+
+We can use Cartan's Theorem because the curvature of $M$ and $\ol M$ are the same. %, so the inner product between vectors stays the same. 
+Now $\phi_{\ell}$ is %But the fact that use $\phi_t$ relate one to other. Isometry 
+an isometry because it is built out of isomotries: parallel transport is an isometry. Thus the inner product between $x,y$ is the same as between $\phi_t(x)$, $\phi_t(y)$. %Spces have same constant curvature. These things are equal at each point.
+Thus Cartan's Theorem is satisfied, and $f$ is a local isometry. Now we just need to show it's a global isometry.
+
+Note that from step 1, $f$ is a local diffeomorphism follows from step 1.% Comp of diffeo is diffeo. 
+\item
+By Lemma 3.3 in Chapter 7 (any local diffeomorphism  from a complete Riemannian manifold with the property $|df_p(v)|\ge |v|$ is a covering map), $f$ is a covering map. Now the fact that $M$ is simply connected implies $f$ is a global isometry.
+\end{enumerate}
+The only thing we haven't proven is the theorem of Cartan. See Section~\ref{sec:cartan}.
+
+\subsection{Curvature $\ka=1$}
+In the case $\ka=1$, the exponential map isn't a global diffeomorphism, we have to cook something up. Let $p\in S^n$ and let $q$ be the antipodal point to $p$. 
+
+\ig{17-3}{1}
+
+Identify $T_pS^n=\R^n=T_{p_M}M$. We have exponential maps
+\[
+\exp_p:T_pS^n \dashrightarrow S^n\bs \{q\}
+\]
+where the map is only defined on a ball $B_{\pi}$ of radius $\pi$. We have 
+\[
+\exp_M:T_{p_M}M\to M.
+\]
+Set 
+\[
+f=\exp_M\circ \exp_p^{-1}: S^n\bs q\to M.
+\]
+As before, Cartan's theorem only says that $f$ is a local isometry.
+
+However, we don't get a map on all of $S^n$!
+
+We can pick another pair of antipodal points $\ol p,\ol q\in S^n$ and define $\ol f:(S^n\bs \ol q)\to M$. 
+
+Each map is defined on the sphere minus 2 antipodal points. We need to show that they agree on the intersection, the sphere minus 4 points. %Need to show that on overlap, give same answer. 
+
+Let's show that $f$ and $\ol f$ agree where both are defined. Assuming this, we get a global map (from gluing $f$ and $\ol f$) $f\vee \ol f:S^n\to M$ that is a local isometry on a compact manifold. 
+Again by Lemma 3.3 in Chapter 7, it is a covering map. 
+Since  $f\vee \ol f$ is a covering map, it is simply connected, so it is a global isometry.
+
+It remains to show that $f,\ol f$ agree on overlap.
+%partitions of unity piece together? Not with bump funct, messes up isom.
+%like a monodromy lemma.
+%follow things around and show they always coincide.
+\begin{lem}[Monodromy lemma]
+Suppose that $f,\ol f:M\to N$ are local isometries, and $M$ is connected. %doens't have define on all.
+Suppose that
+\bal
+f(p)&= \ol f(p)\\
+df_p&=d\ol f_p
+\end{align*}
+for at least one point $p$. Then $f\equiv \ol f$.
+\end{lem}
+In other words, if we have a point where $f$ and $\ol f$ agree to first order, then they agree completely.
+%obv false if M conn
+
+This is going to be one of those ``open and closed" arguments: The set where $f,\ol f$ agree is open and closed, is nonempty, so whole space.
+
+Note the lemma fails if we don't assume $df_p=d\ol f_{p}$. In $\R^n$, the identity map and rotation by $90^{\circ}$ are local isometries fixing the origin that don't agree. However, 2 rotations that fix the origin and are the identity on the (tangent space of the) origin must agree. 
+\begin{proof}
+Let
+\[
+S:=\set{q}{f(q)=\ol f(q)\text{ and }df(q)=d\ol f(q)}.
+\]
+First, $S$ is closed because of continuity ($f$ and $df$ continuous). The intersection of 2 closed subsets is closed. Note $p\in S$ by assumption.
+
+The tricky part is showing $S$ is open. We'll do this by a picture.  $S$ is open since $f=\ol f$ in a neighborhood about $p$. Consider the exponential map $\exp_p$ around $p$.
+
+\ig{17-4}{1}
+
+Take normal neighborhoods of both $p$ and $f(p)$. In each of these neighborhoods $\exp_p$ is a diffeomorphism. 
+Geodesics are unique.
+
+Take $q$ in the neighborhood and let $\ga$ be the unique geodesic between $p$ and $q$; it is minimizing. There is some minimizing geodesic $f(p)$ to $f(q)$. 
+\begin{enumerate}
+\item
+$f$ and $\ol f$ are local isometries, so they send geodesics to geodesics. They must send the geodesic $\ga$ to some geodesic in the image. (Warning: we don't know the endpoints are the same yet, because {\it a priori} maybe $f(q)\ne \ol f(q)$.)
+\item
+But these geodesics satisfy the same initial conditions: Because $p\in S$, $df_p(\ga'(0))=d\ol f_p(\ga'(0))$. Hence $f\circ \ga$, $\ol f\circ \ga$ are geodesics starting at the same point, with same derivative at 0. So they are the same.
+\end{enumerate} 
+%2 steps $f,\ol f$ send geodesics to geodesics. %They must be the same geodesic because in normal. 
+%$p\in S$ so differential map to same tangent vector. Start at same point with same map. Geod same, endpoints same. $f(q)$ same as $\ol f(q)$. 
+Thus in this neighborhood $f$ and $\ol f$ agree identically. Cetainly they agree to first order. This proves this monodromy lemma.
+\end{proof}
+We're done with the proof of the main theorem modulo the proof of Cartan's theorem.
+\subsection{Cartan's theorem}\llabel{sec:cartan}
+We prove Cartan's Theorem~\ref{thm:cartan}.
+\begin{proof}
+To show $f$ is a local isometry, we have to show that given any $v\in T_qM$, then 
+\beq{eq:787-17-3}
+|df_q(v)|=|v|
+\eeq
+where the first is the norm on $T_{f(q)}\ol M$ and the RHS is the norm on $T_qM$. This says that the length after you apply $df_q$ is the same as before. Because $f$ preserves the length of all tangent vectors, it will be an isometry.
+
+How do we compute $df_q(v)$? 
+
+Assume that $f=\exp_{\ol p}\circ \exp_p^{-1}$ as before. %on set where defined. 
+$f$ is built out of 2 exponential maps. By the chain rule, the differential is the composition of 2 differentials of exponential maps (with one inverted). We have to figure the differential of an exponential map.
+
+\emph{The differential of a exponential map is given by Jacobi fields.} Why? %Differential: take map applied to path and differential it. Path of vectors and apply to field: get 1-par family of geodesics. Change it out here, Jacobi field is 1-param field fam of geod. Tell you what geod do. 
+A vector on a geodesic produces a 1-parameter family of geodesics, and the Jacobi field tells you how that 1-parameter family of geodesics changes. More precisely, Proposition~\ref{pr:jacobi-dexp} tells us how the Jacobi field relates to the differential of the exponential. 
+
+Given $v\in T_qM$, choose a Jacobi field $J$ along $\ga$ so that 
+\[J(0)=0\quad \and \quad J(\ell)=v,\] 
+where $\ell$ is the length of $\ga$. Given 2 tangent vectors at two ends of a geodesic in a normal neighborhood, there always exists a Jacobi field linking them.  
+Choose an orthonormal frame $e_i(0)$ at $T_pM$ and parallel transport it to get $e_i(t)$. We assume $e_n(t)=\ga'$. %it stays orthonormal. functions times orthon frame. 
+
+Now $J$ will tell us the differential of the exponential map on $\ga$. We'll get another $\ol J$ along $\ol{\ga}$ that tell us what the Jacobi field is doing over there. We need to show $J=\ol J$, so that the differentials are the same. %When do inverse same, cancel out to get to identity.
+
+Why sould these 2 Jacobi fields be the same? Because they satisfy the {same initial conditions}, and the {same ODE}. Why should they sat the same ODE? By hypothesis. The ODE for $J$ has $J''$ and a curvature term. {\it The hypothesis tells us the curvatures are the same, so the Jacobi fields satisfy the same ODE.} By uniqueness of ODE's, the Jacobi fields are the same. This will tell us that the $d\exp$'s are the same, so if we compose the inverse of one with the other we get $\id$, and~\eqref{eq:787-17-3} holds. 
+
+We formalize this argument.
+
+%One Jacobi field. What's the jac equ? In this frame
+Using the orthonormal frame, write
+\[
+J(t)=\sui y_i(t) e_i(t). 
+\]
+The Jacobi equation tells us
+\[
+y_j''+\sui \an{R(e_n,e_i)e_n,e_j}y_j=0.
+\]
+We get a 2nd order system of ODE's for $y_j$. Let $\phi_t(e_i(t))=\ol e_i(t)$ along $\ol{\ga}$; $\phi_t$ moves tangent vectors on $\ga$ to tangent vectors on $\ol{\ga}$.  Consider $\ol J:=\phi_t(J)$. %Have jac field here, have nat field $\phi_t$ move j-field. 
+Note that $\phi_t$ takes $\ga'$ to $\ol{\ga}'$. Both $\ga,\ol{\ga}$ are geodesics, and parallel transport preserves $\ga',\ol{\ga}'$.
+
+We have
+\[
+\ol J=\sui y_i(t)\ol e_i(t)
+\] 
+is also a Jacobi field. This is because it satisfies the same ODE (since the curvatures are the same by hypothesis), just with bars on top.
+%Put all bars, assumption was the same. Same eq so Jacobi fields agree. 
+
+What else does this mean? We now relate Jacobi fields and $d\exp_p$. %To Know diff'l need get hands on Jacobi fields. 
+Corollary 2.5 in Chapter 5 says the following.
+\begin{pr}\llabel{pr:jacobi-dexp}
+If $J(0)=0$ then 
+\[J(t)=(d\exp_p)_{t\ga'(0)}(tJ'(0)).\]
+\end{pr}
+If we differentiate a 1-parameter family of geodesics we get $J(t)$. How do we know which family we should use to get $d\exp_pv$? %How vary endpoint?
+%By giving how 
+$d\exp_pv$ corresponds to how $J$ changes at 0; it tells us how we're varying the family (``wedge") of geodesics.
+
+The same proposition tells us
+\[\ol J(t)=(d\exp_{\ol p})_{t\ga'(0)}(t\ol J'(0)).\]
+Now $df_q=(d\exp_{\ol p})_{\exp_p^{-1}(q)}\circ (d\exp_p)_q^{-1}$. Note that $\exp_p^{-1}(q)=\ell \ga'(0)$. Hence the two equations for $J$ and $\ol J$ imply
+\[
+df_q(J(\ell))=\ol J(\ell).
+\]
+Now $J(\ell)$ and $\ol J(\ell)$ have the same norm. This is because we built $\ol J$ out of $J$ by parallel transport ($\phi_t$), and parallel transport preserves length. Now $J(\ell)=v$, so~\eqref{eq:787-17-3} holds.
+%One with the inverse of the other, get back where we started. Diff applied to $J$ kicks out $\ol J$. Know what diff'l of exp map does. Want to say they have the same norm. Why? How did we build $\ol J$ out of $J$? Parallel transport preserves length! These have the same norm since $\phi_t$ is an isometry.
+
+This is what we wanted to show.
+\end{proof}
+
+Now that we've finished, let's think about why this work.
+
+What really make tge theorem work is that we can compute the differential in terms of Jacobi fields. We needed the Jacobi fields to be the same. Why are they the same? Because the Jacobi equations are the same. The Jacobi equation is written using the curvature; if we know the curvature is the same, the Jacobi fields are the same.
+
+%Exactly the hypoth. Diffl of exp maps the same. So compose inverse get identy, isom.
+
+

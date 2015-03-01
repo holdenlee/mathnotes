@@ -1,0 +1,172 @@
+\lecture{Tue. 10/23/12}
+
+Suppose we have an isometric immersion $M^m\hra N^n$. Recall that letting $\nb$ and $\ol{\nb}$ be the connections on $M$ and $N$, we have $\nb=(\ol{\nb})^T$. The operator $(\ol{\nb})^{\perp}$ is called the second fundamental form:
+\[
+B(X,Y)=(\ol{\nb}_XY)^{\perp},\qquad X,Y\in T_pM
+\]
+This is bilinear and symmetric.
+
+Now given a hypersurface $M^{n-1}\subeq N^n$, if $n$ is a unit normal vector field, define the Weingarten map $W:T_pM\to T_pM$ by
+\[
+W(X)=\nb_X n.
+\]
+This is a symmetric linear map, and we have
+\[
+-\an{\nb_X n,Y}=\an{B(X,Y),n}.
+\]
+The Gauss equation for $M^2\subeq N^3$ is
+\[
+K_N=K_M-\kappa_1\kappa_2
+\]
+where $\kappa_1,\kappa_2$ are the principal curvatures. 
+
+\subsection{Mean curvature}
+\begin{df}
+Define the \textbf{mean curvature} as the trace of the Weingarten map:\footnote{Note that in Do Carmo, $H$ is defined a bit differently, as $H=\rc n\tr(\nb_{\bullet}n)$ where $n$ is the dimension.}
+\[
+H=\tr(\nb_{\bullet} n).
+\]
+\end{df}
+\begin{df}
+Let $M\subeq N$, and let $X$ be a vector field on $M$. Define the divergence by
+\[\div_M(X)=\an{\nb_{e_i}X,e_i}.\]
+\end{df}
+Letting $e_1,\ldots, e_n$ be an orthonormal basis for $T_pM$, we have
+\[
+H=\tr(\nb_{\bullet} n)=\sui \an{\ol{\nb}_{e_i}n,e_i}=\div_M(n).
+\]
+\begin{ex}
+Last time we saw that if $S^2\subeq \R^3$ is the unit sphere, then $n=x$ and the curvature is 1. Now
+\[
+\div_{S^2}(x)=H_{S^2}=2.
+\]
+\end{ex}
+\begin{ex}
+Consider $S^{n}\subeq \R^{n+1}$. By the same argument, the mean curvature is 
+\[
+H_{S^n}=n.
+\]
+\end{ex}
+Consider the second fundamental form of $S^2\subeq \R^3$. We have
+\[
+\an{B(X,Y),n}=-\an{\nb_X n,Y}=-\an{X,Y}.
+\]
+\begin{df}
+Consider a closed hypersurface $M$, i.e., $M=\pl \Om$ where $\Om$ is compact. We say $M$ is convex if letting $n$ be the inward normal, we have $\an{B(X,Y),n}$ is positive semidefinite, i.e.,
+\[
+\an{B(X,X),u}\ge 0
+\]
+for all $x\in T_pM$.
+\end{df}
+This is the usual notion of convexity.
+
+\subsection{Gauss map}
+Let $M^n\subeq \R^{n+1}$ is a closed orientable hypersurface. 
+Define the Gauss map
+\[
+n: M^n\to S^n
+\]
+by taking the unit normal %at the point 
+on $M^n$.
+
+
+If is easy to show that if $M^n\subeq \R^{n+1}$ is closed orientable and strictly convex, then the Gauss map $n:M\to S^n$ is a diffeomorphism. Indeed, for $X\ne 0$,
+\[
+0<\an{B(X,X),n}=-\an{\ol{\nb}_X n,X}=-\an{dn(X),X}.
+\]
+(Note that the connection on $\R^{n+1}$ is given by $\onb_{X}n=dn(X)$.) 
+This is locally a diffeomorphism; it's actually one-to-one. 
+%Immersed orientable is enough.
+
+We claim that our notion of convexity is the same as the typical notion: a set is convex if the segment between any two points in the set is entirely contained in the set. This is left as an exercise. The idea is that $M$ were like in that in the figure, then $M$ will not be convex at the marked point. It looks like the outward normal on the unit sphere, so is not convex there. 
+
+\ig{13-1}{1}
+
+Convexity gives $\an{B(X,X),n}\ge 0$ for $X\ne 0$, $n$ the inward normal. This is $-\an{\nb_X n,X}$. The mean convexity is defined as 
+\[
+-\div_M n =-H\ge 0
+\]
+where $n$ is the inward normal. Convex implies that the mean convexity is nonnegative. 
+
+The Weingarten map $\nb_{\bullet}:T_pM\to T_pM$ is a symmetric linear map, so has an orthogonal basis consisting of eigenvectors $e_1,\ldots, e_{n-1}$, called the principal directions, with eigenvalues $\ka_1,\ldots,\ka_{n-1}$. We have 
+\[
+H=\div_M(n)=\an{\ol{\nb}_{e_i}n,e_i}=\an{\ka_ie_i,e_i} = \sum_{i=1}^{n-1} \ka_i
+\]
+\begin{df}
+If $M^{n-1}\hra N^n$ is a hypersurface, we say that $M$ is \textbf{minimal} hypersurface if $H=0$.
+\end{df}
+
+Suppose $M^n\sub N^{n+1}$. If $M$ is minimal, and $X$ is a vector field on $M$, we have
+\beq{eq:965-13-1}
+\div_M(X)=\div_M(X^T).
+\eeq
+To see this, write
+\[
+X=X^T+\an{X,n}n.
+\]
+We have
+\[
+\div_M (X)=\dim_M(X^T) + \div_M(\an{X,n}n)
+=
+\div_M(X^T)+\cancelto0{\an{\nb_{e_i}(\an{X,u} n),e_i}}.
+\]
+Indeed, (using summation notation)
+\[
+\nb_{e_i} \an{X,n}u=e_i(\an{x,n})n+\an{X,n} \nb_{e_i}n,\qquad \an{\nb_{e_i} (\an{x,n}n),e_i}=\an{X,n} H=0.
+\]
+
+%\[
+%H=\div_M n=\an{\ol{\nb}_{e_i} n,e_i} = \an{\ka_ie_i,e_i} =\sum_{i=1}^{k-1} \ka_i.
+%\]
+%\[
+%\ol x_i=\ol x_i = e_i^T
+%\]
+
+Let $M$ be a minimal hypersurface, $H=0$, let $x_i$ be the coordinates in $\R^n$ of a point on $M$. %Then $\Delta_n x_i=0$. We have
+\[
+\Delta_M x_i =\div_M(\nb^M x_i)\stackrel{\ref{eq:965-13-1}}=\div_M(\nb^{\R^{n+1}}x_i) =\div_M(e_i)=0.
+\]
+We claim there is no closed minimal hypersurface in $\R^{n+1}$. To prove this, note if $\De_{M}X_i$ then $X$ is constant. We can argue using the maximum principle.
+
+%Don't know what was going on for the rest of lecture.
+%If $\Delta_M X_i=0$ then $X_i$ is constant; we argue by the {\it maximum principle} described below. %, using the convex hull property. $M$ minimal hypersurface compate compact by allowing boundary. $M\subeq $convex hull of $QM$. 
+%
+%Suppose by way of contradiction that $M$ were closed (and compact). 
+%%COmpact set $\Om\subeq \R^{n+1}$. Convex hull. is the smallest convex set containing $\Om$. Convex hull  $(\Om)=\bigcap$ halfplane. 
+%%Let $\Om$ be the
+%
+%%$\pl M\subeq H$.  
+%Suppose $x_1|_{\pl M}\le 0$; we claim $x_1|_M\le 0$. We have
+%\[
+%\div_M(X)=\div(M(X^T)) 
+%\]
+%if $M$ is a minimal hypersurface. $M^n\subeq \R^{n+1}$, $|x|^2$, 
+%\[
+%\div_{M}|x|^2 = \div_M (\nb^M |x|^2) = \div_M(\nb^{\R^{n+1}}|x|^2.
+%\]
+%We have $\nb^{\R^{n+1}} |x|^2=2x$.
+%We have
+%\[
+%\div_M(2x)=2\div_M(x)=2\an{\nb_{e_i}x,e_i}=2n.
+%\]
+%Thus
+%\[
+%\De_M|x|^2=2n.
+%\]
+%%=\bigcap $bahf
+%Later we'll see some applications.
+%
+%%no closed compact bdary in Euclid apace.Famil
+%
+%Suppose $f:N^{n+1}\to \R$. Now $f^{-1} (t)$ %tangent
+% level sets, assume that $t$ is a regular surface, $\nb f\perp f^{-1}(t)$, $h=\fc{\nb f}{|\nb f|}$. mean curvature of $H_{f^{-1}}$. 
+%we have
+%\begin{align*}
+%H_{f^{-1}(t)}=\div_{f^{-1}(t)}(n)&=\an{\nb_{e_i} \fc{\nb f}{|\nb f|},e_i}\\
+%&=\cancelto{0}{\an{e_1\fc{\nb f}{|\nb f|},e_i}} +\rc{|\nb f|} \an{\nb_{e_i} \nb f,e_i}\\
+%&=\rc{|\nb f|} \Hess_f(e_i,e_i)
+%\end{align*} 
+%$f^{-1}(t)$ level sets assume that $t$ is a regular value $\nb f\perp f^{-1}(t)$.
+%\[
+%-\an{\nb_X n,Y}=-\an{\nb_X \fc{\nb f}{|\nb f|},Y}=-\rc{|\nb f|}\Hess_f(X,Y)
+%\]

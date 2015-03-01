@@ -1,0 +1,25 @@
+if(!settings.multipleView) settings.batchView=false;
+settings.tex="pdflatex";
+defaultfilename="diags-2";
+if(settings.render < 0) settings.render=4;
+settings.outformat="";
+settings.inlineimage=true;
+settings.embed=true;
+settings.toolbar=false;
+viewportmargin=(2,2);
+
+unitsize(1cm);
+pair O,x,y,A,B,C,D;
+draw(W--(5,0),EndArrow);
+draw(S--(0,4),EndArrow);
+A=(1,2);
+B=(4,2);
+C=(4,4);
+D=(1,4);
+draw(A--B--C--D--cycle);
+label("$a$",A,S);
+label("$b$",B,S);
+label("$\varepsilon$",C,E);
+label("$-\varepsilon$",B,E);
+label("$s$",(5,0),E);
+label("$t$",(0,4),N);

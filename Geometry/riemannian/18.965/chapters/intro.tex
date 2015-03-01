@@ -1,0 +1,53 @@
+\title{\thecoursename}
+\author{Lectures delivered  by \thelecturer \\ Notes by \thescribe}
+\date{\thesemester, \thelocation}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead{}
+\fancyfoot{}\maketitle
+\begin{center}
+\input{date.tex}
+\end{center}
+\pagestyle{fancy}
+
+\tableofcontents
+
+\newpage 
+\section*{Introduction}
+
+\thelecturer{} taught a course (\thecoursenum{}) on \thecoursename{} at
+\thelocation{} in \thesemester{}.  
+These are my ``live-\TeX ed'' notes from the course.  The template is borrowed from Akhil Mathew.
+
+%Conventions are as follows: Each lecture gets its own ``chapter,'' and appears
+%in the table of contents with the date.
+
+%These notes were typeset using \LaTeX\ 2.0.  I used \verb=vim= to take the notes. I ran the Perl
+%script \verb=latexmk= in the background to keep the PDF output automatically updated throughout
+%class.  The \verb=article= class was used for the notes as a whole. The \LaTeX\ package \verb=xymatrix= was
+%used to generate diagrams.  
+
+
+%Of course, these notes are not a faithful representation of the course,
+%either in the mathematics itself or in the quotes, jokes, and philosophical
+%musings; in
+%particular, the errors are my fault. By the
+%same token, any virtues
+%in the notes are to be credited to the lecturer and not the scribe.
+
+Please email corrections to
+\verb=holden1@mit.edu=. Thanks to Fan Zheng for corrections.
+
+%Note: I haven't finished editing lectures 7--10. In particular, I need to add pictures.
+%Lectures 1--12 and 18--20 are mostly edited, except for missing figures. Lectures 13--17 are unedited.
+Lectures 23--24 are unedited.
+
+\newpage
+
+
+\fancyfoot[C]{\thepage}
+\fancyhead[R]{{Notes on \thecoursename}}
+\fancyhead[L]{\textit{Lecture} \thesection}
+
+
+\renewcommand{\whattosay}{Lecture \thesection \\ }
+\pagestyle{fancy}

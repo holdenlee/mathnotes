@@ -1,0 +1,257 @@
+\lecture{Tue. 11/13/12}
+
+Let $(M,g)$ be a Riemannian manifold and $c$ be a curve on $M$. If $F:[a,b] \times (-\ep,\ep)\to M$ is a parametrized surface with $c=F(\bullet, 0)$, then $\rb{\pd Ft}_{t=0}=V$ is a variational vector field along $c$ corresponding to $F$.
+
+Conversely every vector field along $c$ is a variational vector field for some $F$: 
+if $V$ is a vector field along $c$, we can let
+\begin{align}
+F(s,t)&=\exp_{c(s)} (tV(s))\label{eq:965-18.1}\\
+\nonumber F(s,0)&=\exp_{c(s)} (0) =c(s).
+\end{align}
+For some $\ep$, this is defined for all $t\in (-\ep,\ep)$ and all $s\in [a,b]$, and we have that $V=\rb{\pd Ft}_{t=0}$, as needed. (The proof is straightforward; see do Carmo~\cite[Prop. 9.2.2]{dC}.)
+
+\subsection{Energy}
+As before, let $c:[a,b]\to M$ be a curve. 
+\begin{df}
+The \textbf{length} of $c$ is
+\[
+L(c)=\int_a^b |c'|\,ds
+\]
+and the \textbf{energy} of $c$ is
+\[
+E(c)=\int_a^b |c'|^2\,ds.
+\]
+\end{df}
+\begin{pr}
+We have 
+\[
+L(c)^2\le (b-a)E(c)
+\]
+with equality iff $|c'|$ is constant (``$c'$ has constant speed").
+\end{pr}
+\begin{proof}
+By the Cauchy-Schwarz inequality,
+\[
+L(c)=\int_a^b |c'|\,ds \le \pa{\int_a^b |c'|^2}^{\rc2} \pa{\int_a^b 1^2\,ds}^{\rc 2}=\sqrt{E(c)} \sqrt{b-a}
+\]
+with equality iff $|c'|$ is proportional to 1 everywhere, i.e. $|c'|$ is constant.
+\end{proof}
+In particular, a geodesic $\ga$ has constant speed so
+\[
+L(\ga)^2=(b-a)E(\ga).
+\]
+If $c$ is any curve and $\ga:[a,b]\to M$ is a minimizing geodesic between $p:=c(a)$ and $q:=c(b)$, then
+\[
+E(c)\ge (b-a)L(c)^2 \ge (b-a)d^2(p,q)=E(\ga).
+\]
+Thus we see that the minimizing geodesic has the minimal energy of all curves from $p$ to $q$. Furthermore, if $c$ has the minimal energy among all curves between $a$ and $b$, then equality holds everywhere above and $c$ must be a minimizing geodesic. %$c:[a,b]\to M$, $c(a)=p,c(b)=q$.
+
+The length seems like a perfectly good quantity. What's the advantage of looking at the energy? We want a quantity that is minimized exactly when the curve is a geodesic, so we can apply calculus of variations to study geodesics. 
+
+We want to minimize the length. A (minimizing) geodesic has minimal length. However, if we reparametrize the geodesic, it still has minimal length, but it is no longer a geodesic if the speed is not constant.
+
+%doesn't matter reparametrize. 
+The advantage of energy over length is that if we minimize the {\it energy}, we not only fix the length of the curve, we also fix the speed through the curve. If the curve speed up or slows down, then it would have greater energy.\\
+
+\cpbox{
+The energy of a curve $c:[a,b]\to M$ from $p$ to $q$ is minimized exactly when $c$ is a minimizing geodesic from $p$ to $q$.
+}
+\vskip0.15in
+Now we compute the first and second variations of energy.
+
+\subsection{Variations of energy}
+Let $(M,g)$ be any manifold with nondegenerate symmetric bilinear form. Let $F:[a,b]\times (-\ep,\ep)\to M$ be a parametrized surface that is a variation of the central curve $F(s,0)=c(s)$. We can think of the energy as a function of $s$: 
+\[
+ E(F(\bullet, t))=\int_a^b \ab{{\pdt Fs}}\,ds.
+\] 
+Taking the derivative gives
+\[
+\ddd tE(F(\bullet, t))=2\int_a^b \an{\cvd \pd Fs,\pd Fs} \,ds.
+\]
+We rewrite this purely in terms of the central curve $c$ and the variational vector field corresponding to $F$ along $c$. To do this, we need to change $\cvd$ to $\cvs$:
+\begin{align*}
+2\int_a^b\an{\cvd \pd Fs,\pd Fs}\,ds&=2\int_a^b \an{\cvs \pd Ft, \pd Fs}\,ds&\text{Prop.~\ref{pr:covar-commute}}\\
+&=2\int_a^b \ddd s\an{\pd Ft, \pd Fs}\,ds -2\int_a^b \an{\pd Ft, \cvs \pd Fs}\,ds\\
+&=2\rb{\an{\pd Ft,\pd Fs}}_{s=a}^{s=b} - 2\int_a^b \an{\pd Ft, \cvs \pd Fs}\,ds.
+\end{align*}
+%Suppose $F$ is a family of curves whose central curve is   
+%family of curve. central. 
+%Energy of initial curve $c$, what is deriv near $c$?
+How does the energy change for curves near $c$; i.e. what is the derivative of energy? We have shown the following.
+\begin{pr}[First variational formula]\llabel{pr:1st-var-E}
+Let $(M,g)$ be any manifold with nondegenerate symmetric bilinear form. Let $F:[a,b]\times (-\ep,\ep)\to M$ be a parametrized surface that is a variation of the central curve $F(s,0)=c(s)$. Then
+\[
+\ddd t E(F(\bullet, t)) = 2\rb{\an{V,c'}}_{s=a}^{s=b} - 2\int_a^b \an{V,c''}\,ds.
+\]
+\end{pr}
+%Note that the following two statements are equivalent.
+Consider the following two statements.
+\begin{enumerate}
+\item
+The variational vector field $V$ satisfies $V(a)=V(b)=0$.
+\item
+On the parametrized surface, all of the curves start at the same point and end at the same point: $F(a,t)=c(a)$ and $F(b,t)=c(b)$.
+\end{enumerate}•
+%If $V$ has $V(a)=0$ and $V(b)=0$. This corresponds to: if you're looking at the parametrized surface, and all of the curves start off at the same point, 
+If statement 2 holds, then the $t$ derivative at $a$ and $b$ are 0, so statement 1 holds. %Start and end of point, then $V$ has this property. 
+Conversely, if statement 1 holds, then there exists a parametrized surface with variational vector field $V$ satisfying statement 2: exponentiating as in~\eqref{eq:965-18.1} gives us curves that begin and end at the same point.
+
+We're interested in comparing the energy of a curve and of ``competing" curves. If the competing curves don't start and end at the same point, then they're not good competitors. Just by move moving the starting point in, we can trivially decrease the energy. Thus we restrict to competitors with the same starting point and endpoint. Then the first term in Proposition~\ref{pr:1st-var-E} is 0:
+\beq{eq:965-18.2}
+\ddd t E(F(\bullet, t))=-2\int_a^b \an{V,c''}\,ds
+\eeq
+
+We have the following.
+\begin{pr}
+$c$ is a geodesic iff, for any proper variation $F$ of $c$ (i.e., variation fixing the start and endpoints), $\ddd t E(F(\bullet, t))=0$.
+\end{pr}
+\begin{proof}
+If $c$ is geodesic then by~\eqref{eq:965-18.2} the variation is 0 because $c''=0$.
+
+%If 0 then claim must be geodesic. 
+Conversely, suppose that we know that for proper variations $F$, $\ddd t E(F(\bullet, t))=0$. We show $c$ is a geodesic. Consider a cutoff function $\phi$ with support in $(a,b)$ that is 1 on $(a+\de,b-\de)$ and 0 at $a$ and $b$. Let $V=\phi c''$, and $F$ be the associated proper variation. Then
+\[
+\rb{\pdd t}_{t=0} F=\phi c'' \implies -2 \int_a^b \phi|c''|^2\,ds=0.
+\]
+Since $\phi\ge 0$ on $[a+\de,b-\de]$, we get $|c''|=0$ on $[a+\de,b-\de]$; this works for all $\de>0$ so $c''=0$.
+\end{proof}
+To summarize, we look at a variation fixing the endpoints. If the central curve is a geodesic, then is derivative of energy at the central curve is always 0. We also have the converse: If we have a curve so that the derivative of energy is 0 for all variations fixing the endpoints then that curve must be a geodesic. 
+
+Another way of saying this is the following. \\
+
+\cpbox{
+The geodesics are exactly the critical points of the energy function.
+}
+\vspace{0.15in}
+We see that energy is much better to work with than length. The parametrization of a curve doesn't matter for length, but it does matter for energy.
+
+Another perspective is the following. 
+For each curve $c:[a,b]\to M$ in the manifold we assign an energy. Consider a new space made of curves. This is an extremely large space; it is an infinite-dimensional manifold We have a function on this space, the energy of the curve. What are the critical points of this function, if we just look at curves with the same starting and endpoint? The critical points in this infinite-dimensional space are exactly the geodesics. %If some space, want to determine 
+A curve of curves is exactly a parameterized surface. Saying that $c$ is a critical point is saying that if we take a curve (parameterized surface) containing $c$, then the derivative has to be 0. %Starting with finite-dimensional manifolds, stuff about energy. 
+%A geodesic is some point in this infinite-dimensional space of curves; geodesics are precisely the critical points.
+
+\subsection{Second variation of energy}
+
+We are interested in computing the second derivative of a function when its first derivative is 0. 
+
+We are hence interested in computing the second derivative of the energy at geodesics. Given a manifold and a geodesic $c:[a,b]\to M$, we look at a 1-parameter family of curves where this is the central curve and the other curves start and end at the same point as $c$.
+
+Thus we have a parametrized surface with central curve 
+\[
+F(\bullet, 0)=c.
+\]
+First suppose that for each $t$, $\pd Ft=0$ at $s=a,b$. 
+We compute $\rb{\ddd{}{t}}_{t=0}E$ by differentiating~\eqref{eq:965-18.2}. Again we want to rewrite the expression using things that are defined on $c$ (without anything in the $t$-direction)
+\begin{align*}
+\rb{\ddt{}{t}}_{t=0} E(F(\bullet, t))
+&=\rb{\ddd t}_{t=0} \pa{\ddd t E}\\
+&=\rb{\ddd t}_{t=0} \pa{-2\int_a^b \an{\pd Ft, \cvs \pd Fs}\,ds}\\
+&=-2\int_a^b \an{\cvd \pd Ft, \cancel{\cvs \pd Fs}}\, ds - 2\int_a^b \an{\pd Ft,\cvd \cvs \pd Fs}\,ds&\text{initial curve geodesic}\\
+&=-2\int_a^b \an{\pd Ft, \cvd \cvs \pdd s F}\,ds
+\end{align*}
+Recall that if we had a parametrized surface $W$, we can change the order of differentiation if we bring in the curvature (Proposition~\ref{lem:vf-ps}),
+\beq{eq:965-18.3}
+\cvd\cvs W=\cvs \cvd W+R\pa{
+\pd Ft, \pd Fs
+}w.
+\eeq
+(We want to rewrite the expression with quantities defined at just this curve $c$, namely $c,c'$ and $V$. It's find to have derivatives of $V$ in the $s$-direction along the curve $c$. We don't want derivatives $t$-direction in our final expression because they have nothing to do with the central curve. The curvature is fine as long as curvature along $c$. A double derivative in $t$ direction is troublesome, so it's good that the first integral vanished. We want to switch $\cvs$ and $\cvd$ so we can turn $\cvd\cvs \pd Fs$ into 2 covariant derivatives along $c$, as below.)
+Putting in~\eqref{eq:965-18.3} and using the fact that derivatives commute for a parameterized surface~\eqref{eq:965-18.3}, we get
+\begin{align}
+\nonumber
+\rb{\ddt{}{t}}_{t=0} E(F(\bullet, t))
+&= -2\int_a^b \an{\pd Ft,\cvs \cvd \pd Fs}\,ds 
+-2\int_a^b \an{\pd Ft, R\pa{\pd Ft, \pd Fs}\pd Fs}.\\
+\nonumber
+&=-2\int_a^b \an{V,\fc{D^2}{\pl s^2}V} \, ds
+-2\int_a^b \an{V,R(V,c'),c'}\,ds\\
+\nonumber
+&=-2\int_a^b \an{V,V''}\,ds - 2\int_a^b \an{V, R(c',V)c'}\,ds
+\end{align}
+We obtain the following. 
+\begin{pr}[Second variational formula]\llabel{eq:2nd-var-form}
+Let $(M,g)$ be any manifold with nondegenerate symmetric bilinear form. Let $F:[a,b]\times (-\ep,\ep)\to M$ be a parameterized surface that is a variation of the central curve $F(s,0)=c(s)$. Then
+\[
+\rb{\ddt{}{t}}_{t=0} E%&
+=-2\int_a^b \an{V, V''+R(c',V)c'}\,ds.
+\]
+\end{pr}
+Note the second term is the expression in the Jacobi equation! This is the second variational formula. 
+
+It is convenient to introduce the following notation for the second quantity above.
+\begin{df}
+Define the \textbf{Jacobi operator} or the \textbf{second variational operator} by
+\[
+LV:= V''+R(c',V)c'.
+\]
+\end{df}
+(This has nothing to do with the length defined earlier.)
+Using the Jacobi operator, we can rewrite the second variational formula (Proposition~\ref{eq:2nd-var-form}) as
+\[
+\rb{\ddt{}{t}}_{t=0} E=-2\int_a^b\an{V,LV}\,ds.
+\]
+%(It's convenient to have a name for that second quantity.)
+
+Remember, all this was for a variation of curves starting and ending at the same point.
+
+\begin{df}
+A geodesic is said to be \textbf{stable} if
+\[
+\ddt{}{t}E\ge 0
+\]
+for all variations that fix the endpoints.
+\end{df}
+We've seen that a minimizing geodesic minimizes the energy. This means that for any variation of a minimizing geodesic with the same endpoints, all other competing curves will have larger energy. The second variation will be nonnegative (second derivative test); hence the geodesic is stable.
+
+However, there can be non-minimizing geodesics for which the second derivative is negative.
+
+Let's look at one particular example. 
+
+\begin{ex}\llabel{ex:stable-geo-sphere}
+Let $S^2\sub \R^3$ be the unit sphere; it has constant curvature 1. In fact, we know that if $V\perp c'$ and $|c'|=1$, then
+\[
+R(c',V)c'=V.
+\]
+Take a piece of the equator and look at the second variation.
+
+\ig{18-2}{1}
+\begin{align*}
+\rb{\ddt{}{t}}_{t=0} E
+&=-2\int_a^b \an{V,V''+V}\,ds\\
+&=-2\int_a^b \an{V,V''}\,ds-2\int_a^b |V|^2 \,ds\\
+&=2 \int_a^b |V'|^2\,ds-2\int_a^b |V|^2\,ds%\qquad
+%\text{integrating by parts, }\an{V,V'}'=\an{V',V'}+\an{V,V''}
+\end{align*}
+In the last line we integrated by parts, $\int\an{V,V'}'=\int\an{V',V'}+\int\an{V,V''}$, and used that $\an{V,V'}$ is 0 at $a$ and $b$ because $V'$ is 0.
+
+Since we're on a surface, we can write $V=\phi\vec n$. (The normal is also a parallel vector field.) Thus $V'=\phi'\vec n$. Requiring $V=0$ at the beginning and end is the same as saying $\phi(a)=\phi(b)=0$.
+Then
+\[
+\rb{\ddt{}{t}}_{t=0} E=2\int_a^b (\phi')^2\,ds -2\int_a^b \phi^2\,ds.
+\]
+%b-a=length of c
+When is this nonnegative for all $\phi$ with this property?
+
+We've reduced a geometric problem to a functional inequality in calculus, called Wirtinger's inequality. 
+\begin{thm}[Wirtinger's inequality/Poincar\'e inequality]\llabel{ineq:wirtinger}
+Let $a<b$. We have that
+\[\int_a^b(\phi')^2\ge \int_a^b \phi^2\]
+for all $\phi$ with $\phi(a)=\phi(b)=0$ exactly when $b-a\le \pi$.
+\end{thm}
+
+%Assuming this, 
+This means that if you take a geodesic, it is stable iff its length is at most $\pi$ (so it is minimizing, a minor arc).
+
+\begin{proof}[Proof of Theorem~\ref{ineq:wirtinger}]
+If $b-a\le\pi$ then this is a consequence of Fourier expansion. (Basically, we may assume $a=0$; write $\phi=\sum_{n\in \Z}a_ne^{\fc{\pi inx}{b}}$, $\phi'=\sum_{n\in \Z}\fc{2\pi i n}ba_n e^{\fc{\pi inx}{b}}$. The inequality then becomes $\sum_{n>0}\fc{\pi^2 n^2}{b^2}a_n^2\ge \sum_{n>0}a_n^2$ for all $a_n$ that make the sum converge. Thus $\fc{\pi^2 n^2}{b^2}\ge 1$ for all $n\ge1$. This also motivates our choice of function below when $b-a>\pi$.)
+
+We check the inequality fails if $b-a>\pi$. %(This is the easy part of the inequality).
+Consider 
+\[\phi(s) = \sin \pa{\fc{s-a}{b-a}\pi};\]
+then $\phi(a)=\phi(b)=0$ and $\phi'=\fc{\pi}{b-a}\cos\pa{\pf{s-a}{b-a}\pi}$. Then
+\begin{align*}
+(\phi')^2&=\fc{\pi^2}{(b-a)^2} \cos^2\pa{ \pf{s-a}{b-a} \pi}.
+\end{align*}
+If $b-a>\pi$, then the LHS is less than the RHS. We've explicitly constructed a vector field where the second derivative of energy is negative. %If length than $\pi$. Go north pole to south pole and further.
+\end{proof}
+\end{ex}

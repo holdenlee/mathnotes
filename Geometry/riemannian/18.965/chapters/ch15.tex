@@ -1,0 +1,167 @@
+\lecture{Tue. 10/30/12}
+
+Last time we discussed the Hopf-Rinow Theorem, which says that different notions of completeness are all equivalent. Today we'll talk about the Hadamard Theorem.
+
+\subsection{Hadamard Theorem}
+We'd like to see what the exponential map does to length. Recall that this question was related to the curvature of the space (see Section~\ref{sec:11}.\ref{sec:jac-curv}).
+
+First we make an observation. Suppose $(M,g)$ is a Riemannian manifold and $J$ is a Jacobi field along a geodesic $\ga$. Then the Jacobi equation
+\[
+J''+R(\ga',J)\ga'=0
+\]
+holds.
+Consider $f=\an{J,J}$. We have
+\begin{align*}
+f&=\an{J,J}\\
+f'&=2\an{J',J}\\
+f''&=2\an{J'',J}+2\an{J',J'}.
+\end{align*}
+Substituting in the Jacobi equation, we get
+\[
+f''=-2\an{R(\ga',J)\ga',J}+2\an{J',J'}
+\]
+%If $K\le 0$, then 
+Assume that $J\perp \ga'$ (the component in the tangential component is always linear anyway), $J(0)=0$, and the geodesic has unit speed: $|\ga'|=1$. Then 
+\beq{eq:965-15-1}
+f''=-2K(\ga',J) |J|^2 +2|J'|^2.
+\eeq
+%Letting $h=\sqrt f$ we get
+%\begin{align*}
+%h'&=\fc{f'}{2\sqrt f}\\
+%h''&=
+%\end{align*}
+
+Consider the exponential map $\exp_p$ at some point $v$. %Let $c$ be a curve with 
+Consider the parameterized surface $F(s,t)=sv(t)$ on $T_pM$ where $v$ is a curve with $v(0)=v$. Now the derivative in the $t$-direction forms a Jacobi field:
+\[
+J(s_0)=\rb{\pdd t}_{t=0} \pa{\exp_p F(s_0,t)}.
+\] 
+%(To see this, note $\exp_p:T_pM\to M$. Let $v_0$ be a unit vector in $T_pM$. %; suppose $v=s_0v_0$. 
+%In the direction $v_0$ the derivative is trivial ($v_0$). Now think about a curve $s_0v(t)$ where $v(0)=v_0$. Now consider $\ddd t\exp_p(s_0v(t))=d\exp_p\pa{s_0 \dd vt}$.) 
+Suppose $v(0)=v_0$ and $v'(0)=w$. Then the above becomes
+\beq{eq:965-15-2}
+J(s_0)=\rb{\pdd t}_{t=0} \pa{\exp_p F(s_0,t)} =d\exp_p\pa{s_0 \dd vt}=d\exp_p(s_0w).
+\eeq
+%We relate this to the Jacobi equation. Think of $F(s,t)=sv(t)$ as a parametrized surface. We have
+%\[
+%\pdd t \exp_p(F(s,t)) = J(s_0);
+%\]
+%we'd like to calculate this.
+%Letting $\ga(s)=\exp_p(sv_0)$ be a geodesic, we have $\ga'(0)=v_0$ and $J\perp \ga'$. Since $F(0,t)\equiv 0$, $J(0)=0$. But $J'(0)=\ddd t v$.
+
+We've reduced the problem of finding $|d\exp_p(w)|$ to finding the length of the vectors in the Jacobi field. Since the Jacobi field is related to curvature, this will tell us how much the exponential map distorts depending on the curvature. Letting $h=|J|$, $f=|J|^2$, we have %(think of the RHS of $h'(0)$ as the limit when $v\to 0$)
+\begin{align*}
+h(0)&=0\\
+h'(0)&=\fc{f'}{2\sqrt f}=\fc{2\an{J',J}(0)}{2|J|(0)}.
+\end{align*}
+(Implicitly, we mean $h'(0)=\lim_{v\to 0}\fc{2\an{J',J}(v)}{2|J|(v)}$.)
+%curv cond + Jacobi cond
+From~\eqref{eq:965-15-1}, if $K\le 0$ we get
+\[
+f''\ge 2|J'|^2.
+\]
+%\step{1} 
+\begin{lem}
+If $M$ is a Riemannian manifold with curvature $k\le 0$, for $w\in T_v(T_pM)$, we have %(where $\exp_p$ is defined)
+\[
+|d\exp_p(w)|\ge |w|.
+\]
+\end{lem}
+This means the geodesics are expanding. %\fixme{Figure 2.}
+
+We write the proof for 2 dimensions. The proof in general is similar.
+\begin{proof}
+Fixing $t$ in $F(s,t)=sv(t)$, we have
+\[
+\pdd tF=J_{\R^n}.
+\]
+We have $J_{\R^n}(0)=0$.% Writing $J=sE_1+\underbrace{E_2}_0$ %related jacohi$ fldi
+Assume $w$ is orthogonal. Define $J$ as in~\eqref{eq:965-15-2} with $v(0)=v$, $v'(0)=w$. Because $w$ is orthogonal, the Jacobi field is orthogonal.
+
+In 2 dimensions, we can write $J=jE$. We already know that $J'=j'E$ and $J''=j'' E=-kjE$. If $j(0)=0$ and $j'(0)=\fc{|w|}{|v|}$,  $J''\ge 0$ and $j'$ is growing. This implies that $j'\ge \fc{|w|}{|v|}$. %2 dimensions are easier because we don't need to take square root. 
+%For small $s$, the second derivative is nonnegative, so $j'$ doesn't stop growing.
+
+%We have $j'(0)=1$, $j'$ growing, so $j'\ge1$ and $j(s)\ge sj'(0)$,
+Thus $j$ is growing at least linearly, and we have 
+\[|d\exp_p(w)|=j(|v|)\ge\fc{|w|}{|v|}|v|=|w|.\]
+This was for $w$ orthogonal. In the radial direction the exponential map preserves the norm. %In the orthogonal direction we've showed that it doesn't decrease the norm. 
+Thus we get that $\exp_p$ is locally expanding.
+%%sign of curvature say grow certain way. Epsilon easier in 2 dim: Can think of Jacobi field sa afunction. In higher dimension, look at norm. 
+%We get $f''\ge2|J'|^2$ if $K\le 0$ (growing at least quadratically). %%$m=|J'|^2$.
+\end{proof}
+In the general case, consider $h=|J|=\sqrt f$ and get a differential inequality. 
+
+If $(M,g)$ is a complete manifold, i.e. $\exp_p:T_pM\to M$ is defined on all of $T_pM$, then Hadamard's Theorem says the following.
+\begin{thm}[Hadamard]\llabel{thm:hadamard}
+If $(M,g)$ is complete and $K\le 0$, then $\exp_p:T_pM\to M$ is a covering map. 
+\end{thm}
+\begin{cor}\llabel{cor:hadamard}
+$M$ is complete and simply connected with $K\le 0$, then $M$ is diffeomorphic to $\R^n$ and $\exp_p:T_pM\to M$ is a diffeomorphism.
+
+In fact, $\exp_p :T_pM$ is distance non-decreasing.
+\end{cor}
+%The cover is the trivial cover, and $T_pM\to M$is the diffeomorphism.
+%Hadamard's Theorem says more. 
+\begin{proof}[Proof of Corollary~\ref{cor:hadamard}]
+Given Hadamard's Theorem, if $M$ is simply connected, the covering space must be the same as the space itself, so $T_pM\to M$ is a diffeomorphism.
+
+Let $\wt q,\wt r\in T_pM$, and $q,r\in M$ be their images in $M$. We show that
+\[
+d_M(q,r)\ge |\wt q-\wt r|.
+\]
+Let $c$ be a curve from $q$ to $r$. We can pull it back by the exponential map to get a curve $\wt c$ from $\wt q $ to $\wt r$.
+
+\ig{15-3}{1}
+
+Suppose $c$ is defined on $[a,b]$. We have
+\[
+|\wt q-\wt r|\le \text{length}(\wt c)=\int_a^b |\wt c'|\,ds \le \int_a^b |c'|\,ds.
+\]
+Taking the infimum over all $c$, we get the desired inequality.
+\end{proof}
+
+We will be pretty informal in the following. For details see~\cite[p. 149--151]{dC}.
+
+\begin{proof}[Proof of Theorem~\ref{thm:hadamard}]
+We show that $\exp_p$ is a covering map. One way to show a map is a covering map is to show that it has the path-lifting property. The fact that $|d\exp_p(w)|\ge w$
+%path here path in the tang space so exp is that path. 
+gives that the derivative at any point in the tangent space is 1-to-1, so $\exp_p$ locally a diffeomorphism. 
+
+$\exp_p$ is onto by the Hopf-Rinow Theorem: %
+%Hopf-Rinow complete. 
+In a complete manifold any pair of points can be joined by a geodesic, i.e. any other point is in the image of exponential map at $p$.
+
+Given $q,r\in M$, we can find a neighborhood around $\wt q$ such that a curve in that neighborhood is at mapped to a little piece of the curve $c$ in $M$ starting at $q$. Using $|d\exp_p(w)|\ge |w|$ we get that the length of the little curve at $\wt q$ is less than or equal to the length of the curve at $q$:
+\[
+\int_a^b |\wt c'|\le \int_a^b |c'|
+\]
+Now go to the endpoint of the little curve and continue the process.
+
+\ig{15-4}{1}
+
+Completeness of $M$ implies that the exponential map is onto. We'veused $|d\exp_p(w)|\ge|w|$ weakly to say it's a locally a diffeomorphism. We use it strongly to say it doesn't wander off to infinity: The lifted curve lies inside something compact by the inequality, so we can continue all the way to the end. (This part of the argument goes through if we just assume $|d\exp_p(w)|\ge c|w|$.)
+
+%Start at point $\wt q$ mapp
+The only choice involved is the preimage $\wt q$ of $q$; then the curve is uniquely given. 
+
+The ODE for the geodesic extending $c$ has a solution for all $\R$ if it  doesn't go off to infinity. The inequality ensures that the lifted curve doesn't wander off to infinity.
+This shows the path-lifting property; hence $\exp_p$ is a covering map.
+\end{proof}
+\subsection{Constant curvature}
+Now we'll talk a little bit about constant curvature.
+
+Let $M_1^n,M_2^n$ be complete, simply connected manifolds with the same constant curvature. We'll prove next time that there is an isometry from $M_1$ to $M_2$. (Recall that an isometry is a metric-preserving isomorphism.)
+
+\ig{15-5}{1}
+
+We construct the isometry $I:M_1\to M_2$ as follows. 
+Take $p_1\in M_1$ and $p_2\in M_2$. In a neigborhood of $p_1$, we have a map 
+\[
+\exp_{p_1}^{-1}:M_1 \to T_{p_1}M_1. 
+\]
+We let $i:T_{p_1}M\to T_{p_2}M$ be any isometry taking 0 to 0.  Now define
+\[
+I=\exp_{p_2}\circ i\circ \exp_{p_1}^{-1}.
+\]
+%We show that we can calculate the derivative in terms of the curvature. This is like what we did, except without the assumption of constant curvature. We can write the Jacobi field in terms of $\sin,\cos,\sinh,\cosh$, depending on the sign of $K$, times parallel vector fields. We show that these fields are the same on manifolds are constant curvature given the curvatures are the same.%$d\exp_pw
+%Putting it all together, we can calculated the derivative in terms of the curvature, and show $I$ is an isometry. Details next time.

@@ -1,0 +1,187 @@
+\lecture{Tue. 10/16/12}
+\llabel{sec:11}
+
+\subsection{Jacobi fields and curvature}\llabel{sec:jac-curv}
+Recall that for a manifold with metric $(M,g)$ where $g$ is symmetric and non-degenerate, we have a Levi-Civita connection $\nb$. Suppose we have a parametrized surface $f$ where $s\mapsto f(s,t)$ is a geodesic. Then the variational field $J=\pd ft$ satisfies the Jacobi equation
+\[
+J''+R(\ga',J)\ga'=0
+\]
+where $J''=\cvs \cvs J$.
+
+For instance, consider the exponential map $\exp_p:T_pM\to M$. We can consider it in polar coordinates, so it takes $(r,\te)$ as arguments, where $-\pi<\te\le \pi$ and $0<r$. Then $\pdd{\te} \exp_p=J$ satisfies the Jacobi equation. The Jacobi field measures the ``distortion" of the exponential map; moreover $\ab{\pdd r \exp_p}=1$.
+
+Consider the special case where $M^2$ is a surface. Letting $\ga$ be a geodesic starting at $p$, $\ga(t)=\exp_p(t,\te)$, we have by Gauss's Lemma~\ref{lem:gauss}, 
+\beq{eq:965-11-1}
+\pdd{\te} \exp_p \perp \ga'.
+\eeq
+ %figure
+Note $\ga''=0$ since $\ga'$ is a parallel vector field along $\ga$. 
+The normal $\vec{n}$ to the curve is also parallel along $\ga$ (by parallel translation). %normal along.
+By~\eqref{eq:965-11-1}, $J$ is perpendicular to $\ga$ so we can write $J=j \vec{n}$ ,$J'=j'\vec{n}$, and $J''=j''\vec{n}$. The Jacobi equation tells us
+\[
+j''\vec n + j R(\ga',\vec n) \ga'=0.
+\]
+Writing $ R(\ga',\vec n) \ga'=k\vec n$, we get
+\[
+j'' \vec n + jk \vec n=0\iff j''+kj=0.
+\]
+Now $J(0)=\pdd{\te} \exp_p(0,0)=0$ so $j(0)=0$, and we get $\rb{\pdd{r}\pdd{\te} \exp_p}_{r=0}=\vec n$ gives $j'(0)=1$. Taylor expansion gives
+\[
+j=j(0)+j'(0)r+\fc{j''(0)}2r^2+\fc{j'''(0)}6r^3+\cdots
+\]
+where 
+\begin{align*}
+j(0)&=0\\
+j'(0)&=1\\
+j''(0)&=-j(0)k(0)=0\\
+j'''(0)&=-j'(0)k(0)-j(0)k'(0)\\
+&=-k(0).
+\end{align*}
+Thus
+\beq{eq:965-11-2}
+j=r-\fc k6 r^3+\pat{higher order terms}.
+\eeq
+This gives us a way of thinking about the curvature. Suppose we have a surface, and we want to know the curvature at $p$. Consider a sphere (circle) of radius $r$ at 0 in $T_pM$; call it $S_r$. Then $\exp_p(S_r)$ is a curve on the manifold; call it $\pl B_r$. What is the length of $\pl B_r$?
+
+We'd like to compute the length $c(\te)=\exp_p(r,\te)$. We have
+\[
+\pd c{\te}=\pdd{\te} \exp_p=J.
+\]
+Hence the length is
+\beq{eq:965-11-3}
+\ab{\pd c{\te}}\approx r-\fc{k}{6}r^3.
+\eeq
+Integrating this from $-\pi$ to $\pi$, the length of $\pl B_r$ is
+\[
+\int_{-\pi}^{\pi} \ab{\pd c{\te}}\,d\te\approx \pa{r-\fc k6 r^3}2\pi =2\pi r-\fc{k}3\pi r^3.
+\]
+Thus we see
+\[
+\text{length}(\pl B_r)-\text{length}(S_r)\approx -\fc k3\pi r^3.
+\]
+For instance, for the sphere, this difference is negative so the curvature is positive.\\
+%pic fig?
+
+\cpbox{
+The curvature measures the difference between the length of distance spheres in Euclidean space, and the length of the distance spheres on the manifold.
+\begin{itemize}
+\item
+Positive curvatures means that spheres on the manifold have smaller length. Geodesics coming from a point don't spread out as fast.
+\item
+Negative curvature means the opposite.
+\end{itemize}
+}
+\vskip0.15in
+We can get a similar expression in any dimension. %|J|^2, M, \ga, J. 
+
+\subsection{Conjugate points}
+Suppose $\ga$ is a geodesic, $\ga:[a,b]\to M$. Let $J$ be a Jacobi field. Given $(v,w)\in T_pM\times T_pM$ where $\ga(a)=p$, there exists a unique Jacobi field with
+\[
+J(a)=v,\qquad J'(a)=w.
+\]
+In particular, letting $J$ be the Jacobi field with $J(a)=0$ and $J'(a)=v$, we get a lnear map 
+\[F:T_{\ga(a)}M\to T_{\ga(b)} M
+\] sending $w\in T_{\ga(a)}M$ to $J(b)$.
+\begin{df}
+We say that $b$ is a \textbf{conjugate point}  to $a$ along $\ga$ if there is a non-trivial Jacobi field with $J(a)=0$ and $J(b)=0$.
+\end{df}
+%$F$ is a linear map. For each tangent vector $w\in T_{\ga(a)}M$ gives a point $T_{\ga(b)}M$.  %map nontrivial kernel
+
+The manifold is nicer if we have no conjugate point. %Injective, hence isomorphism. ???
+
+
+\subsection{Isometric immersions}
+Consider a submanifold $M^2\subeq \R^3$ or more generally, any isometric immersion $M^m\hra N^n$. %is an isometric immersion.
+
+The following are natural questions:
+\begin{itemize}
+\item
+How do the connection on $M$ and $N$ relate?
+\item
+How do the curvatures of $M$ and $N$ relate?
+\end{itemize}•
+Let $\ol{\nb}$ be the connection on $N$ and $\nb$ be the connection on $M$. The following says that if we want to calculate $(\nb_XY)_p$, we extend $X$ and $Y$ in any way to $N$, calculate the covariant derivative and then take the tangential component.
+
+\begin{pr}
+Let $X,Y\in \X(M)$, and $\ol X$, $\ol Y$ are (local) extensions of $X$ and $Y$ to a vector field on $N$, then
+\[
+\nb_XY=(\ol{\nb}_{\ol{X}}\ol Y)^T
+\]
+where $T$ means tangential component.
+\end{pr}
+To see that we can extend the vector field, note that because $M$ is a submanifold of $N$, by the implicit function theorem there is a coordinate system $(x_1,\ldots, x_m,x_{m+1},\ldots, x_n)$ on which the manifold sits like a plane, $(x_1,\ldots, x_m,0,\ldots, 0)$. Extend the vector field trivially in the other directions.
+%vector fields tangent.
+\begin{proof}
+Define ${\nb}_XY$ by $(\ol{\nb}_{\ol X}\ol Y)^T$. 
+We need to check $\nb$ is a symmetric compatible connection. %Then by uniqueness of compatible connections~\ref{thm:levi-civita} it must be {\it $\nb$}. 
+We check
+\begin{enumerate}
+\item
+$\nb$ is linear in each variable (clear).
+\item
+If we multiply $X$ by a function it pops out linearly (clear). %\fixme{fix}.
+\item
+If we multiply $Y$ be a function, the Leibniz rule holds. Extending $f$ to a function on a neighborhood of $M$ near a point, 
+\begin{align*}
+\nb_X(fY)=(\ol{\nb}_{\ol X} (\ol f \ol Y))^T&=\pa{\ol X(\ol f)\ol Y+ \ol f\ol{\nb}_{\ol X} \ol Y}^T\\
+&=X(f)Y+f(\nb_{\ol X} \ol Y)^T.
+\end{align*}
+\item
+Symmetry: We have
+\begin{align*}
+\nb_XY-\nb_YX&=(\ol{\nb}_{\ol X} \ol Y)^T-(\ol{\nb}_{\ol Y} \ol X)^T\\
+&=(\ol{\nb}_{\ol X} \ol Y-\ol{\nb}_{\ol Y} \ol X)^T \\
+&=\pa{[\ol X,\ol Y]}^T=[X,Y].
+\end{align*}
+\item
+Compatibility with connection: Given $X,Y,Z\in \X(M)$, we need to check
+\[
+Zg(X,Y)=g(\nb_ZX,Y)+g(X,\nb_ZY).
+\]
+%Evaluate at $p$, two things are the same. 
+But taking the derivative in direction $Z$ is the same whether we are thinking in $M$ or in $N$. Thus this is equivalent to
+\[
+\ol Zg(\ol X,\ol Y)=g(\ol{\nb}_{\ol Z}\ol X,\ol Y)+g(\ol X,{\ol{\nb}}_{\ol Z}\ol Y),
+\]
+which holds.
+%inner product with something tangent, normal doesnot matter.
+\item Well-definedness: $\nb$ doesn't depend on the extension.
+\end{enumerate}
+\end{proof}
+\subsection{Second fundamental form}
+Given $M\hra N$, $X,Y\in \X(M)$ and $\ol X,\ol Y\in \X(M)$ such that $\ol X|_M=X$, $\ol Y|_M=Y$, we claim 
+\[
+(\ol{\nb}_{\ol X} \ol{Y})^{\perp}(p)
+\]
+depends only on the value of $\ol X(p)$ and $\ol Y(p)$. %Any other extension only get normal contribution.
+
+%2 vector fields  
+%linear in each of 2 var
+
+%Suppose we're looking at $\ol f\pa{\nb_{\ol f\ol X}\ol Y}^T$. 
+%Then
+We have, for a function $f$ extended in a neighborhood in $N$, 
+\[
+(\ol{\nb}_{\ol X} (\ol f \ol Y))^{\perp}=(\ol f\ol{\nb}_{\ol X}\ol Y)^{\perp}
++\pa{\ol X(f)\ol Y}^{\perp}
+=\ol f\pa{\ol{\nb}_{\ol X}\ol Y}^{\perp} + \underbrace{\ol X(f)(\ol Y(p))^{\perp}}_0
+\]
+because $\ol Y(p)=Y(p)$ has no perpendicular component. 
+Thus $\ol{\nb}^{\perp}$ is linear in both its bottom and top variable; we've seen that anything with such a linearity property (where functions just pop out) just depend on values at $p$. Thus $(\ol{\nb}_{\ol X}\ol Y)^{\perp}(p)$ depends only on $X$, $Y$ at $p$.
+\begin{df}
+The bilinear map $B:T_pM\times T_pM\to \R$ is defined by
+\[
+B(X,Y):=(\ol{\nb}_{\ol X}\ol Y)^{\perp}(p).
+\]
+and is called the \textbf{second fundamental form}.
+\end{df}
+
+We claim that $B$ is also symmetric. We have
+\[
+B(Y,X)=(\ol{\nb}_{\ol Y} \ol X)^{\perp}
+=(\ol{\nb}_{\ol X}\ol Y)^{\perp}+([\ol X,\ol Y])^{\perp}=B(X,Y)
+\]
+%vf supposed to be tangent to M.
+because the Lie bracket of two vectors in the tangent space of $M$ is still in the tangent space, and hence has orthogonal component 0.
+
+%Shay operator, fiber surface, Gauss equation.

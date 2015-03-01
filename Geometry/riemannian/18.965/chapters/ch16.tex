@@ -1,0 +1,273 @@
+\lecture{Tue. 11/6/12}
+Colding is in Sweden today, so Bill Minicozzi is lecturing.
+
+Yesterday when I was at the airport, I picked up a copy of Boston magazine. Harvard is now the second best university in Cambridge. In case you're wondering, MIT is the best.
+
+This week we're going to do two things. We will
+\begin{enumerate}
+\item
+ introduce hyperbolic space and
+\item
+understand the classification of spaces of constant curvature. 
+\end{enumerate}
+There are many different notions of curvature: we could talk about sectional curvature, Ricci curvature, and scalar curvature (and others). Constant scalar curvature is the loosest condition, and constant sectional curvature is the strictest condition.
+\begin{itemize}
+\item Scalar curvature: A theorem of Rick-Shane says that given any closed manifold (compact without boundary), by just making conformal changes, we can make it a manifold of constant scalar curvature. In dimensions other than in dimension 2, we can get negative constant scalar curvature.
+\item Ricci curvature:
+A manifold with constant Ricci curvature is called an Einstein manifold. The Ricci cuvature is constant if the Ricci curvature is a constant multiple of the metric; this gives the \textbf{Einstein equation}. Constant Ricci curvature says quite a bit; in low dimensions it says a lot.
+\item Sectional curvature:
+Manifolds with constant sectional curvature are called \textbf{space forms}. We'll discuss these today.
+\end{itemize}•
+
+The sectional curvature can be negative, 0, or positive. By scaling we can assume $\kappa=-1,0,1$. (For instance, if the curvature is $10$, we can scale by $\rc{\sqrt{10}}$ to make the curvature 1. A sphere of radius 1 has curvature 1; if we make sphere larger, then the curvature decreases.) In these 3 cases we have the following spaces.
+\begin{enumerate}
+\item $\kappa=-1$: Hyperbolic space $H^n$.
+\item $\kappa=0$: Euclidean space $\R^n$.
+\item $\kappa=-1$: Sphere $\mathbb S^n$.
+\end{enumerate}
+Hyperbolic space is the new manifold, which we haven't talked about. On Thursday we'll show that every complete simply connected manifold of constant curvature must be one of these: $H^n, \R^n$, or $\mathbb S^n$.
+
+Of course, the manifold doesn't haven't to be simply connected. We could quotient out $H^n, \R^n$, or $\mathbb S^n$ by the action of a group of isometries. Then we get a manifold locally isometric to one of these spaces, but not globally diffeomorphic.
+
+For instance, if we quotient the plane $\R^2$ by a translation we get a cylinder. If we quotient again by another translation, we get a torus, also of 0 sectional curvature. We can quotient different spaces by different lattices, and the classification of spaces becomes a question about group theory. Quotienting by hyperbolic groups is much more complicated. For the sphere, we have to quotient by a finite group because there is no fixed point free infinite group action. The resulting space has finite fundamental group.
+%Bonnet Myers.
+The study of quotient spaces here becomes the study of subgroups of the orthogonal group.
+
+That's the background. Let's do math now.
+ 
+\subsection{Conformal metrics}
+\begin{df}
+Let $(M,g)$ be a Riemannian manifold. We say that a $(M,gf)$ is a \textbf{conformal change of metric} if $f$ is a constant depending only on the point, $f=f(p)$.
+
+We say that $f$ and $gf$ are conformally related.
+\end{df}
+Think of $g$ as a symmetric 2-tensor at each point. A conformal  change allows us to multiply $g$ by a constant at each point. This is one way of changing the metric. 
+
+Suppose we want to change the metric from $g$ to $\ol g$. %$g-\ol g$. %Need to make sure stay positive definite
+We need to make sure that $\ol g$ is still positive definite. One way is to add another positive definite form to $g$. We see that there are lots of ways to change the metric.
+
+The space of $n\times n$ matrices has dimension $n^2$. The space of symmetric $n\times n$ matrices still has dimension on the order of $n^2$. A conformal change of metric gives us a comparatively small allowable space of changes, just a 1-dimensional space at each point. We wouldn't expect it to generate too many different metrics.
+
+Suppose we fix a metric and look at all metrics conformal to it. In dimension 2, this one metric generates everything; every metric is conformal to every other metric locally.
+\begin{df}\llabel{df:conf-flat}
+A metric is \textbf{conformally flat} if $g_{ij}=F^{-2}\de_{ij}$ for some $F$. %Note
+\end{df}
+All constant metrics are conformally flat. This is not an accident. Not every metric is conformally flat. In high dimensions, we can build a tensor built out of the curvature, called the Weyl tensor. It measures the obstruction to being locally conformally flat. This isn't quite true in dimension 3, though; we have to use the Bott tensor. If the tensor vanishes then the manifold is locally conformally flat.
+
+
+Note that different authors may let the constant in Definition~\ref{df:conf-flat} depend differently $F$. I use $F^{-2}$ to match Do Carmo's notation. I would prefer not to use $F^{-2}$. It is more natural to use $e^F$; this is also automatically positive. Set $f=\ln F$; this will come up in our calculations.
+
+%We're going to compute the curvature. TFirst we need compute Cristoffel symbols.
+
+%Your job find algebraic mistakes. Less propagate!
+
+Our first task is to compute Cristoffel symbols and curvature tensors for a conformal change of metric.
+
+\subsubsection{Compute $\Ga_{ij}^k$'s}
+Recall the formula
+\beq{eq:787-16-1}
+\Ga_{ij}^k =\rc2\sum_m \pa{g_{jm,i}+g_{mi,j} -g_{ij,m}} g^{mk}
+\eeq
+where $g_{jm,i}$ denotes $\pd{g_{jm}}{x_i}$ and $g^{mk}$ denotes the $(m,k)$ entry in the inverse matrix of the $(g_{ij})$. 
+
+%Calculate $g_{ij,k}$. Leibniz rule: Only hit $F^{-2}$ derivative. 
+When $g_{ij}=F^{-2}\de_{ij}$, we compute  %have
+\[
+g_{ij,k} =-2F^{-3} \pd{F}{x_k} \de_{ij} =
+-2\pa{F^{-1}\pd{F}{x_k}}F^{-2}\de_{ij}
+= -2f_{k} g_{ij} 
+\]
+where $f_k=\pd{\ln F}{x_k}=F^{-1}\pd{F}{x_k}$. %Factoring $F^{-2}\de_{ij}=g_{ij}$. $\rc{F}\pd{F}{x_k}=\pd{\ln F}{x_k}$. 
+
+We plug in this formula everywhere in~\eqref{eq:787-16-1}:%go wild plugging that in. 
+%We have
+\begin{align*}
+\Ga_{ij}^k &=\rc2\sum_m \pa{g_{jm,i}+g_{mi,j} -g_{ij,m}} g^{mk}\\
+&=-\sum_m \pa{f_ig_{jm} + f_j g_{mi} - f_m g_{ij}} g^{mk}\\
+&=-f_i\de_{jk} -f_j \de_{ik} + f_k \de_{ij}
+&\sum_m g_{jm}g^{mk} =\de_{jk}.%,\quad g_{st}=g_{ts}\\ 
+\end{align*}
+(A matrix times its inverse equals the identity.)
+Let's check that the last equality is above, on the third terms: $\sum_m f_mg_{ij} g^{mk}=f_k\de_{ij}$. We have $g^{mk}=F^2\de_{mk}$ so 
+%substitute what these are.
+\begin{align*}
+\sum_m f_mg_{ij} g^{mk} &=\sum_m f_m (F^{-2}\de_{ij})(F^2\de_{mk})\\
+&=f_k\de_{ij},
+\end{align*}
+as expected. 
+We consider several cases.
+\begin{itemize}
+\item
+$i,j,k$ distinct: $\Ga_{ij}^k=0$. We only have to worry about if exactly 2 are the same, or all 3 are the same. 
+\end{itemize}
+For what I write next there is no summation convention. (Usually if same index appears twice, we sum over over it. Here we're going to write formulas containing repeated indices over it, but I don't want to sum over it.)
+\begin{itemize}
+\item
+$i=j=k$: $\Ga_{ii}^i=-f_i$.
+\item
+$i=j\ne k$:
+$\Ga_{ii}^k=0-0+f_k=f_k$.
+\item
+$i=k\ne j$:
+$\Ga_{ij}^i=-f_j$.
+\item
+By symmetry, $\Ga_{ji}^i=\Ga_{ij}^i=-f_j$.
+\end{itemize}
+%Pick the one spot which is different. This covers all possibilities. Every other case is 0. 
+
+It's good to go through all the calculations once. This not something you do again as practicing geometer.
+%Know what underlying again. 
+Once you've seen how the calculations go, you never need to compute the $\Ga_{ij}^k$ again. When I have to make a conformal change of coordinates to get a metric with certain quantities, I go to my trusty {\it Lectures in Differential Geometry} %by 
+%Shane and Gao. 
+and thumb through it until I find the formula. But you have to do this once for yourself before you're allowed to look it up.
+
+Note that a conformal change in metric preserves orthogonality. It stretches the lengths of all vectors in a tangent space by same amount. A conformal change preserves angles, and just stretches distances. The most obvious conformal change is to dilate the whole manifold by a constant. Any conformal map is like this at a point.
+
+A map is conformal if its effect on the metric (i.e., the pullback) is a conformal change. The map stretches lengths and preserve angles.
+\subsubsection{Curvature tensor}
+Our next task is to use the Christoffel symbols to compute the curvature tensor. Then we will use the curvature tensor to get the sectional curvature.
+
+Again, we don't use summation notation in what follows.
+We have 
+\begin{align*}
+R_{ijij}&=\sum_{\ell} R_{iji}^{\ell} g_{\ell j}\\
+&= R_{iji}^j g_{jj}&g_{\ell j}=0\text{ for }\ell\ne j\\
+&= F^{-2} R_{iji}^j\\
+&= F^{-2}\ba{\pa{
+\sum_{\ell} \Ga_{ii}^{\ell} \Ga_{j\ell}^j -\Ga_{ji}^{\ell}\Ga_{i\ell}^j} + \pl_j \Ga_{ii}^j -\pl_i \Ga_{ji}^j
+}
+\end{align*}
+We don't care to compute $R_{ijk\ell}$ in general; we just compute $R_{ijij}$ so we can get the sectional curvature. %We got Christoffel symbols, which we now use to compute curvature tensor, use to get sectional curvature. 
+
+We also need derivatives of the $\Ga$'s, so let's record what they are. We have 
+\begin{align*}
+\pl_j \Ga_{ii}^j&=f_{jj}:=\pdt{f}{x_j}\\
+\pl_i \Ga_{ji}^j&=-f_{ii}.
+\end{align*}
+We have
+\begin{align*}
+\pl_j \Ga_{ii}^j -\pl_i \Ga_{ji}^j&=F^{-2} (f_{jj}+f_{ii}).
+\end{align*}
+We now split the sum into 3 cases. We only need to consider $i\ne j$, because it is 0 otherwise. 
+We obtain %most likely algebraic errors slip in.
+\begin{align*}
+R_{ijij}&=F^{-2} (f_{jj}+f_{ii})
++\underbrace{F^{-2}(\Ga_{ii}^i \Ga_{ji}^j - \Ga_{ji}^i \Ga_{ii}^j)}_{\ell=i}
++\underbrace{F^{-2}(\Ga_{ii}^j \Ga_{jj}^j -(\Ga_{ji}^j)^2)}_{\ell=j}
++\underbrace{F^{-2}\sum_{\ell\ne i,\,j}(\Ga_{ii}^{\ell} \Ga_{j\ell}^j -\Ga_{ji}^{\ell}\Ga_{i\ell}^j)}_{\ell\ne i,\,j}.\\
+%Now we start substituting.
+&=F^{-2}\ba{(f_{ii}+f_{jj}) + [\bcancel{f_i^2} - \cancel{(-f_j)(f_j)}] + [\cancel{f_j(-f_j)}-\bcancel{f_i^2}] + \sum_{\ell\ne i,j} \ba{f_{\ell} (-f_{\ell})-0}}\\
+&= F^{-1}\ba{(f_{ii}+f_{jj})-\sum_{\ell\ne i,j} (f_{\ell})^2}.
+\end{align*}
+The good news is that this agrees with what's in my notes! We now have 
+\beq{eq:787-16-2}
+\kappa_{ij}=\fc{R_{ijij}}{\det(g_{ij})} = \fc{R_{ijij}}{g_{ii}g_{jj}}=\fc{F^{-2}\pa{f_{ii}+f_{jj}-\sum_{\ell\ne i,j} f_{\ell}^2}}{F^{-4}}=F^2\pa{f_{ii}+f_{jj}-\sum_{\ell\ne i,j} f_{\ell}^2}.
+\eeq
+This formula is valid for any conformal metric. We've now computed the sectional curvature for any conformal metric in terms of the original metric.
+
+The highest-order term $f_{ii}+f_{jj}$ looks like a Laplacian. The lower-order term looks like the gradient squared of the log of the function.
+
+\begin{ex}
+Consider the case of $\R^2$. At a point there is only 1 possible sectional curvature. There are no $\ell\ne i,j$ terms. The curvature is the Gauss curvature, $F^2(f_{ii}+f_{jj})$, which is really a Laplacian, i.e., the trace of the hessian, the sum of the second derivatives ``down the diagonal."
+\end{ex}
+
+Let's now specialize to hyperbolic space.
+\subsection{Hyperbolic metric}
+There are two conformal models of hyperbolic space: upper half space and the unit disc. The easiest to compute for us is the upper half space: $F$ is a function of $x_n$. 
+In the unit disc model we would have to use polar coordinates. 
+%Otherwise radial coordinates, need to use polar coordinates.
+
+Define upper half-space by %pic
+\[
+\R^n_+=\set{(x_1,\ldots, x_n)}{x_n>0}
+\]
+and give it the hyperbolic metric given by
+\[
+g_{ij}=\fc{\de_{ij}}{x_n^2}=F^{-2}\de_{ij}\quad\text{where}\quad F=x_n,\,f=\ln x_n.
+\]
+
+We will check that this metric is complete. To do this, we take a straight line going out. %If we go north, then the metric is larger than the Euclidean metric, go large quickly. ??? If we go to the side, %, conformal (uniformly). L
+the length is constant multiple $\rc{x_n}$ of the Euclidean length. A positive number times an infinite length is infinite.
+
+What if we reach $x_n=0$ and the length of curve is finite? If so, then the space would not be complete. If we take a line straight down, then is complete: to find the length we compute the integral of $\rc{x_n}$. The length is $-\ln x_n\to \iy$ as $x_n\to 0$. However, this is just one path down. Need to check that every path down takes infinitely long. The same check works for paths that go up infinitely.
+
+We make these computations rigorous, but first we check that $H^n$ does indeed have constant curvature.
+
+\subsubsection{$H^n$ has constant curvature}
+We calculate the sectional curvature of $H^n$ using~\eqref{eq:787-16-2}.
+For $i\ne n$ we have $f_i=0$. We have $f_n=\rc{x_n}$. For $i\ne n$ we have $f_{ii}=0$. We have $f_{nn}=-\rc{x_n^2}$. 
+Consider several cases. 
+\begin{itemize}
+\item
+$i,j\ne n$: $\kappa_{ij}=x_n^2 \ba{0+0-\prc{x_n}^2}=-1$.
+This is a very happy result because we introduced $H^n$ as having curvature $-1$.
+\item
+$j=n$: $\ka_{in}=x_n^2\ba{0-\rc{x_n^2} -0}=-1$.
+\item
+$i=n$: $\ka_{nj}=x_n^2\ba{-\rc{x_n^2} +0-0}=-1$.
+\end{itemize}
+All possible planes have sectional curvature $-1$. In the case of the hyperbolic plane $H^2$, we don't even have to worry about the $\ka_{ij}$ case, and this is quicker to see.
+
+Next we check the completeness of hyperbolic space.
+\subsubsection{Hyperbolic space is complete}
+Translation perpendicular to $x_n$ leaves lengths unchanged; this is essentially just a choice of coordinates. Thus, we only need to show that any curve from a point on the $x_n$-axis to infinity has infinite length.
+
+%div curve has infinite length. Either goes off to infinity or to side.
+%We show that the length $L(\ga)\to \iy$ as $\ep\to 0$. A divergent curve goes to infinite above $\ep$. Then length is always at least $\ep$ times the Euclidean length:
+Consider the region bounded vertically by $\ep<x_n<\rc{\ep}$ and horizontally by $\sqrt{x_1^2+\cdots + x_{n-1}^2}\le\prc{\ep}^2$. (Think of this as a ``soup can;" it is round at the edges. In two dimensions it is just a rectangle.) Any divergent curve must hit one of these boundaries. %If the curve goes north or south, we'll show that goes to infinity. 
+\begin{enumerate}
+\item
+First suppose the curve hits one of the sides. 
+We look how long any curve to the side is. 
+The Euclidean length is at least the distance from the axis to the side which is at least $\rc{\ep^2}$. But the metric is always at least $\ep$ times the Euclidean one, so the hyperbolic length is at least $\ep\prc{\ep^2}=\rc{\ep}$:
+\[
+L=\int \sqrt{g(\ga',\ga')}=\int F^{-1}|\ga'|_{\text{Euclidean length}}\ge \ep\prc{\ep^2}=\rc{\ep}.
+\]
+The length is at least $\rc{\ep}$. If $\ep\to 0$ this goes to infinity so we're good.
+\item
+We just have to worry about the curve hitting the top or bottom of the soup can.  %(go north or south). 
+The two cases are basically symmetric; I'll do one and you'll see the other. Suppose a curve goes south.
+
+\ig{16-1}{1}
+
+Write
+\[
+\ga(t)=(x_1(t),\ldots,x_n(t)).
+\]
+We have 
+\begin{align*}
+L&=\int \rc{x_n(t)} \sqrt{(x_1')^2+\cdots +(x_n')^2}\,dt\\
+&\ge\int \fc{\sqrt{(x_n')^2}}{x_n}\,dt =\int \fc{|x_n'|}{x_n}\,dt\\
+&\ge \ab{\text{change in $\ln (x_n)$}}\to \iy \text{ as }\ep\to 0.
+\end{align*}
+%conformal factor because metric is different.
+Note that ``wiggling" back and forth horizontally only make length bigger, and we only have to show curves go straight up and down have infinite length. We just use the fundamental theorem of calculus! (Note we have inequality because the curve might go up and down; i.e., $x_n$ may not be monotonic.)
+\end{enumerate}
+
+
+%If get to $\ep$, the length as function of $\ep$ goes to infinity.
+
+
+%Kid school called. Daughter in ambulance going to Boston hospital
+%morphine oxycoton and 
+This completes the proof.
+\subsection{Hyperbolic geodesics and isometries}
+We'll come back to isometries. %we'll have to come back to.
+Let's find the geodesics in hyperbolic space.
+
+First, vertical lines give geodesics. The geodesic equation is 
+\[
+x_k''+\suij \Ga_{ij}^k x_i'x_j' =0.
+\]
+First consider the special case where $x_1,\ldots,x_{n-1}$ are constant. 
+Letting $x_n=h(t)$, the equation becomes
+\[
+0=h''+\Ga_{nn}^n (h')^2=h''+(h')^2\pa{-\rc h}.
+\]%think of logs and exponentials. value of f only positive
+(note in the hyperbolic case $\Ga_{nn}^n=-\pl_n \ln x_n =-\rc{x_n}$) or
+\[
+h''h-(h')^2=0.
+\]
+%Geodesics have constant speed. Might try to solve that equation. Square of speed of polynomial is $h'$.
+One obvious solution is $h(t)=e^t$. Note $h(t)=ae^t$ also works for any $a>0$, and %At this point you're pretty confident 
+$h(t)=e^{-t}$ also works. This suggests that the general solution is hyperbolic functions. Let's stop there. I'll see you Thursday.

@@ -1,0 +1,248 @@
+\lecture{Tue. 12/4/12}
+
+We'll start with the Gauss-Bonnet Theorem.
+
+\subsection{Gauss-Bonnet Theorem}
+
+\begin{thm}[Gauss-Bonnet]
+Let $M^2$ be a complete Riemannian manifold. Let $p\in M$, and $B_r(p)$ be a ball of radius $r$ around $p$. Suppose every geodesic starting at $p$ going out to radius $r$ is minimizing. %$\ga:[0,r]\to M$ is a unit speed minimizing geodesic.
+
+Then
+\[
+2\pi=\int_{\pl B_r(p)} k_g\,ds+\int_{B_r(p)} k\,dA
+\]%j'(0)=1
+\end{thm}
+\begin{proof}
+Let $J=j\vec n\perp \ga'$ be a Jacobi field on the variation of geodesics $\exp_p((s,\te))$ ($(s,\te)$ polar coordinates), satisfying $j''+kj=0$. 
+
+Integrating the Jacobi equation gives
+\begin{align*}
+0&=\int_0^r\int_0^{2\pi} (j''+kj) \, d\te ds \\
+&=\int_0^r\int_0^{2\pi} j''\,d\te ds +\int_0^r\int_0^{2\pi} kj \, d\te ds\\
+&=\int_0^{2\pi} [j'(r)-j'(0)]\,d\te +\int_{B_r(p)}k\,dA\\
+&=\int_0^{2\pi}j'(r)\,d\te -2\pi +\int_{B_r(p)} k\,dA\\
+&=\int_0^{2\pi} \fc{j'(r)}{j(r)} j(r)\,d\te-2\pi +\int_{B_r(p)} k\,dA
+\end{align*}
+Here we use the fact that the geodesic is minimizing, so nothing is overcovered.
+We write it as above because $j(r)$ is the length element, and $\fc{j'(r)}{j(r)}$ is the geodesic curvature of $\pl B_r(p)$. Indeed, we have %$\exp_p:\pl B_r(0)\to \pl B_r(p)$, then 
+$\an{\nb_e\vec n,e}=\fc{j'(r)}{j(r)}$ where $|e|$ is tangent to $\pl B_r(p)$ \fixme{(why?)}. %???
+(Recall that taking $N^{n-1}\subeq M^n$, the second fundamental form, for $X$ tangent to $N$, satisfies
+\[
+\an{\nb_XX,n}=-\an{\nb_X n,X}.
+\]
+The geodesic curvature of boundary is just the principal curvature---for a curve, there is only one principal curvature because it is one-dimensional.)
+%wrt theta/j(r), normalizes to be unit
+%We have $\vec n=\ga_{\te}'(r)$. 
+
+We get that
+\[
+2\pi=\int_{\pl B_r(p)} k_g\,ds+\int_{B_r(p)} k\,dA
+\]
+as long as all geodesics starting from $p$ going to radius $r$ are minimizing. 
+\end{proof}
+
+We need the following simple fact. If $\ga:[0,r]\to M$ is a geodesic on $(M^n,g)$, and we take a variation of $\ga$, $F:[0,r]\times (-\ep,\ep)\to M$ with $F(\bullet, 0)=\ga$, $F(0,t)=\ga(0)$, $F(r,t)=\ga(r)$, we found
+\[
+\ddt{E}{t}=-\int \an{V,LV}
+\]
+where $V=\rb{\pd Ft}_{t=0}$ and $LV=\fc{D^2}{\pl s^2}V +R(\ga',V)\ga'$.
+If $M^2$ were a surface, and $V\perp \ga'$ then we could write $V=\phi\vec n$ and $L\phi=\phi''+k\phi$.
+
+Now Let $u:\Om\to \R$ where $\Om\subeq \R^n$. We consider the \textbf{Schr\"odinger operator}
+\[
+Lu=\Delta u+ku.
+\]
+Recall that we call $\ga$ stable if
+\[
+\rb{\ddt{}t}_{t=0}E\ge 0
+\]
+for all variations fixing the endpoints. We saw that by Cauchy-Schwarz that if $\ga$ minimizes length, then it is stable. If we have a surface, to say that $\ga$ is stable is the same as saying that $-\int \phi L\phi\ge 0$ for all $\phi$ with compact support. This is equivalent to $\int (\phi')^2\ge \int k\phi^2$.
+
+%We have $-L\ge 0$ iff $-\int uLu\ge 0$.
+Suppose $u>0$ %not necessarily with compact support
+and $Lu=0$. We claim that $-L\ge 0$.
+Consider $v=\ln u$. We have
+\[
+\De v=((\ln u)')'=\pf{u'}{u}'=\fc{u''}{u}-\pf{u'}{u}^2 = \fc{u''}{u}-(v')^2
+\]
+so
+\[
+\De v=%\fc{\De u}{u}-\fc{k|u|^2}{u^2} =
+%\fc{\De u}{u} 
+k-|\nb v|^2.
+\]
+For $\phi$ with compact support, we have by integration by parts (there is no boundary term),
+\[
+\int \phi L\phi = -\int \phi(\De \phi+k\phi)
+=\int|\nb\phi|^2-\int k\phi^2,
+\]
+and this is $\ge0$ iff
+\[
+\int|\nb\phi|^2\ge \int k\phi^2.
+\]
+Also by integration by parts we have
+\[
+\int \phi^2\De v=2\int \phi\nb \phi\nb v.
+\]
+We use the inequality $2ab\le a^2+b^2$ (which comes form $(a+b)^2\ge 0$). Letting $a=\phi|\nb v|$ and $b=|\nb v|$ we get
+\begin{align*}
+\ab{\int \phi^2\De v}
+&=\ab{2\int \phi\nb \phi\nb v}\\
+&\le 2\int |\phi||\nb \phi||\nb v|\\
+&\le \int \phi^2 |\nb v|^2 +\int |\nb \phi|^2.
+\end{align*}
+On the other hand, using the calculation for $\De v$ and $0=Lu=\De u +ku$, i.e., $\De u=-ku$, we get
+\[
+\De v=-k-|\nb v|^2.
+\]
+We get
+\[
+\int \phi^2\De v=-\int\phi^2k -\int \phi^2|\nb v|^2
+\]
+which becomes
+\[
+-\int \phi^2 k-\int \phi^2|\nb v|^2 =\int \phi^2\De v=-\ab{\int\phi^2\De v}\ge -\int \phi^2|\nb v|^2-\int |\nb \phi|^2.
+\]
+We get exactly $-L\ge 0$.
+
+We could make the same computation on any manifold $M$ and $\Om\subeq M$, using the Laplacian on $M$.
+
+On $M^2$ let $\ga$ be a geodesic, not necessarily minimizing, and let $J$ be a Jacobi field. Write $J=j\vec n$. For $|J|>0$ we have $j''+kj=0$, giving $\ga$ is stable.
+
+%don't understand much.
+
+\subsection{Higher dimensions}
+Let $\Si^2\subeq \R^3$ be a surface. We want to generalize geodesics to higher dimensions. Instead of looking at the energy, we look at the area.
+
+Let $F:\Si\times (-\ep,\ep)\to \R^3$, with $F(x,0)=x$. Suppose that %compact support, 
+\[
+F(\bullet, t)|_{\pl \Si} =\id_{\Si},
+\]
+so $F(x,t)=x$ if $x\in \pl \Si$.
+
+Let $n$ be the unit normal to $\Si$. Recall that we defined $H=\div_{\Si}(\vec n)$. We have $H\equiv 0$ iff $\Si$ is a minimal surface.
+
+Now \fixme{(I don't really get this)}
+\[
+\ddd t\text{Area}(F(\Si,t))=\int_{\Si} \an{V,H\vec n}
+\]
+where $V:=\rb{\pd Ft}_{t=0}$. 
+The second variation of area is, assuming $V=\phi \vec n$,
+\[
+\ddt{}t\text{Area}(F(\Si,t))=-\int \phi L\phi
+\]
+where 
+\[L=\De_{\Si}\phi+|A|^2\phi
+\]
+and $A$ is the second fundamental form. We have
+\[
+|A|^2=\kappa_1^2+\ka_2^2,
+\]
+for $\ka_1,\ka_2$ the principal curvatures.
+
+Note $\ka_1+\ka_2=H=0$ iff $\ka_1=-\ka_2$. Since $K=\ka_1\ka_2$, we get
+\[
+|A|^2=\ka_1^2+\ka_2^2 =2\ka_1\ka_2=-2K.
+\]
+For a minimal surface the Schr\"odinger (Jacobi) operator is
+\[
+L=\De_{\Si} \phi+|A|^2\phi = \De_{\Si}\phi -2k\phi.
+\]
+A minimal surface is said to be stable if $0\le -\int_{\Si}\phi L\phi$.
+\begin{ex}
+$\R^2\subeq \R^3$ is a minimal surface.
+\end{ex}
+\begin{ex}
+Rotating $x=\cosh y$ around the $y$-axis, an easy computation (by Euler, 1740) shows that this is a minimal surface. It is called a \textbf{catenoid}. 
+
+\ig{23-2}{1}
+
+%rescale R^3 by constant. 
+Take a sphere, if rescale everything by same factor. Any rescaling of a minimal surface is a minimal surface. 
+If you rescale the neck it's still a minimal surface. This gives a 1-parameter family of minimal surfaces. If you translate, it is still a minimal surface.
+
+There are catenoids with arbitarily small necks.
+
+Catenoids are not stable. However, they have finite instability: there are a finite number of directions where the operator is negative.
+%trivial conseq of something fancy.
+%region doesn't contain too much of neck, then stable.
+\end{ex}
+We will see later that the catenoid is not stable. However, a region that doesn't contain too much of the neck is stable.
+\begin{ex}(from 1776) 
+%A helicoid looks like the follow
+Consider the helix $(r\cos t,r\sin t,t)$. It makes a minimal surface called a \textbf{helicoid}. You can form a helicoid by rotating a line and moving upwards at constant speed. If you rotate half of the line, you get a single spiral staircase; half of the helicoid is stable. 
+
+\ig{23-5}{1}
+
+For the helicoid, every time you complete a rotation, you get instability. %Every time you rotate up one complete floor, some instability.
+The helicoid has infinite instability.
+\end{ex}
+
+Let $\Si\subeq \R^3$ be a minimal surface. Let $p\in \Si$ and consider $\cal B_r(p)$; suppose it does not intersect $\pl \Si$. Suppose $\Si$ is stable. We would like an area bound for $\cal B_r(p)$.
+
+Considering the helicoid, note that a dilation can make the line rotating very fast as you move up. As the line rotates faster and faster, it sweeps out a larger and larger area in Euclidean space. 
+
+One way to go between two points on the helicoid is going into the axis, and down the ``flight of stairs." Thus distance between any two points in an Euclidean ball is finite no matter how many times you rotate around. A general minimal surface like the helicoid; there is no area bound. We have an area bound if the surface is stable.
+
+%almost affine on smaller scale
+
+We have (remember $Lu=\De u+|A|^2 =\De u-2ku$)
+\[
+0\le -\int_{\Si} \phi L\phi \iff \int |\nb \phi|^2\ge -2\int ku.
+\]
+Let 
+\[\phi=\begin{cases}
+1-\fc{d_{\Si}(p,\bullet)}{r}&\text{on }\cal B_r(p),\\
+0,&\text{otherwise.}
+\end{cases}
+\]
+(this may not be smooth, but assume that in $B_r(p)$ all geodesics minimize). %we'll come back to see why we can assume. Lipschitz func diffble almost everywhere.
+Suppose $|\nb \phi|=\rc r$ on $\cal B_r(p)$. 
+
+Using $\int |\nb \phi|^2\ge -2\int ku$ we get
+\begin{align*}
+\fc{\text{Area}(\cal B_r(p))}{r^2}=\rc{r^2}\int_{\cal B_r(p)} 1&\ge -2\int_{\cal B_r(p)} k\pa{1-\fc dr}^2\\
+&=-2\int_0^r\int_{\pl \cal B_s(p)}k\pa{1-\fc dr}^2\\
+&=-2\int_0^r\pa{
+\pa{1-\fc sr}^2 \int_{\pl \cal B_s(p)} k
+}\,ds
+\end{align*}
+We integrate by parts so we can use the Gauss-Bonnet Theorem.
+We have $\int_{\pl B_r(p)}k_g=\int_0^{2\pi}j'(r)\,d\te=\pa{\int_0^{2\pi}}'(r)$. %Just the length so...
+Let $\ell(r)$ be the length of $\pl \cal B_r(p)$. It is just the integral $\ell(r)=\int_0^{2\pi}$. Hence we see
+\[
+\ell'(r)=\int_{\pl B_r(p)}k_g.
+\]
+Hence we can write the Gauss-Bonnet Theorem as
+\[
+0=\ell'(r)+\int_{B_r(p)} k=\ell'(r)+\int_0^r \int_{\pl \cal B_s(p)} k.
+\]
+We have 
+\[
+\ell'=2\pi-\int_{\cal B_r(p)}k.
+\]
+By the Fundamental Theorem of Calculus, $\ell''=-\int_{\pl B_s} k$.
+Continuing our calculation, integrating by parts gives
+\begin{align*}
+\fc{\text{Area}(\cal B_r(p))}{r^2}&=-2\int_0^r\pa{
+\pa{1-\fc sr}^2 \int_{\pl \cal B_s(p)} k
+}\,ds\\
+&=2\int_0^r \pa{1-\fc sr}^2 \ell''\,ds\\
+&=\ba{\pa{1-\fc sr}^2\ell'}^r_0 -\fc 2r\int_0^r \pa{1-\fc sr}\ell'\\
+&=0-\ell'(0)-\fc 2r\int_0^r\pa{1-\fc sr}\ell'\\
+&=-2\pi -\fc 2r\int_0^r \pa{1-\fc sr}\ell'\\
+&=-2\pi -\ub{\fc 2r\ba{\pa{1-\fc sr}\ell}^r_0}{0} + \fc 2r \pa{-\fc 1r}\int_0^r\ell\\
+%ell is 0 initially.
+&=-2\pi -\fc{2}{r^2}\int_0^r\ell\\
+&=-2\pi -\fc{2}{r^2}\text{Area}(\cal B_r(p)).
+\end{align*}
+We have $\int |\nb\phi|^2\ge -2\int k\phi^2$. For our choice of $\phi$, 
+\[
+\fc{\text{Area}(\cal B_r(p))}{r^2}\ge -4\pi +\fc{4\text{Area}(\cal B_r(p))}{r^2}.
+\]
+We get
+\[
+\fc 43\pi \ge\fc{ \text{Area}(\cal B_r(p))}{r^2}.
+\]
+Thus we get a bound for the area of a ball.
+%In euclidean space constant is 1.

@@ -1,0 +1,153 @@
+\lecture{Thu. 9/13/12}
+Today Toby Colding is lecturing. His office is 2-280.
+
+Grades will be based on weekly homework and attendance. There will be 8--10 weekly homeworks. The first assignment is due on Tuesday Sept. 25, by 3pm in the undergraduate office 2-285. The grader will grade $\rc3$ of each pset, randomly.
+
+\subsection{Riemannian metric}
+
+Suppose that $M^n$ is a smooth $n$-dimensional manifold. For each $p\in M$, $T_pM$ is the vector space of tangent vectors. If $V$ is a $n$-dimensional vector space, then $\an{\cdot,\cdot}$ is an inner product if it is a function
+\[
+\an{\cdot,\cdot}:V\times V\to \R
+\]
+that is 
+\begin{enumerate}
+\item
+linear in each variable
+\[
+\an{v_1+av_2,w}=\an{v_1,w}+a\an{v_2,w},\qquad v_1,v_2,w\in V,\,a\in \R
+\]
+\item symmetric
+\[
+\an{v,w}=\an{w,v},\qquad v,w\in V
+\]
+and
+\item positive definite
+\[
+\an{v,v}\ge 0\text{ with equality iff }v=0.
+\]
+%bilinear symmetric 
+\end{enumerate}
+We'll denote inner products by $g$ or by $\an{\cdot,\cdot}$.
+%A \textbf{Riemannian metric} assigns to each tangent space $T_pM$ an inner product, with this inner product varies smoothly.
+\begin{df}
+A \textbf{Riemannian metric} is a smoothly varying inner product on the tangent space, i.e. if $X$ and $Y$ are any two vector fields, then the function $p\xra{f}\an{X,Y}(p)$ is a smooth function $f:M\to \R$. A manifold with a Riemannian  metric is also called a \textbf{Riemannian manifold}.
+%smooth section of 2-tensor field
+%total space has smooth structure
+%bundle has smooth structure not easily
+\end{df}
+Equivalently, if $p\in M$, $p$ is in the chart $U\subeq M$ and $p$ is given by coordinates $x=(x_1,\ldots, x_n)$, then $g_{ij}=\an{\pd{}{x_i},\pd{}{x_i}}$ is a smooth function. 
+
+To see the equivalence, note every vector field can be written as a linear combination of the $\pd{}{x_i}$, whose coefficients are smooth functions. For $X=\sum_i a_i\pd{}{x_i}$ (which we will write in shorthand as $a_i\pd{}{x_i}$, with the convention that we sum over the indices) and $Y=\sum_i b_i\pd{}{x_i}$, we have
+\[
+\an{X,Y}=a_ib_j\an{\pd{}{x_i},\pd{}{x_j}}=a_ib_jg_{ij}.
+\]
+If we know the $g_{ij}$ then we can recover the inner product.
+
+\begin{ex}
+The simplest example is $M=\R^n$, $g=\an{\cdot,\cdot}$. 
+\end{ex}
+
+\begin{df}
+Suppose we have a smooth map $f:M^m\to N^n$ that is an immersion, i.e. 
+\[
+d_pf:T_pM\hra T_{f(p)}N
+\]
+is injective.
+
+Now suppose $(N,g_N)$ has a Riemannian metric. Then there is a natural metric on $M$, called the \textbf{pullback}, $(M,g_M)$, defined by
+\[
+g_M(v,w)=g_N(d_pf(v),d_pf(w)),\qquad v,w\in T_pM.
+\]
+If $M^m\hra N^n$, then we call the pullback the \textbf{induced metric}.
+\end{df}
+\begin{proof}[Proof that this is a Riemannian metric]
+$g_M$ sends ordered pairs of tangent vectors to $\R$. The differential is linear and $g_N$ is linear, so $g_M$ is linear. Symmetry is obvious because $g_N$ is symmetric. $g_M$ is clearly positive semidefinite; it is definite becase $f$ is an immersion: if $w=v\ne 0$, then $d_pf(v)\ne 0$, so the RHS is strictly positive.
+\end{proof}
+The Nash embedding theorem, proven by John Nash, says that every Riemannian manifold can be imbedded in Euclidean space, such that its metric is just the induced metric from Euclidean space.
+%. But may have to be in quite large Euclidean space. Whitney embedding. Take Riemannian manifold. Induced. 50's. $2N+1$. Not that big role. Nice to know. Simplify some notation.
+\begin{ex}
+Consider $N=\R^3$. Then $(\R^3,\an{\cdot,\cdot})$ is a Riemannian metric. Suppose $\Si^2$ is a surface and $f:\Si^2\to \R^3$ is an immersion. Then we get an induced metric on $\Si$.
+In general, an inclusion is an immersion, so an inner product on Euclidean space gives an inner product on the submanifold.
+
+If you take a manifold and a smooth function $h:M^m\to \R$, and $t\in \R$ is a regular value, %implicit function theorem
+then $h^{-1}(t)$ is a smooth manifold of dimension $m-1$ (a hypersurface). 
+
+For example, consider $h:\R^3\to \R$, $h(x_1,x_2,x_3)=x_1^2+x_2^2+x_3^2$.
+Then any positive value is a regular value, so $h(x_1,x_2,x_3)=c$ is 2-manifold for any $c>0$.
+\end{ex}
+Historically, Riemannian manifolds came out of looking at surfaces in Euclidean 3-space. At each point you have a natural inner product; we want to see what this inner product tells us about the geometry of the surface. Gauss pioneered this viewpoint and Riemann cast this in the more general language of manifolds. See Spivak's book; it's amusing to read about Riemann's thesis, the starting point for Riemannian geometry---a generalization of the inner product in $\R^3$.
+
+
+We need a notion of what it means for two Riemannian metrics to be the same. 
+\begin{df}
+Let $(M^m,g_M)$ and $(N^n,g_N)$ be Riemannian manifolds. A \textbf{isometry} is a diffeomorphism $f:M\to N$ such that for all $p\in M$, and for all $v,w\in T_pM$, 
+\[
+\an{v,w}_M=\an{d_pf(v),d_pf(w)}_N.
+\]
+The Riemannian manifolds are said to be \textbf{isometric}.
+\end{df}
+Note the fact that $f$ is a diffeomorphism requires $m=n$.
+
+\begin{df}
+Let $G$ is a Lie group (a manifold that is also a group, such that group operations are smooth). For each $g\in G$, we have the left action $L_g:G\to G$ given by $L_gh=gh$ and the right action $R_gh=hg$.
+
+Suppose $(G,\an{\cdot,\cdot})$ is a smooth $n$-dimensional Riemannian manifold. We say that the Riemannian metric $D$ is \textbf{left invariant} if for all $g\in G$, $L_g:G\to G$ is an isometry. (Note it is a diffeomorphism since $L_{g^{-1}}=L_g^{-1}$.) Similarly define right invariance.
+\end{df}
+Let $G$ be a Lie group with a left invariant Riemannian metric. It is determined completely by the inner product at the tangent space at the identity $T_eG$ (the Lie algebra), because $L_g$ is an isometry seding $e$ to $g$. Given an inner product on the tangent space on $T_eG$, requiring that $L_g$ is an isometry for each $g$ we get a left-invariant metric. We have a correspondence between inner products on $T_eG$ and Riemannian metrics on $G$.
+
+If we have a Lie group, it's natural for us to connect the group structure with the inner product.
+\begin{df}
+A metric on a Lie group that is both left and right invariant is said to be \textbf{bi-invariant}.
+\end{df}
+If $G$ is bi-invariant, then map $G\to G$ given by $h\mapsto ghg^{-1}$ is an isometry because it is the composition of isometries $h\xra{L_g}gh\xra{R_{g^{-1}}} (gh)g^{-1}$.
+%composition of isometries isometries
+This gives a necessary condition for a metric to be bi-invariant.
+
+If a Lie group is compact, then you can average over the group and construct a bi-invariant metric. Take any inner product at the tangent space of the identity, look at all the other inner products that are pullbacks, and average over the group. This construction only make sense if we can average, i.e. if $M$ is compact.
+
+Let $M^n$ be a smooth manifold (that is Hausdorff with countable basis).
+\begin{clm}
+There exist many Riemannian metrics on $M$.
+\end{clm}
+Let $(U_{\al},x_{\al})$ be an atlas. Take a partition of unity $\{\phi_{\al}\}$ subordinate to this cover, i.e.
+\[
+\phi_{\al}:M\to [0,\iy),\qquad \Supp \phi_{\al}\subeq U_{\al}
+\]
+such that given any point $p$, there exist at most finitely many $\al$ with $\phi_{\al}(p)\ne 0$, and $\sum_{\al}\phi_{\al}(p)=1$.
+
+We have $x_{\al}:U_{\al}\to \R^n$; we can choose any inner product on $\R^n$ (such as the standard inner product) to get an inner product on $U_{\al}$. Then $\sum_{\al} \phi_{\al}g_{\al}$ is a inner product on $M$. Only finitely many terms are nonzero at each point. It is linear in each variable; it is positive semidefinite because $\phi_{\al}$ are nonnegative; it is positive definite because $\sum_{\al}\phi_{\al}(p)=1>0$.  Make any choice of metric on the open subsets.
+
+\subsection{Length of a curve}
+\begin{df}
+Let $M$ be a manifold, $I$ be an interval, and $C$ be a curve (smooth map) $I\to M$. Note $d_tc\pa{\pd{}{t}}=c'(t)$. By definition, the length of the curve is
+\[
+\int_I \sqrt{\an{c'(t),c'(t)}}\,dt=\int_I|c'(t)|.
+\]
+%For example, $C:[0,1]\to \R^3$. %integrate 0 to 1. Lenght of curve in Euclidean space.
+\end{df}
+Let's talk about another construction. 
+\begin{df}
+Let $(M_1,g_1)$ and $(M_2,g_2)$ be Riemannian manifolds. Then  define the product to be $(M_1\times M_2,g)$ as follows. %for $(p_1,p_2)\in M_1\times M_2$. Now 
+A tangent vector at $(p_1,p_2)$ can be thought of as $(v_1,v_2)$ where $v_i\in T_{p_i}M_i$. Taking $(v_1,v_2),(w_1,w_2)\in T_{(p_1,p_2)}(M_1\times M_2)$, we define
+\[
+g((v_1,v_2),(w_1,w_2)):=g_1(v_1,w_1)+g_2(v_2,w_2).
+\]
+\end{df}
+Linearity in each variable is clear because $g_1,g_2$ are linear. Symmetry follows from $g_1,g_2$ being symmetric. For positive definiteness, take $v_i=w_i$; the expression is nonnegative and is 0 only if $v_1$ and $v_2$ are 0.
+
+Consider $(M^n,g)$. Suppose $X_1,\ldots, X_n\in T_pM$. Suppose $e_1,\ldots, e_n$ is an orthonormal basis for $T_pM$. Write $X_i=a_{ij}e_j$. Then the (signed) volume spanned by $X_1,\ldots, X_n$ is just $\det(a_{ij})$.
+
+When $X_i=a_{ik}e_k$ then $\an{X_i,X_j}=a_{ik}a_{jk}$. I.e. it's given by the entries of $AA^T$ where $A=(a_{ij})$. Hence \[\sqrt{\det(g_{ij})}=\ab{\det(a_{ij})}.\]
+%Thus as long as everything is positively oriented,
+\begin{df}
+Define the \textbf{volume} of a set $U$ to be
+\[
+\Vol(U)=\int_U\sqrt{\det(g_{ij})}.
+\]
+We sum over pieces contained in different coordinate charts, as necessary.
+\end{df}
+\cpbox{
+A Riemannian metric gives us a way to define length and volume on a manifold.
+}
+\vskip0.15in
+We have more or less covered everything in chapter 1. The first several classes included lots of notation; we'll soon go on to more geometry.

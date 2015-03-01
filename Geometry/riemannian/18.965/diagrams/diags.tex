@@ -1,0 +1,113 @@
+%% Author: Holden Lee
+%% 
+%% 
+%% 
+
+
+\documentclass[11pt]{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{xy}
+\usepackage{asymptote}
+%\usepackage[pdftex]{graphicx}
+
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+\oddsidemargin 0in
+\textwidth 6.5in
+\textheight 8.8in
+\topmargin -1.3in
+\headheight 112pt
+
+\begin{document}
+%1
+\begin{asy}
+unitsize(3cm);
+draw(arc((0,0),1,0,90));
+dot((0,1));
+label("$c(a)$",(0,1),S);
+draw(.9*dir(50)--1.1*dir(50));
+label("$c:[a,b]\to M$", (0,0),NE);
+label("$c$",dir(30),dir(30));
+label("$t$",dir(50),N);
+label("$M$",1.3*dir(60));
+\end{asy}
+
+%2
+\begin{asy}
+unitsize(1cm);
+pair O,x,y,A,B,C,D;
+draw(W--(5,0),EndArrow);
+draw(S--(0,4),EndArrow);
+A=(1,2);
+B=(4,2);
+C=(4,4);
+D=(1,4);
+draw(A--B--C--D--cycle);
+label("$a$",A,S);
+label("$b$",B,S);
+label("$\varepsilon$",C,E);
+label("$-\varepsilon$",B,E);
+label("$s$",(5,0),E);
+label("$t$",(0,4),N);
+\end{asy}
+
+%3
+\begin{asy}
+unitsize(1cm);
+pair A,B,C,D,A1,C1,M;
+B=(-1,3);
+C=(4,4);
+D=(5,1);
+A1=(.1,1.7);
+C1=A1+(5,1);
+draw(A..A1..B--C..C1..D--cycle);
+draw(A1--C1);
+M=(A1+C1)/2;
+pair v=(1,.2);
+pair p=(-.2,1);
+draw(M--M+v,linewidth(.2mm),EndArrow);
+draw(M--M+p,linewidth(.2mm),EndArrow);
+label("$\frac{\partial F}{\partial s}$",M+v,-p);
+label("$\frac{\partial F}{\partial t}$",M+p,v);
+pair AD=(A+D)/2;
+pair BC=(B+C)/2;
+draw(AD..M..BC);
+\end{asy}
+
+%4
+\begin{asy}
+unitsize(1cm);
+pair A,B,C,D;
+A=W;
+B=(1,2)+W;
+C=(5,2)+E;
+D=(4,0)+E;
+label("$T_pM$",C,SE);
+draw(A--B--C--D--cycle);
+pair M=(2.5,1);
+label("$p$",M,S);
+pair X=M+(-2.5,2.5);
+pair Y=M+(2.5,2.5);
+fill(X..M..Y--cycle,white);
+draw(X..M..Y);
+draw(ellipse(M+(0,2.5),2.5,.5));
+dot(M);
+label("$v$",M+2E,S);
+draw(M--M+2E,linewidth(.2mm),EndArrow);
+draw(arc(M+(0,2.5),2.5,270,315),linewidth(.2mm),EndArcArrow);
+\end{asy}
+
+%5
+\begin{asy}
+unitsize(1cm);
+draw(circle((0,0),2));
+draw(4SW--4SE--4NE--4NW--cycle);
+for(int i=0; i<180; i=i+30) {
+draw(2.5*dir(i)--(-2.5*dir(i)));
+}
+\end{asy}
+\end{document}

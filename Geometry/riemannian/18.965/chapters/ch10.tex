@@ -1,0 +1,181 @@
+\lecture{Thu. 10/11/12}
+
+\subsection{Jacobi fields}
+%Last time we discussed Jacobi fields. 
+If we have a manifold $M$ with a symmetric connection $\nb$, then the curvature is defined by 
+\[
+R(X,Y)Z=\nb_Y\nb_XZ-\nb_X\nb_Y Z+\nb_{[X,Y]}Z.
+\]
+(It was initially defined for vector fields, but it really only depends on tangent vectors.) We proved that if $f:[a,b]\to [-\ep,\ep]$ is a parameterized surface (i.e. smooth map), and $V$ is a vector field along $f$, then (Lemma~\ref{lem:vf-ps})
+\[
+\cvd \cvs V-\cvs \cvd V=R\pa{\pd fs,\pd ft}V.
+\]
+We also showed (Proposition~\ref{pr:covar-commute})
+\[
+\cvs \pd ft=\cvd \pd fs.
+\]
+If $f$ is a parametrized surface, and $s\mapsto f(s,t)$ for each fixed $t$ is a geodesic, then 
+\begin{align}
+\nonumber
+0&=\cvs \pd fs\\
+\nonumber
+\implies 0&=\cvd \cvs \pd fs\\
+\nonumber&=R\pa{\pd fs,\pd ft}\pd fs + \cvs\cvd \pd fs&\text{Lemma~\ref{lem:vf-ps}}\\
+&=R\pa{\pd fs,\pd ft}\pd fs + \cvs\cvs \pd ft&\text{Proposition~\ref{pr:covar-commute}}
+\llabel{eq:965-10-1}
+\end{align}
+Fix $t$, say $t=0$. Denote the map $s\mapsto f(s,0)$ by $\ga(s)$; it is a geodesic by assumption. Define
+\[
+J=\pd ft
+\]
+to be the \textbf{variational vector field}.
+%map from rectangle into manifold. 
+Think of $f(s,0)$ as  a single curve, sitting inside a whole family of curves given by $f(s,t)$. We say $f(s,t)$ is a {\it variation} of curves in the $t$-direction. Now putting in $J=\pd ft$ in~\eqref{eq:965-10-1} gives
+\[
+0=R(\ga',J)\ga'+\cvs \cvs J=R(\ga',J)\ga'+J''.
+\]
+\begin{df}
+If $\ga$ is a geodesic, and $J$ is a vector field along $\ga$, then $J$ is said to be a \textbf{Jacobi field} if 
+\[J''+R(\ga',J)\ga'=0.\]
+\end{df}
+We proved that Jacobi fields naturally occur: if we take a variation of geodesics, then the variational vector field is a Jacobi field. We'll see how the Jacobi equations gives us the first explanation for a geometric notion of curvature.
+
+%Riemannian, so LC
+Now we make some calculations. Let $\ga$ be a geodesic. Then $\ga'$ is a parallel vector field. Let $E_1,\ldots, E_{n-1}$ be orthonormal parallel vector fields along $\ga$ such that each is orthogonal to $\ga'$. 
+
+\ig{10-2}{1}
+
+At each point along $\ga$, we have that $\ga'$, $E_1, \ldots,E_{n-1}$ is an orthonormal basis along $T_{\ga(s)}M$. Suppose $J$ is a vector field along $\ga$. Write 
+\[J=j_0\ga'+j_1E_1+\cdots +j_{n-1}E_{n-1}\]
+ where the $j_i$ are functions of $s$. Note $J_0=g(\ga',J)$, $J_i=g(J,E_i),\,i>0$; it is clear that the $j_i$ are smooth functions.
+
+Now $E_i'=0$ and $E_i''=0$ so (using the fact $\ga$ is a geodesic),
+\begin{align}
+\nonumber
+J' &= j_0'\ga'+\cancelto0{j_0\ga''}+j_i'E_i+\cancelto0{j_iE_i'}\\
+\nonumber
+&= j_0'\ga'+j_i'E_i\\
+\llabel{eq:965-10-2}
+J''&=j_0''\ga'+j_i''E_i'.
+\end{align}
+Recall that the sectional curvature of a 2-plane $\Pi$ was defined by 
+\[
+K(\Pi)=\fc{g(R(v_1,v_2)v_1,v_2)}{|v_1\wedge v_2|^2}
+\]
+where $|v_1\wedge v_2|^2=|v_1|^2|v_2|^2-g(v_1,v_2)^2$. In the particular case where $v_1,v_2$ is an orthonormal basis, the denominator is 1 so
+\[
+K(\Pi)=g(R(v_1,v_2)v_1,v_2).
+\]
+%If $J=j_0\ga' +j_iE_i$, then $J''=j_0''\ga'+j_i''E_i$. Filling this
+Now substituting~\eqref{eq:965-10-2} into the equation for the Jacobi field $J''+R(\ga',J)\ga'=0$ we get
+\begin{align*}
+j_0''\ga' +j_i''E_i+\cancelto 0{j_0R(\ga',\ga')\ga'}+j_i R(\ga',E_i)\ga'&=0\\
+j_0''\ga' +j_i''E_i+j_i R(\ga',E_i)\ga'&=0
+\end{align*}
+Now $R(\ga',E_i)\ga'$ is a vector field along $\ga$. By Proposition~\ref{pr:965-9-1}, this vector field is orthogonal to $\ga$:
+\[
+0=g(R(\ga',E_i)\ga',\ga').
+\]
+%(This is because $g(X,X)=0$ for any $X$.) 
+Write $R(\ga',E_i)\ga'=R_i^k E_k$. Then we can write the Jacobi equation as
+\begin{align*}
+j_0''\ga'+j_i'' E_i+j_iR_i^kE_k&=0\\
+j_0''\ga'+j_i'' E_i+j_kR_k^iE_i&=0.
+\end{align*}
+This is true iff it is zero componentwise:
+\begin{align*}
+j_0''&=0\\ 
+j_i''&=j_kR_k^i.
+\end{align*}
+This is a system of ordinary differential equations. The solution is unique given initial data. %Completely determined. One and only one solution.
+
+We have that $j_0$ is a linear function, so $j_0=ds+e$ for some constants $d$ and $e$. Usually we look at Jacobi fields that are orthogonal to the geodesic. In the case where $(M,g)$ is 2-dimensional, we can write $J=j_0\ga'+j_1E_1$. We have $j'=j_0'\ga'+g_1'E_1$. %$J$ is a Jacobi field iff $J(0)\perp \ga$ and $J'(0)\perp \ga'$, i.e. $j_0(0)=j_0'(0)=0$, i.e. $j_0\equiv 0$.
+
+%original field orht to geodeisc, then remain orthogonal to geodesic. special jf oftne look at
+%orthog to \ga', but 1st component is \ga'
+%only 1 vector orthogonal
+
+Let $J$ be a Jacobi field with $J(0)\perp \ga$ and $J'(0)\perp \ga'$. Let $J=j_1E_1$; we write this in short as $J=jE$. The Jacobi equation is $J''+R(\ga',J)\ga'=0$ which becomes
+\[
+j''E+jR(\ga',E)\ga'=0.
+\]
+Now 
+\[R(\ga',E)\ga'=kE\text{ where }
+k=g(R(\ga',E)\ga',E).
+\]
+For a surface, the sectional curvature is the Ricci curvature (under the correct normalization). We get
+\[
+j''E+jk E=0\iff j''+kj=0.
+\]
+This is the Jacobi equation for a 2-dimensional manifold. 
+Consider 3 cases when $k$ is constant.
+\begin{itemize}
+\item
+If $k=0$ then $j''=0$ %and $j=ds_a$. Now Jacbo 
+and $j=(ds+e)E$.
+\item
+When the curvature equals 1 everywhere, i.e. $k\equiv1$, then we get $j''+j=0$.\footnote{This is the 1-dimensional Schr\"odinger equation.} The only solutions are $j=d\cos s+e\sin s$. 
+%all straight line go thru origin, paramby unit seep 
+
+%Take $t$-derivative, get linearly growning. Variation where curves are geodesics. Variational field is Jacob field.
+
+%Can get both $eE$ and $dsE$; Jcobi equation is linear so.
+
+For instance, the unit sphere has constant curvature 1. 
+%Surface with curvature 1. Round unit sphere. $K=1$. 
+%Fig 4
+Its geodesics are the great circles are geodesics. Think of a family (variation) of great circles going through the north and south poles, with each great circle parametrized by unit speed. Then it makes sense that $j=e\sin s$ (it vanishes at $s=0$ and $\pi$, and has minimum absolute value in the middle; we have the geodesics are together at $s=0,\pi$ and farthest apart in the middle). %lookat things initially parallel.
+\item
+When the sectional curvature is constantly $-1$, the Jacobi equation is $j''-j=0$. We also know what the solution is in this case; the general solution is $j=d\cosh s+e\cosh s$. 
+\end{itemize}
+
+Suppose $J_1$ and $J_2$ are Jacobi fields along $\ga$. Let
+\begin{align*} 
+f(s)&=g(J_1',J_2)-g(J_1,J_2').
+\end{align*}
+Then
+\begin{align*} 
+f'&=g(J_1'',J_2)-g(J_1,J_2'')\\
+&\quad+\cancel{g(J_1',J_2')}-\cancel{g(J_1',J_2')}\\
+&=-g(R(\ga',J_1) \ga',J_2)+g(J_1,R(\ga',J_2)\ga')=0
+\end{align*}
+%use other symmetries of curve oper. If switch then nothing change.
+%Extra structure much more general
+%
+%1-dimensional Schr\"odinger eqution $j''+j=0$.
+%symplectic structure
+
+In other words, $f$ is constant along a geodesic. Note $\ga'$ is a Jacobi field %parallel field
+since $\ga''+R(\ga',\ga')\ga'=0$.\footnote{Think of $\ga$ as a family of geodesics, sliding forward along itself like a snake.} Thus specializing to $J_1=\ga'$, this equation says $g(\ga',J_2')$ is constant along a geodesic.
+
+%\fixme{This section has been omitted. Prof. Colding will redo the calculations a bit differently next lecture.}
+%Suppose that $\ga$ is a geodesic and $J$ is a Jacobi field along $\ga$. Then 
+%\[
+%|J|^2=g(J,J).
+%\]
+%Consider the function $f(s)=|J|^2$. Now using the Leibniz rule and symmetry of $g$,
+%\begin{align*}
+%f'&=2g(J',J)\\
+%f''&=2g(J',J')+2g(J'',J)\\
+%g(J'',J)&=-g(R(\ga',J)\ga',J).(*)\\
+%&=-|J|^2K(\ga',J).
+%%not on surfae, don't need?
+%\end{align*}
+%(*)
+%Assuming originally orthogonal, Jacobi field remains orthogonal: $J\perp \ga$ implies $|J\wedge \ga'|^2=|J|^2$. (one is a unit vector.geodesic assumed unit speed.)
+%
+%$f(s)=|J|^2$. Now let's look at the Taylor expansion of $f$. We assume $J(0)=0$. Variation of geodesics all with unit speed originating at same point. Then $J(0)=0$ and $J\perp \ga'$. We want to evaluate $f(0)$, $f'(0)$, $f''(0)$, and $f'''(0)$. 
+%\begin{align*}
+%f(0)&=0\\
+%f'(0)&=0\\
+%f''(0)&=2g(J',J')=2|J'(0)|^2\\
+%f'''(0)&=
+%\end{align*}
+Let's revist our geometric intuition for curvature. Consider (for simplicity) the case of a 2-dimensional surface. %(but works in all dimensions, don't need look atnorm squared, can looked at Jf first. Calculations simpler for surface. 
+Fix a point $P$. We give a geometric definition of the sectional curvature at $P$. Consider the image under the exponential map of a small sphere of radius $\ep$ at the origin of the tangent space.
+
+\ig{10-4}{1}
+
+Geometrically, as $\ep\to 0$, the sectional curvature is first nontrivial coefficient of the Taylor expansion of the length of the the image. This is why we wanted to look at $f$. %The Jacobi fields by what we did in the beginninof thes class. Jf Derivative of exponential. 
+I.e. the sectional curvature measures the distortion of geodesics. Next time we will derive the geometric description of the curvature from our original definition.
+%Relate to exponential, clean up next time. Look at norm, not norm squared

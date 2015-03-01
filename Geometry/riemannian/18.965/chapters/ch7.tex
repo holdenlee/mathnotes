@@ -1,0 +1,186 @@
+\lecture{Thu. 9/27/12}
+
+%
+Get graed homeworks on Fridays in 2-285 (same box where you turn it in).
+
+\subsection{Gradient and related quantities}
+Let $(M,g)$ be a manifold with $g$ a Riemannian metric.\footnote{We will use $g$ and $\an{\cdot,\cdot}$ interchangeably.} ($g$ will always be a symmetric nondegenerate bilinear form, and smoothly depend on the point. Riemannian means that it is positive definite.)
+
+Suppose we have a function $f:M\to \R$ and a vector field $X\in \X(M)$. We define the following quantities.
+\begin{enumerate}
+\item
+The \textbf{gradient} $\nabla f$%In other words, fixing the vector field $X$, $\nabla$ is a function $C^{\iy}(M)\to \R$. %Riesz representation theorem 
+\item
+The \textbf{divergence} $\div(X)$
+\item
+The \textbf{Hessian} of $f$ and \textbf{Laplacian} of $f$
+\end{enumerate}•
+
+\begin{df}
+
+The \textbf{gradient} $\nabla f$ is a vector field such that
+\[
+g(\nabla f,X)=X(f).
+\]
+(To know what the gradient is, we just need to know its projection onto every vector field.)
+\end{df}
+
+\subsubsection{Gradient}
+
+Let's write the gradient in coordinates. Let $(x_1,\ldots, x_n)$ be local coordinates on $M$. Recall that we let $g_{ij}=g\pa{\pd{}{x_i},\pd{}{x_j}}$, and $(g^{ij})$ is the inverse matrix of $g_{ij}$. Write the gradient as $\nabla f=f_i\pd{}{x_i}$.
+
+By definition, $X(f)=g(\nabla f,X)$; letting $X=\pd{}{x_j}$ we get that 
+\[
+\pd{f}{x_j}=\sui g_{ij}f_i.
+\]
+Then (we are implicitly summing over $i,j$ below)
+\[
+\pd{f}{x_j}g^{jk} = g_{ij}f_ig^{jk}=f_ig_{ij}g^{jk}=f_i\de_{ik}=f_k.
+\]
+We hence have 
+\beq{eq:787-7-1}
+\nabla f=f_k\pd{}{x_k}\text{ where }f_k=\pd{f}{x_j}g^{jk}.
+\eeq
+
+As long as $g$ is nondegenerate symmetric bilinear form, everything works (it doesn't have to be positive definite).
+%nondegenerate b/c take inverse.
+
+\subsubsection{Divergence, Hessian, and Laplacian}
+
+\begin{ex}
+On $\R^n$, $g_{ij}=\de_{ij}$, so $g^{jk}=\de_{jk}$, and we are reduced to \[\nabla f=\suj\pd{f}{x_j}\pd{}{x_j}.\]
+This is the usual definition of the gradient on $\R^n$.
+\end{ex}
+
+\begin{df}
+Define the \textbf{divergence} of a vector field $X\in \X(M)$ as the (smooth) function on $M$ given by
+\[
+\div(X)=g(\nabla_{e_i} X,e_i)
+\]
+where $e_1,\ldots, e_n$ is an orthonormal basis at $T_pM$ and $\nabla$ is the Levi-Civita connection corresponding to $g$.
+\end{df}
+Think of it as a kind of ``trace." This easily seen to be independent of the orthonormal basis (by interpreting it as a kind of trace).
+
+%Again, we take local coordinates $(x_1,\ldots, x_n)$.
+\begin{df}
+Define the \textbf{Hessian} of $f$ as a function
+\[
+\Hess_f:T_pM\times T_pM\to \R
+\]
+given by
+\[
+\Hess_f(v,w)=g(\nabla_v\nabla f,w),\qquad v,w\in T_pM.
+\]
+\end{df}
+We explain the notation $\nabla_v$. 
+Recall that if we have vector fields $X,Y\in \X(M)$, and we're looking at $\nabla_X(Y)$ at the point $p$, the dependence on $X$ is just on $X(p)$ (the dependence on $Y$ is more complicated). Hence we could write
+\[
+\nabla_XY(p)=\nabla_{X(p)}Y
+\]
+if we wanted. ``$\nabla_v$" just means ``$\nabla_X$" for any $X$ such that $X$ at $p$ is $v$.
+
+\begin{pr}
+$\Hess_f$ is a symmetric bilinear form.
+\end{pr}
+\begin{proof}
+It is clearly bilinear. To see it's symmetric, let $X$ and $Y$ be vector fields with $X(p)=v$ and $Y(p)=w$. Then 
+\[
+g(\nabla_v\nabla f,w)=g(\nabla_X\nabla f,Y)=Xg(\nabla f,Y)-g(\nabla f,\nabla_XY)=XYf-g(\nabla f,\nabla_XY).
+\]
+Switching $v$ and $w$,
+\[
+g(\nabla_w\nabla f,v)=g(\nabla_Y\nabla f,X)=Yg(\nabla f,Y)-g(\nabla f,\nabla_YX)=YXf-g(\nabla f,\nabla_YX).
+\]
+Thus for $X=\pd{}{x_i}$ and $Y=\pd{}{x_j}$ we have that the two equations are equal. Since every vector field is a linear combination of these, we get by bilinarity that
+\[
+\Hess_f(v,w)=\Hess_f(w,v).
+\]
+\end{proof}
+
+\begin{df}
+Define the \textbf{Laplacian} of a function $g$ by
+\bal
+\Delta f=\div(\nabla f).
+\end{align*}
+\end{df}
+The Laplacian of a function is a function because the gradient of a function is a vector field and the divergence of a vector field is a function on the manifold.
+
+We give another expression for the Laplacian. 
+Let $e_1,\ldots, e_n$ be an orthonormal basis of $T_pM$. Then 
+\[
+\Delta f=\div(\nabla f)=\an{\nabla_{e_i}\nabla f,e_i}=\Hess_f(e_i,e_i).
+\]
+%\begin{ex}
+%In $\R^n$ we have $\an{\nabla f,X}
+%\end{ex}
+
+Now we compute the Hessian in local coordinates. We have
+\[
+\Hess_f\pa{\pd{}{x_i},\pd{}{x_j}}=g\pa{\np{x_i} \nabla f,\pd{}{x_j}}.
+\]
+From~\eqref{eq:787-7-1} we have $\nabla f=\pd{f}{x_{\ell}}g^{\ell k}\pd{}{x_k}$ so this equals
+\begin{align*}
+g\pa{\np{x_i}\pa{\pd{f}{x_{\ell}}g^{\ell k}\pd{}{x_k}},\pd{}{x_j}}
+&=
+\pd{}{x_j}\pa{\pd{f}{x_k}g^{\ell k}}g_{kj}+\pd{f}{x_k} g^{\ell k} g(\np{x_i} \pd{}{x_k},\pd{}{x_j}).\\
+&=\pd{^2f}{x_i\partial x_{\ell}}g^{\ell k}g_{kj} + \pd{f}{x_{\ell}}\pd{g^{\ell k}}{x_j}g_{kj} +\pd{f}{x_{\ell}} g^{\ell k}\Ga_{ij}^s g_{sj},\qquad \np{x_i}\pd{}{x_k}=\Ga_{ik}^s\pd{}{x_s}\\%sum over k.
+&=\underbrace{\pd{^2f}{x_i\partial x_{\ell}}\de_{\ell j}}_{\pd{^2f}{x_i\partial x_j}}+ \pd{f}{x_{\ell}}\pd{g^{\ell k}}{x_j}g_{kj} +\pd{f}{x_{\ell}} g^{\ell k}\Ga_{ij}^s g_{sj}
+\end{align*}
+\begin{ex}
+If $M=\R^n$, $g_{ij}=\de_{ij}$, $g^{ij}=\de_{ij}$, and $\Ga_{ij}^k=0$ (recall the christoffel symbols were defined $\np{x_i} \pd{}{x_j}=\Ga_{ij}^k \pd{}{x_k}$). Hence the second and third terms above are 0, and we just get the usual Hessian:
+\[
+\Hess_f\pa{\pd{}{x_i},\pd{}{x_j}}=\pd{^2f}{x_i\partial x_j}.
+\]
+\end{ex}
+\subsection{Geodesics as locally minimizing distances}
+Given $(M,g)$, recall that we defined $\exp_p:T_pM\to M$ by $\exp_p(v)=c(1)$ where $c$ is the geodesic such that $c(0)=p$ and $c'(0)=v$. By reparameterization, we can write $\exp_p(v)=\ga(|v|)$ where $\ga$ is the geodesic such that $\ga(0)=p$, $\ga'(0)=\fc{v}{|v|}$, where $|v|=\sqrt{g(v,v)}$.
+
+The Gauss lemma says that the image of rays coming out of the origin meet the circles on the manifold orthogonally.
+
+%\fixme{A nice picture here.}
+
+\begin{thm}
+Geodesics locally minimize distances.
+\end{thm}
+\begin{proof}
+The exponential map $\exp_p:T_pM\to M$  satisfies
+\[
+(d\exp_p)_0=\id.
+\]
+Hence $\exp$ is a local diffeomorphism near the origin in $T_pM$. The exponential map gives coordinates in a neighborhood of $p$. 
+
+We can use polar coordinates $(r,\te)$, which gives coordinates in a neighborhood where we remove the origin (corresponding to $p$). What is $g_{ij}$ with respect to polar coordinates?
+
+Consider the map in $(0,\iy)\times [-\pi, \pi)$ given by $(r,\te)\mapsto (r\cos \te,r\sin \te)$, and then composed with the exponential map $\exp_p$.
+
+\ig{7-2}{1}
+
+This ia a diffeomorphism in some pointed neighborhood of the origin.
+
+
+We now calculate $g_{ij}$ for coordinates $(r,\te)$. We have
+\begin{align*}
+1=g_{11} &= g\pa{\pd{}{r},\pd{}{r}}\\
+0=g_{12} =g_{21} &=g\pa{\pd{}{r},\pd{}{\te}}\text{ by Gauss lemma}\\
+g_{22}&=g\pa{\pd{}{\te},\pd{}{\te}}.
+\end{align*}
+To see $g_{11}$, note that as we go increase $r$ at constant speed, we're travelling along a geodesic on $M$ with constant speed. If we travel at unit speed, we travel the geodesic with unit speed.
+
+Note the only information really is in $g_{22}$.
+
+Now we start the proof for real. Let $c:[0,1]\to M$. We show that for some $\ep$, $c:[0,\ep]\to M$ is the shortest curve betweent he endpoints.
+
+Suppose $c(0)=p$. Take another curve (a competing curve).
+
+In Euclidean space, how do we know that the a straight line is the shortest path between two endpoints? If we take any competing curve, break it as a component in the direction along the straight line and another direction. 
+
+\ig{7-3}{1}
+
+Write $\ga= (\ga_1,\ga_2)$ and $\ga'=(\ga_1',\ga_2')$, with $|\ga'|\ge|\ge_1'|$, so
+\[
+\int_a^b|\ga'|\ge \int_a^b|\ga_1'|
+\]
+In a plane, the shortest past between two points is a straight line. We think of any curve as having that component and an orthogonal curve.
+
+We break up our curve into a component in the $r$ direction and a component in the $\te$ direction and use the same idea. %\fixme{details to be added.}
+\end{proof}

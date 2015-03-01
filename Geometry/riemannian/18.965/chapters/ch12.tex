@@ -1,0 +1,159 @@
+\lecture{Thu. 10/18/12}
+
+Last time we considered isometric immersions $M^m\hra N^n$. This means that the map is an immersion and the metric is just induced by inclusion. Let $X,Y,Z\in \X(M)$. We proved that if $\ol X$ and $\ol Y$ are extensions of $X$ and $Y$ to a tubular neighborhood of $p$, then 
+\[
+(\ol{\nb}_{\ol X}\ol Y)^T=\nb_X Y.
+\]
+Last time we also defined the second fundamental form $B(X,Y)$ by
+\[
+B(X,Y)=(\ol{\nb}_{\ol X} \ol Y)^{\perp}.
+\]
+We have that $B$ is symmetric bilinear form
+\[
+B:T_pM\times T_pM\to (T_pM)^{\perp}\subeq T_p N.
+\]
+Suppose $E$ is a vector field perpendicular to $M$. Then 
+\begin{align}
+\nonumber
+\an{B(X,Y),E}(p)&=\an{(\ol{\nb}_{\ol X}\ol Y)^{\perp},E}\\
+\nonumber
+&=\an{\ol{\nb}_{\ol X}\ol Y,E}&%\ol{\nb}_{\ol X}\ol Y
+E\text{ is perpendicular}\\
+&=\underbrace{\ol X\an{\ol Y,E}}_0-\an{\ol Y,\ol{\nb}_{\ol X}E}\llabel{eq:965-12-1}\\
+\nonumber
+&=-\an{\ol Y,\ol{\nb}_{\ol X}E}
+\end{align}
+In~\eqref{eq:965-12-1} we noted that $\ol Y$ is tangent to $M$ and $E$ is normal to $M$, so the first term is 0.
+
+Since $B$ is symmetric, if we switch $X,Y$ we get the same thing:
+\[
+\an{Y,\nb_XE}=\an{X,\nb_YE}.
+\]
+
+\subsection{Weingarten map}
+Suppose that $M^{n-1}\subeq N^n$ is a hypersurface. Then up to sign, locally there is a unique normal vector field $n$ to $M$. 
+\begin{df}
+The \textbf{Weingarten map} is the map $W:T_pM\to T_pM$ defined by
+\[
+W(v)=\nb_v n.
+\]
+\end{df}
+It is clear that $W$ is linear. We need to show that $W(T_pM)\subeq T_pM$ is actally in $T_pM$, or equivalently, $\an{W(v),n}=0$ for all $v\in T_pM$. Let $X$ extend $v$. We have 
+\[
+\an{W(v),n}=\an{\nb_X n,n}=\rc 2X\underbrace{\an{n,n}}_1=0
+\]
+Next we show that $W$ is symmetric (self-adjoint):
+\[
+\an{W(v),u}=\an{v,W(u)}.
+\]
+We calculate
+\begin{align*}
+\an{W(v),u}&= \an{\nb_v n, u}\\
+&=-\an{B(v,u),n}\\
+&=-\an{B(u,v),n}\\%B only depends on vectors at points
+%extend to vf on nbhd of point. 
+&=\an{\nb_un,v}.
+\end{align*}
+%\fixme{check.}
+This implies by the spectral theorem that $W$ has a basis of eigenvectors.
+\begin{df}
+The eigenvectors of $W$ are called \textbf{principal directions} and the eigenvalues are called \textbf{principal curvatures}.
+\end{df}
+Note it is easy to generalize the theory to arbitrary isometric immersions $M\hra N$; see the book.
+
+We now relate the curvature of $M$ to the curvature of $N$ using the Gauss equations.
+\subsection{Gauss equations}
+%products of principal curvatures.
+Let $E_1$, $E_2$, and $E_3$ be vector fields tangent to $M$. Then\footnote{We implicitly extend the vector fields to $N$. We may as well just work with vector fields on $M$, though, because the definition doesn't depend on the extension.}
+\begin{align*}
+\ol R(E_1,E_2)E_3=\ol{\nb}_{E_2}\ol{\nb}_{E_1}E_3-\ol{\nb}_{E_1} \ol{\nb}_{E_2} E_3+\ol{\nb}_{[E_1,E_2]} E_3,\\
+R(E_1,E_2)E_3={\nb}_{E_2}{\nb}_{E_1}E_3-{\nb}_{E_1} {\nb}_{E_2} E_3+{\nb}_{[E_1,E_2]} E_3.
+\end{align*}
+Because we are working with a hypersurface, we can write
+\begin{align*}
+\ol{\nb}_{E_1}E_3 &= \nb_{E_1}E_3 + \an{B(E_1,E_3),n}n,\\
+\ol{\nb}_{E_2}E_3 &= \nb_{E_2}E_3 + \an{B(E_2,E_3),n}n.
+\end{align*}
+%trivial things: vector fields tangent to $M$. Can extend (make sense even if don't extend). 
+Then we have using the above and the Leibniz rule,
+\begin{align*}
+\ol{\nb}_{E_2}\ol{\nb}_{E_1}E_3
+&=\ol{\nb}_{E_2}{\nb}_{E_1} E_3+\ol{\nb}_{E_2}(\an{B(E_1,E_3),n}n)\\
+&=\ol{\nb}_{E_2}\nb_{E_1}{E_3}+E_2 (\an{B(E_1,E_3),n})n + \an{B(E_1,E_3),n} \onb_{{E_2}}n\\
+&=\nb_{E_2}\nb_{E_1} E_3 +\an{B({\nb}_{E_1}E_3,E_2),n}n + E_2 (\an{B(E_1,E_3),n})n +\an{B(E_1,E_3),n}\onb_{{E_2}} n.
+\end{align*}
+Then (noting the normal terms don't contribute to the inner product),
+\begin{align}
+\nonumber
+\an{\ol{\nb}_{E_2}\ol{\nb}_{E_1} E_1,E_2}
+&=\an{\nb_{E_2}\nb_{E_1} E_1,E_2}
++\an{B(E_1,E_1),n}\an{\onb_{\ol{E_2}} n,E_2}\\
+&=\an{\nb_{E_2}\nb_{E_1}E_1,E_2} - \an{B(E_1,E_1),n} \an{B(E_2,E_2),n}
+\llabel{eq:965-12-2}
+\end{align}
+%curvature of N in 2-plane, hope relate to curvature of M
+We similarly have %calculations omitted
+\begin{equation}\llabel{eq:965-12-3}
+%\an{\ol{\nb}_{E_2}\ol{\nb}_{E_1} E_1,E_2}
+%=\an{\nb_{E_1}\nb_{E_2}E_2,E_1} + \an{B(E_2,E_2),n} \an{B(E_1,E_1),n}
+\an{\ol{\nb}_{E_1}\ol{\nb}_{E_2} E_1,E_2}=\an{\nb_{E_1}\nb_{E_2}E_1,E_2} -\an{B(E_2,E_1),n}^2.
+\end{equation}
+%Then %tang and orth. orth doesn't matter
+Finally, 
+\begin{equation}\llabel{eq:965-12-4}
+\an{\ol{\nb}_{[E_1,E_2]} E_1,E_2}
+=\an{\nb_{[E_1,E_2]}E_1,E_2}
+\end{equation}
+From~\eqref{eq:965-12-2},~\eqref{eq:965-12-3}, and~\eqref{eq:965-12-4} we get
+\[
+\an{\ol R(E_1,E_2)E_1,E_2}
+=\an{R(E_1,E_2)E_1,E_2}
+-\an{B(E_1,E_1),n}\an{B(E_2,E_2),n}
++\an{B(E_1,E_2),n}^2
+\]
+%surface in R^3 0 curv--bad!
+Choosing $E_1,E_2$ to be orthonormal, we get the \textbf{Gauss equation}
+\beq{eq:965-gauss-eq}
+\ol K=K-\an{B(E_1,E_1),n}\an{B(E_2,E_2),n}+  \an{B(E_1,E_2),n}^2;
+\eeq
+the curvature with respect to $M$ and $N$ differ by a correction term. 
+Using $\an{B(E_1,E_2),n}=-\an{\nb_{E_1} n, E_2}$, we can write the Gauss equations in terms of the Weingarten map:
+\[
+\ol K=K-\an{\nb_{E_1}n,E_1} \an{\nb_{E_2}n,E_2} +\an{\nb_{E_1}n,E_2}^2.
+\]
+We can write this in terms of the eigenvalues of the Weingarten map, the principal curvatures.
+%Principal curvatures, directions. $\nb_n:T_pM\to T_pM$. Eigenvectors eigenvalues. 
+Consider the case $M^2\sub N^3$. Let $p\in M$. We compute the sectional curvature of $T_pM$. Take an orthonomal basis of eigenvectors (principal directions) $E_1,E_2$; suppose $\nb_{E_1}n=\kappa_1E_1$ and $\nb_{E_2}n=\kappa_2E_2$. Then we get
+%small: just one curv. Bog: look at...
+\begin{align*}
+\ol K&=K-\an{\kappa_1E_1,E_1}\an{\kappa_2E_2,E_2}+\an{\kappa_1 E_1,E_2}^2\\
+\ol K&=K-\kappa_1\kappa_2.
+\end{align*}
+
+\begin{ex}
+We calculate the curvature of the unit sphere $S^2\sub \R^3$. We know $K_{\R^3}\equiv 0$. The curvature of $S^2$ is $K_{\R^3}$ minus the product of the two principal cuvatures:
+\[
+0=K_{\R^3} =K_{S^2}+\kappa_1\kappa_2.
+\]
+The unit normal is simply $x$. We have 
+\[\nb_v x=v;\]
+all directions are principal directions (the Weingarten map is the identity) and the principal cuvatures are 1. Hence $\kappa_1=\kappa_2=1$ and we get
+\[
+K_{S^2}=-1.
+\]
+\end{ex}
+\cpbox{Use the Gauss equation $\ol K=K-\kappa_1\kappa_2$ to calculate the curvature of a submanifold.}
+\vskip0.15in
+\begin{ex}
+We calculate the curvature of a round cylinder $S^1\times \R$ in $\R^3$. Let $n$ be the normal. Note that along the height of the cylinder, $n$ is constant. 
+Hence
+\[
+\nb_v n=0.
+\]
+The height direction is a principal direction with principal value 0. It doesn't matter what the other principal value is; the product is 0. We get
+\[
+K_{S^1\times \R}=0.
+\]
+
+In fact his works for any cylinder $\ga\times \R$ where $\ga$ is a closed curve in the plane.
+\end{ex}

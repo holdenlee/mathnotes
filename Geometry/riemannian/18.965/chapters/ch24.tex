@@ -1,0 +1,255 @@
+\lecture{Thu. 12/6/12}
+
+Today is the last day of class.
+
+Last time we looked at a minimal surface $\Si\in \R^3$. We assumed that $\Si$ was stable, which meant that for all $\phi$ with compact support on $\Si$, the variation of area is nonnegative:
+\[
+-\int_{\Si} \phi L\phi\ge 0.
+\]
+Here $L$ is the Laplacian,
+\[
+L\phi = \De_{\Si} \phi+|A|^2\phi,
+\]
+and $|A|^2=\ka_1^2+\ka_2^2=-2K$ where $\ka_1,\ka_2$ are the principal curvatures. 
+
+Last time we proved, using the Gauss-Bonnet Theorem, that for $p\in \Si$, 
+\[
+\text{Area}(\cal B_r(p))\le \fc 43 \pi r^2.
+\]
+When we did this calculation, we assumed there are no cut points, so $\exp_p:B_r(0)\to \cal B_r(p)$, $B_r(0)\subeq T_pM$, is a diffeomorphism.
+
+When you have an operator 
+\[
+L\phi=\De_{\Si} \phi+V \phi
+\]
+for some ``potential" $V$, the eigenfunctions of $L$ are those such that 
+\[
+L\phi+\la\phi=0
+\]
+for some constant $\la$. We say $\phi$ has eigenvalue $\la$. (Note the sign convention.) If $\Si$ is compact %or we look at some compact subset of the surface
+then one can prove $L$ is a compact operator, so there is a basis of eigenfunctions. We can order the eigenfunctions $\phi_i$ where the associated eigenvalues satisfy
+\[
+\la_1\le \cdots \le \la_i\le \cdots,\qquad \la_i\to \iy.
+\]
+All we need to know is that if we take the eigenfunction $\phi$ with lowest eigenvalue $\la$, then $\phi$ cannot change sign:
+\[
+|\phi|>0.
+\]
+This is easy to prove; we'll come back to it. By replacing $\phi$ by $|\phi|$ we may assume $\phi$ is positive.
+
+If $\Si$ is stable, then
+\[
+-\int_{\Si} \phi L\phi\ge 0
+\]
+where $L\phi +\la_1\phi=0$, $\phi>0$. We get 
+\[
+0\le -\int_{\Si}\phi L\phi=\la\int_{\Si}\phi^2;
+\]
+the lowest eigenvalue is nonnegative. We obtain
+\[
+L\phi=-\la\phi\le 0.
+\]
+
+If we have a Schr\"odinger operator $\De+V$, and $\phi>0$ that is a solution to $(\De+V)\phi=0$, then for all $\phi$ with compact support,
+\[
+\int \psi(\De+V)\psi\ge 0.
+\]
+(We looked at $\ln \phi$.) It doesn't need to be a solution, it just needs to be a {\it supersolution}, i.e., satisfy $L\phi+\la \phi\le 0$. 
+At some point we used an absorbing inequality; it still holds.
+
+Now if we have $p\in \Si\subeq \R^3$ with $\Si$ stable, $\ka_1=-\ka_2$, and $K\le 0$, then Hadamard's Theorem gives that $\exp_p:T_p\Si\to \Si$ is a covering map. (Here we are assuming $\Si$ is complete noncompact.) Note that in our inequality we assumed there were no cut points. 
+%complet noncompact 
+%if boundary, then on finite set.
+We have $\Si\subeq \R^3$; pulling back the metric we get a covering map (locally an isometry). The composition
+\[
+T_p\Si\xra{\exp_p} \Si\subeq \R^3
+\]
+is an immersion. But in $T_p\Si$ the exponential map is actually a diffeomorphism; there is no cut point. By going to the cover, we can assume there is no cut point. We don't have the assumption that $T_pM$ is stable, but we show this is true. Consider the operator $L=\De_{\Si}+|A_{\Si}|^2$. Take the eigenfunction corresponding to the smallest eigenvalue, we may assume $\phi>0$. Then $L_{\Si}\phi\le 0$. Composing with the exponential map, we may consider it on $T_pM$:
+\[
+\wt{\phi}=\phi\circ \exp_p.
+\]
+Let $\wt{\Si}=T_pM$ be $T_pM$ with the pullback metric. We have %bc pointwise the same.
+\[
+L_{\wt{\Si}}\phi\le 0.
+\]
+%$\De_{\Si}$ is the same because it is given by the metric; $A_{\Si}$ is the same because tells how surface sits inside.
+This implies $\wt{\Si}$ is stable.
+We have an inequality for all functions. On the cover there are many more functions than pullback functions, so we have to prove something more.
+
+We've removed the cut point assumption; we always have the inequality on area; we have the inequality for $\wt{\Si}$, so we clearly also have it on $\Si$. The area of the corresponding ball on $\Si$ is smaller than the pullback area. %don't need assumption on conjugate points. Use Hadamard theorem.
+
+\subsection{Curvature estimate}
+
+We're aim to prove a curvature estimate. 
+\begin{thm}
+If $\Si$ is stable, then if $\cal B_r(p)\subeq \Si\bs \pl \Si$, then
+\[
+\sup_{\cal B_{\fc r2}}|A|^2\le Cr^{-2}
+\]
+where $C$ is a constant independent of $r$ and $p$.
+\end{thm}
+If we have a minimal surface, its image under any isometry is a minimal surface. In $\R^3$, any scaling of a minimal surface is a minimal surface. Thus we obtain a whole family of minimal surfaces. For instance, we can make the neck of a catenoid as small as we want.
+The first surface is stable iff the image is. (Actually the index is the same.)
+
+A catenoid cannot be stable. Take a huge ball (let $r\to \iy$); the half ball has almost 0 curvature. But in the middle there's curvature. Thus a catenoid is not stable. The same argument works for the helicoid.
+
+To prove our theorem, we need the following.
+\subsubsection{Logarithmic cut-off trick}
+%\begin{df}
+Let $\Si$ be a minimal surface, and suppose we have a quadratic area bound 
+\[\text{Area}(\cal B_r(p))\le cr^2.\] 
+We show that if this holds for all $r$, then we can find a function that is 1 on the unit ball centered at the point, and has small energy.
+
+Define
+\[
+\phi=\begin{cases}
+1&\text{on }\cal B_1(p)\\
+1-\fc{\ln s}{\ln r}&\text{on }\pl \cal B_s(p),\, 1\le s\le r\\
+0 &\text{otherwise.}
+\end{cases}
+\]
+The function decays from 1 to 0 from 1 to $r$. 
+%\end{df}
+
+\ig{24-1}{1}
+
+We calculate that
+\[
+|\nb \phi|=
+\begin{cases}
+0&\text{on }\cal B_1(p)\cup (\Si\bs \cal B_r(p))\\
+\rc{s\ln r}&\text{on }\pl\cal B_r(p),\,1<s<r.
+\end{cases}•
+\]
+%not diffble but Lipschitz, so fine. If want, approx by smooth func. Lipschitz bounded everywhere. Converge to blah. Doesn't really matter
+Note $\phi$ has compact support because it dies at $r$. We show that if $r$ is large, $\phi$ has small energy:
+\begin{align*}
+\int |\nb \phi|^2
+&=\int_0^{\iy}\int_{\pl \cal B_r(p)} |\nb \phi|^2\,d\ell ds\\
+&=\int_1^r \prc{s\ln n}^2\,d\ell ds\\
+&=\rc{(\ln r)^2} \int_1^r \fc{\ell (s)}{s^2}\,ds.
+\end{align*}
+(Integrate over the distance spheres.)
+Using 
+\[
+\text{Area}(\cal B_r(p))=\int_0^r \ell(s)\,ds
+\]
+we have
+\[
+\ddd s\text{Area}(\cal B_r(p))=\ell(r).
+\]
+We integrate by parts because we don't have a bound for $\ell$ but we have a bound for area. We get
+\begin{align*}
+\int |\nb \phi|^2
+&=\rc{(\ln r)^2} \int_1^r \fc{\ell(s)}{s^2}\,ds\\
+&=\rc{(\ln r)^2} \pa{
+\ba{\fc{\text{Area}(\cal B_s)}{s^2}}^r_1 - 2\int_1^r \fc{\text{Area}(\cal B_s(p))}{s^3}\,ds
+}\\
+&=\rc{(\ln r)^2} \pa{\pa{\fc{\text{Area}(\cal B_r(p))}{r^2}-\text{Area}(\cal B_r(p))}-2\cdots}
+\end{align*}
+As $r\to \iy$, the first term goes to 0. %the last term is always negative. Is energy, nonneg. As $r\to \iy$ only first term positive.
+Since energy is nonnegative and only the first term is positive, we get that it goes to 0.
+
+%complete without boundary with assumption on area. can construct function 1 on unit ball and have compact support, and as small energy as you want. 
+
+We've proven that if $\Si\subeq \R^3$ is stable and complete without boundary, then $\text{Area}(\cal B_r(p))\le \fc 43 \pi r^2$. We'd like to prove $\sup |A|^2\le cr^{-2}$. 
+If $\Si$ doesn't have any boundary, then this holds for all $r$. Taking $r\to \iy$, 
+\[
+|A|^2(p)\le \sup_{\cal B_{\fc r2}(p)} |A|^2\le cr^{-2}\to 0.
+\]
+(This result is by Schoen in 1982.)
+Then the second fundamental form is 0 at every point, so it must be a plane:
+The derivative of the normal is 0, so the normal is constant; hence the surface must be in a plane orthogonal to this constant normal.
+We get $|A|^2\equiv 0$, so $n$ is constant, and $\Si=n^{\perp}$.
+
+%We want to prove the inequality in general. %ball doesn't intersect boundary. 
+%Let's do the case there's no boundary in all. If can prove for all $r$
+%surface is the graph of a function
+\begin{thm}[Bernstein Theorem, 1911]
+If $\Si\subeq \R^3$ is a stable minimal surface in $\R^3$ without boundary, then $\Si$ is a plane.
+\end{thm}
+%Then 
+\begin{proof}
+Let $\Si\subeq \R^3$ be stable. Then $\text{Area}(\cal B_r(p))\le \fc 43 \pi r^2$. Then there exist $\phi_r$ so that $\int |\nb \phi_r|^2\to 0$, $\phi_r$ has compact support, and $\phi_r=1$ on $B_1(p)$.
+
+Now the inequality $0\le -\int_{\Si}\phi L\phi$ ($L\phi=\De_{\Si} \phi+|A|^2\phi$) becomes, after integrating by parts and using the fact that $\phi$ is compactly supported,
+\begin{align*}
+\int \phi L\phi &=\int \phi(\De\phi+|A|^2 \phi)\\
+&=-\int|\nb \phi|^2+\int |A|^2\phi^2
+\end{align*}
+Since $\Si$ is stable,
+\[
+\int|\nb \phi|^2\ge \int|A|^2\phi^2.
+\]
+Inserting $\phi_r$, we get (noting $\phi_r$ is 1 on the unit ball)
+\[
+\int |\nb \phi_r|^2\ge \int|A|^2\phi_r^2\ge \int_{\cal B_1(p)}|A|^2.
+\]
+Now the LHS goes to 0, so $|A|^2(p)=0$. This proves the Bernstein Theorem.
+\end{proof}
+The catenoid is the surface of revolution of hyperbolic cosine. Topologically it is a cylinder. It is complete without boundary. The catenoid can't be stable, because if it were stable it would have to be a plane. The same goes for the helicoid.
+
+How do we prove the more general statement? This is quite useful. 
+\begin{thm}[Schoen, 1982]\llabel{thm:schoen}
+Let $\Si\subeq \R^3$ be stable. Suppose $\cal B_r(p)\subeq \Si\bs \pl \Si$. Then
+\[
+\sup_{\cal B_{\fc r2}(p)}|A|^2(p)\le cr^{-2}
+\]
+for some constant $c$ independent of $p$ and $r$.
+\end{thm}
+We use the following.
+\begin{thm}[Choi-Schoen]\llabel{thm:choi-schoen}
+There exists an $\ep>0$ such that if $p\in\Si\subeq \R^3$ is a minimal surface and $\cal B_r(p)\subeq \Si\bs \pl \Si$, then 
+$\int_{\cal B_r(p)} |A|^2<\ep$  implies $\sup_{\cal B_{\fc r2}}|A|^2\le r^{-2}$.
+%interior estimate
+\end{thm}
+This is key.
+\begin{proof}[Proof of Theorem~\eqref{thm:schoen} using Theorem~\eqref{thm:choi-schoen}]
+Imagine we have a ball $\cal B_r(p)$. We can scale it so the ball is very large. Now $\int_{\cal B_r(p)}|A|^2$ is invariant under scaling. (The second fundamental form goes down and area goes up; they cancel each other out.) %think of \cal B_r(p)$ as very large ball.
+
+We just need to prove the bound for the second fundamental form in the center. Then you can do it everywhere. %\fixme{(fig 2)}
+
+But if the ball is very large, we can find a function $\phi$ that is 1 on the unit ball and has very small area. We use quadratic area bounds proved in this setting. We have $\int|\nb \phi|^2< \ep$ and by stability,
+\[
+\int|\nb\phi|^2\ge \int|A|^2\phi^2\ge_{\cal B_1}|A|^2.
+\]
+The integral is small because of point mass bounds (from Choi-Shoen), so we have the theorem. %in half of ball have point mass estimate. Point mass estimate reduce to Choi-Schoen.
+We used the quadratic area bound.
+\end{proof}
+
+These theorems are examples of a general type of theorem common in nonlinear differential equations. 
+The second fundamental  form is like energy. 
+If you have an energy inequality, then you get a point mass estimate. (If the energy is above a certain threshold, then we don't get an estimate.)
+
+Consider the second fundamental form on the catenoid: we have $\int|A|^2<\iy$. This condition is called ``finite total curvature." This is not small, so we don't have a pointwise estimate. On the other hand , the helicoid is not bounded. 
+
+As $|A|^2=-2K$, the condition $\int|A|^2<\iy$ is called ``finite total curvature." %$|A|^2=-2K$, so the $\int|A|^2<\iy$ condition is called ``finite total curvature."
+
+You can find all this in~\cite{CM}.
+
+\begin{proof}[Proof sketch of Theorem~\ref{thm:choi-schoen}]
+We first show Simon's inequality
+\[
+\De|A|^2\ge -2|A|^4.
+\]
+Let $u:\R^n\to \R$. Consider $I(r)=r^{1-n}\int_{\pl B_r(0)} u$. We have by Stokes's Theorem%something area/volume constant?
+\[
+I'(r)=r^{1-n}\int_{\pl B_r(0)}\dd us = r^{1-n}\int_{\cal B_r(0)}\De u.
+\]
+If $u$ is harmonic this is constant. 
+%Taking a harmonic function, we have the mean value equality
+%\[
+%\]
+Then $I(r)=\lim_{s\to 0} I(s)=\Vol(\pl B_1)u(0)$. We have a mean value equality
+\[
+u(0)=\rc{\Vol(\pl B_r(0))}\int_{\pl B_r(0)}u.
+\]
+If $u$ is subharmonic, we get inequality in one direction, if supharmonic, we get inequality in other direction.
+If we have an eigenfunction (or subsolution) $\De u +\la u=0$ we get a mean value equality, with some constant depending on $\la, r$.
+
+Simon's inequality is a nonlinear inequality. There's a simple way of arguing by contradiction so we can actually assume $|A|^2(p)=1$. We get $\sup_{\cal B_r(p)}|A|^2\le 4$. Then trivially we can replace one $|A|^2$ by 4, and now have a linear inequality. The inequality says $|A|$ is a subsolution to an eigenvalue equation. Using the mean value inequality, $A$ at the center is bounded by the mean. But we assumed $\int |A|^2$ is really small. Thus we get contradiction. The reduction is simple, and nothing to do with minimal surface; it's just a calculus fact about functions. 
+\[
+\De|A|^2\ge -2|A|^4\ge -2|A|^2|A|^2\ge -8|A|^2.
+\]
+Now locate the point where $F=(r-d)^2|A|^2$ is maximal. %Scale, point where maximal. Recall, get this point, ball, $\sup$ 4 thing.
+\end{proof}

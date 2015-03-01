@@ -1,0 +1,179 @@
+\lecture{Tue. 11/20/12}
+
+Recall that we talked about the first and second variations of energy. Given a curve $c:[a,b]\to M$, we looked at
+\[
+\rb{\ddd{t}}_{t=0} E(c).
+\]
+We looked at a parameterized surfaces $F:[a,b]\times (-\ep,\ep)\to M$ where the central curve is a geodesic: $F(\bullet, 0)=c$. We calculated that in this case
+\[
+\rb{\ddd{t}}_{t=0} E(c)=\an{\pd Ft,c'(b)}-\an{\pd Ft,c'(a)}.
+\]
+In the case of fixed endpoints, this is 0. When the endpoints may vary, the formula above gives the derivative of energy. %for example, in the following picture, the derivative is negative.
+
+%If we look at a variation, and all the curves are geodesics
+If $F(\bullet,t)$ is a geodesic for each $t$, then $\pd Ft$ is a Jacobi field, i.e., it satisfies the following second-order differential equation:
+\[
+\cvd \pd Ft+R\pa{c',\pd Ft}c'=0.
+\]
+Recall that solutions $J$ to $J''+R(c',J)c'=0$ are uniquely given by initial data $J(a)$ and $J'(a)$. %second order linear
+
+Conversely, given a geodesic $c$ and a Jacobi field $J$ on $c$, we can construct a variation such that the time derivative is $J$ on $c$. Putting things together, given $v,w\in T_{c(a)}M$, we can 
+\begin{itemize}
+\item
+construct a Jacobi field $J$ such that $J(a)=v$ and $J'(a)=w$, and
+\item
+construct a geodesic variation so that $\pd Ft=J$.
+\end{itemize}•
+% We can construct this using the exponential map so that $J(a)=v$ and $J'(a)=w$. %The Jacobi field arises as the variational vector field of a variation of geodesics. Uniqueness and existence.
+Every Jacobi field is infinitesimally coming from a variation of geodesics.
+
+We had the notion of {\it conjugate point}: If $c$ is a geodesic, $c(b)$ is a conjugate point for $c(a)$ along $c$ if there exists a nontrivial Jacobi field with $J(a)=0$ and $J(b)=0$. There is a conjugate point for $c(a)$ if there is a variation of geodesics with the same length, starting at $a$ and infinitesimally ending at $b$ (i.e. are close to $b$ with higher order). %\fixme{! Check this.}
+
+This means that if you continue the geodesic, it can't minimize past the conjugate point: Up to higher order there is another geodesic of the same length from $c(a)$ to $c(b)$. You can move along this other geodesic to get to the further point, but it would have a corner; a minimizing path cannot have a corner. (The first variation says that you can move in and the curve will be shorter. You can easily make this rigorous.)
+
+\ig{20-2}{1}
+
+We can generalize from curves to surfaces or manifolds, often with weaker statements.
+\subsection{Index form}
+Consider the second variation when the endpoints are fixed. We have
+\[
+\rb{\ddt{}{t}}_{t=0} E(F(\bullet,t))=-\int_a^b \an{V,LV}
+\]
+where $V$ is a vector field along $c$ and $LV=\fc{D^2}{\pl s^2} V+R(c',V)c'$. Using $\ddd s\an{V,V'}=\an{V',V'}+\an{V,V''}$ we get the above to equal
+%V'=\cvs V
+\[
+\rb{\ddt{}{t}}_{t=0} E(F(\bullet,t))=-\int_a^b \an{V,LV}=\int_a^b \an{V',V'}-\an{R(c',V)c',V}.
+\]
+(Note $\an{V,V'}$ is 0 at $a$ and $b$.) 
+%In inequality, integrating from $a$ to $b$. The contribution cancelling what I didn't write...?
+This motivates the following definition.
+\begin{df}
+Define the \textbf{index form} on $c$ to be
+\[
+I(V,W):=\int_a^b \an{V',W'}-\an{R(c',V)c',W}.
+\]
+\end{df}
+
+Note $I$ is a symmetric bilinear form, and as a quadratic form, the index form is the second derivative of energy:
+\[I(V,V)=\rb{\ddt{}{t}}_{t=0}E(t).\]
+
+%(Fig 3) 
+%Now suppose that along the geodesic $c=[a,b]\to M$ there is no conjugate point. Choose Jacobi fields $J_1,\ldots, J_{n-1}, J_n,\ldots, J_{2n-2}$ such that 
+%\begin{itemize}
+%\item
+%$J_1,\ldots, J_{n-1}$ all vanish at $a$, and $J_1'(a),\ldots, J_{n-1}'(a)$ is an orthonormal basis for $(c'(a))^{\perp}$, %$c'(a)$
+%\item
+%$J_{n}',\ldots, J_{2n-2}'$ all vanish at $a$, and $J_n(a),\ldots, J_{2n-2}(a)$ is an orthonormal basis at $a$.
+%\end{itemize}
+%Define
+%\[
+%H(v,w):(c'(a))^{\perp} \times (c'(a))^{\perp} \to (c'(0))^{\perp} \times (c'(s))^{\perp}
+%\]
+%as follows: let $J$ be a Jacobi field such that $J(a)=v,J'(a)=w$, and define
+%\[
+%H(v,w)=(J(s),J'(s)).
+%\]
+%We are saying that $J_1(s),\ldots, J_{n-1}(s)$ is a basis for $(c'(s))^{\perp}$. 
+%?$H(0,w)=J(s)$?
+%have no idea what all that was about.
+
+Let $J_1,J_2$ be Jacobi fields along a geodesic. Define
+\[
+f=\an{J_1,J_2'}-\an{J_1',J_2};
+\] 
+note this is constant. Indeed, 
+%same sym discuss before, var.
+%diffce of inner prod constant
+\[
+f'=\an{J_1,J_2''}-\an{J_1'',J_2}= -\an{J_1,R(c',J_2)c'}+\an{R(c',J_1)c',J_2}=0.
+\]
+%func here is constant.
+Let $J_1,J_2$ be Jacobi fields with $J_1(a)=J_2(a)=0$. We then have
+\beq{eq:965-20.1}
+\an{J_1,J_2'}=\an{J_1',J_2}\text{ for all }s.
+\eeq
+This is a very useful trick: when we take the inner product of one Jacobi field with the derivative of another, we can interchange derivatives.
+
+\subsection{Index lemma}
+\begin{lem}[Index lemma: Jacobi fields minimize the index form]\llabel{lem:index-lemma}
+Let $c:[a,b]\to M$ be a geodesic such that there are no conjugate points to $c(a)$ along $c$.  If $J$ and $V$ are vector fields along $c$ such that $J$ is a Jacobi field, and such that 
+%tang comp trivial
+\bal
+J(a)&=V(a)=0\\
+J(b)&=V(b),
+\end{align*}
+then
+\[
+I(J,J)\le I(V,V)
+\]
+with equality iff $J=V$. 
+\end{lem}
+\begin{proof}
+%We have $J_1V\perp c'$ and $I(J,J)\le I(V,V)$. T
+%The geometric meaning is that the second index form is the second derivative of energy. %; geometrically the above says that the Jacobi field
+Let $J_1,\ldots, J_{n-1}$ be Jacobi fields along $c$. We have $J_1(a)=\cdots =J_{n-1}(a)=0$ and $J_1'(a),\ldots, J_{n-1}'(a)$ is an orthonormal basis for $(c'(a))^{\perp}$. Thus $J_1(s),\ldots, J_{n-1}(s)$ is a basis for $(c'(a))^{\perp}$.
+
+For $s>0$, we can write $V(s)=f_i(s)J_i(s)$. This is clear when $s>0$. %because they were a basis.
+Since the vector field also vanishes at 0, the $f_i$ can be extended to a smooth function including 0. %Vanishes but derivative not 0. 
+This is a trivial statement about the Taylor expansion.
+
+We claim the integrand in the index form equals
+\beq{eq:965-20.2}
+\an{V',V'}-\an{R(c',V')c',V}=\an{\sui f_i'J_i,\suj f_j' J_j}+\ddd s\an{\sui f_i J_i,\suj f_j J_j'}.
+\eeq
+Writing $V=f_iJ_i$, we find $V'=f_i'J_i+f_iJ_i'$. We have (omitting the summation sign)
+\beq{eq:965-20.3}
+\an{V',V'}=f_i'f_j'\an{J_i,J_j} + f_i'f_j\an{J_i,J_j'} + f_if_j'\an{J_i',J_j} + f_if_j\an{J_i',J_j'}.
+\eeq
+We have 
+\begin{align}
+\nonumber
+\ddd s \an{f_iJ_i,f_jJ_j'} &= \ddd s \pa{f_if_j \an{J_i,J_j'}}\\
+\nonumber
+& = f_i'f_j \an{J_i,J_j'} + f_i f_j'\an{J_i,J_j'} + f_if_j \an{J_i',J_j'} + f_if_j \an{J_i, J_j''}\\
+\nonumber
+&= f_i'f_j\an{J_i,J_j'}+f_if_j'\an{J_i',J_j} + f_if_j \an{J_i',J_j'} - f_if_j\an{J_i, R(c',J_j)c'}&\text{by \eqref{eq:965-20.1}}\\
+\llabel{eq:965-20.4}
+&= f_i'f_j\an{J_i,J_j'}+f_if_j'\an{J_i',J_j} + f_if_j \an{J_i',J_j'} - \an{V,R(c',V)c'}.
+%switch these 2 in 2nd inner product
+\end{align}
+%look at 4 formula to rewrite . Wheres the primes one?  
+From~\eqref{eq:965-20.3} and~\eqref{eq:965-20.4} we get
+\bal
+\an{V',V'}-\an{R(c',V)c',V}&=f_i'f_j'\an{J_i,J_j} + f_i'f_j\an{J_i,J_j'} + f_if_j'\an{J_i',J_j} + f_if_j\an{J_i',J_j'}-\an{R(c',V)c',V}.
+%\end{align*}
+%inner product of jac field, inner prod of one with der of other, interchange der, only trick.
+%Thus 
+%\[
+&=\ddd s \an{f_iJ_i,f_jJ_j'}%=\an{V',V'}-\an{R(c',V)c',V}.\]
+\end{align*}
+which is~\eqref{eq:965-20.2}. 
+Now
+\bal
+I(V,V)&=\int_a^b \pa{
+\an{V',V'} - \an{R(c',V)c',V}
+}\\
+&=\int_a^b |f_i'J_i|^2 + \an{f_i(b)J_i(b), f_j(b)J_j'(b)}\\
+&=\int_a^b |f_i'J_i|^2 + f_i(b)f_j(b) \an{J_i(b),J_j'(b)}\\
+%just about value about b, not der
+&\ge I(J,J).
+\end{align*}
+(Remember $J(a)=V(a)=0$ and $J(b)=V(b)=f_i(b)J_i(b)$. Writing $J=h_iJ_i$, $h_i(b)=f_i(b)$. Note that the $f_i$ are constants, so the first term vanishes for $I(J,J)$.)
+If equality holds, because $c(a)$ has no conjugate point, $f_i'(s)J_i(s)=0$ for all $s$. This means $V=f_i(b)J_i$ where the $f_i$ are constants, and  %For the Jacobi field this was how the Jacobi field was written. Thus in case of equality, 
+we must have $V=J$.
+\end{proof}
+
+Next time we will prove the Rauch Comparison Theorem. %We'll make a remark. 
+We have
+\[
+I(V,V)=\int_a^b\an{V',V'}-\an{R(c',V)c',V}.
+\]
+%and $V=f_iE_i$. 
+ %4
+Let $c_1:[a,b]\to M_1$ and $c_2:[a,b]\to M_2$. 
+Let $E_1,\ldots, E_{n-1}$ be a parallel orthornomal parallel frame (perpendicular to the velocity vector) for $(c_1')^{\perp}$, and write $V=f_iE_i$.
+Let $\wt{E_i}$ be a parallel orthonormal frame  on $c_2$ in $M_2$; define $\phi$ so that  $\phi(V)=f_i\wt{E_i}$. We then have $\an{V(s),W(s)}=\an{\phi(V(s)),\phi(W(s))}$. This is a trivial but useful way of transferring vector fields between manifolds.
+
+The index has independent interest. The index lemma shows that assuming there is no conjugate point along the geodesic, Jacobi fields minimize the index form among vector fields along the geodesic that vanish at starting point and have same value at other endpoint. Since the index form is the second derivative of energy, another way of saying this is the following.\\
+
+\cpbox{A geodesic without conjugate points is stable: the second variation of energy is nonnegative.}

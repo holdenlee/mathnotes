@@ -1,0 +1,38 @@
+\lecture{Thu. 10/25/12}
+
+Absent.
+
+We covered the Hopf-Rinow Theorem. See~\cite[p. 144-149]{dC}.
+
+\begin{df}
+A Riemannian manifold $M$ is \textbf{extendible} if there exists a Riemannian manifold $M'$ such that $M$ is isometric to a proper open subset of $M'$.
+
+A Riemannian manifold $M$ is (geodesically) \textbf{complete} if for all $p\in M$, $\exp_p$ is defined for all $v\in T_pM$, i.e., any geodesic $\ga(t)$ starting at $p$ is defined for all $t\in \R$.
+\end{df}
+
+\begin{pr}
+If $M$ is complete, then $M$ is non-extendible.
+\end{pr}
+
+We give $M$ a metric space structure by letting $d_M(p,q)$ be the infimum of lengths of all curves joining $p$ and $q$. (This is the same as the original metric space structure.)
+
+\begin{thm}[Hopf-Rinow Theorem]\llabel{thm:hopf-rinow}
+Let $M$ be a Riemannian manifold and let $p\in M$. Then the following are equivalent.
+\begin{enumerate}
+\item
+$\exp_p$ is defined on all $T_pM$.
+\item
+The closed and bounded sets of $M$ are compact.
+\item
+$M$ is complete as a metric space.
+\item
+$M$ is geodesically complete.
+\item
+There exists a sequence of compact subsets $K_n\subeq M$, $K_n\sub K_{n+1}$ such that if $q_n\nin K_n$ then $d(p,q_n)\to \iy$.
+\end{enumerate}
+Any of these statements implies
+\begin{enumerate}[resume]
+\item
+For any $q\in M$ there exists a geodesic $\ga$ joining $p$ and $q$ with $\ell(\ga)=d(p,q)$.
+\end{enumerate}
+\end{thm}

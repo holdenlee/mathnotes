@@ -109,6 +109,22 @@ Computation/machine_learning/*
 !Computation/machine_learning/deep_learning.tex
 !Computation/machine_learning/deep_learning.pdf
 
+!Geometry/
+Geometry/*
+!Geometry/riemannian
+Geometry/riemannian/*
+!Geometry/riemannian/18.965
+Geometry/riemannian/18.965/*
+!Geometry/riemannian/18.965/*.tex
+!Geometry/riemannian/18.965/*.png
+!Geometry/riemannian/18.965/*.xcf
+!Geometry/riemannian/18.965/965.bib
+!Geometry/riemannian/18.965/diagrams/
+!Geometry/riemannian/18.965/diagrams/diags.tex
+!Geometry/riemannian/18.965/diagrams/*.asy
+!Geometry/riemannian/18.965/chapters/
+!Geometry/riemannian/18.965/chapters/*.tex
+
 !Number theory/
 
 Number theory/*
