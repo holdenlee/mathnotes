@@ -68,19 +68,19 @@ Analysis/measure_theory/notes/*
 Analysis/measure_theory/notes/chapters/*
 !Analysis/measure_theory/notes/chapters/*.tex
 
-!Combinatorics/geometric_graph_theory
-Combinatorics/geometric_graph_theory/*
-!Combinatorics/geometric_graph_theory/*.png
-!Combinatorics/geometric_graph_theory/*.xcf
-!Combinatorics/geometric_graph_theory/*.tex
-!Combinatorics/geometric_graph_theory/refs.bib
-!Combinatorics/geometric_graph_theory/chapters
-!Combinatorics/geometric_graph_theory/diagrams
-!Combinatorics/geometric_graph_theory/research
-Combinatorics/geometric_graph_theory/diagrams/*
-!Combinatorics/geometric_graph_theory/diagrams/*.tex
-!Combinatorics/geometric_graph_theory/diagrams/*.asy
-!Combinatorics/geometric_graph_theory/research/*.tex
+!Combinatorics/graph_theory/geometric_graph_theory
+Combinatorics/graph_theory/geometric_graph_theory/*
+!Combinatorics/graph_theory/geometric_graph_theory/*.png
+!Combinatorics/graph_theory/geometric_graph_theory/*.xcf
+!Combinatorics/graph_theory/geometric_graph_theory/*.tex
+!Combinatorics/graph_theory/geometric_graph_theory/refs.bib
+!Combinatorics/graph_theory/geometric_graph_theory/chapters
+!Combinatorics/graph_theory/geometric_graph_theory/diagrams
+!Combinatorics/graph_theory/geometric_graph_theory/research
+Combinatorics/graph_theory/geometric_graph_theory/diagrams/*
+!Combinatorics/graph_theory/geometric_graph_theory/diagrams/*.tex
+!Combinatorics/graph_theory/geometric_graph_theory/diagrams/*.asy
+!Combinatorics/graph_theory/geometric_graph_theory/research/*.tex
 
 !Computation/
 Computation/*
