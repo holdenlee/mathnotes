@@ -1,0 +1,118 @@
+*
+!*/*
+!readme.md
+
+Algebra/
+Fun/
+Mazur/
+Probability/
+texts/
+Geometry/
+Metamath/
+Problem-solving/
+thread/
+Applied/
+High school/
+Miscellaneous/
+Reference/
+Combinatorics/
+lessons/
+Number theory/ 
+Statistics/
+Computation/
+Logic/
+Physics/
+templates/
+
+!Analysis/
+
+Analysis/*
+
+!Analysis/complex
+Analysis/complex/*
+!Analysis/complex/conformal.tex
+!Analysis/complex/conformal.pdf
+!Analysis/complex/hadamard.tex
+!Analysis/complex/hadamard.pdf
+
+!Analysis/harmonic
+Analysis/harmonic/*
+!Analysis/harmonic/harmonic.tex
+!Analysis/harmonic/harmonic.pdf
+
+!Analysis/real
+Analysis/real/*
+!Analysis/real/Analysis Notes.pdf
+
+!Analysis/functional
+Analysis/functional/*
+!Analysis/functional/part_iii_functional.pdf
+!Analysis/functional/part_iii_distributions.pdf
+!Analysis/functional/part_iii_functional.tex
+!Analysis/functional/part_iii_distributions.tex
+!Analysis/functional/distributions_review.pdf
+!Analysis/functional/distributions_review.tex
+!Analysis/functional/functional_chapters
+!Analysis/functional/distribution_chapters
+!Analysis/functional/functional_chapters/*
+!Analysis/functional/distribution_chapters/*
+
+!Analysis/measure_theory
+Analysis/measure_theory/*
+!Analysis/measure_theory/notes
+Analysis/measure_theory/notes/*
+#!Analysis/measure_theory/notes
+#Analysis/measure_theory/notes/*
+!Analysis/measure_theory/notes/*.tex
+!Analysis/measure_theory/notes/*.pdf
+!Analysis/measure_theory/notes/chapters
+Analysis/measure_theory/notes/chapters/*
+!Analysis/measure_theory/notes/chapters/*.tex
+
+!Combinatorics/18.318
+Combinatorics/18.318/*
+!Combinatorics/18.318/*.png
+!Combinatorics/18.318/*.xcf
+!Combinatorics/18.318/*.tex
+!Combinatorics/18.318/refs.bib
+!Combinatorics/18.318/chapters
+!Combinatorics/18.318/diagrams
+!Combinatorics/18.318/research
+Combinatorics/18.318/diagrams/*
+!Combinatorics/18.318/diagrams/*.tex
+!Combinatorics/18.318/diagrams/*.asy
+!Combinatorics/18.318/research/*.tex
+
+!Computation/
+Computation/*
+!Computation/machine_learning
+Computation/machine_learning/*
+!Computation/machine_learning/nn.tex
+!Computation/machine_learning/nn.pdf
+!Computation/machine_learning/deep_learning.tex
+!Computation/machine_learning/deep_learning.pdf
+
+!Number theory/
+
+Number theory/*
+!Number theory/Additive_combinatorics
+
+Number theory/Additive_combinatorics/*
+!Number theory/Additive_combinatorics/ellenberg.tex
+!Number theory/Additive_combinatorics/ellenberg.pdf
+
+!Number theory/automorphic_forms
+Number theory/automorphic_forms/*
+!Number theory/automorphic_forms/eichler_shimura2.tex
+!Number theory/automorphic_forms/eichler_shimura2.pdf
+
+!Statistics/
+
+Statistics/*
+!Statistics/stat_notes.tex
+!Statistics/stat_notes.pdf
+
+#http://stackoverflow.com/questions/1279533/is-there-a-way-to-tell-git-to-only-include-certain-files-instead-of-ignoring-cer
+#http://stackoverflow.com/questions/1248570/git-ignore-everything-except-subdirectory
+#http://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder
+#http://stackoverflow.com/questions/5241644/using-gitignore-to-ignore-everything-but-specific-directories

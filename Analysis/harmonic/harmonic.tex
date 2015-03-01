@@ -36,7 +36,7 @@ Uf(x)=\sup_{r>0} \rc{m(B(x,r))} \int_{B(x,r)} |f(y)|\,dy.
 \end{df}
 \begin{thm}[Maximal inequality]\label{thm:max-ineq}
 \begin{enumerate}
-\item
+\item (Weak $L^1$ bound)
 For all $\al>0$, 
 \[
 m(\set{x}{Mf(x)>\al})\precsim \rc{\al}\int |f|\,dx.
@@ -197,6 +197,7 @@ We also have to remove redundant cubes. Proof omitted. %any cube in collection t
 \end{proof}
 
 \begin{thm}[Calderon-Zygmund decomposition]
+\llabel{thm:c-z}
 Let $f\in L^1$. Fix $\al>0$. Then there exists a decomposition $f=g+\sum_{k}b_k$ and a sequence of almost disjoint cubes $\{Q_k\}$ such that 
 \begin{enumerate}
 \item
@@ -256,6 +257,256 @@ Now we need to estimate the $L^1$ norm of each. We find (the ``$\le \al$" comes 
 \end{proof}
 What can you do with this decomposition? You can estimate in singular integrals. This comes up in $L^p$ elliptic regularity results for Laplace's equation. There's an integral kernel that can be estimated using Calderon-Zygmund.
 %get all exponents in between for interpolation. Adjoint: get between 1 and $\iy$ for free.
+
+\blu{2-17-15}
+
+\section{Singular integrals}
+
+\subsection{Approximation technique}
+We first discuss the Lebesgue differentiation theorem. A closely related topic is approximation to the identity. They use an approximation theorem that is very important and will occur many times in proofs about singular integrals.
+
+\begin{thm}[Lebesgue differentiation theorem]
+Assume $f\in L^1_{\text{loc}}$ (locally integrable function, i.e., integrable when restricted to any ball). 
+\begin{enumerate}
+\item
+Then
+\[
+\lim_{r\to 0}\rc{m(B(r))}\int_{B(X,r)} |f(y)-f(x)|\,dy=0
+\]
+for almost every $x$.
+\item 
+\[
+\lim_{r\to 0}\rc{m(B(r))}\int_{B(X,r)} f(y)\,dy\to f(x)
+\]
+for almost every $x$.
+\end{enumerate}•
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item
+Assume $f\in C_c$ (continuous and compactly supported). Then $f$ is uniformly continuous: 
+\[\forall\ep>0\qquad\exists\de,\qquad\forall |x-y|<\de,\qquad|f(x)-f(y)|<\ep.\]
+Then for $r<\de$, the integral is $<\ep$.
+\item Assume $f\in L^1$. We approximate it with a continuous function
+\[
+\forall \ep>0,\qquad \exists g\in C_c \text{ such that }\ve{f-g}_{1}<\ep.
+\]
+%We want to bound $|f(y)-f(x)|$ by $|g(y)-g(x)|$ but there is an error:
+By the triangle inequality,
+\[
+|f(y)-f(x)|\le |g(y)-g(x)|+|f(y)-g(y)|+|f(x)-g(x)|.
+\]
+Averaging over a ball, taking the limsup, and using (1),
+\bal
+\limsup \rc{m(B(r))} \int_{B(x,r)} |f(y)-f(x)| 
+&\le \sup_{r\to 0}
+\rc{m(B(r))}\int |f(y)-g(y)|\,dy + |f(x)-g(x)|\\
+&\le M(f-g)(x)+|f-g|(x)\\
+m\pa{\limsup_{r\to 0} \rc{m(B(r))}\int |f(y)-f(x)|\,dy \ge \al} &\le m(M(f-g)(x)>\fc{\al}2)+m(|f-g|(x)>\fc{\al}2)\\
+&\precsim \rc{\al}\ve{f-g}_1 < \fc{\ep}{\al}.
+\end{align*}
+where we used the weak $L^1$ bound for the maximal function, Theorem~\ref{thm:max-ineq}(1).
+%by chebyshev
+Now take $\ep\to 0$, so we get the LHS is 0. 
+Now take $\al=\rc{n},n\to \iy$.
+%countable union of sets whose measure is 0.
+\end{enumerate}
+\end{proof}
+
+\begin{thm}[Approximation to identity]
+Let $|K(x)|<(1+|x|)^{-n-\ep}$. Let
+%R(x)$ where $R$ is radial decreasing, $R\in L^1$ (for example $R=(1+|x|)^{-n-\ep}$). Let 
+\[
+K_t(x)=\rc{t^n} K\pf xt 
+\]
+(note this is normalized so $\int K_t=\int K$). Then the following hold.
+\begin{enumerate}
+\item
+$\sup_{t>0}|f*K_t(x)|\precsim Mf(x)$
+\item 
+As $t\to 0$, 
+$f*K_t(x)\to f(x)\int K$ for almost all $x$.
+\end{enumerate}
+\end{thm}
+We use the same approximation argument.
+\begin{proof}
+WLOG assume $f>0,K>0$.
+\begin{enumerate}
+\item
+First we do the easier case where $K=\sum_{j=1}^N c_j 1_{B_j(0,r_j)}$. (For example, something that looks like stacked cylinders.) 
+By linearity you can consider $K$ to the characteristic function of a single ball, $K=1_{B(1)}, K_t=\rc{t^n} 1_{B(t)}$. Then $f*K_t$ is the maximal function, so this follows from the maximal inequality, Theorem~\ref{thm:max-ineq}.
+Then
+\bal
+f*K_t(x)&=\int f(x-y)K_t(y)\,dy \\
+&=\rc{t^n} \int_{B(x,t)} f(y)\,dy\\
+&\precsim c_n Mf(x)\ve{K}_{\iy}.
+\end{align*}
+Now take $\sup_{t>0}$.
+\item %We can assume 
+For general $k$, choose $K_j>0$, simple $K^{(j)}\nearrow K$. By the Monotone Convergence Theorem, as $j\to \iy$,
+\[
+c*K_t^{(j)}(x) \to  f*K_t(x)
+\]
+%radial and decreasing.
+(We check that $c*K_t^{(j)}(x) \le c_n Mf(x)\ve{K^{(j)}}_{\iy}\le c_n Mf(x)\ve{K}_{\iy}$, $c*K_t^{(j)}(x) \le c_n Mf(x)\ve{K}_{\iy}$.) 
+\item For continuous functions we have that as $t\to 0, f*K_t(x)\to f(x)\int  K$ for almost all $x$. Now approximate $L^1$ functions by continuous functions.
+\end{enumerate}
+\end{proof}
+
+\subsection{Singular integrals}
+
+\begin{df}
+\vocab{Singular integrals} are integrals of the form
+\[
+Tf(x)=\int K(x,y) f(y)\,dy
+\]
+satisfying the following.
+\begin{enumerate}
+\item
+$T$ is bounded on $L^q$ for some $q>1$.
+\item
+(Regularity assumption $K$)
+For some $c>1$, $\int_{|x-y|>c|y-y'|} |K(x,y)-K(x,y')|\,dx\le c$.\footnote{Commonly $K(x,y)\sim \rc{|x-y|^n}$; then $DK(x)\sim \rc{|x|^{n+1}}$. Then this condition is $\int_{C|y-y'|}^{\iy} \fc{|y-y'|}{r^{n+1}} r^{n-1}\,dr\le C$.
+It's like an $L^1$ bound on the gradient of $K$.
+``Away from the diagonal, you have good bounds." Ex. This shows up as the Newtonian potential when solving Laplace's equation.}
+\item If $f\in L^q$ is compactly supported, then $Tf(x)=\int K(x,y)f(y)\,dy$ is absolutely convergent.
+\end{enumerate}
+%the usual kernel, actually 
+\end{df}
+
+\begin{pr}
+The following are true. 
+\begin{enumerate}
+\item
+$T$ is weak $(1,1)$:
+\[
+\forall f\in L^1,\al>0, \qquad \inf (Tf>\al) \precsim \rc{\al}\ve{f}_1.
+\]
+\item
+For all $1<p<q$, $T$ is strong $(p,p)$ (i.e., $\ve{Tf}_p\precsim_{p,n}\ve{f}_p$).
+\end{enumerate}•
+\end{pr}
+We prove the first claim using Calderon-Zygmund, and the second claim using the first and Marcikiewicz interpolation.
+\begin{proof}
+Use the Calderon-Zygmund decomposition~\ref{thm:c-z} to get
+\bal
+f&=g+\ub{\sum_k b_k}b\\
+g&\precsim \al\\
+\Supp b_k &\subeq Q_k,\qquad \int_{Q_k}|b_k|\precsim \al m(Q_k)\\
+\int_{Q_k} b_k&=0\\
+\sum_k m(Q_k)&\precsim \rc{\al}\ve{f}_1.
+\end{align*}
+Let $F=\R^n\bs \bigcup_k Q_k$. 
+We bound
+\[
+m(Tf>\al) \le m\pa{Tg>\fc{\al}2}+m\pa{Tb>\fc{\al}2}.
+\]
+\begin{enumerate}
+\item
+For $m(Tg>\fc{\al}2)$ we use the $L^q$ bound for $T$. First we obtain a $L^q$ bound for $g$. To do this we use our $L^1$ bound for $g$.
+\bal
+\int|g|&=\int_F|g| + \sum_k \int_{Q_k}|g|\\
+&\le \int_F |f| + \al \sum_k m(Q_k)\\
+&\precsim \ve{f}_1\\
+\int |g|^q&\precsim \al^{q-1}\ve{f}_1\\
+\implies \int |Tg|^q &\precsim \al^{q-1} \ve{f}_{1}\\
+\implies m\pa{Tg>\fc{\al}2}&\precsim \fc{\al^{q-1}\ve{f}_1}{\al^q}.
+\end{align*}
+the last step by Chebyshev.
+%weak L^1 bounded by L^1
+\item 
+For the bad part, we have to get our hands dirty. 
+Let the cube $cQ_k$ have the same center as $Q_k$ but be dilated by $c$. Let 
+\[
+F'=\R^n \bs \bigcup_k cQ_k.
+\]
+First look at the part bounded away from the cubes.
+\begin{enumerate}
+\item
+Claim: 
+\[
+m(\{Tb > \fc{\al}2\}\cap F')\precsim \rc{\al}\ve{f}_1.
+\]
+Proof: 
+\bal
+|Tb(x)|&=|\sum_k Tb_k (x)|\\
+&=\ab{\sum_k \int_{Q_k} K(x,y) b_k(y)\,dy}\\
+%in hope that difference is small
+\text{(fix $y_k\in Q_k$)}\quad & \le \sum_k \int_{Q_k} |K(x,y)-K(x,y_k)| |b_k(y)|\,dy.\\
+&\quad\text{(interchange integrals)}\\
+\int_{F'}|Tb(x)|&\le \sum_k \int_{Q_k} |b_k(y)|\,dy \int_{F'} |K(x,y)-K(x,y_k)|\,dx\\
+&\quad \text{(used zero-mean condition, take absolute value last)}\\
+&\quad x\nin c_n (1+c)Q_k, \quad y\in Q_k\\
+\implies |x-y|& \succsim \diam(Q_k) \succsim |y-y_k|\\
+%apply bund on regularity of $k$
+|x-y| &\precsim \sum_k \int_{Q_k} |b_k(y)|\,dy \\
+& \precsim \al \sum_k m(Q_k)\precsim \ve{f}_1.\\
+%Bound L^1 of Tb by L^1 of f, implies weak.
+m(\{Tb>\fc{\al}2\}\cap \bigcup_k  cQ_k) &\precsim_k m(Q_k)\precsim \rc{\al}\ve{f}_1.
+\end{align*}
+Put all these together. 
+%integrate over $F'$.
+%interchange the integral
+\item We have to interpolate between a weak $(1,1)$ and strong $(p,p)$ inequality.
+We use the identity (distribution formula for $L_p$ norm)
+\beq{eq:cutcake}
+\int |f|^p=p\int _0^{\iy} \al^{p-1} m(|Tf|>\al)\,d\al.
+\eeq
+We decompose $f$ into 1 pieces,
+\[
+f=f_\al+f^\al,\qquad f_\al=1_{|f|\le \al}f,\qquad f^\al = 1_{|f|>\al}f
+\]
+Use the $L^p$ bound to the first and the weak $L^1$ bound to the second. We have the inequalities
+\bal
+m(|g|>\al)&\precsim \fc{\ve{g}_1}{\al}\\
+m(|g|>\al)& \precsim \fc{\ve{g}_1^p p}{\al^p}
+\end{align*}
+useful when $\al\precsim |g|$, $\al \succsim |g|$, respectively.
+%useful when $\al\precsim |f|$.
+%close to 1 cannot get large domain for integration.
+%huge increase in small part.
+Applying these 2 inequalities to the 2 parts,
+\bal
+m(|Tf|>\al) & \le m(|Tf_{\al}|>\fc{\al}2) + m(|Tf^{\al}|>\fc{\al}2)\\
+&\precsim \rc{\al^q} \ve{Tf_\al}_q^q +\rc{\al}\ve{f^{\al}}_1\\%know L^q, want L^p.
+&\precsim \rc{\al^q}\int_{|f|\le \al}|f|^q +\rc{\al}\int_{|f|>\al}|f|.
+\end{align*}
+Finally, plugging into~\eqref{eq:cutcake}
+\bal
+\int |Tf|^p & \precsim_p \int_0^{\iy} \pa{
+\fc{\al^{p-1}}{\al^q}\int_{|f|\le \al} |f|^q
++ \fc{\al^{p-1}}{\al} \int_{|f|>\al} |f|
+}\,d\al\\
+& = \int\int_{|f|}^{\iy} \al^{p-q-1} |f|^q \,d\al\,dx + 
+\int\int_{0}^{|f|} \al^{p-2} |f|\,d\al\\
+&\precsim \int |f|^{p-q}|f|^q+\int |f|^{p-1}|f|\,dx\\
+&\precsim \ve{f}_p^p.
+\end{align*}
+Bootstrap by getting $L^q$ norm. As long as you have 1 $L^q$ norm you can get all these results. How to get the $L^q$ norm of $T$ in the first case? Use Fourier analytic methods.
+%translation invariant.
+
+%1-2, then 2-\iy by duality.
+Assume $K(x,y)=K(x-y)$. We have $\wh{f*K}=\wh f*\wh K$ so 
+\[
+\ve{f*K}_2=\ve{\wh f\wh K}_2\le \ve{f}_2\ve{\wh K}_{\iy}.
+\]
+If $\wh K$ is bounded then $Tf = f*K$ is bounded on $L^2$.
+Given the inequality for $1<p<2$, we get the inequality for $2<p<\iy$ by a duality argument. 
+Let $2<p<\iy$ and $p^*$ be such that $\rc p +\rc{p^*}=1$. Then
+\bal
+\ve{Tf}_{p}&=\sup_{\ve{g}_{p^*}=1} \int Tf(x)g(x)\,dx \\
+&=\sup \iint f(y)K(x,y) g(x)\,dy\,dx\\
+&=\sup \int f(y) T^* g(y)\\
+&\le \sup_{\ve{g}_{p^*}=1} \ve{f}_p\ve{g}_{p^*}.
+\end{align*}
+%usually forced at 1 $\iy$.
+\end{enumerate}
+
+\end{enumerate}
+
+\end{proof}
+
+
 %\input{chapters/1.tex}
  
 %\bibliographystyle{plain}
