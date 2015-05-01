@@ -505,6 +505,200 @@ Let $2<p<\iy$ and $p^*$ be such that $\rc p +\rc{p^*}=1$. Then
 \end{enumerate}
 
 \end{proof}
+\section{Ch 2 continued}
+
+\fixme{Everything after this is messy}
+We'll discuss:
+\begin{enumerate}
+\item
+Atomic decomposition
+\item Averge of general collections of balls.
+\item Singular approximations to the identity.
+\end{enumerate}
+\begin{df}
+Define $F:\R_+^{n+1}\to \R$, 
+\[
+F^*(x) = \sup_{|x-y|<t}|F(y,t)|.
+\]
+\end{df}
+
+Let $\ph=|B(0,r)|^{-1}$. Define $F(x,t)=f*\ph_t$, $\ph_t(x)=t^{-n}\ph\pf nt$. Then $F^*$ is the uncentered maximal function $\cal F f$.
+Define $F^*(x)=\sup_{|y-x|<t}|F(y,t)|$. $F\in N$, tent space, if $F^*\in L^1(\R^n)$. $\ve{F}_N:=\ve{F^*}_{L^1}$.
+
+split tent function into atoms which are easy to understand individually.
+
+The closer a point is to the boundary, the smaller.
+
+$T(0)=\bigcup_{x\in O}T(B(x,d(x,O^c)))$.
+
+\subsection{Atomic decomposition}
+\begin{df}
+An \textbf{atom} is a function supported on $T(B)$ for some $B\subeq \R^n$ such that $|a|\le |B|^{-1}$.
+%a^* supported on the ball, so the tent norm of $a$ satisfies $\ve{a^*}_N\le 1$.
+\end{df}
+In particular, $\ve{a^*}_N\le 1$.
+\begin{thm}
+If $F\in N$, then there exist atoms $\{a_k\}$ and $\{\la_k\}$ (scalars) such that 
+\[
+F=\sum_k \la_ka_k\in N
+\]
+and $\sum_k \la_k\le C\ve{F}_N$.
+\end{thm}
+
+Let $\cal B$ be a collection of balls in $\R^n$. Define the maximal function 
+\[
+(M_{\cal B}f)(x) = \sup_{B\in \cal B} \rc{|B|} \int_B |f(x-y)|\,dy.
+\]
+Does
+\[
+\rc{|B|}\int_B f(x-y)\,dy \to f(x)\qquad \text{a.e.}?
+\]
+%If I scale each ball by $B$, it will contain the origin.
+E.g. if $|C(B)|\le k\diam(B)$, then $|M_{\cal B}(f)|\le k^nM(f)$.
+
+The boundedness of the ordinary maximal function implies the boundedness of this maximal functions.
+
+Consider the larger collection of balls 
+\[
+\ol{\cal B} = \set{B'}{B'\supeq B\text{ for some }B\in \cal B}.
+\]
+This is a  kind of completion process. If you can bound the maximal operator for the original collection, then you can bound it for the completed collection. Let
+\[
+\cal B(r)=\bigcup_{B\in \ol{\cal B},\text{radius}(B)=r} B.
+\]
+
+\begin{thm}
+If $|\cal B(r)|\le cr^n$, then $M_{\cal B}$ is bounded on $L^p$ for all $1<p\le \iy$ and also on $L^{1,\iy}$.
+
+Conversely, if $M_{\cal B}$ is bounded on some $L^{p_0}$, then $|\cal B(r)|\le cr^n$.
+\end{thm}
+%Union of $n$ balls that covers $r$, then this is true. Conversely, if you have this inequality, then you have a fixed $n$ so that you have balls of radius $O(r)$, such that it has a cover of that many balls of that radius. 
+
+\begin{proof}
+$\ve{M\ol{\cal B}}_{p_0}\le A\ve{M\cal B}_{p_0}$.
+Define $m_B=|B|^{-1} \chi_B$. Let $B_{2r}$ be the bll of $2\text{radius}(\ol B)$ centered at 0. Claim: $2^{-n}m_{\ol B}\le m_{B_{2r}}*m_B$.
+
+Then $M_{\ol{\cal B}}f\le M(M_{\cal B}f)$.
+For $x\in \ol B$, $B(x,2r)\supeq \ol{B}\supeq B$.
+\[
+(m_{B_{2r}}* m_B) (x)=\rc{|B_{2r}|}=2^{-n} \rc{|B_r|} = 2^{-n}\rc{|\ol B|}.
+\]
+Using the boundedness of the ordinary maximal operator $M$,
+\[
+\ve{M_{\ol{\cal B}}f}_{p_0}\le A\ve{M_{\cal B}f}_B.
+\]
+Test function $\chi_{B_{2r}(0)}$. Claim: $\cal B(r)\subeq \set{x}{(M_{\cal B}f)(x)\ge 1}$. %If know have bound on $L^p$ norm 
+This implies that $\vol(\ol{\cal B}(r))\le A\vol(B_{2r})$.
+
+To show the converse, study the tent space. %If we want maximal functions with respect to general collection of balls
+Given $F:\R_+^{n+1}\to \R$, define $F_{\ol{\cal B}}^*(x)=\sup_{B(y,t)\in \ol{\cal B}}|F(x-y,t)|$.
+
+Claim: $\int_{\R^n}F_{\ol{\cal B}^*}(x)\,dx\le C\int_{\R^n} F^*(x) \,dx$.
+
+Use atomic decomposition: Let $a$ be an atom supported on $B(0,r)$, assume $a_{\cal B}^*(x)\ne 0$. Then for some $(y,t)$, $B(y,t)\in \ol{\cal B}$, then $|x-y|\le r-t$. This implies $x\in B(y,r)\in \ol{\cal B}$. Thus $x\in \ol{B(r)}$.
+%true for general F. To weak apply to char func of distribution function.
+
+\[
+\ve{a_{\cal B}}_{L^1} \le |B(0,r)|^{-1}\int_{\cal B(r)}\,dx\le C.
+\]
+We obtain that $M_{\ol{\cal B}}$ is bounded on $L^p$ and $L^{1,\iy}$ for $1< p\le \iy$. 
+$F(x,t)=f*\ph_t$, $\ph_t$ distribution function.
+\end{proof}
+
+Recall the setup. Suppose $\ph\ge 0$ is bounded and integrable $\int \ph=1$. If $\ph$ has sufficiently uniform decay at $\iy$, then 
+\[
+(f*\ph_t)(x)=\int_{\R^n}f(x-ty)\ph(y)\,dy\to f(x)\text{ a.e.}
+\]
+where $\ph_t(x)=t^{-n}\ph\pf xt$. This is true if $|\ph(x)|\le (1+|x|)^{-n-\ep}$, $\ep>0$.
+%closely connected to the study of the maximal operator.
+
+We weaken the conditions; then the same techniques as before cannot be applied. 
+Claim: If $\ph(rx)$ is decreasing in $r$, for all $0\ne x\in \R^n$ ($\ph$ bounded, $\ge 0$, integrable), then 
+\[
+(M\ph)(x)=\sup_{t>0}|(f*\ph_t)(x)|
+\]
+is bounded on $L^p$ for $1<p<\iy$. 
+%a.e., need weak $1,1$ bound. It's open whether there is a weak $1,1$ bound.
+
+The proof uses the method of rotations.
+\begin{proof}
+We want to bound (uniformly in $t>0$)
+\[
+\int_{|\xi|=1}\int_0^{\iy} f(x-rs) \ph_t(rs)r^{n-1}\,dr\,d\xi
+\]
+We claim that this is $\le \int_{|\xi|=1} (M^{\xi}f)(x)\int_0^{\iy} \ph_t(-s) r^{n-1}\,dr\,d\xi$.
+Here $(M^{(\xi)})=\sup_{r>0}\rc{2r}\int_{-r}^r |f(x-t\xi)|\,dt$ is the maximal function in 1 direction.
+Claim: $\ve{M^{(\xi)}f}_p\le A_p \ve{f}_p$
+precompose with element of orthogonal group, can assume in $x_1$ direction, integrate with respet to $x_1$, then other coordinates.
+
+Firstly, 
+\[
+\int_{|\xi|=1}\int_0^{\iy} f(x-r\xi)\ph(r\xi)|r|^{n-1} \,dr\,d\xi.
+\]
+We want to apply the result, majorizing $\ph(r\xi)|r|^{n-1}$ by a radially decreasing function
+\[
+\ph(r\xi) |r|^{n-1}\le \int_{|r|}^{\iy}s^{n-1} \,d\ph_S(rs)=\psi(r)
+\]
+by integration by parts.
+We calculate
+\[
+\iiiy -\psi(r)\,dr=\int_0^{\iy} d_r\psi(r)\le A\int \ph.
+\]
+Then 
+\[
+\int_{|\xi|=1}\int_0^{\iy} f(x-r\xi)\psi(r)|r|^{n-1}\,dr\,d\xi\le \int_{|\xi|=1}(M^{(\xi)}f)(x)\iiy \ph(r\xi)r^{n-1}\,dr\,d\xi.
+\]
+Use the Minkowski inequality and the claim bounding $\ve{M^{(\xi)}(f)}_p$. Then $\ve{M\ph f}_p\le A\ve{f}_p$ for $1<p\le \iy$.
+\end{proof}
+
+Let $\eta$ be a Dini modulus of continuity. This means that
+\begin{enumerate}
+\item
+\[
+\int_0^1 \fc{\eta(s)}{s}\,ds<\iy,
+\]
+\item $\eta(0)=0$,
+\item $\eta:[0,1]\to \R$,
+\item $\eta$ is non-decreasing.
+\end{enumerate}
+If $\eta(s)=O(s^{\ep})$ for $\ep>0$ then $\eta$ is a Dini modulus of continuity.
+(The inverse function of $e^{-\rc{x^2}}$ is not a Dini modulus of continuity.)
+Without this condition, the following question is open. 
+\begin{thm}
+If $\ph:\R^n\to \R$ and if 
+\[
+\int_{\R^n}|\ph(x-y)-\ph(x)|\,dy\le \eta(|y|)
+\]
+and if 
+\[
+\int_{|x|\ge R} |\ph(x)|\le \eta(R),
+\]
+ then $M\ph$ is bounded $L^1\to L^{1,\iy}$.
+\end{thm}
+If $\ph$ is compactly supported, this is satisfied.
+\begin{proof}
+If $\ph(rx)$ is decreasing in $r$ for $x\ne 0$, then 
+\[
+M_\ph f=\sup_{t>0}|f*\ph_t| \le 2 \sup |f*\ph_{2j}|
+\]
+%radially decreasing
+%2^j\ge t.
+Claim: there exists $A$ such that
+\bal
+\int_{|x|\ge 2|y|} \sup|\ph_{2j}(x-y)-\ph_{2j}(x)|&\le A\\
+&\le \ub{\sum_{2^j<|y|} \int_{|x|\ge 2|y|} |\ph_{2^j}(x-y)-\ph_{2^j}(x)|\,dx}{(1)} + \ub{\sum_{|y|\le 2j}\int_{|x|\ge 2|y|}|\ph_{2^j}(x-y)-\ph_{2^j}(x)|\,dx}{(2)}\\
+(1)&\le 2\sum_{2^j<|y|}\int_{|x|\ge 2|y|}|\ph(x-2^{-j}y)-\ph(x)|\,dx\\
+&\le 2\sum_{2^j<|y|}\eta(2^{-j}|y|)\\
+&\le 4\sum_{2^j<|y|}\fc{\eta(2^{-j}|y|)}{2^{-j}|y|}2^{-j-1}|y|\\
+&\le 4\int_0^1 \fc{\eta(s)}{s}\,ds<\iy\\
+(2)&\le 4 \sum_{2^j<|y|}\int_{|x|\ge 2|y|}|\ph(2^{-j}|y|)|\,dx\\
+&\le 4 \sum_{2^j<|y|} \eta(2^{-j}|y|)\\
+&\le 4 \int_0^1 \fc{\eta(s)}{s}\,ds.
+\end{align*}
+%(1) using a change of variables, Riemann sum.
+
+If $K=\{\ph_{2^j}\}_{j\in\Z}$, we want a bound $f\to f*K$. Using the Banach space version of boundedness of singular integrals, the result follows.
+\end{proof}
 
 
 %\input{chapters/1.tex}

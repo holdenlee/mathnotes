@@ -125,6 +125,12 @@ Computation/machine_learning/*
 !Computation/machine_learning/deep_learning.tex
 !Computation/machine_learning/deep_learning.pdf
 
+!Computation/machine_learning/intractability
+Computation/machine_learning/intractability/*
+!Computation/machine_learning/graphical_models.tex
+!Computation/machine_learning/graphical_models.pdf
+!Computation/machine_learning/gm.bib
+
 !Geometry/
 Geometry/*
 !Geometry/riemannian
