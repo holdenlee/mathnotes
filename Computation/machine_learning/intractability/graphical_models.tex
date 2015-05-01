@@ -1,0 +1,469 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+\newcommand{\cmt}[1]{(#1)}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Learning graphical models}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\addbibresource{gm.bib}
+
+\begin{document}
+\tableofcontents
+
+\section{Introduction}
+We summarize Guy Bresler's paper \autocite{Bre14}, ``Efficiently learning Ising models on arbitrary graphs." This is meant to be a reading guide for the paper itself.
+\subsection{Graphical models}
+For a graph $G$ and vertex $u$, let $\pl u$ denote the neighbors in $u$.
+\begin{df}
+Let $G=(V,E)$ be a graph.
+A \vocab{Markov model} on $G$ is a distribution on $\{-1,1\}^V$ such that 
+\[
+\Pj[x_u | x_{V\bs \{u\}}] = \Pj[x_u|x_{\pl u}],
+\]
+i.e., $x_u$ is independent of all other coordinates, given the values on the neighborhood of $u$. The neighbors ``shield" $x_u$ from the rest of the graph.
+\end{df}
+
+Recall that we can characterize all Markov models as follows. 
+\begin{df}[Gibbs distribution]
+%Let $G$ be a hypergraph with vertex set 
+Let $V$ be the set of coordinates, and $\cal S$ be a family of subsets of $V$. Let $x\in \{0,1\}^V$. 
+For each $S\in \cal S$, let $\phi_S$ be a function $\R^S \to \R$. A \vocab{Gibbs distribution} supported on $\cal S$ is a distribution in the form
+\[
+\Pj(x) \propto \exp\pa{\sum_{S\in \cal S} \phi_S(x)}.
+\]
+\end{df}
+
+\begin{thm}[Clifford-Hammersley]
+If $\Pj(x_1,\ldots, x_n)>0$ for every configuration $x=(x_1,\ldots, x_n)\in \{0,1\}^V$, then there exists a family of subsets $\cal S$, each set of which is a clique in the dependency graph $G$, and such that the distribution is a Gibbs distribution supported on $\cal S$. 
+
+Conversely, a Gibbs distribution supported on $\cal S$ is a Markov model whose edges are the union of the cliques $S\subeq \cal S$.
+\end{thm}
+
+\subsection{Ising model}
+
+To make learning easier, we focus on the special case of the Ising model.
+\begin{df}
+Let $G=(V,E)$ be a graph. An \vocab{Ising model} is a probability distribution on $\{-1,1\}^V$ where for $x\in \R^V$,
+\beq{eq:gm-1}
+\Pj_\te(x) = \exp\pa{\sum_{ij\in E}\te_{ij} x_ix_j + \sum_{i\in V} \te_i x_i - \Phi(\te)}
+\eeq
+where $\te\in \R^{E\cup V}$ %with $\te_{ij}=0$ when $ij\nin E$ and $\te_{ij}\ne 0$ when $ij\nin E$, and 
+and $\Phi(\te)$ is a factor to make the probabilities sum to 1.
+\end{df}
+%(Here $\Pj_\te$ doesn't mean $\te$ is a random variable; it means the distribution depends on $\te$.)
+An Ising model is a Gibbs distribution where the cliques are just edges, and moreover the potential functions $\phi_{\{i,j\}}$ only depend on whether $x_i=x_j$.
+
+Note that 
+\begin{enumerate}
+\item
+if $\te_{ij}>0$ it is favorable for $x_i=x_j$,
+\item
+if $\te_{ij}<0$ it is favorable for $x_i\ne x_j$,
+\item
+if $\te_i>0$ it is favorable for $x_i=1$,
+\item
+if $\te_i<0$ it is favorable for $x_i=-1$.
+\end{enumerate}•
+
+We are concerned with the following problem. 
+\begin{prb*}
+Given $m$ samples for the Ising model, learn the graph $G$ exactly with probability $1-\ep$.
+\end{prb*}
+Learning the graph exactly is called \vocab{structure learning}.
+
+We can't hope to have a uniform bound over $\te$ because $\te_{ij}\ne 0$ could be arbitrarily close to 0, and the difference in probabilities would be too small to determine if an edge exists or not. Thus we need to make the assumption that the $\te_{ij}$ are bounded away from 0. Neither do we want them to be too large: if some probabilities are much greater than others, the small ones won't be noticed until a lot of samples are take. 
+\begin{enumerate}
+\item
+Thus we define
+\[
+\Om_{\al,\be,\ga}(G)=\set{\te\in \R^{E\cup V}}{\forall ij\nin E, \te_{ij}=0,\quad \forall ij\in E, |\te_{ij}|\in [a,b],\quad \forall i\in V, |\te_i|\le h},
+\]
+and ask what the dependence of $n$ is on $\al,\be,h,\ep$.
+\item
+We also restrict to $G$ having maximum degree $\le d$. This is reasonable because in real life, each variable typically doesn't ``depend" on more than a few other variables directly.
+%(I think this restriction is more information-theoretic---otherwise there are too many possible graphs).
+\end{enumerate}
+Here is the modified problem. 
+\begin{prb}
+Suppose $\te \in \Om_{\al,\be,\ga}(G)$ where $G$ has $n$ vertices and maximum degree $\le d$.
+Given $m$ samples from the distribution given by~\eqref{eq:gm-1}, find $G$ with probability $1-\ep$ in a reasonable time.
+
+What is the right dependence of $m$ and the running time on $\al,\be,h,\ep,d$? 
+\end{prb}
+Bresler's main theorem is the following. 
+\begin{thm}
+%$\de=\rc 2 e^{-2(\be d+h)}$.
+Using 
+\[
+m=e^{O(\al^{-O(1)}e^{O(\be d^2 + h d)}\ln \fc n{\ep})} 
+%\pf{\be^{O(1)}}{\al^{O(1)}\de^{\fc{\be^{O(1)}}{\al^{O(1)}}\de^{O(d)}}}
+\]
+samples, Algorithm~\ref{alg:gm-b} learns $G$ exactly with probability $\ge 1-\ep$.
+
+The running time of the algorithm is $\wt O(n^2 m)$.
+\end{thm}
+We remark the following.
+\begin{enumerate}
+\item
+The dependence on $n$ is $O(\ln n)$ samples and $\wt O(n^2)$ running time (where the $O$ hides a constant depending on $\al,\be,d,\ep$). The previous best algorithm that works for all $G,\te$ as in the hypothesis takes time $\Om(n^d)$. It goes as follows: to find the neighborhood of a node, guess all subsets of size $d$. For each guess $S$, verify whether $u$ is independent of all other nodes given the coordinates in $S$ (up to some error parameter).
+
+Thus in the regime of constant $d$ and $n\to \iy$, this algorithm is better.
+\item
+However, the dependence on $d$ is doubly exponential. We'll talk about why this is later.
+\item
+The dependence on $d$ is at least exponential by information theory (the argument is involved; see \autocite{SW12}). Thus there is a gap between this algorithm and the lower bound.
+\item
+There have been algorithms that work under stronger assumptions, for example, the \vocab{correlation decay property} (\autocite{Gam13}) which says that the correlation between $i,j\in V$ is at most $\rh^{d(i,j)}$ for some $\rh<1$, where $d(i,j)$ is the graph distance between $i$ and $j$. This allows quadratic time because to find all neighbors, we can choose some $D$ so that every vertex farther than $D$ will have small correlation with $u$. This restricts us to at most $d^D$ vertices. Now run the $O(n^d)$ algorithm on these vertices to get a running time of $O(n(d^D)^{d+1}\ln n)$ per node and $\wt O(n^2)$ running time overall.
+\end{enumerate}
+We omit the constants; see the original paper. Bresler defines the chain of variables in Theorem 4.1:
+\bal
+\de & = \rc2 e^{-2(\be d+h)}\\
+\tau^* &= O\pf{\al^2 \de^{O(d)}}{d\be}\\
+\ep^* & = O(\tau^*)\\
+\ell^* &= O\prc{(\tau^*)^2}\\
+m &= O\pf{\ell^*}{(\ep^*)^2 \de^{\ell^*}\ln \pf p{\ep}};
+\end{align*}
+unraveling these gives the bound for $m$ in the theorem.
+
+We present the algorithm.
+\begin{enumerate}
+\item
+Key Idea: Define the influence of $i$ on $u$ conditioned on $S$, $\nu_{u|i,S}$.
+\item 
+Key Theorem: Every vertex $u$ has a neighbor with large influence on $u$ (when conditioned on any $S\nsupeq \pl u$). 
+\end{enumerate}
+
+\begin{alg}\llabel{alg:gm-b}
+The following finds the neighborhood $\pl u$ of a vertex $u$. (To find the graph, repeat for all vertices.)
+
+The algorithm has 2 parts. Given a threshold parameter $\tau$ (we set it to $\tau^*$),
+\begin{enumerate}
+\item
+Psueudo-neighborhood: Find $S\supeq \pl u$ as follows.
+\begin{enumerate}
+\item
+Let $S=\phi$.
+\item Repeat: While there exists $i$ with large influence $\wh{\nu}_{u|i,S}^{\text{avg}}$, 
+\begin{enumerate}
+\item 
+choose $i$ with the largest influence and set $S\mapsfrom S\cup \{i\}$.
+%Let $(i^*,\eta^*)=(\amax_i \wh{\nu}_{u|i;S}^{\text{avg}}, \max_i \wh{\nu}_{u|i;S}^{\text{avg}})$.
+%\item Repeat until $\eta^*<\tau$. If $\eta^*\ge \tau$, then add $i^*$ to $S$ and repeat.
+\end{enumerate}
+\end{enumerate}
+\item Pruning
+\begin{enumerate}
+\item
+While there exists $i$ with $\wh{\nu}_{u|i,S\bs \{i\}}<\tau^*$,
+\begin{enumerate}
+\item
+Remove $i$ from $S$, $S\mapsfrom S\bs \{i\}$.
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+Output $S$. Note we only get a superset at first because a vertex that is not a neighbor, or in fact far away in graph distance, could have large influence on $u$ (``long-range correlation"). This happens exactly because we're not assuming the correlation decay property. There could, for example, be many paths with positive $\te_{jk}$'s from $i$ to $u$.
+\end{alg}
+We go through the following steps in the analysis.
+\begin{enumerate}
+\item
+Bound the conditional probability of $u+,u-$ from below in terms of $\al,\be,h$.
+\item
+Define the notion of influence. 
+\item 
+Show that there always exists a neighbor of $u$ which has large influence on $u$ (also true if we condition on any subset not containing $\pl u$). To do this, show an anti-concentration bound.
+\item 
+Argue that $|S|$ is bounded indpendent of $n$ (it would be bad if $S$ grows to contain all the vertices!).
+\item Use Chernoff's inequality to find how large $n$ has to be so that the estimated probabilities/influences are close to the actual. This gives the number of samples we need.
+\end{enumerate}
+Where does the double exponential (in $d$) come from? 
+\begin{enumerate}
+\item The first exponential comes from the fact that in order to estimate $\nu_{u|i}$ we need to estimate $\Pj(x_S)$, which is bounded below by $\de^{-|S|}$. Thus we need $\de^{-O(|S|)}$ samples.
+\item
+The second exponential comes from the fact that the maximum size of the set $S$ is bounded in terms of $\tau^*$, so $|S|=\de^{-O(d)}$.
+\end{enumerate}
+
+
+%\section{Other models; Prior work}
+%
+%Correlation decay property.
+%
+%Ising vs. Markov model.
+First we justify that pruning works. 
+\begin{enumerate}
+\item
+If $i\in \pl u$, then the key theorem will tell us that $\nu_{u|i,S}^{\text{avg}}$ is large, so we won't remove it.
+\item
+If $i\nin \pl u$, then $i$ is independent of $u$ given $\pl u\subeq S$, and this implies $\nu_{u|i,S}^{\text{avg}}=0$, so we will remove it.
+\end{enumerate}
+We don't get access to the actual influences, only to the estimated influence (from the sample), but the algorithm will work fine as long as the estimated influences are close enough $\ep^*=\fc{\tau^*}{2}$. We'll address this in the last step.
+
+\section{Bounding conditional probabilities from below}
+
+We will often write indices as shorthand for coordinates; for example, $\Pj[u+|x_S]$ means $\Pj[X_u=+1|X_S=x_S]$.
+
+\begin{lem}\llabel{lem:gm-p-not-too-small}
+For any $u\in V, S\subeq V\bs \{u\}, x_S\in \{-1,1\}^S$, 
+\[
+\Pj[u\pm |x_S]\ge \de=\rc2e^{-2(\be d+h)}
+\]
+For a set $U$,
+\[
+\Pj[x_{U}|x_S]\ge \de^{|U|}.
+\]
+\end{lem}
+
+\begin{proof}
+We just show the lemma for a singleton; the case for general $\cal U$ is similar.
+\beq{eq:gm-2}
+\Pj[u+ | x_{V\bs u}] = \fc{e^{\sum_{i\in \pl u} \te_{ui} x_i +\te_u}}{e^{\sum_{i\in \pl u} \te_{ui} x_i +\te_u}+ e^{-\sum_{i\in \pl u} \te_{ui} x_i -\te_u}} =\fc{1}{1+e^{-2(\sum_{i\in \pl u} \te_{ui} x_i +\te_u)}}\ge \de.
+\eeq
+\end{proof}
+
+\section{Influence}
+
+First, a little motivation. The original definition of influence is as follows: for a boolean function $f:\{0,1\}^n\to \{0,1\}$, the influence is the expected change in $f$ if we flip the $k$th bit, and the total influence is the sum of influences.
+\bal
+I_k(f) & = \E_x |\De_kf| = \E_x |f(x+e_k)-f(x)|\\
+I(f) & = \sum_k I_k(f).
+\end{align*}
+This is well-understood (ex. KKL theorem: there is a coordinate with influence $\succsim \fc{\ln n}{n}$, etc.).
+
+The definition of influence is different here, though it also measures the effect of a bit flip. It measures how a conditional probability of $u+$ changes when $x_i$ is flipped. We take the expectation with respect to a different measure, as well.
+\begin{df}
+Define
+\bal
+\nu_{u|i;x_S} &= \Pj[u+|i+, x_S]-\Pj[u+|i-, x_S]\\
+\la_i(x_S) &= 2\Pj[i+|x_S]\Pj[i-|x_S]\\
+\nu_{u|i;x_S}^{\text{avg}} &= \E[|\nu_{u|i;X_S}|\la_i(X_S)].
+\end{align*}
+\end{df}
+Let's focus on the special case where $S=\phi$. We will only sketch proofs when $S=\phi$ (i.e., the first step, when we're trying to find a single neighbor of $u$). The proofs basically carry over by changing the probabilities to probabilities conditioned on $x_S$. In this case, 
+\bal
+\nu_{u|i} &= \Pj[u+|i+]-\Pj[u+|i-]\\
+\la_i &= 2\Pj[i+]\Pj[i-]\\
+\nu_{u|i}^{\text{avg}} &= |\nu_{u|i;X_S}|\la_i(X_S).
+\end{align*}
+Why are the weights are given by $\la_i$?
+\begin{enumerate}
+\item
+We shouldn't weight the summands in the $\E$ equally, because some some of the events are more likely than others. 
+We discount the events where $\Pj[i+]$ or $\Pj[i-]$ is very small because we rarely get data from them in sampling. Think of $i$ as ``almost fixed given $x_S$." Thus those events shouldn't affect the influence much.
+
+(Note the definition of $I_k$ is an $\E$ assuming the uniform distribution on $\{0,1\}^n$, which we don't have here.)
+\item
+When we're trying to sum the $\nu_{u|i}$ over neighbors, the factor $\la_i$ is exactly what we multiply by to give the sum a nice interpretation as an expected value we can bound using anticoncentration inequalities.
+\end{enumerate}
+The key theorem that makes the algorithm work is the following.
+\begin{thm}\llabel{thm:gm-v-large}
+For $\te\in \Om_{\al,\be,\ga}(G)$, $\pl u\nsubeq S$, there is $i\in \pl u \bs S$ with $\nu_{u|i;S}^{\text{avg}}\ge 2\tau^*$.
+\end{thm}
+For simplicity, we'll just sketch the proof when $S=\phi$, but the proof carries over by conditioning on $x_S$.
+
+To show there is $i\in \pl u$ with $\nu_{u|i}$ large, we show there is that the sum over $i\in \pl u$ is large. Let $\cal U=N(u)$. We will prove the following bound:
+\[
+\sum_{i\in \cal U} \te_{ui} \ub{\la_i \nu_{u|i}}{\nu_{u|i}^{\text{avg}}} \ge \ve{\te_{u\cal U}}_12\tau^*.
+\]
+The fact that one summand is large will follow directly.
+
+Why the weights $\te_{ui}$? Recall that $\te_{ui}>0$ means (roughly) that $x_i=x_u$ is more likely, so we would expect $\nu_{u|i}$ to be positive, and if $\te_{ui}<0$ we would expect $\nu_{u|i}$ to be negative. Thus we multiply by the $\te_{ui}$ to try to make each summand positive (on the average).
+
+We now calculate.
+\bal
+\nu_{u|i} & = \Pj[u+|i+] - \Pj[u+|i-]\\
+&= \sum_{x_{\cal U\bs i}} \Pj[u+|i+, x_{\cal U\bs i}]
+\Pj[x_{\cal U\bs i}|i+] 
++
+ \sum_{x_{\cal U\bs i}} \Pj[u+|i-, x_{\cal U\bs i}]
+\Pj[x_{\cal U\bs i}|i-]\\
+&= \sum_{x_{\cal U\bs i}} \Pj[u+|i+, x_{\cal U\bs i}]
+\fc{\Pj[x_{\cal U\bs i},i+]}{\Pj[i+]}
++
+\sum_{x_{\cal U\bs i}} \Pj[u+|i-, x_{\cal U\bs i}]
+\fc{\Pj[x_{\cal U\bs i},i-]}{\Pj[i-]}\\
+&= \sum_{x_{\cal U}} \Pj[u+| x_{\cal U}] \fc{x_i}{\Pj[x_i]} \Pj[x_{\cal Y}]
+\end{align*}
+At this point, we notice that $\fc{x_i}{\Pj[x_i]}$ is ugly because it has $\Pj[x_i]$ in the denominator. It would be much nicer to work with simply the random variable $x_i$:
+\bal
+\fc{x_i}{\Pj(x_i)}&\in \bc{
+\rc{\Pj(i+)},\rc{\Pj(i-)}
+}\\
+x_i&\in \{-1,1\}.
+\end{align*}
+Define the average and half-difference of $\fc{x_i}{\Pj(x_i)}$:
+\bal
+s_i&= \rc2 \pa{\rc{\Pj(i+)} - \rc{\Pj(i-)}}\\
+t_i&= \rc2 \pa{\rc{\Pj(i+)} +\rc{\Pj(i-)}}=\rc{\la_i}.
+\end{align*}
+Note that $\fc{s_i}{t_i}=\Pj(i-)-\Pj(i+) = -\E X_i$.
+Subtracting the average and dividing by the half-difference gives a $\pm1$ random variable:
+\bal
+\rc{t_i}\pa{\fc{x_i}{\Pj(x_i)}-s_i}&=x_i\\
+&\implies \la_i \fc{x_i}{\Pj(x_i)} &= x_i + \fc{s_i}{t_i} = x_i-\E x_i.
+\end{align*}
+This suggests multiplying by $\la_i$. Note $\Pj[u+|X_{\pl u}]$ is given by~\eqref{eq:gm-2}; $2\Pj[u+|X_{\pl u}]$ is given by $\tanh$ which is why we make the transformation below. 
+\bal
+\la_i\nu_{u|i} &=  \E_{X_{\pl u}} \Pj[u+|X_{\pl u}] (X_i-\E X_i)\\
+& = \rc2 \E(2\Pj[u+|X_{\pl u}](X_i-\E X_i))\\
+&=\rc2 \E \tanh Z (X_i-\E X_i)\\
+&\quad\text{where } Z=\sum_{i\in \pl u}\te_{ui}X_i + \te_u = 
+\pl_{(u,\pl u)}\cdot X_{\pl u}+\te_u\\
+\sum_{i\in \pl u} \te_{ui} \la_i \nu_{u|i}&=
+\rc2 (\tanh Z)\te_{(u,\pl u)}\cdot (X_{\pl u}-\E X_{\pl u})\\
+&=\rc 2\E(\tanh Z)(Z-\mu)
+\end{align*}
+where $\mu=\E Z$ and $\te_{(u,\pl u)}$ consists of $\te_{ui}$ for $i\in \pl u$.
+We want this to be bounded $>0$.
+
+%Let $Z=X_{\cal U}\cdot \te_{u\cal U}+\te_u$. (Note the $\te_u$ is a constant and doesn't really matter; we can throw it out if we want to with minor modifications.) Let $\mu=\E Z$. Then the above becomes
+%\[\sum_{i\in \cal U} \te_{ui} \la_i \nu_{u|i}
+%= \E(\tanh Z)(Z-\mu).\]
+The first thing to note is that for any random variable with $\E Z=\mu$, this quantity is $\ge 0$. This makes sense because $(\tanh x)(x-\mu)$ is convex near $\mu$, and positive except in between 0 and $\mu$. 
+
+Thus we'll just need to show some positive amount of mass (bounded away from 0) is bounded away from $\mu$. To do this we'll need an anticoncentration inequality.
+\section{Anti-concentration inequality}
+First, let's pretend that $Z$ is the uniform random variable $U_d$ on $\{-1,1\}^d$. Then $Z=\te_{(u,\pl u)}\cdot U+\te_u$. The entries of $U$ are $\pm 1$ so we might think of $Z$ as like a binomial random variable, which we know has some tail. The two issues are (1) $Z$ is not uniform, and (2) using the right anticoncentration result.
+
+For (1), Lemma~\ref{lem:gm-p-not-too-small} gives us that the probability of $\Pj(x_{\pl u})$ is bounded from below by $\de^d$ (not depending on $n$). Thus we can write
+\[
+X_{\pl u} = c U_{\pl u}+(1-c)W
+\]
+where $c=(2\de)^d$.
+
+\begin{thm}[Littlewood-Offord, Erd\H os]
+\llabel{thm:gm-loe}
+Let $w_i$ be reals with $|w_i|\ge 1$. Let $I$ be an open interval of length $k$. Let $\xi\in \{-1,1\}^d$ be iid Bernoulli. Then 
+\[
+\Pj(w\cdot \xi\in I)\le \text{sum of $k$th largest binomial coefficients }\binom d{\bullet}.
+\]
+In particular, for $d\ge O(1)$,
+\[
+\Pj(w\cdot \xi \in (t_0-1,t_0+1)\le 2\rc{2^r}\binom{r}{\ff r2}\le \rc2
+\]
+(and actually is $\precsim \rc{\sqrt d}$).
+\end{thm}
+\begin{lem}[Lemma 7.2 rephrased]
+Let $\vec \te$ be a vector of $d\ge O(1)$ variables with each entry $|\te_i|\ge \al$. Let $\vec Y$ be iid $\pm 1$. Consider the variable 
+\[
+Z=c(\vec\te \cdot Y) + (1-c)W
+\]
+where $W$ is any random variable. 
+Let $\mu = \E Z$. Then
+\[
+\E[(\mu-Z) \one_{Z\le \mu-\al \fc{c}{2}}] \ge \fc{\al c^2}8.
+\]
+\end{lem}
+\begin{proof}
+For simplicity, WLOG $\mu=0$. Use Theorem~\ref{thm:gm-loe}. Let $m_1$ be the probabilities that $Z\le -\al\fc c2$, $Z\in (-\al \fc c2, (2-\fc c2)\al)$, and $Z\ge (2-\fc c2)\al$. We just minimmize the desired quantity given the constraints
+\bal
+m_1+m_2+m_3 & = 1\\
+m_2 &\le 1-\fc c2\\
+m_1\E[-Z|Z\le -\fc{\al c}2] + m_2(-\al\fc{c}2) + m_3(2-\fc c2)\al&\ge \mu,
+\end{align*} 
+and also noting the desired quantity is $\ge m_1 (\fc{\al c}2)$.
+\end{proof}
+Apply the lemma with $Y=X_{\pl u}$ and $c=\rc 2(2\de)^{d}$ to get %This is since each vector $x_{\cal U}$ has $\ge \de^{|\cal U|}$ chance, from Lemma~\ref{lem:gm-p-not-too-small}.
+\[
+\E((\mu-Z)\one_{Z\le \mu - \al \fc c2})\ge \fc{\al c^2}{8} = \Om(\al \de^{O(d)}).
+\]
+Doing the calculation with bounding $\tanh$ (See lemma 7.3 in the paper), we get the bound
+\[
+\E [(\tanh Z)(Z-\mu)] 
+\ge \fc{\al^2\de^{4d+1}}8 \ge d\be 2\tau^*.
+\]
+which gives the key theorem~\ref{thm:gm-v-large}.
+\section{$|S|$ is bounded}
+We bound the influence by a KL divergence, and then by mutual information. We can bound the sum of mutual informations by 1 (chain rule), so this gives an upper bound on how many times we have to grow our set.
+
+Using Pinskler's inequality relating the total variation distance and KL divergence,
+\[
+%\ve{P-Q}_1, 2
+d_{TV}(P,Q)\le \sqrt{\rc 2D_{KL}(P||Q)}
+\]
+we have
+\bal
+\rc2 v_{u|i}^{\text{avg}}
+& =\Pj(i+)\Pj(i-) |\Pj(u+|i+)-\Pj[u+|i-]|\\
+& = |\Pj(u+,i+)(1-\Pj(i+)) - \Pj(u+,i-)\Pj(i+)|\\
+&=|\Pj(u+,i+)-\Pj(u+)\Pj(i+)|\\
+&=d_{TV}(\Pj(u,i), \Pj(u)\Pj(i))\\
+%&\le \rc 2\ve{\Pj(u,i)-\Pj(u)\Pj(i)}_1\\
+&\le \sqrt{\rc2 D_KL(\Pj(u,i),\Pj(u)\Pj(i))}\\
+&=\sqrt {\rc2 I(u:i)}.
+\end{align*}
+Exactly the same analysis goes through when conditioning on $x_{S_l}$ (the first $l$ nodes added to $S$).
+Now suppose that the estimated $\wh{\nu}_{u|i;S_l}^{\text{avg}}$ is at most $\ep$ away from the true average. For each $i$ that is added, we then have
+\bal
+\sqrt{\rc2 I(X_u:X_i|S_l)}&\ge \rc2 (\wh{\nu}_{u|i;S_l}^{\text{avg}} - \ep)\\
+I(X_u:X_i|S_l)&\ge \rc2(\tau-\ep)^2.
+\end{align*}
+Now use the chain rule for mutual information to obtain
+\[
+1\ge H(X_u)\ge I(X_u|X_S) = 
+\sum_{k=1}^{|S|} I(X_u:X_{j_k}|X_{j_1},\ldots, X_{j_{k-1}}) \ge |S|\rc2(\tau-\ep)^2
+\]
+so the set grows to size
+\[
+|S|\le \fc{2}{(\tau-\ep)^2}.
+\]
+%By Theorem~\ref{thm:gm-v-large}, $S$ will contain $\pl u$ as needed.
+%Now actually, if $i\nin \pl u$, then $x_u$ is independent of $x_i$ given $x_{\pl u}$ (the neighbors of $u$ shield it):
+%\[
+%\nu_{u|i,S\bs i}=0.
+%\]
+%Thus as long as the error in the $\wh{\nu}$ is  these nodes will be pruned from the neighbors. If the $\wh{\nu}$ have error $\ep<\fc{\tau}2$ then we will prune all the non-neighbors and keep the neighbors.
+\section{Estimating $\nu$}
+This is straightforward using Chernoff's inequality and getting your $\delta$s and $\ep$s in order. Let's just perform a sanity check---estimating how many samples we need. 
+\begin{lem}[Lemma 3.2 in \autocite{Bre14}]
+Let $l \le \fc n4-2$. If the number of samples is $\ge \fc{144(l+3)}{\ep^2\de^{2l}} \ln \fc{n}{\ep'}$, then 
+\[
+\Pj(\forall u,i\in V, S\subeq V\bs\{u,i\}, |S|\le l, |\nu_{u|i;S}^{\text{avg}} - \wh{\nu}_{u|i;S}^{\text{avg}}|\le \ep)\ge 1-\ep'.
+\]
+\end{lem}
+We have to union bound over all subsets of size at most $l$, but this is negligible since it introduces a log factor. The key part is the error parameter we want for $\wh{\Pj}(x_S)$ as $S$ ranges over all subsets with $|S|\le l+2$. If we allow $\wh{\Pj}(x_S)$ to have $\ep''$ error, then because terms of the form $\wh{\Pj}(x_S)$ appears in the denominator of the sum of $\nu$'s, we get that the $\nu$'s have error $O\pf{\ep''}{\de^l}$ as $\de^l\le \de^{|S|}\le \Pj(x_S)$. So we need 
+\[
+O\pf{\ep''}{\de^l} \le \ep,
+\]
+and on the order of $O\prc{(\ep'')^2} = O(\de^{l}) = O(\de^{|S|})$ samples, where $|S|=O\prc{(\tau^*)^2}$. 
+%; see the definition of $\de,\ep^*,\ell^*$.
+This gives the doubly exponential dependence on $d$.
+\section{Open questions}
+\begin{enumerate}
+\item
+Can we find an algorithm with running time exponential rather than doubly exponential?
+\item 
+Extension to Markovian models: 
+What if we have alphabet size $>2$? Given $x\in \Si^V$, and given $f_{ij}:\Si^2\to \R$ with $f_{ij}$ constant for $ij\nin E$ and with range in between $\al$ and $\be$ otherwise, and $f_i:\Si\to \R$ with range $\le \ga$, find $G$.
+\item
+Can we extend to hypergraphs? For example, in the Ising model, what if we had $x_ix_jx_k$ terms? What about the Markov model, where we allow functions $f_{ijk}$?
+\item
+What is the optimal algorithm if we are only required to learn the distribution up to some statistical distance, rather than give the exact graph?
+\item 
+What if we assume a random graph? (I.e., we have a generative model for the graph.) Is the problem easy ``on average"?
+\end{enumerate}
+
+
+%\input{chapters/1.tex}
+\printbibliography
+%\bibliographystyle{halpha}
+%\bibliography{gm}
+\end{document}

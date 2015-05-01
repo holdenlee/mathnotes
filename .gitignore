@@ -127,9 +127,9 @@ Computation/machine_learning/*
 
 !Computation/machine_learning/intractability
 Computation/machine_learning/intractability/*
-!Computation/machine_learning/graphical_models.tex
-!Computation/machine_learning/graphical_models.pdf
-!Computation/machine_learning/gm.bib
+!Computation/machine_learning/intractability/graphical_models.tex
+!Computation/machine_learning/intractability/graphical_models.pdf
+!Computation/machine_learning/intractability/gm.bib
 
 !Geometry/
 Geometry/*
