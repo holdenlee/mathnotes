@@ -1,0 +1,56 @@
+\subsection{Distance oracles}
+
+We show we can attain stretch $2k-1$ with size $n^{1+\rc k}$ and $O(1)$ query time.
+
+Core approach: for all $u$, store a subset $B(u)=\{v_1,\ldots, v_r\}$ and $d(u,w)$.
+
+If we query $u,v$, find a good node $w\in B(u)\cap B(v)$, and return $d(u,w)+d(w,v)$.
+
+What does the Thorup-Zwick distance oracle look like? 
+Hierarchy of $k$ subsets of nodes. 
+Look at a small ball around $v$, at vertices in $A_1$. Look at a larger ball and take nodes from $A_2$, a sparser subset. 
+
+For every level, store the closest node to $v$ in that level, the pivot $p_i(v)$.
+
+One of these pivots will be in bunches of both $u,v$ and give good stretch. We show how to find the good pivot faster.
+
+We want $O(n^{1+\rc k})$ size; we cannot even store $k$ pivots per node. We show that a constant number of sets $A_i$ and pivots is sufficient.
+We can settle for a constant number of subsets and pivots. Instead of searching for a node belonging to both bunches, store some of the distances between the pivot. Go from $s$ to a pivot, from pivot to pivot, and then to $t$. 
+
+Define $A_{\fc k2}$ by taking every node independently at random with probability $n^{-\rc2}$. Store distances $A_{\fc k2}\times A_{\fc k2}$. and $(v,p_{k/2}(v))$.
+
+Let $\De=d(s,t)$. If the distance between $s$ and $p_{k/2}(s)$ is at most $\fc k2\De$ and similarly for $t$, then the distance between the pivots is $\le (k+1)\De$.
+
+If $d(s,t)\ge \fc{d(s,p_{k/2}(s))}{k/2}$, then the distance oracle is correct.
+
+Now let $A_{\fc k4}$ be a random subset of size $n^{\fc 34}$. We can only store some of the distances. For every $w\in A_{\fc k4}$, store $B(w,d(...))$ If $d(s,p_{k/2}(s))> 3d(s,p_{k/4}(s))$ then we're good. We'll have a shorter path between $s,t$.
+
+CDo this a constant number of times. We are left with dealing with a small and sparse ball around $s$. It is easy to show a mechanism for dealing with ``short distances."
+
+%only instances in that ball.
+%all outside ball already covered.
+%blue ball over all node. 
+%cover techniques
+Cluster nodes into small clusters such that 
+\begin{enumerate}
+\item
+every node appears in a small number of clusters.
+\item
+The important ball of $s$ is completely contained in one cluster.
+\item
+Every cluster is very sparse, so invoke a distance oracle with $O(n^{1+\rc k})$ size, $O(1)$ squery time and $k'=\fc{k}{128}$ stretch.
+\end{enumerate}•
+
+The case we didn't cover: What if $d(s,p_{k/4}(s))\gg d(s,p_{k/2}(s))$. Check whether in good case: Determine $d(s,p_i(t))\ge i\De$ implies $d(s,p_i(t))/i\ge \De$, or $d(s,t)\le 2d(s,p_i(t))$. Constant number of times: improve the upper bound or get a lower bound until know can return the upper bound.
+
+Three components:
+\begin{enumerate}
+\item
+Constant number of sets $A_i$
+\item
+mechanism for checking if $d(s,t)\ge d(s,p_i(s))/i$
+\item mechanism for short distances.
+\end{enumerate}
+
+%Next big open question?
+Oracle cannot give path.

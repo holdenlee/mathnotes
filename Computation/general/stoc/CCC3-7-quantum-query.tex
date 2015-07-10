@@ -1,0 +1,99 @@
+\subsection{Quantum query complexity}
+
+\subsubsection{Bomb query complexity}
+
+Modified quamtum query inspired by Elitzur-Vaidman bomb tester.
+
+Given a bomb which is either a dud or a live bomb. Live: explodes on contact with photon. Dud: no interaction with photon. Can we tell them apart without blowing it up?
+
+Put bomb in an interferometer: split the photon. If you see a photon on $D_2$ you know you have a live bomb. ($50\%$ explode, $25\%$ know it's a bomb.) %is this optimal.
+We can improve to $\ep$ with a quantum zero effect.
+
+We can rewrite the Elitzur-Vaidman bom in the circuit model: 
+%\ket{0} -- I or X (* control)-- measure, explode if 1
+Let $R(\te)$ be rotation matrix. Add a $R(\te)$ on top, and repeat $\fc{\pi}{2\te}$ times.
+
+If live: first register is projected back to $\ket0$ on each measurement. Probability of explosion: $\Te(\te^2) \Te(1/\te)=\Te(\te)$.
+%1/\te number of queries.
+
+Bomb query: quanum query where each bit of $X$ is an EV-bomb.
+
+Differences from quantum query:
+\begin{itemize}
+\item
+extra control register $c$,
+\item
+record register must contain $0$ as input.
+\item
+must measure query after each input.
+\end{itemize}•
+$B_\ep(f)$ number of bomb queries needed to have probability of explosion $\le \ep$. 
+\[
+B_\ep=\Te(Q(f)^2/\ep).
+\]
+Upper bound: quantum zero effect. 
+Simulate each quantum query using $\Te\prc{\te}$ bomb queries.
+
+Lower bound: adversary method.
+General weight adversary bound tightly characterized quantum query complexity.
+
+\subsubsection{Algorithms}
+$O(N)$ bomb query algorithm for OR. Stop at first live bomb. $O(N/\ep)$.
+We get $Q(OP)=O(\sqrt N)$. This gives a nonconstructive proof of the existence of Grover's algorithm. Can we generalize this further?
+
+If there is a classical randomized algorithm that computes $f$ using $\le T$ queries, and an algorithm that predicts the results of each query $\cal A$ makes, making $\le$ expected $G$ mistakes, then 
+\[
+B_\ep(f)=O(TG/\ep), \qquad Q(f)=O(\sqrt{TG}).
+\]
+
+For OR, $T=N$, $G=1$.
+
+Cf. Kothari's algorithm for orace identification.
+
+At each step, 
+\begin{enumerate}
+\item
+use $G$ to predict remaining queries.
+\item 
+find the location of the first mistake using $O(\sqrt d)$ quantum queries
+\item
+This determines the actual query results up to the mistake we just found.
+\end{enumerate}
+Query complexity $O(\sqrt{TG})$. Log factors can be removed using span programs.
+
+Application: Unweighted single-source shortest paths.
+% Given the adjacency matrix of an unw
+Guessing that $(v,w)$ is not an edge, we make $\le n-1$ mistakes, since each vertex is discovered once.
+\[
+Q(uSSSP)=O(\sqrt{TG})=O(n^{\fc 32}).
+\]
+%algorithm as black-box to another black-box
+matches lower bound.
+
+Problem: unweighted $k$-source shortest path. 
+Classical: run BFS $k$ times. 
+Quantum: $G=k(n-1)$ but $T=O(n^2)$ instead of $O(kn^2)$.
+
+2109 on Scott A's blog.
+
+$O(n^{1.75})$ quantum query algorithm for maximum bipartite matching.
+
+Open:
+\begin{itemize}
+\item
+relate $G$ to classical measures of query complexity (certificate, sensitivity).
+\item 
+time complexity of algorithms
+\item
+algorithm for adjacency list model
+\item
+other problems, e.g., matching for general graphs
+\item $R(f)$ and $B(f)$
+\end{itemize}
+
+
+Conjecture: $R(f)=O(Q(f)^2)$ (attained by OR).
+
+Projective query complexity, $P(f)$. Allow black-box access to a circuit that compotes $O_x$ but then forces a measurement.
+Decohere result? $Q(f)\le P(f)\le R(f)$, $P(f)\le B(t)$. $P(OR)=\Om(N)$.
+Conjecture: $P(f)=\Te(R(f))$ for all total functions.

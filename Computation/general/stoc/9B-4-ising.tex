@@ -1,0 +1,75 @@
+\subsection{Learning Ising models}
+what you do once you have the model. Historically people knew what models to use, ex. HMM of speech recognition
+
+Modern applications: unknown structure.
+
+Given data, how to estimate model
+
+Sample complexity; compuational complexity: how does run-time scale with $p$ and $n$?
+
+Once have graph, learning parameters is easy.
+
+Theorem: can learn graph with $\Pj\to 1$ with $O(\ln p)$ samples in $\wt O(p^2)$ time.
+
+Challenge 1: independence of neighbors.
+
+Ex. $\te_{12}=-\ln \cosh\te$. $X_1\not\perp X_2$.
+Triangle of dependence.
+
+Challenge 2: long-range dependence. Effects can add up. Reason why there is a phase transition.
+
+Neighbors can be independent while faraway nodes can be strongly dependent.
+
+An expenseive algorithm gives a baseline: exhaustive search. Try to find a neighbor. Test all size $d$ neighborhoods.
+BMS08. Complexity is large. Can we do better.
+
+Go back to the first model on structurelearning: the tree model. 
+
+Challenge 1: weak dependence between neighbors. In trees,neighbors are always correlated.
+
+Challenge 2: long-range dependence In trees, correlations decay with influence. 
+
+Add in edges according to mutual information. Don't add a cycle. Chow-Liu: cnlearn tree with probability $\to 1$ using $n=O(\ln p)$ in time $\wt O(p^2)$ (mutual info between every pair of nodes)
+
+%\bibliographystyle{plain}
+%\bibliography{refs}
+
+fixed parameter tractability: $p^c$ independent of $d$.
+
+Correlation decay: 
+\begin{enumerate}
+\item
+independence of neighbors: assume neighbors are correlated: $\E X_iX_j\ge \ka$ for $\{i,j\}in E$.
+\item
+challenge 2: assume model satisfies correlatin decay prop $\E X_iX_j\le e^{-\ga d(i,y)}$.
+\end{enumerate}
+
+Weak couplings, high temperature %spin glass on grid.
+Stronger couplings at low temperature.
+
+A picture looks like stronger coupling: no correlation decay. Images.
+
+Maybe existing algorithms work? The ones that don't assume are based on convex optimization. 
+
+Mento-Montanari 2009:
+All known low-complexity algorithms explicitly or implicitly require correlation decay.
+
+Strongly repelling: $\wt O(p^2)$ hard-core models. Strong long-range dependence. Possible to learn. 
+
+A simple algorithm learns any Ising model!
+
+Key structural property of Ising models: influential neighbor lemma: every node $i$ has at least one neighbor with large influence (also true conditioning on an arbitrary set of nodes).
+
+Deals with challenge 1. 
+
+Challenge 2: prune neighbors.
+%$|S|$ bounded by $\De^{-1}$ because each added node gives $\De$ bits of fresh information about $X_i$.
+
+runtime dominated by search over nodes $u$, $\wt O(p)$ per node, $\wt O(p^2)$ total.
+
+Another interpretation of overcoming challenge 2: addint them anyway. Once you've conditioned on well chosen set of variables, you do have correlation decay. Conditional correlation decay.
+
+Conclusions:Simple algorithm learns Ising models without correlation decay, without exhaustive search. New information theoretic structural property for Ising.
+
+%generalize to higher order interactions.
+

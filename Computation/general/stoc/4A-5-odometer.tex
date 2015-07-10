@@ -1,0 +1,85 @@
+\subsection{An interactive information odometer}
+
+
+\[
+IC_\mu(\Pi):=I(\Pi;X|Y)+
+\]
+what bob learns about $X$ and what ALice learns
+
+%\]
+%IC_\mu(f)=\inf
+%\]
+
+Information is amortized communication. 
+\[
+\lim_{n\to \iy} CC_\mu^\ep (f^n)/n = IC_\mu^\ep(f).
+\]
+Sharp threshold: $IC^{\fc 23}_\mu(f)=I$. WIth $\ll nI$ cc, success in computing $f^n$ is $2^{-\Om(n)}$. Like PR theorem for information complexity. Robust characterization.
+
+
+More applications to CC.
+\begin{enumerate}
+\item
+Information-theoretic secure communication between untrusted parties. 
+%compile $\Pi$ into robust $\tau$. No matter what do, guarantee she never reveals. Assume no prior knowledge about honesty.
+
+NO crypto assumptions!
+\item
+Interactive compression. Execute long protocol reveal few info, try to compress. Can be reduced to potentiall easier problem: IC$=\lg (CC)$.
+\end{enumerate}
+
+All related to information odometer problem. Same bottleneck. 
+
+Maintain an online estimate of the IC of $\pi$ up to constant factor, with little information overhead.
+
+Why does this task require interaction? Internal information cost is a function of both inputs. Ex. $\pi$: alice sends $x$ with probability 0.01, and $z\in_R B^n$ otherwise. Bob never knows whether he's learning something: marginal distribution is same. Variance is huge. Alice knows but not hard to adapt to get neither company can unilaterally estimate the quantity.
+
+Can break $\pi$ into individual bits send. 
+
+If Alice is the speaker in round $i$, $M_i\sim B(p_i)$.
+
+$p_i=\Pj(M_i=1|xm_{<i})$, $q_i$ for bob.
+
+Bob's prior $B(q_i)$ Bob learns from $M_i$: $D(p_i||q_i)=\Te(p_i-q_i)^2$ when bounded away from 1.
+
+keep a constant factor estimte for all paths $m$ for all $t$.
+%clicks once very 5 bits revealed. 
+Clicks with prob $(p_i-q_i)^2$ prob each round. 
+
+Primitive problem: goal: output 1 w.p. $(p_i-q_i)^2$ revealing $\precsim (p_i-q_i)^2$ btis of info.
+
+Naive attempts.
+\begin{enumerate}
+\item
+Send $p_i$ explicitly.
+\item
+Correlated sampling.
+%entropy of Stat distance. The squared distance is lower.
+\end{enumerate}
+Main result: There is 2-round protocol that is
+\begin{enumerate}
+\item
+correct: $\Pj(\tau\text{ outputs }1)=2(p-q)^2$.
+\item
+low info: $IC(\tau)\le O(H(p-q)^2)$.
+\end{enumerate}•
+Running with prob $\approx \rc{I}$ each round. Number of clicks $\approx 2I_{xy}(m_{<t})$, information overhead $\le O(\lg C)$.
+
+Alice samples $Z_p\in [0,1]$ from density function $\mu_p(z)$. Alice sends $Z_p$ to Bob, Alice sends $(Z_p>p)$, Bob sends $(Z_p>q)$. Click (output 1) if inconsistent.
+
+Correctness: area is $2(p-q)^2$. 
+
+Main lemma: $D(Z_p||Z_q)\le 8(p-q)^2$.
+%log ratio between densities cancels out.
+%divergence is comparable only to 2nd 
+%similar to Raz's PR. inspired by his distribution.
+%exchange I^q, I^p. $H(click)\le H(2(p-q)^2)$.
+Data processing, bounded by entropy of clicking. 
+
+ex. if Alice sends a random string, prob click is 0. If $E=1$, for all $i$ get $>0$.
+
+Abort if number of clicks $\ge 10$.
+
+With small variation, can implement odometer even in adversarial setup (truthful mechanism for solicitng information). 
+
+%more than 2 parties?

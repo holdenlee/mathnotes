@@ -1,0 +1,101 @@
+\subsection{Quantum spectrum testing}
+
+%which orbitals, etc.
+How to mathematically represent the state of an atom. If it's a pure state it's $\rh=\ket{v}\in \C^d$> 
+
+A mixed state is a probability distribution: (orthonormal) $\ket{i}$ with probability $p_i$. $\ket{i},p_i$ unknown
+
+Density matrix
+\[
+\rh=p_1\kb{1}{1}+\cdots +p_d\kb dd.
+\]
+The $p_i$ are the spectrum. 
+
+What would we want to do? 
+\begin{enumerate}
+\item
+tomography: learn $\rh$ approximately, up to some $\ep$, whp.
+\item
+spectrum estimation: learn $\{p_1,\ldots, p_d\}$.
+\item
+spectrum testing: is $\{p_1,\ldots, p_d\}=\{\rc d,\ldots, \rc d\}$? rank $r$/far from rank $r$?
+\end{enumerate}
+
+Setup: some experiment, run multiple times. Want to verify whether matches the theory. Have $n$ copies of state. Running experiment (generating each copy) is expensive operation. Put into quantum computer. $Q$ can measure the states.
+
+Goal: minimize $n$ in terms of $d,\ep$.
+
+Copy complexity is quantum version of sample complexity. Strong connections to the area of learning/testig probability distributions.
+
+Design copy efficient algorithms.
+
+Quantum tomgraphy: learn $\rh$.
+\begin{enumerate}
+\item
+Folklore: $n=\Om(d^2)$ necessary (to learn all parameters)
+\item
+$n\le \wt O(d^4)$ sufficient (quadratic gap)!
+\item
+common claim: $n\le O(d^2)$ sufficient.
+\end{enumerate}
+
+Spectrum estimation. ALgorithm works with $n\le \wt O(d^2)$. Simpler analysis gets $n\le O(d^2)$. Algorithm fails if $n=o(d^2)$.
+%quadratic is right.
+
+If you can learn something, than you can also test in same number of samples.
+
+Property testing: above gives quadratic. Distinguishing Unif$(d)$ vs. Unif$(d/2)$. is sufficient and necessary: $d$ copies. $n=\Te(d)$. Quantum version of birthday paradox ($d$ not $\sqrt d$)
+
+Us: distinguishing $U_d$, $U_{d-\De}$. %$n=\wt{\Te}(
+
+Testing uiform  vs. $\ep$-far $\Te(n/\ep^2)$. 
+
+Maximally mixed state. Can test if $\rh$ is maximally mixed, or $\ep$-far. 
+%max mixed is fundamental in quantum mechanics.
+
+Also test for rank $\le r$.
+
+Any spectrum test/learning problem reduces to classical problem about random strings.
+
+Let's study classicla analogue: test whether a distribution is uniform.
+%typicl sample when $n=20,d=5$
+Symmetries
+\begin{enumerate}
+\item
+Symmetry 1: permute $n$ positions doesn't matter: a histogram is enough.
+
+Form the histogram
+\item
+Symmetry 2: uniformity is symmetric property, so doesn't care about order. Sort the histogram. (Young diagram $\la$ of partition) Let the frequencies be $\la_1\ge\cdots$.
+\end{enumerate}
+
+A uniformity testing algorithm:
+\begin{enumerate}
+\item
+given young diagram $\la$,
+\item
+say yes/no based on $\la$.
+\end{enumerate}
+
+Back to quantum: similar symmetries. 
+\begin{enumerate}
+\item
+permuting $n$ copies of $\rh$ doesn't change anything.
+\item
+Only care about spectrum of $\rh$. (Answers should be same for any $\ket{i}$. 
+\end{enumerate}
+Reduces down to:
+uniform spectrum testing algorithm: given young diagram, say y/n based on $\la$ where $\la$:draw sample$(a_1,\ldots, a_n\sim P^n$ (eigenvalue distribution), $\la=RSK(a)$ (before, sorted-histogram). 
+
+RSK algorithm: algorithm mapping strings to Young diagrams. Well-studied, 40 years. Nice combinatorial properties. 
+
+Boxes in first row is LIS of $a$, longest increasing subsequence of $a$. Enumerative combo, queueing theory, longest increasing subsequences...
+ Mathmos love studying the RSK algorithms applied to random strings.
+
+Main technique: method of moments for random Young diagrams. Can understand quantities like $\sum_i\la_i^k$ where $\la=RSK(a)$, $a$ randomly distributed.
+
+Technology known as Kerov's algebra of observables studies these moments. 
+
+%r^2 bound for rank. 
+%pairwise indep hashing?
+Entropy: open problem.

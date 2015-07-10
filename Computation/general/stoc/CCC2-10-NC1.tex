@@ -1,0 +1,127 @@
+\subsection{Correlation bounds against monotone $\mathsf{NC}^1$}
+
+\begin{thm}
+The $k$-CYCLE problem on $G(n,p)$ is .51-hard for monotone $\mathsf{NC}^1$. 
+\end{thm}
+
+Think of $k=\ln \ln n$ and $p\approx \rc n$.
+
+This is the first correlation bound against $\mathsf{NC}^1$ under any product distribution.
+
+\begin{cor}
+Optimal $\rc2+n^{-\rc2+o(1)}$ hardness under uniform disribution for explicit $N$-variable monotone function $\Tribes \ot?\ot \text{AND}$
+
+Lower bound against negation-limited $\mathsf{NC}^1$ circuits with $(\rc2-o(1))\lg n$ negation gates.
+\end{cor}
+
+%
+Monotone complexity: $\mathsf{NC}^1$ is also monotone formulas (?).
+
+Correlation bound: ``$\rc2+\ep$ hard for $\cal C$."
+%First correlation bounds for monotone formulas of poly size.
+
+%
+Importance of product distributions (ex. uniform, $p$-biased, $G(n,p)$).
+\begin{itemize}
+\item
+influenctial conjectures that $k$-SAT, CLIQUE, etc. are hard on average.
+\item
+boolean analysis of monotone functions (Bollobas-THomason, Friiedgut)
+\item
+Correlation inequalities (FKG), monotone coupling
+\end{itemize}•
+In the monotone setting, we have known separations of monotone classes:
+\[
+mAC^0\sub mNC^1\sub mL\sub mNL\sub mAC^1\sub mNC^2\cdots mP\sub mNP.
+\]
+Nothing had been done on average-case.
+
+We focus on $k$-CLIQUE. Consider $n$-vertex graphs ordered by inclusion.
+
+Razborov, 1986: $k$-CLIQUE has monotone circuit complexity $n^{\Om(k)}$. The proof is average-case with respect to a distribution:
+\begin{itemize}
+\item
+NO: complete $k-1$-partite graphs (maxterms)
+\item
+YES: isolated $k$-cliques (minterms)
+\end{itemize}•
+Easy to separate by small non-monotone circuit: use anti-monotone threshold function.
+This is the ``Hamming weight gap": no instances are heavier.
+
+Almost all previous averge-case monotone lower bounds rely on the Hamming weight gap. This is a ``barrier" explanation: why techniques in the monotone setting don't work for $TC^0$.
+
+Average case on $G(n,p)$: there is no Hamming weight gap: 
+correlation $n^{o(1)}$. 
+
+Conjecture: $k$-CLIQUE is hard on $G(n,p)$ for Boolean circuits. THis was proved for $AC^0$ circuits (Beame 90).
+
+There is a similarity between $G(n,p)$ and the slice distribution $G(n,m)$ (exactly $m$ eges). Berkowitz showed that on eveyr slice distribution, monotone complexity and non-monotone complexity are equal (Berkowitz 82). if $k$-CLIQUE is hard for monotone circuits on the slice distribution, then $P\ne \NP$. Think of $G(n,p)$ as a blurry slice distribution. 
+
+2010: $k$-CLIQUE is hard for monotone circuits on NO$=G(n,p^+)|k$-clique and YES$=G(n,p^-)|k$-clique. This is still subject to the Hamming weight gap.
+
+Monotone coupling w.r.t. any produce distribution. Exists monotone coupling on YES-NO instances. This comes out of Holley's proof of the FKG inequality. We extend correlation bounds against monotone circuits to against negated circuits (?).
+
+Consider the $k$-CYCLE problem on $k$-layered graphs: is there a path going across starting and ending at the same vertex?
+
+Upper bound: find all paths between left and right: compute for two halves and merge the results. Do so with semi-unbounded fan-in monotone circuits of size $\poly(n)$ and depth $O(\ln k)$. So $k$-CYCLE is in $mSAC^1$. Monotone formulas of size $n^{O(\ln k)}$. In the average case, $\Ga$ is such that has cycle with probability $.5$.
+
+Tight $n^{\Om(\ln k)}$ lower bound on the size of monotone formulas solving $k$-CYCLE on $\Ga$ with probability $.51$.
+(Same lower bound for non-monotone $AC^0$ formulas proved in 2014.)
+
+%
+Proof sketch: persistent minterms
+
+Consider $kn$ layered vertices (in $k$ layers). Consider $A\subeq C_k$. Look at inputs which are an ``$A'$-section." %Look at $A$-section minterms of $f$. 
+Let $\cal M_A(f)$ be $A$-section minterms of $f$.
+
+Consider $\cal M_A(f)$ over all subformulas $f$. Consider over all subgraphs $A\subeq C_k$. Every minterm of $f\vee g$ is a minterm of $f$ or a minterm of $g$, $\cal M_{A}(f\vee g)\subeq \cup$.
+%relational joins
+%$\wedge\subeq \bigcup (bowtie)
+Impose constraints on how minterms behave.
+
+%hit every gate with monotone restriction.
+\[
+f^{\cup \Ga}(X)=f(X\cup \Ga).
+\]
+%$\cal M_{c_k}(\text)
+
+If ...
+
+To achieve bottleneck, need density constraints on $\cal M_A(f^{\cup \Ga})$.
+
+Pathset ocmplexity lower bound. If sets of minterms are small for all $A,f$, then formula size is $n^{\Om(\ln k)}$.
+
+Lemma (useless): $\Pj_\Ga[\cal M_A(f^{\cup \Ga}\text{ small})\ge 1-O(n^{-\rc2})$. We need to take a union bound; $n^{-\rc 2}$ is too weak.
+
+
+BAD: if $f$ computes THRESHOLD${}_{\ge n\text{ edges}}$: bad even is $n-1$ edges. Then $\cal M_{\pat{single edge}}(f^{\cup \Ga})$ is large, $\Om(n^2)$. Need to filter out functions creating many minterms with non-negligible probabiity
+
+Replace $\cal M_A$ with persistent minterms, $\cal P_A(f^{\cup \Ga})\ge 1-e^{-n^{\Om(1)}}$.
+
+Consider a sequence of random graphs $\Ga_0\subeq \cdots \Ga_n$ and monotone functions $f^{\cup \Ga_i}$. Minterms shrink going up.
+
+Persistent if it's a minterm of a certain number of restricted functions: remains minterm for long duration. $A'\in \cal M(f^{\cup \Ga_i})$ for $\binom{d+e-1}{e-1}$ many $i\in [0,m]$. Behaves like usual minterms. ($d$ is depth$(f)$ and $e$ is number of edges. 
+$f\vee g$ is pm of $f$ or pm of $g$, similarly for $\wedge$.
+
+$\Ga:=\Ga_0\cup n^{\rc 4}$ random length-$k$ paths. $d_{TV}(\Ga_0,\Ga_m)=o(1)$.
+Noise lives within variance. Need for correlation bounds
+
+High-level summary: given a monotone formula which approximates $k$-CYCLE on $\Ga$, track persistent minterms at all subformulas. There are many persistent $k$-cycle minterms at output, and few...
+
+Giving bound fo $k$-CYCLE. 
+
+Open: is $k$-CLIQUE hard for $mNC^1$ on $G(n,p_{\text{threshold}})$. How to define $\Ga_0\subeq \cdots \subeq \Ga_m$ with required properties? This proof isolates nice properties of $k$-CYCLE.
+
+Trivial: $k-CYCLE\ot AND_{\lg\prc p}$ is 0.51-hard for $mNC^1$ under uniform.
+
+Use hardness amplification of O'Donnell to get $\Tribes \ot k-\mathsf{CYCLE}\ot \mathsf{AND}$ on $n$ vars, $\rc2+n^{-\rc 2+o(1)}$-hard for $\mathsf{NC}^1$. Best hardness you can possibly achieve (every monotone function has agreemeent $\rc2+\Om(n^{-\rc2+o(1)})$ with some function in $\mathsf{NC}^1$. 
+
+Can convert monotone bounds to bounds against negation-limited circuits. Upper bound: $\lg n$ negations suffice to compute any function in $\mathsf{NC}^1$. We show hardness against $\mathsf{NC}^1$ with $(\rc2-o(1))\lg n$ negations: halfway to lower bounds.
+
+if a monotone funciotn $f$ is $\rc2+\ep$-hard for monotone of given size and depth, $f$ is $\rc2+O(2^t)\ep$ hard for circuits with $t$ negations of same size and depth. Use monotone coupling and decomposition of negation-limited circuits.
+
+$\rc2+n^{-\rc2-\Om(1)}$ bounds against monotone implies bounds against circuits.
+
+If monotone function $f$ is $\rc2+\ep$ hard for monotone fomulas, then $f$ is $\rc2+O(t)\ep$ hard for formulas.
+
+%pattern completer for FOR

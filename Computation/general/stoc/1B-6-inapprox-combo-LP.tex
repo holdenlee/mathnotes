@@ -1,0 +1,74 @@
+
+\subsection{Inapproximability of combo problems as LPs}
+
+Encode a problem into a polytope $P$, $Q$ projecting to $P$. 
+
+
+Problems: 
+
+Say something about problem, not polytope. How you encode as polytope gives different ower bound.
+
+Approx by scaling.
+
+
+An optimizationproblem has set of feasibles, set of instances, oset of objective functions, $\cal S,\cal F, $val. Conider only maximization problems. 
+
+Ex. Vertex cover.
+
+Formulation complexity. $(C,S)$-approximable LP with realiation vectors, affine functions, guarantees $\max(Ax\le b)\le C(f)$.
+
+\[
+fc_+(\cal P, \cal C, \cal S)=\min\set{r}{\exists LP\text{ with }r\text{constraints capt }\cal P}.
+\]
+
+Factorization theorem. 
+\begin{enumerate}
+\item
+$(C,S)$-approximate slack matrix $M$ of $\cal P$ is $M(f,s)=C(f)-\val_F(S)$. Factorization is $M=TU+\mu \one$, $T$ with $r$ cols, $\rank_{LP}M= $smallest r.
+\item
+$fc=\rank_{LP}M$.
+\end{enumerate}
+
+Optimal LP: Optimal LP's have same form. All info in problem encoded in... %objective fns
+
+Objective functions point towards negative octant. Reconstruct LP from factorization of smallest size. 
+
+Reduction mechanism: convert inapproximability results of problem to second problem. Given $P_1,P_2$,a reduction consissts of 
+\begin{enumerate}
+\item
+map of feasible solutions $\ga :S_1\to \conv(S_2)$
+\item
+map of instances $\be:\cal F_1^{S_1}\to cone(\cal F_2^{S_2})+\R$.
+\end{enumerate}•
+val guarantees.
+
+When there is a reduction, cna bound cc of $\cal P_2$ by $\cal P_1$. $\be$ only act on set of solutions, $\ga $ only on instances, independent. 
+
+Hard gap between $C,S$. Measure hardness of gap: not possible LP with small number...
+
+Factor soundness/completeness.
+
+reduction from MaxCUT to vertex cover. 
+\begin{enumerate}
+\item
+$\cal S$: all cuts ($B^V$)
+\item
+$\cal F$ subgraphs of $K_n$
+\item
+$\val$ objective functions $\val_H(s)=|\set{\{v_i,v_j\}\in E(H)}{s(v_i)\opl s(v_j)=1}|$.
+\end{enumerate}•
+
+
+...
+fc is superpoly for approx guarantee of $\rc2+\ep$ for Max-CUT. SDP: ? conjectural.
+
+All results independent of P vs. NP.
+
+Open
+\begin{enumerate}
+\item
+Hardness of SDP base problem
+\item
+Reduction for TSP: reductions aren't independent---solutions mapped according to instance.
+\item Are there complete problems under this reduction?
+\end{enumerate}•

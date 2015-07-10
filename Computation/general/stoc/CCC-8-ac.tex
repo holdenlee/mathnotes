@@ -1,0 +1,74 @@
+\subsection{Arithmetic circuits}
+
+\begin{thm}
+There is an explicit family of polynomials such that a representation
+\[
+f_d=\sum_{i=1}^s \prod_{j=1}^m Q_{ij}
+\]
+with $Q_{ij}$ degree 1 and involving $\le \sqrt d$ vars has $s\ge 2^{\Om(\sqrt d\ln d)}$.
+\end{thm}
+%For a random variable it's 
+For a generic $f_d$, $s\ge 2^{1.5d\lg d}$.
+
+The same statement also holds for $f_d=IMM_d$. 
+This is bad news: our techniques can't give better lower bounds because there is a matching upper bound for IMM.
+Answers another question on efficient parallel computation.
+
+Arithmetic circuits are informally the most natural way to compute polynomials.
+
+\begin{enumerate}
+\item
+Can explicit polys be efficiently computed? 
+($VP\stackrel?= VNP$)
+\item
+Can computation be efficiently parallelized?
+How efficiently can we simulate circuits of size $s$ by circuits of size $\De$.
+\end{enumerate}
+
+\begin{thm}
+Any circuit of size $s$ and degree $d$ cn be simulated by a $\De$-depth circuit of size $s^{O(d^{\rc{\De-1}})}$.
+\end{thm}
+We can trade off size for structure (regular homogeneous circuit: $s^{O(d^{\fc 2{\De}})}$.
+
+Is this optimal? For $\De=3$ yes, but with caveats. %bottom fanin $\sqrt d$.
+
+Strong enough lower bounds for low-depth circuits imply VP$\ne$VNP. 
+
+(What is the sweet spot? what depth? homogeoneus?)
+
+Low-depth circuits are easy to analyze. Lots of work on lower bounds for low depth arithmetic circuits in recent years: hope to disvoer general patterns and technical ingredients.
+
+Proof strategy: for $T_i=\prod_jQ_{ij}$,
+\begin{enumerate}
+\item
+find a geometric property GP of the $T_i$'s. 
+\item Express the property GP in terms of rank of big matrix $M$: if $T$ has property than $\rank(M(T))$ is small.
+\item show that $\rank(M(f_d))$ is large.
+
+If a matrix $M(f)$ has a large upper triangular submatrix, then it has large rank.
+
+If the columns of $M(f)$ are almost orthogonal then $M(f)$ has large rank (Alon).
+\end{enumerate}
+
+$T$ is a product of low degree polynomials iff $V(T)$ is a union of low-degree hypersurfaces iff $V(T)$ has lots of higher-order singularities, iff $V(\pl^{=k}T)$ has lots of points.
+
+How can we convert geometric propery to the rank of a matrix? $V=V(f_1,\ldots, f_m)$ is a variety. let $\cal G_{\ell}$ be the set of degree $\ell$ polynomials.
+
+Hilbert's theorem: If $V$ is large then $G_{\ell}(V)$ has small dimension. If $V$ has dimension $r$ then 
+\[
+\cal I_l(V)=...
+\]
+has asymptotic dimension $\binom{n+l}{n}-\Te(l^r)$.
+
+Hilbert's theorem can be generalized for algebraic restrictions of polynomials.
+
+%alg restrictions of polynomials.
+
+If $Q$ is a sparse polynomial then for a suitable random  algebraic restriction $Q\pmod{\cal I}$ is a low-degree polynoimal. If $T$ is a sum of product of low arith polynomials, this also hold. Yields lower bounds for homogeneous depth 5 with low bottom fanin.
+
+Shpilka-Widgerson: a depth three circuit of size $s$ cn be converted to a homogeneous depth 5 circuit $C$ of size $s2^{\sqrt d}$. Preserves bottom fanin.
+
+There is a meta-strategy common to any recent and older lower bounds. We don't understand the power or limitations of this meta-strategy.
+
+Open: lower bounds for homogeneous depth 3 circuits for polynomials of degree $\gg n$.
+

@@ -1,0 +1,299 @@
+
+\section{Counting and statistical physics}
+
+We summarize Ch. 13 of Nature of Computation. Topics:
+\begin{enumerate}
+\item
+Discuss the problems SpanningTrees and PerfectMatchings computationally. How are they related to determinants or permanents?
+\begin{enumerate}
+\item
+What is the Matrix Tree Theorem? Prove it.
+\end{enumerate}
+\item
+Discuss $\#P$-completeness. 
+\begin{enumerate}
+\item 
+Define FPRAS.
+\item
+Explain the relationship between sampling and counting.
+\end{enumerate}
+\item
+How does the mixing time of a Markov chain depend on its eigenvalues?
+
+Define the capacitance of a Markov process. Define the congestion of a flow. How do these quantities help bound the mixing time?
+\item
+Sketch the approximation algorithm (with proof) for PerfectMatching.
+\item
+What quantities are of interest in graphical models in statistical physics? Solve the 1D and 2D Ising models. What is the critical temperature, and what happens there? Describe the phase transition.
+\end{enumerate}
+
+\subsection{Intro: SpanningTrees and PerfectMatchings. Matrix Tree Theorem}
+
+Spanning trees are easy to count, while perfect matchings are hard. The matrix-tree theorem tells us that the number of spanning trees can be realized with a determinant (which can be calculated with Gaussian elimination). On the other hand, perfect matchings are counted with a permanent, and permanent is $\#$P-hard.
+
+\begin{thm}[Matrix Tree]
+Let $G=(V,E)$ be a graph. Let $D_G$ be the $V\times V$ diagonal matrix with entries $\deg(v)$. Let $A_G$ be the adjacency matrix of $G$. Let $\De_G=D_G-A_G$ be the Laplacian. 
+For a matrix $A$, let $M_{ij}(A)$ denote the $(i,j)$-minor.
+
+The number of spanning trees of $G$ is 
+\[
+\det M_{ii}(\De_G).
+\]
+(This expression is independent of the choice of $i$.)
+\end{thm}
+\begin{proof}
+Induct on $|E|+|V|$. The base case is the graph with one vertex.
+
+For the induction step, take a vertex $i$. Consider 2 cases.
+\begin{enumerate}
+\item
+$i$ has no neighbors. Then the minor is a Laplacian, which has nontrivial kernel so has determinant 0.
+\item
+$i$ has neighbors. Take an arbitrary neighbor $j$. A spanning tree either includes $e=ij$ or doesn't; they are in bijection with the spanning trees of $G\cdot e$ ($G$ contract $e$) or $G-e$, respectively.
+
+WLOG $i=1,j=2$. Thus by the induction hypothesis,
+\bal
+ST(G)&=ST(G\cdot e)+ST(G-e)\\
+&=
+\det M_{11}\matt{d_1+d_2-1}{w_1+w_2}{v_1+v_2}B 
++ 
+\det M_{11}\begin{pmatrix}d_{1}-1 & 0 & w_{1}\\
+0 & d_{2}-1 & w_{2}\\
+v_{1} & v_{2} & B
+\end{pmatrix}\\
+&=
+\det M_11\begin{pmatrix}d_{1} & 0 & w_{1}\\
+0 & d_{2} & w_{2}\\
+v_{1} & v_{2} & B
+\end{pmatrix}.
+\end{align*}
+\end{enumerate}
+\end{proof}
+On the other hand, PerfectMatching is computed by a permanent. For simplicity consider a bipartite graph with matrix $B$: $B_{ij}=1$ if there is an edge from $(1,i)$ to $(2,j)$. (What about the general case?) Then
+\[
+PM(G) = \perm B
+\]
+and the usual adjacency matrix is $A=\matt OB{B^T}O$. 
+The number of cycle covers is
+\[
+PM(G)^2 = \perm A =  \pa{\perm B}^2.
+\]
+
+Both ST and PM are self-reducible. ST we showed already. For PM, note that $PM(G)=PM(G- \{v,w\})+PM(G-vw)$.
+
+
+\subsection{\#P}
+See notes on Complexity Theory for definition and proofs.
+There are 3 types of reductions $A\le B$:
+\begin{enumerate}
+\item
+parsimonious reductions: preserving number of solutions.
+\item
+counting reduction: where $A(x)=g(x,B(f(x)))$.
+\item
+Turing reduction: to compute $A$, we are allowed oracle access to a $B$-machine.
+\end{enumerate}
+$\#3SAT$ and $0-1-\perm$ are $\#P$ complete.
+(Some notes: if $\#A$ is $\#P$-complete, $A$ can still be in P. If $\#A$ is $\#P$-complete under parsimonious reductions, then $A$ is NP-complete.)
+
+
+What is the relationship between approximation and sampling?
+\input{fpras.tex}
+
+\input{sampling_bias.tex}
+Note this is stronger than saying $P$ is $\be$ close to uniform in total variation ($L^1$) distance.
+
+\begin{thm}
+Let $A$ be a self-reducible problem in $\#P$ on $n$ variables.
+\begin{enumerate}
+\item (Counting $\implies$ sampling)
+Suppose $A$ can be approximated in polynomial time with error $\ep=O\prc n$. Then we can sample $A$'s solutions with bias $\be=O(n\ep)$ in $\poly(n,\rc{\ep})$ time. (If $A$ has a FPRAS, then we can sample its solutions with any bias $\be>0$ in time $\poly(n,\rc{\be})$.
+\item (Sampling $\implies$ counting)
+Suppose there is a polynomial-time sampling algorithm that generates solutions according to $P(x)$ with $\ve{P-U}_1\le \ep=O(n^{-1})$. Then there is a randomized approximation algorithm for $A$ with error $O(n\ep)$, in time $\poly(n,\rc{\ep})$.
+
+In particular, if there is a Markov chain on $A$'s solutions with uniform equilibrium distribution and mixing in polynomial time, then $A$ has a FPRAS.
+\end{enumerate}
+\end{thm}
+%Assume the problem is self-reducible. %(Would the following not be true otherwise?)
+%The theorem says if we can count then we can sample. Proof:
+\begin{proof}
+\begin{enumerate}
+\item
+Let $N_a$ be the number of strings starting with $a$, and $N$ the total number of strings. 
+Choose $a_0$ with probability $\fc{N_{a_0}}N$, and repeat (using self-reducibility).
+\item
+If we can sample then we can count by approximating ratios. $\fc{N_{a_0}}{N}\fc{N_{a_0a_1}}{N_{a_0}}\cdots$. %(Given oracle access to a sampler, there exists a FPRAS.)
+\end{enumerate}•
+\end{proof}
+\subsection{Markov chains}
+\begin{df}
+Define the equilibrium flow of an edge and of a subset, and the equilibrium escape probability
+\bal
+Q(x\to y)&=P_{eq}(x)M(x\to y)\\
+Q(S)&=\sum_{x\in S,y\in \ol S}Q(x\to y)\\
+\Phi(S)&=\fc{Q(S)}{P_{eq}(S)}.
+\end{align*}
+The \vocab{conductance} of a Markov chain is the minimum escape probability over small subsets:
+\[
+\Phi = \min_{P_{eq}(S)\le \rc2} \Phi(S).
+\]
+
+A \vocab{multicommodity flow} is a set of flows $f_{x,y},x,y\in V$. The average flow is defined as 
+\[
+F(e) = \sum_{x,y}\Pj_{eq}(x)\Pj_{eq}(y) f_{x,y}(e)
+\]
+and the \vocab{congestion} is
+\[
+\rh(f) = \max_e \fc{F(e)}{Q(e)}.
+\]
+If we think of $Q(e)$ as the capacity of $e$ this is the maximum ratio of actual flow to capacity of an edge.
+\end{df}
+\begin{thm}
+Let $G$ be connected.
+\begin{enumerate}
+\item (Conductance and eigenvalues)
+Let the second largest eigenvalue be $\la = 1-\de$. Then
+\[
+\rc2\Phi^2\le \de \le 2\Phi.
+\]
+\item (Congestion and conductance)
+\[
+\Phi\ge \rc{2\rh}.
+\]
+\end{enumerate}
+\end{thm}
+If we can find a flow with low congestion, then the conductance is high. If the conductance is high, the second eigenvalue is low: there is good mixing.
+\begin{df}
+The mixing time is 
+\[
+\tau_\ep = \min\set{t}{\max_{P_0} \ve{P_t-P_{eq}}_{TV}\le \ep}.
+\]
+\end{df}
+\begin{thm}(12.4)
+Let $M$ be an ergodic, symmetric Markov chain with $N$ states and spectral gap $\de=1-\max_{k\ge2}|\la_k|$.
+\begin{enumerate}
+\item
+The mixing time bounded above by 
+\[
+\tau_\ep\le\fc{\ln (N/\ep)}{\de}.
+\]
+\item
+The mixing time is bounded below by 
+\[
+\tau_\ep\ge \fc{\ln(2\ep)^{-1}}{2\de}.
+\]
+(For this, detailed balance, rather than symmetry, is enough.)
+\end{enumerate}•
+\end{thm}
+\begin{cor}
+\begin{enumerate}
+\item
+Fixing $\ep$, the mixing time satisfies
+\[
+\rc{\Phi}\precsim \tau \precsim \fc{\ln N}{\Phi^2}.
+\]
+\item
+Fixing $\ep$, the mixing time is $O(\rh^2\ln N)$.
+\end{enumerate}
+\end{cor}
+\subsection{Approximating PM}
+We sample by running a rapidly mixing Markov chain on the space (Perfect matchings)$\cup$(Matchings with one pair of holes). Let $\Om_t$, $N_t$ be the set/number of matchings with $t$ pairs of holes.
+If we can sample from $\Om_0\cup \Om_1$ efficiently, %compute the cardinality of this union (HOW), 
+and if the perfect matchings occupy a $\rc{\poly}$ fraction of this set ($\fc{N_0}{N_0+N_1}\ge O\prc{\poly}$), then we can sample efficiently from $\Om_0$, and hence count $N_0$.
+\begin{enumerate}
+\item
+Define a graph $\cal G$ whose vertices are perfect matchings of $G$. Each vertex has $|E|=:m$ edges coming out of it. The edge coming out of $M$ labeled $e\in E$ is just $M$ changed by $e$ in the natural way, or $M$ if you can't change it by $e$. (See book for details, but the construction is natural.) The graph $\cal G$ is $m$-regular with $N=N_0+N_1$ vertices.
+\item
+Bound the mixing time of this Markov chain by finding a multicommodity flow with small congestion.
+
+The multicommodity flow consists of $f_{x,y}$ where $f_{x,y}$ is the flow as follows: Take the set of shortest paths from $x$ to $y$ and send a uniform amount of flow on each.
+
+We bound the congestion. First, if $e=\al\be$,
+\[
+Q(e)=\Pj_{eq}(\al)M(e) = \rc{N}\cdot \rc{m}.
+\]
+Suppose in going from $\al$ to $\be$, $k$ cycles are flipped. Note they must be flipped in some sequence (you can't go halfway through flipping a cycle and then start flipping another one, because the holes only go away when you finish). Thus the flipping corresponds to a shortest path from $0^k$ to $1^k$ on the hypercube; the probability it uses any edge is $2^{-k}$.
+
+Given an edge, how many pairs $(\al,\be)\in \Om_0$ are there such that  a shortest path from $\al$ to $\be$ goes through $e$? Letting $\si=\al\opl\be$, note $\si$ is a set of even cycles. As long as $\si$ is consistent with $e$---all edges in $e$ appear in $\si$---and $\si=\al\opl \be$, then there is a shortest path from $\al$ to $\be$ going through $e$. For each $\si$ there are $2^k$ possible values of $(\al,\be)$. 
+
+%(There are 2 ways to split each cycle among $\al,\be$.) Thus 
+ %\fixme{I don't quite have this correct?}. Given a cycle cover $\ga$, the number of $(\al,\be)$ such that $\al\opl \be = \ga$ is $2^k$. Thus 
+Then (see below)
+\[
+\sum_{\al,\be\in \Om_0}\sum_{e} \Pj(\text{random shortest path from $\al$ to $\be$ goes through }e) = \#\{\text{$\si$ consistent with e}\}=N_1.
+%\sum_{\ga} 1\le N_1
+\]
+We exhibit some bijections. 
+\begin{enumerate}
+\item
+From the set of cycle covers consistent with $e$ to $\Om_1$: 
+\bal
+\phi_e:\Si_e&\to \Om_1\\
+\si & \mapsto (\mu\cup \mu')\opl \si-(y,z)
+\end{align*}
+where if $(\mu\cup \mu')\opl \si$ has overlapping edges, we remove one of the edges (consistently). 
+This gives $N_1$ in the above sum.
+\item
+Now let's look at the contribution from the sum when $\al\nin \Om_0$ or $\be\nin \Om_0$. The same map gives
+\[
+\Si_e\to\Om_1\cup \Om_2.\]
+We get  the total flow through an edge is $2N_1+N_2$. We want to bound this ratio with $\rc{Nm}$.
+\item
+$\Om_0\times \Om_2\to \Om_1^2$: this shows $N_0N_2\le N_1^2$. Map $\al, \be$ to $\al\opl \be$ (union of 2 paths) with one of its paths flipped.
+\end{enumerate}
+We get $F(e)=\sum_{\al,\be} \Pj_{eq}(x)\Pj_{eq}(y) f_{x,y}(e)=\rc{N^2} O(N_2)$, so 
+\[
+\rh=\max\fc{F(e)}{Q(e)}=Nm \rc{N^2}O(N_2)\le O\pf{N_2m}{N}=O\pa{\fc{N_1}{N_0}m}.
+\]
+Now the mixing time is $O(\rh^2\ln N)=O(\pf{N_1}{N_0}^2n^5\ln n)$, as needed.
+\end{enumerate}
+When $N_0/N_1$ is not polynomial, this process is more complicated: see p. 682.
+\subsection{Statistical physics}
+For special classes of graphs, like planar graphs, we can represent the permanent of the adjacency matrix $B$ as a determininant of some $B'$, which can be computed efficiently:
+\[
+\perm B = \det B'.
+\]
+We want to assign weights $w_{ij}$ so that $(-1)^{\pi}w(\pi)=(-1)^{\pi}\prod_i w_{i,\pi(i)}$ has the same sign for all matchings $\pi$.
+
+Note flipping the edges around a cycle of length $2k$ changes $\pi$'s parity iff $k$ is even. Call a cycle good if $w(\pi)$ changes by $r=-1$ and $k$ is even, or $1$ and $k$ is odd.
+For $\perm B=\det B'$, it suffices that every cycle with an even number of vertices in its interior be good (because the vertices in the interior must be matched!). It suffices to check the faces: consider the graph involving the edges of the cycle and everything inside it, letting $e_k$ be the number of edges of the faces inside and $n$ be the number of edges (vertices) of the outside cycle, $m$ be the number of vertices inside, multiplying together the $r$'s of the faces inside gives $(-1)$ to the following power:
+\[
+\sum (\fc{e_k}{2}+1)\equiv E-\fc n2+F-1\equiv V+1-\fc n2 \equiv n+m+1-\fc n2 \equiv \fc n2+m+1\equiv \fc n2+1\pmod 2
+\]
+so $r$ for the outside cycle is $\equiv \fc n2+1$ as needed.
+
+So now construct the weights inductively.
+
+Alternatively, find a Pfaffian orientation: each face has an odd number of clockwise edges. Then $\det A'=\pat{\# perfect matchings}^2$.
+
+What's of interest to statistical physicists? Take a class of graphs, ex. the 2D lattice.
+\begin{enumerate}
+\item
+$s=\lim_{n\to \iy}\fc{\ln M}{n}$: the entropy density of perfect matchings (how quickly the number of matchings grow as the lattice grows to infinity).
+Let $A'$ be the adjacency matrix with weights,
+\[
+s=\rc2\lim_{n\to \iy}\rc n\sum_{\la}\ln |\la|.
+\]
+For the case of a square lattice, put weights on vertical edges $i$ and horizontal edges 1. The eigenvalues (approximate with a torus) are $e^{2\pi i (jx+ky)/l}$. Integral approximation gives that the entropy density is 
+\[
+s=\fc2\ln2+\rc4\rc{(2\pi)^2}\int_0^{2\pi}\int_0^{2\pi} \ln(\cos^2 \te+\cos^2\phi)\,d\te\,d\phi =\fc{\sum_{z=0}^{\iy} \fc{(-1)^z}{(2z+1)^2}}{\pi}=.29...
+\]
+\item The partition function $Z(\be)=\sum_Se^{-\be E(S)}$ where here the states are $\pm1 $ assignments and $E(S)=-\sum_{i,j}s_is_j$ (ferromagnetic case). We have
+\bal
+\E E &= -(\ln Z)_\be\\
+\Var E &= (\ln Z)_{\be\be}\\
+F&=-\rc{\be}\ln Z &\text{free energy}\\
+f&=\lim_{n\to \iy} \fc{\ln Z}{n}&\text{free energy per site}
+\end{align*}
+\end{enumerate}
+For the Ising model in 1D,
+let $Z_n^+,Z_n^-$ be the sum over states where the last vertex points up/down. Let $\vec Z_n = \coltwo{Z_n^+}{Z_n^-}$. Then
+\[
+\vec Z_{n+1} = \matt{e^\be}{e^{-\be}}{e^{-\be}}{e^\be}^n\vec Z_1.
+\]
+We get $f=\ln (2\cosh\be)$, $Z=2^n\cosh^{n-1}\be$, $\rc n\E E\to -\tanh\be$.
+
+In 2D, the Boltzmann factor is $2e^{2\be n}e^{-2\be|C|}$ where $|C|$ is the number of edges separating $+/-$ regions. Replace each vertex in the dual lattice with a gadget of 6 vertices so that polygon configurations become perfect matchings. 
+The eigenvectors are a 6-dimensional vector times $e^{2\pi i(jx+ky)/l}$. Give it a Pfaffian orientation. Check how the oriented adjacency matrix acts on the eigenvectors (p. 698). Find the product of eigenvalues. Compute $\prod|\la|$. 
+
+Find an expression for $\rc n\E E=-f_\be$, average energy per site. Find $\rc n\Var E=f_{\be\be}$ and note there is divergence at the phase transition $\be_c=\rc2\sinh^{-1}1=\fc{\ln(1+\sqrt2)}2$, $T_c=\rc{\be_c}$. At $T_c$ there is scale-free distribution of islands of all sizes.

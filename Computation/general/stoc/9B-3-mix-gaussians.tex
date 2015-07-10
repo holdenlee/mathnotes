@@ -1,0 +1,82 @@
+\subsection{Learning a mixture of gaussians in high dimensions}
+
+
+%add gaussian noise. $\Om(\si^{12})$ samples to distinguish
+%squared Hellinger distance
+%Ge-Huang-Kakade avoid for smoothed instances
+%automated way of figuring out whetehr sollution to system of poly equations robust
+
+Input: multi-dimensional data points
+
+Assumption: mixture of Gaussian distributions
+
+Goal: learn weights, means, covariance matrices. 
+
+Parameters: weights $w_i$, means $\mu^{(i)}$, covariance $\Si^{(i)}$. Wnat to learn parameters in time $\poly(n,k,...)$. Moitra and Valiant showed that exponential dependence in $k$ is unavoidable in general. 
+%information theoretically, inevitably involve exponential complexity in $k$.
+
+Prior works:
+\begin{enumerate}
+\item
+general case $\poly(n,e^{O(k)^k})$.
+\item
+non-overlapping clusters; spherical $n>k$, independent mean vectors $\poly(n,k)$.
+
+proportional to identity. linearly independent. use tensor decomposition.
+\item
+destiny estimation: 1-dimensional $\poly(k)$, higher dimensional, $e^n$. 
+\end{enumerate}
+
+Can we learn the parameters with polynomial algorithms for most mixture of gaussians! Yes, worst cases are not everywhere.
+No additional assumptions like mean separation.
+
+Given an arbitrary instance, nature perturbs the parameters with a small amount $\rh$ of noise. 
+
+Given samples from smoothed MoG, learn the smoothed parameters with negligible failure probability $O(e^{-n^c})$ over nature's perturbation. 
+Escape from degenerate cases, become well-conditioned.
+
+learn up to accuracy $\ep$, for high enough dimension $n=\Om(k^2)$. Fully poly time and sample complexity $\poly(n,k,\rc{\ep)}$. 
+
+Match the first 6 moments. Decompose the moments tensor. Apply spectral methods. 
+Why does high dimension and smooth help us learn.
+\begin{enumerate}
+\item
+enough number of moment matching constraints for identifiability. Number of free parameters $\Om(kn^2)$ less than moment-matching inequalities. 6th moments $\Om(n^6)$.
+\item
+Enugh randomness in nature's perturbation model for wel-condition Gaussian matrix with prob at least $1-O(\ep^n) \si_m(X)\ge \ep \sqrt n$.
+\end{enumerate}
+
+Learn 0-mean MoG.
+Hsu and Kakade: construct lowe rank tensor from the moments entsor:
+\bal
+M_2&=\E(xx^T) = \sum w_i\mu^{(i)} (\mu^{(i)})^T +\si I_n\\
+M_3&=...=\sum_{i=1}^k w_i(\mu^{(i)})^{\ot 3}+\cdots 
+\end{align*}
+Apply low rank tensor decomposition. $\mu^{(i)}$'s are independent.
+\bal
+X_4&= \sum_{i=1}^k w_ivec(\Si^{(i)}) \ot vec(\Si^{(i)}) \\
+X_6&=\cdots
+\end{align*}
+$M_4$ involves more symmetries: number  less thannumber of distinct elements in $X_4$. Each is linear comb of entries in low rank $X_4$. Similar for $X_6$.
+
+$M_4=\cal F_4(X_4)$. 
+
+Looks like matrix sensing, but standard method does not apply. 
+Exploit low rank property of $X_i$ to unfold $M_i$? First learn row-span. Do change of variable to reduce number of free variables. Solve system of linear equtions to get new value, as well as previous low-rank matrix. 
+
+\begin{enumerate}
+\item
+Find the span of $vec(\Si^i)$'s.
+\item
+Use span to change variable and unfold $M_i$ to get $X_i$.
+\item
+Low rank tensor decomposition to recover $vec(\Si^i)$'s. 
+\end{enumerate}
+%SVD, MM. 
+Each is poly time (and samples) and poly stable.
+
+For general MoG, in subspace $\spn\{\mu^{(i)}\}^{\perp}$ , find $\Si^{(i)}$ using previous. 
+
+We provide a fully poly algorithm under smoothed analysis. Can we relax $n\ge \Om(k^2)$ by using hihger order moments? Other hard problems in learning?
+
+Random matrix theory gave new perspective on old problems.

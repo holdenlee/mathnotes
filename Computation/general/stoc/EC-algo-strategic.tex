@@ -1,0 +1,97 @@
+\subsection{Algorithms for strategic agents}
+
+What is the revenue-optimal auction for selling multiple items?
+
+Myerson designed a revenue-optimal auction for a single item. Bids are transformed into virtual bids. The item is awarded to the highest virtual bidder.
+
+People tried to extend it to more than 1 item. There are lots of characterizations for special settings. CS has contributed approximation algorithms. The settings are limited; there is no unified approach.
+
+There are formal barriers to %strong characterizations and 
+finding optimal auctions. %computationall y hard to find.
+Challenges arise for 1 buyer and 2 items.
+
+Treat as algorithmic problem.
+
+Adding the second item, each bidder makes a bid on each item. Transform to virtual bid. Each item is awarded to the highest virtual bids.
+
+Myerson's transformations have a closed form. Ours is randomized and computed by a linear program.
+
+Put into context of algorithmic mechanism design. It's not traditional algorithm design. Input, algorithm, output.
+
+We have to first learn the input from agents' report, and the output feeds the agents' payoff. They can lie. We call it a mechanism instead.
+
+They motivated the following design. How much more difficutlt are optimization problems on strategic input comprared to honest input? We want a mechanism that works on strategic input. We want to put a black box around an algorithm that works on honese input, and get what we want by probing it.
+
+Maybe we can reduce hard problems in algorithic mechanism design to hard problems in algorithm design. This allows a much larger community to work on these problems.
+
+A reduction exists! We can also learn what makes mechanisms so challenging.
+
+We can view seminal results as black-box reductions.
+
+VCG is a black-box reduction: if you have the optimal algorithm for welfare, you can get the optimal mechanism for welfare. 
+Agents report types. Input into an algorithm that works on honest input. Just choose the agent that's outputted.. There exists a payment scheme that makes this truthful. More recent works tries to make it approximation-preserving.
+
+Probe multiple inputs instead.
+
+Put virtual bids into the black box maximizing welfare.
+
+We do care about objectives beyond welfare and revenue. Job scheduling on unrelated machines is paradigmatic. Machine $i$ takes time $t_{ij}$ to process $j$. Minimize makespan. Machines are strategic agents, you don't know how long it takes them to process the jobs.
+We know how to truthfully optimize welfare (revenue) if we know how to algorithmically optimize welfare (virtual welfare). There is no reduction from truthfully minimizing makespan to minimizing makespan even in 1 dimensions. A reduction exists if we perturb algorithmic objective. 
+
+\begin{thm}
+There is a polynomial time reduction from mechanism design for objective $O$ to algorithm design for same objective $O$ plus virtual welfare.
+\end{thm}
+The reduction is approximation-preserving; there is no restriction on types (dimensions).
+
+``Transitioning from honeset to strategic input is no more computationally difficult than adding virtual welfare to objective."
+
+For now, objective is revenue, and agents are additive. (The value for a set of items is the sum of the values.)
+
+A bidder's type is a vector of values. They are taken from some distribution. (Beliefs are modeled as this distribution.) Bayesian incentive compatibility: if every other agent is telling the truth, I want to tell the truth as well.
+
+A mechanism is a function that takes a input a profile of types and outputs a distribution over allocations and a price for all agents. We can think of a mechnsm as a large-dimensional vector (for every input, what's the output). Thinking of it this way we can try to optimize over all algorithms. 
+
+We can write out linear constraints to make $M$ truthful and makes it a feasible mechanism.
+
+The problem is that the input is enormous (too many variables). We need a compact description.
+
+Instead we use the reduced form. We just keep the important information.
+\begin{enumerate}
+\item
+For every agent and item, what's the probability they get the item?
+\item
+What's the expected price they pay?
+\end{enumerate}
+Write a LP with much fewer variables. We can still write linear constraints. The new challenge is to write constraints to guarantee it's feasible, correspond to an actual algorithm. This is challenging. Does a reduced form correspond to auction?
+
+There is a different succinct description that we can use, similar to reduced forms.
+
+Given a reduced form does it correspond to actual mechanism? Borders theorem gives conditions for feasibility. Borders requires checking exponentially many inequalities. We give equivalent conditions that can be efficiently checked.
+
+We can solved LP using computationally efficient Border's Theorem. For general settings, use equivalence of separation and optimization.
+
+Every reduced form that is a corner of the space of feasible reduced forms is a virtual welfare maximizer for some virtual transformation. The direction has a component/weight for each $i,j,l_i$. Optimizising in this direction is like optimizing virtual welfare.
+Combine with Caratheodory's theorem: every point in $P$ is a convex combinations of corners of $P$. The optimal mechanism is a distribution over virual welfare maximizers. 
+
+Sample corners appearing in convex combination.
+
+\begin{enumerate}
+\item
+Write succince LP for optimal truthful mechanism using reduced form
+\item Solve LP.
+\item
+\end{enumerate}
+
+Contribution to pure convex optimization: extend to accommodate approximation errors. We apply it to new auction settings where auctions have budgets.
+
+No matter what the bidders' types, the revenue poptimal auction is a distribution over cirutal welfare maximizers. We discovered the structure through algorithmic study.
+
+How much more difficult are optimization problems on strategic input comapred to honest input? For all objectives in Bayesian setting, reduction exsits from mechanism to algorithm design with perturbed objective.
+
+Look towards future: %dominant strategies 
+New framework and tools for multi-dimensional settings. What can we do with them?
+
+%structure deal with 
+%optimize over another function
+%Whatever optimum is subject to truthfulness, get for that.
+%hopeful for theory/experiments. 

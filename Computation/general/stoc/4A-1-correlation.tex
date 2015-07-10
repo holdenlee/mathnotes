@@ -1,0 +1,193 @@
+
+\subsection{Forrelation}
+
+What's the biggest dvantage a quantum computer ever guives you for anythign
+
+$\wt O(n^2)$ and $2^{(\wt O(n^{\rc3})}$. These are only conjectural.
+
+We like to work in the black box model, where we can prove exponential and larger quantum speedupt=s
+
+$f:[N]\to [M]$. Querying means you can feed it a superposition and the black box gives a superposition of answers. 
+
+Let $P$ be a promise problem about $f$, for example, is $f$ 1-to-1 or 2-to-1? Is $f$ periodic or far from periodic?
+
+Two quantities we care about:
+\begin{enumerate}
+\item $Q(P)$, bounded-erro quantum query complexity of P
+\item $R(P)$, bounded-error randomized query complexity of $P$. 
+\end{enumerate}
+Shor's result is
+\begin{enumerate}
+\item $Q(PeriodFinding)=O(1)$. %period <= \sqrt N
+\item $R(PeriodFinding)=\wt{\Om(N^{\rc 4})}$.
+\end{enumerate}
+
+Buhrman et al.'s speedup question:
+Is this the best possible? Could there be a property of $N$-bit strings that took only $O(1)$ queries to test quamtumly, but $\Om(N)$ classically?
+
+For all of them the quantum randomized query complexity seems to hit  ceiling at $\sqrt N$. (Glued trees problem; a quantum algorithm finds the exit vertex in $Q=O(\poly\log N)$, $R=\Om(\sqrt N)$.) Permutation symmetry: only polynomial quantum speedups are possible. Until this morning, the best speedup was $N^{\rc2}$; now there's a $N^{\rc 4}$. Now there's a fourth root separation.
+\begin{enumerate}
+\item
+
+We give the largest known quantum speedup, a problem with
+\[
+Q=1,\qquad R=\Om\pf{\sqrt N}{\ln N}
+\]
+
+for classical peopel:
+A lower bound on number of randomized queries needed to detect small pairwise covariances in real Gaussian variables $x_1,\ldots, x_N$.
+
+Optimality of speedup: for eveyr partial Boolean function $P$, if $Q(P)\le T$ then $R(P)=O(N^{1-\rc{2T}})$.
+This answers Buhrman's question in the negative.
+
+Classical:
+Rand alg to approximate bounded low-degree polynoimals.
+\end{enumerate}•
+\begin{prb}
+Given $f,g:B^n\to \{-1,1\}$, $N=2^n$, let (how correlated with Fourier transform)
+\[
+\Phi_{f,g} := \rc{2^{3n/2}} \sum_{x,y\in \{0,1\}^n} f(x)(-1)^{x\cdot y}g(y).
+\]
+Determine whether $\Phi_{f,g}\ge 0.6$ or $|\Phi_{f,g}|\le 0.01$.
+\end{prb}
+Introduced this problem as a candidate for a black-box problem in BQP but not in PH (needs a classical circuit lower bound). Showed that $R(Forrelation)=\Om(N^{\rc 4})$, $Q=1$.
+
+The trivial quntum algorithm: start with in zero states, Hadamard, apply $f$, $H$, $g$, $H$. Can even reduce from 2 queries to 1. Use a control qubit; Hadamard the control qubit.
+
+\begin{prb}[Gaussian distinguishing]
+Given $N(0,1)$ Gaussian $x_{[1,M]}$, either all independenct or in fixed low-dimensional supspace $S\le R^M$, $\Cov\le \ep$ for all $i,j$.
+\end{prb}
+
+GD$\le$ F
+
+$F(x)\sim N(0,1))$, $G=\wh F$.
+$f()=\sign(F(x))$. Then $\Phi_{f,g}\approx \fc{2}{\pi}$. If iid...
+
+Any classical algorithm for Gaussian distinguishing must query $\Om\pf{1/\ep}{\ln M}$. In the Forrelation case, $M=2N$ and $\ep=\rc{\sqrt N}$, so get $\Om\pf{\sqrt N}{\ln N}$.
+
+query.
+
+If orthogonal, queries returns independent $N(0,1)$ Gaussian.
+
+Ue Gram-Schmidt and Azuma to argue that first $t$ query responses are close to independent Gaussians.
+
+
+
+\subsubsection{Classical simulation of $k$-query Quantum algorithm}
+$A$ be a quantum algoorithm makes $T$ queries, ten $p(X)=\Pj(A\text{ accepts }X)$ is a real poly in $x_i$'s of $\deg\le 2T$. 
+
+Actually there is a $\deg=2T$ block-multilinear poly, which equals $P(X)$ whenever all $=X$, and bounded in $[-1,1]$  for $X_i\in B^n$.
+
+\begin{thm}
+TQuery only $O\pa{\pf{N}{\ep^2}^{1-\rc k}}$
+\end{thm}
+Identify influential variables, split...
+
+$k$-fold forrelation. Conjecture that $k$-fold forrelation requires $\Om(N^{1-\rc k})$ randomized queries, optimal gap for all $k$>
+
+$k$-fold forrelation is BQP complete for $k=\poly(n)$.
+
+OPen
+\begin{enumerate}
+\item
+Prove classical lower bound for $k$-fold forrelation.
+\item
+ny partial boolean $P$ such that $Q(P)=\poly\log N$, $R(P)\gg \sqrt N$.
+\item
+Extend to arbirary polynomials, (2: DKPO)
+\item
+Best quantum/classical query complexity separation for sampling problems.
+%FS q, N/\ln N.
+\end{enumerate}
+
+%real var restre to subspace. 
+%variables restricted to nonlinear manifold of degree $k-1$ no rotation variance, much harder to calculate posterior prob. Need new ideas.
+
+%classical $2^{n/2}$ unless constant 
+
+\subsection{Quantum information complexity}
+
+How much quantum information need to exchange?
+
+\begin{itemize}
+\item
+Definition of quantum information complexity. 
+\item
+Interpretation of amortized communication. 
+\item
+%compute parallel 
+$QIC\le QCC$, additivity of QIC
+\item
+Direct sum for quantum communication
+\item
+Applications to communication lower bound.
+\end{itemize}•
+
+2 communication problems:
+\begin{enumerate}
+\item
+compress messages with low info content.
+\item
+transmit messagee noislelessly over noisy channels.
+\end{enumerate}
+We focus on (1).
+
+%Communiatio complexity 
+
+Protocol transcript. %Alice and Bob can memorize
+
+Coding for interactive protocols
+\begin{enumerate}
+\item
+Can we compress protocols that do not convey much information?
+\item
+What is the amount of information conveyed by a protocol? Amount of info at end of protocol, optimal asymptotic rate.
+\end{enumerate}
+Define information complexity, cost. Additivity, $IC\le CC$, operational interpretation, direct sum on composite functions, convexity, continuity, etc.
+\[
+IC(f,\mu,\ep)=\inf_{\Pi}IC(\Pi,\mu).
+\]
+
+%bound for sym?
+Applications of CIC: direct sum, direct product, exact communication complexity of DISJ${}_n$.
+
+Quantum:
+\begin{enumerate}
+\item
+quantum entropy $H(A)_P=-\Tr(\rh^A\lg \rh^A)=H(\la_i)$ for $\rh_A=\sum_i\la_i\kb{i}{i}$. 
+\item
+No pre-shared entanglement, classical messages; arbitrary pre-shared entanglement, classical messages, etc. Many problems.
+
+In Yao model: no-cloning: cannot copy $m_i$, so no transcript. Can only evaluate information quantities on registers defined at asame moment in time. Not well defined.
+
+Cleve-Buhrman model: $m_i$'s can be uncorrelated to inputs. (Teleport at each time step.)
+%MI =0
+%trivial
+\item Solutions: keep as much info as possible, measure final correlations.
+
+Reversible, no garbage, only additional info is function output.
+
+Bt QIC trivial.
+\item
+Measure correlation at each step.
+
+Problem: for $M$ messages and total communication $C$, can be $\Om(M\dot C)$. Want $QIC\le QCC$ independent of $M$, direct lower bound on communication.
+\end{enumerate}
+
+Approach: reinterpret classical info cost.
+\begin{enumerate}
+\item
+Shannon task: simulate noiseless channel over noisy channel.
+\item
+Simulate noisy channel over noiseless channel.
+\end{enumerate}
+
+%new proof of $IC^M=ACC^M$?
+
+%$QIC(\Pi,\mu)=
+
+%Research directions
+%\begin{enumerate}
+%\item
+%bounded round disjointness function.
+%\end{enumerate}•

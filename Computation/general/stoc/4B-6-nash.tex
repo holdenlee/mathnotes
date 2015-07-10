@@ -1,0 +1,73 @@
+\subsection{Inapproximability of Nash equilibrium}
+
+A short algorithmic history of Nash in 2-player games: 
+\begin{enumerate}
+\item
+Finding a Nash equilibrium in 2-player games is PPAD-complete.
+Finding $n^{-\ep}$-Nash equilibrium is still PPAD-complete.
+\end{enumerate}
+What about constant? There is a quasi-polynmial algorithm for finding $\ep$-Nash with constant number of players. Can we do better than $n^{\ln n}$?
+
+Our focus is multiplayer games.
+Fact: normal form representation is exponential in number of players. 
+Instead, we consider oracle access to the payoff tensor.
+
+Exponential lower bounds for this model!
+
+Talk about restricted classes of games. Succinct representation.
+\begin{enumerate}
+\item
+input is poly-size circuit implementation of value-query oracle
+\item
+each pair of players simulataneously palys a seaparate two-player game. Same strategy in each 2-player subgame, utility is sum
+\item
+Utility depends only on actions of small number of neighbors.
+\end{enumerate}
+\begin{thm}
+Degree 3, bipartite, polymatrix game where each player has 2 actions: $\ep$-approximate Nash is PPAD-complete.
+\end{thm}
+
+How do we know right restriction to make? Get nice implications!
+
+This is the ``3SAT of PPAD."
+If you don't see anything to reduce from, use 3SAT. Similarly here.
+
+Def. Arithmetic circuit. Generalized circuit: allowed to close the cycle. This defines CSP. 
+$\ep$-GCircuit: find assignment $x:V\to [0,1]$ such that for all gates $(G,v_1,v_2,v)$, $x[v]=f_G(\pm \ep)\pm \ep$.
+
+Not sure who Alice is playing with. %yang cai
+
+$\ep$-approx Bayesian Nash equilibrium
+
+%Eahc polywer playing ptimally
+
+Two player game, constant number of actions, $\ep$-approx BN equilibrium PPAD-complete. (only number of types large)
+
+All for additive approximations. Can talk about relative approximations. 
+
+$\ep$-well supported relative nash equilibrium $\ge (1-\ep)$ of optimal utility. Das13: utilities in $[-1,1]$ is PPAD-complete (negative payoffs not standard). 
+
+We get $[0,1]$.
+
+Non-monotone markets. %CPY13
+Raising the price of good $G$ while fixing all other prices strictly increases the demand of $G$.
+
+Weak gross substitutibility.
+Raising price of $G$ does not decrease demand of other items. 
+For WGS, approx market equilibrium can be found in polytime.
+
+PPAD-hardness for non-monotone markets: find $\rc n$-approximate market equilibrium is PPAD-hard. 
+%Us: if utility of eahc is linear or from $U
+
+Competitive equilibrium from equal incomes: equilibrium computed in practice, assign students to classes at Wharton. Stronger PPAD hardness for this problem. 
+
+HPV construction. Average gadgets (DGP)
+
+Cor: $\ep$-GCircuit, TW$\ep$RN, B, NMM, A-CEEI (course-match)
+
+Beyond $\ep$-Nash
+
+What is the PCP theorem for PPAD?
+
+Natural equivalent: only satisfy $(1-\de)$ fraction of gates. Can be verified by reading a constant number of btis. Cojecture: $(\ep,\de)$-GCircuit is PPAD-complete. (equivalent of PCP theorem)
+

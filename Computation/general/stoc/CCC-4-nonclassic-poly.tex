@@ -1,0 +1,96 @@
+\subsection{Non-classical polynomials as a barrier to lower bounds}
+
+%higher-order Fourier anlaysis. Connections to complexity theory.
+
+\subsubsection{Nonclassical polynomials: Basics}
+
+Classical polynomials, definitions:
+\begin{enumerate}
+\item
+$f=\sum_{|\al|\le d}c_\al x^\al$
+\item 
+$f$ vanish after taking $d+1$ derivatives along any direction, $D_hf(x) = f(x+h)-f(x)$.
+\end{enumerate}
+We make several changes. $f:\F_p^n\to T$,
+\[
+f(x)=\rc p\sum_{|\al|\le d}c_\al x^\al.
+\]
+
+Ex. $p=2$, $d=2$.
+\begin{enumerate}
+\item
+$f(x)=\fc{x_1x_2}2\pmod 1$
+\item
+$f(x)=\fc{x_1}{2^2}\pmod 1$.
+\end{enumerate}
+The canonical expression, by Tao and Ziegler in their Gowers inverse norm proofs.
+\[
+f(x) = \sum_{k,|\al|\le d-k} \fc{c_{\al,k}|x|^{\al}}{2^{k+1}}\pmod 1.
+\]
+Write $f=\fc{P_d}2+\cdots + \fc{P_1}{2^d}$.
+
+
+\subsubsection{Applications}
+
+\begin{enumerate}
+\item
+Correlation bounds
+
+Hard functions against low degree polynomials. For $\deg (f)=d$,
+\[
+\E[(-1)^{f(x)} \om^{x_1+\cdots +x_n}] \le e^{-\fc{n}{4^d}}.
+\]
+%differencing and cauchy-schwarze
+
+Viola and Wigderson's proof techniques extend to nonclassical polynomials. 
+\[
+\E[e(f(x))\om^{\sum x_i}]\le  e^{-\fc{n}{4^d}}.
+\]
+There is a log-$n$ degree nonclassical poly which correlates well:
+\[
+\E[e(f(x))\om^{\sum x_i}]\ge 0.99.
+\]
+Technique cannot give anything for superlog degrees.
+
+Construction:$r=2^k\pmod 3$ for large enough $k$. Let $A=\fc{r2^k}{3}$: define $f(x)=\fc{A(x_1+\cdots +x_n)}{2^k}\pmod 1$. If $\sum x_i=3m+q$, then 
+\[
+f(x) = \redd{\fc{rm}{2^k}+\fc{rq}{3\cdot 2^k}} - \fc q3\pmod 1 = \te_x-\fc q3\pmod 1.
+\]
+For $k=10\ln n$, the red terms are small.
+
+Need proof technique that separates classical and nonclassical polys.
+\item
+Correlation bounds (MAJ).
+
+\[
+\E[(-1)^{f(x)}(-1)^{\Maj(x)}]\le \fc{d}{\sqrt n}.
+\]
+There is nonclassical $f$ of degree $\lg n$ where this is $\Om(1)$.
+\item
+Weak OR representation
+
+$m=p_1\cdots p_r$. Come up with $P_i:(\Z/p_i)^n\to \Z_{p_i}$, with $P_i(0^n)=0$ for all $i$. For $0\ne x\in B^n$, $P_i(x)\ne 0$ for some $i$. The degree is $d=\max_i\deg(P_i)$.
+
+%greater $r$, easier life.
+The question for prime $m$ is completely understood. What about composite $m$?
+
+Barrington, Beigel, and Rudich showed $O(n^{\rc r})$. For primes you need $\Om(n)$.
+
+The lower bound is $d=\Om(\ln^{\rc{r-1}}n)$ by Barrington and Tardos.
+
+Consider $P(x) = \fc{\sum x_i}{p^{k+1}}\pmod 1$, $p^k\gg n$. $d=(p-1)k+1=O(\lg n)$. ``It looks like you cheated."
+
+The Barrington and Tardos proof extends. proof technique can't go beyond $\ln n$.
+%log n tight?
+\item
+PRGs for low degree polynomials.
+
+Come up with $D$ on $B^n$, 
+\[
+|\E_{x\sim D} [e(P(x))] - \E_{x\sim U} [e(P(x))]|\le \ep.
+\]
+Viola: seed length $d\ln n + d2^d \ln \prc{\ep}$. Works for nonclassical $f$. Sum of $d$ copies of small bias genertor with error $\ep^{2^d}$ fools degree $d$ polys. Is it tight for nonclassical polys? Does there exist small bias generator with error $\gg \ep^{2^d}$?
+\end{enumerate}
+VW, BT does not separate. RS do. Viola for PRG?
+
+A litmus test for proof techniques. Check if proof extends to nonclassical, if there is matching bound attained by nonclassical.

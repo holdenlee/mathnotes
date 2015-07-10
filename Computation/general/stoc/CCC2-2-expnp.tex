@@ -1,0 +1,91 @@
+\subsection{Identifying honest $EXP^{NP}$ oracle among many}
+
+
+We have two oracles, one is honest, one is dishonest. 
+
+\begin{enumerate}
+\item
+Notion of selector: there exists a selector iff we are able to remove short advice.
+\item
+Existence of selector for $EXP^{NP}$-complete languages.
+\end{enumerate}
+
+Instance checker for $f$ checks if given oracle correctly computes $f(x)$ in poly time.
+\begin{enumerate}
+\item
+There are instance checkers for $P^{\#P}$, PSPACE, EXP-complete.
+\item Must be in $NEXP\cap coNEXP$. Note $NEXP\subeq EXP^{NP}$.
+\end{enumerate}
+
+Probabilistic selector for SAT. Make queries: is $\psi$ satisfiable. The honest oracle gives correct answers; the dishonest oracle gives arbitrary answers.
+
+If the oracles agree, then the answer is right. The essence of the task is to determine which is honest when they disagree.
+\begin{df}
+A \vocab{selector} S for $L$ is prob oracle machine such that if $A_0=L$ or $A_1=L$, then
+\[
+\Pj[S^{A_0,A_1}(x)=L(x)]\ge 0.99.
+\]
+For a deterministic selector, deterministic succeeding always.
+\end{df}
+
+Selector for $P^{NP}$-complete languages: lexicogrphically maximum satisfying assignment. Output $k$th bit of lexicographically max satisfying assigment of $\ph$.
+
+Given $(\ph,k)$ and 2 oracles, make queries $(\ph,i)$ to the oracles. If $v_0=v_1$, output the $k$th bit. Else WLOG $v_0<v_1$. If $\ph(v_1)=1$, 1 is honest, else 0 is honest.
+
+$EXP^{NP}$-complete language: succinctly described Boolean formula $\Phi:B^{2^n}\to B$ and $k$. Output $k$th bit of lexicographically maximum satisfying assignment. The proof strategy is the same.
+
+\begin{enumerate}
+\item
+Is $V_0<V_1$? binary search and PIT.
+\item
+Is $V_1$ a satisfying assignment of $\Phi$? Similar to $MIP=NEXP$.
+\end{enumerate}•
+
+Instance checker vs. selector. If we have a instance checker, we can construct a selector. The task of selectors is strictly easier than instance checking.
+
+\bal
+\SAT\in P/\log &\implies \SAT\in P\\
+EXP\in BPP/\log & \implies EXP\subeq BPP.
+\end{align*}
+This follows from the instance checkability of EXP-complete languages.
+
+We can remove short advice when we have a selector.
+
+If there is a selector $M$, we can remove 1-bit advice. The two oracles gives answer $M(q,0)$ and $M(q,1)$.
+
+%Polynomially many 
+
+\begin{thm}
+For any paddable $L$, TFAE:
+\begin{enumerate}
+\item
+$\exists$ deterministic selector
+\item 
+for any oracle $R$, $L\in P^R/\log$ implies $L\in P^R$
+\end{enumerate}
+\end{thm}
+
+Even given many oracles, we can still identify an honest oracle. Idea: tournament. Depending on their answer, divide them into 2 teams. Pick 2 and run, eliminate those we doubt.
+%how many oracles?
+
+%To remove advice of size $O(\lg n)$,
+If no selector exists, then for some relativized world, even 1-bit advice cannot be removed. Construct the oracle by diagonalization.
+
+Other results:
+\begin{enumerate}
+\item
+There exists a deterministic selector for PSPACE-complete languages.
+\item Any languages with deterministic selector in PSPACE.
+\end{enumerate}•
+Upper bound for probabilistic selector: $S_2^{exp}$.
+
+Close the gap between $EXP^{NP}$ and $S_2^{exp}$. 
+
+%Set of languages with select
+
+Poly advice?
+
+
+
+
+

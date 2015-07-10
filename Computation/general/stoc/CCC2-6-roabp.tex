@@ -1,0 +1,106 @@
+\subsection{PIT for ROABP}
+
+Read-once oblivious: any variable occurs in at most 1 layer, and in specified order.
+
+Polytime whitebox test, quasi-poly blackbox test.
+
+First poly-time whitebox test for sum of 2 ROABPs. (key: variable orders can be different)
+
+Evaluation dimension or partial coefficient dimension (Nisan 1991). %Write as $\F[x_ 
+
+Computed by ROABP of width $w$ and var order $x_1,\ldots, $ iff for all $i\in [n]$, $\dim\set{A_e}{e\in B^i}\le w$.
+\begin{proof}
+\begin{enumerate}
+\item
+Write $A=\sum_{j=1}^w P_jQ_j$ where $P_j\in \F[x_1,\ldots, x_i]$ and $Q_j\in \F[x_{i+1},\ldots, x_n]$. (Partial coefficients.)
+
+\item
+Small coefficient dimension implies small width. Do layer by layer.
+\end{enumerate}
+\end{proof}
+
+Given $A,B$ computed by ROABPs in different variable orders.
+\begin{enumerate}
+\item
+Find linear dependencies among partial coefficients of $A$.
+\item
+Verify same dependencies hold among corresponding partial coefficients of $B$.
+\end{enumerate}
+Reduces to zero testing for ROAMP of a larger width $(\le w(w+1))$.
+Generalize to $c$ ROABPs with complexity $\poly(w^{2^c}n^c)$. 
+
+Make blackbox with least basis isolation and low-support rank concentration.
+
+QUestions:
+\begin{enumerate}
+\item
+Bring down time complexity to $w^{O(c)}$? 
+\item Depth 3 multilinear? 
+\item Inspired from nonequivalence of 2 ROBP's Are there more connections?
+\end{enumerate}
+
+\subsection{Matrix rigidity}
+Rigidity: $V$ is $(r,d)$-rigid if for any matrix $V'$ where $d(v_i,v_i')\le d$ we have rank $\rank(V')\ge r$.
+
+If $V$ is $(\Om(n),n^\ep)$-rigid, the linear transformation that maps a vector $x$ to $Vx$ does not have an $O(n)$-size $O(\ln n)$-depth linear circuit.
+
+Valiant needs $(\Om(n),n^\ep)$-rigid. With high probability, a random matrix is $(.99n,\Om(n))$-rigid.
+The best explicit matrices are $(.99n,0)$-rigid. The best are $(r,\Om(\fc nr \ln \fc nr))$, $r\ge (\ln n)^2$.
+
+Take a matrix of full rank; Zaranckiewicz's lemma shows after some changes there will be an untouched matrix. ``Untouched minor barrier."
+
+Design matrices are candidates for rigidity over $\F_2$. Design matrix; every row has $n^{1-\ep}$ ones, supports of every two distinct rows intersect by $n^{1-2\ep}$.
+
+Goal:  Establish $(n^{2\ep +\de},n^{1-2\ep})$-rigidity of matrices $V_{m=\rc\ep}$.
+
+Any rigidity proof needs to exhibit a property $\pi$ that is
+\begin{enumerate}
+\item
+satisfied by all low rank matrices
+\item not satisfied by $V_m$ even after perturbations.
+\end{enumerate}•
+
+Our property is approximability: after a certain particular embedding into $\R^n$ its rows amit a nontrivial approximation by a low-dimension Euclidean space.
+
+Embedding $\F_2^n\to \R^n$, $x\mapsto \fc x{\ve{x}_2}$.
+\[
+A_r(V)=\max_{W\subeq \R^n,\dim W=r} \min_{x\in V} \ve{\Pj_W(x)}^2.
+\]
+
+$A_r(V)$ is equivalent to Kolmogorov width of $V$.
+
+Strategy:
+\begin{enumerate}
+\item
+Show $A_r(V_m)$ is small.
+\item
+Show that $A_r(V_m)$ is robust under perturbation of rows of $V_m$.
+\item
+Show that for low-dimensional $\F_2$-linear spaces $L\subeq \F_2^n$, $A_r(L)$ is large.
+\end{enumerate}
+Imply that $V_m$ have high rank even after perturbations.
+
+%Had easy  to approx because fairly strange embedding. Division: 
+The last one is hardest!
+
+(6.4, 5, 7 in CDSM)
+\begin{enumerate}
+\item
+$r=o(n)\implies A_r(\F_2^n)\sim \fc rn$.
+\item
+$r=\om(n^{1-\ep})\implies A_r(V_m)\approx \fc v n$.
+\item
+$r=\om(n^{1-\ep})$: every row of $V_m'$ differ from corresp of $V_m$ in $O(n^{1-\ep})$: $\approx \fc rn$.
+\end{enumerate}•
+
+Conj. 6.8 implies $(n^{2\ep+\de},n^{1-2\ep})$-rigidit of matrices $V_m$.
+%find subspace all large component
+%natural proofs limitation to rigidity?
+%research drift?
+
+%...see IAS talk.
+
+need better approx for $\F_2$-lin spaces.. weak for hi-dim approx.
+use more property of $\F_2$-lin than trignular raank.
+approx for $n$-subsets of $\F_2$ linear spaces rather than complete spaces?
+%rank, number of changes, rows.

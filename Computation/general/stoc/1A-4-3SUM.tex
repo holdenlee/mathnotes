@@ -1,0 +1,100 @@
+\subsection{Clustered integer 3SUM via addtive combinatorics}
+
+Three big questions
+\begin{enumerate}
+\item
+Is there a subcubic algorithm for APSP?
+\item
+$(\min,+)$-matrix multiplication: subcubic?
+%mult replaced by +
+\item
+Special case: $(\min,+)$-convolution (matrix multiplication implies subquadratic)
+\item
+3SUM in subquadratic time?
+\end{enumerate}
+
+The conjecture is no to all these questions. 
+
+We look for positive results: in what cases when . What kinds of techniques can give subquadratic/cubic algorithms?
+
+Easy special cases: 
+\begin{enumerate}
+\item
+small integer APSP using fast matrix multiplication. 
+\item
+$O(cn\lg n)$ time by FFT if elements in $[c]$
+\item
+Bounded integer $3SUM^+$ by FFT if in $[cn]$.
+\end{enumerate}•
+Small-difference integer $(\min, +)$-convolution: given $\{a_i\},\{b_i\}$ with $|a_{i+1}-a_i|,|b_{i+1}-b_i|\le c_i$.
+
+Equivalent problem: 
+\begin{enumerate}
+\item
+binary jumbled indexing (string algorithm). Given a binary string of length $n$, compute for all $i$, $s_i$ be the min or max number of 1's over all length $i$ substrings.  This was posed by many people. 
+\item
+bounded int connected monotone $3SUM^+$ in 2D. Given $A,B,S\subeq [cn]^2$ that form connected $xy$-monotone sequences, solve $3SUM^+$. %x length prefix, 
+\end{enumerate}•
+We give the first truly subquadratic algorithms for this group of problems, in randomized time $\wt O(n^{(9+\sqrt{177})=12}$.
+
+A group of problem which expands set of problems where we know how to break the barrier.
+
+Bounded integer monotone $3SUM^+$ in $dD$ in $n^{2-\fc{2}{d+O(1)}}$ randomized time. Clustered integer $3SUM^+$.
+
+Clustered integer $3SUM^+$ is the most general class where we have subquadratic algorithms.
+
+Data structure version of thse problems.
+After preprocessing $A,B,S$ in $\wt O(n^2)$ time, cna solve 3SUM for any subsets $A',B',S'$ of $A,B,S$ in $\wt O(n^{13/7})$ time, for arbitary input.
+
+Besides FFT and fast matrix multiplications, we use additive combinatorics (previously almost nothing in algorithm design).
+
+We give the 2D monotone in $3SUM^+$ problem. 
+
+\begin{enumerate}
+\item
+Divide and conquer 1: divide $[n]^2$ into $g^2$ $\fc ng\times \fg ng$ grid cells. Recursively solve in $A^*+B^*=S^*$.
+
+How many recursive calls. The trivial upper bound is $g^2$; we get a quadratic algorithm.
+\[
+T(n)=O(g^2)T\pf{n}g+O(n)
+\]
+When can number of subproblems $\Om(g^2)$. When $A^*,B^*,S^*$ linear. 
+
+But then we can subtract a linear function, make all values small, solve by FFT.
+
+If we are in the bad case, must the points be nearly collinear.
+\end{enumerate}
+
+\begin{thm}[BSG]
+Let $A,B,S$ be sets of size $N$ in an abelian group. If $|\set{(a,b)\in A\times B}{a+b\in S}|=\Om(\al N^2)$, then there exist $A'\subeq A, B'\subeq B$ such that $|A'+B'|=O(\prc{\al}^5N)$, $|A'|,|B'| = \Om(\al N)$. 
+\end{thm}
+Frieman: $|A'+A'|$ small, then $A'$ is close to collinear in some vague sense.
+
+Simpler proof by Gowers, refined by others. Now it's 2 pages long.
+
+We can't directly apply this theorem: there exists a subset, and they will not cover. 
+
+We need a stronger version that allows us to iteratively cover mre.
+
+Corollary: there exist $A_i\subeq A,B_i\subeq B$, so that $R A+_SB \be \bigcup_i (A_i\times B_i)$ has size $O(\al N^2)$, $|A_i+B_i|=O(\prc{\al}^5N)$, $k=O\prc{\al}$.
+
+
+\begin{enumerate}
+\item
+Apply BSG to $A^*$, $B^*$, $S^*$ of grid cells. 
+
+$\wt O(g^2)$ randomized time
+\item 
+For each $(a^*,b^*)\in R$, recurse for points inside cells $a^*,b^*,a^*+b^*$. $O(\al g^2)T\pf{n}g$ time.
+\item
+For $i=1,\ldots, k$, compute...
+\end{enumerate}
+Recurrence
+\[
+T(n) = O(\al g^2) T(n/g) + \wt O(n+g^2)+O\prc{\al}...
+\]
+polynomial dependence in $\al$.
+
+Other results are similar; in some cases we can't use recursion. Open: further improve exponents by improving $\al$-dependencies in BSG. Could additive combinatorics help for $k$SUM, general 3SUM? Etc.
+
+

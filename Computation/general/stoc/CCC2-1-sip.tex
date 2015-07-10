@@ -1,0 +1,47 @@
+\subsection{Streaming interactive proofs}
+
+Given $g$, replaced $g$ with mulilinear $\wt g$ over large field; it has good error-correcting properties.
+
+View $\mx:B^{\lg n}\to B$. Let $|\F|\ge 4\lg n$, $\wt{\mx}$ be the multilinear extension. $V$ evaluates $\wt{\mx}(r)$ in streaming pass over $\mx$ with space $O(\lg n\lg\lg |\F|)$. Is a sketch of input. Write $\wt{\mx}(r)=\sum_j x_j\wt{\de_j}(r)$.
+
+Sends line to prover. $\la$ specified with $\lg n$ elements. Prover sends back the polynomial restriction to line. Making a claim about every point on the line.
+%compare to data stream.
+If the prover sends any other polynomial, %any 2 $\lg n$ polys have to
+is disagrees almost eveyrwhere.
+Only know $r$ is somewhere along the line and not equal to $i$.
+
+RangeCount protocol: fix $[n], R\subeq 2^{[n]}$.
+
+Input: $x_i\in [n]$, range $R^*\subeq R$. Goal to output $|\set{i}{x_i\in R^*}|$. Reduce it to the index problem. Verifier creates a derived stream. Define over different data universe. Every time see new stream update, insert every single range that contains $x_i$. 
+
+Wat frequency of $R^*$ in derived stream: answer with generalized INEX protocol. But $V$ requires $|R|$ time per stream update.
+
+%input vector exp big.
+Use a higher-degree extension.
+
+Online interactive proofs (communication model).
+$O(1)$-round SIPs can solve INDEX. 
+2 new hierarchies of communication models
+\begin{enumerate}
+\item
+OIP${}_+[k]$ can simulate all $k$-message SIPs. 
+\item
+OIP$[k]$ weaker, but can still simulate all known SIPs, and capture the fundamental way SIPs differ from IPs.
+\end{enumerate}
+
+$AM^{cc}$ [BFS86]. Alice and Bob want to ocmpute $f(x,y)$. Merlin helps but is untrusted. Random coins are sent to both parties. Merlin gives answer, then communicate in deterministic protocol.
+
+Restricted private coin variant. Secret coinc not seen by Merlin. Alice sends a single message to Bob. Then Bb and Merlin engage in $k$-message interaction.
+
+In $OIP[k]$: for Bob and Merlin's message to be independent. Bob and Merlin engage in $k$-message interaction in step 2, not 3.
+
+$OIP[2]$ protocol of cost $O(\lg n\lg\lg n)$ for INDEX.Toss secret coins to determine eval point. Send $\la$. Alice sends $\wt{x}(r)$.
+%only depends on index i.
+
+$OIP^{[k]}$ class of functions solved by polylog cost $OIP[k]$ protocols, $AM^{cc}$ functions solved by polylog cost $AM^{cc}$ protocols. Containment with exonential separation:
+\[
+OIP^{[1]}\sub \cdots \sub OIP^{[\ge 4]}=AM^{cc}.
+\]
+%TM for IP: collapse to second level.
+2-message OIP are equivalent to $R^{[2,B]}$: without Merlin: Bob sends single to Alice, Alice sends single response. $OIP^{[2]}$Lpretend Bob can send 1 message to Alice even though lets neither Bob nor Merlin talk to Alice. 4: both Bob and Merlin can talk to Alice: simulate all of $AM^{cc}$.
+

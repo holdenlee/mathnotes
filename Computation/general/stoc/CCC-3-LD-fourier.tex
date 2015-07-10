@@ -1,0 +1,84 @@
+
+\subsection{List-decoding size of Fourier-sparse boolean functions}
+Many nice families have sparse fourier expansions: juntas, low-depth decision tree.
+
+In the Boolean case, if $f$ is $k$-sparse, $f$ has $\F_2$ degree at most $\lg k$.
+
+Learning sparse boolean functions: exactly learn $f$ with running $\poly(n,k)$,
+
+Given uniform and independent random samples from $k$-Fourier sparse boolean function, learn $f$. How many samples needed? We don't consider efficiency. Not known whether can do in time $f(k)\poly(n)$.
+
+A simple bound is $q=O(nk^2)$ because poly degree $\le \lg k$. Every 2 fuctions diagress on at least $\rc k$ of the inputs by Schwartz-Zippel.
+
+Prob that $g\ne f$ survives $\le \pa{1-\rc k}^q$.
+$2^{O(nk)}$ $k$-Fourier sparse bolean functions.
+Union bound: Need $2^{O(nk)}\pa{1-\rc k}^q=O(1)$
+
+Known: $O(nk\ln^3k)$, $O(n^2k\ln k)$. Restricted isometry property.
+
+Deal with intuition that not too many sparse Fourier coeffs close.
+
+%How many codewords can belong to same ball
+
+\begin{thm}
+Number of $k$-Fourier sparse boolean functions of distance at most $d$ from $f$ is $\le 2^{O(nk)\ln k (d/2^n)}$. For $d=k\approx 2^{\fc n2}$, bound $2^{O(n^2)}$, tight (indictors of $\fc n2$ dimensional subspaces).
+\end{thm}
+
+Learning from samples.
+
+\begin{thm}
+Sample complexity is $O(nk\ln k)$.
+\end{thm}
+Lower bound of $\Om(k(n-\lg k))$. Only $\ln k$ gap.
+
+%Number of $k$-Fourier sparse Boolean functions of distance $\le d$ from $f$ is $2^{O(nkd\lin)}$
+
+Idea: use sampling to show $g$ has succinct representation.
+
+All we need: bounded spectral norm. $\ve{\wh g}_1\le \sfc{kd}{2^n}$. (Parseval and C-S.)
+\[
+\fc{g}{\ve{\wh g}_1}=\rc{\ve{\wh g}_1} \sum_{S\subeq [n]\wh (S)\chi_S}.
+\]
+Convex combo of characters with signs:
+\[
+\E_S [\sign(\wh g(S))\chi_S],
+\]
+weights defined by Fourier coefficients. %can use samplers to get good approx of function g.
+%consider average of parity functions with signs. 
+By Chernoff, $O\pf{nkd}{2^n}$ samples suffice to approx $g(x)$ n every $x$ to additive error $<\rc 2$.
+
+$\rc{2^n}$ because need approx to be good on all inputs---union bound.
+$g$ can be represented by a binary string of length $O\pf{n^2kd}{2^n}$.
+
+To get the theorem, modify the algorithm: don't need correct evaluation on all inputs. %disagree on $\ge \rc k$.
+approx up to $\rc2$ for all but $O\prc k$ fraction of inputs.
+
+Application to property testing:
+\begin{prb}
+Given query access to $k$-Fourier sparse $f:B^n\to \R$, decide whether $f$ is Boolean. For $x\in B^n$, check $f(x)\in B$. How many repetitions do we need?
+Gur and Tamuz show $O(k^2)$ repetitions suffice: it must be nonzero on many inputs. Uncertainty principle:
+\[
+|\Supp(g)||\Supp(\wh g)|\ge 2^n.
+\]
+Apply to $g=f(f-1)$. 
+\end{prb}
+Observation: if $f$ non-boolean then a random restriction of $f$ to $O(\ln k)$ dimension subspace of $\F_2^n$ w.h.p also nonboolean.
+
+Improved tester:
+\begin{enumerate}
+\item
+pick random $n'=O(\ln k)$-dimensional subspace $W\subeq \F_2^n$. Fourier sparsity can only decrease. Defined on few variables.
+\item
+Learn restriction $f|_W$ assuming it is boolean.
+If get non-boolean reject. If not consistent with any $k$-sparse boolean function, then reject. Otherwise get a candidate. Just have to compare with true function. Using roughly $k$ additional samples (others disagree on $\Om\prc k$).
+\end{enumerate}
+Query complexity $O(n'k\ln k)=O(k(\ln k)^2)$.
+
+We also show a lower bound of $\Om(k\ln k)$ for 1-sided error.
+
+Open: close gap $nk\ln k$, $k(n-\lg k)$. 
+
+Follow-up: improved bound on restricted isometry property of subsampled Fourier matrices. 
+
+How many rows from Fourier matri to get whp a matrix have like isometry on $k$-sparse vectors. Upper bound on this question implies sample complexity in strong manner. %Learn all $k$-sparse.
+More deterministic: allow recovery of all ... simultaneous. 

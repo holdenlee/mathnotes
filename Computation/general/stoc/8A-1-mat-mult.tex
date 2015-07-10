@@ -1,0 +1,42 @@
+
+\subsection{Limitations of Copper-Winograd method for fast matrix multiplication}
+
+Put an identity into a black box to get a speedup (ex. $2\times 2$ matrix with 7 multiplications; $3q+3$ with $q+2$, optimize at 6.)
+
+A new technique, Laser method with merging.
+Laser method with merging applied to $T$ better than Laser method applied to $T^M$.
+
+Prove limitations on laser method with merging. 
+LMM applied to $T_{CW}(5)^{16}$ cannot prove $\om<2.3735$, for $T_{CW}(2.3078)$ cannot prove $\om<2.3078$.
+
+%border rank.
+Starting point: $R(T_{CW})\le q+2$. 
+\begin{enumerate}
+\item Take high tensor power
+\item Zero variables and merge tensors obtaining disjoint tensors (use Spencer sets)
+\item apply asymptotic  sum inequality
+\end{enumerate}
+
+What is merging tensors? Sum of non-disjoint matrix multiplication tensors can be equivalent to larger matrix multiplication tensor: $\an{1,1,q}+\an{1,1,1}=\\an{1,1,q+1}$.
+Characterize all possible mergings in power of CW tensor.
+
+Question:
+how large can a subset of $(B^n)^3$ be if 
+\begin{enumerate}
+\item
+every triple satisfies $x_i+y_i+z_i=2$
+\item
+every two triples satisfy $\an{x_1,y_1,z_1},\an{x_2,y_2,z_2}$ have all corresponding vectors unequal. Answer: $2^{H\pf 13}$. ($\pf{3}{2^{\fc 23}}^n$) Exercise!
+\end{enumerate}
+Our proofs is similar but more complicated.
+
+What next? Get slightly improved upper 
+
+\begin{itemize}
+\item
+Come up with a new identity. Since 1987 we've been using the same one...
+\item
+Group-theoretic method and its extensions (Cohn and Umans).
+\item
+Weighted matrix multiplication (Cohn and Umans).
+\end{itemize}

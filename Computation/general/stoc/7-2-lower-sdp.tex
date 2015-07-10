@@ -1,0 +1,86 @@
+\subsection{Lower Bounds on the Size of Semidefinite Programming Relaxations}
+Unconditional computational lower bounds for classical combiantorial optimization problems in a restricted but powerful model of computation: all possible linear and semidefinite relaxations.
+
+Goes back to Yannakakis in the 1980's, looking at flawed P vs. NP proofs. Refute all flawed proofs at once.
+
+There are connections to optimizaiton and convex geometry. Settles open questions about semidefinite lifts of polytopes and ranks.
+Identify optimal approximation  algorithms in the model. 
+
+For every constraint satisfaction problem, the 
+SoS (Lasserre) hierarchy gives optimal algoritm in this model.
+
+Derive lower bounds for general model from known countersxamples for the SoS model.
+
+Math programming relaxations: powerful generl approach for approximating NP-hard optimization problems. 
+
+Three flavors:
+\begin{enumerate}
+\item
+Linear (LP) ((A)TSP)
+\item
+spectral (Cheeger bounds)
+\item
+semidefinite (SDP) (MAX-CUT, SPARSEST CUT)
+\end{enumerate}
+
+Semidefinite relaxations subsume both.
+
+Intriguing connection to hardness reductions, e.g., the unique games conjectures: plausibly optimal polynomial time algorithm.
+
+Need to formalize algorithms. Mathematical programming relaxations: powerful general approach for approximating NP-hard optimization problems. 
+
+Formalizes intuitive notion of LP relaxations for problem. Engough structure for unconditional lower bounds. Extends to SDP relaxations (but LP lower bound techniques break down). Not surprising: for some problems, SDP relaxations are strictly stronger.
+
+Test computational complexity conjectures: approximation/PCP: unique games, sliding scale. Averge-case.
+
+We consider the example of MAX-CUT. We give a LP formulations of MAX-CUT. Maximize $f_G(x)=\sum_{ij\in E(G)} (x_i-x_j)^2/4$ over $x\in \{-1,1\}^n$.
+
+Equivalently, maximize $\sum_{ij\in E(G)}(1-X_{ij})/2$ over the cut polytope, $CUT_n=$convex hull of $\set{xx^T}{x\in \{-1,1\}^n}$.
+The numebr of facets is exponential, so there is no small direct LP formulation.
+
+The general size $n^d$ LP formulation of MAX CUT: The polytope $P\subeq \R^{n^d}$ defined by $\le n^d$ linear inequalities that projects to $CUT_N$. 
+
+Often there is exponential savings: $\ell_1$-norm unit ball,...
+
+The cut polytope doesn't have a LP formulation of polynomial size. We want to show this unconditionally.
+
+Known: exponential lower bounds for LP formulations of MAX-CUT. Approximation ration $>\rc2$ require superpolynomial size. But the best known MAX CUT algorithms are based on SDP, and have approximation ratios better that $\rc2$.
+
+Can we show size lower bounds for SDP formulations of MAX CUT?
+
+A general size $n^d$-SDP formulation of MAX-CUT: spectrahedron $P\subeq \R^{n^d}\times \R^{n^d}$ defined by intersecting some affine linear subspace with psd cone. 
+
+We show an exponetnial lower bound $2^{\Om(n^{.1})}$. Sum of squares is optimal SDP algorithm for MAX CUT.
+
+Upper-bound certificates: algorithm with appoximate guarantee must certify upper bounds on the objective function $f_G$.  We can characterize SDP algorithms by their certificates. 
+
+Certificates of degree $d$ sum of squares SDP algorithm: certify $f\ge 0$ for $f:\{\om 1\}\to \R^n$ iff $f=\sum_i g_i^2$ with $\deg g_i\le d$. 
+%approx ratio $\al$: cert $f_G\le c$ for some $c\le OPT_G/\al$.
+
+SoS captures Goemans-Williamson MAX CUT .878 approx:
+\[
+OPT_G-.878f_G\sum_i g_i^2
+\]
+with $\deg g_i\le 1$.
+
+Relate general certificates to SoS certificates. For every $n^d$-size SDP algorithm, can certify $f\ge 0$ iff there exists $P\succeq 0$, for all $x\in \{\pm1\}^n$, $f(x)=\tr PQ(x)$. For the degree $d$ sum of squares SDP algorithm, $Q(x)=x^{\ot d}(x^{\ot d})^T$. A general SDP $Q$ captured by degree $d$ sum of squres if $\deg\sqrt{Q}\le d$.
+
+Can simulate general $n^d$ size SDP algorithm by degree $O(d)$ (low degree) sum-of-squares.
+
+For every low-degree matrix valued function $F$< can't distiguish between $Q$ and $Q'$ To try to approximate some object, bound the  complexity of the approximator. %larger than complexity of test functions? 
+Key technical challenge: $\deg\sqrt{Q'}\gg \deg Q'$ at the heart of sum of squares counterexamples.
+
+Take an indirect approach. find the simplest SDP algorithm $Q'$ that satisfies $\an{F,Q}=\an{F,Q'}$. Measure of simplicity is quantum entropy. There is a closed-form solution $Q'(x)\approx e^{tF(x)}$ where $t$ is entropy defect of $Q$, at most $\ln n^d$. Then expand $\sqrt{Q'(x)}$ and truncate the power series. Shows degree of apprxomator controlled by $F$.
+
+Can simulate general small SDP by low-degree SDP.
+
+Open questions:
+\begin{enumerate}
+\item
+approximation beyond CSP and relatives (rule out .999-approx for TSP by poly-size LP/SDP)
+\item
+strong quantitative lower bounds for approx: rule out .999-approx for MAX CUT by $2^{n^{O(1)}}$-size LP/SDP
+\item
+rule out $2^{n^{.999}}$-size SDP for exact MAX CUT.
+
+\end{enumerate}•

@@ -1,0 +1,89 @@
+\subsection{Quantum parallel repetition}
+Make games much harder against players with quantum power.
+
+2-player 1-round games. Referee sends $x,y$ to 2 players, they send back $a,b$ (without communication); the referee decides whether to accept.
+
+$\val(G)$ is the maximum probability Alice and Bol can win with deterministic strategies, over random questions $x,y$.
+
+Here we are interested in the quantum value. $\val^*(G)$ is the maximum probability lice and Bob can win with entangled strategies, i.e., making measurements on preshared entangled state. (It doesn't allow them to communicate.)
+
+Clearly $\val(G)\le \val^*(G)$. In the CHSH game, they receive uniform random bits; they win if $a+b=x\wedge y$. 
+\bal
+\val(CHSH)&=\fc 34\\
+\val^*(CHSH)&=.85.
+\end{align*}
+How powerful is quantum entanglement?
+
+%much harder game.
+Parallel repetition is $G^n=(\mu^n,V^n)$. Referee chooses $n$ independent pairs $(x_i,y_i)$ from $\mu$. Alice and Bob win if they win all $n$ copies. How much harder is this?
+
+%If Alice and Bob had a perfect strategy they also had one.
+
+How does $\val(G^n)$ behave as a function of $\val(G),n$? Fortnow and Feige gave a counterexample: there exist games $G$ such that $\val(G^2)=\val(G)=\rc2$.
+
+Parallel repetition theorem:
+\[
+\val(G^n)\le (1-\ep^c)^{\Om\pf ns}.
+\]
+Dependence on size of answer: $s=|a|+|b|$. The game value decays exponentially in $n$.
+
+This parallel repetition theorem holds when Alice and Bob are classical.
+
+How does $\val^*(G^n)$ depend on $\val^*(G),n$? Is there exponential decay, or decay at all? For general $G$, this is not known.
+
+\begin{itemize}
+\item
+Feige-Killian repetition of a game $G$ goes to 0 with number of repetitions, but not exponential decay.
+\item
+XOR games satisfy perfect parallel repetition.
+\item
+For free games, $\val^*(G)\le (1-\ep^2)^{\Om\pf{n}2}$.
+\item
+For projection games, there exists $c\ge 1$, $\val^*(G^n)\le (1-\ep^c)^{\Om(n)}$.
+\end{itemize}•
+We show that for a free game (input distribution is product distribution),
+\[
+\val^*(G^n)\le (1-\ep^{\fc 32})^{\Om\pf ns}\le (1-\ep^2)^{\Om\pf ns}.
+\]
+We improved the exponent on $\ep$.
+We don't know of a classical analogue of this theorem: parallel repetition of free games---we don't know we can make it $\fc32$. 
+Rate of decay matters for hardness of approximation.
+We use new tools from quantum communication complexity, so this may not be true for classical value!
+Barak et al: $\val(G^n)\le (1-\ep^2)^{\Om \pf ns}$. Raz showed there are projection games where $\ep^2$ is optimal. It's plausible that the bound of Barak is tight! Then quantum and classical games behave differently under parallel repetition.
+
+We use a faster quantum communication protocol to obtain a better bound than CS14. The communication protocol is a distributed version of the Grover search algorithm, improving $1-\ep^2$ to $1-\ep^{\fc 32}$.
+
+High level proof idea: convert a ``too good" strategy for the repeated game to a strategy for the original game that does better than $1-\ep$, contradiction.
+
+Intuition: use Bayes's rule:
+\[
+\Pj\pat{win all rounds}=\prod \Pj\pat{win round $i$|win rounds $<i$}.
+\]If $\gg1-\ep$, then there are many rounds such that the factor is $>1-\ep$.
+
+Embed inputs $(x,y)\sim \mu$ into some $i$ of the global strategy conditioned on some event $W$, $\Pj(\text{win }i|W)>1-\ep$. Simulate $S$ conditioned on $W$, the players won all games in a randomly chosen set $C$ of a certain size. If the subset is large enough ($|C|\ge \Om\pf{n\ga}{\ep}$,$\val^*(G^n)=2^{-\ga n}$).
+
+When is simulation possible? The quantum mutual informations are small:
+\[
+I(X_i:E_BY|W=1),I(Y_i:E_AX|W=1)\le \de
+\]%bound by give efficient protocol.
+Then A and B can simulate $S$, condtioned on $W$ with $X_i=x,Y_i=y$, with $O(\de)$ error. So Alice and Bob can win $G$ whp, contradiction.
+
+Play $G^n$ using strategy $S$. A sends answers in $C$ rounds to Bob, who computes if $W$ occured. (?) How much did Bob learn about Alice's inputs? $\le O(Q)$. Using chain rule to get average $\le O\pf{Q}{n}$. Here $Q$ is $|C|$ times Alice's answer length, $O(\fc{\ga n s}{\ep})$.
+
+Alice and Bob are searching for a round $j$ in C. Any classical protocol must use at least $\Om(|C|)$ bits of communication. Use Grover search.
+Grover search with low error: to search database of $C$ with error probability $\de$, suffices $\sqrt{|C|\ln \prc{\de}}$ queries. 
+
+Lower communication implies smaller mutual information.
+
+%arxiv:1501.00033
+%Transmit quantum states as answers.
+Open:
+\begin{enumerate}
+\item
+Other uses of efficient communication protocols to prove better direct sum/direct product teorems.
+\item Is the classical bound (Barak) for parallel repetition of free games tight?
+\item Is $\fc 32$ tight?
+\end{enumerate}
+%Decay relative to quantum value.
+
+%quantum value may be equal to 1.

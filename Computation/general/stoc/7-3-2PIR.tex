@@ -1,0 +1,80 @@
+\subsection{Sub-polynomial cost 2-server PIR}
+
+A database has $a=(a_1,\ldots, a_n)\in \{0,1\}^n$. The user wants to know $a_i$. the user wants to learn $a_i$, but the the server shouldn't learn anything about $i$.
+
+%randomized protocols
+Information theoretic privacy: User behavior should be independent of $i$. (stronger)
+
+Contrast: Computation PIR, where the server is computationally bounded.
+
+Goal: minimize commuication cost. The obvious way is to request the entire database.
+
+Chor, Goldreich, Kushilevitz, Sudan introduced PIR with multiple servers which cannot communicate.
+
+The user first generates a random string. He queries $Q_j(i,r)$; they send back $A_i(a,Q_i)$. The user calculates $a_i=R(i,r,A_1,A_2)$. 
+
+Privacy: the distribution of $Q_j(i,r)$ is independent of $i$. Communication cost is the total number of bits exchanged. This can be generalied to multiple servers and rounds.
+
+What is known about PIR schemes? 
+For 2 servers the best bound was $O(n^{\rc 3})$; for $k$ servers, $n^{o(\sqrt{\fc{\ln\ln n}{\ln n}})}=n^{o(1)}$. 
+Can we beat $n^{\rc 3}$ with 2 servers? To beat this we need new techniques. We achieve the same cost as in the 3-server PIR protocol, $n^{o(\sqrt{\fc{\ln\ln n}{\ln n}})}$.
+
+$\ln n$  is a trivial lower bound. Best known lower bound is $5\ln n$, relying on quantum ideas. 
+RY06 gave a $\Om(n^{\rc 3})$ lower bound for bilinear group-based 2-server PIR capturing function of server answers. Our scheme is blinear and uses a group-based secret sharing schemes not captuerd by RY-model. R-model has extra functionality, can also retrieve certain linear combinations of database bits. Their model is more like LCC; ours is more like LDCs.
+
+There are 2 ingredients.
+\begin{enumerate}
+\item
+2-server $O(n^{\rc 3})$ cost PIR. The encoding is Reed-Muller codes with derivatives. 
+
+Retrieval: polynomial interpolation with derivatives. 
+\item
+3-server $n^{o(1)}$ cost PIR. Encoding is matching vector codes. Retrival is again polynomial interpolation.
+\end{enumerate}
+We combine these two. The encoding is matching vector codes with derivates, and the retriveal is polynomial interpolation with derivatives.
+
+We need a combinatorial construction.
+\begin{df}
+A matching vector family is $(u_i)$, $(v_i)$, $u_i,v_i\in (\Z/m)^k$, with $\an{u_i,v_j}\pmod m = 0$ iff $i=j$. 
+\end{df}
+The servers uses $u_i$ to encode and $v_i$ for retrieval. 
+
+\begin{thm}
+Gromulsz gave a MVF over $(\Z/6)^k$ of size $n$ with $k=n^{O\pa{\sfc{\ln \ln n}{\ln n}}}$. 
+\end{thm}
+6 being composite is essential.
+
+Let $(\cal U, \cal V)$ be a MVF over $(\Z/6)^k$ of size $n$ with $k=n^{o(1)}$. We work ove rthe ring $\cal R=\Z/6[\ga]/\an{\ga^6-1}$, ring with characteristic 6 and element of order 6. Given database $a$, define
+\[
+F(x)=\sum_{i=1}^n a_ix^{u_i}
+\]
+Not really a polynomial since $u_i\in (\Z/6)^k$, but we can evaluate it over powers of $\ga$, since it has order 6: $\ga^z=(\ga^{z_1},\ldots)$. Define $F_\ga(z)=F(\ga^z)$, $F_{\ga}:(\Z/6)^k\to R$.
+
+We need to define the gradient and hessian of $F$ as $F^i(\mx)=\sum_i a_i u_ix^{u_i}$, $F^2(x)=\sum_{i=1}^n a_i(u_i\ot u_i) x^{u_i}$. 
+
+Note that the coefficients of $F^1,F^2$ are in $\Z/6$, this is why we need $R$ to have characteristic 6. Define $F_\ga^i$ similarly.
+
+Servers encode the database as evaluations of $F_\ga, F_\ga^1,F_\ga^2$ at all points of $(\Z/6)^k$.
+
+Retrieval: to find $a_\tau$, pass a line through a random point $z\in (\Z/6)^k$ in the direction $v_\tau$. Consider the restriction of $F_\ga$ to this line:
+\[
+F_\ga(z+tv_\tau) = \sum_{i=1}^n a_i \ga^{\an{u_i,z+tv_i}}=
+\sum_{l\in \Z/6} \pa{\sum_{i:\an{u_i,v_i}=l} a_i \ga^{\an{u_i,z}}} \ga^{lt}.
+\]
+By the fact it's a MVF, only 1 term has exponent 0.
+Isolate the index we want on the line.
+Get more equations from the first and second derivatives. 
+
+The protocol picks a uniformly random $z\in (\Z/6)^k$, $U$ sends to $S_i$, $z+t_iv_\tau$. $S$ sends back $F_\ga^i,0\le i\le 2$
+
+Privacy is guaranteed by $z+t_iv_\tau$ uniformly distributed over $(\Z/6)^k$. Communication cost is $O(k^2)=n^{o(1)}$. 
+
+Open:
+\begin{enumerate}
+\item
+Understanding MVF: the current bounds do not rule out $O(\ln n\ln \ln n)$ communication using our approach.
+\item
+Improve lower boudns for 2-server PIR.
+\item
+Does interaction help? All known protocols are single-round.
+\end{enumerate}•

@@ -1,0 +1,99 @@
+\subsection{Super-resolution, extremal functions and the condition number of Vandermonde matrices}
+
+Mathematical and algorithmic problem, connect to tools in analytic number theory.
+
+Background and motivation from physics. 
+
+There are fundamental limits to physics from optics: Rayleigh, Abbe limit. 
+
+Can we recover find-grained structure from coarse-grained measurements?
+2014 Nobel prize in chemsitry to super-resolution cameras, led to insights on biology.
+
+Mathematical framework, Donoho, 1991. Consider a superposition of $k$ spikes, each $f_j$ in $[0,1)$. Signal
+\[
+x(t)=\sum_{j=1}^k u_j\de_{f_j}(t).
+\]
+Recover using coarse measurements. Integrating exponential. Get an evaluation of an exponential sum.
+Only low freq: $|\om|\le m$.
+\[
+v_{\om} =\sum_{j=1}^k e^{i2\pi f_j\om}+\eta_\om
+\]
+Noise vs. noise-free setting.
+
+When can we recover the coefficients and locations from low frequency measurements?
+
+Prony's method, Pisarenk, Matrix pencil.
+When no noice, there is a polynoimal time algorithm to recover $u_j,f_j$ with $m=2k+1$, at $\om=-k,\ldots, k$. 
+
+What is possible in the noise-free vs. noisy setting is different!
+
+Get an estimator $\wh{\om_j}\to u_j, \wt{f_j}\cdots $ which converges at a polynomial rate in $|\eta_\om|$.
+
+There is a poly time algorithm for noisy super-resolution if $m>\rc{\De+1}$ separation condition. Let $d_w$ be wraparound distance in $\R/\Z$. $\De=\min_{i\ne j} d_w(f_i,f_j)$. %aliasing effects
+
+\[
+\min_\si\max_j|\wh{f_{\si(j)}-f_j}|+|u...|\le \ep
+\]
+poly!
+drive to inverse poly level and get recovery.
+
+Sharp threshold. As soon as $\fc{1-\ep}{\De}$. There is pair of separated exponentially close. Fejer kernel.
+
+Asymptotic bounds for $m=\rc{\De}$ on grid.
+
+Convex program for $m\ge \fc{2}{\De}$ with noise. 
+
+Noise-free case: What would make it noise-stable? Let $\al_j=e^{2\pi i f_k}$, $V_m^k$ be the Vandermonde problems. It plays a key role in exact inverse problems; poly interpolation, sparse recover, inverse moment problems...
+
+We create 2 matrices and set up generalized eigenvalue problem. $A=VD_u V^H$. Entries of $A$ correspond to measurements with $\om\in [-m+1,m]$. Similarly, companion matrix $B=VD_uD_\al V^H$. Similarly for $B$. 
+
+Generalized eigenvalue problem gives oslution. The only things that work are $\la=\rc{\al_j}$.
+
+Noise stability?
+
+Vandermonde matrix has full column rank iff $\al_j$'s are distinve. This is enough for noise-free recovery. When is matrix pencil method robust to noise? When is generalized eigenvalue problem. Steward, Sun: various stability bounds for generlized eigenvalues/vectors based on condition number.
+
+Show phase-transition for condiiton number of Vandermonde matrix.
+
+Use extremal functions to bound the condition number of Vandermonde matrix. Used to prove sharp inequalities on exponential sums in analytic number theory.
+\[
+\ve{V_m^ku}^2 = (m-1\pm \rc{\De}) \ve{u}^2.
+\]
+Tight by Fejer kernel. Smallest SV is exponentially small.
+
+Beurling-Selberg majorant. A function always above sign function and smooth, closest.
+\begin{enumerate}
+\item
+$\sign(\om)\le B(\om)$.
+\item
+$\wh B(x)$ supported in $[-1,1]$.
+\item
+$\int_{-\iy}^{\iy} B(\om)-\sign(\om)\,d\om = 1$
+\end{enumerate}•
+inverse theorem in F analysis
+\[
+\pf{\sign(\pi \om)}{\pi}^2\pa{\cdot}
+\]
+Count primes in some interval: majorize and minorize interval and lower and upper bound how fall inside. Once have majorizer ad minorizer, easy.
+
+Take a step back. 
+Many inverse problems are well-studied in the exact case.
+When is the solution robust to noise?
+\begin{enumerate}
+\item
+polynomial interpolation: Lagrange interpolation. 
+$[p_i]V=[p(\al_i)]$: find 
+
+Highly unstable, often need exp small error in degree.
+Statement about reals!
+
+Ex. roots of unity, FT,well-conditioned.
+\item
+Sums of exponentials: Moitra and Saks. become well-posed in complex plane. If known $f(x)\pm$noise in circle, promise $f\le 1$ in larger: Hadamard 3 circle!
+
+Noisy inverse problems are better posed over complex plane.
+
+Connections between test functions in harmonic analysis and preconditionrs.
+
+Give a way to obliviously rescale rows of unknown Vandermonde.
+\end{enumerate}•

@@ -1,0 +1,106 @@
+\subsection{Nonadaptivity helps testing juntas}
+
+A $k$-junta is a function only depending on $k$ bits.
+
+For $k=1$, $f$ is a dictator. How can we tell if $f$ is a $k$-junta or $\ep$-far?
+
+We use the query model. 
+\begin{enumerate}
+\item
+Nonadaptive: fix queries in advance.
+\item
+Adaptive: choose queries based on answers.
+\end{enumerate}•
+How much more powerful are adaptive queries?
+
+Distingish whether $f$ is 
+\begin{itemize}
+\item
+$k$-junta, or
+\item $\ep$-close to a $k$-junta.
+\end{itemize}
+
+Minimize query count $q$ in terms of $k$ and $\ep$. 
+
+Junta testing motivation: Boolean function version of finding a low rank model for high-dimensional data.
+For $k=1$, this is dictatorship testing, a basic topic in hardness of approximation.
+
+Prior work:
+\begin{enumerate}
+\item
+Nonadaptive: $O(k^{\fc 32}(\ln k)^3/\ep)$.
+
+Lower bound $\Om(k\ln k), \Om\pf{k}{\ep\ln \pf{k}{\ep}}$.
+\item
+Adaptive: $O(k\ln k + \fc k{\ep})$.
+
+Need $\Om(k)$ queries.
+\end{enumerate}•
+The upper adaptive bound almost matches the lower nonadaptive bound.
+
+Does adaptivity even help? It should: Blai's algorithm uses binary search, which is adaptive. Adaptivity also helps for testing signed majority functions and read-once width-two OBDD's. Adaptivity algorithms use binary search.
+
+We show that adaptivity does help by showing a non-adaptive lower bound. For any $0<c<1$, a nonadaptive algorithm requires
+\[
+q=\Om_c \pf{k\ln k}{\ep^c \ln (\ln k/\ep^c)}
+\]
+Taking $\ep=\rc{\ln k}$, adaptive UB is $O(k\ln k)$, nonadaptive LB is $\fc{k(\ln k)^{1+c}}{\ln\ln k}$.
+
+Basic ideas come from CG04's $\Om(k)$ adaptive lower bound. We give a new analysis of Bla08's LB.
+
+CG04 considers 2 distributions on $n=k+1$ variable functions. 
+\begin{enumerate}
+\item
+$D_{yes}$: pick $i\sim U_{k+1}$, set $f_{yes}:B^{k+1}\to B$ uar subject to not depending on $i$. ($k$-junta)
+\item
+$D_{no}$: $f_{no}:B^{k+1}\to B$. Usually far from $k$-junta.
+\end{enumerate}
+Need $\Om(k)$ queries to distinguish these distributions.
+
+How to distinguish? See if $f$ has irrelevant coordinates.
+\begin{enumerate}
+\item
+pick $x$ uar.
+\item
+query $f$ on $x,x\opl e_i$ ($i$-twin). If not equal, output relevant. Repeat $10\lg k$ times. Output irrelevant.
+\end{enumerate}
+If $i$ is relevant, $f(x),f(x\opl e_i)$ are independent: conclue relevant after $O(1)$ $i$-twins. 
+If $i$ irrelevant, will query $O(\lg k)$ $i$-twins. Query cost: $(k+1)O(1)+O(\lg k)= O(k)$.
+
+$\Om(k)$ lower bound. Suppose query $f$ on $x_1,\ldots, x_q$. Is $i$ relevant? To tell, $x_1,\ldots, x_q$ must have an $i$-twin. Note $q$ points can have $i$-twins for $\le q-1$ coordinates.
+%relevant : query $O(1)$ $i$-twins
+%irrelevant: query $O(\ln k)$.
+
+Can't plan this in advance: $x_1,\ldots, x_q$ need $O(\lg k)$ $i$-twins in all $k+1$-directions. $q=\Om(k\lg k)$ adaptive LB? (Not quite true: there is an algorithm that does better, nonadaptively.)
+
+Frankl83: There are $q=O\pf{k\ln k}{\ln \ln k}$ points $x_1,\ldots, x_q$ with $\ln k$ $i$-twins for each $i$.
+
+We show this is optimal and extend to general $\ep$.
+
+New distributions:
+\begin{enumerate}
+\item
+Pick $i\sim \{1,\ldots, k+1\}$ uar., etc.
+\item
+$D_{no}$: $f_{no}:B^{k+1}\to B$ is random $\ep$-biased function.
+\end{enumerate}
+
+Bla08: edge-isoperimetric inequality: points $x_1,\ldots, x_q$ can only have $O(q\lg q)$ $i$-twins.
+This only care about total number of $i$-twins, but there could be few directions have lots of $i$-twins. We want an edge-isoperimetric inequality about most directions.
+
+Our main tool is a new, more fine-grained, edge-iso inequality.
+\begin{thm}
+If $x_1,\ldots, x_q$ have $m$ $i$-twins in $d$-directions, then $q\ge \fc{md}{\lg m}$.
+\end{thm}
+Set $m=\lg k, d=k$.
+
+Proof technical. 
+\begin{itemize}
+\item
+Answer you get for single query $f(x_j)$ is not too important.
+\item 
+Analyze a specific martingale with respct to $f(x_i)$.
+\item Use McDiarmid's inequality with bad events.
+\end{itemize}
+Open problem: Prove a separation between adapative and nonadaptive when $\ep$ is constant. (Our separation is when $\ep=\rc{\ln k}$.)
+%1/\ln k

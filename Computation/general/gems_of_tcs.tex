@@ -1,0 +1,466 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Gems of theoretical computer science}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\tableofcontents
+\section{List decoding of Reed-Solomon codes}
+\subsection{Introduction}
+An error-correcting code is $C\subeq \Si^n$, where $\Si,|\Si|=q$ is the alphabet and $n$ is the encoding length. 
+
+Define the normalized Hamming distance
+\[
+d(x,y)=\rc n|\set{i}{x_i\ne y_i}|.
+\]
+We want 
+\[
+\de = \min_{x,y\in C,x\ne y} d(x,y)
+\]
+to be as large as possible (constant as $n\to \iy$). Imagine balls of radius $\de/2$ around each point.
+We can send one of $|C|$ messages by mapping $[|C|]\to \Si^n$; they can withstand $\de/2$ errors. The rate of the code is $\fc{\lg|C|}{n}$ (how many bits of actual information are sent compared with encoding length); we want the rate and distance to be high, but there are fundamental limits to what can be achieved.
+
+$\de/2$ is the unique decoding radius. Unique decoding is not possible beyond $\de/2$. %; they don't intersect. 
+
+In many cases, even if there is not a unique codeword within a given radius ($\fc{\de}{2}+\ep$, say), there may be a only a small number of codewords.
+\begin{df}
+$C$ is $(\de,L)$-list decodable if for all $x\in \Si^n$, $|B(x,\de)\cap C|\le L$.
+\end{df}
+%random code, with high probability
+If you choose your code randomly---that is, choose a codeword, removing a $\fc{\de}2$ ball around it, and repeat---with high probability it will have good list decodability, up to distance $(1-\ep)\de$. %; in fact, most of the time it can correct close to $\de$. %The code is good becuase most of the time it can correct $\de$.
+List decoding is a better way to handle talk about how good the code is than stochastically, because it's worst-case.
+%up to $(1-\ep)\de$
+%People previously tried to model stochastically.
+%This code is good becuase most of the time it can correct $\de$.
+%List decoding is a better way to handle this than stochastically because it's worst-case.
+
+The maximum $\de$ is the list-decoding radius. Here $L(n)$ is a function of $n$. The ideal setting is $L(n)=\poly(n)$.  Informally the list decoding radius is the maximum $\de$ such that $L(n)=\poly(n)$.
+
+What does a random code give us; what is possible and not possible? What is the capacity of list decoding?
+%minimum distance
+
+\begin{thm}
+Let $0<\de<1-\rc{q}$. (Above this error, the noisy word is essentially random, so we can say nothing.) Then there exists a $(\de,L)$-list decodable code with rate
+\[
+1-H_q(\de)-\rc{L}.
+\]
+Here $H_q$ is defined so that
+\[
+|B(0^n,\de)|\sim q^{H_q(\de)n}.
+\]
+\end{thm}
+%\Si^n$.
+\begin{proof}
+Choose $M=q^{Rn}$ codewords at random. We want
+\[
+\Pj(C\text{ not }(\de,L)\text{-list decodable})<1.
+\]
+Do a union bound. The probability is at most, by the union bound,
+\[
+\binom{M}{L+1}q^n\pf{|B(x,\de)|}{q^n}^{L+1}<1.
+\]
+($q^n$ is the number of points; the probability of $L+1$ points in a ball centered at a point is $\le \binom{M}{L+1}\pf{|B(x,\de)|}{q^n}^{L+1}$.)
+\end{proof}
+This is almost tight. 
+\begin{thm}
+If a code is $(\de,L)$-list decodable with 
+\[
+R\ge 1-H_q(\de)+\ep
+\]
+then $L(n)\ge q^{\fc{\ep n}2}$.
+\end{thm}
+%1-H_q(\de)+\ep$
+A random ball will contain too many points.
+\begin{proof}
+\bal
+\E_{x\in_R \Si^n} [|B(x,\de)\cap C|]
+&=
+|C|\fc{|B(0^n,\de)|}{q^n}\\
+&\ge 
+2^{Rn}q^{n(H_q(\de)-1)}
+%q^{n(1-H_q(\de)+\ep)}%%/\ep^n
+\\
+&\ge q^{\ep n/2}.
+\end{align*}
+\end{proof}
+When $q\to \iy$, $H_q(\de)\to \de$. We can achieve rate $R\ge 1-\de-\ep$ with alphabet of size $2^{O\prc{\ep}}$  and list size $O\prc{\ep}$. 
+%1/L
+%all add up to at most $\rc \ep$. Plug in param.
+%alphabet grows, can achieve any rate up to.
+
+Graph: the achievable rates are below the line $\de+R=1$.
+
+This is what is known existentially.
+
+The current known explicit codes can achieve $R\ge 1-\de-\ep$ with alphabet of size $2^{\poly\prc{\ep}}$ and list size $n^{O\prc{\ep}}$.
+%
+The idea is a folded Reed-Solomon code concatenated with an asymptotically good list-decodable code.
+%any code - at least this much list decodable.
+
+\begin{thm}[Johnson bound]
+Given $C\subeq \Si^n$ with min-distance $\de=1-\ep$, then $C$ is $(1-\sqrt{\ep},\poly(n))$ list-decodable.
+%increase by $\sqrt{\ep}-\ep$.
+\end{thm}
+The Johnson bound says that if you slightly increase the radius, there cannot be an exponential number of codewords.
+
+\begin{thm}[Singleton bound]
+For any codewith distance $\de$, $R\le 1-\de$.
+\end{thm}
+\vocab{MDS (maximal distance separable) codes} are where $R+\de=1$, $\de=1-R$, R$=\ep$. MDS codes are $(1-\sqrt{R},\poly(N))$ list-decodable.
+%if don't care about constant, simple. if want constant, need more careful calculation.
+
+\subsection{Reed-Solomon Codes}
+We introduce the Reed-Solomon code $RS_{k,n,\F}$, $k< n\le q$.
+
+These are MDS codes. They achieve $R+\de=1$ so are $(1-\sqrt{R}, \poly(n))$-list decodable.
+
+Let $\Si=\F_q=:\F$. Let
+\[
+C=\{\text{evaluations of degree $k$ polynomials on }\{\al_1,\ldots, \al_n\}\subeq \F\}
+\]
+where $\al_1,\ldots, \al_n$ are distinct and fixed.
+Codewords correspond to degree $k$ polynomials in $\F[x]$.
+2 distinct degree $k$ polynomials can only agree on $k$ points, so $\de=\fc{n-k}n=1-\fc kn$. 
+%2 degree $k$ polynomials, distinct.
+The rate is $\fc{\log_q(q^{k+1})}{n}=\fc{k+1}n$. 
+The Reed-Solomon code is $(1-\sfc{k}n, \poly(n))$-list decodable. 
+
+What is the algorithm? Given a set of points, we need to find all polynomials passing through enough of those points.
+% Given a word $x$, give a list of the polynomials.
+\begin{prb}
+Given $(\al_1,y_1),\ldots, (\al_n,y_n)$, find all polynomials of degree $\le k$ such that $p(\al_i)=y_i$ for at least $\sqrt{nk}$ indices $i\in[n]$. 
+\end{prb}
+Madha Sudan (90's) showed that you can do this with $\sqrt{2nk}$. 
+\begin{thm}
+There is a polynomial-time algorithm (given in the proof) that given $n$ points as above, finds all degree $\le k$ polynomials agreeing on $\ge 2\sqrt{nk}$ points. 
+\end{thm}
+\begin{proof}
+The algorithm is as follows.
+Note this algorithm will work even if the $\al_i$ are not distinct.
+
+Define the $(1,k)$-weighted degree of a polynomial $Q(x,y)$ as $\deg Q(X,Y^k)$.
+The strategy is as follows.
+
+We will find a low $(1,k)$-weighted degree polynomial $Q(x,y)$ of degree $D$ such that $Q(\al_i,y_i)=0$ for all $i$.
+
+Look at $R(x)=Q(x,p(x))$ where $p\in L$. We have
+\[
+\deg R\le D.
+\]
+For all $i$ such that $p(\al_i)=y_i$, 
+\[
+R(\al_i)=Q(\al_i,p(\al_i))=Q(\al_i,y_i)=0.
+\]
+Suppose $R$ has at least $t$ roots and $\deg R\le D$.  If we arrange so that $t>D$, then $R(x)\equiv 0$ identically. Then $Q(x,p(x))\equiv 0$ implies $y-p(x)\mid Q(x,y)$.
+%$Q(x,y+p(x))\equiv 0$, take $y=0$.
+%t<q.
+%cant have more roots than degree.
+(There is a deterministic algorithm to factor bivariate polynomials.) Factor $R$ to find all factors in the form $y-p(x)$; then output those polynomials $p(x)$.
+
+Now we just need to find the polynomial $R(x)$; this is polynomial interpolation. 
+
+The number of coefficients in $Q(x,y)$ is $\rc{k}\binom{D+2}2$. We need to satisfy $n$ linear constraints; they are linear homogeneous equations in the coefficients. If $\fc{\binom{D+2}2}k>n$ then there is a nonzero solution: a nonzero $\ph(x,y)$ of $(1,k)$ weight degree $\le D$ with $\ph(\al_i)=y_i$ for all $i$.
+
+If the number of roots is $t>D\approx \sqrt{2kn}$, then we can find all polynomials with agreement $t$.
+%\item
+%\end{enumerate}
+\end{proof}
+Guruswami and Sudan improved this to $\sqrt{kn}$.
+
+\fixme{
+Consider $k=1$, $\F=\R$, find all lines which pass through at least 3 points. If you can interpolate a degree 2 polynomial through all these points, get all lines as lines within the curve. The degree 2 curve will be 2 lines.
+
+Let's look at a small example to see how to improve the bound.
+
+Consider the following picture (see notebook). Here $n=10$ and $t=4$. Here we can choose $k=4$. However it can only have 4 linear factors. The maximum $D$ is 3. %D to small to contain all lines.
+Peculiar: through each point there are 2 lines. An algebraic curve passing all points should vanish at the points with multiplicity 2. Fit a polynomial which vanishes with degree 2 at the points.}
+
+First define multiplicity.
+\begin{df}
+$Q(x,y)$ vanishes with multiplicity $r$ at $(\al,\be)$ if $Q(x+\al,y+\be)$ doesn't have any monomial of degree $\le r$.
+\end{df}
+\begin{lem}
+Let $Q(x,y)$ be with $(1,k)$ degree $\le D$, vanishing at $(\al_i,y_i)$ with multiplicity $r$ for all $i\in [n]$. Let $P$ be a degree $k$ polynomial with agreement $t>D/r$. Then $y-p(x)\mid Q(x,y)$.
+%deg 5, should still contain line.
+\end{lem}
+
+\begin{proof}
+Let $p\in L$, $P(\al_i)=y_i$. 
+Define 
+\[
+Q^i(x,y) = Q(x+\al_i,y+y_i);
+\]
+it has no monomials of degree $<r$.
+Then
+\bal
+R(x) &= Q(x,P(x))\\
+&=Q^i (x-\al_i, P(x)-y_i)\\
+&=Q^i (x-\al_i,\ub{P(x)-p(\al_i)}{x-\al_i\mid P(x)-P(\al_i)}).
+\end{align*}
+$Q^i$ has no monomials of degree $<r$. Thus $(x-\al_i)^r\mid R(x)$. The number of linear factors is $tr>D$. Thus $R(x)\equiv 0$ and $y-p(x)\mid Q(x,y)$. 
+\end{proof}
+The number of coefficients in $Q(x,y)$ of $(1,k)$-degree $D$ is $\rc k\binom{D+2}D$.
+%no monom degree $r$. 
+The number of homogeneous linear equations is $n\binom{r+1}2$. So a nonzero $Q$ exists if $\rc k\binom{D+2}2>n\binom{r+1}2$.
+
+Choose $D=\sqrt{knr(r+1)}$. Let $t=\fc Dr = \sqrt{kn(1+\rc r)}$.
+
+%find all polynomils. 
+Make $r$ large enough, we approach the Johnson bound.
+
+The number of polynomials in the list is at most $\fc Dk=\sfc{nr(r+1)}k$, the $y$-degree. 
+
+Conclusion: 
+\begin{enumerate}
+\item
+If $t>\sqrt{kn}$ the list size is $\le n^\ep$ and we can find all of them.
+\item
+The Reed Solomon code of rate $R$ can be list decoded up to $1-\sqrt{(1+\ep)R}$ errors with best size $\rc{\ep\sqrt R}$.
+\end{enumerate}
+%no more than $y$ degree
+
+This method (the polynomial method) is very flexible. We give another application, the list recovering problem. Given $x\in C$, 
+%replace each alphabet with small set
+a noisy channel turns each coordinate into a set $s_i$ and spits out $s_1,\ldots, s_n$, $|s_i|\le \ell$. We have $|s_i|\le l $ such that for at least $1-\de$ fraction of $i$'s, $x_i\in s_i$. Find all $x$ such that $x_i\in s_i$ for at least $1-\de$ fraction of $i$'s. 
+\[
+\ab{
+\pa{
+\bigcup_{y\in S_1\times \cdots \times S_n} B(y,\de)
+}\cap C
+}\le L.
+\]
+Reed-Solomon codes are also good list-recoverable codes.
+
+If $t>\sqrt{knl}$, where $t$ is the number of $i$ such that $x_i\in S_i$, then the Reed-Solomon code is $(1-\sqrt{kl},l,O(n^2l^2)=L)$ list recoverable.
+%we want optimal paramters.
+
+We only achieve $1-\sqrt R$. We want to attain $(1-R,L)$. Guruswami and Rudra came up with folded Reed-Solomon codes. 
+Take a generator $\ga $ of $\F_q^{\times}$, $n=q-1$. $\al_1,\ldots, \al_n$ are $S=\{1,\ga,\ldots, \ga^{q-1}\}$. \fixme{Consider blocks. $\F^m$ by $m$. $P(1),\dots P(r),\ldots, P(r^{q-1})$.
+
+It's an open problem to make $n^{O\prc{\ep}}$ independent of $n$. 
+Use concatention to get length down. 
+
+You can concatenate a list-recoverable code with a list-decodable codes to get a list-decodable code. $C_{\text{out}}\circ C_{\text{in}}$.}
+
+%$C_{}$
+%small list-decodable.
+%folding: alphabet grow large
+
+%S
+%GS: RS (1-\srqt k)
+%PVbetter than 1-R for small enough $R$
+%FRS 1-R
+
+%Extractors, expanders etc.
+
+%to be list decodable don't need dep on n?
+%codes achieve both poly n /poly n.
+
+\section{$SL=L$}
+
+%picture of Z.
+
+Reingold, Vadhan, and Wigderson.
+
+There are many stories in this problem.
+
+One of the most fundamental questions in theoretical CS is the following.
+\begin{clm}
+Randomness is useless.
+\end{clm}
+This claim comes from very recent years. 20 years ago people actually believe it's useful (Papadimitriou gave $BPP\ne P$ as a homework exercise in his book).
+
+There are 2 questions: is randomness useful in time and in space?
+\begin{enumerate}
+\item
+$BPP\stackrel ? P$
+\item
+$RL\stackrel ? L$
+\end{enumerate}
+We focus on the second problem. The first problem is wide open: we don't know $BPP\stackrel?{\in}DTIME(2^{o(n)})$. We know more about the second question: Savitch proves
+\[
+BPP\subeq DSPACE(\ln^2n).
+\]
+We can do better: Saks and Zhou in 1999 show 
+\[
+RL\subeq DSPACE(\ln^{\fc 32}n).
+\]
+(They actual show this for BPP.)
+Think of RL as (undirected) $s-t$ nonconnectivity problem. $coRL$ is interesting because it contains $s-t$ connectivity. (RL doesn't have a complete problem.) For $P\stackrel?=NP$, just look at a complete problem; here we don't have one.
+
+Here we show $SL=L$. Reingold showed this in 2004. 
+
+For simplicity, just think of SL as one problem, undirected $s-t$ connectivity.
+
+Consider a graph. 
+
+
+Jieming starts from a vertex and wants to find a way to Nanjing. Jieming has very little memory, and cannot remember the whole structure of the graph. He can't remember much more than the name of a city.
+
+The standard way to solve this is to take a uniform random walk on the graph. If the graph has $|V|=n$, after $n^2\ln n$ steps, there is a high probability that he will have visited Nanjing.
+
+But for a general graph, it's necessary to flip $n^2\ln n$ coins: Consider 2 complete graphs with a bridge: It takes order of $n$ time to hit the bridge vertex, and it has $O\prc n$ chance of crossing the bridge.
+
+For which graphs can we do this randomized routing faster than the worst case? A natural family is the family of expaner graphs.
+
+Expander graphs have rapid mixing under a random walk.
+There are 2 definitions.
+\begin{df}
+A graph $G=(V,E)$ is a \vocab{$\la$-edge expander} if for all sets $S\subeq V$, $|S|\le \fc{|V|}2$, 
+\[
+\fc{E(S,\ol S)}{\Vol(S)}\ge \la.
+\]
+Here, $\Vol(S)=\sum_{v\in S}\deg(v)$. (We'll focus on the simple case when the graph is $d$-regular, i.e, for all $v\in V$< $\deg(v)=d$.) (Pictorially, a subset of $G=(V,E)$ is very spiky, like a sea urchin.)
+
+A graph $G=(V,E)$ is a \vocab{$\la$-spectral expander}if $\la_2(L(G))\ge \la$. The Laplacian $L(G)$ is defined from the adjacency matrix $A_G$. $A_G$ is defined by $(A_G)_{ij}=1$ if there is a edge between $i$ and $j$. $M$ is the random walk matrix $\rc d A_G$, and 
+\[
+L=I-M.
+\]
+(Thinking of this matrix as an operator, $(Lx)_i=\rc d\sum_{(i,j)\in E}x_{ij}$, it flows from a vertex to adjacent vertices.)
+\end{df}
+The Laplacian originates in differential geometry, $L=\div \nb$.
+
+These 2 definitions are quite close.
+\begin{thm}
+Let $h(G),\la(G)$ denote the edge and spectral expansions of $G$. Then
+\[
+\la(G)\le h(G)\le \sqrt{2\la(G)}.
+\]
+\end{thm}
+The LHS is trivial, the RHS is Cheeger's inequality.
+
+People in CS use a third definition that is more useful.
+\begin{df}
+A graph is a $\la$-expander if for all $x\perp u=\colthree{1}{\vdots}1,x\ne 0$, 
+\[
+\ab{\fc{x^TMx}{x^Tx}}\le \la.
+\]
+\end{df}
+(For edge and spectral expansion we want $\la$ to be large. For random walk expansion we want $\la$ to be close to 0.) %For the other definitions we want $\la$ to be close to 1.)
+$\la(L)$ range from 0 to 2, while $\la(M)$ range from 1 to $-1$.
+
+Note that 
+\[
+\ab{\fc{x^T(I-L)x}{x^Tx}}=\ab{1-\fc{x^TLx}{x^Tx}}
+\]
+so spectral and random-walk expansion are not quite the same. For bipartite graphs, $\la(M)=1$: random walks are not mixing at all. The side you're on depends on the parity.
+
+For the zig-zag product they consider the third definition.
+
+\subsection{Zig-zag product}
+
+Think of $G_1$ having large size and degree $(N_1,D_1)$, $G_2$ having small size and degree $(N_2,D_2)$, and suppose $D_1=N_2$. 
+\[
+G_3=G_1\zz G_2
+\]
+has large size $N_1N_2$ and small degree, $D_2^2$.
+
+Let $\la_M(G_i)=\la_i$ denote the random walk expansion. Then  (a naive bound)
+\[
+\la_M(G_3)\le \la_1+\la_2+\la_2^2.
+\]
+It's easy to construct a large degree expander. It's easy to construct small-size expanders (try all possible graphs). It's easy to construct $G_1,G_2$, but an expander like $G_3$ is hard to construct. It takes as input 2 easy-to-construct expanders and outputs a harder to construct graph that's an expander.
+
+Replace each vertex of the original graph with a copy of the second graph $G_2$. Its size is hence $N_1N_2$.
+
+Each vertex in $G_3$ is labeled $(v,u)\in G_1\times G_2$. The $(i,j)$th neighbor is defined as follows. Take $u'$ the $i$th neighbor of $u$ in $G_2$, $u\xra i u'$. Take the $u'$th neighbor of $v$ in $G_1$; move to the cloud of $w$; $v\xra{u'} w$ in $G_2$. Now consider $\wt u$ such that $w\xra{\wt u}v$ in $G_1$; we move to $(w,\wt u)$. Now move $\wt u \xra j \wt u'$ in $G_2$. Define
+\[
+(v,u)\xra{(i,j)} (w,\wt u').
+\]
+%(Use $G_1$ inside the cloud, $G_2$ outside.)
+
+What's the magic of the zig-zag product? We claim
+\[
+A_3:=A(G_3) = \wt{A_2}\wt{A_1}\wt{A_2}
+\]
+where $\wt{B_2}=I\ot A_2$ has $N_1$ blocks and each is a copy of $A_2$, and $\wt{A_1}$ is a permutation (actually matching) matrix where $(\wt{A_1})_{((v,u),(w,u'))}=1$ if 
+\[
+v\xra{u,G_1} w \xra{u',G_1}v.
+\]
+
+Consider when $(u,v)\xra{(i,j)} (w,\wt u')$:
+\bal
+u&\xra{i,G_2}u'\\
+v&\xra{u',G_1}w\xra{\wt u,G_1} v\\
+\wt u & \xra{j}\wt u'
+\end{align*}
+What is the action of $\wt{A_2}\wt{A_1}\wt{A_2}$ on $e_{(v,u)}$? It goes to $\sum_{uu'\in G_2}e_{(v,u')}=e_v\ot A_2e_u$. ``Stay in the block of $v$, move to all the neighbors of $u$."
+
+In the second step, we move across blocks as given by 
+$\wt{A_1}$.
+
+%(If you sum over $u$, you get $A_1$.)
+%want converge in log n steps
+%replace tree - length log n.
+%log n lg d.
+
+We need to show
+\[
+%\la_m(C_{i_3}) = \max_{x\perp u} 
+\forall x\in \R^{N_1\times N_2}, x\perp u \implies  \fc{x^TM_3x}{x^Tx}\le \la_1+\la_2+\la_2^2.
+\]
+Decompose $x$ as a vector that is uniform on each block, 
+\[x=\ub{\al\ot u}{\al^{\parallel}} + \ub{x'}{\al^{\perp}}\] where $x'$ has blocks $\wt{\al_i}\perp u_i$. Then (noting $\wt{A_2}\al^{\parallel}=\al^{\parallel}$),
+\bal
+\an{x,\wt{A_2}\wt{A_1}\wt{A_2}x} 
+&=\an{\wt{A_2}x, \wt{A_1}\wt{A_2}x}\\
+&=\an{\wt{A_2}(\al^{\parallel}+\al^{\perp}), \wt{A_1}\wt{A_2}(\al^{\parallel}+\al^{\perp})}\\
+&=\an{\al^{\parallel}+\wt{A_2}\al^{\perp}, \wt{A_1}(\al^{\parallel} + \wt{A_2} \al^{\perp})}\\
+&=\an{\al^{\parallel}, \wt{A_1}\al^{\parallel}}
++\an{\al^{\parallel}, \wt{A_1}\wt{A_2}\al^{\perp}}
++\an{\wt{A_2}\al^{\perp}, \wt{A_1}\al^{\parallel}}
++\an{\wt{A_2}\al^{\perp}, \wt{A_1} \wt{A_2}\al^{\perp}}\\
+&\le \la_1+2\la_2+\la_2^2
+\end{align*}
+%\wt{A_2}\al^{\parallel}=\al^{\parallel}
+Because $\al_1+\cdots +\al_{N_1}=0$ we can use the expansion properties of $G_1$ to get the $\la_1$ bound for the first term.
+
+The idea: 
+\begin{enumerate}
+\item
+Suppose $G$ has parameters $(N,D)$ and expansion $\la$. (say $1-\rc{ND}$)
+\item
+$G^2$ has parameters $(N,D^2)$, expansion $\la^2$.
+\item
+Take $H$ with parameters $(D^2,\sqrt{D}), \la_2$. Then 
+\[
+G^2\zz H=G_{\text{new}}
+\]
+has parameters $(ND^2,D)$ expansion $\la(G_{\text{new}}) \le \la^2 + 2\la_2+\la_2^2 \le \la^2+\ep$.
+\end{enumerate}
+We go from $G$ with parameters $(N,D,\la)$ to $G_{\text{new}}$ with parameters $(ND, D,\la^2+\ep)$. Call this operator $Z$. Doing this operator $t$ times, $Z^tG=(ND^{2t}, D, \la^{2^t}+\ep')$. Then set $t=\lg \pf{ND}2$ to get $Z^tG$ with parameters $(N^2D, D, \rc e +\ep)$. (We're cheating a little, using the naive bound. We need a better bound to get $\ep$ small: $G_3$ has expansion $\rc2(1-\la_2^2)\la_1+\rc2 \sqrt{(1-\la_2^2)^2\la_1^2+t\la_2^2}$. 
+%$\la_2=0$ this is 0
+%if slightly bigger, constant $\la_1$ plus something. $(1-\la_2^2)\la_1+\la_2
+%sum of norm squares equals 1. Just that problem. Just n
+To go from our proof to the real proof, you just need to note $\al^{\parallel}\perp \al^{\perp}$, $\al^{\parallel}\perp \wt{A_2}\al^{\perp}$. Plug in this picture into the formula.
+
+%($\ep$ should be $\rc{N}$).
+%D^2 vertices and ... edges. 
+%Start with 2 constant size expanders and blow up. The real constructor: start with arbitrary bound, but need better bound.
+
+%\input{chapters/1.tex}
+ 
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}

@@ -118,6 +118,19 @@ Computation/complexity/18.404/*
 !Computation/complexity/18.404/chapters
 !Computation/complexity/18.404/chapters/*.tex
 
+!Computation/general
+Computation/general/*
+!Computation/general/*.tex
+!Computation/general/*.pdf
+Computation/general/Cristopher Moore, Stephan Mertens The Nature of Computation  2011.pdf
+!Computation/general/tnoc
+Computation/general/tnoc/*
+!Computation/general/tnoc/*.tex
+!Computation/general/stoc
+Computation/general/stoc/*
+!Computation/general/stoc/*.tex
+!Computation/general/stoc/*.pdf
+
 !Computation/machine_learning
 Computation/machine_learning/*
 !Computation/machine_learning/nn.tex

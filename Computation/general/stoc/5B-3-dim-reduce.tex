@@ -1,0 +1,72 @@
+\subsection{Dimensionality reduction}
+
+Depending on application, we may want $f$ to be linear, oblivious to $X$, or preserve structural information.
+
+In this talk, we want an $\ep$-isometry:
+\[
+\ve{\Phi(x-y)}_2^2\in[1-\ep,1+\ep]\ve{x-y}_2^2.
+\]
+In other words,
+\[
+\ep_T:=\sup_{x\in T}|\ve{\Phi x}_2^2-1|<\ep.
+\]
+
+Gordon's theorem
+Gaussian width
+\[
+g(T)=\E \sup_{x\in T} \an{x,g}.
+\]
+\begin{thm}
+Let $T\subeq S^{n-1}$. $\Phi\in M_{m\times n}$ Gaussian
+\[
+m\succsim \ep^{-2}(g(T)^2+\ln (n^{-1})).
+\]
+then $\rc{\sqrt m} \Phi$ is $|ep$-isometry on $T$ with prob $1-\eta$.
+\end{thm}
+Instance-optimal version of JL, if $T$ is $K$-sparse vectors, $g(T)^2\precsim k\ln \pf nk$. Also for infinite!
+Extends to subgaussian.
+
+%natural interpretation $g(T-T)$.
+
+Gaussian matrix is dense. The time can be large, a bottleneck. The time to embed exceeds the time to solve the original problem.
+
+We want a version of Gordon's theorem for a matrix with fast matrix-vector multiplication.
+\begin{enumerate}
+\item
+Sparse Johnson-Lindenstrauss Transform: Start with $\Si\in \R^{m\times n}$ iid random signs. 
+\item For each column independently, select exactly $s$ entries uniformly at random without replacement, put rest to 0. Random selectors $\de_{ij}\in B$.
+\item
+$\Phi_{ij}=\rc{\sqrt{s}}\si_{ij}\de_{ij}$. $\Phi_x$ time $O(s\ve{x}_0)$
+\end{enumerate}•
+How large to $m$ and $s$ need to be to get 
+\[
+\E\sup_{x\in T} |\ve{\Phi x}_2^2 - 1|<\ep?
+\]
+Answer depends on appropriate complexity parameter of $T$.
+%doesn't change if rotate.
+%SJLT: rotate destroys sparsity
+Previously known: $m\succsim \ep^{-2}\ln |T|$, $s\succsim \ep^{-1}\ln |T|$
+...
+
+A prior not clear how to answer.
+
+We define a new complexity parameter.$\max_{q\le \fc ms\ln s}\ba{
+\rc{\sqrt{qs}\pa{\E_\eta\pa{\E_g\sup_{x\in T}\ab{\sum_{j=1}^n \eta_jg_ix_j}}^q}^{\rc q}
+}}$.
+
+Given $m,s\succsim ...$, $\kappa<...$, get $\ep_T\le...$.
+
+Unifies known sets for known results qualitatively.
+
+New results for infinite unions of subspaces and manifolds.
+
+Applications.
+\begin{enumerate}
+\item
+Sparse subspace embedding. 
+\item
+Sketching constrained least squares (LASSO).
+Compressed sensing. %structured sparsity.
+\item
+Manifolds: with large prob preserve geodesic distances.
+\end{enumerate}•

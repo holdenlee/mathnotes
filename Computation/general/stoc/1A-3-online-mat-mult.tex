@@ -1,0 +1,69 @@
+\subsection{Online matrix multiplication}
+
+Our new OMv conjecture is a good choice for proving condiional lower bounds on dynamic problems
+
+\subsubsection{Dynamic problems}
+
+Example: dynamic single source reachability (ss-Reach).
+\begin{enumerate}
+\item
+Preprocess a directed graph.
+\item
+Give a sequence of updates (insert/delete edges) and queries (can you reach node $n$ from start.
+\end{enumerate}
+Two types of update time amortized lower bounds imply worst-case loewr bounds.
+
+The naitve algorithm is to grow the BFS tree from $s$ after each update. The update time is $m$, worst-case. Can we improve the update time from $m$ to $m^{1-\ep}$?  
+
+The only unconditional lower bounds give polylog time. So people use conditional lower bounds: assuming conjecture $X$, get polynomial lower bounds.
+
+There are many popular conjectures:
+\begin{enumerate}
+\item
+Boolean matrix multiplication
+%no $O(n^{3-\ep})$ combo algorithm
+\item
+3SUM
+\item Multiphase
+\item Triangle
+\item APSP
+\item SETH
+\end{enumerate}
+BMM, multiphase, 3SUM, and Triangle give hardness for SS-Reach. They give: you can't have better update/query time simultaneously. Each has drawbacks, because they only address combinatorial algorithms, are worst-case, not tight, etc.
+
+Before our work, there are many conjectures, each with drawbacks.
+
+\subsubsection{OMv conjecture}
+\begin{conj}[OMv conjecture]
+Given boolen $M$, output $Mv_1,\ldots, Mv_n$ online. There is no $O(n^{3-\ep})$ algorithm.
+\end{conj}
+BMM conjecture implies (in some sense) OMv conjecture. Fast matrix multiplication does not work in an online setting.
+
+There are fast $\wt O(n^2)$ for special matrices. General algorithm best is $O\pf{n^3}{(\ln n)^2}$.
+Unconditional lower bounds in related settings: algebraic circuit lower bounds, cell probe model.
+
+Implications.
+Using OMv we get sronger, amortized lower bounds (many tight), and simpler reductions. 
+%Tight means that if you improve $X$, you worsen $Y$.
+
+OMv and SETH are enough to prove all known strongest amortized lower bounds for dynamic problems.
+
+Back to our first question: Can we improve update time $m$ to $m^{1-\ep}$.
+
+\subsubsection{Proving hardness using OMv}
+We first reduce to an intermediate problem: the edge query problem. Ask if there is an edge between 2 subsets $L,R$ on either side of a bipartite graph.
+
+\begin{thm}
+If there is an algorithm for edge query with preprocessing $\poly(n)$ time and $n^{3-\ep}$ time, then refute OMv.
+\end{thm}
+We reduce SS-Reach ($n^{1-\ep}$ update, query $n^{2-\ep}$) to edge query.
+
+Make directed graph for ss-reach mathching the edge query graph. Update the edges out of $s$, into $t$, with the set, using $n$ queries. A fast algorithm for sS-reach gets a fast algorithm for edge queriy. $O(n^2)n^{1-\ep}+nn^{2-\ep}=O(n^{3-\ep})$.
+
+\subsubsection{Summary}
+
+All known conditional lower bounds for amortized update time fo dynamic problems; lower bounds from OMv is as high as from others. We get 15$+$ tight bounds. 
+
+\subsubsection{Open problems}
+
+Minimized spanning tree: still $\Om(n^.1)$ boudn for worst-case, ss-reach for decremental setting, maximum matching.

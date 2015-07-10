@@ -1,0 +1,107 @@
+\subsection{Quantum Arthur-Merlin}
+
+Definition of IP, AM.
+%$SZK\subeq AM\cap coAM$.
+
+Quantum interactive proof system, introduced by Watrous. The verifier and prover use quantum computers, and communication is quantum.
+
+\begin{itemize}
+\item
+$PSPACE\subeq QIP[3]$.
+\item
+$QIP=QIP[3]$. Contrast with classical IPs which conjecturally can't be parallelized into consant-turn IPs.
+\item
+$QIP=PSPACE$.
+\item
+$QIP[1]=QMA$.
+\end{itemize}
+Little is known about $QIP[2]$. 
+
+QAM: Arthur sends a classical random string $y$; Merline sends a quantum state. 
+$QMAM=PSPACE$.
+
+Investigate 2-turn QIP systems more finely. What is a fully quantum Arthur-Merlin proofs system?
+
+\begin{df}
+qq-QAM (in between QAM and $QIP[2]$): Arthur creates polynomially many copies of EPR pair, where the first half of each copy is in S1, the scond half is in S2. He sends S2.
+
+Merlin returns a quantum state $\rh$. Arthur decides to accept/reject from $x,\rh,S1$ by quantum algorithm.
+\end{df}
+
+qq-QAM has a natural complete problem CITM.
+\begin{df}
+Instance: quantum circuit $C$ which has some specified input qubits and $\ell$ specified output qubits.
+
+Yes: there exists a state $\rh$ such that $D(C(\rh),\prc2^{\ot l})\le a$.
+
+No: for any state, $...ge b$.
+\end{df}
+\begin{enumerate}
+\item
+do there exist two inputs which have approximately equal images (under 2 circuits)? QIP-complete.
+\item
+do two given pure states have ... QSZK-complete.
+\end{enumerate}
+
+\begin{thm}[Quantum analogue of Babai's collapse theorem]
+qq-QAM does not change by adding $O(1)$ turns of classical interactins prior to the communications of the qq-QAM proof system.
+\end{thm}
+
+$t_m\cdots t_1-QAM(m)$ into 4 classes.
+\begin{enumerate}
+\item
+PSPACE$=qcq-QAM=QMAM$
+\item
+cq-QAM
+\item 
+qq-QAM
+\item 
+qc-QAM
+\end{enumerate}
+\[
+AM\subeq cc-QAM\subeq cq-QAM=QAM\subeq qq-QAM\subeq QIP[2]\subeq PSPACE.
+\]
+
+\begin{enumerate}
+\item
+New upperbound for QAM: $QAM=cq-QAM\subeq qq-QAM_1$. (cf. $QAM\subeq BP\cdot PP$).
+
+QAM$\subeq QIP[2]_1$.
+\item
+$cc-QAM=cc-QAM_1$.
+\end{enumerate}
+
+$c\cdots cqqAM(m)=qq-QAM.$
+Proof strategy:
+\begin{enumerate}
+\item
+$m\ge 4$: Use Babai's classical proof.
+%Verifier sends classical bits.
+%$cccqq-QAM\subeq ccqq-QAM$. Error probabliy can be reduced... 
+\item
+$cqq-QAM\subeq qq-QAM$: use CITM.
+
+Let $A=(A_{yes},A_{no})$ in $cqq-QAM$. On input $(x,q$), simulate the last 2 turns under the condition that the 1st message in $\Pi$ was $w$.
+
+Show $qq-QAM$ completeness of MaxOutEnt: is the entropy of a  given channel large for any input?
+\item
+$ccqq-QAM\subeq qq-QAM$.
+\end{enumerate}
+
+\begin{itemize}
+\item
+CITM: is the output of a given circuit close to totally mixed state for any input?
+\item
+MaxOutQEA: does a quantum channel have the max output entropy larger than a threshod?
+\end{itemize}•
+
+Open:
+\begin{enumerate}
+\item
+Natural problem in qq-QAM not known to be in cq-QAM. Or equl?
+\item
+Non-trivial loewr and upper bound for qq-QAM? $cq-QAM, QIP[2]$
+\item
+$qq-QAM=qq-QMA_1$.
+\item Quantum analogue of Goldwasser-Sipser
+\end{enumerate}

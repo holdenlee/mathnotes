@@ -1,0 +1,51 @@
+\subsection{Subexponential size hitting sets for bounded depth multilinear formulas}
+
+Intro to polynomial identity testing.
+
+\begin{enumerate}
+\item
+depth 3 circuits, bounded top fan-in: polynomial time, BB.
+\item
+multilinear depth 4, bounded top fan-in: polynomial time, BB (Saraf-Volkovich)
+\item
+multilinear depth 3, bounded distance: quasi-polynomial, BB (Agrawal-Gurjar-...-Saxena)
+\end{enumerate}
+We give hitting sets for bounded depth multilinear formulas with 
+\bal
+|\cal H|& = 2^{\wt O(n^{\fc 23+2\de/3})}\\
+|\cal H|& = 2^{\wt O(n^{\fc 23 + 4\de/3})}\\
+|\cal H|& = 2^{\wt O(n^{1-\rc{e^d}})}\\
+\end{align*}
+, depth 3/4 formulas of size $2^{n^\de}$, regular depth $d$ fomulas of size $2^{n^{1/e^d}}$.
+
+We give a reduction to read once algebraic branching progrms.
+%Each $s\to t$ path computes multiplication of edge labels. 
+
+Depth 3 multilinear formulas $\Si\Pi\Si$. If every linear function has only 1 variable in its support, the polynomial is computed by width $M$ ROABP.
+
+What if we had a partition $S_1,\ldots, S_k$ such that all vars in $S_i$ appear in different linear functions?
+
+Think of $\F(S_2\cup \cdots \cup S_k)[S_1]$. 
+
+Partition vars into $n^{1-\ep}$ disjoint sets $S_1,\ldots, S_{n^{1-\ep}}$ (hope intersection of eveyr linear function with every $S_i$ contains $\le 1$ variable). Plug in hitting sets for width $M$ ROABPs on the variables of each $S_i$.
+
+What about linear functions which contain lots of variables? How to find the partition?
+\begin{enumerate}
+\item
+Get rid of linear functions with large support. $\pdd{x_1}$ gets rid of bottom... Exists variable $x_i$ which works for $n^{-(1-\ep)}$ bad ones. Take derivatives wrt $\le n^{1-\ep} \ln M$ variables. No linear function remains with more than $n^\ep$ variables. 
+
+How to get black box access to $f_{x_1,\ldots, x_{i_t}}$.
+
+Applied repeatedly, each query to derivative simulated by $2^t$ queries to $f$.
+\item
+Settle for less. If we partition the variables randomly to $n^{1-\ep}$ sets $S_1,\ldots, S_{n^{1-\ep}}$ then with high probability, for every $S_i$, 
+\begin{enumerate}
+\item
+no linear function intersects $S_i$ in $>n^\de$ vars
+\item On every $\times$ gate, number of linear funcs which intersect $S_i$ in $\ge 2$ vars $\le n^\de$. (Brute force expand linear functions to get ROABP of width $Mn^{n^\de}$ in vars of $S_i$.
+\end{enumerate}•
+\end{enumerate}
+
+Pick vars compute derivatives; partition remaining vars using hash functions, plug in copy of ROABP hitting set for each $S_i$. Lower bound: Find non-zero polynomial vanishes over $\cal H$.
+
+Open: smller hitting sets for depth 3 and 4. Improve depth $d$ case. (Improve depth 4 parameters, or reduction to depth 4. Non-regular depth $d$?

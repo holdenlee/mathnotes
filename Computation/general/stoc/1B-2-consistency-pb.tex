@@ -1,0 +1,57 @@
+\subsection{Consistency in planted bisection model}
+
+Connections to random $k$-SAT consistency. Physicists gave lots of conjectures.
+
+Stochastic block model $G(n,p,q)$: two communities in a population, color randomly. There is probability $p$ of an edge between nodes within the same community, and $q<p$ between communities. More friends in your group on average.
+
+%First introdced
+%Statistics, computer science
+
+
+When can you recover both communities exactly (exactly recoverable) with probability tending to 1?
+
+If $|p_n-q_n|$ is large enough then there are efficient polynomial time exact recovery algorithms. To have exact recovery, we need $p_n=\Om\pf{\ln n}{n}$, otherwise we have vertices of degree 0.
+
+Abbe, Bandeira, and Hall: recoverable if $a+b-\sqrt{ab}>2$, $p_n=a\ln n/n,q_n=b\ln n/n$.
+
+Us: Exact recovery iff $\Pj(Y_n\ge X_n)=o\prc n$, $X_n=Bin(n/2,p_n)$ and $Y_n=Bin(n/2,q_n)$.
+If $\rc n(\ln n)^3$, we get another characterization. 
+
+%bad because easy to misclassify
+Proof: Assume $\Pj(Y_n\ge X_n)=\Om\prc{n}$. Every vertex has $\Om\prc{n}$ chance of being bad (most neighbors are other color). $\Om(1)$ chance some vertex will be bad. We can't expect to get bad vertices right. Think of this as a ``local-to-global" result in random graphs: 
+
+\begin{thm}[Erd\H os, Renyi]
+$\cal G(n,p_n)$ is connected a.a.s. iff it has no isolated nodes a.a.s.
+\end{thm}
+
+Our result can be read as: $\cal G(n,p_n,q_n)$ aas has no bad vertices iff minimal bisection is planted bisection.
+
+An exact recovery algorithm: one can recover labels with $o(n)$ mistakes iff $\fc{n(p_n-q_n)^2}{p_n+q_n}$ (fraction you get wrong tends to 0). We take this as a black box.
+%whenever our condition on binom holds, so does this.
+
+Algorithm
+\begin{enumerate}
+\item
+Remove a vertex, apply accurate algorithm to the rest. 
+\item 
+Put vertex back in
+\item
+Color based on neighbors.
+\end{enumerate}
+Actually remove some small constant fraction at a time for efficiency.
+
+Properties of this algorithm: when is it getting things wrong? 
+\begin{df}
+A node is \vocab{mediocre} if it has a little more than half of its neighbrs (as a function of $p,q$) have the same color.
+\end{df}
+Only mediocre nodes are labelled wrongly. There are few $n^{\rc 4}$ mediocre nodes (calculate using binomial). 
+If the graph is sparse, they form an independent set. If the graph is dense, every mediocre node has $2n^{\rc 4}$ more neighbors of its same color.
+
+\begin{cor}
+Every node's true color except possible most mediocre nodes is the majority of the adjacent node's colors (?).
+\end{cor}
+
+Part 2: when a node disagrees with the majority of its neighbors, recolor it.
+
+This is almost linear time $n\poly\log(n)$. 
+%spectrla algorithms. 

@@ -1,0 +1,683 @@
+\section{Reductions and equivalence in P}
+
+Hard problems in $O(N^2)$ time:
+\begin{enumerate}
+\item
+Given a set of points on the plane, are there 3 collinear points?
+\item
+Sequence alignment: Given 2 strings what do they have in common? Several notions of similarity: edit distance, longest common subsequence. (Find a maximum length subsequence (can skip letter).) A DP algorithm does this in $N^2$ time. The larger the subsequence the closer the strings.
+
+Important in computational biology (genetics).
+
+The human genome has 3 billion base pairs. Quadratic runtime is too slow.
+\item
+Graph problems: given a $O(n)$-edge graph, what is its diameter. Using APSP takes at least $O(n^2)$. Why do we need $n^2$ time for a single parameter?
+
+%techniques stop working at $N^2$.
+Even approximation algorithms are hard.
+\end{enumerate}•
+There are no $N^{1.5}$ time algorithms for many problems in dense graphs: diameter, radius, mdeian, second shartest path, shortest cycle...
+
+
+
+Why are we stuck on may problems from different subareas of CS? Are we stuck because of the same reason?
+
+Unconditional lower bounds are hard. Instead have a more relaxed approach. Look for hard problems. For NP it's $k$-SAT: $k$-SAT is hard because it's NP-complete. \emph{If you can solve it fast you can solve many other problems fast.}
+
+We want to emulate this for other problems. 
+
+Addressing the hardness of easy problems:
+\begin{enumerate}
+\item
+Identify key hard problems.
+\item
+Reduce these to all other hard easy problems.
+\item Form equivalence classes.
+\end{enumerate}•
+Understand the landscape of polynomial time.
+
+CNF SAT is conjectured to be really hard. Beyond P vs. NP we have the following conjectures.
+\begin{enumerate}
+\item
+ETH: 3-SAT requires $2^{\de n}$ time for some $\de>0$.
+\item
+For every $\ep>0$ there is a $k$ such that $k$-SAT cannot be solved in $2^{(1-\ep)n}\poly(n)$ time.
+\end{enumerate}
+Unlike P vs. NP, this actually talks about runtime. 
+
+Three more problems we can blame.
+\begin{enumerate}
+\item
+3SUM: Given $S$ of $n$ integers are there $a,b,c\in S$ with $a+b+c=0$?
+\item
+Orthogonal vectors: Given a set $S$ of $n$ vectors for $d=O(\ln n)$ are there $u,v\in S$ with $u\cdot v=0$?
+\item
+All-pairs shortest paths (APSP): given a weighted graph find shortest distance between all pairs of nodes.
+\end{enumerate}
+
+Solutions
+\begin{enumerate}
+\item
+$O(n^2)$-time algorithm is easy. There is an approximately $\fc{n^2}{\ln n}$ time algorithm for real numbers, $\fc{n^2}{(\ln n)^2}$ time algorithm for integers.
+
+Folklore: we can assume the integers in $\{-n^3,\ldots, n^3\}$ requires $n^{2-o(1)}$ time.
+\item
+$O(n^2\ln n)$ times algorithm by checking every inner product. The best known algorithm by Williams et al. is $n^{2-\Te(1/\ln(d/\ln n))}$. Tis required sophisticated techniques.
+
+Conjecture: OV on $n$ vectors requires $n^{2-o(1)}$ time.
+
+Williams, 2004: SETH implies the OV conjecture.
+\item
+APSP: state of the art is $\fc{n^3}{e^{\sqrt{\ln n}}}$. The APSP conjecture says APSP on $n$ nodes and $O(\ln n)$ bit weights requires $n^{3-o(1)}$ time.
+\end{enumerate}
+
+Reductios can't be arbitrarily polynomial-time or logspace reductions; they have to preserve runtimes. 
+
+We defined fine-grained reductions. We want to reduce problem $A$ to $B$. $A$, $B$ have runtimes $a(n),b(n)$. Improving $b(n)$ for $B$ improves $a(n)$ for $A$.
+\begin{df}
+For every $\ep>0$, $\exists \de>0$, $O(\al(n)^{1-\de})$ time algorithm that transforms any $A$-instance of size $n$ to $B$-instances of size $n_1,\ldots, n_k$ so that
+\[
+\sum_i b(n_i)^{1-\ep}<\al(n)^{1-\de}.
+\]
+\end{df}
+An improvement in the exponent for $b$ improves the exponent for $a$: If $B$ is in $O(b(n)^{1-\ep})$ time, $A$ is in $O(\al(n)^{1-\de})$ time. Focus on exponents. We can build equivalences.
+
+
+%hardness for poly time.
+
+Some results. 
+
+\begin{enumerate}
+\item
+APSP: We can prove equivalence with 
+radius, median, betweenness, negative triangle, second shortest path, shortest cycle... of dense graphs.
+\item
+%computational geometry.
+3SUM is equivalent to many problems in computational geometry: 
+Three lines going through a point, polygonal containment... [GO95]
+
+A new class of problems where 3SUM implies hardness.
+At first they depend on real-number 3SUM. Based on hashing techniques, people got them to depend on integer version instead. Local alignment, etc.
+\item
+Hardness for OV implies sparse graph diameter, local alignment, longest common substring, Frechet distance, edit distance...
+\end{enumerate}
+These all imply hardness for dynamic problems. Ex. maintaining whether the number of strongly connected components of a graph is $\ge 3$.
+have to recompute with linear time. If you can do better, then OV can be solved faster than we think.
+
+\begin{thm}Fast OV implis SETH is false, W04.
+\end{thm}
+
+Given a CNF...
+By the sparsification lemma we can assume the umber of clauses is linear in the number of variables. 
+Split variables into sets of size $\approx \fc n2$. Enumerate through partial assignments of $V_1,V_2$> 
+For $j=1,2$ and each partial assignment $\phi$ of $V_i$ create $(m+2)$ length vector $v(j,\phi)$. The first 2 bits are just to distinguish $V_1,V_2$. For the last $m$ bits, put 0 if $\phi$ satisfies the clause, 1 otherwise. 
+
+Claim: $v(1,\phi)\cdot v(2,\psi)=0$ iff $\phi\odot \psi$ (taken together) is a SAT assignment
+$N=O(2^{n/2})$ vectors of dimension $O(n)=O(\ln N)$ gives an OV instance. So $O(N^{2-\de})$ time implies SETH is false.
+%dimension number of clauses 
+
+Later on we'll need gadgets and be careful with runtimes...
+
+Another popular conjecture: 
+\begin{conj}
+Boolen matrix multiplication (BMM), compute their boolean produce $C$ where $C[i,j]=\bigvee_i (A[i,k] \wedge B[k,j])$. Any combinatorial algorithm for BMM requires $n^{3-o(1)}$ time.
+\end{conj}
+%combinatorial alg doesn't use subtraction, etc
+BMM can be computed in $O(n^m)$ time, $m<2.38$ using ordinary matrix mulitplications. The best known combinatorial techniques get a runtime of at best $n^3/(\ln n)^4$. 
+%when you see it you know it.
+
+%recursion but don't convert to F?
+%Really it's supposed to mean practical.
+%reductions that are combinatorial. Restricted to simple reductions.
+
+BMM conjecture consequences: reductions from BMM are typically used to show that fast matrix multiplication is probably required. 
+
+Implications
+\begin{itemize}
+\item
+a triangle in a grph cannot be found faster than $n^{3-o(1)}$ time by combo algorithm.
+\item
+radius of unweighted graphs requires $n^{3-o(1)}$ time via combinatorial techniques.
+\item
+max bipartite matching dynamically with nontrivial update times requires fast matrix multiplication.
+\item CFG parsing requires fast MM.
+\end{itemize}
+%FMM inherent.
+%some reductions givea a loss.%lower bound f^m not f^\Om.
+
+Problems can give reduction from boolean mult, don't have algorithm for MM. Maybe problem is harder, or we just don't have a nice reduction. MM maybe not right starting point.
+
+Which conjectures are more believable? %religion?
+Besies SETH$\implies$OV conjecture, no other reductions relating the conjectures are known. However, the decsion tree complexities of both 3SUM and APSP are low (not known for OV). Maybe OV is more believabe.
+
+OV and APSP both admit better than log improvements over the naive runtime. 3SUM does not; maybe the 3SUM conjecture is more believable?
+
+Natural problems they all reduce to: Matching triangles and triangle collection.
+
+%if you believe one is hard, then single-source max flow are hard.
+
+
+2PM: APSP and graph problems, OV and sparse graph problems.
+
+3PM: Dynamic problems. %update pro
+
+4PM: hardness for sequence problems. 
+
+Tomorrow: Matching triangles.
+
+%Want graph diameter equivalent to APSP. Relate: hard for different reason?
+Approximability: For sparse graphs, even approximating some problems are hard based on OV. For dense graphs, we don't have good techniques. 
+
+%3SUM
+Conjecture is false for approximating APSP, but we still don't know how to approximate other problems. Questions about weighted graphs: how to preserve the weights. 
+%1+\ep approximation. 
+%3SUM: can probably do it.
+%in general don't preserve approximation. 
+%any sort of PCP theorem.
+%before PCP, reduction. approx-preserving things. for some problems (edit distance) just don't know how to prove approximation hardness.
+
+%natural average-case hard versions?
+
+%to what extent model-dependent?
+%Not.
+
+%3sum average case hard?
+
+%geometry: transformations of structural hardness.
+%difference between 3SUM reductions. 2 classes. 2nd: transform integers start with, hashing. 1st: just convert the inputs structurally, don't care about content.
+
+%why more things were able to be proven hard.
+
+\subsection{Hardness for graph problems}
+
+Important graph parameters
+\begin{itemize}
+\item
+\vocab{eccentricity}: $e(x):=\max_y d(x,y)$.
+\item
+\vocab{diameter}: $\max_x e(x)$.
+\item
+\vocab{radius}: $\min_x e(x)$.
+\item
+\vocab{median}: $\min_x \sum_y d(x,y)$.
+\end{itemize}
+The best algorithms we know compute all pairs shortest paths, $n^{3-o(1)}$ for dense graphs and $n^2$ for sparse graphs.
+Can we do better.
+%Can we get $n^{3-\ep}$ for dense
+
+\subsubsection{Dense graphs}
+
+APSP is equivalent to radius, median and many other graph problems under subcubic reductions. (It is a $n^{3-\de}$ time reduction that takes instances of $B$ of sizes $n_i$ and produces instances of $A$ such that $\sum_i n_i^{3-\ep}< n^{3-\de}$.)
+Equivalence of $A,B$ means that a $O(n^{3-\ep})$-time algorithm for $A$ can be converted into a $O(n^{3-\de})$-time algorithms for $B$ and vice versa.
+
+%$n^{3-o(1)}$ time
+
+We can reduce the following to APSP
+\begin{itemize}
+\item
+distance product verification
+\item metricity
+\item radius
+\item mdeian
+\item Wiener index
+\item betweenness centrality
+\item replacement paths %new shortest path when one disappears
+\item 2nd shortest path
+\item distance product (equivalence)
+\item negative triangle (equivalence)
+\end{itemize}
+We can easily reduce negative triangle to everything else on the picture, so we complete all the cycles to show equivalence.
+
+\begin{prb}
+Distance product: Given two matrices $A,B$, compute
+\[
+(A*B)_{ij} = \min_k A_{ij} + B_{kj}.
+\]
+\end{prb}
+\begin{thm}
+APSP in $T(n)$ time implies distance product in $T(n)$ time.
+
+Distance product in $T(n)$ time implies APSP in $T(n)\lg n$ time.
+\end{thm}
+\begin{proof}
+Matrices correspond to graphs whose nodes correspond to the rows and columns, with the distance between $i,j$ equal to the entry $A_{ij}$.
+
+In the other direction, tge weighted adjacency matrix f a graph is $w(u,v)$ for edges $(u,v)$ and $\iy$ for non-edges $(u,v)$. $A^k_{uv}$ is the weight of shortest path on $\le k$ edges. Use repeated squaring to compute.
+A more complicated algorithm shaves off the $\lg n$ factor.
+\end{proof}
+
+\begin{thm}[VW10]
+Distance product is subcubic equivalent to negative triangle.
+\end{thm}
+
+\begin{prb}
+Input: Graph $G$ with integer edge weights.
+
+Output: Yes if there exist $i,j,k\in V(G)$ such that
+\[
+w(i,j)+w(j,k)+w(k,i)<0,
+\]
+and no otherwise.
+\end{prb}
+\begin{enumerate}
+\item
+First we reduce distance product to all pairs negative triangle: for all $j,i\in V(G)$, is there a $k$ such that $w(i,k)+w(k,j)<-w(j,i)$.
+
+Create a 3 layer graph $I,B, J$ using $A,B$. Now add edges from $J$ to $I$. All pairs negative triangles solves: for every $j,i$ in $J\times I$, is there $k$ such that $A[i,k]+B[k,j]<-w(j,i)$.
+
+(Is $\min_k A_{ik}+B_{kj}<-w(j,i)$?)
+Use binary search. Reduce the interval for every pair simultaneously.
+Assumption on precision. Dependence only on number of nodes, not edge weights. (Now it has log of largest weight dependence.)
+\item
+Reduce all pairs negative triangle to negative triangle.
+
+Split $I,J,K$ into pieces of small size $s$. %Consider all $\pf{n}{s}^3$
+
+\begin{enumerate}
+\item
+Initialize $C$ with $O_n$.
+\item
+For each triple $(I_x,J_y,K_z)$ in turn,
+\begin{itemize}
+\item
+while $(I_x,J_y,K_z)$, bas a negtive triangle, report negative triangle, and set $C_{a_xa_y}=1$. Set $w(a_x,a_y)=\iy$. This ensures $(a_x,a_y)$ doesn't appear in any more negative triangles.
+%just looking through all triples.
+
+THe runtime is good: [(number of triples$+$triangles found)]$\cdot$T(negative triangle in triple) $=((n/s)^3+n^2)\cdot$ negative triangle$(s)$.
+Set $s=n^{\rc 3}$ to get $n^{2+\fc d3}$. This is subcubic if $d<3$.
+%amortize
+%not one-shot.
+%beativdptnrrrrrrrrrrrrrng brute force
+\end{itemize}•
+\end{enumerate}•
+\end{enumerate}•
+
+\begin{thm}
+Negative triangle to radius of undirected graph.
+\end{thm}
+\begin{proof}
+WLOG assume
+\begin{enumerate}
+\item
+$G$ is tripartite (create 3 copies).
+\item $G$ is a complete tripartite graph (add weights with large weight).
+\end{enumerate}
+\end{proof}
+%Add large number to the edge weights. %$(Add
+%fc33r
+%Create a layered graph corresponding to negative triangle incidence. %Suppose the tripartite graph have  
+%Copy 1 of nodes of $A$, nodes of $B$, and copies 2 of nodes of $A$. $w(a,b)$ is distance between $a,b$. 
+%If $a\ne e$ add an edge of weight $3M+W-1$.
+%%path of length 
+%%distance between any node on left and right
+%%\comment{
+%One vof the other nodes could be... %imi simil.
+%Add red edges, $z,y, x$
+%%much easier prove when don't have weights.
+%radius %$<3M_$ =
+%
+%
+%%$w$ bi 33o
+%%s5enewget gr
+%%T\end{proof$....}
+%%%rdiu
+%%If $C
+%%7
+%%m in undire g}
+%
+%%?????????
+%
+%%Onesinr%orceiongs
+%\subsubsection{Sparse graphs}
+%
+%Diameter
+%
+%%hitting set: given sets $U,V$ of $O(\ln n)$ s-ubsets of $[n]$, idoes there  $u\in U$ such that 
+%
+%HfS can be reduced to OV
+%
+%%Diamater 2 or 3. RV13. Extra 2. Are two vector nodes o
+%%eEvyondo
+%
+%%... Fif
+%% hitted
+%
+%%%oPsartrane jo
+%Quantifiers make it different? $\max\min$
+%
+%
+%Open: hardness  in prsef
+%
+%%some approx fst, come can't.
+%
+%WHat about runtimes for $\fc 32$ approx diameter/radius?
+
+\subsection{Dynamic problems}
+
+Input: an undirected graph $G$
+
+Update: add or remove edges
+
+Query: are $s,t$ connected.
+
+Trivial algorithm: $O(m)$ updates
+
+Thorup: $O(\lg m (\lg\lg m)^3)$ amortized time per update. 
+
+Patrascu-Demaine: $\Om(\lg m)$ necessary.
+
+What about dynamic (directed reachability)?
+
+The trivial algorithm takes $O(m)$ updates. Using fast matrix multiplication, we can achieve $O(n^{1.57})$. The best cell probe lower bound is still $\Om(\lg m)$.
+
+There are many examples with huge gaps between upper and lower bounds.
+
+We give much higher lower bound via the ``hardness in P" approach.
+
+The 3-SUM conjecture implies polynomial lower bounds for many dynamic problems.  After optimizing, we get $m^{\rc3-o(1)}$ lower bounds for $s,t$-reachability, SSR, strongly connected components, maximum matching, connectivity with node updates, approximate diameter.
+
+Maybe 3SUM is not the most appropriate problem.
+
+The BMM conjecture implies tight lower bounds for combinatorial algorithms. THe lower bounds are $m^{1-o(1)}$ for combinatorial algorithms and match the trivial upper bounds.
+%use FMM or refute
+Any improvement will have to use fast matrix multiplication.
+
+A conjecture about a dynamic problem. Given the second matrix vector by vector, find the matrix-vector multiplication one problem at a time. Online matrix vector multiplication conjecture: $n^3$ required.
+
+Use the right conjecture: 
+The APSP conjecture gives some quadratic lower bounds.
+
+SETH implies very high lower bounds. 
+
+\subsubsection{Single source reachability}
+If dynamic $\#SSR$ can be solved with $O(m^{1-\ep})$ update and query timmes, then OVP can be solved in $O(n^{2-\ep})$ time and SETH is false.
+
+If you maintain all these updates and answer queries, you can figure out whether the OV instance was yes or no. 
+
+Amortized sublinear update/query time gives $O(nd)$ queries in subquadratic time...
+
+%If diamter can be solved in $O*
+
+\begin{enumerate}
+\item
+Add edge $u_j\to b_i$ iff $b_i[j]=1$. This encodes the vectors and stays static.
+\item
+Encode the second list of vectors in a dynamic way. For each one we have a stage.
+For each $a_i$, dd $s\to u_j$ iff $a_i[j]=1$. Ask $\#SSR(s)$. Observation: $s$ cannot reach $b$ if $a_i,b$ are orthogonal. %(There would have to be a coordinate where they're both 1)
+If $<n+(1s\text{ in }a_i)$ then output yes.
+\item Remove edges and move on to next $a_i$.
+\end{enumerate}
+$O(nd)$ updates, $m=O(nd)$ edges.
+
+With additional gadgets, get loewr bounds for SCC, undirected connectivty with node updates.
+
+Dynamic diameter
+
+\begin{prb}
+Input: undirected grph $G$.
+
+Update: add or remove edges.
+
+Query: what is the diameter of $G$>
+\end{prb}
+Naive: $O(mn)$ per update.  
+
+Better: Amortized $O(n^2)$.
+
+\begin{thm}
+1.3-approximation for diameter of sparse graph under edge update with amortized $O(m^{2-\ep})$ updates refutes SETH.
+%3 orthogonal vectors
+\end{thm}
+
+It does use the usual orthogonal vectors reduction!
+\begin{proof}
+Reduce from ``Three orthogonal vectors". 
+
+Subcubic implies subquadrtic.
+
+Have $a$'s, $u$'s, $v$'s, $b$'s. Add $u_j'\to b_i$ iff $b_i[j]=1$. The left and right sides are static, encoding $A,B$. The middle part is dynamic. Go over the the vectors in $C$. For each $c_i$,
+\begin{enumerate}
+\item
+Add $u_j\to u_j'$ iff $c_i[j]=1$.
+\item
+Ask diameter query.
+Observation: The distance from $a$ to $b$ is more than 3 iff $a,b,c_i$ re an orthogonal triple.
+\item Remove edges and move to next $c_i$.
+\end{enumerate}
+\end{proof}
+We gave very high lower bounds for fundamental problems. After identifying the conjecture, the proofs are simple. There are many interesting open questions.
+\begin{enumerate}
+\item
+Lower bound for decremental reachability. $O(mn^{\fc{9}{10}})$ total update time.
+
+%(Lower bound for worst case updates: add, query, remove (and repeat). %same for fully dynamic.
+%can maintain with only deletions.
+%does not say good about amortized.
+\item
+Explain gaps between randomized and deterministic upper bounds. (Deterministic conjectures might be needed.)
+\end{enumerate}
+
+Tomorrow: lower bounds with much better guarantees: if at least one of APSP, 3SUM, SETH is true, then SSR requires linear updates.
+
+%exponetial updates and queries?
+
+\subsection{Quadratic hardness for sequence problems}
+
+\begin{enumerate}
+\item
+Problems:
+\begin{itemize}
+\item
+Discrete Frechet distance
+\item
+Edit distance and LCS
+\item
+Dynamic time warping
+\end{itemize}
+\item
+Bird's eye view on upper bounds
+\begin{itemize}
+\item
+dynamic programming, quadratic time
+\item
+\end{itemize}
+\item
+Recent conditional quadratic lower bounds (assuming SETH, etc.).
+\end{enumerate}•
+
+%comp geo
+Frechet distance is ``dog-walking distance".  It is the smallest length leash that enables dog-walking along two routes (paths in the plane).
+%owner, dog symmetric
+Formally,
+\[
+D_{Fr}(P,Q) = \min_{f,g\in F}\max_{t\in [0,1]} \ve{P(f(t))-Q(g(t))}.
+\]
+where $F$ is the set of monotone $[0,1]\to [0,1]$ and $P,Q:[0,1]\to \R^2$. 
+
+In the discrete version, $F=\set{f}{[0,1]\to [n]}$ and $P,Q:[n]\to \R^2$.
+
+This problem has an easy dynamic programming solution: at each time step, there are 3 possibilities; at least one of the dog and owner jumps. Let $A[i,j]$ be the distance between $P([1,i])$ and $Q([1,j])$; we have 
+\[
+A[i,j]=\max[\ve{P(i)-Q(j)},\min(A[i-1,j-1],A[i,j-1],A[i,j-1])].
+\]
+Can be improved to $O(n^2\lg\lg n/\lg n)$.
+There are many algorithms for special cases and variants. 
+
+\begin{df}
+The edit distance (Levenshtein distance) ``edit" between $x,y$ is the minimum number of symbol insertions, deletions, or substitutions needed to transform $x$ into $y$. Variants $edit'$: insertions of deletions. $edit'=2n - 2LCS$.
+\end{df}
+
+
+Edit distance can be computed in $O(n^2)$ using a dynamic programming algorithm. This can be improved to $O\pf{n^2}{\lg n}$. There are better lgorithms for special cases. This is an important problem in computational biology.
+
+%If the edit distance between two places
+There is an $(\lg n)^{O\prc{\ep}}$-approximation algorithm in $O(n^{1+\ep})$ time.
+\begin{df}
+\vocab{Dynamic time warping} between $x,y$
+\[
+A[i,j]=\ve{x_i-y_j} + \min(A[i-1,j-1],A[i,j-1],A[i,j-1]),
+\]
+DTW$(x,y)=A[n,n]$.
+\end{df}
+This is how people align for speech recognition. It's sum instead of max in Frechet distance.
+
+What do these problems have in common? They are widely used metrics, dynamic programming algorithms with essentially quadratic runing time, and we have idea if/how we can do any better. 
+
+Plausible explanation: the problems are SETH-hard.
+%$2^{N(1-\Om(1))}\poly(M)$.
+
+We go through the Orthogonal Vectors Conjecture. 
+%best in $n^{2-1/O(\lg c(n))}$ time, $d=c(n)\lg n$. 
+
+\begin{thm}
+Assuming OVC conjecture, there is no $n^{2-\Om(1)}$ algorithm for Frechet, EDIT, LCS, DTW distances unless OVC fails.
+\end{thm}
+
+The basic approach is to reduce OVP to a distance computation. 
+\begin{itemize}
+\item
+Turn $A\in B^d$ into $|x|\le nd^{O(1)}$, similarly for $B$.
+\item distance is small if there exist $a\in A,b\in B$, $\an{a,b}=0$, and large otherwise.
+\end{itemize}
+
+\subsubsection{Hardness}
+\begin{enumerate}
+\item
+Frechet distance
+
+Coordinate gadgets: if $a_i=1$, then put a point slightly higher. For $b_i$, do the opposite below.
+
+Vector gadgets: %if $a,b$ are orthogonal
+connect the points for the coordinates, and alternate between left and right positions.
+%odd on left, even on right.
+
+Add 2 points, one at the beginning of each. Concatenate the the first coordinate. 
+
+If the original vectors are orthogonal, the Frechet distance is $\le 1$, by simultaneous jumps.
+
+If the vectors are not orthogonal, the Frechet distance is large. We must do a simultaneous jumps each time. When both coordinates are 1, we get $F\ge 1.01$.
+
+For the final curve, for one vector, concatente all vector gadgets with nodes at the beginning and end. For the other vector, concatenate directly. 
+Shift the graphs to the central position.
+
+If there exist orthogonal vectors, Frechet$(x,y)\le 1$. 
+Traverse the first curve until the blue vector (the vector with orthogonal counterpart). %beginning of blue vector.
+Traverse the second curve until we are at the beginning of the blue vector.
+Traverse the blue vectors in parallel. Traverse the second curve until the end, then the first curve until the end.
+
+%If there are no orthogonal vectors the distance is large
+If Frechet$(x,y)<1.01$, there exist othogonal vectors. Can't jump from beginning to end. At beginning of 2 vector gadgets. The corresponding vectors must be orthogonal.
+\item 
+Pattern matching with respect to edit distance: easier but has all the main ideas.
+
+Given 2 sequences, we want to find a substring from the $y$, of the same size, such that 
+pattern$(x,y)= \min_{y'}edit(x,y')$.
+
+First part: assume vector gadgets and prove hardness. Given $a_i\in A$, $\al_i$, given $b_j\in B$, $\be_j$, if $a_i,b_j$ are orthogonal then edit$(\al_i,\be_j)=S$, otherwise $=L>S$. Crucial that $L$ does not depend on vectors.
+
+Let $t$ be vector gadget for vector consisting of 1s. intercalate$ `\$' \al$. intercalate $`\$` \$$ replicate $(n-1) t ++``\$" ++ intercalate `\$'\be++``\$" ++ replicate (n-1) t$
+
+YES: there exists an orthogonal pair. Align them, we get $\le S+(n-1)L$. 
+
+NO: 
+Claim 1: optimal subsequence from the lower sequence contains $n$ vector gadgets. 
+
+Claim 2: vector gadgets aligned one by one between upper sequence and subsequence. Matching $\$$ decreases cost.
+
+Get $nL>S+(n-1)L$.
+
+Second part: show vector gadget construction.
+
+Coordinate gadgets: $a_ib_i=1$ iff edit distance is large.
+
+If $a_i=1$ then 0001 else 0111. If $b_i=0$ then 0011 else 1111.
+
+%CG_1,CG_2.
+Introduce $d^{O(1)}$ 2's in between the $CG_1(a_j)$'s, etc.
+Now $edit(\al',\be') = d+2\an{a,b}$.
+Bad: edit distance depends on the inner product. Pattern matching for Hamming distance is easy. (Fast fourier transform.)
+
+Instead, $\al=4...4\al''3..3\al'4..4$, $\be =3..3\be'3..3$. edit$(\al,\be)=\min(d+2\an{a,b},d+1)$. Two ways to match: $\al''\lra \be'$ or $\al'\lra\be'$.
+
+%edit$(\al,\be)
+Etc., etc.
+
+Gap too small for interesting approximability hardness.
+\item
+Hardness for weighted LCS. Unweighted: write in unary.
+
+(Omitted.)
+\end{enumerate}
+Open: hardness of approx for edit, LCS.
+%c in $n^2/c$.
+
+\subsection{Conclusion}
+
+Take a problem $X$ in $P$, say in $O(n^2)$ time, and prove that $X$ probably cannot be solved in $O(n^{2-\ep})$ time, emulating NP-hardness. We use 3SUM, APSP, and OVC (implied by SETH). Before P was a mess. Now the picture is a directed graph, we understand it better.
+``SETH-hard": improving any of them would improve all of them.
+We still have unclassified problems.
+
+What's next for hardness in P? Gain a better understanding of the conjectures. Find more reasons to believe the conjectures. 
+
+If 3SUM is in $n^{1.9}$ time then... If CNF-SAT is in $1.9^n$ time then... 
+
+Replace conjectures with more plausible ones. 
+
+Or find more reasons to disbelieve the conjectures.
+
+Interesting progress on 3SUM tomorrow. 
+
+Find connections between the conjectures: maybe all these $O(n^2)$ problems are equivalent subquadratic reductions. (OVP, 3SUM, APSP)
+
+Find barriers for relating them.
+
+Classify more problems: if we're stuck with a bound we should know why.
+
+To classify all of P, new conjectures might be needed. Maximum matching, linear programming.
+
+Can we write a small LP for orthogonal vectors or 3SUM?
+
+New class: $k$-clique. Best combinatorial algorithm does $O(n^k)$. Can get $O(n^{\om k/3=.79k})$. (Nesetril)
+
+$k$-clique based lower bounds: CFG parsing. Can you derive the string from the grammar?
+
+DP gives $n^3$.
+Valiant's parser gives $O(n^\om)$ by matrix multiplication.
+Faster algorithms imply faster $k$-clique.
+
+Valiant's parser is not practical because of overhead from matrix multiplication.
+A combinatorial parser.
+
+RNA folding. Input: sequence $\{A,C,G,T\}^n$. Maximum number of arcs you can draw between matching pairs without crossings. Best algorithms are $O(n^3)$. 
+
+Why believe the new $k$-clique conjecture?
+
+Williams 04: faster $k$-clique implies faster MAX-CUT. 
+
+Best exact algorithms for MAX-CUT.
+
+Relationship between exponential time problems and problems in P.
+
+Take Max-Cut. Can we do with other NP-hard problems?
+
+What about tight reductions within NP-hard prblems? CNF-SAT, Max-Cut, travelling salesman, set cover, steiner tree. Faster for ST implies SC. 
+
+Fixed parameter tractability in P. In parameterized complexity: solve NP hard problems in $f(k)n^c$ time  on inputs of size $n$ and some natural parameter $k$.
+Study fixed parameter tractable algorithms for problems already in P.
+
+Fixed parameter subquadratic: diameter on sparse graphs. No subquadratic algorithm under SETH. $k$ is the treewidth of $G$.
+
+Upper bound $2^{O(k\lg k)}n^{1+o(1)}$. SETH implies lower bound $2^{o(k)}n^{2-\ep}$.
+Dependence on $k$ nearly tight.
+
+Hardness of approximation. ``Even more relevant lower bounds." 
+
+Best approximation for edit distance in subquadratic time? In practice, approximation is often good enough. 
+
+Near-linear time polylog approximation is known. Can we get constant or $1+\ep$?
+
+PCP theorem in P?
+
+Barriers for shaving more log factors, average case hardness, quantum algorithms, space complexity?
+
+%Models where lower bounds provable?

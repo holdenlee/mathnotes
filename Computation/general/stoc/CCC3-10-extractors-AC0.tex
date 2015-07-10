@@ -1,0 +1,77 @@
+\subsection{Extractors in $AC^0$}
+
+We systematically ask whether the usual extractors are in $AC^0$.
+
+We are still far from understanding the power of $AC^0$.
+%better switching lemma for non-random restriction.
+%Error reduction in $AC^0$ for derandomizing algorithms that err rarely.
+%PRGs
+
+
+\subsubsection{Seeded extractors}
+
+What is known about seeded $AC^0$ extractors? 
+An extractor is $\Ext:B^n\times B^r\to B^m$, on a min-entropy $k$ source.
+\begin{itemize}
+\item
+Negative: I showed that $m\le 1.01r$ unless $\fc kn\ge \rc{\poly\log n}$.
+\item
+Positive: $m=r+1,r=n$ by $(x,y,\an{x,y})$.
+\end{itemize}
+
+Our results:
+\begin{enumerate}
+\item
+We can extract 1 bit ($m=r+1$) iff 
+\[
+r\ge \fc{n}{k\ln^{O(1)}(n)} + 10 \ln n . 
+\]
+\item
+If $\fc kn\le \rc{\lg^{\om(1)}n}$ then we can extract iff
+\[
+\fc mr\le 1+\fc{\lg^{O(1)}(n)k}{n},
+\]
+$1+$the entropy rate. Strong extraction (where we have to output the seed) is impossible.
+\item
+If $\fc kn\ge \rc{\lg^{O(1)}n}$, then we can extract strogly with $m=1.01r$, $r=O(\lg n)$. It is open whether we can attain $m=\Om(k)$: can we extract more bits?
+\end{enumerate}
+
+%Sampling gives a shorter source. We can extract with smaller complexity/seed.
+
+To extract 1 bit from entropy $k$< sample $\fc nk$ bits. If $\le \lg^{O(1)}n$ apply best-known extractor. If $\ge\log^{\om(1)}n$, apply inner produce extractor with seed $\fc nk$. To extract $t$ bits repeat with $t$ independent seeds.
+
+\subsubsection{Deterministic extractors}
+
+Consider extractors for bit-fixing (restriction) sources. The entropy is the number of unfixed variables.
+
+The switching lemma says that any depth-$d$ cirucit becomes constant on random restriction leaving $\fc{n}{\lg^{d-1}n}$ variables.
+
+Some depth-$d$ circuits are far from constant (good extraction) on any restriction leaving $\fc{n}{\ln^{\Om(d)}d}$ variables. 
+
+Picking restriction after circuit is no better than random.
+
+Ajtai and Linial showed there exist depth-4 circuit $B^n\to B$ that extracts if $k=n-\fc{n}{\poly \log(n)}$ bits uniform, other $n-k$ function of those $k$.
+The idea is to combine AL with a sparse linear map $B^{n\poly\log(n)}\to B^n$: any $n\times n$ submatrix has rank $\ge n-\fc{n}{\poly\log(n)}$. 
+We couldn't prove the existence of such a linear map; instead we get a map over a large field and combine with codes, non-linear condenser.
+
+Extractors for independent sources: Best $\fc kn$ for P-time:
+
+2 sources: Bourgain showed $.499$. For $AC^0$, $1-\rc{\poly\log(n)}$.
+
+3: $n^{-.49}$ (actually now $AC^0:0.99$), Li.
+
+4: Same. $AC^0:0.99$.
+
+$O(1)$: $\fc{\poly\log n}{n}$. $AC^0: 0.01$.
+
+$AC^0$ and 2-party protocols. The better you can extract the better for 2-party protocols.
+
+Open: better $AC^0$ lower bound? Only known : $\fc kn \ge \rc{\poly\log(n)}$.
+
+%math more artificial so easier to AI with interestingness?
+
+For min-entropy sources we get a complete picture for $m=r+1,\fc kn\le \rc{\lg^{\om(1)}n}$.
+
+%Much more on samplers, zero-fixing...
+
+%running different things with higher probs to get alternate answer: metacat.

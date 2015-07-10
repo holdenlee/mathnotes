@@ -1,0 +1,65 @@
+\subsection{Depth 5 lower bounds for iterated matrix multiplication}
+
+%size and depth
+
+$
+IMM_{m.d}
+$ is $(1,1)$-entry of the product of $d$ matrices of size $n\times n$. The number of input variables is $N=d\cdot n^2$. A monomial in IMM corresponds to a path in a layered graph. (Two consecutive layers represent a matrix.) 
+
+Can IMM be made highly parallel. i.e., efficiently computed by small depth circuit?
+
+VP vs. VNP.  VNP coefficient of any given monomial efficiently computable. Are there hard polys in VNP require super-poly size circuit?
+
+Fan-in bounds: $\Si^a\Pi^b\Si^c\Pi^d$.
+
+Any $size(f)=\poly(N,d)$ implies $f$ computed by depth 4 $\Si\Pi\Si\Pi^{\sqrt d}$ circuit. 
+If $f\in VP$, $f$ has $N^{O(\sqrt{d})}$ size depth 4 circuit. Loer bound $N^{\om(\sqrt d)}$ implies VP$\ne $VNP.
+
+%NW
+IMM lower boudn $N^{\Om(\sqrt d)}$. Depth reduction tight at 4.
+
+Depth 5: better depth reduction at depth 5? $f\in VP$ implies size$(f)=\poly(N,d)$.
+
+Our result: $N^{\Om(\sqrt d)}$ for IMM, circuit $\cdots \Si^{N^{\mu}}$, $0\le \mu <\rc2$.
+Better depth reduction not possible at depth 5 if bottom fan-in is restricted.
+
+Generic strategy: define a complexity measure $\Phi$ maps each polynomial to a number. 
+Dimension of projected shifted partial derivatives (DPSP). $M$ is set of multilinear monomials of degree $k$, $S$ for degree $l$.
+\[
+DPSP_{k,l}(f) = \dim_{\F} \spn(proj(\set{\be \pl_\al f}{\al\in M,\be \in S})).
+\]
+
+Process: randomly select a set of variables $V$ according to some nice distribution. Set variables outside to be 0. 
+
+A small circuit is simplified (small $\Phi$). The polynomial still remains complex: large $\Phi$.
+
+Circuit decomposition lemma: depth 5 circuit: $C$ bottom fanin $N^{\mu\i (0,\rc2]}$
+\[
+C|_V=C'
+\]
+$C'$ is $\Si\Pi\Si\Pi^{O(\sqrt d)}$ and $DPSP_{k,l}(g)=0$ for any $k,l$.
+
+Small upper bound on DPSP.
+
+Expand bottom two layers of gates.
+
+$Q_{ijr}$ has 3 type of monomials
+\begin{enumerate}
+\item
+small, total degree $<2\sqrt d$: put into $C'$
+\item
+large, exists var with degree $\ge 3$: DPSP is 0. (put to $g$)
+\item
+Large, each variable has degree $\le2$, support $\ge \sqrt d$.
+\end{enumerate}•
+Union bound fails for $\mu\ge \rc4$. Instead, apply mild restriction, makes bottom fan-ins $\le N^{\rc 4}$. Apply desired full restriction: analyze as above.
+
+non-Chernoff concentration bound.
+
+dimension of matrix is $d^q\times d^q$ where $q$ is large constant depedendent on fain-in $p$.
+
+Large upper bound on DPSP(IMM), small upper bound on DPSP$(C|_V)$
+
+IMM not efficiently compuetd by bottom fan in restricted,
+
+Prove lower bound for $\Si\cdots \Si $...

@@ -1,0 +1,123 @@
+\subsection{The social cost of cheap pseudonyms}
+
+Eric Friedman, Paul Resnick, The social costs of cheap pseudonyms, 2001. (Started 1998.)
+
+When you can easily have pseudonyms, it's hard to control behavior. Much of the beauty comes from the conciseness of the model, how little they assume. %Easy to res. 
+When you have a small probability of malicious action, or innocent mistakes, cooperation is no longer equilibrium. Solution: Treat newcomers with skepticism.
+
+%explore vs. exploit. new users
+%advertisers under new identity.
+%fb authentication
+%tie back to 
+%fb 5 years after
+%google 
+%1st year EC
+
+%The social costs of cheap pseudonyms, 
+
+We had to explain people what ebay was, why reputation on the Internet was important, etc.
+
+Literature postview: the idea of reputation is now mainstream; since 1999, $10\%$ of EC papers study reputations.
+
+%original problem, key results,
+
+The cost of changing identity is key. This was a new aspect of the Internet. 
+The technical approach is \vocab{dynamical games} (underutilized in the EC community). 
+%$1L$ identifiers, negative progress
+
+An economist, a computer scientist, and a philosopher walk into a bar...
+\begin{itemize}
+\item
+Philosopher: what is the meaning of self on the Internet?
+\item
+Computer scientist: how can we secure identities using cryptography?
+\item
+Economist: How do we make money out of this?
+\end{itemize}•
+
+How can we create trust; how much loss do various models of trust imply? Why is trust important?
+\begin{itemize}
+\item
+selling and trading websites like Ebay.
+
+Reputation informs buyers, incentivizes sellers to honesty and quality service (``shadow of the future"). Note in these systems you don't usually interact with the same person again; how to make this work?
+
+Self-selection: more honest people will be drawn to be sellers.
+\item
+online forums and discussion groups.
+\item
+cooperative groups like wikipedia.
+\item networks of autonomous devices, like BitTorrent.
+\end{itemize}
+
+
+How/when should reputation systems work and how can we make them better?
+
+
+Consider a reputation system with different kinds of interactions.
+\begin{enumerate}
+\item
+anonymous (ID changes every action)
+\item
+pseudonyms (ID changes at will): you can start a new name if you want. If you rip somebody off, you can come in as a new person.
+\item
+identified (real name, ID never changes)
+\end{enumerate}
+
+We introduced 1L pseudonyms: you can change once in a lifetime. 
+
+In every period, people get matched up and play a prisoner's dilemma. The problem is the folk theorem of economics: in repeated games anything can happen. There are many strange equilibria. 
+
+If everyone starts at the same time, and one person comes back with a new name, that person can be identified. Instead we assume a bunch of people arrive/leave at specified times. 
+
+What's public is the complete PD matrix and history of plays.
+
+We considered only sequential equilibria, the expected per-period payoff.
+Intuitively, $V=1-\fc{\pat{number of defections}}2$.
+
+What can you do? Local punishment strategy: You have to do something bad to a newcomer. You defect against a new arrival, and cooperate against good people.
+
+But you have to cooperate against new people, otherwise people will defect and come back as new people, and the system will break down.
+
+Mathematically, use the public grim trigger strategy: if anyone non-compliant, shut down the whole strategy and everyone goes home. This isn't realistic.
+
+We added the ideas of ``trembling": even if you choose to cooperate, with $\ep$ probability you actually defect (something gets lost in the mail for ebay...).
+
+%On social norms in noisy environments, Friedman.
+How much loss comes from free pseudonyms? We introduced Pay Your Dues: if you're around for a while and have a good reputation, you can defect against newcomers. (This is realistic.)
+
+You can show this is an equilibrium.
+There is inefficiency when you have to pay dues. 
+%With pseudonyms the SF is $1-\pat{loss}$.
+
+What are solutions? Pay for IDs. This discourages participation. Often you have to do some annoying tasks to do, ex. fill out a long form.
+
+How would we implement this cryptographically? How could you implement pseudonyms so that people can get a pseudonym and never use it again? With this, you can do well. This never happened though. How could CA's cooperate, etc.?
+
+Our conclusions:
+\begin{itemize}
+\item
+Cheap pseudonyms imply distrust for newcomers.
+
+We had to prove things in dynamic systems, modify the model with noise.
+Without noise we get bizarre effects.
+\item
+Expensive pseudonyms help.
+\item
+Expensive to change psuedonyms are even better.
+\end{itemize}
+
+Some underserved research areas by EC:
+\begin{itemize}
+\item
+application of dynamic games: most work is static or 2-period.
+\item
+noise (``trembles")
+\item
+self-selection (market for lemons)
+\end{itemize}
+
+Now reputation is still held centrally. %the gov doesn't want to be, people have security concerns. anonymous web browsing
+%export rules on crypto.
+%told not to do it, decide not to.
+

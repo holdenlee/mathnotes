@@ -1,0 +1,92 @@
+\subsection{Parallel repetition for general games}
+
+2-prover 1-round gmes. 
+
+
+$(x,y)\sim \mu$.
+THey win if $V(x,y,a,b)$. 
+$\val(G)=\max_{a,b}\Pj\pat{win}$.
+$c$ is the answer length. $c=|a|+|b|$.
+
+Can allow them to share randomness.
+
+Ex. CHSH game. $x,y\in_RB\times B$. 
+$V=1$ iff $a\opl b=x\wedge y$, value .75.
+
+Projection game: for all $x,y,z$ there exists unique $b$< $V(x,y,a,b)=1$. Unique: for all $x,y,a$ $\exists b$ and vice versa.
+
+Required to output $n$ answers. $a_i(x_1,\ldots, x_n)$, etc.
+Win if $V(x_i,y_i,a_i,b_i)=1$ for all $i$.
+
+Clear that $\val(G^n)\ge \val(G)^n$. Is the reverse true: is the best strategy to play independently on all coordinates? No, counterexamples of Raz08.
+
+\begin{enumerate}
+\item
+Verb95: $\val(G^n)\to 0$ if $\val(G)<1$. 
+\item
+$\val(G^n) \le (1-\ep^{32})^{\Om(n/e)}$.
+Improved to 3. 
+%\item
+%FV: $\exists \val(G),\fc 34, \val(G^n)\ge\rc8$
+\item
+For projection: $(1-\ep^2)^{\Om(n)}$. 
+Raz08: unique game with squared dependence (connection to unique games conj?)
+\end{enumerate}
+PCP amplicfication: NP-hard to decide if $\val(G)$ or $\val(G)\le 0.99$. Parallel repetition: $\de$.
+
+Connections: UGC, foam, ...
+
+That was high-value regime.
+
+Small value regime? DS13: 
+\[
+\val(G^n)\le \de^{\Om(n)}.
+\]
+Optimal NP-hardness for approximating set cover. 
+%PCP of Mosh and Raz.
+
+\begin{thm}
+$\rc{2^c}\le \de \le \rc2$, 
+$\val(G)=\de\implies \val(G^n)\le\de^{\Om\pf{n\lg\prc{\de}}{\ep}}$.
+
+$\de\le \rc{2^c}$ transition (random guessing) $\de^{\Om(n)}$. 
+%FV exmple.
+\end{thm}
+
+Reprove PRep theorems.
+
+FIx a strategy for $G^n$. $W$ event of winning in all coordinates. If$\Pj(W)\ge$, design a strateg yfor G with $\Pj>\de$> 
+
+Embed $(x,y)$ into random coordinate, sampel rest accoring to appropriate distribution and run for $G^n$.
+
+Tries
+\begin{enumerate}
+\item
+Set $X_i=x,Y_i=y$, uniform on others. Best boudn $\ge \Pj(W)$.
+\item
+Need into zoom into $W$. Sample $A_i,B_i|X_i=x,Y_i=y,W$ approximately. How to sample? Alice, bob only know $x,y$, resp.
+\item
+$X_i=x,Y_i=y$, jointly sample $R|X_i=x,Y_i=y,W$. (A bunch of properties) Alice and Bob should know $W$. (?) Also breaks the dependencies. Once sample correct $R$, can forget $W$. 
+\end{enumerate}
+
+Want mutual informations to be small. 
+
+Exhibit $R$.
+
+What if they know approximate distribution? How jointly sample? Use correlated sampling theorems. If approximately know some distribution. Some procedure sample approximately. 
+
+What's $R$? Inspired by previous PR proofs and direct products in communication complexity BRWY13. 
+
+?? Pic. Create various symmetries.
+
+
+Open problems
+\begin{enumerate}
+\item
+PR for general entangled games (pre-share entanglement), even for high value regime.
+
+Holds for projection games, and product distributions.
+\item
+PR for 3 prover games, even high-value regime.
+Define info complexity for multiparty.
+\end{enumerate}•

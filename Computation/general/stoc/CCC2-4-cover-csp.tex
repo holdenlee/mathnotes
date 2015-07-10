@@ -1,0 +1,56 @@
+\subsection{Hard-to-cover CSPs}
+
+Define CSP's. Example $3NAE_q$: if 3 values are distinct (in $\F_q$).
+
+Given a CSP, find the minimum number of assignments such that for every $C_i$, there is at least one assignment satisfying $C_i$.
+
+It is NP-hard to find the covering number. Approximating better than 2 is NP-hard.
+
+This is a natural optimization problem, and related to the chromatic number of hypergraphs.
+
+Consider the $3NAP_q$ instance. Define the constrained hypergraph where the vertices are $x_i$ and the 3-sets are those in the same constraint. 
+If the chromatic number is $\chi$, the covering number is $\fl{\log_q \chi}$.
+Given a coloring, express each $x_i$ in $q$-bit strings. For any edge, one assignment will have them distinct.
+
+Classification:
+$P$ is odd if $\bigvee_i P(x+i)$ true. 3-SAT, 3-XOR are examples. 3-NAE${}_3$ and 4-XOR are not odd.
+
+For odd predicates,  the covering number is at most $q$. Distinguish between 1 and 2 is checking satisfiability. \vocab{Shaefer's dichotomy} gives a characterization to distinguish between the 2 cases for boolean CSPs.
+
+The covering number is unbounded in general, $O(\lg m)$. How well can we approximate the covering number?
+
+Our work is based on the Unique Games conjecture. (Definition: Given a bipartite graph $G=(U,V,E,\pi)$,...)
+
+Conecture: NP-hard decide between 
+\begin{enumerate}
+\item
+there exists $c$-covering. ex. $c=10$
+\item 
+No assignment satisfies $>\ep$ of constraints.
+\end{enumerate}•
+(Guruswami GHS02, relation to hypergraph coloring.) Diur-Kol13 for general CSPs.
+
+Covering number of 4-LIN is NP-hard to approximate within any constant factor.
+Covering number of non-odd predicates supporting balanced pairwise indep is hard to approx given UGC.
+%balanced and pairwie indep.
+
+Result: assume covering UGC$(c)$ for some $c$< then for any constant $q,k$, for any non-odd $P\subeq [q]^k$, covering number of P-CSP instance cannot be approximated within any constant factor in polynomial time.
+
+NP-hard to approximate: 
+Marginals of both $\cal P_0,\cal P_1$ uniform on each of $k$ coordinates. Every $a\in \Supp(P_0)$ even partiy, 1/odd.
+
+Start with UG instance. Ask provers to write down labels over some alphabet $q$. Verifier queries this proof at some locations, checks queried values, accept or reject based. Based on dictatorship test.
+
+Suffices to show for $P$ non-odd, $NAE\supeq P\supeq \set{a+\ol b}{a\in NAE, b\in [q]}$, others follow by reduction.
+
+2-covering property makes it easier to apply the invariance principle. IS analysis makes the proof easier to analyze.
+
+Open:
+\begin{itemize}
+\item
+Characterization based on $P\ne \NP$?
+\item
+1-covering (satisfiability) vs. $c$-coveirng
+\item
+UGC/SSE implies covering UGC?
+\end{itemize}•

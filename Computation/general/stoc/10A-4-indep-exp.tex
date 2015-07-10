@@ -1,0 +1,65 @@
+\subsection{From independence to expansion and back again}
+
+Find a $k$-independent function that can be efficiently computed (time/space).
+%Time-space tradeoff for $k$-independent functions.
+
+A data structure for representing a $k$-independent function $f:[u]\to [r]$ with evaluation time $t<k$ must use at least $ku^{\rc t}$ words of space.
+
+Main result.
+\begin{thm}
+There is a randomized data structure for representing a $k$-independent function $f:[u]\to [r]$ with space $O(ku^{\rc t}t)$ and evaluation time $O(t\ln t)$. 
+\end{thm}
+Previous results: polynomials, graph powering, recursive tabulation.
+
+Constructions of $k$-independent families of functions based on bipartite expander graphs. Neighbor function $\Ga:U\to V^d$.
+\begin{df}
+$k$-unique if for every $S\subeq U$ with $|S|\le k$ there exists $v\in V$ with exactly one neighbor in $S$.
+\end{df}
+\begin{lem}[Siegel]
+$f(x)=\sum_i h(\Ga(x)_i)\pmod r$ defines $k$-independent family of functions.
+\end{lem}
+
+A $k$-unique $\Ga:U\to V^d$ gives a $k$-independent family. 
+
+Most graphs give an optimal space-time tradeoff for $k$-independent hashing.
+
+What's the problem?
+\begin{enumerate}
+\item
+Explicit $k$-unique graphs with optimal parameters are not known.
+\item
+Storing a random $\Ga$ defeats the purpose of $k$-independent hashing (use less space!). 
+\item
+Verifying a given $\Ga$ is $k$-unique is infeasible.
+\end{enumerate}•
+Instead of sampling a random function, sample a function from a $k$-independent family. 
+A $k$-independent function $\Ga:U\to V^d$ with $|U|=u_i$, $|V=O(ku^{\rc t}t)$ and $d=O(t)$ is $K$-unique with high probability.
+
+Start with a $k$-unique function/graph. Increase the domain using a graph product. Define a $k$-independent family. Sample $\Ga\in \cal F$ and use to represent a neighbor function. Back to optimal parameters!
+
+Randomized recursive construction of $k$-unique function. 
+\[
+\Ga(ax)=\bigopl_i h(a,\Ga(x)_i).
+\]
+If $\Ga$ is $k$-unique over $\Si^j$ and $\Ga$ is $k$-independent over $\Si^{j+1}$, then $\Ga$ is $k$-unique over $\Si^{j+1}$ whp.
+Space $O(ku^{\rc t}t^2)$, time $O(t^2)$.
+
+Divide and conquer. Recurse on each character.
+\begin{df}
+$k$-maj-unique if for every $|S|\le k$, exists $x\in S$ such that majority of vertices in $\Ga(\{x\})$ have unique neighbor in $S$.
+\end{df}
+If $\Ga$ is $k$-maj-unique, $\Ga(x_1x_2)_i=\Ga(x_1)_i\Ga(x_2)_i$ is $k$-unique over $\Si^2$.
+
+We need to find $(x_1',x_2')$ with unique neighbor. 
+Find $x_1'\ in \set{x_1}{(x_1,x_2)\in S}$ with $>\fc d2$ unique neighbors.
+Find $x_2'\ in \set{x_2}{(x_1',x_2)\in S}$ with $>\fc d2$ unique neighbors.
+
+View $x\in [u]$ as string of 2 chracters and recurse on each.
+%Note $h$ must have $\ge k^2$
+
+%rep theory and cs?
+%random TM/circuit for indep?
+
+Technique: graph products and alternating between expansion and indpendence. 
+
+Open: Optimal expanders without $k$-independence?

@@ -1,0 +1,94 @@
+\subsection{Fully homomorphic signatures from standard lattices}
+
+Publicly verifiable computable (PVC): game between Alice, cloud server, and Bob. Alice uploads data $x$.
+Arbitrary query/program $P$ to get answer $y=P(x)$. Bob has a ``pay-per-bit" channel: he wants to verify $y=P(x)$ without having seen the database.
+
+Homomorphic signatures %intro in network coding.
+Alice run signing agorithm wrt a secret key. Upload with corresponding signature to cloud server. Run to get result $y$. Can also run homomorphically over. $\si_{P,y}=eval_{pk}(P,x,\si)$. Bob downloads $y,P,\si_{P,y}$ (homomorphically derived signature)
+
+\begin{enumerate}
+\item
+succinctness: only depends on output of $y$, not on runtime of $P$.
+
+$preprocess_{pk}(P)=pk_P$. $verify(pk_P,y,\si_{P,y})=1$. (soundness)
+\item efficiency: preprocess independent of runtime of $P$ and size of $x$.
+
+A can sign many databases and evaluate many programs.
+\item security: if $y=P(x)$, the cloud cannot convince that result is $y'\ne y$.
+
+Challenger gives  apk to the adversary. Gives a data base $x$. Challenger gives $\si$. Eventually the adversary claims to have come up with $P,\si^*,y^*$. Adversary wins if valid signature of wrong result:
+\[
+verify(pk_{P'},y',\si')=1,y'\ne P(x).
+\]
+Relaxation: $x$ declared before pk (selective security). (Can also extend to many datasets)
+\end{enumerate}
+
+Constructions of homomorphic sigatures. 
+\begin{enumerate}
+\item
+linear functions (bilinaear, RSA, SIS)
+\item
+bounded degree polys (ideal SIS , random oracle)
+\item
+(multilinear maps)
+\end{enumerate}•
+
+There is secure hom signature scheme for many databases and arbitrary programs represented by circuits where 
+\begin{enumerate}
+\item
+succinctness: $\poly(\la,d)$, $\la$ security param, $d$ depth for $P$.
+\item
+efficiency: runtime of veri is same
+\item
+security assuming hardness of small integer solutions. 
+\item context hiding: $\si_{P,y}$ reveals nothing about x.
+\item locally computale
+\item composable
+\end{enumerate}
+
+Compare to other solutions.
+\begin{enumerate}
+\item
+CS proofs/SNARKs: cloud gives short proof verify$(y,n)=1$. All of them use non-standard assumptions which are essential.
+\item
+memory delegation: Bob needs multi-round (interactive) verification.
+\item
+etc. 
+\end{enumerate}
+
+How to construct? Homomorphic trapdoor functions, to homomorphic signatures. How to instantiate from lattices.
+
+%selective to full, 1 to many
+
+HTF is a family of functions parametrized by $f_{pk,x}:U\to V$. 
+\begin{enumerate}
+\item
+given secret key sk, inverting $f_{pk,i}()$ is easy
+\item claw-freeness: hard to find $f_{pk,0}(u)=f_{pk,1}(u^*)$. 
+\item
+Given $f_{pk,x_i}(u_i)=v_i$, exist deterministic algorithms 
+$eval_{in}(C,(u_i,x_i)_i) \to u'$ and $eval_{out}(C,(v_i)_i)\to v'$.
+
+Then $f_{pk, C(x)}(u')=v'$. 
+
+Decouple comp over inputs and outputs separately, such that when apply to input get output.
+
+How construct homomorphic signatures from HTDF? Fix public key, sample random from output space. 
+
+Sample preimage corresponding to bits. 
+$sign_{sk}(x_i)_i \to \si$: sample $u_i,f_{pk,x_i}(u_i)=v_i$. Run homomorphic... work over inputs. Homo derived signature. 
+Run separate and evaluate...
+
+$verify_{pk}(pk_C,y,\si_{C,y}) \to 1$ iff $f_{pk,y}(\si_{C,y})=pk_C$> follows by correctness of HTDF if $y=C(x)$.
+
+If claw-freeness then secure. A gives $x$ to $C$. Sample signatures ourselves: $v_i=f_{pk,x_i}(u_i)$. Public:$ (pk,(v_i)), \si=(u_i)_i$. Adversary claims $pk, v,\si..$ A wins if $ver=1$. A wins if verify on $y'$ same for some $y'\ne y$. Is clawfreeness!
+
+SIS problem: given $\Z\in (\Z/q)^{mn}$, find nontrivial short $z\in Z^m$, $Az=0$. 
+
+Lattice algorithms: rapgen. short pre-image.
+
+Fix $pk=A$, $sk=T$.$G\in (\Z/q)^{nm}$ global. $f_{pk_x}(U)=AU-xG$.
+
+Want: given $sk$, invert $f_{pk,i}$ is easy.
+\end{enumerate}•
+%Lattice, HDT, fully holomomophic signatures.

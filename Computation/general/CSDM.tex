@@ -1,0 +1,1017 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\section{Expander walk Chernoff bounds}
+
+Chris Beck
+
+Abstract: Expander walk sampling is an important tool for derandomization. For any bounded function, sampling inputs from a random walk on an expander graph yields a sample average which is quite close to the true mean, and moreover the deviations obtained are qualitatively similar to those obtained from statistically independent samples. The "Chernoff Bound for Expander Walks" was first described by Ajtai, Komlos, and Szemeredi in 1987, and analyzed in a general form by Gilman in 1988. A significantly simpler analysis was given by Healy in 2005, who also gave a more general form in which the function may differ from step to step in a certain sense. I will give an exposition of Healy's proof and describe minor variations and extensions.
+
+What are uses of expander walks?
+\begin{enumerate}
+\item
+Sampling: Find the mean of a bounded function in some domain. 
+Instead of taking independent samples, if you take correlated samples from an expander walk, you can approach the mean optimally. We can get error reduction for BPP.
+\item
+Amplifying security (hardness) of 1-way functions.
+Yao showed in 1982 that if you have a function that is polynomially hard on $1-\rc{\poly(n)}$ inputs, you can get a harder 1-way function that a polynomial time algorithm can only succeed with exponentially small probability.
+%different from Yao XOR
+
+Alternately take steps on an expander and taking a permutation, you get optimal amplification.
+\end{enumerate}
+
+For all $r\ge 0$, 
+\bal
+\E(e^{r\sum X_i}) &\le \prod_i\pa{\al_i +\fc{\la(e^r-1)^2}{1-\la e^r}}\\
+&\le \prod_i \pa{1+(e^r-1)\mu_i+\fc{\la(e^r-1)^2}{1-\la e^r}}\\
+&\le \prod_i \pa{e^{(e^r-1)\mu_i}+\fc{\la(e^r-1)^2}{1-\la e^r}}\\
+&=\exp\pa{(e^r-1)\mu + \fc{k\la(e^r-1)^2}{1-\la e^r}}.
+\end{align*}
+using $\al_i\le 1+(e^r-1)\mu_i$ (Taylor expansion, convexity). (We assume $r\le \rc2$, so $r\le e^r-1\le r+\fc{2r^2}{3}\le \fc{4r}3$; we also assume $e^r\le \la^{-\rc2}$, which gives $1-e^r\la\ge 1-\la^{-\rc2}$. Important is that $r$ a small value bounded away from 1. We want $r$ to be as large as possible without breaking things.) 
+%Here $\mu=\sum\mu_i$
+
+Observation: for all $\la\in[0,1]$, $1-\la\le \ln \rc{\la}$.
+
+Thus
+\bal
+\Pj\pat{bad}
+&\le \fc{\E(e^{rX_i})}{e^{r\mu-r\ep k}}\\
+&\le
+\exp\pa{(e^r-r-1)\mu+k\pa{\fc{\la(e^r-1)^2}{1-\la e^r}-r\ep}}\\
+&\le \exp \pa{\fc 23r^2\mu +k\pa{\fc{2\la(4r/3)^2}{1-\la}-r\ep}}\\
+&\le \exp \pa{k\pa{\fc{4/3r^2}{1-\la}-\ep r}}
+\end{align*}
+using $\rc{1-\sqrt \la}=\fc{1+\sqrt\la}{1-\la}\le \fc2{1-\la}$. Now take $r=\ep\fc{1-\la}{2}$. We check $r\le \rc2$ and $e^r\le \la^{-\rc2}$, both true.
+
+%take 2 steps, $\la^2$. Expect number of steps reduced by 2.
+%constant factor/power doesn't make a differnece.
+
+%for all $x$, $e^{-x}\ge 1-x$, for $x\le 1$, $\rc{1-x}\ge e^x$. Take $x=1-\la$.
+
+How can we extend this? What more is true? There's the basic version with one set; when sets can move arbitrarily, it's surprising you can get a similar result. 
+Is there a derandomized Azuma's inequality? Consider some martingale. The most natural wayis to let the sets depend on the history of vertices walked to. (In our setting, the sets can moved around but have been fixed; they're not adaptive.)
+
+Zuckerman has a paper: how to recycle random bits. They try to derandomize a BPP algorithm: hash down the bits used and reuse them. It's one of a bunch of results that say it's okay to leak randomness.
+
+The significant barrier is the following.
+
+\begin{lem}
+Let $f:\{0,1\}^n\to \R$ be a 1-Lipschitz function.
+Consider the Doob martingale of $f$: choose bits for input in a fixed order, and evaluate $f$ at the end. Track how the conditional expectation changes.
+
+Then 
+\[
+\Pj_{x\in \{0,1\}^n}[f(x)-\E f>\ep \sqrt n]
+\le \exp(-\Om(\ep^2)).
+\]
+\end{lem}
+Just Lipschitz gives this bound. Question: does there exist $G:\{0,1\}^{\fc n4}\to \{0,1\}^n$ such that for all $f$ as above,
+\[
+\Pj[f(G(s))-\E f\le n^{1-\de}]
+\]
+for some $\de<1$?
+
+For example, break up the blocks into size $n^{\ep}$, then do an expander walk. Revealing the blocks one at a time, there shouldn't be too much drift.
+
+But the answer to the question is NO. Given $G$, construct $f$ to be the set of outputs of the generator. Use a sphere-packing bound.
+There's no way to derandomize arbitrary Lipschitz functions.
+
+Suppose we allow each $f_i$ to depend on 2 vertices. You can change the analysis to put the weights on the edge entries of the random walk matrix. You can still get bounds on the bookkeeping entries. The mean will still drift; you get tight concentration around the new mean. What happens when the functions have overlapping information?
+%reason why use same info for each function?
+
+We proved before that
+\[
+\Pj[\sum_i X_i-\mu>\ep k]\le e^{-\fc{\ep^2(1-\la)}{8}}.
+\]%k?
+%independent events, sum of independent random variables.
+Recall that Chernoff-Hoeffding tells us the following: let $X$ be a sum of discrete random variables in $[-1,1]$, $\si^2=\Var(X)$, $\mu=\E X$,
+\[
+\Pj(X>\mu+t\si)\le e^{-t^2/2}
+\]
+%t\si
+
+We can generalize this to our setting as well. We need all the random variables to have small variance.
+\begin{lem}
+Let $\si^2=\max_i\Var(f_i)$. Suppose all rv's are in $[0,1]$. %bound on entries andvariance.
+%Most of the time the coins are close to the mean.
+Then over an expander walk,
+\[
+\Pj[\sum X_i-\mu>t\si k]\le e^{-\fc{\si^2t^2(1-\la)}{100}}.
+\]
+\fixme{NOT STRONGER}
+%everything in range $[0,1]$
+\end{lem}
+Get tighter bounds on the entries for $b,c$ in the bookkeeping matrices.
+%\ep'=\ep\si.
+
+Observation: For $D_i$ as before, prove $\wt{D_i} \le \smatt{\al_i}{O(r\si)}{O(r\si)}{\la e^r}$. Intuitively, $\ve{\Pi_{\one^{\perp}}D_i\one/n}_2^2=\Var[e^{rX_i}]=O(r^2) \Var(X_i)$ by Taylor expansion.
+
+We get
+\bal
+\Pj(X_i\ge \mu+t\si k) &\le \exp\pa{\fc{O(r^2)\la}{1-\la}\si^2+a
+%\al_i
+%1+O(r)\mu
+}\\
+%&\le e^{r\mu+rt\si k}
+&=\exp\pa{\fc{O(r^2)\la}{1-\la}\si^2k -rt \si k}\\
+&\le \exp\pa{-\fc{t^2\si^2(1-\la)}{100\la}}
+\end{align*}
+by taking $r=\fc{t\si(1-\la)}{100\la}$. 
+%\si^2k scale invariance.
+%should have scale invariance
+
+\section{Average-case lower bounds}
+
+Let $f:B^n\to B$ be a boolean function. A formula is built from and, or, not with fan-in 2. (We work with formulas, not circuits.) Let $L(F)$ be the number of leaves of a formula $F$. Let $L(f)=\min_{F\text{ computes }f} L(F)$.
+The depth is the depth of the formula tree.
+We know that depth$(f)=O(\lg L(f))$.
+
+%P and NC^1.
+
+We can consider worst-case lower bounds and average-case lower bounds. For worst-case, we need to show every formula computing it exactly is large. Any formula that approximates the formula must be of large size. We want to show that this is true even if it agrees with just $\rc2+\ep$ proportion of the input; ideally $\ep$ is exponentially small.
+
+%lower bounds for approximation
+%correlation lower bounds
+
+%all fourier coefficints small. correlation with linear functions.
+%correlation with any small formula exp small.
+
+Applications include hardness vs. derandomization results of Wigderson. It's related to deterministic extractors: a function with small correlation with any formula of a class gives an extractor for that class.
+
+A history of results for worst-case.
+\begin{itemize}
+\item
+S, 1961, $\Om(n^{1.5})$ for the parity function
+\item 
+K, 1971, $\Om(n^2)$
+\item
+A, 1987 gave a general method for lower bounds larger than $\Om(n^2)$. $\Om(n^{2.5})$ for ``Andrev's function."
+\item
+Hastad, 1998, $\Om(n^{3-o(1)})$. This is the best that can be proved for Andrev's function. (There is now a slight improvement in the $o(1)$.)
+\end{itemize}
+
+For the average-case, 
+\begin{itemize}
+\item
+San, 2010: showed $cn $ for $\rc2+2^{-\Om(n)}$. His method can be pushed down to $\Om(n^{1.5-\ep})$ with $\rc2+2^{-n^{\ep}}$.
+\item
+%another sequence of works in quantum computation
+Rei, 2011: $\Om(n^{2-o(1)})$ for parity, $\rc2+2^{-n^{\ep}}$. This follows from works in quantum computing. A formula of size $n$ has a good approximation by a polynomial of degree $\sqrt n$.
+\item
+$\Om(n^{2.499})$ for Andrev's function, $\rc2+2^{-n^{\ep}}$.
+\item
+$\Om(n^{3-o(1)})$ with $\rc{2}+\rc{\poly(n)}$ for a function in NP. They had nice methods. 
+\item Combining methods from the 2 results above, $\Om(n^{2.999})$ for $\rc2+2^{-n^{\ep}}$. (Actually we get $\fc{n^{3-o(1)}}{r^2}$ for $\rc2+2^{-r}$.) It's a function related to Andrev's function.
+%might have discovered better lower bound if not murdered by KGB.
+%private university for Jews.
+%capitalistic lower bound
+\end{itemize}
+Use the method of random restrictions. 
+Given a formula of size $L(F)$, WLOG $x_n$ appears in $L(F)/n$ $n$ times. Fix its value randomly. The formula shrinks by this number of leaves, but something more happens. For an $\wedge$ gate with $x_n=0$ or $\vee$ with $x_n=1$. You actually remove $\fc{1.5L(F)}{n}$ leaves.
+
+We know that 
+\[L(F')\le L(F)-\fc{1.5}{n} L(F)=\pa{1-\fc{1.5}{n}}L(F)\le \pa{1-\rc n}^{1.5}L(F)\le \pf{n-1}n^{1.5}L(F).\]
+This gives $L(F)\le n^{1.5}$ by induction, since the hypothesis is $(n-1)^{1.5}\le L(F')$. Note $L(F')$ is a parity function as well, for one variable less.
+
+We obtain the constant 1.5 because by expectation when we fix a variable we remove 1.5 leaves.
+
+%OR: probabilistically, look at expected value.
+
+%(Push not to bottom?)
+
+Is 1.5 optimal? Of course not. 
+People kept improving this constant.
+
+Hastad proved that the shrinkage exponent is 2: you can do more or less the same argument with 2. You have to restrict by a lot of variables---most of the variables. The best theorem we know is the following.
+\begin{thm}[Avi Shetl]
+For all $f$,
+\[
+\E_{\rh\in R_p} (f|_{\rh}) = 
+O(\rh^2L(f)+ p\sqrt{L(f)}).
+\]
+\end{thm}
+Here, with probability $p$ we leave a variable as it is, with probability $1-p$ we restrict it to 0 or 1.
+%fix lots of variable
+To get better results, apply with $p$ small. The last term is small in all applications.
+
+%importance of taking sabbatical.
+
+In the original results of Hastad there was a polylog factor.
+
+Why does this imply $2-o(1)$? Take $p=\fc{\poly\log n}{n}$.
+It's tight for the XOR function. 
+
+
+We know there exists $h:\{0,1\}^{\lg n}\to \{0,1\}$ such that $L(h)\ge \Om\pf{n}{\lg n}$ by a counting argument. Assume we know such a function. Let's try to use such a function to prove a bound of $n^3$.
+
+Partition the variables into $\lg n$ groups of $\fc{n}{\lg n}$ variables. For $1\le i\le \lg n$, let
+\beq{eq:csdm-3-17-15-1}
+y_i = \bigopl_{j=1}^{\fc n{\lg n}} x_{i,j}
+\eeq
+Then $h(y_1,\ldots, y_{\lg n})$ has formula size close to $n^3$. 
+
+Call the function $H(x_1,\ldots, x_n)$. Do a random restriction with $p=\fc{\polylog n}{n}$. With high probability, we get a formula of size $\rc{n^{2-o(1)}}L(H)$. With high probability in each group there is at least 1 variable not fixed, you can fix all the rest. The resulting function is as hard as the original function $h$.
+
+\blu{Compare with $\Tribes$.}
+
+Let $z_1,\ldots, z_n$ be additional variables.
+In order to describe $h$ we need to describe a truth table of $n$ bits. $z_1,\ldots, z_n$ is the truth table of $h$. %h(y_1,\ldots, y_{\lg n})=z_{y_1+2y_2+\cdots + 2^{\lg n-1} y_n}$ 
+Consider $A(\ol z,\ol x)$, at least as hard as $h$.
+%if function with arbitrary large,...
+
+%searching for lg n requires $2^{2^\lg n}$?
+
+%upper bound on $n^3$.
+
+For some $h$, the formula size is large. Consider the formula with this particular fixing of $z_i$. This formula is at least the formula size for that $h$, so we get $n^{3-o(1)}$.
+%truth table of this particular h.
+
+In the average-case problem, we have to make sure each ingredient works with high probability.
+
+First we have this function $h$ of $\lg n$ bits. This $h$ was hard to compute by a formula. It seems clear that we need $h$ hard to approximate; we need a bound for the average-case formula size of $h$. There is a little problem: $f:B^{\lg n}\to B$. We want the lower bound to be with exponentially small correlation. Fix $r=n^{\de}$. ($r$ will be the number of groups.) We want the lower bound to be with correlation $\ep=2^{-r^{\de}}$. We cannot achieve an exponentially small correlation with a function on $\lg n$ bits.
+
+Thus we need to take $h$ from a larger number of inputs, $h:B^r\to B$. A counting argument shows there are $h$ hard to approximate. 
+By a counting argument for almost all functions, if you want to approximate with $2^{cn}$, you need an exponential size formula.
+
+But now we cannot hardwire the whole truth table for $h$! Consider~\eqref{eq:csdm-3-17-15-1} with $1\le i \le r$ and with $\fc nr$ instead of $\fc{n}{\lg n}$. 
+
+How do we find $h$? We want $h$ to have formula size $L(h)\gg \fc{n}{\lg n}$. There is an easy way to do this: Take variables $z_1,\ldots, z_{4n}$; define $h$ by these variables. To give the truth table we need $2^r$ bits. Instead take an error-correcting bits ECC$: B^{4n}\to B^{2^r}$. Any error-correcting code with distance $\ge \rc2-\ep$ will do.
+
+Take the error-correcting code to be with distance $\rc2-2^{-\fc r4}=\ga$.
+%larger alphabet. better distance?
+\begin{thm}
+For almost all $z$ (with probability $1-\ep$), $\text{ECC}_z:B^r\to B$ is a function that cannot be approximated (better than $\rc2+\ep$) by a small formula ($\fc{n}{\polylog n}$).
+%
+\end{thm}
+The proof uses the Johnson bound. 
+In general you have $2^{2^r}$ functions, and you have $2^{4n}$ functions from $\text{ECC}_z$: every 2 functions are almost orthogonal to one another. The Johnson bound says that for any point you take, if you take a ball with radius $\rc2-\sfc{\ga}{2}$, it still contains a small number of codewords, polynomial in $2^r$. Codewords are orthogonal, so they cannot correlate too well. %conservation of nose?
+%relative distance is $\rc2-\ga$.
+%2^{\polylog n}$
+The number of easy functions covers a small number of codewords. For almost all $z$ we are OK.
+We needed $2^{4n}\gg 2^{\polylog n}$, the number of $z$'s is large compared to the formula. Each formula can correlate with some codewords but not that many. The set of functions that correlate well with it is about $2^r$. %centers is small formulas.
+
+In Andrev's function, replace $z_1,\ldots, z_n$ by $\text{ECC}_z$.
+%every 2 codewords agree on at most $\rc2+\ga$
+
+
+The other component is the random restriction. %Random restriction occurs with probability. 
+When we restrict the circuit, we get shrinkage in expectation, and with probability $1-\pat{small constant}$. However we need shrinkage with high probability. When we do the random restriction, we restricted the variables; fix the values at random. Otherwise it could happen that only when shrinkage does not occur the formula approximates well the function.
+
+If you do a random restriction, then we don't get restriction with high probability. Maybe in the formula only $x_1,x_2$ occur many times. In a random restriction we only restrict $x_1$ with probability $p$ not exponentially small. If we see a variable that appears many times, we have to restrict it. Otherwise choose an input variable randomly and restrict it (and repeat).
+
+Now shrinkage occurs with high probability. There are 2 ways to prove it. 
+%1.5
+In the original paper, we proved it with exponent 1.5. In the second paper, they had 2. %1/poly can be improved to 1-1/exp
+
+%fix it...
+%if not, take input randomly and fix it.
+%Now shrinkage occurs with high probability.
+
+%$L(F)/n\cdot n^{\al}$. If have variable, then good shrinkage. 
+%$\log(L(F))$
+First proof (exponet 1.5): Apply Azuma' inequality to get a concentration bound; get a shrinkage with high probability.
+%idea is simple, apply Azuma. 
+Originally you can't apply it because the variable fixed could appear a lot.
+
+Second proof (exponent 2): Look at the original formula, partition it into subformulas; for each subformula you have shrinkage with some probability; there are many of them so you can hope for a concentration bound. There are dependencies between the formulas. Remove all the variables that appear many times; there is a small amount of dependencies. Separate into groups that are completely independent. Apply Chernoff and get shrinkage with high probability. %(They get $\rc{n^{\polylog n}}$ but it can be improved to exponential.)
+
+%variables 1 by 1 and fix them. Actually need to fix many variables at the same time. It's not clear how you get it with high probability.
+%shrinkage with high probability.
+
+There is still a small problem that turns out not to be that small. Our restriction is not a completely random restriction. We don't choose the input variables to restrict randomly. It's an adversarial choice of variables. %keep variable alive in each block.
+Maybe the adversary decides to fix all variables in some blocks.
+%cannot even approximate the function. 
+A small number of blocks is okay because we cannot even approximate the function. What if the adversary kills all the blocks except 1? Have more variables to encode the blocks. 
+
+We found 2 ways to deal with this.
+\begin{enumerate}
+\item
+Don't change the definition of the function. %sometimes adversary chooses variables.
+It cannot happen too many times that the adversary choose the variables. The threshold was $\fc{L(F)}{n}n^\al$. %1-\al
+It can only a small fraction of the times; otherwise the formula shrinks by too much.
+We remain with $\approx r\polylog n$ variables. Each step, choose some variables to fix, say $\fc n2, \fc n4,\fc n8,\ldots$ In each of the blocks, only a small fraction are fixed by the adversary. Without loss of generality assume the adversary fixes the last ones. Let's not fix them, and just mark them. The ones that are not fixed in the next block, we'll let him fix.
+\item
+Change the function. Take $x_1,\ldots, x_n$, produce $y_1,\ldots, y_r$. %many other functions
+Let $y_1,\ldots, y_r=\text{Ext}(x_1,\ldots, x_n)$ where Ext is a bit-fixing extractor. 
+\end{enumerate}
+Why is there a problem? We had a function that took $x_1,\ldots x_n$ and outputted $y_1,\ldots, y_r$. But when we did a random restriction, sometimes many of the $y_i$'s are fixed. We want a function that no matter how we fixed the $x_i$, $y_1,\ldots, y_r$ will not be fixed, and be close to the uniform distribution. This is exactly what a bit-fixing extractor does.
+
+We can take a known extractor and apply it. We can use additional input bits to make it better.
+
+A bit-fixing source is a source where $k$ of $n$ variables $x_1\cdots x_n$ are unfixed. It is a deterministic function such that any bit-fixing source is close to being uniformly distributed. A bit-fixing source is exactly what happens when you fix most bits (worst-case). Everything else works. We have to show it's hard to approximate even when we compose it with a bit-fixing extractor. Use a union bound on restrictions. 
+%For almost all possibilities, $\text{ECC}_z$ is hard for almost all restrictions.
+Redo the proof with these 3 ingredients.
+
+%evolution as error-correcting code - ex. in transmission info
+%repeatedly get machine to construct a machine - get uniform stuff as fixed point?
+
+Anup Rao: bit-fixing with exponentiall low error, good parameters. We have an additional seed though, so we can use a seeded extractor with $n$ bits, which is much easier.
+
+The function is in $NC^1$? (Extractor?)
+
+%bit limit for cube?
+
+Natural proofs: the reason we cannot prove lower bounds is because these methods, if they gave better lower bounds they also give better factoring algorithms. The limit stopped roughly when can compute pseudorandom functions. Circuits of larger size can compute PRF's, like middle bit of multiplication. Then natural argument kicks in. 
+%factoring not NP-complete.
+%proving lower bounds in certain way imply upper bounds, for PR functions. Is it $n^3$? Certainly not more than polynomial. 
+
+%just the methods we know. 
+
+%top down all proofs that use random restrictions is still the soul...
+%top down methods vs. bottom up methods. Random restriction is bottom up methods. Don't know how to do better than quadratic with top down methods
+%composition. Andrev's function is a composition of 2 functions. 
+%composition conjecture about formula size, open. - Wigderson.
+
+\section{Random walks that find perfect objects and the Lov\'asz local lemma}
+
+At the heart of every local search algorithm is a directed graph on candidate solutions (states) such that every unsatisfactory state has at least one outgoing arc. In stochastic local search the hope is that a random walk will reach a satisfactory state (sink) quickly. We give a general algorithmic local lemma by establishing a sufficient condition for this to be true. Our work is inspired by Moser's entropic method proof of the Lov\'asz Local Lemma (LLL) for satisfiability and completely bypasses the Probabilistic Method formulation of the LLL. Similarly to Moser's argument, the key point is that the inevitability of reaching a sink is established by bounding the entropy of the walk as a function of time.
+
+Speaker: Dimitris Achlioptas
+
+\section{Tractability as Compressibility}
+
+\subsection{Introduction}
+Given a collection of constraints over a collection of variables consider the following generic constraint satisfaction algorithm: start with a random assignment of values to the variables; while violated constraints exist, select a random such constraint and address its violation by assigning fresh random values to its underlying variables. We will prove that this process terminates relatively quickly if the following is true: the amount of information (bits) needed to encode the newly violated constraints after each step is strictly less than the amount of randomness (bits) that will be consumed to address their violation later on.
+
+Speaker: Dimitris Achlioptas
+
+Given $\Om$ and subsets (flaws) $F=\{f_1,\ldots, f_m\}\subeq \cal P(\Om)$ we want to find $\si\in \Om$ avoiding all flaws in $F$.
+
+%The general idea is to define a directed graph and take a random walk.
+\begin{itemize}
+\item
+Specify a directed graph $D$ on $\Om$ such that
+\begin{itemize}
+\item
+every flawed object has outdegree at least 1.
+\item
+every flawless object has outdegree 0.
+\end{itemize}
+\item 
+Take a random walk.
+\end{itemize}•
+
+For all $\si\in \Om,f\ni \si$, define a nonempty set $A(f,\si)\subeq \Om$ of \vocab{actions}. Each $\tau\in A(f,\si)$ becomes an arc $\si\xra{f} \tau $ in a digraph $D$. (Think of the edges as colored by the flaws $f$.)
+\begin{df}
+$D$ is \vocab{atomic} if for every $\tau\in \Om,f\in F$ there is at most one arc $\si\xra{f}\tau$.
+\end{df}
+I.e., there will not be two states that go to a state $\tau$ for the same reason (addressing flaw $f$).
+
+The classic examples are:
+\begin{ex}
+The $k$-CNF formula $F=\bigwedge_i c_i$ with $n$ variables.
+\begin{itemize}
+\item
+$\Om=\{0,1\}^n$.
+\item $f_i=\set{\si\in \Om}{\si\text{ violates }c_i}$.
+\item $A(f_i,\si)$ are $2^k$ mutations of $\si$ through var$(c_i)$.
+\end{itemize}
+\end{ex}
+
+\begin{ex}
+$q$-coloring graph $G(V,E)$ with $n$ vertices.
+\begin{itemize}
+\item $\Om=[q]^n$.
+\item $f_{u,v}^c= \set{\si\in \Om}{\text{col}(u)=\text{col}(v)=c}$.
+\item $A(f_{u,v}^c,\si)=\{\text{All $q$ mutations of $\si$ through $v$}\}$.
+
+But we can adapt the functions to the current state, $A(f_{u,v}^c, \si)=\{\text{Only conflict-free mutations}\}$.
+\end{itemize}
+\end{ex}
+The Lovasz Local Lemma gives $q>e\De$, but with the second set of actions, we solve the problem with $q\ge \De+1$.
+
+In the variable setting atomicity is implied by
+\begin{itemize}
+\item
+flaws are partial assignments (flattening---this is good because it refines accounting of conflict)
+\item 
+actions modify the variables of the flaw addressed (locality---a genuine but natural restriction)
+\end{itemize}
+(In satisfiability there is only 1 way to violate the constraint.)
+
+The three main quatities are
+\begin{df}
+The \vocab{amenability} of $f_i$ is $A_i:=\min_{\si\in f_i}|A(\si,f_i)|$. It is a lower bound width of the repertoire available to address a flaw. (It will give a lower bound on entropy.)
+
+Define the \vocab{potential causality} digraph to consist of edges $i\to j$ if there is any $\si\xra{f_i}\tau$ such that $f_j\in U(\tau)\bs (U(\si)\bs f_i)$. 
+Think of it as a ``pessimistic projection/shadow" of the graph: $i$ causes $j$ if there is a single transition where trying to address $f_i$ we introduce flaw $j$; for $i=j$ we mean that addressing $f_i$ doesn't fix it.
+
+A digraph $D$ is \vocab{transient} if for every $i\in [m]$,
+\[
+\sum_{j\leftarrow i}\rc{A_j}<\rc e.
+\]
+%(never use in global sense?)
+%total load small.
+\end{df}
+
+\begin{thm}
+Let $\si_1\in \Om$ be arbitrary. At time $t$, let $f_i$ be a random flaw in $\si_lt$. Address $f_i$ by taking a uniformly random action in $A(f_i,\si)$.
+
+Let $T_0=\ln |\Om|+|U(\si_1)|$. If $D$ is transient the probability that the walk does not reach a sink within $t=O(T_0+s)$ steps is $<2^{-s}$.
+\end{thm}
+There is no need for a uniform sample to start off, and the running time depends on $|U(\si_1)|$, not $|F|$. ($|F|$ could be exponential; this is efficient as long as $|U(\si)|$ is polynomial.
+
+%Can you define local amenability and local transience?
+%Average-case amenability?
+%min, any. Want to get rid of ``any" more than min. (Min is usually uniform.)
+%prob interpretation of how to get rid of ``any."
+There is an extension that involves weights.
+
+%
+
+%Label every element by its flaws; there is a collection of actions for addressing any flaw. It's okay if the actions are shared but we write it down separately.
+
+\subsection{Proof}
+
+We'll prove something slightly weaker than the theorem, under the assumption $\sum_{j\leftarrow i}\rc{A_j}\le \rc{16}$. ($\rc e$ is tight: there are SAT instances which violate it minimally and are not satisfied.)
+
+Fix an arbitrary permutation of the flaws; say flaw $f_i$ has priority $i$ and address the flaw with highest priority each time. (We will see how to generalize from this.) Now the digraph is uncolored. The algorithm becomes a uniform random walk on this graph. We'll work with the old causality graph; this doesn't cost us very much. (In principle we could define the causality graph for the new graph. However, the condition on ``any'' is stringent. It's unlikely to find a clean permutation that substantially sparsifies the graph.
+
+We make another simplification. We trim down the number of actions to the next power of 2. Then we can do everything with bits, and easily talk about entropy. We only blow up each $\rc{A_j}$ by at most 2, so the new sum is $\le \rc8$.
+
+Formally, let 
+\[\text{Pot}(f_i)=\fl{\lg A_{f_i}}\le b.\]
+%never include doesn't fix.
+%lazy markov chain smoothens out computation, but no good reason.
+%$\le \lg \Om$
+Then
+\beq{eq:kraft1}
+\sum_{j\leftarrow i} 2^{-(\text{Pot}(f_j)-3)}\le 1.
+\eeq
+This reminds us of the Kraft inequality.
+
+Our overall strategy is the following: we consume $\text{Pot}(f_i)$ bits of randomness to fix flaw $f_i$. Consider a ball of radius $T$ around it with respect to the number of bits read, i.e., fix the amount of randomness that the walk will consume. ``Read a tape" as you walk along to make your decisions. The first time the walk leaves the ball it will land in $[T,T+b)$. The algorithm will only stop if it finds a perfect object.
+
+While this tree starts off dense, after a certain radius $T_0$, it dramatically starts to sparsify; most paths die off.
+
+\begin{clm}
+The number of paths (trajectories) that cross the ring at $T$ is at most
+\[
+2^{(1-\ep)T+B}
+\]
+where $\ep=\rc b$ and $B=\lg|\Om|+|U(\si_1)|$.
+\end{clm}
+The important thing is that neither $\ep,B$ rely on $T$; we have a uniform bound that the growth of the number of bad trajectories grows. 
+Note every particular path has probability $\le 2^{-T}$. Take the union bound, the probability of a path crossing the ring, i.e., not arriving at the sink after $T$ bits of randomness, is
+\[
+2^{(1-\ep)T+B}2^{-T}=2^{-\ep T+B}\stackrel{?}\le 2^{-\vte};
+\]
+when $T$ is large enough depending on $\ep,B$, then we win. More precisely, we want $T\ge \fc{B+\vte}{\ep}$.
+
+For expository purposes, we establish progress per step (taking an edge) rather than per random bit consumed. Steps that consume a ton of bits are bad for this analysis. This gives up a constant factor of $b$ in the running time. 
+
+Consier a trajectory 
+\[\si_1\xra{w_1}\si_2\cdots \si_{s-1}\xra{w_{s-1}}\si_s\]
+where $s\ge \fc Tb$. The first observation is that it suffices to count $\an{W=w_1,\cdots w_{s-1},\si_s}$. This is because of atomicity: we never have collisions, so that we can unambiguously find all intermediate states given the final state and the flaws addressed. ``It is the song the algorithm sings."
+
+This $\si_s$ is independent of how long the algorithm is; it involves at most $\lg|\Om|$ bits. The significant part is bound the number of bits needed to encode $w_1,\ldots, w_{s-1}$.
+
+Naively it would depende on the log of the total number of flaws. But we exploit the causality happening; the internal structure makes string highly compressible.
+
+For now, we add more information rather than compress. We have a more refined video of what's happening.
+
+We define $B_0=U(\si_1)$ (bag of all flaws that are present initially), and define $B_i,M_i$ as follows. $B_i$ is the flaws broken at step $i$. ($B$ is for ``broken.") They are sets of flaws. Take out the highest priority flaw, take an action, go to a new state. $M_i$ is the stuff that's fixed collaterally (a flaw $f_j$ that was fixed when addressing $f_i,i\ne j$.)
+%The fact that it entered and exited the system is irrelevant.
+%opaque what's happening under the roof.
+%information 
+%change information. still derive $w_i$. Not being faithful to information in $B_i,W_i$.
+
+Recover the $w_i$ by taking the highest priority removed from $B_i$.
+%$B_i$ contains flaw addressed if fail to remove it. $M_i$ are flaws made.
+Actually we change the $M_i$: consider $m\in M_j$. It entered and exited the system but we never felt its presence. Dealing with higher priority things $m$ got fixed, and it exits the system. It will have a matching set $B_i$ where it entered; go back in time as little as possible to find someplace where it entered. 
+%\fixme{(Do we have to remove it from other stuff in middle to?)} No, B_i is ``broken at time i", ``not present at time i".
+Remove $m$ from $B_i$ and $M_j$. Then we can recover $w_1,\ldots, w_{s-1}$ from knowing $B_i,M_i$.
+
+%Rather than encoding $w_1,\ldots, w_{s-1}$, it suffices to encode the $B_i,M_i$. Imagine $m\in M_j$. It entered and exited the system but we never felt its presence. Dealing with higher priority things $m$ got fixed, and it exits the system. It will have a matching set $B_i$ where it entered. Remove $m$ from $B_i$ and $M_j$. 
+%Clause selection function is a permutation means the output. %whether it is in or out is the same.
+%current set of flaws, which to address. either highest or not.
+
+One by one we can remove all of $M_i$ and we obtain subsets $B_i^*$ of the original $B_i$. The content are the flaws which got introduced by the transition and caused the consumption of randomness further down. It suffices to encode $B_0^*,B_1^*,\ldots, B_{s-1}^*$. $B_0^*$ is special: encode it by $\{0,1\}^{|U(\si_1)|}$. This gives the factor $|U(\si_1)|$ in $B$.
+
+Now we need to encode $B_1^*,\ldots, B_{s-1}^*$. We break this into 2 parts: the size $|B_i^*|$ of the sets, and the content of the sets. To encode this, write $1^{|B_1^*|}01^{|B_2^*|}0\cdots 1^{|B_{s-1}^*|}$. This takes at most $2S$ bits, as $\sum_i |B_i^*|\le S$.
+
+%every action take just 1 flw. 
+%When I reach $\si_s$ many things can be broken, but we only need to encode those we addressed. We encode bad paths that get at least that far.
+Another way to look at this is to start with all the $B_i$'s empty; if something got addressed by an action at step $j$, go back in time as little as possible to find where it was introduced, and stick it in that $B_i^*$.
+
+Assign a budget %encoding length
+$c_i$ bits to each flaw. ($c_i$ will depend on the potentials.) Ask each flaw to create a prefix-free code it causes. %flaw 27, 13 bits. 19, 4 bits.
+%different flaws may use different codewords. %length no more than globally announced budget.
+Record the encodings of the flaws in $B_i$ using the prefix-free code for $B_i$, in some other tape $E'$.
+%length at each at most globally announced budget.
+
+We know the first thing addressed from looking at $B_0^*$. The first action breaks $|B_1^*|$ things that are later addressed before time $s$. Since we know $|B_1^*|$, we can read $|B_1^*|$ codewords, according to the dictionary of flaws that can be introduced in fixing what was fixed, from the encoding $E'$. %interpret it with respect to the dictionary of the flaws that can be introduced while trying to fix $i$.
+%dictionaries not globally consistent.
+
+Kraft's inequality\footnote{\url{https://en.wikipedia.org/wiki/Kraft\%27s_inequality}} applied to~\eqref{eq:kraft1} says that that we can create a prefix-free code for each flaw of length at most $\text{Pot}(f_i)-3$ bits. The total length of the encoding is
+\[
+2S + \sum_{w\in W} (\text{Pot}(w)-3) \le 2S+(T+b)-3S
+T+b-S \le -\fc{T}{b} = T\pa{1-\rc b}.
+\]
+($\sum_{w\in W}\text{Pot}(w)$ is total random bits used, which is $T+b$.)
+%potential is how many bits you consumed to address it.
+This is the promised $\ep$! $2+1=3$ gives an entropic gain of 1 bit per step.
+
+%true number of actions. Round to nearest power of 2. Flaw consume 4 bits. 
+%entropic gain of 1 bit per step.
+
+How to improve this? Rather than gain 1 bit per step, just gain $\ep$ bits per step. To get to $\rc e$, you do joint coding. The $-3$ becomes $-2$; then $-2$ becomes $\rc{e}$ when you do joint coding.
+
+%not online encoder, because doesn't know what will happen.
+%if uniform local lemma where all $A_i$'s same, then all the cleverness will still be there. 
+%not order - reshuffling? budget big enough because...
+%**compression comes from causality: only decode in the context of knowing who did the breaking. The only things are which subse of the things that it broke actually broke. 2nd: encoder is offline so not break directly at step, but look into future, charge randomness consumption against that encoding.
+%reason it's compressed is because budget is big. 
+%what information is decoder throwing away?
+%online encoder ? simulate state of system.
+%problem: still deal with future, that's where the entropy is, so it doesn't help.
+%OXSAT, woksat: assignment, select violated clause, flip a single variable. This combination of values doesn't work. 
+There is a practical algorithm where given an assignment, you select a violated clause, and flip a single variable. A natural thing to do is look at $e^{-\rc T(M-B)}$ where $T$ is the ``temperature" (how much you care) (Gibbs sambling), and sample proportionally to this distribution. 
+The results are reasonable. Is there a better functin that $M-B$: you get better results if you just ignore $M$: $e^{\rc T B}$, you do better. We obliterated collateral makes: we just encode what you break!
+
+%thoughts on reducing amount of randomness?
+This gives us to a different class of algorithms. %Instead of a random walk, think of clauses as variables that take $2^k$ possible values. 
+Consider acyclic edge coloring. (Any cycle has $\ge 3$ colors.) At each step, give a random color, subject to the condition that no 2 adjacent edges are the same color. If at some point a bichromatic cycle forms, erase all edges in the cycle. Describe a flaw as an edge is not colored. At every step remove one flaw, but potentially introduce a lot of flaws (erasing all edges in a cycle). There is no collateral make! You fix one flaw at a time. The only way something can get colored is if you color it. Then you don't need to know the future to get a good encoding. The encoder and decoder are in much better coordination; you can prove stronger results. The decoder can be aware of the probability distribution the encoder is facing, so can be more efficient.
+%close to 1/e almost satisfiable?
+%yeah, remove a few?  ``almost" % yes? how prove? LLL won't kick in? need go below threshold. deg remain hi?
+
+%switching lemma
+%encoding
+
+Acyclic edge coloring: You are given a graph; the only thing you know is a bound on the degree. There can be long cycles.
+%for delta. 
+How many additional colors need for acyclic edge coloring? For just edge coloring, $2\De$ is enough. In our case, $4\De$, we have a choice of $2\De$.  But we might be closing a huge cycle. The length of the cycle has nothing to do with the edge condition, but the proof that it terminates works: it is not how many things you break. You can see the amortization directly: every single thing will be addressed in the future; we can charge randomness against it. It's a future investment in randomness. 
+Encode the sequence of edges: describe $\De$ objects for each edge in the cycle: $l\lg\De$. This is what it will consume. %The object I need to encode, 
+
+\section{}
+During last fifty years a strong machine learning theory has been developed. This theory includes: 1. The necessary and sufficient conditions for consistency of learning processes. 2. The bounds on the rate of convergence which in general cannot be improved. 3. The new inductive principle (SRM) which always achieves the smallest risk. 4. The effective algorithms, (such as SVM), that realize consistency property of SRM principle. It looked like general learning theory has been complied: it answered almost all standard questions that is asked in the statistical theory of inference. Meantime, the common observation was that human students require much less examples for training than learning machine. Why? The talk is an attempt to answer this question. The answer is that it is because the human students have an Intelligent Teacher and that Teacher-Student interactions are based not only on the brute force methods of function estimation from observations. Speed of learning also based on Teacher-Student interactions which have additional mechanisms that boost learning process. To learn from smaller number of observations learning machine has to use these mechanisms. In the talk I will introduce a model of learning that includes the so called Intelligent Teacher who during a training session supplies a Student with intelligent (privileged) information in contrast to the classical model where a student is given only outcomes y for events x. Based on additional privileged information $x^*$ for event x two mechanisms of Teacher-Student interactions (special and general) are introduced: 1. The Special Mechanism: To control Student's concept of similarity between training examples. and 2. The General Mechanism: To transfer knowledge that can be obtained in space of privileged information to the desired space of decision rules. Both mechanisms can be considered as special forms of capacity control in the universally consistent SRM inductive principle. Privileged information exists for almost any inference problem and can make a big difference in speed of learning processes.
+
+Speaker: Vladimir Vapnik
+
+The main result of VC theory is that there are only 2 factors important for generalization: the percent of training errors $\nu_{\text{train}}$ and good functions as candidates for generalization. The capacity of the set of functions is measured by VCdim or VCent. Then with probability $1-\eta$,
+\[
+\Pj(P_{\text{test}}\in \nu_{\text{train}}+[-1,1]O^*\pa{\fc{\sqrt{VCdim-\ln \eta}}{\ell}}
+\]
+VCdim gives necessary and sufficient conditions when you don't have a probability measure.
+
+Why do human students require for learning much less examples than machines? The existing machine learning approach is based on a model of learning with trivial teacher, while human learning is based on a model of learning with intelligent teacher. The teacher is allowed to provide additional (privileged) information for the training examples.
+
+``Better than a thousand days of diligent study is one day with Great Teacher."
+
+\begin{mdl}[LUPI model]
+Given iid training triplets $(x_i,x_i^*,y_i),x_i\in X,x_i\in X^*,y_i\in \{-1,1\}$, $x_i^*$ generated by intelligent teacher according to $p(x^*|x)$, find among given $f(x,\al),\al\in \La$ the one $y=f(x,\al_{*})$ that minimizes $P_{\text{test}}$.
+\end{mdl}
+
+%space of pictures and descriptions.
+
+Generalization of perceptron with large margin: minimize $R=(w,w)$ subject to $y_i[(w,z_i)+b]\ge 1,i\in [\ell]$. The solution $(w_{\ell},b_{\ell})$ with probability $1-\eta$ has the bound
+\[
+P_{\text{test}}\nu_{\text{train}}+O^*\pa{\sqrt{VCdim-\ln \eta}}{\ell}.
+\]
+In the separable case using $\ell$ examples, estimate $n$ parameters of $w$. In the non-separable case, estimate $n+\ell$ parameters ($\ell$ parameters of slack).
+
+%realistic for $X^*$.
+Let $\xi_i^0=\xi^0(x_i)$ be the slack values.
+
+A real teacher does not know the values of slacks. But he can supply students with a correcting space $X^*$ and a set of functions $\xi(x^*,\de),\de\in D$ with VC dimension $h^*$. The teacher introduces both $X^*$ and $\xi(x^*,\de),\de\in \De$to speed up convergence from $O\prc{\sqrt{\ell}}$ to $\rc{\ell}$.
+
+SVM take 3: Kernels. $f(x,\al)=\sign\pa{\sum_{i=1}^{\ell} \al_iy_iK(x_i,x)+b}$. Solve a quadratic optimization problem. %expansion and similarity.
+
+SVM+: estimate slack functions. Define slack function $\xi_i=y_i[(w^*,z_i^*)+b^*]$ and minimize $R(w,b,w^*,b^*)=(w,w)+\ga(w^*,w^*)+C\sum ((w^*,z_i^*)+b^*)_+$ subject to $\sum \al_iy_i=0,\sum y_i\be_i=0$, $\al_i\ge0,0\le \be_i\le C$.
+%get -\rc{2\ga}\sum(\al_i-\be_i)(\al_j-\be_j)y_iy_jK^*(x_i^*,x_j^*)
+
+The teacher tries to indicate similarity to control the VC-dimension. %quality of intelligent teacher.
+
+Ex. 
+\begin{enumerate}
+\item
+Advanced technical knowledge can act as privileged information. 
+
+The advanced technical knowledge for DNA is the 3D structure.
+\item 
+Knowledge of future events. cf. Mackey-Glass time-series prediction. Training triplets are $x_t=x([t-3,t])$ and $x_t^*=x([t-\De-1,t+\De+2])$. In training on past events you can do this.
+\item
+Holistic description. (For different features.)
+(Moral: classify types of a single digit!)
+%5 as masculine, individual, not sociable, 8 as energetic, absorbed in work.
+%do not hit the ball, seduce the ball.
+\end{enumerate}
+
+%similarities
+Knowledge transfer: can knowledge of a good rule in $X^*$ help construct a good rule in $X$? Given $(x_i,y_i)$, find $y=\sign(f_\ell(x))$; given $(x_i^*,y_i)$, find $y=\sign(f_\ell^*(x^*))$.
+
+%ex. cancer. model, so rule in $X^*$ more accurate than space $X$.
+%ex. give a description! joint distribution?
+The fundamental elements are the smallest number $k$ of vectrs $u_i^*\in X^*$ for which $y=f^*(x^*)=\sum y_i\al_i^*K^*(x_i^*,x^*)+b\approx \sum^k \be_s^* K^*(u_s^*,x^*)+b$. %smallest number of vectors describe decision rule.
+%compression scheme?
+The $K^*(u_s^*,x^*)$ are frames.
+%$f$ is a linear combination of frame images $y=\sum^k=\sum \si_s\phi_s(x)+b$.
+%learn in smaller space.
+
+Quadratic kernels are easy (eigenvalue problem); general kernels are hard. %$u_i^*$ are solution of eigenvector problem $Su^* = \be^*u^*$.
+
+Find $m$ regression functions $\phi_k(x)$ given $(x_i,z_i^k)$ where $z_i^k=K^*(u_k^*,x_i^*)$.
+%transfer from space of privileged images to 
+%teacher probability of $x^*$ given $x$. 
+The image in $X$ of $K^*(u_k,x^*)$ is $\phi_k(x)=\int K^*(u_k^*,x^*)p(x^*|x)\,dx^*$, $k=1,\ldots, m$.
+
+Combine knowledge tranfer and similarity control.
+
+SRM principle: construct a nested structure on the set of admissible functions and minimize bound over 2 terms \[\nu_{\text{train}}+\pf{VCdim}{\ell}^{-\de}.\] Similarity control is in trying to minimize the $\de$. Minimize VCdim by knowledge transfer.
+
+%brute force philosophy, 16/7: we can stop looking for (scientific) models. let statistical algorithms find patterns where science cannot.
+
+%cargo cult philosophy; find how is it going on without math foundations of what's going on?
+
+%science starts with problems rather than observations. methods that reflect math understanding of reasons leading to generalization.
+
+%metaphoric reasoning.
+
+%functions have small VC dimension?
+
+%k-nearest neighbor consistent, but don't used because need too many examples. %need do better than brute-force functions. 
+
+\section{Kolmogorov width of discrete linear spaces: an approach to matrix rigidity}
+A square matrix V is called rigid if every matrix obtained by altering a small number of entries of V has sufﬁciently high rank. While random matrices are rigid with high probability, no explicit constructions of rigid matrices are known to date. Obtaining such explicit matrices would have major implications in computational complexity theory. One approach to establishing rigidity of a matrix V is to come up with a property that is satisﬁed by any collection of vectors arising from a low-dimensional space, but is not satisﬁed by the rows of V even after alterations. In this work we propose such a candidate property that has the potential of establishing rigidity of combinatorial design matrices over the binary ﬁeld. Stated informally, we conjecture that under a suitable embedding of the Boolean cube into the Euclidian space, vectors arising from a low dimensional linear space modulo two always have somewhat small Kolmogorov width, i.e., admit a non-trivial simultaneous approximation by a low dimensional Euclidean space. This implies rigidity of combinatorial designs, as their rows do not admit such an approximation even after alterations. Our main technical contribution is a collection of results establishing weaker forms and special cases of the conjecture above. (Joint work with Alex Samorodnitsky and Ilya Shkredov).
+
+Speaker: Sergey Yekhanin
+
+\subsection{Introduction}
+
+\begin{df}
+Let $V\in F^{n\times n}$ be a square matrix. We say $V$ is $(r,d)$-\textbf{rigid} if for all $V'\in F^{n\times n}$ such that for every $i\in [n]$, $d_H(V_i,V_i')\le d$, $\rank_F(V')\ge r$.
+\end{df}
+Valiant defined this in 1977. This very clean definition can be used to prove lower bounds.
+\begin{lem}
+A $(\Om(n),n^2)$-rigid $V:x\in F^n\mapsto Vx\in F^n$ does not have a linear circuit of size $O(n)$ and $\ln n$-depth.
+\end{lem}
+We have the following results.
+\begin{enumerate}
+\item
+With high probability, a random matrix is $(0.99n, \Om(n))$-rigid.
+\item We have NO explicit constructions for $0.99$: $(0.99,0)$.
+\item We have explicit constructions for $\pa{r,\Om\pa{\fc{n}r\ln \fc{n}r}}$, $r\ge \ln^2n$. (SSS94, Friedman). In the construction every minor has full rank; if you only change so many entries per row, there is a square minor that will not be touched. This is the ``untouched minor" argument.
+\end{enumerate}
+We've run against the ``untouched minor barrier": there are matrices for which every minor has full rank but have circuits of linear size.
+%total number of changes. It's enough to constrain the rows.
+%2 questions equivalent. nd vs. d.
+%matrix over reals: change 1 entry per row and get rank down to l/2. Hadamard not a candidate for $(0.99n,0)$.
+
+Valiant conjectured that geometric design matrices are rigid.
+The number of hyperplanes in $\F_q^{m+1}$ (points of $\Pj\F_q^m$) is $n=\fc{q^{m+1}-1}{q-1}\sim q^m$. 
+Each hyperplane has $w=\fc{q^m-1}{q-1}\sim q^{m-1}$.
+Every 2 hyperplanes share $\la = \fc{q^{m-1}-1}{q-1}\sim q^{m-2}$ points.
+%\begin{df}
+%A $\F_q$-geometric design is 
+%\end{df}
+%$PG(m+1,\F_q)$
+Thus hyperplanes form a $(n,w,\la)$-combinatorial design. Let $G_{m,q}$ be the matrix corresponding to the geometric design over $\Pj\F_q^m$.
+\begin{conj}[Valiant 1977]
+The matrices $G_{2,q}$ are $(\Om(n),n^\ep)$-rigid over $\F_2$.
+\end{conj}%sensitive to characteristic
+This is not quite true; we have to avoid the cases with low rank.
+\[
+\rank_{\F_2} G_{m,q}\begin{cases}
+\ge n-1,&q\ne 2^e\\
+=(m+1)^e\sim n^{\fc{\ln(m+1)}m},&q=2^e
+\end{cases}•
+\]
+(Calculation: fixing $m$ and letting $q\to \iy$, $n\sim q^m=2^{em}$, $(m+1)^e=2^{e\lg (m+1)}=n^{\fc{\ln(m+1)}{m}}$.)
+We hope to use combinatorial structure to prove rigidity. However, the combinatorial structure doesn't depend on $q$, while the rank does, so we'll need more information.
+ %Geometry can play a role when you take 
+%Zeev, Amir, Wigderson: matrix of projective, full rank over reals, remains linear if change $n^\ep$ of entries.
+%because of geometric intersection 
+%proof works over reals.
+%We want to prove rigidity desp
+
+Our goal is to prove that $G_{m,q}$ are $(n^{2\ep+\de},1-2\ep)$-rigid.
+This would already give lower bounds in communication complexity (separate something about polynomial hierarchy and PSPACE). 
+%old conjecture in design theory
+%$V_m\in F^{n\times n}$ with the same intersection properties as $G_{m,q}$. 
+Hamada's conjecture in design theory says the rank of a design marix is as high as a geometric design with the same parameters.
+
+\subsection{Methods}
+
+Consider the folloing embedding $\F_2^n\to \R^n$. for any $x\ne 0\in \F_2^n$, consider the normalized version in $\R^n$, $\fc{x}{\ve{x}_2}\in \R^n$. For $V\in \F_2^n$, define
+\[
+A_2(V)=\max_{W\subeq \R^n,\,\dim W=r} \min_{v\in V} \ve{\pi_W(v)}^2
+\]
+Find a subspace of dimension $r$ that maximizes the smallest projection.
+%if aligned along subspace then high, else low.
+%the hardest to approx are the unitaries. 1-D is diagonal. Higher dimensions: partition. 
+\begin{lem}
+$A_2(\F_2^n)\sim \fc{r}{n}$.
+\end{lem}
+\begin{proof}
+\begin{enumerate}
+\item
+Upper bound $A_2(\F_2^n)\le \fc{r}{n}$: 
+First note $A_2(\F_2^n)=A_2(\{e_1,\ldots, e_n\})$. For $W\subeq \R^n$ with basis $w_1,\ldots, w_r$, we have
+\[
+\sum_{i,j}\an{w_i,e_j} = r
+\]
+so there exists $j\in [n]$ such that $\sum_i \an{e_j,w_i}\le \fc{r}{n}$.
+\item
+Lower bound $A_2(\F_2^n)\ge \fc{r}{n}$.
+%Now we prove the lower bound, $A_2(\F_2^n)\ge \fc{r}{n}$.
+\fixme{
+Take the space 
+Say $\ve{v}_H = a$ and $V$ intersects $t$ blocks, $t\le k$. We have
+\[
+\sum_i \an{v,w_i} = \sum_{i} \pa{\fc{n}{\sqrt n}\rc{\sfc{a}r}}^2 = \sum \pf{r}{n}a^2 = \fc{r}{n}\sum a^2\ge\cdots 
+\]
+}
+\end{enumerate}
+%how inapproximable all of boolean cube
+%if dim approx space is large enough.
+\end{proof}
+\begin{lem}
+
+Let $V_m$ be a geometric design. Then $A_2(V_{m})\le \fc{r}n$.
+\end{lem}
+This is a spectral argument.
+
+One can also prove a stability result. Design matrices are as hard to approximate as all of the boolean cube.
+\begin{lem}
+Let $V\subeq \F_2^{n\times n}$  such that every row of $V$ has weight $w$, $d\le w$, $V'\in \F_2^{n\times n}$ is a $d$-perturbation of $V$. Then
+\[
+A_r(V')\le (\sqrt{A_r(V)}+\sfc{d}w)^2.
+\]
+\end{lem}
+A small perturbation of an inapproximable matrix is still inapproximable.
+\begin{lem}
+$m=\rc{\ep}$, $d=n^{1-2\ep}$, $\ep=\om(n^{1-\ep...})$ implies $A_r(V')\le \fc{r}{n}$.
+\end{lem}
+%some regime
+%Collection of inapproximable, cannot lie in low-dimensional linear.
+Even if allow perturbation, allow high-dimensional approximation, still as hard to approximate as Boolean cube. %Rows of matrix cannot be contained in set like that. Design matrices have high rank. Know design mats inapprox. Cannot contain rows of design matrix.
+%Low, 1-\ep
+%$n^{2\ep+\de}$
+\begin{conj}
+There exists $\al,\de,\ep=\rc{m}>0$ such that 
+for all linear spaces $L\subeq \F_2^n$ where $\dim L\le n^{2\ep+\de}$, for some $r=\om(n^{1-\ep...})$, $A_r(L)\ge (1+\al) \fc{r}{n}$.
+\end{conj}
+%every row has $n^{1-\ep}$ ones.
+%We can prove that can take 
+%Somewhat well-aligned along real space. A stronger result would prove rigidity.
+
+We can prove $o(n^{\ep}\ln n)$.
+%\ep with 10\ep.
+
+\begin{thm}
+For all $L\subeq \F_2^n$, $\dim L=k$, $A_1(L)\ge \rc k$.
+%all vectors sitting in some code/cone?
+%huge separation.
+\end{thm}
+Compare $A_1(\F_2^n)=\rc n$; there is a gap in approximability. We think of $K\approx n^{2\ep+\de}$. %$\le O(n^\ep)$.
+This gives the result to $O(n^\ep)$.
+\begin{thm}
+For all $L\subeq \F_2^n$, $\dim L=K$, $A_{n^{\tau}}(l)\ge \Om\pf{\ln k}k$.
+\end{thm}
+We went to $\rc k$ to $\fc{\ln k}{k}$. This gives the reult to $n^\ep\ln n$.
+%trivial result $n^{\rc{m}}\ln n$.
+
+%Let $V$
+%$r$-dim space minimize largest distance. Minimum is Kolmogorov width. 
+(Relation to Kolmogorov width: Minimizing the distance is equivalent to maximizing the projection.)
+$K_r(V)=\sqrt{1-A_r(V)}$.
+
+\begin{proof}
+For all $i\in [n]$, let $w_i=\min_{v\in L,\,i\in \Supp(V)} \text{wt}_n(v)$. Let $\mu(L)=\sum_{i\in [n]}w_i^{-1}$. Take $x\in \R^n$ such that $(\ldots, \rc{\sqrt{\mu w_i}},\ldots)\in \R^n$; $\ve{x}_2=\sum_{i\in [n]}\rc{\mu w_i}=\rc{\mu}\mu=1$.
+For all $v\in L$, 
+\[\an{x,v}=\sum_{i\in \Supp(v)} \rc{\sqrt{\mu w_i}}\rc{\sqrt w} \ge w\rc{\sqrt{\mu w}}\rc{\sqrt w}\ge \rc{\sqrt\mu}\stackrel ?{\ge} \rc{\sqrt n}.\] 
+%for all $i$, $w_i\le w$. Use $w$ terms. 
+%$w=\text{wt}_N(v)$.
+\end{proof}
+\begin{lem}
+$\mu(L)\le k$. 
+\end{lem}
+\begin{proof}
+Consider the hypergraph whose nodes are coordinates and whose edges are supports of elements in $L$. 
+Let $\ph=0$ be the potential function. Color all nodes white. Pick a white node with the smallest $w_i$. $E_i,|E_i|=w_1$. Remember $E_i$, color all nodes in $E_i$ black. $\ph$-tracks black weight.
+%tower of $>k$ disjoint? 
+%triangular rank.
+%cut space: every cone has weight 2. 
+%argument tight.
+%approximating low-dim space is easier than for cube. low-di approx, separation loss. Easier apr. need similar results for hi dim,
+%just need gap 1+\ep
+%Want $\Om(\fc1{n^{\rc2-\ep}}$\
+\\\
+
+$A_r(L)$.
+
+$L\subeq \F_2^n$, $\dim L=k$. $A_k(L)\le \fc{C}k$, for all $v\in L$, $\text{wt}(v)=\al \fc{n}{\al} \cdot (\rc{\sqrt{n}},\ldots)$
+take care of vectors which has high rank. 
+%fightlow-wave ,,,
+\end{proof}
+\begin{df}
+Let $F\subeq \F_2^s$. $S\subeq[n]$. Say $S$ is $(c,L)$-\vocab{attractor} for $L$, if for all $x\in L$, $|\Supp (x)\cap S|\ge C\fc{|S|}k$.
+%slique \in [n]
+\end{df}
+\begin{lem}Let $L\subeq \F_2^n$, %
+%$\
+$\dim L=k$, ,$[N]-\bigcup_{v\in L}\Supp(v)$. Assume for all $v\in L$, $\text{wt}(v)\in [w,2w], k\ge 2^{5c+2}$, there exists $(c,k)$-attractor of size $\fc{N}{2^{4c}}$.
+\end{lem}
+Restrict attention to slice.
+...see paper
+%touches -> touches by lot.
+
+\section{}
+Setup: Given a group $G$ and $k$ high-entropy distributions $X_i$ over $G$, show that $\prod_{i\le k}X_i$ is nearly uniform over $G$ in $L^{\iy}$.
+(This would give $\ep$-close to uniform in statistical distance $L^1$.)
+%hit every element of group.
+
+Consider $X,Y$ distributions over $0.1|G|$. Is $XY$ nearly uniform over $|G|$? Take $Y=G-X^{-1}$; then $1\nin \Supp(XY)$.
+
+Consider $X,Y,Z$ uniform over $0.1|G|$. The answer depends on the group. Obstacles are:
+\begin{enumerate}
+\item
+$H\sub G$ a dense subgroup (constant fraction of group), $X,Y,Z\subeq H$.
+\item 
+$G=\Z/p$ (abelian). Take $X=Y=Z=[0,0.1p]$
+\end{enumerate}
+
+Gowers, Babai, Nikolov, Pyber:
+\begin{thm}[Mixing in quasirandom groups]
+Let $X,Y,Z$ be independent and uniform over $\ge 0.1|G|$ elements of $G$. Then the $L^{\iy}$ bound is
+\[
+|X|_2|Y|_2|Z|_2\sqrt{|G|}/\sqrt d\le O(d^{-\rc 2})/|G|,
+\]
+where $G$ is the minimum dimension of a non-trivial representation of $G$.
+\end{thm}
+
+If $G$ is abelian, $d=1$; if $G$ is nonabelian simple, $d\ge \rc2 \sqrt{\ln |G|}$ (not far from tight for $A_n$). $\SL_2(\F_q)$ has $d\ge |G|^{\rc 3}$. Then $G=\SL_2(\F_q)$ gives $XYZ$ is $\rc{\poly(|G|)}$ close to uniform. (What is the best $d$? $\sqrt{|d|}$ is upper bound.) %Is it attained by a simple group)
+
+What happens when you throw in dependencies? If $AYA'$ is nearly uniform, and $(A,A')$ is uniform over $\ge 0.1|G|^2$ elements, $Y$ is independent and uniform over $0.1|G|$ elements of $G$? No. Pick any $Y$ over $0.5|G|$. Given $A$, define $A'$ as $G-Y^{-1}A^{-1}$, then $AYA^{-1}\ne 1$.
+
+\begin{thm}[Interleaved mix]
+For $(A,A')$, $(B,B')$ uniform over $\ge 0.1|G|^2$ elements of $G^2$, $(A,A'),(B,B')$ independent, 
+\[
+\ve{ABAB'-\rc{|G|}1}_{\iy}\le \rc{|G|^{1+\Om(1)}}.
+\]
+\end{thm}
+This recovers the $XYZ$ result.
+One proof works without representation theory but with Weil bound.
+Conjecture: there are similar bounds for all almost simple groups.
+
+This generalizes the previous result:
+\begin{thm}[Longer mix]
+For $A,B$ uniform over $\ge 0.1|G|^t$ elements,
+\[
+\ve{\prod_i A_iB_i-\rc{|G|}1}_{\iy}\le \rc{|G|^{1+\Om(t)}}.
+\]
+\end{thm}
+%$1/\al$.
+
+\subsection{Communication complexity}
+
+Alice gets $A$ and Bob gives $B$. They want to tell $\prod_{i\le t}A_iB_i=g$ from $\prod_{i\le t}A_iB_i=h$. If $G$ is abelian, the communication complexity is 2. If $G=\SL_2(\F_q)$, communication is $\Om(t\ln |G|)$; this holds even for public-coin protocols with advantage for $\rc{|G|^{ct}}$. 
+\fixme{(?) Reduction from IP gives $\Om(t)$ lower bound.}
+%such bounds grow with $|G|$.
+
+\subsection{Proof of interleaved mixing $ABA'B'$}
+
+Let $C(g)=U^{-1}gU$ be the uniform distribution over the conjugacy class of $g$.
+
+\begin{lem}[Main lemma]
+Let $G=\SL_2(\F_q)$.
+With probability $1-\rc{|G|^{\Om(1)}}$ over $a,b\in G$, $|C(a)C(b)-U|_1\le \rc{|G|^{\Om(1)}}$.
+\end{lem}
+
+\begin{proof}[Proof of interleaved mixing]
+Suppose for simplicity $(A,A'),(B,B')$ are iid uniform over $S\subeq G^2$, $|S|=\al|G|^2$. 
+
+The main tool is Cauchy-Schwarz. By Bayes's rule.
+\bal
+|ABA'B'(1)-\rc{|G|}|& \le
+|\E_{u,v,u',v': uvu'v'=1}S(u,u')S(v,v')-\al^2| \rc{\al^2|G|}\\
+(*)&\le \E_{v,v'}\E_{u,u': uvu'v'=1}(S(u,u')-\al)S(v,v')\\
+&\le \sqrt{
+\E_{v,v'}(\E_{u,u': uvu'v'=1}S(u,u')-\al^2)\sqrt\al
+}\\
+(**)&\le \E_{v,u,u',x,x':uvu'=xvx'} S(u,u')S(x,x')\\
+&= \E S(u,u') S(ux,u'C(x)).
+\end{align*}
+Where conjugacy classes come up: $v^{-1}x^{-1}uvu'=x'$.
+Pick a pair, take a step in the Cayley graph $(u,u')\mapsto (ux,u'C(x))$ hits like (taking 2 steps at a time) $(u,u')\mapsto (uxy,u'C(x)C(y))$.
+\end{proof}
+
+%Adam-Bante Harris: products of conjugacy classes.
+Most papers study $\Supp(C(a)C(b))$ but we need statistical bounds. They study worst-case $a,b$, which is insufficient.
+\begin{proof}[Proof of lemma]
+Observation: $C(a)C(b)=C(C(a)C(b))$. Proof: $w^{-1}u^{-1}au ww^{-1} v^{-1}bvw$.
+
+Suffices to show $C(a)C(b)$ hits every class with the right probability.
+
+All but $O(1)$ of $q+O(1)$ conjugacy classes have size $q^2+\Te(q)$. Picking a uniform element is close to picking a uniform class. There is an almost 1-1 correspondence between classes and $\F_q$ given by trace. We will show $|\Tr C(a)C(b)-U_q|\le \rc{q^{\Om(1)}}$. 
+
+\[
+\Tr C(a)C(b)=\Tr a C(b).
+\]
+Let the conjugator be $\smatt{u_1}{u_2}{u_3}{u_4}$. This is a polynomial in $u_1,u_2,u_3,u_4$ subject to $u_1u_4-u_2u_3=1$. Substituting the value of $u_4$, we get $g(x,y,z)$. We need to show $|g(x,y,z)-U_q|\le \rc{q^{\Om(1)}}$.
+
+Use the Weil bound: for $f\in \Z[x,y,z]$ irreducible over any field extension and of low (bounded) degree, we have $\le O(q^{-1.5})$. Prove for $q-O(1)$ values $s\in \F_q$, $g(x,y,z)-s$ is irreducible. This relies only on zero/nonzero coefficient pattern. 
+%version of Weil give uniform distribution? 
+%Schmidt's book.
+%g=x^2. x^2-s not uniformly distributed.
+%proving irreducibility a big deal. They don't really understand, just do things like this is zero, this is nonzero, there is no way to factor in any field extension.
+%Stepanov.
+%x^a+y^b+...
+%Gao. linear system has full rank? test for absolute irreducibility using a large determinant.
+\end{proof}
+
+\subsection{Multiparty communication complexity}
+\begin{lem}
+Let $G=\SL_2(\F_q)$, $s\gg m$, $D_1,\ldots, D_s$ be independent distributions on $G^m$, $D_i$ is pairwise independent, then 
+\[\ve{D_1\cdots D_s - \rc{|G|^m}}_{\iy}\le \fc{\ep}{|G|^m}.\]
+\end{lem}
+
+In multiparty communication complexity, each party has an input on their forehead. Consider 3 parties for simplicity. The interleaved product is $P(A,B,C) = A_1B_1C_1\cdots A_tB_tC_t\in G$. We want to tell $P(A,B,C)=g$ from $P(A,B,C)=h$.
+
+The trivial upper bound is $O(t\ln |G|)$. The reduction from generalized IP gives $\Om(t)/2^k$ lower bound. %Babai Szegedy. 
+The conjecture is that for any simple nonabelian group, $\Om(t\ln |G|)/2^k$, and is hard even for $k>\lg \pat{input length}$. The second is interesting even if $|G|=O(1)$.
+%Gromov upper bound.
+This would be a breakthrough in communication complexity theory. %biran
+Ran Raz: each matrix $n\times n$, entries in $\F_2$. 
+%some functions stay hard in regime.
+%circuit lower bounds: 
+
+%t, \lg |G|
+%something grows like $t\lg |G|$. This is the bit length of the input. This is exactly the bound from GIP. 
+(Note the lower bound is not better than GIP, because $t\lg |G|$ is exactly the bound length. The function has better structure though.)
+
+\begin{thm}
+For any $k=O(1)$, $\Om(t,\lg |G|)$, and $t$ large enough.
+\end{thm}
+There is a nontrivial bound when $k$ grows moderately.
+
+Corollary: Leakage-resilient construction is secure even in only-computation leaks model. \url{http://www.ccs.neu.edu/home/viola/papers/leak.pdf}
+
+The proof of lower bound relies on the interleaved group products theorem.
+\begin{proof}
+Define $f(A,B,C)=1$ if $P(A,B,C) = g$, $-1$ if $P(A,B,C)=h$, and 0  otherwise.
+
+\begin{lem}[BNS, CT, R, VW]
+The correlation with $c$-bit protocols is the \vocab{box norm} $\le 2^c |G|\E\pa{\prod_{\al,\be,\ga\in \{0,1\}} f(A^\al,B^\be, C^\ga)}$ for $A^0,\ldots, C^1\in G^t$ uniform.
+\end{lem}
+Given that the $2^3$ factors are all in $\{1,-1\}$, the expected number is $\Pj\pat{even number of $-1$}-\Pj\pat{odd number of $-1$}$.
+
+Try to solve something harder! We show that the $2^3$ tuple $(P(A^i,B^j,C^k))_{i,j,k\in \{0,1\}^3}$ is nearly uniform in $G^8$. Let $D(t)$ be the $2^3$ tuple when $|A^0|=\cdots = t$. $D(t)$ is the componentwise product of $s$ copies of $D(t/s)$. For any $r$, $D(r)$ is pairwise (3-wise) independent.
+
+\begin{lem} 
+ If $D_1,\ldots, D_s$ are independent, each is pairwise independent, then $D=D_1\cdots D_s$ is $\fc{\ep}{|G|^m}$ close to uniform in $L^{\iy}$.
+\end{lem}
+It's enough to show $m=3$.
+``Multiplying pairwise independent distributions flattens them." All we use on $G$ is the $k=2$ result ($ABA'B'$).
+%1 var. 
+
+\begin{lem}
+For $p,q$ pairwise independent over $G^3$, $|p|_{\iy},\ve{q}_{\iy}\le \rc{|G|^{2+\te}}$, 
+\bal
+\ve{pq}_2^2 & \le \rc{|G|^3}+\rc{|G|^{2+\te+\Om(1)}}\\
+\ve{pqpq}_\iy & \le \rc{|G|^3}+\rc{|G|^{2+\te+\Om(1)}}.
+\end{align*}
+\end{lem}
+%``Get a little closer to uniform." 
+Improve the $L^{\iy}$ bound if you take 4 copies.
+\begin{proof}
+\bal
+\ve{pq}_2^2 &= \sum_{x_iy_i=z_iw_i} p(x_1,x_2,x_3)q(y_1,y_2,y_3)p(z_1,z_2,z_3)q(w_1,w_2,w_3)\\
+&\le n^4 \sum_{xy=zw} A(x,w)B(y,z)
+\end{align*}
+where $A(x,w)=\sum_a p(x_1z,x_2,x)q(y_1,y_2,w)$ and similarly for $B(y,z)$. Apply the functional version of the $k=2$ result.
+\end{proof}
+\end{proof}
+%$SL_3(q)$? 
+%express product of conj classes in terms of polynomials.
+%weak for alternating group
+
+The communication complexity of deciding $ABA'B'=g,h$ for $A_n$ is $\om(1)$ for deterministic protocols.
+%another group: constant. 
+Use nontrivial structure of $A_n$. (See papers on conjugacy classes on $A_n$. Need conjugacy class result.)
+
+\end{document}

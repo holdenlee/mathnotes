@@ -1,0 +1,67 @@
+\subsection{Succinct obfuscation}
+
+Indistinguishability obfuscation: two programs with same functionality can't be told apart.
+
+We have circuit obfuscation. Circuits are as large as their running time. Can we obfuscate small programs with long running times, i.e., Turing machines?
+
+Turing machines with the same functionality and running times are indistinguishable. Should be efficient. 
+
+There is io for Turning machine which is efficiency preserving, semi-efficient.
+$O(M)$ in time $\wt O(TIME(M,x))$. 
+Time depending on original time (and space). Without space dependence, doesn't generalize to RAM.
+
+Simpler primitive: randomized encoding. Like single-input obfuscation. Encode nothing more than result. 
+
+3 different ways to construct.
+\begin{enumerate}
+\item
+Goal: randomized encoding for TM. Time(TM.encode)$\ll$ Time(M(x)). andomized encoding for circuits: encode all poly-sized circuits in $NC1$. Each gate computed from 1 gate in $C$ and few bits of randomness.
+
+TM encoding: first approach.
+
+Convert to circuit representation: width is space, depth is time. Encoding time is size of circuit, at least time complexity of machine. A lot of redundancy, a circuit applied over and over again. (1) $C_M$ is succinctly represented by nex configuration circuit. (2) Each layer is computed from the same and few random bits.
+
+TM encoding: hardcoded next configuration circuit, $K$. Obfuscated circuit. %Decoding encoded TM, run circuit decodig
+
+Feature of proof: encoding is indistinguishable from dummy encoding. Hybrid encoding: modify behavior of one of layers. At time steps $<j$, output dummy layer. 
+\item
+CHJV: naive attempt
+
+to encode $(M,x)$: circuit takes local state and symbol and output next state. Obfuscate this: 
+Problems: doesn't hide CPU, tape, or verify inputs.
+Encrypt inputs and outputs. 
+Rely on transformation to fixed movement pattern.
+
+Sign outputs and verify signatures not enough. Adversary can give input what was on tape before but is overwritten. Make it output a time stamp along with symbols; it also checks the timestamp is correct.
+
+IO compatibility: IO friendly signature schemes.
+
+Proof, high-level: Obfuscated circuit. Show indistinguishable from obfuscated that contains nothing but output memory which contains the answer. Indistinguishable hyperdistributions. 
+%dummy comp followed by real.
+%need $j$th meory configuration hardcoded somewhere.
+%pad input. 
+%change hybrid structure and show indistinguishable.
+
+Intermediate hybrid: $j$th configuration needed...
+\item
+KLW: run for $j$ steps, simulate remaining steps, output $y$. Don't need any memory configuration. 
+%takes time stamp,... 
+%if use oblivious TM, hides $j$th moment.
+
+Can still give CPU illegal inputs. Make the adversary: use a has function which hashes the entire tape. Need a proof that has correct hash. Using new symbol, update hash. Observation: program should not take huge inputs, must be succinct. Need special properties from hash function.  Succinct hash value, proofs, update.
+
+Hash tape to succinct value in tree fashion.
+
+Security: Idea; provie adversary to correct calculation. What about 
+\begin{enumerate}
+\item
+PPT adversary cannot find fake proofs. Not iO-Friendly!
+\item
+Hash ouput binding to correct tape. No `fake' proofs. But $h,\pi$.
+\item Solution: positional merkle trees
+
+Hash value $h$ is binding at $p^*$. Information-theoretic. Splittable signature schemes.
+\end{enumerate}•
+
+
+\end{enumerate}•

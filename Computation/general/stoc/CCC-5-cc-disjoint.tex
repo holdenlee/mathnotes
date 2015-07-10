@@ -1,0 +1,80 @@
+%If $f:B^n\to B$ is in $NC^1$, then 
+
+%Explicit $f$ requiring $\ln^2$ players if each sees $n/2$ bits.
+%No protocol for $s-t$ conjectivity with $o(n)$?
+
+Is $|X\cap Y\cap Z|=0$? $X,Y,Z\subeq [n]$. Each player sees 2 sets, and want to know whether $|X\cap Y\cap Z|=0$. How many bits do they need to exchange? It seems like an obstacle to proving stronger lower bounds for multiparty communication. 
+
+$k$ players and sets; each knows $k-1$. 
+Deterministic communication lower bound: $\fc{n}{4^k}$. 
+
+Lower bound works for quantum protocols, and there is a quantum protocol reaching it. We simplify Sherstov's randomized lower bound.
+
+Note $\fc{k^2 n}{2^k}$ bits suffice.
+Consider the $2^n\times 2^n$ matrix corresponding to $f$. Sending a message partitions the matrix into 2 parts corresponding to 0/1. The protocol partitions the matrix into monochromatic rectangles.
+
+A rectangle is a boolean function expressible as a product of 2 boolean functions $R(x,y)=A(x)B(y)$.
+
+\begin{thm}
+If $f$ is computed with $c$ bits then $f$ can be partitioned into $2^c$ monochromatic rectangles. %If $f$ is computed with $c$ bits $
+($f$ is the sum of $2^c$ rectangle functions.)
+\end{thm}
+ Randomized protocol: nearly $2^c$ monochromatic rectangles.
+
+Is $|X\cap Y|$ even? requires $n$ bits of information.
+
+Lindsey's lemma: no large monochromatic rectangle. If $R$ is monochromatic and has density $\de$,
+\[
+|\E_{X,Y}[a(X)b(Y)(-1)^{X\cdot Y}]|=\de
+\]
+%no large monoc rectangles.
+
+Use C-S repeatedly.
+\[
+\E_{X,Y}[a(X)b(Y) (-1)^{X\cdot Y}]^2 \le \E_X [a(X)^2 \E_Y [b(Y)(-1)^{X\cdot Y}]^2]\le \E_{X,Y,Y'}[b(Y)b'(Y)...]
+\]
+... at most $\E_{A,B} (-1)^{A\cdot B}\le 2^{-\Om(n)}$. In fact, no large. 
+
+is $|X\cap Y|=0$? requires $n$ bits, even randomized. Ther are large monochromatic rectangles.
+
+Use information complexity. No large 1-monochromatic rectangles.
+
+Information theory stuff does not work in multiparty setting.
+Cylinder communication: set $I$,
+\[
+I(x,y,z)=A(x,y)B(y,z)C(z,x).
+\]
+$f$ computed with $c$ bits: This means $f$ is sum of $2^c$ cyliner functions.
+
+Lemm: no large nearly monochromatic cylinder intersection. (BNS91) Proof similar: square thrice; move the square inside. $\E\le 2^{-\Om(n)}$.
+
+\fixme{This is the proof for generalized inner product. It doesn't work for disjointness. Infomation complexity doesn't seem to work (we don't have the right definitions).}
+
+We prove we cannot cover the 1's with nearly monochromatic cylinder intersections.
+Use distribution, but not hard distribution for protocol. But is very useful in analysis.
+\begin{enumerate}
+\item
+$4^k\times k$ matrix: eveyr column appears $2^k$ times except all 1's. 
+\item
+$b\in B$ random. Each $sum_i v_i=b\pmod 2$ occurs one additional time.
+\item
+Permute columns.
+\item Take multiple (independent) copies of that distribution. Concatenate the matrices.
+\end{enumerate}
+probability of getting disjoint sets if $\rc2$. Most randomness comes from permuting columns.
+
+Prove analogue of Lindsey's lemma. Correlation with parity of whether each part is disjoint is exponentially small. 
+Lower bound for communication complexity.
+$|\E[I(X_1,\ldots, X_k)(-1)^{\sum_i D_i}]|\le 2^{-2m}$. The deterministic CC is $n/4^{-l}$.
+
+Randomized lower bound more complicated. Use approximation theory. 
+\[
+\ab{
+f((\sum B_i)m/r)(-1)^{\sum B_i}
+}\le 2^{-12r}
+\]
+OPen: prove anything better than $\fc{n}{2^k}$. Randomized communication lower bound.
+%det/quantum spectrum. rand?
+%Deterministic:
+
+%different language.

@@ -1,0 +1,75 @@
+\subsection{Monotonicity testing}
+
+Property testing.
+\begin{enumerate}
+\item
+Monotone: accept
+\item
+Far from monotone: reject with high probability
+\end{enumerate}
+\begin{enumerate}
+\item
+Simplest:
+edge tester with $O(n)$ query complexity.
+\item
+Fischer: $\Om(\ln n)$ queries.
+\item
+Now: $\Om(n^{\rc 2-c})$ lower bound. KMS15: $O(n^{\rc 2})$ query tester.
+\end{enumerate}
+
+For eveyr $c>0$ there is $\ep(c)>0$ such that any non-adaptive algorithm, to distinguish $\ep(c)$ far away need $\Om(n^{\rc 2-\ep})$
+
+Key ingredient: multidimensional central limit theorems. 
+
+We use Yao's minimax principle: tricky distribution over inputs to deterministic algorithms. Need $D_{yes}$ supported on monotone functions, $D_{no}$ supported on far from monotone functions Indistinguisability: for $T$ making $o(n^{\rc 2})$ queries, difference btween aceping is $<\ep$.
+
+Both supported on linear threshold functions over $\{-1,1\}^n$. 
+\begin{enumerate}
+\item
+YES: $\si_i$ uniform from $\{1,3\}$. Monotone
+\item
+NO: $\nu_i=-1$ with prob .1, $\fc 73$ with 0.9. Far from monotone. (because enough weight on negative)
+\end{enumerate}
+For any tester making 1 query, $\Pj-\Pj=o(1)$. 
+\begin{proof}
+difference is at most $d_{TV}$. Look like Gaussians. Sum of many independent reasonable random variables converges to Gaussian of same mean and variance. Use Barry-Ess\'een CLT.
+Apply the CLT twice. Have matching first 2 norms, converge to same Gaussian.
+\end{proof}
+For $q$ queries instead of 1, use the multidimensional CLT.
+
+Adapt multidim CLT for earth mover distance to get $\Om(n^{\rc 5})$. Extebd nyktudun CKT. Their proof techique is Lindeberg's replacement method. 
+
+3 new ideas.
+\begin{enumerate}
+\item
+random variables that match arbitrarily many moments
+
+By matching $h$, only error term of order $h+1$.
+\item
+careful construction of mollifiers in CLT analysis
+
+Control width of error region where mollifier is in $(0,1)$.
+(Using 2 ideas gives $\Om(n^{\rc 4})$.)
+\item
+pruning query set to make it nice.
+
+Delicate CLT analysis gives bound for scattered query sets (no two queries close together). SIlly example: ask same query over and over. Close by queries are likely to take same value, tester does not benefit much. 
+
+Key reduction: every set of $O(n^{\rc 2-\ep})$ queries can be pruned to become $Q'$ scattered.
+\end{enumerate}
+
+%when adaptive test does better?
+
+Lindeberg's replacement method: 
+\[
+|\E[\Phi(X_1+\cdots +X_n)]-\E[\Phi(Y_1+\cdots +Y_n)]|.
+\]
+$\Phi$ is a smooth approximation to the indicator of union of orthants (hybrid method). 
+\begin{enumerate}
+\item
+Swap out each $X_i$ with $Y_i$, not introducing too much error.
+\item
+Bound difference via $\Phi$'s Taylor expansion.
+\end{enumerate}•
+
+Adaptive testers still gap. Yao minimax only for nonadaptive. Does have polylog linear tester for linear threshold.

@@ -1,0 +1,69 @@
+\subsection{Sparse quantum codes from quantum circuits}
+
+Quantum error correction allows us to deal with noise in quantum computation. Most of them are satablizer codes. 
+\begin{enumerate}
+\item
+Define stabilizers: Sets of commuiting operators
+%joint $\pm1$ eigenspace.
+%fix point
+%fix spacewise
+\item
+Logical operators: operators anticommute.
+%2 bits stabilized by stabilizer operators.
+\end{enumerate}•
+Subsystem codes:
+%stabilizers emergent from gauge root
+\begin{enumerate}
+\item
+Use excess logicla qubits as gauge and correct errors up to transformations on gauge space
+\item Can be sparser with simpler syndrom measurements, higher threshholds
+%don't commute with $G_Z^i$. 
+%some disturbanc
+\end{enumerate}•
+
+Isolate disturbance among gauge qubits. %Correlations between gauge syndrom
+
+Sparse code: $[n,k,d]$ if encodes $k$ logical qubits into $n$ physical qubits and detect any Pauli error of weight $<d$
+%> $s$-sparse if every gauge generator has weight $\le s$,  
+
+ local measurements and look at correlations.
+
+Topological codes, LDPC codes. Major challenge, find sparse qc perf well with $k,d=O(n)$
+
+qLDPC? Arithmetic hyperbolic curves: linear number of logical cubits, distance $n^{.3}$. (Guth, Lubotzky) 
+%1 or constant number of qubits.
+%embed into spatially local lattice
+%$n^{1-\ep}$
+
+Given any quantum stabilizer code, given circuit of size $s$: give you an output code of more general subsystem variety, with parameters $[n,k,d]$, $k,d$ preserved, and now sparse. All gauge generators constant length. Circuit of size $s$. Prepares particular stabilizer code. Circuit is generator for code. Can always choose to have small size, $n_0+\sum_i w_i$ (weights of original generators).
+
+Systematic way convert any stabilizer code into sparse subsestem code with same parameters.
+
+Begin with stabilizer code of your choice. Write a quantum circuit for measuring the stabilizers of this code. Ancilla preparation, post-selected measurement (formally). Turn circuit elements into I/O qubits. (Turn time into space. Why circuit size enters into argument.) 
+
+Add gauge generators via Pauli circuit identities. 
+%XXXI
+Table for Clifford group (not universal): can write down corresponding gauge generators. 
+
+Circuits are linear operators preservg the code space $V=\kb{00}{00}$. Gauge equivalence of errors. Equivalent on logical space, only change on gauge cubits decoupled? Push to boundary. $V_E=\pm V_{GE}$. Equivalent from persp of operator act by conjugation. \vocab{squeegee}. \vocab{Spackling}: can leave residue. Snapshots of history of opertor start at boundary and propagate. Worldsheets.
+%everythign else is gauge or error
+
+``Clean windshield." Bugs spread out nonlocally over edge of windshield. Doesn't let us say anything about distance, can propagate to large error. Spread error, make detectable up to distance of code. use fault-tolerance from circuit, arguments from expanders (constant-degree expanders exist with enough fault tolerance). 
+
+Spackling shows $k$ preserved.
+
+corollary: almost good sparse subsystem codes. Concatenting code $\sqrt{\ln n}$ times, $d=O(n^{1-\ep})$. 
+
+Local subsystem codes with $d=O(L^{D-1-\ep})$, $\ep=O\prc{\sqrt{\ln n}}$.No errors that look like 1D extended objects, have some surface area.
+%arxiv:1411.3334
+
+
+How do classical hard disk drives work? Microscopically chunks of material magnetized pointing up/down. Below certain temperature, hard for all spins to flip. They want to align with their neighbors. If one flips, encouraged to flip.
+
+Isoperimetric argument. Hve to flip s.t. where energy penalty is proportion to surface area. Unlikely. Result: something modeled by Ising model, can encode info, sit there, not touch it for exponentially long time and still get right with constant probability.
+
+Self-correcting memory.
+
+Can we make self-correcting quantum memory?
+
+Our codes are candidate self-correcting quantum memories.

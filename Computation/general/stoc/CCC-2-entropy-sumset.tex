@@ -1,0 +1,109 @@
+\subsection{Entropy sumset inequality and polynomial convergence to Shannon capacity for all alphabets}
+
+Coding for discrete memoryless channels: take a message $m\in M$, encode into a codeword $x\in X^N$, put through noisy channel to received word $y\in X^N$, and decde and output $m^*\in M$. Shannon: there is a threshold $I(W)$, the channel capacity. $\ep$ gap. (Ex. $X$ uniform, $I(W)=I-H(W)$. This is symmetric channel capacity. For symmetry channels, exactly channel capacity. Examples. BSC${}_p$, BEC${}_\al$.)
+
+Proof: probabilistic method. Random code perfoms well. In order to get $I(w)-\ep$, take block length $N=\rc{\ep^2}$, prob error $e^{-\ep^2N}$.
+
+Achieve capacity: precise complexty-theoretic formalism:
+\begin{enumerate}
+\item
+$\Pj(Dec(W(Enc(m)))=m)$ tiny
+\item
+Block length $N\le \poly\prc{\ep}$
+\item
+Runtime of ENc and Dec $\poly\prc{\ep}$.
+\end{enumerate}•
+Seek complexity poy bounded insingle parameter, gap $\ep$ to capacity.
+
+Codes close to capacity
+\begin{enumerate}
+\item
+Forney concatenated codes, decoding complexity $e^{\prc{\ep^2}}$. 
+\item
+LDPC codes: approach capacity arbitrarily closely only for erasures
+\item
+Polar codes: achieve capacity for block length $N\to \iy$. $O(N\ln N)$ complexity successive cancallation decorder.
+\end{enumerate}
+How large take $N$ to be $\ep$ within capacity? 
+
+First and so far only proven construction to appraoch capacity with $\poly\prc{\ep}$.
+
+Extend to $q$-ary polar codes for $q>2$. rate $I(W)-\ep$ for $N\ge \prc{\ep}^{c(q)}$. 
+
+Key new ingredient: entropy increaes inequality for condition random variables over prime alphabets.
+
+\subsubsection{Polar codes: quick primer}
+Focus on compression (dual viewpoint, cleaner).
+$(X_i)_{i=0}^{N-1}$ copies of rv supported on $[0,q-1]$. 
+
+Goal: compress via linear map to $H(X)N$ symbols over $[0,q-1]$. %Compress it via a linear map to $H(X)N$ symbols over $[0,q-1]$.
+Now
+\[
+H(U)=H(U_0)+H(U_1|U_0)+\cdots.
+\]
+Find map that's polarizing: conditional entropies at output polarize to 0 or 1.
+\[
+\rc N|\set{i}{H(U_i|U_{<i})\in (\ep,1-\ep)}\to 0
+\]
+as $N\to \iy$. Only $H(X)$ have entropy, and full to close.
+
+Index more or less determined. Suppress output. Only output on non-good indices. If $i\nin$Good, know from encoder. If $i\in$Good, set to more likely bit. Efficiently computed by recursive construction.
+%could be uncomputable...
+
+Prob doesn't recover is $\le \sum_{i\in Good}H_i\le \de N$.
+
+%For good chunk of indices, 
+
+Need $N\times N$ matrix ...
+
+Ex. $2\times 2$ polarization: $\matt1101$.
+Suppose $X\sim Bernoulli(p)$. 
+\bal
+H(U_0)&=h(2p(1-p))>h(p)\\
+H(U_1|U_0)&=2h(p)-H(U_0)<h(p).
+\end{align*}
+Recurse: $\matt 1101^{\ot n}$. 
+Map of gates: cf. Fourier circuit, but with functions $V_i+T_i,T_i$.
+%$V_i,T_i$ to $G_2$
+everything boils down to understanding what $G_2$ does.
+
+$W$: pair of correlated random variables $(A,B)$, entropy $H(W)=H(A|B)$.
+
+Take wo iid codies $(A_i,B_i)$, output $(A_0+A_1;B_0,B_1)$, $W'=(A_1;A_0+A_1,B_0,B_1)$. $H(W)+H(W')=H(W'')$ chnnel splitting.
+
+Get a Pascal triangle of $W^{\pm\pm\cdots}$. 
+%conservation of entropy.
+Second moments converge to a limit, monotone convergence theorem.
+
+Entropy increase/no-fixed poitns lemma: 
+If $(X_i,Y_i)$ are iid and $H(X_i|Y_i)\in (\de,1-\de)$, then $H(X_1+X_2|Y_1,Y_2)\ge H(X_1|Y_1)+\ga (\de)$. Second moment increases, converge to $H_{\iy}=Bernoulli(H(X))$. Entropies polarize in the limit. Poly fst convergence requires $\E[H_n(1-H_n)]\ll \rc{N}-2^{-n}$.
+
+Qualititative version. If not $\de$-near boundary, increase by amount linear in $\de$.
+
+Binary $q=2$: Mrs. Gerber's lemma: suffices to consider unconditioned case, check for Bernoulli. 
+General prime $q$: entropi increase inferred from Sasoglu, but too slow.
+
+Idea: conditions annoying, get rid of them. All possible wys condition $Y$. Reduce to statement about unconditioned variables. FOr unconditioned, want to show the first statement. 
+
+$H(A+B)\ge \max (H(A),H(B))$,
+$H(A+B)$ ore than some skewed average. 
+
+Unconditional entropic inequality. 
+Difficult case: both entropies close to 0 or 1. Almost all weight on 1 symbol. Deviate from uniform distribution, etc. Established poly gap to capacity for polar codes over prime alphabet. 
+
+Not hold for non-prime due to existance of nontrivial additive subgroups.
+
+Codes for general alphabets. 
+
+Codes with poly gap to capacity for all alphabets. 
+Exponent $c$ in $N(\ep)=O\prc{\ep^2}$ depends on $q$.
+
+Basic questions about entropy. 
+
+$H(X+X')=H(X)+\al(q) H(X)(1-H(X))$. Show $\al(q)\ge \poly\prc{q}$, $\al(q)\le O\prc{\ln q}$. 
+
+Finite group analogye of entropy sumset inequalities. torsion-free case, Tao 10.
+
+Entropic analogs of additive combo theorems. Integers: Abbe, Teleltar.
+
+

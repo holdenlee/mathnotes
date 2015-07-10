@@ -1,0 +1,69 @@
+\subsection{Exponential Separation of Information and Communication for Boolean Functions}
+
+Classical results about message compression. Alice has $x$ chosen according to publicly known distribution. Wants to send message to Bob so Bob can retrieve with high probability. Need to send $\approx O(H(x))$ bits.
+
+Message-compression theorem: any message can be compressed to its information content.
+
+Interactive-compression problem: what if Alice and Bob engage in an interactive communication protocol? Can the protocol's transcript be compressed to its ``information content"?
+
+Standard model of communication complexity. How many bits to exchange to compute $f(x,y)$?
+
+Randomized CC: both players can use private and public random strings, have to compute $f(x,y)$ with probability $>\fc 23$ (over $(x,y)\sim \mu$). 
+\[
+CC(f,\mu)=\min_{\pi \text{ computes }f\text{ over }\mu}(CC(\pi,\mu)).
+\]
+Can every protocol be compressed to its information content? Measure information content by information complexity.
+
+Conditional mutual information is the information that a player who knows $X$ learns about $Y$ by seeing $\Pi$, on average.
+\[
+I(\Pi;Y|X)=H(Y|X)-H(Y|X,\Pi).
+\]
+
+Internal information complexity: amount of information that players learn about each other's input from the interaction.
+\[
+IC(\pi,\mu)=I(\Pi;Y|X)+I(\Pi;X|Y)
+\]
+what Alice learns about $Y$ from $\Pi$, plus what Bob learns about $X$ from $\Pi$.
+
+\[
+IC(f,\mu)=\inf_{\pi \text{ computes }f\text{ over }\mu} IC(\pi,\mu).
+\]
+What is the relationship between information and communication complexity?
+For all $\pi,\mu$,
+\[
+CC(\pi,\mu)\ge IC(\pi,\mu).
+\]
+Hence for all $f,\mu$, 
+\[
+CC(f,\mu) \ge IC(f,\mu).
+\]
+The other direction is not true in general: $CC(\pi,\mu)$ can be much larger than $IC(\pi,\mu)$ because it can be wasteful: send unnecesseary information. But if it's wasteful, maybe it can be compressed.
+
+Compression problem: given a protocol $\pi$, can $\pi$ be simulated by $\pi'$, such that $CC(\pi',\mu)\approx IC(\pi,\mu)$? 
+
+Equivalently, is it true that for all $f,\mu$, $CC(f,\mu)\approx IC(f,\mu)$?
+
+Known compression protocols do not give exactly what we want. 
+For all $f,\mu$, 
+\[IC(f,\mu)\le CC(f,\mu)\le 2^{O(IC(f,\mu))}.\]
+
+Almost all known techniques for lower bounding CC give the same bound for IC. New functions and techniques may be needed.
+
+%By [Braverman 2012], 
+We give an explicit $f,\mu$ such that $IC(f,\mu)=O(k)$ and $CC(f,\mu)\ge 2^k$ (so compression is not always possible). By Braverman 2012, this is the largest possible gap. GKR2014 have a similar result for a search problem with outpt size double exponential in $k$.
+
+%The input size is triple exponetial in $k$, and the protocol with $O(k)$ IC has double exponenital CC. %does not exlcue info times polylog.
+
+An application to the strong direct-sum problem.
+Try to solve simultaneously $m$ instances of the same problem. Alice receives $(x_i)_{i=1}^m$, Bob receives $(y_i)_{i=1}^m$. Goal is to compute $f(x_i,y_i)$ for each $i$> $CC^m(f,\mu)$ is CC of best protocol that answers correctly with prob $>\fc 23$ on each ?
+\[
+CC^m(f,\
+mu)\ge \Om(m CC(f,\mu))?
+\]
+Let $AC(f,\mu)=\lim_{m\to \iy}\fc{CC^m(f,\mu)}{m}$. 
+Braverman and Rao showed that $AC(f,\mu)=IC(f,\mu)$. 
+Our results shows a gap between AC and CC. Hence a strong direct-sum theorem for CC does not hold.
+
+%new result: external information complexity separates EIC and CC. not for boolean functions. proof is somewhat easier: fancy induction.
+
+%polylog overhead. conjecture isn't.

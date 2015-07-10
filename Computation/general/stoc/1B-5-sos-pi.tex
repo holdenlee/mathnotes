@@ -1,0 +1,112 @@
+\subsection{Sum of Squares lower bounds from pairwise independence}
+
+Constraint satisfaction problems: $n$ boolean variables, $m$ $k$-ary constraints.
+
+
+Random assignment satisfies $\fc{|P^{-1}(1)|}{2^k}$ constraints. Can we do better? Yes for MAC-CUT, 2LIN, 3MAJ. In other cases, random assignment is optimal: $k-SAT^*$, etc. Approximation-resistant.
+
+Understand as we gradually increase the number of satisfying assignments. 
+
+Can beat random on most predicates with sparsity $O(k^2/\ln k)$.
+
+%Most with $\Om(2^n/\sqrt k)$
+%np-hard beat 
+NP-hard to beat random for CSP(P) whenever $P$ supports pairwise indep subgroup: Exists prob dist unif on subgrp inside $\Pj^{-1}(1)\ge \rc 4$
+
+What about what space in middle?
+
+CSP(P) is pairwise independent if prob dist $\mu$ on $B^k$.
+
+Captures most of white space. Most predicates with sparsity $\Om(k^2)$ are p.i. Assuming UGC, p.i. CSPs are approimation resistat.
+
+$\Om(n)$ round Serali Adams and basic sdp cannot beat random.
+
+SoS missing. 
+
+Hierarchical strengthening of SDP.
+
+SoS SDP highly successful convex relaxation for comb optimization
+\begin{enumerate}
+\item
+sparsest cut
+\item 
+sparse coding
+\item
+attach on UG.
+\end{enumerate}•
+All knwn hard instances for weaker hier in poly time of UG, Bal sep, max cut.
+
+SoS against CSP?
+
+$k$-XOR's requires exponential SOS. Predicates supporting pairwise dindependent subgroup require sexponential SOS. 
+
+\blu{
+SOS needs exponential time to beat random for pairwise independent CSP's.
+}
+
+Previous proofs: reduction to resolution width lower bounds. algebraic structure crucial.
+
+Our proof: local Gram Schmidt, does not depend on algebraic structure
+
+At a high level, SoS SDP: 
+
+CSPs: optimize over $B^n$. 
+
+Solution: probability dist on $B^n$. 
+
+Search over $e^n$ parameters.
+
+Instead searhc over pseudo-distributions, satisfy only a subset of constraints of being a distributio!. Instead search over $n^{O(d)}$ parameters, $d=$degree/rounds.
+
+Show instance $I$ with $M$ constraints. 
+...
+Deg $d=\ep n$ SOS thinks I is satisfiable.
+
+
+
+Instance $I$ so that 
+\begin{enumerate}
+\item
+val is $m||/2^k$. 
+\item
+$\wt E$ number I's constraints sat = m
+\item 
+pseudo-expe $\ge0$. 
+\end{enumerate}•
+New: We need to show (3).
+
+
+New basis for small degree $\le d$ egree polys:
+Satisfy positivity and pseudo-orthogonality wrt $\wt \E$ and $\wt [\chi_i^2]\ge 0$.
+
+Expand a poly in this basis. %Observe 
+\begin{enumerate}
+\item
+Start from Fourier characters in some order
+\item
+Run GS using $\wt E$ inner product.
+\end{enumerate}
+$\wt E$ is valid inner product restricted to any $d$ coordinates, corresponds to acutal expectation associated with a local prob dist.
+
+But GS is highly sequential, long range dependent. 
+
+Rely on: Expansion in the hyper graph $I$.
+
+%All subsets of $\sim \ep n$ contraints cover $(k-1-o(1))/...$ vars
+
+Define distance measure on subsets of size $\le d$.If $S,T$ are far enoug, thn the local distributions on $S,T$ given by $\wt E$ are independent.Orthogonalize only in a local neighborhood.
+
+\begin{enumerate}
+\item
+fourier characters in carefully chosen order.
+\item
+Run step of GS using $\wt\E$ inner product.
+\end{enumerate}•
+
+
+Open: NP hardness. 
+
+
+
+
+

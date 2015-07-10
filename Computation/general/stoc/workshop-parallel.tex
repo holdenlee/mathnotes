@@ -1,0 +1,136 @@
+%coresets
+
+\section{Parallel computation}
+\subsection{Randomized composable core-sets for distributed optimization, Vehab Mirrokni}
+
+%diversity maximization
+%randomized clustering
+
+Large-scale graph mining
+%\begin{enumerate}
+%\item
+Algorithms, tools: Ranking, pairwise similarity, graph clustering, balanced partitioning, embedding.
+%\item
+%\end{enumerate}•
+
+Problems
+\begin{enumerate}
+\item
+diversity maximization: composable core-sets
+\item
+clustering problems: mapping core-sets
+\item
+submodular.coverage maximization: randomized composable core-sets.
+\end{enumerate}•
+
+Composable core-sets are useful. 
+Inspired by processing big data. Extract and process a compact representation of data:
+\begin{enumerate}
+\item
+sampling: small subset
+\item
+sketching
+\item
+\end{enumerate}
+
+Divide the input of size $N$ into pieces $T_1,\ldots, T_m$, and send sets $S_i$ back. Run the algorithm on the $S_1,\ldots, S_m$ to find the output set.
+
+Key example in combinatorial geometry. Ex. farthese distance pair of points. An $\al$-core set is $S$ with $f(S)>\al f(P)$.
+\begin{enumerate}
+\item
+The convex hull is a 1-core set.
+\end{enumerate}
+Composable core-sets: partition input into parts $T_1,\ldots, T_m$. In each part, select $S_i\subeq T_i$. Let $S=\bigcup_i S_i$.
+
+$f_k(S):=\max_{S'\subeq S,|S'|\le k} f(S')$. ALG(T) is output of ALG on input set $T$, of size at most $k$. 
+ALG is $\al$-approximately composable coreset if for any $T_i$,
+\[
+f(\bigcup(ALG(T_i)))\ge \al f_k(\bigcup T_i)
+\]
+
+?: $c$-composable coreset of size $k$: chunks of size $\sqrt{nk}$.
+
+Mp-reduce model.
+
+\begin{enumerate}
+\item
+Diversity maximization: maximize sum of pairwise distances diversity($S$).
+
+Local search for diversity maximization (1 machine): Initialize $S$ with arbitrarily $k$ points which contains two fartest points. While there is a swap that improves diversity by $1+\fc{\ep}n$, then swap. This give 2-approximation.
+%matroid constraints.
+
+A local search algorithm computes a constant-factor composable coreset for diversity. Greedy algorithm computes  a 3-composable core-set.
+
+%k-center 
+\item
+Distributed clustering
+
+balanced version: size constraint on each cluster. 
+
+Approx ratio: small constant $\cdot$ best single machine ratio.
+
+Constant (2) rounds of MapReduce.
+
+Experiments: (Capacitated $k$-center)
+
+$10^7/10^8$ distances on US/world graph: Dividing into 300/1000 pieces, get 1.52/1.58 factor increase in OPT.
+\item
+Submodular function optimization: $f(A)+f(B)\ge f(A\cup B)+f(A\cap B)$, or $f(A\cup \{x\}) - f(A) \ge f(B\cup \{x\}) -f(B)$. (Diminishing return.)
+
+Max-coverage problem is a special case. Applications: data summarization, data clustering, column selection, diversity maximization in search.
+
+ML applications: exemplar based clustering, active set selections, graph cuts.
+
+$f(S)=k$-median cost(empty set) - k-m
+
+There exists no better than $\fc{\ln k}{\sqrt k}$ approximate composable core-set for submodular maximization. How about just max-cover?
+
+None achieve constant factor in constant communication. Lose logarithmic in one of them. 
+
+Randomization comes to rescue. $\al$-approximate randomized composable core-set iff
+\[
+\E[f_k(\bigcup ALG(T_i))] \ge \al \E[f(\bigcup T_i)].
+\]
+There exists a class of $O(1)$-approximate randomized composable coresets for monotone and non-monotone submodular maximization.
+%
+%Greedy algorithm: $\rc3$-approximate.
+
+We show it for $\be$-nice algorithms: 
+\begin{enumerate}
+\item
+$x\in T\bs ALG(T)$: ALG$(T)=$ALG($T\bs \{x\}$). ``Independence of irrelevant alternatives"
+\item $\De(x,ALG(T))\le?$.
+\end{enumerate}
+
+Greedy is 1-nice.
+%linear time clean IEEE.
+\end{enumerate}•
+
+$\rc3$ analysis.
+\begin{enumerate}
+\item
+$OPT'=OPT\cap (\bigcup_i S_i)$, $OPT''=OPT\bs OPT'$.
+\item
+Linearize marginal contributions of elements in OPT: $\pi$ permutation on elements of OPT. $OPT^x=$ elements of OPT before $x$ in $\pi$. 
+\item
+Writing in terms of $\De$...
+\item
+%Lower bound $\max(f(OPT
+\item
+$(1-\rc{e})\rc3$.
+%get better than 27\%?
+\end{enumerate}•
+Hard go beyond $\rc2$ with size $k$< impossible get beyond $1-\rc{e}$. .58-approximate randomized composable core-set of size $4k$.
+If each machine outputs size $k'$, get $\sfc{k'}k$-approximate randomized composable coreset.
+
+Graph mining frameworks
+\begin{enumerate}
+\item
+iterative MapReduce
+\item
+Iterative MapReduce and DHT (distributed hash table) service (flume): fast random access to shared memory
+\item
+Pregel
+\item
+ASYMP (asynchronous message-passing). New way do some graph algorithms. Better than current optimized algorithms and using less resources.
+\end{enumerate}

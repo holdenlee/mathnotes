@@ -1,0 +1,90 @@
+\subsection{Locally testable codes}
+
+Weakly/strongly locally testable code:
+\begin{enumerate}
+\item
+$\poly\prc{\ep}$/$O(1)$ queries, 
+\item
+$w\in C\implies T^w(z)=1$.
+\item
+
+\end{enumerate}
+
+Main parameter is code length (amount of redundancy).
+
+Goldreich and Sudan: there exists a strong LTC with linear distance and nearly-linear length. 
+Viderman showed there is one with quasi-linear length.
+
+In a LDC, we want to output $x_i$.
+
+The best known LDCs re only superpolynomial length. Katz and Trevisan showed any $q$-query LDC must be of length $\Om(k^{1+\rc{q-1}})$. Introduce relaxed-LDCs which allow  output $x_i$ or $\perp$, ``I don't know."
+\begin{enumerate}
+\item
+if $\de$-cose to $C$, $\Pj(D^w(i)\in \{x_i,\perp\})\ge \fc 23$.
+\item
+For all $w$ that is $\de$-close to $C$ and for most $i\in [k]$, $D^w(i)\ne \perp$.
+\end{enumerate}
+
+There exist relaxed LDC's with nearly-linear length.
+
+
+Our gol is to construct short codes that are both strong-LTCs and relaxed-LDCs.
+
+Motivation: the promise required for successfully decoding can be verified by testing procedure. %kill2 birds with 1 stone.
+
+\begin{thm}
+Exists a binary linear code that is relaxed LDC and strong LTC with ...
+\end{thm}
+
+Idea: each codeword consists of 3 equal-length parts
+\begin{enumerate}
+\item
+large distance
+\item
+easy to decode
+\item
+consistency mechanism (PCP of proximity)
+\end{enumerate}
+
+\begin{df}
+Verifier is not allowed to read input. PCPPs are PCPs with query access to both proof and input.
+
+\begin{itemize}
+\item
+$x\in \implies \exists \pi, V^{x,\pi}=1$
+\item
+$x$ $\ep$-far: $\Pj(=0)>\fc 23$.
+\end{itemize}
+\end{df}
+Exist PCPPs for NP with nearly linear length and constant query complexity.
+
+$\pi_i$ is PCPP that asserts the first part of codeword of $C$ is consistent with the $i$th bit of the second part.
+%not guaranteed any distance.
+
+This yields quadratic legnth. With further ideas, nearly linear.
+
+Weak testability: Because there exist PCPPs with nearly-linear length, 
+any linear code can be transformed to LTC at the cost of nearly linear blow-up in the length. 
+
+Drawback: results in LTCs are inherently weak
+
+Solution: strong canonical PCPPs. 
+\begin{enumerate}
+\item
+$x\in S\implies \redd!\pi, V^{x,\pi}=1$
+\item
+Strong soundness: proximity oblivious and must reject any $(x',\pi')$ with probability poly in distance from $\{(x,\pi(x))\}_{x\in S}$. %weight by lengths.
+\end{enumerate}•
+
+Construct scPCPPs for specific statements we need with poly length. $C$ good linear code: eists scPCPP...
+
+How to obtain strong testability?
+\begin{enumerate}
+\item
+Naive way yields poly length codes.
+\item Use alternative approach relying on tensor codes.
+Use scPCPPs ony for short statements: even wth poly blow-up, length of each proof still sub-linear.
+
+Local consistency to global consistency.
+\end{enumerate}•
+%strongest conjecture
