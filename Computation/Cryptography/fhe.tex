@@ -1,0 +1,607 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Fully homomorphic encryption}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\addbibresource{fhe.bib}
+
+\begin{document}
+
+\tableofcontents
+
+\section{Introduction}
+
+
+References:
+\begin{itemize}
+\item The exposition is mostly based on Boaz Barak and Zvika Brakerski's blog posts
+\url{http://windowsontheory.org/2012/05/01/the-swiss-army-knife-of-cryptography/}, \url{http://windowsontheory.org/2012/05/02/building-the-swiss-army-knife/}. (See also references there.) See also Barak's lecture notes at \url{http://www.cs.princeton.edu/courses/archive/spring10/cos433/}.
+\item \cite{Brakerski2012}, Brakerski's paper with the full scheme. (We follow this because it is the simplest.)
+\item \cite{Regev2009}, basic encoding scheme that Brakerski's scheme is based on.
+\item \cite{Gentry2009}, original FHE scheme based on ideal lattices.
+\item \cite{Regev2009}, \cite{Peikert2009}: reduction from GapSVP to LWE to breaking the scheme. Regev depends on hardness for quantum algorithms for security; Peikert reduces it to classical.
+\item \url{https://en.wikipedia.org/wiki/Homomorphic_encryption}
+\end{itemize}
+
+Basic public-key encryption is simple: Using a system like RSA, Alice can choose a public key and secret key and give everyone the public key; now anyone can encrypt a message using the secret key and only Alice can read the messages.
+
+However, after encrypting a message, there's {\it a priori} not anything they can do with the encrypted message (ciphertext). They can't perform {\it computation} with the ciphertext.
+
+Consider the following situation, where Alice wants other people to be able to compute with encrypted data.
+\begin{itemize}
+\item
+Alice has a sensitive data (medical records, financial records, passwords, etc.) that she needs to do various computations on. 
+\item
+Bob runs a cloud computing service. 
+\item
+Alice does not have much computing power so she can't do the computations herself. She has to outsource the computation to Bob. She doesn't want Bob to be able to read her data, so she gives the encrypted data to Bob.
+\item
+Alice tells Bob the program she'd like to run on the data. But how can Bob carry out Alice's computation on the encrypted data?
+\end{itemize}
+
+Fully homomorphic encryption solves this problem. First we give the most basic version. Let $B=\{0,1\}$.
+\begin{df*}[Homomorphic encryption]
+A \vocab{homomorphic encryption scheme} consists of the following.
+\begin{enumerate}
+\item
+A way to generate keys (a secret key and an evaluation key): a randomized algorithm 
+\[(sk,evk) \lar KeyGen(1^n).\]
+\item
+An {\it probabilistic} encryption algorithm $E_{sk}:B\to B^n$ using the secret key:
+\[
+c\lar E_{sk}(b).
+\]
+\item
+A decryption algorithm $D_{sk}:B^n\to B$
+\[
+b \lar D_{sk}(c).
+\]
+\item
+A way to compute on encrypted data without knowing the secret key. Since any computation can be expressed as a circuit of XOR and AND, which correspond to $+$ and $\times$ modulo 2, this means that there are two algorithms $+_{pk}$ and $\times_{pk}$ such that produce a result decoding to the right answer with probability $1-\ep$:
+\bal
+%+_{evk}(E_{sk}(b_1),E_{sk}(b_2)) \approx_{\ep} E_{sk}(b_1+ b_2)\\
+D_{sk}(+_{evk}(E_{sk}(m_1),E_{sk}(m_2))) & = m_1+m_2\\
+D_{sk}(\times_{evk}(E_{sk}(m_1),E_{sk}(m_2))) & = m_1m_2.
+%\times_{evk}(E_{sk}(b_1),E_{sk}(b_2)) \approx_{\ep} E_{sk}(b_1b_2)
+\end{align*}
+\footnote{It's sufficient to have 
+\bal
++_{evk}(E_{sk}(m_1),E_{sk}(m_2)) \approx_{\ep} E_{sk}(m_1+ m_2)\\
+\times_{evk}(E_{sk}(m_1),E_{sk}(m_2)) \approx_{\ep} E_{sk}(m_1m_2).
+\end{align*}
+where $\approx_{\ep}$ means that the distributions are $\ep$ apart in statistical distance. (Both the LHS and RHS are distributions, as $E_{sk}$ is a randomized algorithm.)}
+\end{enumerate}
+Moreover, given $E_{sk}(b)$, it is difficult for a polynomial-time adversary to recover $b$.
+%\fixme{Given $E_{sk}(b)$, it is difficult for a polynomial-time (?) adversary to recover $b$.}
+\end{df*}
+
+Here's a more official version. The above version isn't public-key, as the encoding function depends on the secret key. We remedy this in the full definition.
+\begin{df}
+A \vocab{homomorphic encryption scheme} consists of the following. (See \S2.2 of \cite{Brakerski2012}.)
+\begin{enumerate}
+\item
+Key generation (public key, evaluation key, secret key):
+\[(pk,evk,sk)\lar Keygen(1^n).\]
+\item
+Encryption: A probabilistic algorithm that encrypts using the public key.
+\[
+c\lar E_{pk}(m).
+\]
+\item
+Decryption: Decrypt the ciphertext using the secret key.
+\[
+m\lar D_{pk}(c).
+\]
+\item
+Homomorphic evaluation: Given a function (represented as an arithmetic circuit mod 2) taking $l$ arguments, evaluate it on encrypted input. Note that it suffices to define Eval for $+$ and $\times$, as every circuit is built out of these basic operations.
+\[
+c_f \lar Eval_{evk} (f,c_1,\ldots, c_l)
+\]
+\end{enumerate}
+We say
+\begin{itemize}
+\item
+The scheme is \vocab{$L(n)$-homomorphic} if for every depth $L$ arithmetic circuit, the problem of decoding a evaluated function incorrectly is negligible:
+\[
+\Pj[D_{sk}(Eval_{evk}(f,E(m_1),\ldots, E(m_l)))\ne f(m_1,\ldots, m_l)] =o\prc{\poly(n)}.
+\]
+\item
+The scheme is \vocab{compact} if the decryption circuit $D_{sk}$ is independent of $f$. 
+\item
+The scheme is \vocab{fully homomorphic} if it is compact and $\poly(n)$-homomorphic (i.e., $p$-homomorphic for any polynomial $p$).
+\item
+The scheme is \vocab{leveled} if it requires input $1^L$ for key generation.
+\end{itemize}
+\end{df}
+
+\section{The scheme}
+
+We first give a simple and ``morally correct" version of the scheme. It's more intuitive to think about the scheme as being done over the reals, although for technical reasons the rigorous version is done with integers modulo some $q$ instead. We'll see that in Section~\ref{sec:full}.
+
+Here's the basic idea. We try to build a symmetric-key system first. Consider the reals modulo 2; then $(-1,1]$ is a complete set of residue classes. Equality below is modulo 2.
+\begin{itemize}
+\item
+Key generation: The secret key is a random $s\in B^n\bs\{0^n\}$. 
+\item
+Encryption: $E_s(m)\in (-1,1]^n$ is a random solution $c\in (-1,1]^n$ to
+\[
+\an{s,c} \approx_{\ep} m
+\]
+where 
+\begin{itemize}
+\item
+$\an{s,c}=\sum s_ic_i$, and
+\item
+$a\approx_{\ep}b$ means the distance in $\R/2\Z$ is less than $\ep$: $|a-b|_{\R/2\Z}< \ep$.
+\end{itemize}
+(Technically, because we have finite precision, we'd have to take a large $q$ and choose the entries of $s$ to be a random multiples of $\rc{q}$. Let's ignore this.)
+\item
+Decryption: $D_s(c)=\an{s,c}$ rounded to 0 or 1.
+\end{itemize}
+We can obtain a random solution by choosing all coordinates of $c$ arbitrarily, except for one $i$ where $s_i=1$; choose $e\in (-\ep,\ep)$ uniformly, and then solve $\an{s,c}=m+e$ for the remaining coordinate.
+
+Why is this secure? Noise is essential here. If we had a lot of equations $\an{s,c_i}=m_i$, then we could recover $s$ by solving a system of linear equations. However, Gaussian elimination is quite sensitive to noise, so if only know $\an{s,c_i}\approx_{\ep}m_i$, this problem is conjecturally hard. More on this in Section~\ref{sec:security}.
+
+As long as we keep the error under $\rc2$ we can decrypt successfully.
+
+(Also note that we can encrypt non-boolean values as well, and decrypt them to within $\ep$. This will be important.)
+
+\prbbox{
+\begin{enumerate}
+\item
+How would we define $+_{evk}(c_1,c_2)$. (Do we need even need an evaluation key?) What is the error?
+\item
+What about for multiplication?
+\end{enumerate}
+}
+
+Let $c_i=E_{sk}(m_i)$.
+\begin{itemize}
+\item
+Addition is easy. Let $c_{+}=c_1+c_2$. Then it's clear that
+\[
+%D_s(c_{+}) = 
+\an{c_{+},s}=\an{c_1,s}+\an{c_2,s}\approx_{2\ep} m_1+m_2.
+\]
+The error is $2\ep$.
+\item
+Multiplication is trickier. We have $\an{s,c_1}=m_1$, $\an{s,c_2}=m_2$, so (ignoring the $\ep$)
+\[
+m_1m_2 = \sum_{i,j} c_{1i}c_{2j}s_is_j.
+\] 
+We want this to equal $\an{s,c}$. A first instinct might be to set $c=\sum_j s_jc_{1j}c_{2j}$ but that's not allowed, because we can't use the secret key. 
+
+We want
+\[
+\an{s,c_{\times}} =  \sum_{i,j} c_{1i}c_{2j}s_is_j
+\]
+so try setting 
+\[c_{\times}=\sum_{i,j} c_{1i}c_{2j}x_{ij}
+\] for some $x_{ij}$. We see that we should choose $x_{ij}$ such that $\an{s,x_{ij}}=s_is_j$.
+This suggests that we let the evaluation key be $evk=(x_{ij}=E_s(s_is_j))_{1\le i,j\le n}$, so $c_{\times}$ is computable from evk and $c_1,c_2$. (Note $s_is_j$ is nonboolean, but the encryption still works.)
+\end{itemize}
+
+\prbbox{This doesn't work. What's the problem?}
+
+Firstly, is our scheme still secure? We have to make sure that giving away the encodings of $s_i,s_j$ doesn't hurt (called ``circular security"). This isn't a major problem as it seems quite plausible. There is a way to not rely on this assumption by ``switching keys"---more on this later.
+
+Secondly, we ignored the $\ep$ to our peril. %The equation for $c_{\times}$ isn't even approximately true! 
+We have the (sad) fact that if $k\equiv 0\pmod 2$ and $r$ is a real number, it may not be that $kr\equiv 0 \pmod 2$. (Multiplication in $\R/2\Z$ is not well-defined.) Let's work out the error. Denote the errors by ($n_1,n_2,n_{ij}\in \Z$, $e_1,e_2,e_{ij}\in (-\ep,\ep)$)
+\bal
+\an{s,x_{ij}}&=s_is_j+2n_{ij} + e_{ij}\\
+\an{s,c_1}&=m_1+2n_1+e_1\\
+\an{s,c_2}&=m_2+2n_2+e_2.
+\end{align*}
+Then
+\bal
+\an{s,c_{\times}} &= \sum c_{1i}c_{2j}\an{s,x_{ij}}\\
+&=\sum c_{1i}c_{2j}(s_is_j + e_{ij} + 2n_{ij})\\
+&=%\sum c_{1i}c_{2j}s_is_j 
+\an{s,c_1}\an{s,c_2}+ \sum c_{1i}c_{2j}e_{ij} + \sum c_{1i}c_{2j}n2n_{ij}\\
+&=(m_1+2n_1+e_1)(m_2+2n_2+e_2) + O(n^2\ep) + \sum c_{1i}c_{2j}2n_{ij}\\
+&=m_1m_2+2n_1m_2+2n_2m_1+O(n\ep+\ep^2)+O(n^2\ep)+
+\redd{\sum c_{1i}c_{2j}2n_{ij}}.
+\end{align*}
+The red terms are a problem! The $n$'s are integers, but the $c_{bi}$'s are not.
+
+\prbbox{How can we fix this?}
+
+This wouldn't pose a problem if the $c$'s were 0/1's. So let's break up $c$ into bits using its binary expansion. Assuming the precision is $2^{-N}$ (with the roundoff error negligible), let $c^{ijk}$ be integer vectors such that 
+\[
+c_{1i}c_{2j}= \sum_{k=0}^{N} 2^{-k}c^{ijk}.
+\]
+(This is in $[0,2)$ rather than $(-1,1]$, but we can shift by a multiple of 2.) Then we can rewrite
+\bal
+\an{s,c_{\times}} & = \sum_{i,j} c_{1i}c_{2j} s_is_j\\
+&=\sum_{i,j,k} 2^{-k}c^{ijk} s_is_j\\
+&=\sum_{i,j,k} c^{ijk} (2^{-k}s_is_j).
+\end{align*}
+We instead let $evk=(x_{ijk})$ where $\an{s,x_{ijk}}\approx_\ep 2^{-k}s_is_j$, and let 
+\[
+c_{\times}=\sum_{i,j,k}c^{ijk}x_{ijk}.
+\]
+Then defining $n_{ijk},e_{ijk}$ as the errors,
+\bal
+\an{s,c_{\times}} &= \sum c^{ijk}\an{s,x_{ijk}}\\
+&=\sum c^{ijk}(2^{-k}s_is_j + e_{ijk}+2n_{ijk})\\
+&\equiv \sum c_{1i}c_{2j}s_is_j +O(n^3\ep) \pmod 2.
+\end{align*}
+as now $c^{ijk}\in \Z$ and hence $c^{ijk}2n_{ijk}\equiv 0 \pmod 2$. Thus we have defined $c_{\times}$ with error $O(n^3\ep)$. (It can be reduced to $O(n\ep)$, but we won't do that here.)
+
+Note that $L$ layers of circuits will make the error $O(n^{3L}\ep)$:
+\[
+\an{s,Eval_{evk}(f,E_s(m_1),\ldots)}\approx_{\ep n^{3L}}f(m_1,\ldots).
+\]
+ This is bad because for a polynomial number of layers, it would force us to set the inital error too small, which makes the scheme not secure. 
+Later we'll see how to reduce the error by bootstrapping.
+
+%\subsection{Public-key}
+
+\prbbox{We gave a symmetric-key protocol (use the same key to encode and decode). How can we make this a public-key protocol?}
+
+Here's a generic way to turn a symmetric-key FHE scheme into a public-key FHE scheme.
+
+If the symmetric-key FHE scheme comes with a re-randomization algorithm---an algorithm using only pk that takes a ciphertext encoding $b$ and returns a ciphertext with the same distribution as $E_s(b)$ (over its randomness), then we can give $E_s(0),E_s(1)$ as the public key, and the public encoding algorithm would be to take one of these and re-randomize it. 
+%\fixme{On the rerandomization. This should be in definition of FHE.}
+We don't have this feature in our scheme. 
+The full version will involve some randomness that allows re-randomization.\footnote{Actual construction omitted because I'm not quite sure how it works...}
+%We'll see how to obtain public-key FHE in the next section.
+
+\subsection{Bootstrapping}
+
+We show that as long as we can do homomorphic encryption with noise level $\ep=n^{-O(\lg n)}$, and decryption can be done using a $\lg n$-depth circuit, we can do fully homomorphic encryption. The obstacle is that the error rate could increase rapidly (exponentially in the above scheme). Bootstrapping is a way to ``reset" the error back to a small quantity. We can use it after every fixed number of layers as needed.
+
+We show how to bootstrap for our scheme. 
+The idea is to homomorphically evaluate the {\it decryption circuit itself}. Alice needs to provide the encryption of her own secret key $E_{pk}(s)$ (as part of evk). 
+Let $D_s(c)=:f_c(s)$ be the decryption function. ($D_s$ is secret, but $f_c$ is public.) Note $f_c$ is computable with a $O(\lg n)$-depth circuit (as it basically just involves adding some subset of $n$ numbers). 
+Given
+\[
+\an{s,c}\approx_{\rc 2}m,
+\]
+because $f_c$ is depth $\lg n$, we have
+\[\an{s,Eval_{evk}(f_c,E_{s}(s))} \approx_{\ep n^{O(\lg n)}} f_c(s) = D_s(c) = m;\]
+we've reduced the error back down to $\ep n^{O(\lg n)}$. We just need the scheme to be secure at noise $\boxed{\ep=n^{-O(\lg n)}}$.
+
+Note that this error is independent of the original error ($\rc2$) because we are not treating $c$ as an encrypted message to be operated on homomorphically---we are treating it as an input to an algorithm ($f$) that is always correct (indeed, we curried $c$ into $f$ above).
+
+\section{Full version}
+\label{sec:full}
+\subsection{Regev's encoding scheme}\label{sec:regev}
+We outline the scheme as presented in Brakerski. We note several changes from the nonrigorous version that we presented using reals.
+\begin{enumerate}
+\item
+Rather than working with real numbers in $(-1,1]$, we work with integers in $(-\fc q2,\fc q2]$. 0 and 1 are encoded with $0,\fc q2$ (assume for simplicity $2\mid q$).
+\item
+We split up the evaluation of multiplication into 2 phases. Recall that multiplication seemed difficult because $m_1m_2\approx \sum_{i,j} c_{1i}c_{2j} s_is_j$ is not in the right form. However, it is in the right form if we {\it switch keys} to the key $s\ot s$. (We'll actually further decompose $s$ into bits before tensoring.)
+
+The first part is multiply $c\ot c=(c_{1i}c_{2j})$ but to give a result encoded with $s\ot s$. (Actually, we'll encode with $\mathsf{BitDecomp}(s)\ot \mathsf{BitDecomp}(s)$.)
+
+Note that what we did for multiplication is actual very general. We essentially gave a way to switch from the key $s\ot s=(s_is_j)$ to the key $s$. 
+
+The second part is this key-switch protocol.
+\item
+If we switch back to $s$, then we have to ask the question: if we encode information about $s$ using $s$, is our protocol still secure? In our original protocol we were sending bits $E_{s}(2^{-k}s_is_j)$.
+
+This assumption of ``circular security" is reasonable, but it's not a standard assumption, and we would much rather rely purely on standard assumptions. The key-switch protocol allows us to do away with this assumption by simply switching to a completely new key for each level of the circuit. We'd have to know the number of levels first, though.
+\item
+Before, $c$ is such that $\an{s,c}=m$: there is just 1 equation. However, this doesn't allow a person without the sk to randomly generate a random encoding of 0 or 1 without us giving away the sk (because we'd give away the kernel, and hence the vector $s$).
+
+The solution is to choose $c$ that approximately satisfies a {\it system} of equations $\an{s_i,c}\approx_\ep m_i+\ep$. This allows us to hide the sk.
+%Plus, we're trying to rely on hardness of ``learning with errors,"
+\end{enumerate}
+
+The following basic (nonhomomorphic) encoding scheme was first proposed by Regev, and then turned into a fully homomorphic scheme by Brakerski. Let $\Z_q:=(-\fc q2,\fc q2]$, and $[n]_q$ denote the element in $\Z_q$ that is $\equiv n\pmod q$.
+\begin{enumerate}
+\item
+Key generation: Given the parameter $n$, generate $s\sim \Z_q^n$. Let $N=(n+1)(\lg q+O(1))$.
+
+Now generate random vectors $a_i\in \Z_q^{n},1\le i\le N$ and errors $e_i\sim \chi$ and output $pk=(a_i,\an{a_i,s}+e_i)_{i=1}^n$ as the public key. 
+
+Equivalently, generate $A\in \Z_q^{N\times n}$ and $e\sim \chi^N$. 
+\[
+P=\coltwo{s^TA^T+e^T}{-A^T}.
+\]
+(Motivation: The idea is that we want to give the public a randomized algorithm for encoding a message. A first attempt is to give $P$ such that for a random $r\in \{0,1\}^n$, $\an{Pr,s}\approx_\ep 0$. But this gives away the kernel of $\an{\bullet,s}$ and hence $x$. The hardness of learning with noise suggests that we can hide $s$ by adding noise. 
+
+First, an easier way to do the encoding is to make the dot product by $\coltwo 1s$ rather than $s$, so that $\mathbf m = \colthree {m\fc q2}0{\vdots}$ decodes to $m$. We want the encoding to then be $m+Pr$. Without noise, $P$ would be $\coltwo{s^TA^T}{-A^T}$ so $P\coltwo 1s=0$. But as we said, $s^TA^T$ and $A^T$ gives away $s$. Now we add noise, so it's the $P$ given above.)
+\item
+Encryption: Sample $r\in \{0,1\}^N$ and output
+\[
+c:=[Pr+\ff q2 \colthree m0{\vdots}]_q\in \Z_q^{n+1}.
+\]
+\item
+Decryption: Dot product with $\coltwo 1s$ and round to 0 or $\fc q2$ modulo $q$.
+\[
+m:=\ba{{2\fc{[\an{c,\coltwo1s}]_q}{q}}}_2.
+\]
+\end{enumerate}
+\begin{lem}[Encryption noise]
+We have
+\[
+\an{c,\coltwo1s} = \fc q2 m + e\pmod q
+\]
+for some $|e|\le NB$. Decryption succeeds whenever the noise $|e|<\fc q4$.
+\end{lem}
+\begin{proof}
+\begin{align*}
+\an{c,\coltwo 1s} &= \an{\coltwo{s^TA^T+e^T}{-A^T}r+\fc q2\colthree m0{\vdots},\coltwo{1}s}\\
+&=\cancel{s^TA^Tr} + e^Tr + \cancel{\an{-A^Tr,s}} + \fc q2m
+\end{align*}
+\end{proof}
+
+\begin{thm}
+If $\mathsf{DLWE}_{n,q,\chi}$ (see next section) is hard (for polynomial time), then for any $m\in \{0,1\}$, the distribution $(P,c=E_{pk}(m))$ is indistiguishable (in polynomial time) from uniform over $\Z_q^{N\times (n+1)}\times \Z_q^{n+1}$.
+\end{thm}
+The proof is standard: given a distinguisher for distinguishing the encoded messages, one constructs a distinguisher for DLWE. See \S5 of Regev \cite{Regev2009}.
+\subsection{Key-switching}
+Next we give the key-switching algorithm. We really already gave it but not in its full generality. Our ``source" key $s$ corresponds to $(s_is_j)$ before, and our ``target" key $t$ corresponds to $s$ before. Recall what we did was that we encoded $2^ks_i$ and the binary digits of $c$.
+
+For $x\in \Z^n$, write $x=\sum_{k=0}^{\ce{\lg q}-1}x_k2^k$ and define 
+\bal
+BitDecomp_q(x) &= (x_0,\ldots, x_{\ce{\lg q}-1})\in \{0,1\}^{n\ce{\ln q}}\\
+PowersOfTwo_q(x)&=[(x,2x,\ldots, 2^{\ce{\lg q}-1}x)]_q\in \Z_q^{n\ce{\ln q}}.
+\end{align*}
+
+A first attempt at key-switching is just encode the message again with the new key: the new ciphertext is (for a random $A_{s\to t}$)
+\[
+c_t=\coltwo{t^TA_{s\to t}+e^T+s}{-A_{s\to t}^T}c_s.
+\]
+Again the problem is the error: The error is $e^Tc_s$ which could be large because $e$ having small entries does not mean $e^Tc_s$ is small when $c_s$ could be anything mod $q$. Breaking $c_s$ up into bits solves this problem. 
+
+\begin{enumerate}
+\item
+$SwitchKeyGen_{q,\chi}(s,t)$: Let $\wh{n_s}:=n_s\ce{\lg q}$. Choose $A_{s,t}\in \Z_q^{\wh{n_s}\times n_t},e\sim \chi^{\wh{n_s}}$ randomly. Output
+\[
+P_{s\to t} = \coltwo{t^TA_{s\to t}+e_{s\to t}+ PowersOfTwo_q(s)}{-A_{s\to t}}\in \Z_q^{\wh{n_s}\times (n_t+1)}.
+\]
+\item
+$SwitchKey_q(P_{s\to t},c_s)$: Output 
+\[
+c_t:=[P_{s \to t}BitDecomp_q(c_s)]_q.
+\] 
+\end{enumerate}
+Security follows in the same way as before. The additional error is
+\[
+\an{BitDecomp_q(c_s),e_{s\to t}}\le n_s\ce{\lg q}B.
+\]
+
+\subsection{Full scheme}
+As we mentioned, to get a fully homomorphic scheme under standard assumptions, we generate as many keys as there are levels; each time we add or multiply we automatically switch to the tensored key (we don't have to do this for addition, but we want to be consistent); then we use key-switching to get to the next key. 
+
+We'll just give the functions here. We have all the ingredients for the proof, but we'll refer the reader to \S4 of \cite{Brakerski2012}. Let ``Regev" refer to the scheme in Section~\ref{sec:regev}.
+\begin{itemize}
+\item
+KeyGen$(1^L,1^n)$. Let
+\bal
+s_0,\ldots, s_L&\sim Regev.SecretKeyGen(1^n)\\
+P_0&\sim Regev.PublicKeygen(s_0)\\
+\wt s_{i-1}&:=BitDecomp((1,s_{i-1}))^{\ot 2}\in \{0,1\}^{((n+1)^2\ce{\lg q})^2},\\
+P_{i-1\to i}&\sim SwitchKeyGen(\wt{s_{i-1}},s_i)\\
+(sk,pk,evk)&=(s_L,P_0,(P_{i-1\to i})_{i\in [L]}).
+\end{align*}
+\item
+$E_{pk}(m)=Regev.E_{pk}(m)$.
+\item
+To give evaluation, it suffices to give addition and multiplication at level $i$. (For addition, we tensor it up for consistency with multiplication.)
+\bal
+\wt c_{+} &=PowersOfTwo(c_1+c_2) \ot PowersOfTwo((1,0,\ldots,0))\\
+c_{+} &= SwitchKey(P_{i-1\to i},\wt{c_+})\\
+\wt c_{\times} &=\ro{\fc 2q PowersOfTwo(c_1) \ot PowersOfTwo(c_2)}\\
+c_{\times} &= SwitchKey(P_{i-1\to i},\wt{c_{\times}})
+\end{align*}
+\item
+Decryption $D_s=Regev.D_s(c)$.
+\end{itemize}
+A hybrid argument shows that security follows from hardness of DLWE${}_{n,q,\chi}$. (Considering replacing the outputs of the levels one by one, starting from the last level. Each level has the encoding of the previous level's key; if you can't distinguish it from uniform you can't find the previous level's key...)
+
+\begin{thm}
+The scheme above with $n,q,|\chi|\le B,L$ is $L$-homomorphic when 
+\[
+\fc qB\ge O(n(\lg q))^{L+O(1)}.
+\]
+\end{thm}
+\begin{proof}
+Calculation shows that the starting encoding has error $O(n^2(\lg q)^3B)$, and each next layer increases error by a factor of $O(n\lg q)$. 
+\end{proof}
+Now we apply bootstrapping. As an inner product modulo $q$, the decoding function has circuit depth $O(\lg n+\lg \lg q)$. Thus homomorphically evaluating it gives error $B(n\lg q)^{O(\lg n+\lg \lg q)}$. We can recover when error is $\fc qB>\rc 4$; therefore, hardness of DLWE${}_{n,q,\chi}$ for some value $\fc{q}B\ge (n\lg q)^{O(\lg n +\lg\lg q)}$ gives secure leveled FHE.
+
+By taking $q=\wt O(2^{\fc n2})$ and using facts from the next section, we can reduce from GapSVP.
+\begin{thm}
+If $\mathsf{GapSVP}_{n^{O(\lg n)}}$ is hard, then this scheme is a leveled fully homomorphic encryption scheme.
+\end{thm}
+If the scheme is ``weak circular secure" (basically it's safe to give out encodings of the key itself), then we get non-leveled homomorphism (because we don't have to )
+
+
+
+\section{Security}
+
+The security of this scheme can be traced back to the security of the shortest vector problem, which is conjecturally hard. 
+\begin{gather*}
+\pat{Breaking the FHE scheme} \le 
+\pat{Learning with errors}\le 
+\pat{Shortest vector problem}\\
+\pat{FHE secure} \Leftarrow 
+\pat{Hardness of learning with errors}\Leftarrow 
+\pat{Hardness of shortest vector problem}.
+\end{gather*}
+
+
+\begin{df}
+The \vocab{decisional learning with errors} problem $\mathsf{DLWE}_{n,m,q,\chi}$ with parameters $(n,m,q(n),\chi(n))$ is to 
+distinguish (with $\Om\prc{\poly(n)}$ advantage) between $m$ samples chosen according to the following two distributions.
+\begin{enumerate}
+\item
+$m$ samples chosen according to the uniform distribution over $\Z_q^n\times \Z_q$
+\item
+$m$ samples chosen according to the distribution $A_{s,\chi}$, defined by choosing a random $a\sim \Z_q^n$, a noise $e\sim \chi$, and outputting 
+\[
+(a,[\an{a,s}+e]_q)\in \Z_q^n\times \Z_q.
+\]
+\end{enumerate}
+(When $m$ is omitted, we mean $m=\poly(n)$.)
+\end{df}
+
+\begin{df}[2.5 in \cite{Peikert2009}]
+For a lattice $\La$, let $\la_1(\La)$ denote the shortest nonzero vector.
+
+The gap-shortest vector problem $\mathsf{GapSVP}_{\ga}$ takes input 
+$
+(\be%=\{b_1,\ldots,b_n\}\subeq \R^n
+, d)
+$
+where $\be$ is the basis of a $n$-dimensional lattice $\La=\cal L(\be)$ and $d>0$ and outputs
+\begin{itemize}
+\item
+YES if $\la_1(\La)\le d$,
+\item
+NO if $\la_1(\La)>\ga(n)d$.
+\end{itemize}
+\end{df}
+
+Learning with errors can be reduced to GapSVD. GapSVD is thought to be hard, even for quantum algorithms. As a result it forms the basis for many lattice cryptographic protocols. This is to be contrasted with more common protocols depending on factoring and hardness of the discrete log problem, which are known to be breakable by quantum algorithms.
+
+\begin{thm}[DLWE$\le$GapSVP, Cor. 2.1 in \cite{Brakerski2012}]
+Let $q=2^r$ (for simplicity). There is a distribution $\chi$ such that if $\mathsf{DLWE}_{n,q,\chi}$ can be solved in polynomial time, then
+\begin{enumerate}
+\item
+there is a efficient quantum (BQP) algorithm that solves $\mathsf{GapSVP}_{\wt O(nq/B)}$ in $n$ dimensions.
+\item
+if $q\ge \wt O(2^{\fc n2})$ there is also an efficient classical algorithm:
+\[
+\mathsf{DLWE}_{n,q,\chi}\le \mathsf{GapSVP}_{\wt O(nq/B)}.
+\]
+\end{enumerate}
+\end{thm}
+Polynomial-time algorithms for $\mathsf{GapSVP}_{\ga}$ are known only for $\ga=2^{n\fc{\ln\ln n}{\ln n}}$, so $q=2^{n/2}$ is a ``safe" setting of parameters.
+
+\section{Applications}
+In cryptography, the usefulness of a concept lies not just in its inherent use but also in the {\it other protocols} it facilitates. 
+Fully homomorphic encryption is a useful cryptographic ``primitive" because other quite standard cyptographic protocols can be built on top of it.
+
+We give two.
+
+\prbbox{
+How can we use FHE to construct
+\begin{enumerate}
+\item
+zero-knowledge proofs?
+\item
+two party secure computation?
+\end{enumerate}
+Hint: you'll need a bit commitment scheme.
+}
+
+\begin{df}[Zero-knowledge proof]
+Let $f:B^n\to B$ be a polynomial-time computable function. 
+A zero-knowledge proof for $f$ %(not quite - or the associated language $\set{x}{f(x)=1}$) 
+is a protocol where a Prover can convince a Verifier that she knows $x$ such that $f(x)=1$ while revealing no knowledge about $x$.
+
+Formally, there is a probabilistic interactive protocol with completeness $\ge \fc23$, soundness $\le \fc13$, and {\it perfect zero knowledge} for every strategy of the Verifier, there is a probabilistic polynomial time algorithm the Verifier can run that gives the same distribution on the output as the interaction. I.e., the verifier can simulate the algorithm.
+\end{df}
+
+\begin{df}[$k$-party secure computation]
+Let $f$ be a function taking $k$ inputs. A $k$-party secure evaluation protocol for $F:(B^n)^k\to (B^n)^k$ is a protocol such that the following holds. For every $S$ and every cheating strategy for parties in $S$, there is a set of inputs $\{x_i\}_{i\in S}$ such that 
+\begin{enumerate}
+\item Correctness: if the parties in $\ol S$ follow the protocol, then the $i$th output is $F(x_1,\ldots, x_k)_i$ or $\perp$.
+\item
+Simulation: there is a simulator that takes as input $\{F(x_1,\ldots, x_k)_i\}_{i\in S}$, and outputs an interaction that is computationally indistinguishable from the point of view of all parties in $S$ from the actual interaction. In other words, players don't learn anything about each other's inputs.
+\end{enumerate}•
+\end{df}
+For example, two millionaires want to compute $f(x,y)=(x>y)$---which one of them has more money---without revealing their wealth.
+
+ZKP: Here's a first attempt.
+\begin{enumerate}
+\item
+Alice takes the message $x$, encrypts it $x'=E_{pk}(x)$, and sends the result to Bob.
+\item
+Bob computes $Eval_{evk}(f,x)=b'$, and sends the result to Alice.
+\item
+Alice decrypts $D_s(b')=b$, and sends $b$ to Bob.
+\item
+Bob checks that $b=1$.
+\end{enumerate}
+
+\prbbox{What are two problems with this protocol? Fix them.
+
+Does the FHE scheme need to be public-key?}
+
+\begin{enumerate}
+\item
+How does Bob know Alice decrypted the result correctly, and isn't sending Alice back 1 all the time?
+
+Cf. How can Alice prove to color-blind Bob that his otherwise indistinguishable pairs of socks are 2 different colors? Bob randomly takes 2 socks from the same pair or different pairs and asks whether they are the same color.
+
+Bob sends Alice $E_{pk}(0)$ with $\rc2$ probability and $Eval_{evk}(f,x')$ with $\rc 2$ probability. We want Alice {\it not to be able to distinguish} between the two when $f(x)=0$. Bob rejects if he sent $E_{pk}(0)$ but Alice sent 1, or if Alice sends 0. 
+
+Thus we need $Eval_{evk}(f,x')$ to be a randomized algorithm whose output is indistinguishable from $E_{pk}(f(x'))$. This can be accomplished by composing $Eval_{evk}(f,x')$ with a ``rerandomization" algorithm. 
+
+If Alice (Prover) is dishonest and sends Bob 1 with probability $p$ (she can't tell what Bob did), then Bob rejects with probability $\rc2$. If Alice is honest, she will always pass the test. This is a ZKP protocol with perfect completeness and $\rc2$ soundness, which can be made arbitrarily small by repetition.
+\item 
+How does Alice know Bob carried out the computation correctly? (This is important because if Alice is reusing her secret key, we don't Bob to trick Alice into decoding other valuable information!)
+
+We use a commitment scheme. 
+\begin{df}
+A \vocab{commitment scheme} is a protocol where Alice chooses a bit $x$, sends Bob $b$, and later reveals $(x',y')$, such that 
+\begin{enumerate}
+\item (concealing) it is hard for Bob to recover $x$ from $b$.
+\item (binding) if $x\ne x'$, then Bob rejects, i.e., it is hard for Alice to find $(x'\ne x,y')$ that makes Bob accept.
+\end{enumerate}
+Here ``hard" can be meant computationally, or perfectly (with infinite computational resources).
+\end{df}
+For example, a injective one-way function $f$ can be used to make a commitment scheme by having Alice pick random $x$ and send $(f(x),b\opl h(x))$ where $h$ is a hard-core predicate. (Any OWF can be made to have a hard-core predicate.)
+
+Rather than give the result right away, Alice commits to an answer. Then Bob reveals all the randomness he used so that Alice can check his result. If it agrees, then Alice sends Bob the actual value.
+\end{enumerate}
+
+2-party secure computation: Alice has $x$, Bob has $y$, and they want to compute $f(x,y)$. We'll just show how to achieve \vocab{honest but curious} security: when players don't deviate from the protocol they don't learn about each others inputs (other than what the output tells them.)\footnote{The Goldreich-Micali-Wigderson theorem (``compiler") can turn any multi-party computation protocol that is honest-but-curious secure into a secure protocol, provided there is a 1-way function. Also it is easy to go from 2 parties to $k$ parties by splitting Alice in half---see Barak's notes.}
+Here's the first attempt.
+\begin{enumerate}
+\item
+Alice generates a key $(sk,pk,evk)$ and shares pk, evk with Bob. She sends $x'=E_{pk}(x)$ to Bob.
+\item
+Bob encodes $y'=E_{pk}(y)$, computes $r'=Eval_{evk}(f,x',y')$, and sends $r'$ to Alice.
+\item
+Alice decodes $r'$ to $r$ and announces the result.
+\end{enumerate}
+
+\prbbox{What are the problems and how do you fix them?}
+
+\begin{enumerate}
+\item
+How does Bob know that Alice sent the right answer? 
+
+Solution: Alice sends Bob a zero-knowledge proof that she knows $s$ such that $x$ (which she can commit to beforehand) encodes to $x'$ and $r$ encodes to $r'$.
+\item
+How does Alice know Bob computed the function correctly?
+
+Solution: Bob sends Alice a zero-knowledge proof that he knows $y$ such that $r'=Eval_{evk}(f,x',y')$ (he can commit to $y$ beforehand).
+\end{enumerate}
+Note that to compute a randomized function together, each party can generate randomness, and then XOR them together. Secure multi-party computation gives the ability to construct a virtual party ``out of thin air" and do things like coin tossing, authenticated encryption (relay a message from one party to another), electronic voting and auctions, distributed signing and encryption...
+
+
+%\input{chapters/1.tex}
+ 
+%\bibliographystyle{alpha}
+\printbibliography
+\end{document}

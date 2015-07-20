@@ -118,6 +118,12 @@ Computation/complexity/18.404/*
 !Computation/complexity/18.404/chapters
 !Computation/complexity/18.404/chapters/*.tex
 
+!Computation/Cryptography
+Computation/Cryptography/*
+!Computation/Cryptography/fhe.tex
+!Computation/Cryptography/fhe.pdf
+!Computation/Cryptography/fhe.bib
+
 !Computation/general
 Computation/general/*
 !Computation/general/*.tex
@@ -129,7 +135,7 @@ Computation/general/tnoc/*
 !Computation/general/stoc
 Computation/general/stoc/*
 !Computation/general/stoc/*.tex
-!Computation/general/stoc/*.pdf
+!Computation/general/stoc/stoc.pdf
 
 !Computation/machine_learning
 Computation/machine_learning/*
