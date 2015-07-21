@@ -136,9 +136,9 @@ Computation/general/tnoc/*
 Computation/general/stoc/*
 !Computation/general/stoc/*.tex
 !Computation/general/stoc/stoc.pdf
-!Computation/general/tnoc/seminars
-Computation/general/tnoc/*
-!Computation/general/tnoc/*.tex
+!Computation/general/seminars
+Computation/general/*
+!Computation/general/*.tex
 
 !Computation/machine_learning
 Computation/machine_learning/*
