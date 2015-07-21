@@ -1,0 +1,1313 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Algorithms and Machine Learning Reading Group}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\section{Linear coupling: an ultimate unification of gradient and mirror descent}
+
+Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent
+
+I am talking about the paper by Allen-Zhu and Orecchia \url{http://arxiv.org/abs/1407.1537} on explaining Nestorov's accelerated gradient descent. The paper is very elegant. The original abstract is here. 
+
+First-order methods play a central role in large-scale convex optimization. Even though many variations exist, each suited to a particular problem form, almost all such methods fundamentally rely on two types of algorithmic steps and two corresponding types of analysis: gradient-descent steps, which yield primal progress, and mirror-descent steps, which yield dual progress. In this paper, we observe that the performances of these two types of step are complementary, so that faster algorithms can be designed by linearly coupling the two steps. 
+In particular, we obtain a simple accelerated gradient method for the class of smooth convex optimization problems. The first such method was proposed by Nesterov back to 1983, but to the best of our knowledge, the proof of the fast convergence of accelerated gradient methods has not found a clear interpretation and is still regarded by many as crucially relying on "algebraic tricks". We apply our novel insights to construct a new accelerated gradient method as a natural linear coupling of gradient descent and mirror descent and to write its proof of convergence as a simple combination of the convergence analyses of the two underlying descent steps. 
+We believe that the complementary view and the linear coupling technique in this paper will prove very useful in the design of first-order methods as it allows us to design fast algorithms in a conceptually easier way. For instance, our technique greatly facilitates the recent breakthroughs in solving packing and covering linear programs [AO14, AO15].
+
+\subsection{Basic convex optimization}
+
+We want to find $\min f(x)$ such that $x\in Q$, where $f$ is convex. We won't worry about the constraint $Q$ in this talk.
+
+In the first-order method, we are given access to $\nb f(x)$, but we can compute it at every point. The complexity measure is the number of queries.
+
+Let $\ved$ be a norm, and $\ved_*$ be the dual norm. In most cases the norms will both be the Euclidean norm $\ved$. 
+\begin{df}
+We say $f$ is $L$-smooth with respect to $\ved$ as follows if for all $y,x$,
+\[
+f(y)\le f(x)+\nb f(x)^T (y-x) +\fc L2 \ve{y-x}^2.
+\]
+\end{df}
+I.e., we can upper-bound $f$ by a quadratic function (with squared-term coefficient $\fc L2$). %We want to do Taylor expansion cleverly.
+
+\begin{df}
+We say $f$ is $\mu$-strongly convex if for all $y,x$, 
+\[f(y)\ge \ub{f(x)+\nb f(x)^T(y-x)+\fc \mu2\ve{y-x}^2}{\Phi_x(y)}.\]
+\end{df}
+Without the last term this inequality is always true for convex functions. This says we can lower-bound $f$ by a quadratic function, rather than just a linear function tangent to it.
+
+The gradient method is a primal method; the mirror is a dual method.
+
+We review the gradient descent method. Start at some point, and use the update rule
+\[
+x_{t+1} = x_t-\rc L \nb f(x_t).
+\]
+%L is smoothness
+where $L$ is the smoothness.
+\begin{lem}
+We have
+\[
+f(x_{t+1}) \le f(x_t)-\rc{2L} \ve{\nb f(x_t)}_*^2
+\]
+\end{lem}
+If we have a sharp gradient, we must make some progress.
+For the $L^2$ norm this is easy to see. Using the definition of the smoothness,
+\bal
+f(x_{t+1}) &\le f(x_t) + \nb f(x_t)^T (x_{t+1}-x_t) + \fc L2 \ve{x_{t+1}-x_t}_2^2\\
+&= f(x_t)+\nb f(x_t)^T \pa{-\rc L \nb f(x_t)}\\
+&=f(x) -\rc{2L}\ve{\nb f(x_t)}_2^2 &x_{t+1}-x_t=-\rc L \nb f(x_t).
+\end{align*}
+(Note it's also okay for $x_{t+1}-x_t=\de_t$ for some $\de_t$ correlated with the gradient (the angle is nontrivial). Note $\nb{x_{t+1}-x_t}^2$ is quadratic, but $\nb f(x_t)$ is linear, so you can tune it to be larger. In other cases you may only have approximate/stochastic queries.) 
+
+%approximte a function locally using $\Phi_x(y)$.
+How do you get the dual norm if you work with non-Euclidean norms? If you use a general norm, then the update rule is 
+\[
+x_{t+1}=\amin_y \Phi_{x_t}(g).
+\]
+It's not clear whether you can do it in polynomial time; the norm should be nice. 
+Then the calculation above becomes
+\bal
+f(x_{t+1})&\le \Phi_{x_t}(x_{t+1})\\
+& \le \Phi_{x_{t}}(y)\\
+&=f(x_t) + \nb f(x_t)^T (y-x_t) + \fc L2 \ve{y-x_t}^2\\
+&\quad \text{choose }y-x_t = -\te v\\
+&\quad \text{such that }\nb f(x_t)^Tv = \ve{\nb f(x_t)}_* \ve{v},\ve{v}=1\\
+&\quad \nb f(x_t)^T (y-x_t) =-\te\ve{\nb f(x_t)}_*^2\\
+%exists y such that small
+%term to be negative, and term not too large.
+%highly correlated.
+&\quad \rc2 \ve{y-x_t}^2 =\rc L2 \te^2\ve{v}^2 =\fc L2 \te^2\\
+&=f(x_t)-\te \ve{\nb f(x_t)}_* + \fc{L}2\te^2\\
+&\quad \te=\rc L \ve{\nb f(x_t)}_*\\
+&\quad \ve{\nb f(x_t)}_* = \max\set{
+\an{\nb f(x_t),v}}{\ve{v}=1}%can use this as update rule
+\end{align*}
+
+We won't work with dual norms for the rest of the talk.
+
+\subsection{Mirror descent}
+
+\begin{df}
+Define a \vocab{distance generating function} (DGF) with respect to $\ved$  as a 1-strongly function $w(x)$ such that 
+\[
+w(y)\ge w(x) + \nb w(x)^T (y-x) + \rc 2\ve{y-x}^2
+\]
+%the most general definition
+The \vocab{Bregman distance} is 
+\bal
+V_x(y) &= w(y)-w(x) - \nb w(x)^T (y-x)\\
+V_x(y) &= \rc2 \ve{y-x}^2.
+\end{align*}
+(Note it's asymmetric. Think of $x$ as a reference point; we measure the distance to $x$.)
+\end{df}
+
+\begin{ex}
+Take $w(x)=\rc 2 \ve{x}_2^2$. The Bregman distance is
+\[
+V_x(y)=\rc2 \ve{y-x}_2^2.
+\]
+\end{ex}
+It generates the norm square. %does it satisfy other properties of the norm/
+%picture: quadratic tangent to line, 
+$V_x(y)$ is distance between the linear approximation and the upper quadratic approximation.
+
+\begin{ex}
+Consider a simplex
+\[
+S=\set{x}{\ve{x}_1=1,x\ge 0}.
+\]
+This is strongly convex with respect to the $L^1$ norm. 
+Let $w(x)=\sum x_i\ln x_i$. Then 
+\[
+V_x(y)=\sum y_i \ln \fc{y_i}{x_i} = D_{KL} (y||x)\ge \rc2\ve{y-x}^2_{TV}.
+\]
+by Pinsker's inequality.
+%Then 
+%\[
+%V_x(y)\ge \rc2 \ve{y-x}_1^2
+%\]
+%solving SDP with triangle inequality.
+\end{ex}
+What mirror descent does is the following. Set
+\[
+x_{t+1} 
+=
+\amin_y \{V_{x_t}(y) + \al \nb f(x_t)^T (y-x_t)\}.
+\]
+We don't assume smoothness. Suppose we have a convex function. We don't want to minimize $f(x_t)+\nb f(x_t)^T (y-x_t)$ in $y$ because that would be $-\iy$.
+We want to find some point not too far from $x_t$. We believe the linear funciton is a good approximation, but it is only a good approximation when it is close to $x$. Hence we add in a regularizer $V_{x_t}(y)$. 
+
+\begin{ex}
+Let $w(x)=\rc 2\ve{x}_2^2$. 
+\[
+x_{t+1} = \amin \{\rc 2 \ve{y-x_t}^2+\al \nb f(x_t)^T (y-x_t)\}
+=x_t-\al\nb f(x_t).
+\]
+We have a different step size $\al$ which in some cases can be chosen larger.
+\end{ex}
+
+$w$ is a convex function and $w(x)$ is a constant so $V_x(y)$ is convex. The minimizer is where the gradient is 0.
+\[
+\nb V_{x_t}(y) + \al \nb f(x_t)=0
+\]
+Plugging in $x_{t+1}$ we should get 0:
+\bal
+\nb V_{x_t}(x_{t+1}) + \al \nb f(x_t)&=0\\
+\nb w(x_{t+1}) &= \nb w(x_t) - \al \nb f(x_t).
+\end{align*}
+%can move $\al$ to $\rc{\al}$. Balance regularizer...
+Hence we get another way to state the update rule for mirror descent,
+\[
+\nb w(x_{t+1}) = \nb w(x_t) - \al \nb f(x_t).
+\]
+
+We have a primal space $X$, and we have a map $\nb w$ which sends $x_t\in X$ to $\nb w(x_t)$. We take a gradient step in the dual space $-\al \nb f(x_t)$ to get $\nb w(x_{t+1})$ and map it back using the inverse map $\nb w^{-1}$ to get $x_{t+1}$. This is where the name ``mirror" descent comes from.
+
+%unique inverse? 
+%strongly convex means gradient is invertible.
+%gradient is strictly increasing.
+For strongly convex we roughly have a lower bound $|\nb w(x)-\nb w(y)|\ge \mu \ve{x-y}$ so that the gradient is invertible.
+%Right hand side primal norm, left hand side dual norm.
+\begin{lem}[Main lemma for mirror descent]
+\bal
+\al [f(x_k)-f(x^*)]&\le \al[\nb f(x_k)^T (x_k-x^*)]\\
+%no smoothness, only bound yuo can have.
+&\le \fc{\al^2}2 \ve{\nb f(x_k)}_*^2 + V_{x_k}(x^*) - V_{x_{k+1}}(x^*)
+\end{align*}
+Summing we get a telescoping sum. Summing over $k$,
+\bal
+\al \sum_{k=1}^{T-1} (f(x_k) - f(x^*)) &\le 
+\sum_{k=0}^{T-1} \fc{\al^2}2 \ve{\nb f(x_k)}_*^2 + V_{x_0}(x^*) - V_{x^T}(x^*)\\
+&\le \sum_{k=0}^T \fc{\al^2}2 \ve{\nb f(x_k)}_*^2 + V_{x_0}(x^*)
+\end{align*}
+
+\end{lem}
+
+\section{Improved noisy population recovery, and reverse Bonami-Beckner inequality
+for sparse functions
+}
+
+
+Authors: Shachar Lovett, Jiapeng Zhang
+
+Abstract:
+The noisy population recovery problem is a basic statistical inference
+problem. Given an unknown distribution in $\{0,1\}^n$  with support of size k,
+and given access only to noisy samples from it, where each bit is flipped
+independently with probability 1/2,
+estimate the original probability up to an additive error of $\ep$. We give
+an algorithm which solves this problem in time polynomial in $(k^{\log\log k},
+n, 1/\ep)$ .
+This improves on the previous algorithm of Wigderson and Yehudayoff [FOCS
+2012] which solves the problem in time polynomial in $(k^{\log k}, n, 1/\ep)$ .
+Our main technical contribution, which facilitates the algorithm, is a new
+reverse Bonami-Beckner inequality for the L1 norm of sparse functions.
+
+The setup is the following. 
+\begin{prb}
+There an unknown distribution $\pi$ over $\{0,1\}^n$ with $|\Supp(\pi)|=k$. (Think of this as a mixture of $k$ distributions.)
+
+The input are noisy samples from $\pi$,
+\begin{enumerate}
+\item
+$X\sim \pi$
+\item
+flip each $x_i$ with probability $\rc2-\mu$.
+\end{enumerate}
+
+Output the distribution $\wh\pi$ close in total variation distance:
+\[
+TV(\wh{\pi},\pi)\le \ep.
+\]
+%k as large, part of input.
+\end{prb}
+Ideally an algorithm has runtime $\poly(k,n,\rc{\ep},\rc \mu)$.
+\begin{enumerate}
+\item
+This problem was first considered by Kearns et al., who gave an algorithm in time $\poly(n,\rc{\ep})\exp(k)$.
+\item
+YW do this in time in $\poly(n,\rc{\ep})k^{\ln k}$.
+\item This paper does this in time $\poly(n,\rc{\ep})k^{\ln\ln k+\ln\prc{\nu}}$.
+\end{enumerate}
+A related probem is lossy population recovery, where we are given
+\begin{enumerate}
+\item
+$X\sim \pi$.
+\item Replace each $x_i$ with `?' with probability $1-\nu$. 
+\end{enumerate}
+This is easier; Moitra and Saks show a polynomial time algorithm for constant $\nu$.
+%stronger access to underlying distribution.
+%are any of this tight compared to sample complexity. 
+%bound come from sample complexity.
+%no lower bound known. possible it can be solved in polynomial time.
+
+First we make some simple claims. 
+
+First claim: If you want to solve the noisy population recovery problem, we can assume we know the support of the distribution. Suppose we have an algorithm that works given the support. Now run it on increasing prefixes. First run it on the prefixes 0, 1. What are the probability of strings with $x_1=0,1$? Now run the algorithm on $x_1x_2$, etc.
+
+%prob 
+%
+Suppose $\Supp(\pi) = \{x_1,\ldots, x_k\}$, and we want to find the probabilities $p_1,\ldots, p_k$. We use the maximum likelihood estimator. Draw $m$ samples $S_m=\{y_1,\ldots, y_m\}$. Calculate
+\bal
+p(y_1|p_1,\ldots, p_k)
+ &= \sum_i p_i \pa{\rc 2-\mu}^{\De(x_i,y_i)} \pa{\rc2+\mu}^{n-\De(x_i,y_i)}\\
+&= \sum_i p_i e^{-\De(x_i,y_i)C_\mu}.
+\end{align*}
+We want to find
+\[
+\max_{\sum_ip_i=1} \sum_{y_i\in S_m}\ln \pa{\sum_i p_i e^{-\De(x_i,y_i)C_\mu}}.
+\]
+%for prefix knows
+%extend by 1 character. each support fork off into 2 strings.
+%know more going into problem: support organizes pairs of strings only differ in one symbol at the end. approx prob of each pair. does that help?
+How many samples do we need to approximate this? We want to distinguish distributions which are $\ep$ apart: $TV(\pi_1,\wt\pi_2)>\ep$. However we don't have perfect $\pi_1,\pi_2$?
+%asymptotically achieve information bound. how bad is sample complexity?
+We want to characterize $TV(\wt{\pi_1},\wt{\pi_2})>a$. YW built a graph structure rather than using the MLE.
+
+Given $\pi_1:\{0,1\}^n\to \R$, the Fourier expansion is \[\pi_1(x) = \sum_{S\subeq [n]}\wh{\pi_1}(G)\chi_S(x).\]
+Now
+\bal
+\wt{\pi_1}(x) &= \E_e[\pi_1(x+e)]&e_i\sim B(\rc 2-\mu)\\
+&=T_{2\mu} \pi_1(x)  =\sum_{S\subeq [n]} (2\mu)^{|S|} \wh{\pi_1}(S) \chi_S(x).
+\end{align*}
+Given $f:\{0,1\}^n\to \R$, $f=\rc2(\pi_1-\pi_2)$, $\ve{f}_1\ge \ep$, $\ve{f}_1=\E_x[|f(x)|]$, $\ve{T_{2\mu}f}_1\ge a$,
+%this will dictate sample complexity.
+\begin{thm}
+Given $f:\{0,1\}^k\to \R$, $|\Supp(f)|=k$, 
+\[
+\ve{T_{2\mu}f}_1\ge k^{-O(\ln\ln n + \ln \prc{\mu})}\ve{f}_1.
+\]
+\end{thm}
+This is a reverse hypercontractivity inequality because a hypercontractive inequality goes the other way.
+%TV distance, any test of the 2 distributions is $>\ep$.
+
+The idea is as follows. Given $\Supp(x)=\{x_1,\ldots, x_n\}$,
+%\rc2-\mu
+$\wt f(x)= \sum_i v_i e^{C_\mu d(x,x_i)}\le \rc{k}\sum_i v_i$ if not close to any. If it's close to one it will get a reasonably high value. This means that looking at balls of radius $\ln k$ around each value, the balls will contain a reasonble fraction of the $L^1$ mass, and one will contain at least $O\prc k$ of them. %support bounded within radius of $\ln k$. For such functions, it will be much easier to bound; we still get $\ln \ln k$.
+%$v_1$ largest. Reasonable fraction.
+
+Our goal is to bound $\ve{T_{2\mu}f}_1$, $T_{2\mu}(f)=\sum_{S\subeq [n]} \mu^{|S|} \wh f(S) \chi_S(x)$. We use the trivial bound (for any $S$)
+\bal
+\ve{T_{2\mu}(f)}_1 & \ge |\wh{T_{2\mu}}f(S)|\\
+& = (2\mu)^{|S|} |\wh f(S)|.
+\end{align*}
+%(To see this, divide strings into $\chi_S(x)=1$ and $\chi_S(x)=-1$. Look at the $L^1$ norm of $x$. Write $f(x)=\wh f(S)\chi_S(x)+f'(x)$.
+To see this note $\wh f(S)=|\E \chi_S(x)f(x)|\le\ve{f}_1$. Our goal is just to bound one Fourier coefficient.
+
+\begin{lem}
+Define a function $g(x)=f(x)T_{2\mu}h(x)$, where $h:\{0,1\}^n\to \R$  is a given function with $\ve{h}_{\iy}\le 1$.
+
+Then 
+\[
+\ve{T_{2\mu}f}_1\ge \mu^{|S|} |\wh g(S)|.
+\]
+\begin{proof}
+We find
+\bal
+\wh g(S) &= \E_x [\chi_S(x) g(x)] \\
+&= \E_x [\chi_S(x)f(x)T_{2\mu} h(x)]\\
+&= \E_x [h(x)T_{2\mu} \chi_S(x)f(x)]\\
+&\le \E_x [|T_{2\mu}\chi_S(x) f(x)|]\\
+&=\ve{T_{2\mu}\chi_S(x)f(x)}_1\\
+&\le \rc{(2\mu)^{|S|}} \ve{T_{2\mu} f(x)}_1\\
+T_{2\mu} \chi_S(x) f(x) &= \E_e [\chi_S(x+e)f(x+e)],& e_i\sim B(\rc2-\mu)\\
+&=\E_{e_S} [\chi_S(x+e) \E_{e_{\ol S}}[f(x+e_S+e_{\ol S})]\\
+%massage f into function function bounded support radius r.
+%instead of doing it directly take $g$, $h$ is an indicator function of strings which are in one of the balls. some kind of convolution? No - pointwise product. Like a kernel. Cut off outside. 
+%see most difference
+%easier prove low degree coeff of large.
+&\le \E_{e_S} \ba{
+\ab{
+\E_{\ol S} f(x+e_S+e_{\ol S})
+}
+}\\
+%var dist between noisy dist
+&\le \ve{\E_{e_S} f(x+e_S+e_{\ol S})}_1
+\le \fc{\ve{T_{2\mu}f}_1}{(2\mu)^{|S|}}\\
+f(x+e_S+e_{\ol S}) &= \sum_{T\subeq [n]}(2\mu)^{|S|}\fc{(2\mu)^{|S\bs T|}}{(2\mu)^{|S|}} \wh f(T)\chi_S(T)\\
+&=\fc{T_{2\mu}f}{(2\mu)^{|S|}}.
+%g ignore most of function f.
+\end{align*}
+The same formula is true even if the noise  probability is different for different coordinates. %T_{2\mu} \pi_1
+%choose H to be indicator function, make g in ball radius r?
+%not just sparse support but of bounded radius?
+%low degree F coefficient for $g$.
+\end{proof}
+\end{lem}
+
+%prob convex? convex with noise?
+%k: doesn't try to gamify and does well
+
+%helpful if all mass within a small ball.
+
+%|f(x_1)|$ is max
+Choose $r\approx \fc{\ln k}{\mu^2}$, $h(x)=1_{E}(x)$, 
+\[
+E=\set{y\in \{0,1\}^n}{d(y,x_i)<d(y,x_2)\text{ for all }x_i\text{ such that }d(x_i,x_1)\ge r}.
+\]
+For $g(x)=f(x)T_{2\mu} h(x)$, $|g(x_1)| \ge \rc{2k}$, $g(x_i) \le \ve{f}_1 e^{\mu^2 d(x_1,x_i)}$, and
+\bal
+g(x_1)&=f(x_1)\E_eh(x_1+e)\\
+&=f(x_1)\Pj_e [x_1+e\in E]\\
+\Pj(x_1+e\nin E)&\le e^{-\mu^2 r}\\
+%strt at $x_i$ and flip?
+g(x_1)&\ge \fc{f(x_1)}{2}.
+\end{align*}
+%close to function whose support bounded. 
+We prove the existence of a large low-degree coefficient. Take $g\approx g^*$, $|\Supp(g^*)|\le k$, $\Supp(g^*) \subeq B(r,x)$.
+\begin{lem}
+For $g^*:\{0,1\}^n\to \R$, $|\Supp(g^*)| \le k$, $\Supp(g^*)\subeq B(n,r)$, (1)
+\[
+\ve{T_{2\mu} g^*}_1\ge k^{-\ln (4x)}\ve{g^*}_1.
+\]
+\end{lem}
+For $\ve{T_{2\mu}g^*}_1\ge \mu^{|S|} |g^*(S)|$,
+\begin{clm}
+There exists a low-degree polynomial $p(x)=\sum_sp_s$, $\deg(P)\le \ln k$,
+\begin{enumerate}
+\item
+$P(x)=g^*(x)$ for all $x\in \Supp(g^*)$
+\item
+$\ve{p}_1 = \sum_S|p_S|\le kr^{\ln k} \ve{g^*}_1$.
+\end{enumerate}•
+\end{clm}
+
+(For $x_1=1$, $f(x)=\pf{1-\mu}2^r\pf{1+\mu}2^{n-r}$, $\ve{\wt f}_1=\sum_i \pf{1-\mu}2^r\pf{1+\mu}{1+\mu}^{r}\binom nr$.)
+
+How claim implies 1:
+\bal
+\an{g^*,p} &= \sum_x g^{*2}(x) = \sum_x g^{*2} \ge \fc{\ve{g^*}_1^2}{k}\\
+\an{g^*,p} &= \sum_S \wh{g^*}(S)p_S\le \max_S|\wh g(S)|\ve{f}_1.
+\end{align*}
+%indicator of close to $x_1$.
+%low deg coeff of large value
+\begin{proof}
+$C_1(K), C_2(K,w)$. $C_1(K)$ minimal value such that for all $n\ge 1$, $\forall x\subeq B(n,x)$, $\forall f:X\to \R$ there exists $P(x)$ such that 
+\begin{enumerate}
+\item
+$\deg(p)\le \ln k$
+\item
+$P(x)=f(x)$, $\forall x\in X$
+\item 
+$\ve{P}_1\le c_1(k) \ve{f}_1$.
+\end{enumerate}
+$C_1(k,w)$ is defined similarly but for $w(x)\le w$
+%sparse sets of low weight
+%g(k)$ bounded by $k$ times $r^{\ln k}$
+Claim: 
+\[
+G(k,w)\le \max_{1\le a-\fc{k}2} (G(k,w-a)+G(a))
+\]
+Proof: For $f,w(x)=w$, 
+\bal
+f(x)=f_1(x_1,\ldots, x_{n-1})+x_nf_2(x_1,\ldots, x_{n-1})\\
+f(x)=f_1(x_1,\ldots, x_{n-1})+x_nf_2(x_1,\ldots, x_{n-1})1(x\nin E).
+\end{align*}
+Partition $\Supp(x)$ into $x_n=0,1$. At most $k/2$ with $x_n=1$. $E$ is intersection with $x_1=0$. $E\subeq \Supp(f_2)$. 
+
+The latter is a function on $n-1$ variables with support $\le \fc k2$. If the support size is $a$, %then the support on the second is weight $\l
+\bal
+G(k,w) &\le \max_{i-a\le \fc k2} G(k,w-a)+G(a).
+G(k)&=G(k,kx) \\
+&\le \max_{1\le a_1,\ldots, a_t\le \fc k2,\sum a_i\le kx} \sum_i G(a_i).
+\end{align*}
+Induction hypothesis $G(a_i)\le a_ir^{\ln a_i}$, $G(k)\le kr^{\ln k}$.
+\end{proof}
+%weight of set is going down. bounded weight.
+
+Question: Given $f:\{0,1\}^n\to \R$, $|\Supp(f)|=k$, does that there exists $S$, $|S|\le \ln k$, 
+\[
+\wh f(S)\ge \rc{\poly(k)}.
+\]
+Then we have a polynomial time algorithm. %$k^{\ln \ln k}$.
+%just know $\rc{k^{\ln \ln k +\ln \fc n{\mu}}}$.
+
+%reduction lose polylog k factors. Support clustered not good idea?
+%difficult case within small bal.
+%1/k on k strings. 
+%difference are 2 string with weight 1/k on them. 
+
+%if f unif on set of size k what is S?
+
+%boil down to understand $L^1$ norm on noise operator. 
+%mu small means large noise?
+%noisy dist overlap a lot?
+%exp close by choosing mu?
+
+%what are bad examples?
+
+%2 sets of $k$ strings...
+%need exp dependence on $\mu$ in general.
+
+\section{Hardness of signaling for Bayesian games by Shaddin Dughmi}
+
+Say we're driving to New York or Philadephia. There are many paths. It's the time via GW bridge, Lincoln tunnel, etc. But people say some route is fastest, then it becomes slower because more people go to that. 
+
+Start with the Bayesian setting $\{G_\te\}_{\te\in \Te}$. Without any knowledge, players play $\E_{\te\in \Te,\te\sim \la}G_{\te}$ and converge to Nash equilibrium. (Nature decides $\te$, but is unkown to both players.)
+%\la is prior dist on nature)
+
+Signalling means a distribution $\ph(\te,\si)$, $\si\in \Si$. For example, $\Si$ could be a partition of $\Te$. Here we consider symmetric signalling; both players get the same information. 
+A nondeterministic signal could do better.
+
+The goal is to have the induced distribution on $\te$ be given by $\si$, $\sum_{\si} \al_\si \ph(\te|\si)=\la$, where $\al_\si$ is the probability of picking $\si$ as signal. Decomposing the prior distribution into a convex combination.
+
+In this setting the goal is to maximize player 1's expected payoff. It could be welfare, or any monotone function on the pair.
+%0's.
+%minimax. trying to maximize payoff in minimax.
+%why not create a correlated equilibrium?
+There is a quasi-polytime algorithm that works for any game, with $\ep$-Nash equilibrium (subject to ...). (Markokis-Mehta: you can get $\ep$-Nash.) This is based on the LMM algorithm. The idea is to create an $\ep$-net.
+This is for a broader class of objective functions and games.
+
+In our setup, $\{G_\te\}_{\te\in \Te}$ is a zero-sum game. (All equilibria have the same value by the minimax theorem.)
+
+The whole point is that signalling is as hard as finding a hidden clique of size $k=\om((\ln n)^2)$. This matches the upper bound given by the LMM algorithm. %assuming no good algorithm for hidden clique.
+
+Define a new problem called Hidden Clique Cover ($G(n,p,k,r)$) problem, which is the following. We state it not as a decision problem but as a search problem. Let $G\sim G(n,p)$ a Erd\H os-Renyi random graph. Plant a clique of size $k$ $r$ times.
+%pick $r$ random $k$-size subsets; not disjoint. 
+%plant them. Picking $r$ a random. $\Te(n/k)$: all vertices participating.
+%decision version is hard? almost equivalent?
+%but easy counting of degree.
+
+Our goal is to recover a constant fraction of these cliques.
+%list of cliques, return $\al r$ cliques.
+
+If you can solve the search version you can make progress on the regular version. Plant the correct one at one point and plant $r-1$ garbage cliques. Every time you recover some constant fraction; hope that the algorithm will output the correct one at some point. Thus the problem is HC-hard. (HC$=$hidden clique.)
+
+Given an instance $G\sim G(n,p,k,r)$, $T\subeq V$, our goal is to output a list of cliques $S$ such that $|S\cap T|\ge \ep|T\cup S|$. Given an instance, and a set of vertices, then we can recover all cliques which have a large intersection with $T$ in polynomial time.
+
+%T almost same as $k$? Try taking $T$ to be the whole graph, but $T\cup S$ is too big.
+
+It's a randomized algorithm: pick some samples. Suppose you know what $|S\cap T|$ is. Sample $\ln n$ samples from $T$; a constant fraction of them is uniformly distributed from $S\cap T$. Look at the vertices that have it as a common neighbor (?). Now you have a larger subset; cut out the vertices which don't have at least $k$ neighbors. This returns the list of cliques with high probability.
+
+If you have a subset guaranteed to have constant fraction intersection with clique $S_i$ then you can fully recover $S$.
+
+The game is as follows. Given $G\sim G(n,p,k,r)$, a state is $\te\in V$. There are 2 players, attacker and defender. The attacker wants to destroy edges (ex. network from a server). He can hit the vertex or one of its neighbors. Hitting a vertex severs all incident edges.
+
+The attacker picks $v\in V$. If $(v,\te)\in E$, then the attacker gets a point.
+
+The defender picks $D\subeq V$, defends edges incident on $D$. Actually this isn't quite true: the defender picks a vertex with weight $d$; then mixed strategies include all subsets of size $d$.
+%turn into mixed strategy?
+%If $z_i$ is the strategy vector, $\sum_i z_i\le d$, $d=|D|$.
+
+If the attacker picks an edge but the defender defended the edge, then the attacker gets $-\rh$, where $\rh d=\Te(k)$.  
+This rules out FPTAS but not PTAS.
+
+The attacker's payoff is
+\[
+A^{\te}(a,D) = |\{(\te,a)\}\cap E| - \rh|D\cap \{\te,a\}|.
+\]
+The subsets are mixed strategies over points. 
+%, just represent them s mixed strategy.
+
+Observations:
+\begin{itemize}
+\item
+There exists a signalling scheme that gives $\ge 0.8$ payoff for the attacker.
+
+The hidden clique cover gives a partition of the graph, defined as follows. Letting $S_i$ be the $i$th planted clique, define
+\bal
+\wh{S_i}&=S_i\bs \bigcup_{j=1}^{i-1}S_i,\\
+\wh{S_0}&=V\bs \bigcup_{i=1}^r S_i.
+\end{align*}
+$\te$ falls into one of these partitions. Send the corresponding set in the partition to both players.
+
+Note that $\wh{S_0}$ has to be small if $kr=\Te(n)$. Most of the vertices are in one of the good partitions. It has to be a clique. There the attacker wins if he picks any vertex---he only cares about whether the defender defends successfully; it doesn't happen that much: if $d=|D|$ the probability of successful defense is
+\[
+\Pj(a\in D)+\Pj(\te\in D) \le \fc{2d}{|S_i|}.
+\]
+This is small in expectation. %only $-0.2$.
+\item
+Given a signalling with payoff $\ge 0.5+\ep$, you can output $\Om(\ep)$ planted cliques in $G$ (with high probability).
+
+This is harder. We want to massage the signal into behaving like in the first observation.
+
+Given input $A_G$ and $\ph$, 
+\begin{enumerate}
+\item
+for each $\si\in \Si$, compute minimax strategy $y_\si$ (defender) and $x_\si$ (attacker).
+%pairs 0 to k
+%$\ep$ not a constant.
+%The gap between 0 and 1 is not constant.
+%\rh d fixed. 
+%you can make $d$ large. Then it changes the theorem. 
+%implicitly described yet tractable?
+%set d small, \rh large.
+%$n^{1+\ep}$ is not ruled out for the zero-sum.
+%We want it to return a small subset but it might be crazy.
+
+Let
+\bal
+x_\si&=\begin{cases}
+x_\si,&\text{if }x_\si\le \fc{2}{\rh d}\\
+0,&\text{otherwise}
+\end{cases}\\
+\wh{y_{\si}}&=...
+\end{align*}
+%suppot of $z_\si$, some constant fraction has constant fraction intersection.
+\item
+Let $z_\si$ be the solution to the linear program
+%not? best response for defender.
+\[
+\max_{\ve{z_\si}_\iy\le \fc{2}{\rh d}, \sum z_{\si}(v)=1,z_\si(v)\ge0} (\wh{x_\si})^TA_Gz_\si.
+\]
+\end{enumerate}
+Depending on the attacker's strategy, guess what $\te$ is; get a distribution on nature. Tke the support on nature. If the attacker does well there is a way to predict nature, and you can do well.
+%$\rc2$ is what you expect in background.
+\item
+Return $\Supp(z_\si)$ for all $\si$.
+\end{itemize}
+%You don't lose so much in 1 and 2.
+%x is concentrated on something. 
+$\wh{x_\si}$ not behaves like some subset, and $z_\si$ also behaves like a subset. It finds $z$ that is correlated with $x$ on the graph. If the payoff is larger than what's expected, there has to be a constant fraction of the planted cliques.
+
+The rest is calculation.
+
+An open problem is the following. %Even in worst-case assumption, setting the objective function to ...
+ETH-hard to get a good $\ep$-approximate Nash.
+%Not clear whether you can 
+Come up with a zero-sum game from worst-case settings, so it's hard to distiguish between
+\begin{itemize}
+\item
+YES: there exists a good signal.
+\item
+NO: for all signals the payoff is bad.
+\end{itemize}
+%It's not clear how you can have from worst-case a zero-sum game. Zero-sum is easy. 
+%
+
+\section{ETH hardness of DkS (with perfect completeness}
+
+We show that, assuming the (deterministic) Exponential Time Hypothesis,
+distinguishing between a graph with an induced $k$-clique
+and a graph in which all $k$-subgraphs have density at most $1-\epsilon$,
+requires $n^{\tilde{\Omega}(\log n)}$ time.
+Our result essentially matches the quasi-polynomial algorithms of Feige
+and Seltser [fs97] and Barman [Barman14] for this problem,
+and is the first one to rule out an additive PTAS for Densest
+$k$-Subgraph. We further strengthen this result by showing that our lower
+bound continues to hold when, in the soundness case,
+even subgraphs smaller by a near-polynomial factor ($k' = k \cdot
+2^{-\tilde \Omega (\log n)}$) are assumed to be at most
+$(1-\epsilon)$-dense.
+
+Our reduction is inspired by recent applications of the ``birthday
+repetition" technique [AIM14,BKW15]. Our analysis relies
+on information theoretical machinery and is similar in spirit to analyzing
+a parallel repetition of two-prover games in which the provers
+may choose to answer some challenges multiple times, while completely
+ignoring other challenges.
+
+\begin{df}
+DkS, the \vocab{densest $k$-subgraph} problem, is as follows. Given a graph $G=(V,E)$, define 
+$\text{den}(S)=\fc{|(S\times S)\cap E|}{|S\times S|}$. 
+The decision problem is to decide between the following 2 cases. ($C>S$)
+\begin{enumerate}
+\item YES: there exists $S$, $|S|=k$ such that $\text{den}(S)\ge C$. 
+\item NO: for all $|S|=k$ such that $\text{den}(S)\le s$.
+\end{enumerate}
+In the algorithmic (search) version, actually find the $S$.
+\end{df}
+Upper bound: 
+The state of the art gives a $O(n^{\rc 4})$-approximation (BCCFV) using SDP. This is the best that can be obtained using LP.
+
+Lower bound: 
+\begin{itemize}
+\item
+DkS is $\pa{1+\rc{c(k)}}$-approximable in time $2^{(\lg n)^k}$ assuming RETH. [Khot 2001]
+\item
+Any constant inapproximable assuming variant of SSE (small set expansion) [RS10]
+\item
+Any constant inapproximable assuming Feige's conjecture/hidden clique [Alon et al, 2011].
+\end{itemize}
+%This is a spectrum: you get stronger results assuming stronger conjectures.
+
+Here it's not distinguishing between dense and less dense graph; it's distinguishing between cliques and less dense cliques.
+
+Our result is the following. It is ETH-hard to distinguish in $n^{\wt O(\lg n)}$ time the following.
+\begin{itemize}
+\item
+%rules out additive approx algorithm
+YES: $\exists S$, $|S|=n^{1-o(1)}$ such that $\text{den}(S)=1$,
+\item
+NO: $\forall S$, $\text{den}(S)\le 1-\ep$.
+\end{itemize}•
+This matches the upper bound: there exists a dynamic programming algorithm in $n^{O(\ln n)}$ time [Feigel, Setter 97]. Barak 15 gives an additive approximation [Barak 15].
+
+The reduction is simple, but the analysis is hard.
+
+The idea is birthday repetition. With high probability, two $O(\sqrt n)$-size subsets of a $n$-sized set share an element.
+%check constraint or consistency.
+
+Start with Dinur's instance of 2CSP: Given a 3SAT instance, there is a CSP with gap $(1-c,1)$. 
+Each vertex corresponds to assignments on $\sqrt n$ variables. The number of vertices is $|V|=\binom{n}{\sqrt n}|\Si|^{\sqrt n}$.
+Edges $(u,v)$ are between vertices that
+\begin{enumerate}
+\item
+are equal on the variables they share (consistency), and
+\item 
+they do not violate any 2CSP constraints.
+\end{enumerate}•
+%$u\cup v$ satisfies both assignments.
+There are clusters labeled by variables we're giving assignments to.
+%\input{chapters/1.tex}
+ 
+If the prover is limited to choosing at most 1 vertex from each cluster, then the constant gap is inherented into the instances.
+%for a lot of these reductions, those are what's actually causing the reductions to fail
+%$k=\binom{n}{\sqrt n}$.
+
+%constant gap: constant losses
+
+Choosing 2 random clusters, you have likely have to check something: consistency or constraints.
+%2 vertices in the same cluster?
+
+%1 vertex from each cluster then done.
+%The whole analysis is saying 
+Idea: If you choose 2 vertices from the same cluster they can never give a match; you lose some edges.
+%cheating strategy if choose 2 vertices from the same cluster. How is there a constant gap.
+
+The main technique/observation is that in this setting. %total entropy has to be $\lg k$, because it's a distribution on $k$ distinct elements. 
+
+Fix a subset of vertices $S$ of size $k$. Choose a vertex randomly from $S$, and define the following random variables:
+ %each vertex corresponds to a different value of $(X_i,Y_i)$.
+%The total entropy on the following induced distribution is $\lg k$: 
+$X_i=1$ if the $i$th variable participates, and $Y_i$ is the assignment.
+The entropy of $(X,Y)$ is 
+%renaming of the vertices
+%$\log k$ is the assignment.
+$H(X,Y) = \lg k$ because the variables $X,Y$ give a full description of the vertex; every vertex corresponds to a unique value of $(X,Y)$.
+\[
+\lg k = H(X,Y) = \sum_i H(X_i|X_{<i}Y_{<i}) +\sum_i H(Y_i|X_{\le i}Y_{<i}).
+\]
+The first sum is the entropy from the choice of variables, and the second sum is the entropy from the assigment. 
+%Can also try moshkovitz-raz
+If one is large, the other is small. 
+\begin{enumerate}
+\item
+If the second sum is large, then one must lose from consistency.
+(You're choosing multiple assignments for a given set, so you're losing in the consistency checks.)
+
+This is trickier. We'll sketch the proof below. %$O\pf{\lg k}{\lg n}$.
+\item
+If the first sum is large, then the 2CSP value must carry over.
+(This is exactly what we want. Each variable occurs as it should be with some slack. If they occur around where they should be, the constraints appear as they should be so carry over the value of the 2CSP.)
+%log k times constant.
+%Proof idea: Constraints between $(u,v)$  
+\end{enumerate}
+Assume $\sum H(Y|X_{\le i},Y_{\le i})>5\ep_1\pf{\ln k}{\ln n}$. 
+\begin{df}[Good variables]
+$i$ is good if
+%good amount of entropy for both first and second term.
+\bal
+H(X_i|X_{<i},Y_{<i}) & \ge H(\Pj[X_i=1])-2\Pj[X_i=1]\ln |\Si|\\
+H(Y| X_{\le i},Y_{<i}) & \ge \rc2 \ep_1\Pj[x_i=1].
+\end{align*}
+\end{df}
+%$\ep_1$ depends on...
+%first split up the sum into those that satisfy the first and second connditions. Look at the ones satisfying the second condition, and you're done.
+%entropy concave
+We get
+\[
+\sum_{\text{good $i$'s}} \Pj[X_j=1]^2 \ge \fc{\pa{
+\rc 5\ep_1 k
+}^2 }{n(\ln |A|)^2}
+%density: squre has to come in
+\]
+%pick 2 random vertices
+%Go through all the $i$'s and look at inconsistencies from the $i$th variables. Use Fano's inequality. The bound is bad. If $X_i$ is inconsistent, you shouldn't count when $X_j$ is inconsistent. We actually want to count the new inconsistency introduced by the $i$th variable.
+We say $\om_{i-1}$ is good if 
+\begin{itemize}
+\item
+$i$ is good,
+\item
+%neighborhood: count the new inconsistencies. For each vertex, we don't want to count the ones we have already counted inconsistencies before.
+%look at the vertices inconsistent up to variable $i$.
+$\sum_{\si_{i-1}\in N(\om_{i-1})} \Pj[X_i=1|\si_{i-1}]\ge (1-\ep_2)\Pj[X_i=1]$.
+%set of variables ocnsistent up to variable $i$.
+There is substantial mass on the neighborhoods.
+%need good neighbors: a good chunk are cut up.
+\item
+$H(Y_i|\om_{i-1})\ge \ep_3\Pj[X_i=1|\om_{i-1}]$.
+%introduce $i$th variable, this could be large. but inconsistencies could have been counted before. 
+%intro $i$: fresh violations? 
+\end{itemize}
+
+$\text{den}(S)<1-\de_1$, $\text{den}(S)<1-\de_2$.
+
+%sparse? open problem.
+%simpler proof using more entropies.
+
+We tried applying this to small set expansion Here $k=\binom{n}{\sqrt n}$, $|V|=\cdots |\Si|^{\sqrt n}$. But in small set expansion we need $k$ to be linear.
+
+Bounding integrality gaps: the amount you can cheat if you assign something to a local set. Nice technique for ``pick $k$" problems. Sparse PCA? But in the hidden-clique based reduction, we rely heavily on the background noise being random. 
+
+\section{Bitcoin and game theory}
+
+I'll speak tomorrow about some game theoretic attacks against bitcoin from these two papers (and give a brief high-level overview of bitcoin first):
+
+\url{http://arxiv.org/abs/1311.0243}
+
+\url{http://arxiv.org/pdf/1411.7099v2.pdf}
+
+Bitcoin is ``just" a ledger. (Don't think of bitcoins as digital objects moving. Because people agree on a ledger, the coins have value.)
+
+Every node $i$ has a ledger $L_i$.
+
+Goal: get all nodes to agree on $L$.
+
+%
+
+\begin{enumerate}
+\item
+If two parties want to transact, they announce it to the world.
+\item
+At every time $t$, the network selecs a random node $i$ (miner) and this node proposes a list of transactions and a pointer to $L_i$.
+\item Every other node validates all these transactions. Update $L_j$ to be the ledger that has been updated the most. (Accept updates from the ``correct" node.) (Longest blockchain.)
+\end{enumerate}
+
+We want to prevent the double-spend attack. 
+\begin{enumerate}
+\item
+Assume at least $51\%$ of the network is honest.
+\item
+Wait $k$ steps after a transaction is proposed before considering it safe.
+\end{enumerate}
+In order to undo a transaction from time $t$, for some $C\ge k$, the attacker gets chosen more often than the rest of the network.
+%if never happens for any $C$, keep building on history.
+
+``Proof of work." We replace the above steps by the following.
+\begin{enumerate}
+\item[0.] Everyone agrees on a collision-resistant hash function $H$ with 256-bit output.
+\item[2'.] At any time any node can propose updates$|L_i|$nonce.
+\item[3'.] Accept updates if $H\pat{updates|L|nonce}<2^c$ for some agreed $c$.
+\end{enumerate}•
+
+For some agreed $C$. Set $L_j=$most updated ledger.
+
+If you successfully propose transactions, you get to add a special transaction creates coins for you. This is called ``mining."
+
+\subsection{Selfish mining}
+A selfish update his own blockchain without releasing it until later, so the rest of the network is wasting its time. Then you have a higher proportion of effective power in the network.
+
+If you are in a position where you can always win a tie: immediately report when someone else reports.
+%use energy to get bitcoin, hurt its value?
+%goldfinger attack
+
+Define lead$=l-k$.
+There are 2 ways to have a lead of 0: (0.) you agree, or ($0'.$) you found both found the same number of blocks.
+
+Let $\al$ be your fraction of computing power.
+From 0 you can get to 1. 
+Let $\ga=\Pj\pat{choose to extend yours}$. 
+\begin{itemize}
+\item
+$0\xra{1-\al}0$.
+\item
+$1\xra{1-\al}0'$.
+\item
+$1\xra{\al}2$.
+\item
+$2\xra{\al}1$.
+\item
+$0'\to 0$: $\ga(1-\al)$ win, $(1-\ga)(1-\al)$ lose, $\al$ you found another block and win.
+\end{itemize}•
+Find the stationary probabilities; how much does each person get?
+
+The fraction of revenus is $>\al$, if $\al>\fc{1-\ga}{3-2\ga}$. 
+%more incentives for people to work with them. More rewards then... Larger than $50\%$?
+
+%not happen? What is $\ga$?
+
+%can detect, decrease value of BTC.
+
+\section{Lifelong learning}
+
+\subsection{Intro}
+
+In PAC learning for boolean functions, we consider (feature domain) $X=\{0,1\}^n$, $Y=\{0,1\}$, distribution $D$ over $X$, $t:X\to Y$. Given $\set{x_i}{t(x_i)}_i\sim D$ iid, we want $h(x)$ such that 
+\[
+\Pj(h(x)\ne t(x))
+\]
+is small.
+
+In lifelong learning, we have a sequence $(t_i,D_i)_{i=1}^m$ (arriving in online fashion), $t_i$ sharing meta-features $\{m_j\}$ (common structure).
+
+There are different learning tasks with common structure. There may be common features involved in identifying dogs and identifying cats. 
+
+The goal is to learn the meta-features $\{m_j\}$ and the target function $\{t_j\}$.
+
+%neural network lit
+
+\begin{ex}
+$t_i$ are conjunctions. There exist $k$ monomials such that $t_i$ is a conjunction of some subset of the monomials.
+
+For example, $t_1=x_1x_2x_3$, $t_2=x_2x_3x_4$, and $m_1=x_1x_2,m_2=x_2x_3,m_x=x_4$. Here $t_1=m_1m_2$, $t_2=m_2m_3$.
+%metafeatures may not be unique
+\end{ex}
+
+\begin{ex}
+$t_i$ is a linear separator, and $\{t_i\}$ are in a $k$-dimensional subspace. 
+%common things among different learning tasks. 
+%nice way capture metafeatures.
+\end{ex}
+Because the set of meta-features is not unique, it suffices to output $\{\wt{m_j}\}$ that has equal representational power.
+
+\subsubsection{Conjunctions}
+
+First consider the \vocab{consistency} problem: given $\{t_i\}_{i=1}^m$, find $k$ monomials $\{\wt{m_j}\}$. This is the set basis problem which is NP-hard.
+%There are $k$ monomials, and you want to find 
+Thus we make the \vocab{anchor variable} assumption: for all $m_j$, there exists $y_j\in m_j$, $y_j\nin m_{j'}$ for $j'\ne j$.
+%approx ration of set-basis problem.
+
+%given a set of examples, is there a target function that is satisfied for all examples.
+
+Once you've found the anchor variables it's easy to find: let $\wt{m_j} = \bigcap_{t\ni y_j} t$.
+
+The algorithm is as follows. Let $TS=\{t_i\}_{i=1}^m$,
+\bal
+NS(TS,Z)&=\set{t\in TS}{z\in t}\\
+H(t)&=\bigcup \set{\wt{m_j}}{\wt{m_j}\subeq t}.
+\end{align*}
+Repeat:
+\begin{enumerate}
+\item
+Set $t=0$, $\wt M=\phi$ (metafeatures selected so far).
+\item
+While $t\in TS$ cannot be represented by the current metafeatures, $t\ne H(t)$,
+\begin{enumerate}
+\item
+Choose $t$ with minimal index.
+\item
+Minimal: Choose $z_{k+1}$ from $t\bs H(t)$ 
+there doesn't exist $z'\in t\bs H(t)$, $N(TS,z')\subeq N(TS,z_{k+1})$. %contained by fewest metavariables
+%not nec anchor var.
+%anchor var for current situation, not at beginning.
+\end{enumerate}
+\item 
+Set $\wt{m_{k+1}}=\bigcup_{T\ni z_{k+1}}T$.
+%if not anchor variable, acts like anchor variable
+%find with same representational power.
+\end{enumerate}
+
+\begin{df}
+Say $\wt m\equiv m$ if 
+\begin{enumerate}
+\item
+(larger than ground truth metafeature)
+$m\subeq \wt m$ 
+\item
+(not too large)
+for all $t\in TS$, if $t\supeq m$, then $t\supeq \wt m$.
+%still contained in conjunction $t$, holds for any $t$.
+%if for each ground truth metafeature...
+%why we define $\wt{m_j}$ in this way. 
+%take intersection over all conjunctions.
+\end{enumerate}
+\end{df}
+
+The guarantee of the algorithm is the following.
+\begin{lem}
+Let $\{\wt{m_j}\}$ be the output of the algorithm.
+For $\wt{m_j}$ there exists $m_{t_j}$, 
+\begin{enumerate}
+\item
+$\wt{m_j}\equiv m_{t_j}$ (each constructed feature maps to a ground truth metafeatures)
+\item
+$m_{t_j}\ne m_{t_{j'}}$, $j\ne j'$.
+\end{enumerate}
+(In particular, the number of ground truth metafeatures is at most $k$.)
+\end{lem}
+\begin{proof}
+Induct. The base case is clear.
+
+Assume that it's true for $i'\le i$. Now we show the theorem for $i+1$.
+
+We have 
+\[
+\wt{m_{i+1}}=\bigcap_{z_{i+1}\in T} T.
+\]
+$m_{t_{i+1}}$ is the $m$ containing $z_{i+1}$, $m\subeq t$.
+\begin{enumerate}
+\item[2.]
+It's not covered by the previous: OK.
+\item[1.]
+Problem: $z_{i+1}$ may not be an anchor variable.
+Suppose $z_{i+1}$ is not an anchor variable. Then $y_{t_{i+1}}\in \wt{m_{i'}}$. We claim that $m_{t_{i+1}}\subeq \wt{m_{i'}}$.
+%
+Now $\wt{m_{i'}}=\bigcup_{z_{i'}\in T}T$, so $y_{t_{i+1}}\in T$. %not contained in any other
+So $m_{t_{i+1}}\subeq T$.
+%We claim the corresponding anchor var isn't covered yet
+
+
+We claim $N(TS,z_{i+1})=N(TS,y_{t_{i+1}})$. Choose the minimal variable in the sense that if you want to construct the metafeatures...; pick anchor variable at each step and construct a metaf equivalent to ground truth metaf.
+%(*(/)*)
+%
+\end{enumerate}
+\end{proof}
+%how many problems need to see to be confident have all metaf?
+
+Given such a subroutine, each time you receive a new learning task, try to construct it from the previous metafeatures. If you succeed with error 0, go to the next task. Otherwise, take all the learning tasks up to now, and run this algorithm again. Whether this algorithm is efficient depends on whether you can learn the conjunction under the previous metafeatures. Under some query models you can do this efficiently.
+
+Can you learn the new conjunction based on the previous metafeatures? %learn new func as conjunction of previous metafeatures? Otherwise learn by some more expensive means and ...
+
+%each time you get a new learning task, 
+%is there a conjunction you can fit now. This is just a conjunction learning problem.
+
+%put conjunction together with all previous to learn.
+%keep set of basis of constructed hypothesis.
+
+%technical error: error accumulates a little additively.
+
+%metaf as hidden layers
+\subsubsection{Neural nets}
+Consider the $t_i$ as images. Metafeatures are ANDs of corresponding variables. If there is a pattern in the image, the corresponding feature is activated.
+%when $t_i$ contains all $x_1,x_2,x_3$. 
+Then take OR of the metafeatures.
+%DNF
+
+%To reconstruct $t_i$ from the $m_j$...
+Think of the metafeatures as the hidden layers; this is the corresponding boolean autoencoder.
+%union vars in corresponding metafeature.
+Here the hidden layer is the same size. What if it's large, but we require sparse coding. We can only use a few metafeatures to reconstruct. Each $t_i$ is a conjunction of at most $k$.
+
+Sparse boolean autoencoder: $\{t_i\}_{i=1}^m$, $\{m_j\}_{j=1}^L$, $L=O(n)$, $t_i$ is a conjunction of $\le k$ of the $m_j$. They consider $|m_j|\le C$. %run in $n^C$.
+
+The assumption is that for all $m_j$, there exists $y_j\subeq m_j$, such that for all $t\supeq y_j$, $t\supeq m_j$, $|y_j|\le C$.
+Any containing this set must contain the whole metafeature. This is more general than the anchor variable assumption (for which $|y_j|=1$).  $|y|\le c, \wt{m_y}=\bigcup_{y\in T}$. This corresponds to learning polynomials.
+(Anchor words assumption is stronger than the unique neighbor property. Fix $m_j$, there is $x_i$ only appearing in it.)
+
+%y_j only contain in m_j
+
+%if both on, something else should be on...
+
+%more of a philosophical connection.
+
+\section{Noise in computation}
+
+We'll talk about the circuit computation model. (There might be other models that are appropriate but this is the most obvious.)
+
+Some motivations:
+\begin{itemize}
+\item
+The relation of communication to computation.
+\item
+Understanding computation.
+\item 
+Practical considerations.
+\end{itemize}
+
+The short history: people (von Neumann) cared about it in the 50's, people made gates that have high reliability and stopped thinking about it. In practice most architectures assume the computation is infallible. However there is room for improvement in terms of power consumption.
+
+The basic setup is that we have a circuit with some gatewise noise.
+Define
+\[
+\text{NAND}_\ep(x,y) = \begin{cases}
+\neg x \wedge y,&wp\,1-\ep\\
+x \wedge y,&wp\,\ep
+\end{cases}
+\]
+What/how is this good for?
+
+Given a circuit $C$ of NAND's is there a $C'$ of $NAND_\ep$'s that does the same thing and is there a meaningful expansion parameter? We can allow $C'$ plus $o(|C|)$ noiseless gates (or allow some noise). Spielman in the 90's had the following solution: store each word as an error correcting code. Do operations on these words. This causes an expansion of $\ln |C|$ (the length of the word).
+%should stay within the radius.
+You have to allow a threshold gate at the bottom. 
+
+Can we get constant in some meaningful regime? There is no inherent reason why you shouldn't be able to.
+
+We start with the communication connection. We can ask this problem in any setting. One successful setting is data transmission and storage. (We can't assume long-term memory is noiseless!) There is the concept of channel capacity. The capacity
+\[
+Cap(BSC_\ep)=1-H(\ep).
+\]
+This tells us how much more communication we need given an amount of noise. The profound fact is not that this is the conversion factor, but that there is one. This is the big discovery of Shannon. %What you use the channel for is independent
+You can separate the encoding from the application; it wasn't obvious in the 40's.
+Is this true here?
+
+A more accessible model is the interactive error-correcting codes: you can assume there is a lot of communication, but each communication is small. You carry a constant loss.
+This is smaller than one-way capacity. The capacity hasn't been formally defined. Given a generic pointer problem, what's the factor you need to blow up? It's a constant factor.
+
+This is connected via the Kharmarcher-Wigderson games. This is a connection between boolean formulas and interactive protocols.
+A boolean formula $f(x_1,\ldots ,x_n)$ corresponds to the interactive protocol: $A$ is given $x\in f^{-1}(0)$ and $B$ is given $y\in f^{-1}(1)$. Output $i$ such that $x_i\ne y_i$. 
+This is still the most promising attack to get lower bounds.
+If you prove a lower bound on the game you prove a lower bound on the depth.
+Starting at a disagreement at the bottom of the circuit (output), move up. Each bit they jump 1 layer by sending the index of the 1 or 0 in the previous layer (depending on whether it's AND or OR). 
+
+This protects against short-circuit errors (Kalai, L, R 2013). A short-circuit error means that we can have $AND(0,1)=1$ but not $AND(0,0)=1$. It doesn't protect against flips.
+
+Interactive error correction is just an inspiration for the kind of results we want.
+
+We don't know the error for the simplest channels. It's bounded by above by the one-way capacity; we don't know how big the gap is.
+
+Defining a constant and asking whether it's positive is interesting. 
+
+The problem we gave is analogous to channel capacity. This correspond to asking does the conversion to $NAND_\ep$ have constant rate. %(A superconstant rate is still interesting.)
+
+What is the analogue of entropy? Given $T$, a circuit $C$, what does $\fc{C(T^n)}{n}$ approach? What is going on for multiparty computation. This would be a great deal: try to break out of discreteness. Coding theory and information theory are more successful than complexity theory because they are not discrete.
+
+%This is a concrete problem %positive rate
+
+Next problem: 
+The more abstract problem is that given $f:[0,1]\times [0,1]\to [0,1]$, when can you use it for computation?
+%given by noisy gate
+Given $f:[0,1]\times [0,1]\to M[0,1]$. (The output is a distribution on the interval.)
+%f(x,y)\pm 0.1
+Is it meaningful to talk about the log factor?
+The relationship between error and power (energy consumption of a circuit) is $e^{-\Te(p^2)}$.
+
+For a lot of time the limiting cost was hardware but this is changing now: hardware is cheap relative to power.
+We cannot hope to reduce it by much. Reducing it from $10^{-18}$ to $10^{-9}$ is a $30\%$ reduction. (Error in lifetime vs. error per second.)
+Checksum for interesting computation.
+Ex. A multiplier that can withstand three errors. You're not allowed to blow up the size of the circuit. Ideally verify the computation in sublinear amount of gates compared to the original computation. 
+%locally constructible codes?
+1 error: checksum.
+PSPACE solver. Usually call more than once. Call the solver once. Allowed sublinear overhead. Only need to correct few errors, not blackbox. Multiplier takes superlinear number of gates.
+
+In terms of approachability, the three most approachable directions are
+\begin{enumerate}
+\item
+abstract: compute capacity (analogue of channel capacity)
+\item
+specific problems: checking for low complexity classes. Merge PCP theory with low-level complexity classes?
+\item 
+practical stuff. (Dead for a while, but revived because of the power problem.)
+\end{enumerate}•
+Solved problem in wrong regime. 
+%problems face in practice, memory addressing, not what can help with?
+%In particular situations there is interesting stuff.
+
+%log^{O(1)} \fc{|C|}{\ep}
+%prover verifier games more useful? overhead sublinear.
+
+%interactive coding: hopeless about exact constant. Dependence $1-\Te\prc{\ep}$.
+
+%interactive coding.
+%IT: cc brick walls. can't just keep Shannon
+
+Seems unrelated: A simple proof of the following fact. A cellular automata can simulate a Turing machine. Can you do it robustly? 
+In one dimension you can keep one bit of information (Gacs, 70s). With a more modern understanding, simplify?
+%Godel's theorem
+Godel's theorem for logic of computation is a trivial fact (there's pain in proving the arithmetic version).
+1-dimension: store a bit. Trying to fight mutation. Build an immune system. Mutation with mechanism for doing exactly what you're trying to do: once in $2^{-n}$ steps have a mutation of size $n$. In $2+$ dimensions you can do robust computation.
+%2002 wolfram. 1200 page book. 1/2 page to noise.
+Two states that don't mix. Kill all neighbors not like you, etc. What if overpower, etc.
+
+%cell automata: discrete PDE, nasty math. Rule simple not right measure of complexity. Right measure is memory. Fluid mechanics hardest applied math. Can't prove have solutions.
+
+\section{Dictionary learning with VERY few examples}
+
+%Title: Teaching and compressing for low VC-dimension
+%http://arxiv.org/abs/1502.06187
+%
+%Authors: Shay Moran, Amir Shpilka, Avi Wigderson, Amir Yehudayoff
+%
+%Abstract:
+%
+%In this work we study the quantitative relation between VC-dimension and two other basic parameters related to learning and teaching. We present relatively efficient constructions of {\em sample compression schemes} and {\em teaching sets} for classes of low VC-dimension. Let C be a finite boolean concept class of VC-dimension d. Set k=O(d2dloglog|C|). 
+%We construct sample compression schemes of size k for C, with additional information of klog(k) bits. Roughly speaking, given any list of C-labelled examples of arbitrary length, we can retain only k labeled examples in a way that allows to recover the labels of all others examples in the list. 
+%We also prove that there always exists a concept c in C with a teaching set (i.e. a list of c-labelled examples uniquely identifying c) of size k. Equivalently, we prove that the recursive teaching dimension of C is at most k. 
+%The question of constructing sample compression schemes for classes of small VC-dimension was suggested by Littlestone and Warmuth (1986), and the problem of constructing teaching sets for classes of small VC-dimension was suggested by Kuhlmann (1999). Previous constructions for general concept classes yielded size O(log|C|) for both questions, even when the VC-dimension is constant.
+
+Authors: Klye Luh, Van Vu in FOCS 2015
+
+We consider the equation
+\[
+Y=AX
+\]
+where $Y$ is $n\times m$, the input matrix; $A$ is $n\times n$. %More variables
+For dictionary learning, $X$ is sparse and $A$ are the items in the dictionary. When $X$ is extremely sparse (each column has constant number of zeros) this problem is also called sparse coding.
+
+\begin{thm}
+If $A$ is full rank and $X_i$ are iid sampled from 
+$\smatt{1-\te}{\te}{0}{\xi}$ where $\xi$ is such that $\E\xi =0$, $\te\in [\rc{\sqrt n},\rc{\sqrt n}]$. $\Pj(\xi\ge t)\le e^{-\fc{t^2}2}$.
+%With probablity roughly $\rc{\sqrt n}$ nonzero.
+\end{thm}
+There exists a polynomial time algorithm that exactly recovers $A,X$ when $m\ge n(\ln n)^4$.
+Information theoretically we can go to $n\ln n$ because we need that many equations to certify the variables. 
+
+($n^2$ many variables, $\ln n$ bits of entropy from choice in column.)
+
+$\spn(Y')=\spn(X')$. Each row of $X$ is a sparse vector.
+Dimension much higher than number of vectors.
+It makes sense that the sparsest vectors in the span are the rows of $X$. If we can solve
+\[
+\min_{b\in \R^n} \ve{b^TY}_0,
+\]
+$b\ne 0$, $b^Ty X^ic$. We can recover at least one $X^i$. But these are nonconvex constraints. The first constraint is easy: the $L_0\to L_1$ relaxation,
+\[
+\min_{b\in \R^n} \ve{b^TY}_1.
+\]
+The second constraint is problematic. (Dropping it we get $b=0$ as the solution.) We restrict $\an{b,v}=1$. This is a trick from Spielman. $v$ is a column of $Y$. 
+%TM: view as $L_{\iy}$ norm.
+
+Ideally we want $b^TY=X^i$. $b^TAX=X^i$. We should have $b=(A^T)^{-1} e_i$. It's natural to put $v=A^Te_i$.
+%larger value will not be min
+We cannot really get this $v$ because we don't know $A$. The analogue of $v$ is the column $Y_j=A X_j$. The $j$th column is quite sparse, so it's like $e_i$. If we choose $v=Y_j$, can we solve the problem?
+
+The naive approach is to minimize $\ve{b^T Y}$ such that $\an{Y_j,b}=1$. Make a change of variables $b=(A^T)^{-1}r$. Then equivalently we want $\min\ve{r^Tx}$ such that $\an{x_j,r}=1$.
+
+Observation: for all $r$,
+\[
+\ve{r^TX}_1\approx mf(\ve{r}_1).
+\]
+$f$ is monotonically increasing. If $X$ is 1-sparse, equal to 1-norm. If $X$ is sparse, roughly proportional. $m$ summations of inner product, grows linearly as $m$.
+
+For the simple case, consider $\ve{r^T x}_1  = mf(\ve{r}_1)$. Then the convex program is equivalent to 
+\[
+\min \ve{r}_1
+\]
+such that $\an{r,X_j}=1$. $X_j$ is a sparse column vector with $\pm 1,0$.
+Putting $\rc2$ on $1,0$... This convex program does not recover ...
+
+The trick: don't naively consider $\an{r,X_j}=1$. Consider $\an{r,X_p+X_q}=1$.
+Similar argument with unique neighbor: with decent problem have unique common nonzero place. With high probability same sign. A 2. This gives $b_i$. You can put $\rc2$ on the $2$. Norm can be as small as $\rc2$. This is robust to approximately equal. Suppose only have approximately equal. 
+We want to minimize
+\[
+\min \sum (1\pm S_i) |r_i|.
+\]
+such that $2r_1+r_3-r_6=1$ (for example). No matter what $\de$ is, still unique solution: put $\rc2$ at $r_1$. %lose 2 gain $\de$.
+
+Final algorithm: go through $p,q$, 
+\[
+\min \ve{b^TY},\an{b,Y_p,Y_q}=1.
+\]
+$X_{pq}=b_{pq}^T Y$. Add $X_{pq}$ from $\ve{X_{pq}}_0$ smallest to largest.
+...sparsest until rank is $n$.
+Recover $X$ can recover $A$ because whp $X$ is right-invertible. 
+Actually recover coefficients of dictionary first, use the representation to recover the dictionary. 
+Until rank$=n$.
+
+Observation: for $\ve{r}_0\le \sqrt n$ (sparse $r$), $\E\ve{X^T r} = mf(\ve{r}_1)$. Consider $X$ is 1-sparse, just 1 norm of $r$. If $\sqrt n$ sparse...
+
+Also using unique neighbor property hit one value.
+
+For dense $r$, do some calculation, still increasing function of $r$. Expectation calculation.
+
+Step 2: for all $r$, $\ve{\ga^TX}_1$ concentrate to $\E\ve{r^Tx}_1$. (Spielman used Bernstein, this is fancier.)
+%for every $r$, concentrate to expectation. For every $r\in \R^n$, have to take union bound.
+
+\[
+\Pj(\exists r\ve{\ga^Tx}_1-\E\ve{r^Tx}\ge \de\E)\le o(1).
+\]
+
+%if proportional doesn't hold for non-sparse, cheating solution, don't want.
+
+target solution is 1-sparse, first step rule out $\sqrt n$. How prove theorem? 
+
+How did Spielman prove this theorem? $\ve{r^Tx}=\sum_{i=1}^m|\an{r,x_i}|$. 
+\[
+\Pj(\ve{r^Tx}_1-\E\ve{r^Tx}_1) \le \exp\pa{-\fc{t^2}{\Var \ve{r^ix}_1}},
+\]
+\[
+\Var\ve{r^Tx} = \sum_{i=1}^m \Var|\an{r,X_i}| = \sum_{i=1}^m \an{r,X_i}=\sum_{i=1}^m\sum_{j=1}^n \E(X_{ij}^2r_j^2).
+\]
+Square, cross term cancel. With prob $\te$ nonzero, once nonzero
+\[
+=\sum_{i=1}^n \te\sum_{j=1}^n r_j^2.
+\]
+Why old thing cannot give optimal.
+Because expression in $\Pj$ is scaling-invariant, if true for 1-norm $=1$, true for all $r$.
+Here if the 1-norm $=r$, then value $<1$. 
+\[
+\le \te rn.
+\]
+Then
+\[
+\Pj(...\ge t)\le \exp\pf{-t^2}{\te m}.
+\]
+How small can the expectation be? $\E\ve{r^Tx}_1 = m\E\ve{r_i,x_i}$. $(\rc{\sqrt n}\cdots)()$. WHen nonzero iid $\pm1$. %\ve{r}_1.
+Sum of $\pm 1$s are $\sqrt{\te n}$. 
+\[
+\min \E\ve{r^Tx}_1 = m\sfc{\te}{n}.
+\]
+$t=\sfc{\te}n$. 
+\[
+\exp\pf{-t^2}{\te m}\le \exp(-m/n).
+\]
+Union bound: $e^m$ many $r$'s. Only consider $r$s differing by $\ge\rc{n^3}$. $\rc{n^3}$ $\ep$-net, contain $e^n$? many points.
+
+$r_i=\fc{k}{n^4}$ where $k\in \N$. %If some point 
+How many with $\ve{r}_1=1$? $e^n$. $=2^{n^4}$. %(n^4)^n.
+
+Union $e^ne(-\fc mn)\approx o(1)$ so get $n^2$. %
+%r_j^2<1
+%$\E$: lower bounded. 
+
+Variance bound only tight when 1-sparse: that's how they improve analysis.
+
+When take union bound, $\Pj(A\cup B)=\Pj(A)+\Pj(B)-\Pj(A\cap B)$. For a union bound we ignore the last term. But it's large for many different $r$'s. Two close by points would be close in value whp. 
+\[
+\ab{\ve{r_1^Tx}_1-\ve{r_2^Tx}_1}\le \ve{(r_1-r_2)^T x}_1
+\]
+Consider this term, apply concentration on this term. $r_1-r_2$ has property that each term is small. Concentrate better than naive approach. 
+
+Why does the intersection help here? When apply concentration bound...
+singular vectors is 2-norm. When 2-norms only shaves log at best. Like ARV. Now the difference is $\rc{n^4}$. 
+
+Coarser net $2\ep$-net. 
+\[
+\Pj(\exists \text{bad point})= \Pj(\exists 2\ep\text{-bad point}) + \Pj(\exists \text{bad point}|\exists 2\ep\text{ points all good}).
+\]
+Much smaller than union bound. just consider 2 adjacent. Repeat again and again. Make sure the second term is very small. 
+
+%Finally 
+Amazing property of 1-norm:
+if you build an $\al$-net on $\ve{r}_1=1$, $r_1=\al \Z$, then the number of net points is $\exp\pf{\ln}{\al}$. If $\al=\rc2$, only polynomially many points. $L_{\iy}$ net because each index. View $L_{\iy}$ net on $L_1$ norm, get exponentially decrease in number of points. ...
+When net becomes coarse you eventually get polynomially many.
+
+What about $L_2$? $L_2$ $\ep$-net. 
+
+From $\ep$ net $\ve{r_1-r_2}_{\iy}\le \al$. Goal:
+\[
+\Pj(\ve{r_1^Tx}_1-\ve{r_2^Tx}\ge m\sfc{\te}n) \le \exp\pa{
+-\fc{100\ln n}{\al}
+}.
+\]
+Summation from $\rc{n^4}$ to 1 still small. 
+To show the inequality, cut the net according to expectation. Concentrate to expected value. Expectation $m\sfc{\te}n$ to $m\te$.
+Observe
+\[
+\E(\ve{r_1^Tx}_1-\ve{r_2^Tx}_1)\ll m\sfc{\te}n.
+\]
+%blow up net by poly factor
+\[
+\ve{r_1^Tx}-\ve{r_2^Tx}_1\le \ve{(r_1-r_2)^Tx}_1.
+\]
+Why use $L_{\iy}$ $\ep$-net. Want to use $\al$.
+\[
+\sum_j^n(r_1-r_2)_j^2<\al^2 n.
+\]
+%2 norm less than $\iy$-norm.
+Move the summation to 1-norm; know 1-norm is 1. Use $L_2$ $\ep$-net. 
+Now we get 
+\[
+\Pj(\ve{r_1^Tx}-\ve{r_2^Tx}\ge m\sfc{\te}n)
+\le \exp\pf{\pa{m\sfc{\te}n}^2}{\te m \al}=\exp\pf{m}{n\al}
+%-100 ...
+\]
+$L^2$ gives $\al^2$. The number of points is $\rc{\al}$, the concentration is also $\rc{\al}$. Real paper have to bound the maximum. 
+
+%random gaussian, look at one with largest inner product. Talagrand's theory.
+
+\input{7-20.tex}
+
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}

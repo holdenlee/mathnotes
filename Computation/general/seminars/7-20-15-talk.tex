@@ -1,0 +1,231 @@
+%template file: https://github.com/holdenlee/templates
+
+\section{High-rate locally-correctable and locally-testable codes with
+sub-polynomial query complexity}
+
+Abstract:
+
+Locally-correctable codes (LCCs) and locally-testable codes (LTCs) are
+special families of error-correcting codes that admit extremely
+efficient sub-linear time algorithms for error correction and
+detection, respectively, while making a few queries to the received
+word. These codes were originally studied in complexity theory because
+of their close relationship to program checking and
+probabilistically-checkable proofs (PCPs), but subsequently they were
+extensively studied for their own sake.
+
+In this work, we construct the first locally-correctable codes and
+locally-testable codes with constant rate, constant relative distance,
+and sub-polynomial query complexity and running time. Specifically, we
+show that there exist binary LCCs and LTCs with block length n,
+constant rate (which can even be taken arbitrarily close to 1),
+constant relative distance, and query complexity and running time
+$\exp(\sqrt{\log n})$. Previously such codes were known to exist only
+with query complexity and running time $n^{\beta}$ (for constant $\beta
+> 0$), and there were several, quite different, constructions known.
+
+Along the way, we also construct LCCs and LTCs over large (but
+constant) size alphabets, with the same query complexity and running
+time $\exp(\sqrt{\log n})$, which additionally have the property of
+approaching the Singleton bound: they have almost the best-possible
+relationship between their rate and distance. This has the surprising
+consequence that asking for a large alphabet error-correcting code to
+further be an LCC or LTC does not require any sacrifice in terms of
+rate and distance! Such a result was previously not known for any
+sub-linear query complexity.
+
+If time permits I will also discuss a very recent work that
+substantially improves the query complexity of LTCs to
+quasi-polylogarithmic function of the form $(\log n)^{O(\log \log n)}$.
+
+Joint work with Swastik Kopparty, Or Meir and Shubhangi Saraf
+
+An error-correcting code is a map $C:\Si^k\to \Si^n$. $\Si$ is the alphabet, $k$ is the message length, and $n$ is the codeword length.
+
+Two basic parameters are the rate $\fc kn$ and the distance
+\[
+\min_{u,v\in C} \{d(u,v):=\Pj_{i\in [n]}(u_i\ne v_i)\}
+\]
+It equals twice the proportion of errors the code can correct (picture).
+
+There are 3 operations associated with  codes.
+\begin{itemize}
+\item
+Encoding: compute map $C$. %assume know map and image
+\item
+Testing/detecting errors: test $u\in C$.
+\item 
+Correcting: find $c\in C$ nearest to $u$.
+\end{itemize}•
+We're interested in sub-linear time algorithms that do these operations. We want them to run in time $\ll n$. They can't even make 1 pass over the codeword! We need several assumptions.
+\begin{itemize}
+\item
+Random access: they can access each coordinate with some cost.
+\item
+Probabilistic (has a small chance of failure).
+\end{itemize}
+The first family is locally testable codes (LTC's), which have sublinear time testing algorithms.
+\begin{df}
+A \vocab{local tester} is given as input $u\in \Si^n$ and outputs accept/reject. It satisfies the following:
+\bal
+u\in C&\implies \Pj\pat{accept}=1\\
+u\nin C&\implies \Pj\pat{reject}\ge 0.99 d(u,C).
+\end{align*}
+The rejection should depend on the distance, because if it just differs in one location, you probably won't find it.
+%(We are mostly interested in the constant fraction of errors regime.)
+\end{df}
+Locally correctable codes are codes with sublinear time correcting algorithms. 
+\begin{df}
+A \vocab{local corrector} is given as input $u\in \Si^n$ such that $d(u,C)<\rc2d(C)$ and $i\in [n]$ and is required to output the $i$th coordinate of codeword closest to $u$ with probability $\ge 0.99$.
+\end{df}
+\begin{df}
+A \vocab{local decoder} is given as input $u\in \Si^n$ such that $d(u,C)<\rc2d(C)$ and $i\in [k]$ and is required to output the $i$th coordinate of the message $m$ such that $C(m)$ is the codeword closest to $u$ with probability $\ge 0.99$.
+\end{df}
+LDC's seem more natural, but LCC's imply LDC's.
+If you can decode every coordinate of the codeword, you can decode every coordinate of the message.
+\begin{fct}
+For linear codes, LCC's imply LDC's.
+\end{fct}
+Our main goal is to minimize the number of queries and the running time. 
+%In coding theory, reject in the rate . coding and correcting errors.
+%only computational perspective.
+%what running time, parameters
+
+\subsection{Previous work and motivations}
+Most of the research has focused on a constant number of queries and constant distance. The goal is to maximize the rate.  People studied this regime because it would be powerful; sometimes you can do amazing stuff with 2--3 queries (PCP). Studying this regime has applications in complexity theory. They are connected to property testing, hardness of approximation, etc.
+
+In practice, all known constructions of such codes have vanishing rate: as $n\to 0$, rate goes to 0. This is very bad for applications in data transmission and storage.
+
+For LTC's,
+\begin{itemize}
+\item
+the best constructions have rate $\rc{\polylog n}$, due to Ben Sannon-Sudan 2005, Dinur 2007, Meir 2009, and Videman 2013.
+\item It is not known if we can achieve a constant rate. This is the biggest open problem in this area. 
+\end{itemize}• 
+
+There is an implicit connection to PCPs. Every time someone gets a better LTC, with the same techniques people get a better PCP, and vice versa. However there is no formal connection.
+
+For LCC's, 
+\begin{itemize}
+\item
+we cannot get constant rate (Katz-Trevisan 2000). 
+\item
+Reed-Muller codes give $\exp(-n^{\ep})$, and there are LDC's with rate $\exp(-\exp(\sqrt{\ln n \ln\ln n}))$ by Yekhanin 2007 and Efremenko 2009.
+\end{itemize}•
+\subsection{High-rate regime}
+
+We are interested in constant rate and constant distance, and we want to minimize the number of queries. Ex. $\log n$ queries is fine.
+
+The practical motivation is to encode massive data.
+\begin{enumerate}
+\item
+Solution 1: break into chunks and encode each part separately.
+
+Pro: The recovery time is small. We only have to read bits that are close.
+
+Con: in the presence of errors, the failure probability is the number of pieces times $\exp(-|\text{small}|)$.
+\item
+Encode the message in one big chunk.
+
+Pro: Failure probability is $\exp(-|\text{big}|)$.
+
+Con: The recovery time is |big|.
+\end{enumerate}
+%Encode big chunk at once. In order to recover a coordinate, only need to read a few.
+What is known? Up to a few years ago, the only known examples were Reed-Muller. For all $\ep>0$, you can have a code with number of queries is $n^\ep$ and the rate is $\exp(-\rc{\ep})$. This was believed to be best possible.
+
+Actually you can do better. For every $\ep>0$, you can have a code with queries $n^\ep$ and rate $1-\ep$.
+
+Here are known constructions.
+\begin{itemize}
+\item
+The first codes were multiplicity codes (LCC's), generalization of Reed-Muller codes. In Reed-Muller codes you evaluate polynomials; here you evaluate polynomials and their derivatives (Kopparty-Saraf-Yekhanin 2011).
+
+Algebraic flavor.
+\item
+Tensor codes (LTC's): BenSasson-Sudan 2006, Videman 2011.
+
+Combinatorial flavor.
+\item
+Lifted Reed-Solomon codes (both LTC's and LCC's), due to Guo-Kopparty-Sudan 2013.
+\item
+Expander codes (LCCs), due to Hemenway-Ostrovsky-Wooters 2013.
+
+Graph-theoretic.
+\end{itemize}•
+\subsection{Our results}
+We show that we can improve the number of queries to be subpolynomial. We give high-rate LTCs/LCCs with subpolynomial number of queries
+\begin{thm}
+For every $\ep>0$ there is a LCC and a LTC with number of queries equal to $\exp(\sqrt{\ln n \ln \ln n})$ and rate $1-\ep$.
+\end{thm}
+\begin{thm}
+For all $\ep>0$ there is a LTC with the number of queries $(\ln n)^{O(\ln \ln n)} = \exp((\ln \ln n)^2)$.
+\end{thm}
+Additionally, we get a code which approaches the singleton bound with distance $\sim \ep$.
+
+\subsection{Proof overview}
+\begin{enumerate}
+\item
+Component 1: Get high-rate LTC's/LCC's with subpolynomial queries with subconstant distance.
+\item
+Component 2: Apply distance amplification (due to Alon-Luby 1996).
+\end{enumerate}
+
+\begin{itemize}
+\item
+For the first part, to get LTCs with $\exp(\sqrt{\ln n})$ queries, we use tensor codes of high dimension. 
+\item
+For LCCs with $\exp(\sqrt{\ln n})$ queries, we use multiplicity codes of high dimension. %previously people not interested in these parameters
+\item
+For LTCs with $(\ln n)^{O(\ln \ln n)}$ queries, use an iterative construction. Alternate tensor product and distance amplification.
+%results in coplexity theorem that use this approach.
+\end{itemize}
+
+This is similar in spirit to techniques/results in complexity theory:
+\begin{itemize}
+\item
+Zigzag product (Reingold-Vadhan-Wigderson)
+\item
+$SL=L$ (Reingold)
+\item
+Gap amplification (Dinur)
+\end{itemize}
+Rather than just use tensor products, alternate tensor product and amplification.
+
+We use ideas from combinatorial constructions of LTC's due to Meir 2009. %(how to make the constructions more combinatorial).
+
+Component 2 is based off of Alon-Luby 1996, based on expanders. Given a LTC/LCC with the following parameters:
+\begin{itemize}
+\item
+distance $\de'=o(1)$,
+\item
+rate $r$,
+\item
+number of queries $q$,
+\end{itemize}
+for every $\de,\ep$, we obtain a code with the following parameters 
+\begin{itemize}
+\item
+distance $\de'=\Om(n)$, $\de\gg \de'$,
+\item
+rate $r(1-\de-\ep)$,
+\item
+number of queries $q\poly(\rc{\de'},\rc{\ep})$.
+\end{itemize}
+Previously they used this to increase the distance. We actually amplify distance of local codes from subconstant to constant.
+
+%extractors and dispersers? no.
+%MVC and disperser - Gopi.
+%first application: average case to worst case reductions.
+%constant rate not important? usually want $\lg n$ overhead, don't care about rate. Not regime of interest for hardness?
+The application is more to classical data transmission and storage. For appications to complexity, we usually want a constant number of queries.
+
+%pick subset of coord, as long as get 2/3 can decode? Locality. Real system (distributed system), don't want to wait for last things to arrive. If small subset, query each...?
+
+%\log n times as big set. As long as get $90\%$ of answers back can. query enough times... local . apply polylog n times. 
+
+%7 data centers and one fail. Different patterns copy.
+%Smoothed LCCs. Query lots of disjoint. THings lost but cannot flipped?
+
+%encoding sparse, sublinear time? each bit of codeword depends on constant number of bits? avg to worst-case?
+
