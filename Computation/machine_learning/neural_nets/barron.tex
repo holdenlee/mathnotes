@@ -1,4 +1,10 @@
-Reference: Chapter 4.4 and 4.9 in \cite{Clarke2009}.
+Reference: 
+\begin{enumerate}
+\item
+Chapter 4.4 and 4.9 in \cite{Clarke2009}.
+\item
+Barron's original paper and followup, \cite{Barron1993}, \cite{Barron1994}.
+\end{enumerate}•
 
 \section{The curse of dimensionality}
 %The intermediate tranche is where the finite-dimensional methods confront
@@ -22,7 +28,7 @@ A sigmoidal function is a differentiable function $f$ on $\R$ with $f'>0$, $\lim
 We have the following.
 \begin{pr}
 Let $\phi$ be sigmoidal. 
-Every continuous function on a bounded set $B\subeq \R^p$ can be approximated by a linear combination of $\phi(a\cdot x+b)$. 
+Every continuous function on a bounded set $B\subeq \R^p$ can be approximated to arbitrary precision by a linear combination of $\phi(a\cdot x+b)$. 
 \end{pr}
 Such a combination is represented by a (1-layer) neural net where 
 \begin{itemize}
@@ -40,12 +46,19 @@ Barron's theorem tells us that ``neural nets evade the curse of dimensionality" 
 
 {\it The best 1-layer neural net approximations do not get worse as $p$ increases.}
 
-(Note we are not saying anything about an {\it algorithm} to find the best approximation. The loss function is in general not convex so it's unclear whether gradient descent will actually find the approximation that Barron's Theorem gives.)
+Since the number of hidden nodes required to get $\ep$ approximation does not depend on $p$, and the number of parameters is $O(\pat{hidden nodes}p)$, the number of parameters we need is linear in $p$ rather than superlinear.
+
+Note we are not saying anything about an {\it algorithm} to find the best approximation. The loss function is in general not convex so it's unclear whether gradient descent will actually find the approximation that Barron's Theorem gives. If we care about the actual $\wt f$ that we estimate from sample data $(x_i,y_i)$, then we have to include the estimation error:
+\[
+\text{MISE} \le \ve{f-f_{\text{best}}}_2+\E_{(x_i,y_i)} \ve{f_{\text{best}}-\wt f}_2.
+\]
+We'll discuss the first term in the Section~\ref{sec:barron}, and the second term in Section~\ref{sec:barron2}.
+
 
 %The number of hidden nodes required to get an approximation of  $O\prc{r}$
 
 \section{Barron's Theorem}
-
+\label{sec:barron}
 The Fourier transform of $f:\R^p\to \R$ is
 \[
 \wh f(\om)=\rc{(2\pi)^p}\int_{\R^p} f(x)e^{-i\om\cdot x}\,dx.
@@ -179,5 +192,43 @@ Finally, apply the lemma to
 f\in \oconv\set{c\phi(a\cdot x+b)}{c\le 2C},
 \]
 noting that the norms of the $\phi$'s are $\le 1$ since $\mu$ is a probability measure.
+\end{enumerate}
+\end{proof}
+
+\section{Barron's Theorem: Estimation error}
+We'll be very sketchy in this section.
+\begin{thm}
+Let $\wh f_{r,N,C}(x)$ be the least squares neural net estimator, calculated from $N$ samples $(x_i,y_i)$. Let the true function have $\ve{f}^*\le C$. 
+Suppose that $\ve{\phi\pf{x}{\tau(\ep)}-1_{\ge0}}_{2}\le \ep$ for $\tau(\ep)$ polynomial in $\ep$. Then
+\[
+\text{MISE} =\E_{(x_i,y_i)} \ve{f-\wt f_{r,N,C}}^2 \le O\pf{C^2}{r} + O\pa{\fc{rp}{N}\ln N}.
+\]
+\end{thm}
+The first ter, becomes smaller for $r$ large because more hidden nodes improves the best possible approximation. The second term becomes larger for $r$ large because the estimate degrades due to overfitting. Balance these terms by setting $n\sim \ve{f}^* \pf{N}{p\ln N}^{\rc 2}$; we get error $O(\ve{f}^*\pa{\fc p N \ln N}^{\rc 2})$. Note two things.
+\begin{enumerate}
+\item
+The exponent $\rc2$ is independent of $d$.
+\item Thus we can take $N=\wt O(kp)$ to get a fixed  approximation up to a fixed $\ep$.
+\end{enumerate}•
+In many other models (fitting to polynomials, etc.), the error goes like $\prc{N}^{\fc{C}{p}}$ or $\prc{N}^{\fc{2s}{2s+p}}$ for some smoothness parameter $s$. For fixed $\ep$, this requires the number of samples to be $\prc{\ep}^{\fc{p}{C}}$, exponential in the dimension.
+
+Note, however, that there isn't a very good way to find the $\wh f$ other than brute-force trying all the parameters in an $\ep$-net, which is not an efficient algorithm.
+
+\begin{proof}[Proof sketch]
+\begin{enumerate}
+\item
+Let $\Te_{r,\ep,\tau,C}$ be an $\ep$-net for the parameters. Letting $\Te_{r,\tau,C}$ be the set of parameters with $|a_k|_1,|b_k|_1\le \tau, \sum|c_k|\le C$, we choose $\Te_{r,\ep,\tau,C}$ such that for every $\te$ there exists $\te^*\in \Te_{r,\ep,\tau,C}$ with $|a_k-a_k^*|,|b_k-b_k|^*\le \ep, \sum|c_k-c^*_k|\le C\ep, |c_0-c_0^*|\le C\ep$. We can $\Te_{r,\ep,\tau,C}$ having size
+\[
+\ln \Te_{r,\ep,\tau,C} \le \ub{(r(p+2)+1)}{\#\text{ parameters}} \ln\ub{ \pf{\poly(r)}{\ep}}{\text{grid width}}.
+\]
+\item
+By a PAC-learning type bound (with least squares error rather than ERM---expected regret minimization for classification), we get
+\[
+\ve{f_{\text{best}}-\wt f} \le O(\fc{rp}{N} \ln N).
+\]
+Here the estimated parameters are
+\[
+\wt{\te}_{r,N} = \amin_{\te\in \Te_N} \pa{\rc N \sum_{i=1}^N (y_i-f_r(x_i,\te))^2}.
+\]
 \end{enumerate}
 \end{proof}
