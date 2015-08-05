@@ -1,0 +1,1081 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Gems of theoretical computer science}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\tableofcontents
+\section{List decoding of Reed-Solomon codes}
+\subsection{Introduction}
+An error-correcting code is $C\subeq \Si^n$, where $\Si,|\Si|=q$ is the alphabet and $n$ is the encoding length. 
+
+Define the normalized Hamming distance
+\[
+d(x,y)=\rc n|\set{i}{x_i\ne y_i}|.
+\]
+We want 
+\[
+\de = \min_{x,y\in C,x\ne y} d(x,y)
+\]
+to be as large as possible (constant as $n\to \iy$). Imagine balls of radius $\de/2$ around each point.
+We can send one of $|C|$ messages by mapping $[|C|]\to \Si^n$; they can withstand $\de/2$ errors. The rate of the code is $\fc{\lg|C|}{n}$ (how many bits of actual information are sent compared with encoding length); we want the rate and distance to be high, but there are fundamental limits to what can be achieved.
+
+$\de/2$ is the unique decoding radius. Unique decoding is not possible beyond $\de/2$. %; they don't intersect. 
+
+In many cases, even if there is not a unique codeword within a given radius ($\fc{\de}{2}+\ep$, say), there may be a only a small number of codewords.
+\begin{df}
+$C$ is $(\de,L)$-list decodable if for all $x\in \Si^n$, $|B(x,\de)\cap C|\le L$.
+\end{df}
+%random code, with high probability
+If you choose your code randomly---that is, choose a codeword, removing a $\fc{\de}2$ ball around it, and repeat---with high probability it will have good list decodability, up to distance $(1-\ep)\de$. %; in fact, most of the time it can correct close to $\de$. %The code is good becuase most of the time it can correct $\de$.
+List decoding is a better way to handle talk about how good the code is than stochastically, because it's worst-case.
+%up to $(1-\ep)\de$
+%People previously tried to model stochastically.
+%This code is good becuase most of the time it can correct $\de$.
+%List decoding is a better way to handle this than stochastically because it's worst-case.
+
+The maximum $\de$ is the list-decoding radius. Here $L(n)$ is a function of $n$. The ideal setting is $L(n)=\poly(n)$.  Informally the list decoding radius is the maximum $\de$ such that $L(n)=\poly(n)$.
+
+What does a random code give us; what is possible and not possible? What is the capacity of list decoding?
+%minimum distance
+
+\begin{thm}
+Let $0<\de<1-\rc{q}$. (Above this error, the noisy word is essentially random, so we can say nothing.) Then there exists a $(\de,L)$-list decodable code with rate
+\[
+1-H_q(\de)-\rc{L}.
+\]
+Here $H_q$ is defined so that
+\[
+|B(0^n,\de)|\sim q^{H_q(\de)n}.
+\]
+\end{thm}
+%\Si^n$.
+\begin{proof}
+Choose $M=q^{Rn}$ codewords at random. We want
+\[
+\Pj(C\text{ not }(\de,L)\text{-list decodable})<1.
+\]
+Do a union bound. The probability is at most, by the union bound,
+\[
+\binom{M}{L+1}q^n\pf{|B(x,\de)|}{q^n}^{L+1}<1.
+\]
+($q^n$ is the number of points; the probability of $L+1$ points in a ball centered at a point is $\le \binom{M}{L+1}\pf{|B(x,\de)|}{q^n}^{L+1}$.)
+\end{proof}
+This is almost tight. 
+\begin{thm}
+If a code is $(\de,L)$-list decodable with 
+\[
+R\ge 1-H_q(\de)+\ep
+\]
+then $L(n)\ge q^{\fc{\ep n}2}$.
+\end{thm}
+%1-H_q(\de)+\ep$
+A random ball will contain too many points.
+\begin{proof}
+\bal
+\E_{x\in_R \Si^n} [|B(x,\de)\cap C|]
+&=
+|C|\fc{|B(0^n,\de)|}{q^n}\\
+&\ge 
+2^{Rn}q^{n(H_q(\de)-1)}
+%q^{n(1-H_q(\de)+\ep)}%%/\ep^n
+\\
+&\ge q^{\ep n/2}.
+\end{align*}
+\end{proof}
+When $q\to \iy$, $H_q(\de)\to \de$. We can achieve rate $R\ge 1-\de-\ep$ with alphabet of size $2^{O\prc{\ep}}$  and list size $O\prc{\ep}$. 
+%1/L
+%all add up to at most $\rc \ep$. Plug in param.
+%alphabet grows, can achieve any rate up to.
+
+Graph: the achievable rates are below the line $\de+R=1$.
+
+This is what is known existentially.
+
+The current known explicit codes can achieve $R\ge 1-\de-\ep$ with alphabet of size $2^{\poly\prc{\ep}}$ and list size $n^{O\prc{\ep}}$.
+%
+The idea is a folded Reed-Solomon code concatenated with an asymptotically good list-decodable code.
+%any code - at least this much list decodable.
+
+\begin{thm}[Johnson bound]
+Given $C\subeq \Si^n$ with min-distance $\de=1-\ep$, then $C$ is $(1-\sqrt{\ep},\poly(n))$ list-decodable.
+%increase by $\sqrt{\ep}-\ep$.
+\end{thm}
+The Johnson bound says that if you slightly increase the radius, there cannot be an exponential number of codewords.
+
+\begin{thm}[Singleton bound]
+For any codewith distance $\de$, $R\le 1-\de$.
+\end{thm}
+\vocab{MDS (maximal distance separable) codes} are where $R+\de=1$, $\de=1-R$, R$=\ep$. MDS codes are $(1-\sqrt{R},\poly(N))$ list-decodable.
+%if don't care about constant, simple. if want constant, need more careful calculation.
+
+\subsection{Reed-Solomon Codes}
+We introduce the Reed-Solomon code $RS_{k,n,\F}$, $k< n\le q$.
+
+These are MDS codes. They achieve $R+\de=1$ so are $(1-\sqrt{R}, \poly(n))$-list decodable.
+
+Let $\Si=\F_q=:\F$. Let
+\[
+C=\{\text{evaluations of degree $k$ polynomials on }\{\al_1,\ldots, \al_n\}\subeq \F\}
+\]
+where $\al_1,\ldots, \al_n$ are distinct and fixed.
+Codewords correspond to degree $k$ polynomials in $\F[x]$.
+2 distinct degree $k$ polynomials can only agree on $k$ points, so $\de=\fc{n-k}n=1-\fc kn$. 
+%2 degree $k$ polynomials, distinct.
+The rate is $\fc{\log_q(q^{k+1})}{n}=\fc{k+1}n$. 
+The Reed-Solomon code is $(1-\sfc{k}n, \poly(n))$-list decodable. 
+
+What is the algorithm? Given a set of points, we need to find all polynomials passing through enough of those points.
+% Given a word $x$, give a list of the polynomials.
+\begin{prb}
+Given $(\al_1,y_1),\ldots, (\al_n,y_n)$, find all polynomials of degree $\le k$ such that $p(\al_i)=y_i$ for at least $\sqrt{nk}$ indices $i\in[n]$. 
+\end{prb}
+Madha Sudan (90's) showed that you can do this with $\sqrt{2nk}$. 
+\begin{thm}
+There is a polynomial-time algorithm (given in the proof) that given $n$ points as above, finds all degree $\le k$ polynomials agreeing on $\ge 2\sqrt{nk}$ points. 
+\end{thm}
+\begin{proof}
+The algorithm is as follows.
+Note this algorithm will work even if the $\al_i$ are not distinct.
+
+Define the $(1,k)$-weighted degree of a polynomial $Q(x,y)$ as $\deg Q(X,Y^k)$.
+The strategy is as follows.
+
+We will find a low $(1,k)$-weighted degree polynomial $Q(x,y)$ of degree $D$ such that $Q(\al_i,y_i)=0$ for all $i$.
+
+Look at $R(x)=Q(x,p(x))$ where $p\in L$. We have
+\[
+\deg R\le D.
+\]
+For all $i$ such that $p(\al_i)=y_i$, 
+\[
+R(\al_i)=Q(\al_i,p(\al_i))=Q(\al_i,y_i)=0.
+\]
+Suppose $R$ has at least $t$ roots and $\deg R\le D$.  If we arrange so that $t>D$, then $R(x)\equiv 0$ identically. Then $Q(x,p(x))\equiv 0$ implies $y-p(x)\mid Q(x,y)$.
+%$Q(x,y+p(x))\equiv 0$, take $y=0$.
+%t<q.
+%cant have more roots than degree.
+(There is a deterministic algorithm to factor bivariate polynomials.) Factor $R$ to find all factors in the form $y-p(x)$; then output those polynomials $p(x)$.
+
+Now we just need to find the polynomial $R(x)$; this is polynomial interpolation. 
+
+The number of coefficients in $Q(x,y)$ is $\rc{k}\binom{D+2}2$. We need to satisfy $n$ linear constraints; they are linear homogeneous equations in the coefficients. If $\fc{\binom{D+2}2}k>n$ then there is a nonzero solution: a nonzero $\ph(x,y)$ of $(1,k)$ weight degree $\le D$ with $\ph(\al_i)=y_i$ for all $i$.
+
+If the number of roots is $t>D\approx \sqrt{2kn}$, then we can find all polynomials with agreement $t$.
+%\item
+%\end{enumerate}
+\end{proof}
+Guruswami and Sudan improved this to $\sqrt{kn}$.
+
+\fixme{
+Consider $k=1$, $\F=\R$, find all lines which pass through at least 3 points. If you can interpolate a degree 2 polynomial through all these points, get all lines as lines within the curve. The degree 2 curve will be 2 lines.
+
+Let's look at a small example to see how to improve the bound.
+
+Consider the following picture (see notebook). Here $n=10$ and $t=4$. Here we can choose $k=4$. However it can only have 4 linear factors. The maximum $D$ is 3. %D to small to contain all lines.
+Peculiar: through each point there are 2 lines. An algebraic curve passing all points should vanish at the points with multiplicity 2. Fit a polynomial which vanishes with degree 2 at the points.}
+
+First define multiplicity.
+\begin{df}
+$Q(x,y)$ vanishes with multiplicity $r$ at $(\al,\be)$ if $Q(x+\al,y+\be)$ doesn't have any monomial of degree $\le r$.
+\end{df}
+\begin{lem}
+Let $Q(x,y)$ be with $(1,k)$ degree $\le D$, vanishing at $(\al_i,y_i)$ with multiplicity $r$ for all $i\in [n]$. Let $P$ be a degree $k$ polynomial with agreement $t>D/r$. Then $y-p(x)\mid Q(x,y)$.
+%deg 5, should still contain line.
+\end{lem}
+
+\begin{proof}
+Let $p\in L$, $P(\al_i)=y_i$. 
+Define 
+\[
+Q^i(x,y) = Q(x+\al_i,y+y_i);
+\]
+it has no monomials of degree $<r$.
+Then
+\bal
+R(x) &= Q(x,P(x))\\
+&=Q^i (x-\al_i, P(x)-y_i)\\
+&=Q^i (x-\al_i,\ub{P(x)-p(\al_i)}{x-\al_i\mid P(x)-P(\al_i)}).
+\end{align*}
+$Q^i$ has no monomials of degree $<r$. Thus $(x-\al_i)^r\mid R(x)$. The number of linear factors is $tr>D$. Thus $R(x)\equiv 0$ and $y-p(x)\mid Q(x,y)$. 
+\end{proof}
+The number of coefficients in $Q(x,y)$ of $(1,k)$-degree $D$ is $\rc k\binom{D+2}D$.
+%no monom degree $r$. 
+The number of homogeneous linear equations is $n\binom{r+1}2$. So a nonzero $Q$ exists if $\rc k\binom{D+2}2>n\binom{r+1}2$.
+
+Choose $D=\sqrt{knr(r+1)}$. Let $t=\fc Dr = \sqrt{kn(1+\rc r)}$.
+
+%find all polynomils. 
+Make $r$ large enough, we approach the Johnson bound.
+
+The number of polynomials in the list is at most $\fc Dk=\sfc{nr(r+1)}k$, the $y$-degree. 
+
+Conclusion: 
+\begin{enumerate}
+\item
+If $t>\sqrt{kn}$ the list size is $\le n^\ep$ and we can find all of them.
+\item
+The Reed Solomon code of rate $R$ can be list decoded up to $1-\sqrt{(1+\ep)R}$ errors with best size $\rc{\ep\sqrt R}$.
+\end{enumerate}
+%no more than $y$ degree
+
+This method (the polynomial method) is very flexible. We give another application, the list recovering problem. Given $x\in C$, 
+%replace each alphabet with small set
+a noisy channel turns each coordinate into a set $s_i$ and spits out $s_1,\ldots, s_n$, $|s_i|\le \ell$. We have $|s_i|\le l $ such that for at least $1-\de$ fraction of $i$'s, $x_i\in s_i$. Find all $x$ such that $x_i\in s_i$ for at least $1-\de$ fraction of $i$'s. 
+\[
+\ab{
+\pa{
+\bigcup_{y\in S_1\times \cdots \times S_n} B(y,\de)
+}\cap C
+}\le L.
+\]
+Reed-Solomon codes are also good list-recoverable codes.
+
+If $t>\sqrt{knl}$, where $t$ is the number of $i$ such that $x_i\in S_i$, then the Reed-Solomon code is $(1-\sqrt{kl},l,O(n^2l^2)=L)$ list recoverable.
+%we want optimal paramters.
+
+We only achieve $1-\sqrt R$. We want to attain $(1-R,L)$. Guruswami and Rudra came up with folded Reed-Solomon codes. 
+Take a generator $\ga $ of $\F_q^{\times}$, $n=q-1$. $\al_1,\ldots, \al_n$ are $S=\{1,\ga,\ldots, \ga^{q-1}\}$. \fixme{Consider blocks. $\F^m$ by $m$. $P(1),\dots P(r),\ldots, P(r^{q-1})$.
+
+It's an open problem to make $n^{O\prc{\ep}}$ independent of $n$. 
+Use concatention to get length down. 
+
+You can concatenate a list-recoverable code with a list-decodable codes to get a list-decodable code. $C_{\text{out}}\circ C_{\text{in}}$.}
+
+%$C_{}$
+%small list-decodable.
+%folding: alphabet grow large
+
+%S
+%GS: RS (1-\srqt k)
+%PVbetter than 1-R for small enough $R$
+%FRS 1-R
+
+%Extractors, expanders etc.
+
+%to be list decodable don't need dep on n?
+%codes achieve both poly n /poly n.
+
+\section{$SL=L$}
+
+%picture of Z.
+
+Reingold, Vadhan, and Wigderson.
+
+There are many stories in this problem.
+
+One of the most fundamental questions in theoretical CS is the following.
+\begin{clm}
+Randomness is useless.
+\end{clm}
+This claim comes from very recent years. 20 years ago people actually believe it's useful (Papadimitriou gave $BPP\ne P$ as a homework exercise in his book).
+
+There are 2 questions: is randomness useful in time and in space?
+\begin{enumerate}
+\item
+$BPP\stackrel ? P$
+\item
+$RL\stackrel ? L$
+\end{enumerate}
+We focus on the second problem. The first problem is wide open: we don't know $BPP\stackrel?{\in}DTIME(2^{o(n)})$. We know more about the second question: Savitch proves
+\[
+BPP\subeq DSPACE(\ln^2n).
+\]
+We can do better: Saks and Zhou in 1999 show 
+\[
+RL\subeq DSPACE(\ln^{\fc 32}n).
+\]
+(They actual show this for BPP.)
+Think of RL as (undirected) $s-t$ nonconnectivity problem. $coRL$ is interesting because it contains $s-t$ connectivity. (RL doesn't have a complete problem.) For $P\stackrel?=NP$, just look at a complete problem; here we don't have one.
+
+Here we show $SL=L$. Reingold showed this in 2004. 
+
+For simplicity, just think of SL as one problem, undirected $s-t$ connectivity.
+
+Consider a graph. 
+
+
+Jieming starts from a vertex and wants to find a way to Nanjing. Jieming has very little memory, and cannot remember the whole structure of the graph. He can't remember much more than the name of a city.
+
+The standard way to solve this is to take a uniform random walk on the graph. If the graph has $|V|=n$, after $n^2\ln n$ steps, there is a high probability that he will have visited Nanjing.
+
+But for a general graph, it's necessary to flip $n^2\ln n$ coins: Consider 2 complete graphs with a bridge: It takes order of $n$ time to hit the bridge vertex, and it has $O\prc n$ chance of crossing the bridge.
+
+For which graphs can we do this randomized routing faster than the worst case? A natural family is the family of expaner graphs.
+
+Expander graphs have rapid mixing under a random walk.
+There are 2 definitions.
+\begin{df}
+A graph $G=(V,E)$ is a \vocab{$\la$-edge expander} if for all sets $S\subeq V$, $|S|\le \fc{|V|}2$, 
+\[
+\fc{E(S,\ol S)}{\Vol(S)}\ge \la.
+\]
+Here, $\Vol(S)=\sum_{v\in S}\deg(v)$. (We'll focus on the simple case when the graph is $d$-regular, i.e, for all $v\in V$< $\deg(v)=d$.) (Pictorially, a subset of $G=(V,E)$ is very spiky, like a sea urchin.)
+
+A graph $G=(V,E)$ is a \vocab{$\la$-spectral expander}if $\la_2(L(G))\ge \la$. The Laplacian $L(G)$ is defined from the adjacency matrix $A_G$. $A_G$ is defined by $(A_G)_{ij}=1$ if there is a edge between $i$ and $j$. $M$ is the random walk matrix $\rc d A_G$, and 
+\[
+L=I-M.
+\]
+(Thinking of this matrix as an operator, $(Lx)_i=\rc d\sum_{(i,j)\in E}x_{ij}$, it flows from a vertex to adjacent vertices.)
+\end{df}
+The Laplacian originates in differential geometry, $L=\div \nb$.
+
+These 2 definitions are quite close.
+\begin{thm}
+Let $h(G),\la(G)$ denote the edge and spectral expansions of $G$. Then
+\[
+\la(G)\le h(G)\le \sqrt{2\la(G)}.
+\]
+\end{thm}
+The LHS is trivial, the RHS is Cheeger's inequality.
+
+People in CS use a third definition that is more useful.
+\begin{df}
+A graph is a $\la$-expander if for all $x\perp u=\colthree{1}{\vdots}1,x\ne 0$, 
+\[
+\ab{\fc{x^TMx}{x^Tx}}\le \la.
+\]
+\end{df}
+(For edge and spectral expansion we want $\la$ to be large. For random walk expansion we want $\la$ to be close to 0.) %For the other definitions we want $\la$ to be close to 1.)
+$\la(L)$ range from 0 to 2, while $\la(M)$ range from 1 to $-1$.
+
+Note that 
+\[
+\ab{\fc{x^T(I-L)x}{x^Tx}}=\ab{1-\fc{x^TLx}{x^Tx}}
+\]
+so spectral and random-walk expansion are not quite the same. For bipartite graphs, $\la(M)=1$: random walks are not mixing at all. The side you're on depends on the parity.
+
+For the zig-zag product they consider the third definition.
+
+\subsection{Zig-zag product}
+
+Think of $G_1$ having large size and degree $(N_1,D_1)$, $G_2$ having small size and degree $(N_2,D_2)$, and suppose $D_1=N_2$. 
+\[
+G_3=G_1\zz G_2
+\]
+has large size $N_1N_2$ and small degree, $D_2^2$.
+
+Let $\la_M(G_i)=\la_i$ denote the random walk expansion. Then  (a naive bound)
+\[
+\la_M(G_3)\le \la_1+\la_2+\la_2^2.
+\]
+It's easy to construct a large degree expander. It's easy to construct small-size expanders (try all possible graphs). It's easy to construct $G_1,G_2$, but an expander like $G_3$ is hard to construct. It takes as input 2 easy-to-construct expanders and outputs a harder to construct graph that's an expander.
+
+Replace each vertex of the original graph with a copy of the second graph $G_2$. Its size is hence $N_1N_2$.
+
+Each vertex in $G_3$ is labeled $(v,u)\in G_1\times G_2$. The $(i,j)$th neighbor is defined as follows. Take $u'$ the $i$th neighbor of $u$ in $G_2$, $u\xra i u'$. Take the $u'$th neighbor of $v$ in $G_1$; move to the cloud of $w$; $v\xra{u'} w$ in $G_2$. Now consider $\wt u$ such that $w\xra{\wt u}v$ in $G_1$; we move to $(w,\wt u)$. Now move $\wt u \xra j \wt u'$ in $G_2$. Define
+\[
+(v,u)\xra{(i,j)} (w,\wt u').
+\]
+%(Use $G_1$ inside the cloud, $G_2$ outside.)
+
+What's the magic of the zig-zag product? We claim
+\[
+A_3:=A(G_3) = \wt{A_2}\wt{A_1}\wt{A_2}
+\]
+where $\wt{B_2}=I\ot A_2$ has $N_1$ blocks and each is a copy of $A_2$, and $\wt{A_1}$ is a permutation (actually matching) matrix where $(\wt{A_1})_{((v,u),(w,u'))}=1$ if 
+\[
+v\xra{u,G_1} w \xra{u',G_1}v.
+\]
+
+Consider when $(u,v)\xra{(i,j)} (w,\wt u')$:
+\bal
+u&\xra{i,G_2}u'\\
+v&\xra{u',G_1}w\xra{\wt u,G_1} v\\
+\wt u & \xra{j}\wt u'
+\end{align*}
+What is the action of $\wt{A_2}\wt{A_1}\wt{A_2}$ on $e_{(v,u)}$? It goes to $\sum_{uu'\in G_2}e_{(v,u')}=e_v\ot A_2e_u$. ``Stay in the block of $v$, move to all the neighbors of $u$."
+
+In the second step, we move across blocks as given by 
+$\wt{A_1}$.
+
+%(If you sum over $u$, you get $A_1$.)
+%want converge in log n steps
+%replace tree - length log n.
+%log n lg d.
+
+We need to show
+\[
+%\la_m(C_{i_3}) = \max_{x\perp u} 
+\forall x\in \R^{N_1\times N_2}, x\perp u \implies  \fc{x^TM_3x}{x^Tx}\le \la_1+\la_2+\la_2^2.
+\]
+Decompose $x$ as a vector that is uniform on each block, 
+\[x=\ub{\al\ot u}{\al^{\parallel}} + \ub{x'}{\al^{\perp}}\] where $x'$ has blocks $\wt{\al_i}\perp u_i$. Then (noting $\wt{A_2}\al^{\parallel}=\al^{\parallel}$),
+\bal
+\an{x,\wt{A_2}\wt{A_1}\wt{A_2}x} 
+&=\an{\wt{A_2}x, \wt{A_1}\wt{A_2}x}\\
+&=\an{\wt{A_2}(\al^{\parallel}+\al^{\perp}), \wt{A_1}\wt{A_2}(\al^{\parallel}+\al^{\perp})}\\
+&=\an{\al^{\parallel}+\wt{A_2}\al^{\perp}, \wt{A_1}(\al^{\parallel} + \wt{A_2} \al^{\perp})}\\
+&=\an{\al^{\parallel}, \wt{A_1}\al^{\parallel}}
++\an{\al^{\parallel}, \wt{A_1}\wt{A_2}\al^{\perp}}
++\an{\wt{A_2}\al^{\perp}, \wt{A_1}\al^{\parallel}}
++\an{\wt{A_2}\al^{\perp}, \wt{A_1} \wt{A_2}\al^{\perp}}\\
+&\le \la_1+2\la_2+\la_2^2
+\end{align*}
+%\wt{A_2}\al^{\parallel}=\al^{\parallel}
+Because $\al_1+\cdots +\al_{N_1}=0$ we can use the expansion properties of $G_1$ to get the $\la_1$ bound for the first term.
+
+The idea: 
+\begin{enumerate}
+\item
+Suppose $G$ has parameters $(N,D)$ and expansion $\la$. (say $1-\rc{ND}$)
+\item
+$G^2$ has parameters $(N,D^2)$, expansion $\la^2$.
+\item
+Take $H$ with parameters $(D^2,\sqrt{D}), \la_2$. Then 
+\[
+G^2\zz H=G_{\text{new}}
+\]
+has parameters $(ND^2,D)$ expansion $\la(G_{\text{new}}) \le \la^2 + 2\la_2+\la_2^2 \le \la^2+\ep$.
+\end{enumerate}
+We go from $G$ with parameters $(N,D,\la)$ to $G_{\text{new}}$ with parameters $(ND, D,\la^2+\ep)$. Call this operator $Z$. Doing this operator $t$ times, $Z^tG=(ND^{2t}, D, \la^{2^t}+\ep')$. Then set $t=\lg \pf{ND}2$ to get $Z^tG$ with parameters $(N^2D, D, \rc e +\ep)$. (We're cheating a little, using the naive bound. We need a better bound to get $\ep$ small: $G_3$ has expansion $\rc2(1-\la_2^2)\la_1+\rc2 \sqrt{(1-\la_2^2)^2\la_1^2+t\la_2^2}$. 
+%$\la_2=0$ this is 0
+%if slightly bigger, constant $\la_1$ plus something. $(1-\la_2^2)\la_1+\la_2
+%sum of norm squares equals 1. Just that problem. Just n
+To go from our proof to the real proof, you just need to note $\al^{\parallel}\perp \al^{\perp}$, $\al^{\parallel}\perp \wt{A_2}\al^{\perp}$. Plug in this picture into the formula.
+
+%($\ep$ should be $\rc{N}$).
+%D^2 vertices and ... edges. 
+%Start with 2 constant size expanders and blow up. The real constructor: start with arbitrary bound, but need better bound.
+
+\section{$O(\sqrt{\log n})$ approximation for sparsest cut by Arora, Rao and Vazirani}
+
+The outline of the talk is as follows.
+\begin{enumerate}
+\item
+Define the problem.
+\item
+Give a LP relaxation $(L,R)$ giving a $O(\ln n)$ approximation.
+\item
+$L_1$ metrics and sparsest cut
+\item 
+Give the SDP relaxation due to Arora, Rao, and Vazirani. 
+\end{enumerate}•
+
+\subsection{Problem}
+
+\begin{df}
+Given a graph $G=(V,E)$, a capacity function $c_e:E\to \R^+$, and $d:V\times V\to \R^+$, find
+\[
+\min_{S\subeq V} \fc{\sum_{(i,j)\in \de(S)} c_{(i,j)}}{\sum_{i,j\in \de(S)??} d_{(i,j)}}.
+\]
+\end{df}
+For simplicity, we consider uniform sparsest cut $c_e=1,d_{ij}=1$, so we want
+\[
+\phi(S)=\min_{S\subeq V} \fc{\de(S)}{|S||V-S|}.
+\]
+This is closely connected to the edge expansion $\al(G)=\min_{S\subeq V,|S|\le \fc n2} \fc{\de(S)}{|S|}$. Approximating $\phi,\al$ are equivalent up to a constant factor.
+
+It's NP-hard to find the sparsest cut exactly. %what about constant factor approximation?
+%constant hardness for SoS algorithms
+\subsection{Metrics}
+\begin{df}
+A \vocab{metric} is $(X,d)$ with
+\[
+d(x,z)\le d(x,y)+d(y,z),
+\]
+$d(x,y)=0$ iff $x=y$. (A semimetric only needs satisfy $d(x,y)=0$ if $x=y$.)
+\end{df}
+
+There is a natural semimetric one can define on the space of cuts. Assign a distance of 1 if they are separated by 1:
+\[
+d_S(x,y)=|1_S(x)-1_S(y)|.
+\]
+There is now a nice interpretation
+\[
+\phi(G)=\min_S\fc{\sum_{e\in E,(i,j)}d_S(i,j)}{\sum_{i,j}d_S(i,j)}.
+\]
+We can instead relax this to minimizing over all semimetrics $d$, rather than just metrics of the form $d_S$.
+Call this $LR(G)$. 
+We show
+\[
+LR(G)\le \phi(G)\le O(\ln n)LR(G).
+\]
+This can be formulated as a LP.
+
+Find 
+\[
+\min\sum_{(i,j)\in E} d(i,j)
+\]
+subject to $d(i,k)\le d(i,j)+d(j,k)$., $\sum_{i,j}d(i,j)=n^2$, $d(i,j)\ge 0$, $d(i,i)=0$, $d(i,j)=d(j,i)$.
+This can be solved in polynomial time.
+
+Now we prove the inequality.
+
+A finite $L_1$ metrics is $X\subeq \R^d$ with $d(x,y)=\ve{x-y}_1$. Given any metric $d$ we say there is an embedding $f:d\to L_1$ with distortion $\al$ if
+\[
+\ve{f(x)-f(y)}_1\le d(x,y) \le \ve{f(x)-f(y)}_1\al.
+\]
+$L_1$ metrics capture the sparsest cut problem.
+
+Given any embedding $f$ to $L_1$, there exists $S,d_S$,
+\[
+\fc{\sum_e d_S(i,j)}{\sum_{i,j}d_S(i,j)}
+\le 
+\fc{\sum_e \ve{f(x)-f(y)}_1}{\sum_{i,j}\ve{f(i)-f(j)}_1}.
+\]
+%if you can embed with distortion 1 you get an exact algorithm
+RHS is
+\bal
+%\fc{\sum_{i'}\sum_e |f_i
+\ge \min_i \fc{\sum_e |f_i(x)-f_i(y)|}{\sum_{i,j}|f_i(i)-f_i(j)|}.
+\end{align*}
+$f_i(i)=g_i$. You can scale and shift so that $|\max g(i)- \min g(i)|=1$. Fix a threshold $d$, take the embedding on a line, and take the cut defined by that threshold.
+Let $i^*$ be where the minimum is attained. It equals
+\[
+\fc{\E_t\sum_{e=\{i,j\}} d_{s_t}(i,j)}{\E_t \sum_{i,j} d_S(i,j)}
+\ge  \fc{\sum d_{s_t}(i,j)}{\sum_{i,j}}.
+\]
+%move $g_i$ locally?
+
+Now we use
+\begin{thm}[Bourgain]
+For every semimetric $d$ there is an embedding $f:d\to L_1$ with distortion $O(\ln n)$. 
+\end{thm}
+The tight example comes from analyzing the LP. A constant degree expander.
+%dual multicommodity flows. Use lower bounds for those to give a lower bound for Bourgain's theorem.
+
+Then 
+\[
+\ve{f^*(x)-f^*(y)}_1\le d(x,y) \le O(\ln n) \ve{f^*(x)-f^*(y)}_1.
+\]
+We get
+\[
+\le \fc{\sum_e \ve{f^*(x)-f^*(y)}_1}{\sum_{x,y} \ve{f^*(x)-f^*(y)}_1}\le O(\ln n) \fc{\sum_ed(x,y)}{\sum_{x,y}d(x,y)}
+\]
+Cone generated by semimetrics contains every $L_1$ metric.
+
+Another relaxation is the spectral relaxation. 
+Consider the normalized adjacency matrix $A$. The spectral gap is $1-\la_2$. 
+The spectral gap is
+\[
+\sum_{x:V\to \R}\fc{\sum_C |x(i)-x(j)|^2}{\sum_{i,j} |x(i)-x(j)|^2}.
+\]
+%cheeger's theorem gives an approximation for this.
+If we embed $x:V\to \R^n$ we use the $L_2$ norm. 
+
+What if we combine these two relaxations: impose the triangle inequality constraint, etc. We ask that $\ve{x(i)-x(k)}^2\le \ve{x(i)-x(j)}^2 + \ve{x(j)-x(k)}$. 
+\[
+ARV(G)=\sum_{x:V\to \R^n,\triangle \text{ inequalities}}\fc{\sum_C \ve{x(i)-x(j)}^2}{\sum_{i,j} \ve{x(i)-x(j)}^2}.
+\]
+ARV showed
+\[
+ARV(G)\le \phi(G)\le O(\sqrt{\ln n}) ARV(G).
+\]
+The lower bound is
+\[
+\phi(G)\ge \Om(\ln \ln n)ARV(G).
+\]
+
+%look at canonical examples 
+A cycle makes Cheeger's inequality tight. If you take a cycle and use the $L_1$ relaxation, it's not tight. (?) Tight ones are constant degree expanders. What is the balance between these two? ARV shows the union does give you some improvement. 
+
+We prove $\phi(G)\le O(\sqrt{\ln n}) ARV(G)$. We show the inequality $\phi(G)\le O((\ln n)^{\fc 23})ARV(G)$ as it contains the main ideas but is similar.
+%linear degree SoS hardness.
+
+We show ARV can be computed in polynomial time.
+
+Assign vectors $x(i)\in \R^n$ to minimize:
+\[
+\min \sum_{e}\ve{x(i)-x(j)}^2
+\]
+such that 
+\[
+\sum_{i,j}\ve{x(i)-x(j)}^2 = n^2 
+\]
+and for all $i,j,k$,
+\[
+\ve{x(i)-x(k)}^2\le \ve{x(i)-x(j)}^2 + \ve{x(i)-x(k)}^2.
+\]
+Find a cut such that the sparsity of the cut is at most $O(\sqrt{\ln n})$.
+
+The rounding strategy is as follows. Suppose we can find an embeding $f:V\to \R$
+\[
+\fc{\sum_e |f(i)-f(j)|}{\sum_{i,j} |f(i)-f(j)|}\le O(\sqrt{\ln n}) ARV(G).
+\]
+Then we're done.
+The strategy for finding such an embedding: Let $v_i$ the vector associated with vertex $i$ by the SDP. Look at the metric
+\[
+d(i,j) = \ve{v_i-v_j}^2.
+\]
+The strategy is to find a set $S$ such that defining $f(i)=d(i,S)=\min_{j\in S}d(i,j)$.
+%vertices into $\R^n$
+
+An easy inequality by the triangle inequality.
+\[
+f(i)-f(j)\le \ve{v_i-v_j}^2
+\]
+\[
+ARV(G)=\fc{\sum_e\ve{v_i-v_j}^2}{\sum_{i,j} \ve{v_i-v_j}^2}.
+\]
+Numerator inequality ok. Average distortion. Need to show 
+\[
+\sum_{i,j}f(i)-f(j)\ge \fc{\sum\ve{v_i-v_j}^2}{\sqrt{\ln n}}.
+\]
+
+%given $L^2$ can embed in $L^1$?
+%always embed with $O(\sqrt{\ln n})$ distortion.
+%if true then 
+later proved by ALN (2008): $L_2^2\to L_1$ with distortion $O(\sqrt{\ln n }\ln \ln n)$.
+
+%\ell_2\to \ell_1
+$L_2^2\to L_2\to L_1$. Second one is isometric.
+%poly many.
+
+Here we only need average case distortion.
+
+We're trying to produce 2 disjoint sets $L$ and $R$ of vertices both of size $\Om(n)$ separated by $\De=\rc{\sqrt{\ln n}}$. Two sets that are far away. Let's do this for $(\ln n)^{\fc 23}$. (Separated in $L_2^2$ metric.) Then the equation is satisfied: look at summation between pairs coming from $L$ and $R$. 
+%on average is 1
+(Define $S=L$.) %one is 0.
+
+Supposer there exists some vertex $i^*$ such that $|B(i^*,\rc4)|\ge \fc n4$. Set $S=B(i^*,\rc 4)$. Then the inequality holds:
+\bal
+n^2 &= \sum_{i,j}d(i,j)\\
+& \le \sum_{i,j} d(i,i^*) + d(j,i^*) \\
+&= 2n \sum_i d(i,i^*)\\
+&\le 2n (\sum_i d(i,S)+\rc 4).
+\end{align*}
+Gives $\sum_i d(i,S)\ge \fc n4$. This gives
+\[
+\sum_{j\in S} d(j,S)\ge \fc n4. 
+\]
+Get $|S|\sum_{j\in S} d(j,S)$. At least $\fc{n^2}{16}$.
+
+%contains a lot of vertices: ...
+
+Suppose there does not exist a point like this. 
+
+Algorithm to produce $L,R$: Extension of Goemans-Williamson rounding. Put points depending on side of hyperplane. Take a random line, project, if $>\si$ put on one side, if $<-\si$ but on other side.
+
+Define $O=\amax_{O\in V} B(O,4)$. Now pick a random Gaussian $r_i\sim N(0,1)$. Let 
+\bal
+L&=\set{i}{(v_i-v_o)\cdot \ga\ge \si}\\
+R&=\set{j}{(v_j-v_o)\cdot \ge \le -\si}.
+\end{align*}
+Assume $\De=\rc{(\ln n)^{\fc 32}}$. Find a nonseparated pair, throw it out. Prune until $\De$-separated.
+%centered at v_a
+By definition, $2\si$-separated in sense $(v_i-v_j)\cdot \ga \ge 2\si$. $\si$ is a constant. $\si>\de$.
+$\ga_i\sim N(0,1)$ not unit vector. But expectation is $\sqrt n$.
+%$L_2$-norm?
+In expectation 
+\[
+\E[\ve{(v_i-v_j)\cdot \ga}^2] =\ve{v_i-v_j}^2.
+\]
+easy to show $\ln n$ approximation by concentration. Without needing Bourgain's result.
+
+Let $L',R'$ be the bad pairs. 
+\begin{thm}
+With constant probability $L$ and $R$ are both $\Om(n)$.
+\end{thm}
+%Define sets using 
+%no point contains many things in ball
+2 constant size disjoint which are both constant distance away from $o$. Project own to... large.
+
+Condition on it. %change distribution on gaussian? 
+%condition on constant prob event
+\begin{thm}
+With good probability, $L',R'$ are $\Om(n)$ large.
+\end{thm}
+Show by contradiction. Given $L,R$, suppose $L',R'$ are small, i.e., $L',R'\le \fc{\al}2n$. 
+%\ge \al n
+Show that for constant fraction, can come up with $v_i,v_j$ such that $(v_i-v_j)\cdot \ga$...
+Why $\ln n$ approximation? Take $\de=\rc{\ln n}$. 
+? cannot satisfy approximation. 
+Suppose $v_i,v_j$, $\Pj((v_i-v_j)\cdot \ga \ge t) \le e^{-\fc{t^2}{\ve{v_i-v_j}^2}}$.
+%replace by $\le 2\si$?
+\[
+\ve{v_i-v_j}^2 \le \fc C{\De}\le \fc C{\ln n}
+\]
+\[
+e^{-\si^2(\ln n)}\le n^{-4}.
+\]
+Any 2 pairs less than $\ln n$ away cannot have projection $>\si$. Whp no pairs from it removed.
+
+Proving $(\ln n)^{\fc 32}$: construct points that are 
+Tke many pairs throw out. Each time throw out from fixed $L,R$, consider it a matching. Put matchings together, becomes a weighted graph. Find path $v_{i_1},\ldots, v_{i_k}$. $k$-length paths
+\[
+\Pj((v_{i_k}-v_{i_1})\ge \si k).
+\]
+Show $\ve{v_i-v_j}^2 \le k\De$. Discrepance between squares.
+\[
+e^{-\fc{\si^2k}{\De}}.
+\]
+As you build paths. 
+With constant probability can find these paths. Concentration of measure, reduce projection, increase probability... extend paths...
+At least $\De$ fraction of edges going out of each vertex. Directed graph.
+
+%fraction for which ij  gets thrown out.
+
+Vertex $i$, edge $2j$. 
+%prob over rand choise of $\ga$...
+fixing $\ga$, bipartite directed graph, matching. 
+Find paths in this graph which have these large projections. 
+%make edge in graph. sometimes only take you back.
+
+\section{Cryptography in $NC^0$}
+By Applebaum, Ishai, Kushilevitz, 2004.
+
+Question: Are there OWF's in $NC^0$?
+
+\begin{df}
+A \vocab{one-way function} satisfies the following.
+\begin{enumerate}
+\item
+easy to compute: there is a polynomial time algorithm to compute it. (Here, though, we want each bit to be computable in $NC^0$.)
+\item
+hard to invert: for any probabilistic polynomial time algorithm $A$, 
+\[
+\Pj_x[f(A(f(x)))=f(x)]<O\prc{n^k}.
+\]
+\end{enumerate}
+\end{df}
+$NC_c^0$ means $NC^0$ with locality $c$ (each output bit depends on $c$ input bits).
+
+\subsection{Previous work}
+Linial, Mansour, and Nisan in 1989 showed there is no PRF in $AC^0$. (PRF's imply one-way functions.)
+
+Cryan and Mitterson, 2001 showed there is no PRG in $NC_2^0$, and no PRG in $NC_3^0$ chieving superlinear stretch.
+
+On the positive side, Impagliazzo and Naor in 1996 showed there is a PRG in $AC^0$ based on the hardness of subset sum: is there a subset of a set that sums to a certain number? %average case hardness, and subsets of size k.
+
+Goldreich in 2000 showed there is no OWF in $NC_2^0$.
+
+%multiplication in $NC^1$.
+
+Result: Any OWF in $NC^1$ or even $\bigopl L/\poly$ can be compiled into an OWF in $NC_4^0$.
+
+Barrington's Theorem shows $NC^1\subeq L/\poly$. L/poly (log space with polynomial-sized advice) is exactly the class of PBP's. NC-circuit, can also be computed by a poly-size branching program.
+%NL/poly multiple passes.
+%description of circuit is poly.
+
+\subsection{Mod-2 branching program}
+
+\begin{df}
+A \vocab{mod-2 branching program} is $(G=(V,E),\phi,s,t)$ 
+where $G$ is an acyclic directed graph, $s,t\in V$, $\phi$ is a labeling assigning each edge $x_i,\ol{x_i}, 1$. On input $(w_1,\ldots, w_n)$, define $G_w=(V,E_w),e\in E_w$ iff $\phi(e)$ is satisfied by $w$. 
+Let $f(w)$ be the number of paths from $s$ to $t$ mod 2. 
+\end{df}
+
+The main technique is randomized encodings.
+\begin{df}
+A \vocab{randomized encoding} of $f:B^n\to B^l$ is 
+\[
+\wh f:B^t\times B^m\to B^s
+\]
+that satisfies the following.
+\begin{enumerate}
+\item
+$\de$-correctness: there exists a deterministic algorithm $C$ (the decoder) such that for all $x\in B^n$, 
+\[
+\Pj[C(\wh f(x,U_m))\ne f(x)]\le \de.
+\]
+\item $\ep$-privacy: there exists an algorithm $S$ (simulator) such that for all $x\in B^n$, 
+\[
+\ve{S(f(x))-\wh f(x,U_m)}\le \ep.
+\]
+(It does not have additional information about the input.)
+\end{enumerate}
+A perfect randomized encoding has 
+\begin{enumerate}
+\item
+$\de=\ep=0$,
+\item
+is balanced: $S(U_L)=U_S$.
+\item 
+stretch-preserving: $L-n=S-n-m$.
+\end{enumerate}
+%important for OWP
+\end{df}
+\begin{lem}
+Let $\wh f$ be a perfect randomized encoding for $f$. If $f$ is hard to invert, then $\wh f$ is hard to invert.
+\end{lem}
+\begin{proof}
+Suppose $\wh B$ inverts $\wh f(x,r)$. We obtain $B$ that inverts $f(x)$ as follows.
+\begin{enumerate}
+\item
+Get input $y=f(x)$.
+\item  Let $\wh y=S(y)$. 
+\item Run $\wh B$ on $\wh y$ and get $(x',r')$.
+\item Output $x'$.
+\end{enumerate}
+Perfect correctness gives the following property: If $f(x)\ne f(x')$ then the support of $\wh f(x,U_m)$ and $\wh f(x',U_m)$ are disjoint.
+%distribution b gives to b had
+\end{proof}
+
+Now we only have to construct, given $f\in \opl L/\poly$, a perfect RE $\wh f$ in $NC_4^0$.
+
+The steps are as follows.
+\begin{enumerate}
+\item
+Given a mod-2 BP, construct a degree-3 randomizing polynomials.
+
+Letting the BP be $(G,\phi,s,t)$ of size $L$, let $A(x)$ be the $L\times L$ adjacency matrix of $G_x$. 
+Now let $L(x)$ be the submatrix of $A(x)-I$ obtained by removing the first column and last row.
+%-1's on lower diagonal.
+
+Fact: $f(x)=\det(L(x))$. 
+Proof: 
+\begin{align*}
+f(x)&=(I+A(x)+\cdots +A(x)^L)_{s,t}\\
+&=(\cancelto{(I-A(x)^{L+1})}0(1-A(x))^{-1})_{s,t}\\
+&=(I-A(x))^{-1}_{s,t} \\
+&=(-1)\fc{\det(-L(x))}{\det(I-A(x))} = \det(L(x)).
+\end{align*}
+$L(x)$ is not very private; it tells it a lot about the input.
+
+Fact: Let $M,M'$ be $(L-1)\times (L-1)$ matrices with $-1$ on the second diagonal (below the diagonal) with 0's below. Then 
+\[
+\det(M)=\det(M')
+\]
+iff there exist $r^{(1)},r^{(2)}$ such that $R_1(r^{(1)}) M R_2(r^{(2)}) = M'$.
+%vector of \binom{L-1}{2} entries
+Here $R_1$ packs the entries of $r^{(1)}$ above the diagonal and has 1's on the diagonal, and $R_2$ packs the entries of $r^{(2)}$ into the last column and has 1's on the diagonal.
+
+Proof: $\Leftarrow$ is trivial.
+
+$\implies$: there exist $r^{(1)}$ and $r^{(2)}$ with $R_1(r^{(1)})MR_2(r^{(2)})$ having $\det(M)$ in the upper-right corner, $-1$ on the diagonal, and $0$'s everywhere else. (?) $M'$  satisfies the same condition.
+
+$R_1(\cdot),R_2(\cdot)$ form a multiplicative group.
+
+\begin{lem}
+Suppose a BP computes $f$. Let $\wh f(x,(r^{(1)}, r^{(2)}))$ be the $\binom L2$ entries of $R_1(r^{(1)})L(x)R_2(r^{(2)})=M$. Then $\wh f$ is a perfect randomized encoding of $f$. 
+\end{lem} 
+\begin{proof}
+\begin{enumerate}
+\item
+Perfect correctness: The decoder outputs $\det(M)=\det(L(x))=f(x)$. 
+\item
+Simulator: $S(y) = R_1(r^{(1)})MR_2(r^{(2)})$ where $M$ has $y$ in the upper right-hand corner.
+\end{enumerate}
+$S(f(N))$ and $\wh (f,U_m)$ have same support.
+The support size is $2^{\#\text{ of random bits}}$.
+%used by simulator or encoding.
+\item $S(U_1)=U_{\binom L2}$.
+%L=1 in $f$.
+Each output bit is a degree-3 polynomial.
+%adj - I. $L(x)$ lin let ese
+\end{proof}
+\item Given a degree 3 polynomial, construct a function in $NC_4^0$. 
+Write
+\[
+f(x)=T_1(x)+\cdots +T_k(x)
+\]
+where $T_i$ re degree 3 monomials. Then 
+\[
+\wh f(x_1(r_1,\ldots, r_k, r_1',\ldots, r_{k-1}'))= (T_1(x)-r_1,\ldots, T_k(x)-r_k, r-r_1',r_1'+r_2-r_2', \ldots, r_{k-2}' + r_{k_1}
+- r_{k-1}', r_{k-1}'+r_k).
+\]
+\begin{proof}
+\begin{enumerate}
+\item
+Decoder sum.
+\item
+$y=(r_1,\ldots, r_{2k}, y-\sum_{i=1}^{2k} r_i$.
+\item Balanced length preserving.
+\end{enumerate}
+\end{proof}
+\end{enumerate}•
+Impractical: 3 digit times 3 digits requires 10000 modes. Blowup is $n^7$. Number of output bits too large.
+
+Problem: $NC_3^0$?
+
+Where use randomness? If some function is OWF, rhan.. lso.
+%replace $R_1,R_2$ by the identity matrix, what breaks?
+%too much info on the input.
+
+\section{PRIMES is in P}
+
+By Agarwal, K, and Saxena.
+
+We start with this observation.
+\begin{thm}
+$n$ is prime iff (for any $a\perp n$, $a$ relatively prime to $n$)
+\[
+(X+a)^n\equiv X^n+a\pmod n.
+\]
+(Equality of polynomials: each coefficient matches.)
+\end{thm}
+\begin{proof}
+If $n$ is prime then $\binom ni\equiv 0\pmod n$ for all $1\le i\le n-1$ and $a^n\equiv a\pmod n$ (Fermat's little theorem).
+
+If $n$ is not prime consider some prime $p\mid n$. Suppose $p^r||n$. We claim that $n\nmid \binom{n}{p^r}$. We show this with Lucas's Theorem.
+\end{proof}
+
+This gives a primality test, but takes time $O(n)$.
+
+The trick is the following. Instead check if
+\[
+(X+a)^n \equiv X^n+a \pmod{n,X^r-1}.
+\]
+We show that if there exists $r$ such that for $O(\ln^{O(1)} n)$ many $a$ the above holds, then $n$ is prime, and conversely.
+
+The algorithm is as follows.
+\begin{enumerate}
+\item
+Check if $n$ is a perfect power $a^b,b>1$. (There are $\lg n$ possible values for $b$.)
+\item
+Find the smallest $r$ such that $\ord_rn\ge (\ln n)^2$. Here $\ord_r n = \min \set{a>0}{n^a\equiv 1\pmod r}$.
+\item
+Check for all $1\le a\le \sqrt{\ph(r)}\ln n=:l$ that %mult group %totient is upper bound on $t$. Think of this as $\sqrt t \ln n$. $\ln n \le \srqt t$. Put $\ph(r)$ works as well. $t\ge (\ln n)^2$.
+\[
+(X+a)^n \equiv X^n+a \pmod{n,X^r-1}.
+\] 
+(Note you do repeated squaring, there are only $r$ coefficients to remember.)
+%nothing smaller divides evenly into .
+\end{enumerate}
+If $n$ passes all these checks, $n$ is prime.
+
+We want to show that $r=O(\ln^{O(1)} n)$.
+
+If $n$ is composite; we show it can't pass all the tests.
+\begin{thm}
+$r\le (\ln n)^5$.
+\end{thm}
+\begin{proof}
+Suppose by way of contradiction that for all $r\le (\ln n)^5$, $\ord_p n<(\ln n)^2$. 
+If $\ord_p n = a$, $r\mid n^a-1$.
+Hence 
+\[\lcm (1,\ldots, (\ln n)^5)\mid \prod_{i=1}^{(\ln n)^2} (n^i-1)
+\le n^{(\ln n)^4} = 2^{(\ln n)^5}.\]
+%However, we can bound each of these guys
+However
+\[
+\lcm (1,\ldots, m) \ge 2^{m-1}.
+\]
+\end{proof}
+\begin{proof}
+Assume $p\mid n$, $p<n$. WLOG $\ord_rp>1$. Assume the first equation is true. The second is also true since $p$ is prime.
+\bal
+(X+a)^n\equiv X^n+a \pmod{n,X^r-1}\\
+(X+a)^p \equiv X^p+a \pmod{n,X^r-1}
+\end{align*}
+%Raising the first equation to the $\fc np$ power
+The first equation is
+\bal
+((X+a)^p)^{\fc np} &\equiv (X^p)^{\fc np}+a
+\iff 
+(X^p+a)^{\fc np} & =(X^p)^{\fc np} +a.
+\end{align*}
+Choose $q$ such that $pq\equiv 1\pmod r$. Then
+\bal
+(X^{pq}+a)^{\fc np} &\equiv (X^{pq})^{\fc np}+a\\
+(X+a)^{\fc np} &\equiv X^{\fc np}+a.
+\end{align*}
+We want to look at exponents for which things like this are true.
+\begin{df}
+Given a polynomial $f(X)$ and an integer $m$, $m$ is \vocab{introspective} for $f(X)$ if 
+\[
+f(X^m)\equiv f(X)^m\pmod{n,X^{r}-1}.
+\]
+\end{df}
+We showed $n,p,\fc np$ are introspective for $X+a$ for all $a, 1\le a\le l$.
+Introspective numbers are closed under multiplication.
+\begin{thm}
+If $m$ and $m'$ are introspective for $f$ then so is $mm'$.
+\end{thm}
+\begin{proof}
+\bal
+f(X)^{mm'}&\equiv f(X^m)^{m'}\pmod{n,X^r-1}\\
+f(X^m)^{m'}&\equiv f(X^{mm'}) \pmod{n,X^{mr}-1}\\
+f(X^m)^{m'}&\equiv f(X^{mm'}) \pmod{n,X^{r}-1}
+\end{align*}
+becuse $X^r-1\mid X^{mr}-1$.
+\end{proof}
+\begin{thm}
+If $m$ is introspective for $f_1$ and $f_2$, then $m$ is introspective for $f_1f_2$.
+\end{thm}
+\begin{proof}
+\[
+f_1(X^m)f_2(X^m)\equiv f_1(X)^mf_2(X)^m \equiv (f_1(X)f_2(X))^m.
+\]
+\end{proof}
+These generate a lot of introspection. This gives many polynomial relations, which is bad.
+
+We define 2 groups based on introspection.
+\begin{itemize}
+\item
+Define $H\subeq (\Z/r)^{\times}$ generated by $p,\fc np$ (both these are relatively prime to $r$).
+\item
+(Annoyingly, $\Z[X]/\an{n,X^{r}-1}$ is not a field. We convert it to a field in the following way.)
+Let $h(X)$ be an irreducible factor of the $r$th cyclotomic polynomial modulo $p$. (It is not linear because the order is $>1$.)
+Let $\fc{F_p[X]}{\an{h(X)}}$. (I.e., adjoin a $r$th root of unity to $\F_p$.)
+Let $G\subeq F^{\times}$ be generated by $(X+1),\ldots, (X+l)$ in $F$.
+%ord_rp=1. Already have $r$th roots mod $p$.
+\end{itemize}•
+We upper-bound and lower-bound $G$ to get a contradiction.
+
+Let $t=|H|$. Since $\ord_r n \ge (\ln n)^2$, $t\ge (\ln n)^2$.
+\begin{thm}
+$|G|\ge 2^t$.
+%lenstra
+\end{thm}
+\begin{proof}
+Consider all products of $(X+i)$ of degree $\le t$. We claim all these products are distinct in $G$. 
+
+By way of contradiction, suppose we have 2 products $f(X)=g(X)$ in $G$ ($F$). Choose $m\in H$. By construction of $H$, $m$ is introspective for $f=g$: $f(X)^m=g(X^m)$ so $f(X^m)=g(X^m)$. %$X$ is an $r$th root of unity here, $\ze$.
+Let $Q(Y)=f(Y)-g(Y)$ in $\F_p[Y]$. ($f,g\in \F_p[X]$.)
+
+This implies $X^m$ is a root of $Q(Y)$ for all $m\in H$. The $X^m$ are all distinct because everything in $H$ is relatively prime to $r$.
+
+Thus $Q(Y)$ has at least $t$ roots. This is bad since the degree is $<t$. %$t=|H|\le \ph(r)\ln n$
+
+We get a contradiction since $l\ge t$; there are at least $2^t$ different products.
+\end{proof}
+\begin{thm}
+$|G|\le n^{\sqrt t}$.
+%sudan
+\end{thm}
+\begin{proof}
+Consider the set
+\[
+\wt I = \set{p^i\pf{n}{p}^j}{0\le i,j\le \sqrt t}.
+\]
+By Pigeonhole there exist $m_1,m_2\in \wt I$ such that $m_1\equiv m_2\pmod r$.
+%because size of $H$ is $t$, and all products in $H$. 
+Then $X^{m_1}=X^{m_2}$. 
+Since $f(X)\in G$,
+\[
+f(X)^{m_1}=f(X^{m_1})=f(X^{m_2}) = f(X)^{m_2}.
+\]
+Let $Q(Y)=Y^{m_1}-Y^{m_2}$. Then $f(X)$ is a root of $Q$ for all $f\in G$. But $\deg Q\le \max (m_1,m_2)\le n^{\sqrt t}$. Hence $|G|\le n^{\sqrt t}$.
+
+(This only works if $n$ is not a power of $p$.)
+\end{proof}
+These 2 theorems together imply that $2^t\le |G|\le n^{\sqrt t}$. However, $t> (\ln n)^2$, so 
+\[
+n^{\sqrt t}< 2^t\le |G|\le n^{\sqrt t}
+\]
+That's it!
+\end{proof}
+%cleaned it up.
+%in annals.
+In the paper they get $\fc{t+l}{t-1}$. Bur for $l\ge t$, it's $\ge 2^t$.
+
+%RP\cap coRP. ZPP.
+
+%\input{chapters/1.tex}
+ 
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}

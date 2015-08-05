@@ -1,0 +1,322 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+%\input{\filepath/other.tex}
+
+%\def\name{NAME}
+
+%\input{\filepath/titlepage.tex}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Neural nets}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\begin{document}
+\section{Introduction}
+%backpropagation is a big deal
+%``people who knew backpropagation got the equivalent of NFL contracts"
+We'll learn classical ideas from neural networks that have almost been forgotten. ``The mark of an old fart is that (s)he teaches the same thing from when (s)he became a professor." Even then neural nets had gone out of style. The backpropagation upswing was revived from the 1980's; people didn't know them anymore. What classic ideas will be the next big thing? ``I'll make my guesses and teach them to you."
+
+This is the third age of neural networks; there's a long history of forgotten lessons.
+
+This class is about these equations, \textbf{classical neurodynamics}.
+\beq{eq:classical-neuro}
+\tau \dd{x_i}t + x_i = f\pa{\sum_j W_{ij}x + b_i}.
+\eeq
+Here
+\begin{enumerate}
+\item $x_i$ are $N$ variables representing activity.
+\item $W_{ij}$ are synaptic strength.
+\item $b_i$ is bias.
+\end{enumerate}
+Parameters are $W_{ij}$ and $b_i$.
+
+These are used in 
+\begin{enumerate}
+\item
+brain modeling, 
+\item
+by computer scientists for artificial intelligence (computer vision, etc.), and in 
+\item 
+dynamical systems theory (it can inform the use of these equations).
+\end{enumerate}
+$f$ makes the system nonlinear.
+
+Depending on $W_{ij}$, we can make these equations do all kinds of interesting things. In particular, they can compute all boolean functions.
+
+Today is the only day we'll worry about what these equations mean; later we'll take them for granted. 
+
+\subsection{Biological interpretation}
+``I'll give a hand-wavy explanation."
+
+A neuron has a cell body, several dendrites, and one axon. Dendrites are thicker than axons. Note the generic term ``neuron" is an oversimplification because there are many types.
+
+The law of dynamic polarization (1996 Nobel prize): the dendrites are the input and the axon is the output. The neurons communicate with each other via synapses (intersections between axon and dendrite). At a synapse the axon sends the message and the dendrite receive the message.
+
+The dendrites are more linear in their behavior than the axon. As a first approximation it linearly sums its inputs.
+
+%how many synapses active
+
+The axon is nonlinear; it's all-or-none. It give signals in the form of 1 millisecond binary pulses. Why is it so nonlinear? The obvious reason is that it's very long---they can go from one part of the brain to another.
+
+If you have a long conduit, there are many problems: attenuation, noise. (Cf. the first transatlantic cable.) One solution is to be digital. Active cholesteral properties retain the pulse. For dendrites the signals attenuate.
+
+%1ms binary pulses
+
+The all-or-none character of an axon makes it possible for it to make a decision. ``All computation depends on nonlinearity; a linear system is limited in what it can compute."
+
+Returning to~\eqref{eq:classical-neuro},
+\begin{enumerate}
+\item
+The linear sum $Wx+b$ approximates what the synapses do. 
+\item
+$f$ approximates what the axon does.
+\end{enumerate}
+
+Neuroscience experiment: take a microelectrode, stick it into the neuron, fill it with conductive saline solution, measure the voltage with an amplifer. It's faking the dendrite, trying to measure $f$ directly.
+
+If we inject a little current, voltage only goes up a little bit. If we inject a lot of current, we get a lot of spikes. There is a threshold above which we get spikes; increasing it beyond that gives more frequent spikes.
+
+We can make a graph of current ($x$) vs. frequency ($y$): the f-I curve.
+
+The sum $\sum_j W_{ij}x_j +b_i$ is the total current.
+%frequency, current
+How do we relate the current $x_i$ to the frequency $f\pa{\sum_j W_{ij}x_j +b_i}$?
+What exactly is $x$: is it a current or rate? It's some kind of activity. 
+One way neuroscientists quantify neuronal activity is by frequency: the neuron is active at 5 hertz, 10 hertz, etc.  $\tau$ sets the elementary time scale. Mathematically it's simple; physically it's less clear.
+
+A neuron takes a linear combination with large fan-in, passing the result through a nonlinear scalar function; this is basically the simplest dynamical system that does that.
+
+Something else might bother you: the $x_j$ vary continuously in time, but neurons makes spikes---it seems almost discontinuous. In the equation there's no explicit representation of the time of a spike. You won't see sudden brief pulses. The justification of these equations depends on our being able to neglect the spiking of neurons in favor of variables more like rates. This is ``classical neurodynamics." Neural activities is quantized; spikes are packets; we'll neglect spikes in favor of rates. Cf. how we neglect the particle nature of light when the rate of photon arrival is high. We'll derive conditions under which we can neglect the spiking.
+
+These are our assumptions.
+\begin{enumerate}
+\item
+Each synapse is a current source controlled by presynaptic spiking.
+\item 
+The dendrite adds the currents of multiple synapses.
+\item 
+The total current drives spiking in the axon.
+\end{enumerate}
+
+Voltage clamp measurement of synaptic transmission: measure the current in post-synaptic neuron.
+
+Model the blip with a decaying exponential.
+\bal
+I(t)&=Wg(t)\\
+g(t)&=\begin{cases}
+\tau^{-1} e^{-t/\tau},&t\ge 0\\
+0,&t<0.
+\end{cases}
+\end{align*}
+Assume:
+\begin{enumerate}
+\item
+Temporal summation: Assume that currents from successive spikes add linearly. 
+\item Currents of divergent synapses share the same time course. They share the time constant $\tau$ and only differ in amplitude. (I.e. different multiples of the current get sent to the different neurons.)
+\end{enumerate}
+The normalized current is
+\bal
+I_{ij}(t)&=W_{ij} \sum_a g(t-t_j^a)=W_{ij}x_j(t)\\
+x_j(t)&=\sum_ag(t-t_j^a).
+\end{align*}
+
+When $\tau$ gets large, each exponential decays before the next one comes in. If $\tau=100$ms, then we can approximate it with a smooth function; if $\tau=5$ms, the smooth function is a bad approximation.
+
+We can express this as the leaky integrator model: if there is a spike $x_j:=x_j+\rc{\tau}$. Otherwise, exponential decay with time $\tau \dd{x_j}t+x_j=\sum_a\de(t-t_j^a)$. If $\tau$ is long, we can replace it by a rate $v_j$.
+%replace deltas with rate.
+
+Summation of currents from convergent synapses: liner superposition $I_i=\sum I_{ij}$.
+
+Putting it all together we get~\eqref{eq:classical-neuro}.
+
+The biophysical interpretation is
+\begin{enumerate}
+\item
+$f$ is firing rate as function of current.
+\item $x$ is normalized synaptic current (in Hz).
+\item $\tau$ is synaptic time constant. How long does it take for the current to decay?
+\item $W$ is the charge/presynaptic spike. (Amps/hertz, which is coulombs (charge).) The $W_{ij}$ is the total charge in neuron $i$ injectedby spike in neuron $j$; the area underneath the synaptic current. $f(\cdots)$ is the low-pass version.
+\end{enumerate}•
+
+Typical rates of firing: $\tau$ can be 5--100ms, even 1s.
+
+%Summary, when 
+There are as many synaptic currents as synapses, in principle $n^2$. But they are in groups of $n$ (those coming out of the same neuron) that behave the same temporally. What is $b$? In the absence of synaptic current, we get $f(b_i)$ current. For $b_i<0$, this represents activation necessary.
+
+What do people use for $f$? Three popular ones:
+\begin{enumerate}
+\item
+$[u]^+=\max\{u,0\}$: rectification ($(x\ge0)|x|$). (This is biological---many neurons behave as rectification.)
+\item $H(u)$ step function
+\item $\si(u)$ sigmoidal function.
+\end{enumerate}
+%the rectification is biological.
+
+%somatic current
+
+%repetitive spiking.
+%f-I curve.
+
+f-I curve from experiments with squid giant axon (not giant squid axon, from a normal squid, a mm thick); it's popular for neuroscience experiments because it's so big.
+
+\begin{enumerate}
+\item EEngineers like rectification because it's halfway a linear system. %It's recently popular in . 
+\item
+There are neurons that look more binary, like $H(u)$. It is beloved by theoretical computer scientists because they can reduce to boolean functions. 
+\item
+The advantage of $\si$ is having smooth derivative; it's a smooth version of $H(u)$. It is a compromise: binary for large inputs and linear for small inputs. Used are $\si=\rc{1-e^{-u}}$ and $\tanh u  =\fc{e^u-e^{-u}}{e^u+e^{-u}}$.
+\end{enumerate}
+Some things train faster with $\tanh$.
+
+Deficiencies: There are many ways real neurons vary even from the spiking model.
+\begin{enumerate}
+\item Spike frequency adaptation: it responds to transient faster spiking.
+\item Short-term depression: stimulating it many times in quick succession, later pulses are weaker, as if it gets tired.
+\item
+They are not perfect current sources. There are conducting changes, giving a nonlinear interaction between multiple synapses.
+\end{enumerate}
+This simple model is very rich.
+
+The importance of the deviations are still hotly debated. The model is wrong, but how badly is it wrong?
+
+Question: these equations look so simple, are they a good model for the brain? The complexity is in the synaptic interactions (connectionism, we can do anything with good connections).
+
+This is the Matlab model of the brain:
+\[
+\tau \dd{\mathbf x}t+\mx = \mathbf f(\mathbf b+W\mx),\qquad \mathbf f(\mathbf u)=\colthree{f(u_1)}{\vdots}{f(u_N)}.
+\]
+``The brain is a vast parallel computer that computes matrix functions."
+
+Most entries of the matrix are 0. (Otherwise your brain would be too large.) Estimate: the number of neurons is in $[10^{11}, 10^{12}]$; the number of synapses is $10^{15}$. 1 synapse every micron. 1 cubic millimeter has 1 billion synapses. It's 3-D large-scale integration.
+
+Sparse connectivity is efficient: synapses occupy volume, consume power. The number of synapses is a crude measure of consumption of biological resources.
+
+The time complexity of simulating is the time complexity of matrix multiplication. Even if we simulate it on a digital computer, the sparsity determines how quickly we can run it.
+
+Connectivity is mostly local: between neighboring neurons the probability of connections is higher (most are within 1-2mm). Presumably the layout of the brain has been optimized by evolution to minimize ``wiring length." (Integrated circuit designers face a similar problem.)
+
+Why is your brain inside your head? The brain is in your head to minimize the length of wiring to sensors. The number of wires to your spine is the about the same as to sensors.
+
+Dale's Law: a single neuron makes either excitatory or inhibitory synapses but not both; excitatory  neurons generally outnumber inhibitory neurons. Every column of the matrix ($W_{i\bullet}$) is either nonnegative or nonpositive. Computer scientists tend to ignore this constraint.
+
+Unanswered: Is it a weird biological constraint that has no function, or actually useful?
+
+\section{Neural nets}
+
+For the next few weeks, we'll consider neural nets with no loops (feedforward networks)---directed acyclic graphs. (I.e. there is a permutation of the nodes so that the matrix is strictly lower triangular.) Here $W_{ij}$ represents the weight of the connection from $j$ to $i$; the only connections are to larger nodes. 
+%only connections are to those with increasing numbers
+(There are cases in biology where neurons make connections onto themselves, called autapses.)
+
+The steady-state equation, when $\dd{\mx}t=0$. 
+\[
+\mx = f(W\mx +\mathbf b).
+\]
+In general this is hard to solve but for a feedforward network, we can simply evaluate the $x_i$ in increasing order:
+\bal
+x_1&=f(b_1)\\
+x_2&=f(W_{21}x_1+b_2)\\
+\cdots &
+\end{align*}
+(cf. how it's easy to solve a triangular system of equations.)
+
+%hitting on need activates a sensor in the muscle, sends a signal to the spinal cord, signals muscle.
+
+%Convergence: multiple neurons required to activate another. 
+There are feedforward, lateral, and feedback connections.
+
+We start by understanding a single layer of neurons, and start by talking about what a single model neuron does.
+
+A neuron can have a fan-in of 100,000; why so much?
+
+\subsection{Single neuron}
+
+Consider the special case of binary output, 
+\[H(\sum_j w_j x_-\te)=H(\mathbf w \cdot \mathbf x -\te)\]
+
+What boolean functions can be realized by a LT (linear threshold) neuron? This is the beginning of theoretical neuroscience., ``A logical calculus of the ideas imminent in nervous activity," by McCollough and Pitts, 1940's. Neurons are doing logical operations. Boole called logic the laws of thought.
+
+Suppose $w_i=1$ for all $i$; the expression is $H(\sum_j x_j-\te)$.
+\begin{itemize}
+\item
+$\wedge$: for $n$ variables, let $\te=n-\rc2$.
+\item
+$\vee$: let $\te=\rc2$.
+\end{itemize}
+Adding in inhibition, we have $H(\sum_{j=1}^n x_j-\sum_{j=n+1}^{N}x_j-\te)$. Think of inhibition as negation, so
+\[
+x_1\wedge \ol{x_2}\wedge x_3=H(x_1-x_2+x_3-1.5).
+\]
+Any conjunction or disjunction of $N$ variables or negations can be realized by an LT neuron.
+
+Weighted voting model. For $\mx\in \R^N$, we need $\mx$ to be on one side of a the \textbf{separating hyperplane}.
+
+A function can be decided by a LT neuron iff the 0's and 1's are linearly separable, for example, XOR cannot be.
+
+The perferred stimulus is the direction along which minimal amplitude is needed for activation.
+
+\subsection{Delta rule}
+
+How do you set $W_{ij}$? Use a learning rule to get the network to organize itself.
+
+How can we learn to recognize a ``2" with a LT neuron?
+
+The \vocab{delta rule} (\vocab{perceptron learning rule}) is (ignoring bias)
+\[
+\Delta \mathbf w = \ub{\eta}{\text{learning parameter}}[\ub{y}{\text{desired}}-\ub{H(\mathbf w^T \mx)}{actual}]\mx.
+\]
+You're driven by the different between desire and reality. This is mistake-driven learning. ($\mb$ would be like another component of the weight vector; it's just a special case.)
+
+There are 2 types of mistakes.
+\begin{enumerate}
+\item
+False positive: $y=0,H(\mathbf w^T \mx)=1$. Then $\De w=-\eta \mx$.
+\item
+False negative: $y=1, H(\mathbf w^T\mx)=0$. Then $\De w=\eta \mx$.
+\end{enumerate}
+We can update $\mathbf w$ after each example, or update after the whole batch of examples, or mini-batch. The intuition is that averaging reduces the noise in the update.
+
+It's common to initialize with small random values.
+
+A more sophisticated interpretation: this is an optimization procedure. It is a gradient-based optimization algorithm.
+
+The cost function is
+\bal
+e(\mathbf w, \mx, y)=|y-H(\mathbf w^T \mx)|\cdot |\mathbf w^T\mx|
+&=
+\begin{cases}
+\mathbf w^T\mx,&\text{false positive}\\
+-\mathbf w^T\mx,&\text{false negative}\\
+0,&\text{correct}.
+\end{cases}\\
+\pd{e}{\mathbf w} = \begin{cases}
+\mx,&\text{false positive}\\
+-\mx,&\text{false negative}\\
+0,&\text{correct}.
+\end{cases}\\
+\De w&=-\eta \pd e{\mathbf w}.
+\end{align*}
+Batch update is gradient descent on the sum of errors.
+Online update with randomized order is stochastic gradient descent.
+
+
+%tell whet
+
+%\input{chapters/1.tex}
+ 
+%\bibliographystyle{plain}
+%\bibliography{refs}
+\end{document}

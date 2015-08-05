@@ -25,6 +25,9 @@
 \setlength\textheight{648pt}
 
 \begin{document}
+
+\tableofcontents
+
 \section{Linear coupling: an ultimate unification of gradient and mirror descent}
 
 Linear Coupling: An Ultimate Unification of Gradient and Mirror Descent
@@ -1306,7 +1309,343 @@ $L^2$ gives $\al^2$. The number of points is $\rc{\al}$, the concentration is al
 
 %random gaussian, look at one with largest inner product. Talagrand's theory.
 
-\input{7-20.tex}
+\input{7-20-15-talk.tex}
+
+\section{Evolution and dynamical systems/Markov chains}
+
+Look at dynamical systems that arise in nature.
+
+We'll find relationships with
+\begin{enumerate}
+\item
+Markov chains/mixing time
+\item algorithms/optimization
+\item Fourier analysis on the Boolean cube
+\item computational complexity
+\end{enumerate}
+
+How can we model and understand molecular evolution? It involves
+\begin{itemize}
+\item
+replication
+\item
+selection
+\item muations, variability
+\end{itemize}
+Think of viruses. This happens at a fast time scale.
+
+What are the origins of life? Apparatus, machines which combines, comes together, to self-replicate. 
+
+Outside of TCS and math, people have multiple points of view.
+
+Evolution of language also follows simple principles.
+
+A dynamical system (discrete, continuous) is
+\bal
+x(t+1)&=f(x(t))\\
+x'(t)&=f(x).
+\end{align*}
+A flow that tells you where to go.
+
+Ex. a slime mold's dynamical system gives it the ability to compute. We want to explain how, why, and how fast.
+
+\subsection{Equations of life}
+
+Consider a situation where you have a population with $m$ different types, $[m]$. Let $x_i(t)$ be the proportion of type $i$ at time $t$. We have $\sum_{i=1}^mx_i(t)=1$. 
+
+We consider a simple model. We need to introduce more parameters. Let $a_i>0$ be the fitness of $i$. A first attempt is to let $x_i(t+1)=a_ix_i(t)$. However, nature puts the constraint $\sum_{i=1}^mx_i(t)=1$. We renormalize by setting
+\[
+x_i(t+1)=\fc{a_ix_i(t)}{\sum_{j=1}^m a_jx_j(t)}.
+\]
+We've introduced reproduction and selection.
+%fitness could depend on composition.
+
+We need to introduce mutations (errors). Let $Q_{ij}$ be the fraction of unit mass that mutates to $j$.
+
+There are 2 time scales: start with a population and see how it changes, vs. environment changes.
+
+Let $A=\diag(a_1,\ldots, a_m)$. Let 
+\[
+x_i(t+1) = \fc{\sum_{j} a_jx_j(t)Q_{ji}}{\sum a_j x_j(t)},
+\]
+so
+\[
+x(t+1) = \fc{QAx(t)}{\ve{Ax(t)}_1}.
+\]
+Why does this have a steady state? If $Q,A>0$, then it has a  dominant right eigenvector by Perron-Frobenius.
+%can do all normalization at end.
+
+So the unnormalized values at time $t$ is $(QA)^tx(0)$.
+
+We look at dynamic systems $f:\De_m\to \De_m$. This subclass is more special and interesting. No matter where you start from, you will converge to a fixed point. Spectral ratio tells you how many iterations you need.
+
+Do all dynamical systems of this type $f$ have a unique fixed point? Can more complex behavior happen?
+There can be multiple fixed points. The first hurdle is existence of multiple fixed points. 
+\begin{itemize}
+\item
+Multiple fixed points.
+\item Periodic orbits/limit cycles.
+\item
+Chaos. (Let's not discuss this.)
+\end{itemize}
+%chaos in cs?
+These do come up in evolution of languages and origins of life.
+
+Stability is important when we're talking about equilibria: nearby trajectories converge.
+
+\subsection{Finite populations}
+
+We thought of populations as infinite. Here we have actual particles, say $N$ of them. We introduce stochasticity in evolution. We don't get a dynamical system, but a Markov chain. Each particle of type $i$ replicates to $a_i$ particles. Use the stochastic matrix to make the mutations. 
+We have replication and mutation. Now do selection: sample $N$ points with replacement. $M$ and sampling are stochastic.
+
+What is the number of states of the Markov chain?
+Think of $N=1000$ as large, $m=50$. The number of states is $m^N$ (or $\sim N^m$ since order doesn't matter). The state space is large.
+
+These models are used to simulate how viruses evolve. 
+Track certain parameters. How much time does it take to reach a steady state?
+
+Are these methodologies sound?
+
+In theoretical computer science we don't simulate. Do they converge quickly?
+
+Mutagenic drugs try to increase the stochasticity and remove genetic info from the system. How many life spans evolve before it loses genetic information? If it's much more than your life span...
+\begin{itemize}
+\item
+computationally
+\item
+feasibility of %explosion
+\item
+could life have evolved quickly enough? (rapidly mixing) %explosion of state space.
+\end{itemize}
+
+Mutation vs. steady state.
+Let $(Q,A,M)$ be the parameters of $f$. How do solutions change when we change $Q,A,M$? Let's focus on $Q$. Assume $Q_{ii}=1-\mu$ and $Q_{ij}=\fc{\mu}{m-1}$: replicate correctly with probability $1-\mu$ and make a random error else. 
+What happens as $\mu$ increases?
+For this system (proposed by Eigen and Schuster in the 70's, Eigen was a Nobel laureate in chemistry), as $\mu$ increases from 0 (not far from 0), there is a point (depending on $m$) where the vector goes thorugh a phase transition, called the \vocab{error threshold}. 
+%high vs. low fitness.
+$\mu$ decreases with $m$. This observation is the basis of mutagenic strategies.
+
+Their motivation was not to model viruses. They were trying to understand the information capacity of a system. How much genetic information can a system maintain? Assume $\mu \sim \rc{m}$. %approx right
+If $\mu>\rc m$ then the output is junk/random/no genetic information. If $\mu<\rc m$ then it preserves genetic information. We want $\mu<\rc m$; a drug designer wants $\mu>\rc m$. 
+
+Go back 40 million years ago. $\mu$ is a thermodynamic parameter. It turns out, based on simplistic models, that the largest bit content is 50. How long is DNA? Billions, $10^9$. You will hit a bottleneck less than a billion. %$Q_{ij}$ is not uniform. Hypercube, bitwise mutations.
+
+$(1-\mu)^L\sim \rc{L}$. 
+
+Theorem!
+
+So many creatures, why only 1 way to store information? If everything started from scratch, organisms should have a different way to store information! The more you think the more you stop believing (simplistic accounts of?) evolution.
+
+\subsection{Hypercycle}
+
+%manifold?
+
+Suppose there are $N$ types. The differential equations are 
+\[
+\dot{x}_i= k_ix_ix_{i+1} - x_i\sum_j k_jx_jx_{j+1},
+\]
+$\sum \dot{x}_i=0$.
+There are mechanisms in stars which have this form (Bethe-Weierstrass cycles). Autocatalytic cycles. 
+How can we bypass the error threshold? Why don't we see alternate forms of information-organizing systems?
+
+Think of each system as a collection of proteins, RNA's which have nice properties. Another collection of things that have nice properties. Can use A to do B, B to do C. Functional linkages. For this to survive, you must justify there is a solution to this dynamical system which lives inside the simplex. If one type goes to 0 it kills the cycle. Conjectured there is a limit cycle inside the interior, unique limit cycle. Proved in late 1980's by mathematicians. There are still open questions.
+
+Mathematically, for this version, we understood how much time to get to the steady state.
+
+Not obvious. Important: things have to stabilize in some sense. This was studied by Papadimitriou and Visheet. Use techniques from computational complexity. There is something special about these dynamical systems. If can choose coefficients, then PSPACE-complete. (Given the parameters of the dynamical system, give a point close to the orbit. cf. Nash equilibirum.) For specific dynamical systems, what can we do? We are in complete lack of mathematical techniques. Part of the interest is not explaining biology and science, but also: are there mathematical techniques that we still lack. %problem seems natural.
+
+In a (recently terminating) series of results DSV12, V15, PSV15, we proved a large class of evolutionary dynamical systems mix rapidly. (Finite sampling.)
+
+%nice math, science
+
+\subsection{Language}
+
+Here's a problem which bothers us. When a baby is born, how does it learn how to speak? We know how to teach a baby a language.
+
+Chomsky proposed universal grammar: a baby is born with a set of grammars. It tries to learn from examples.  
+Uniform distribution of grammars that slowly converges.
+
+Question: How big a grammar? This depends on how good the learning is. Let's model it.
+
+Novak et. al. proposed a model in 2001. Suppose there are 10 grammars $Q_1,\ldots, Q_m$. What is the relation between the $i$th and $j$th grammar. What is the probability that a sentence/word from $i$ makes sense in $j$? Keep track of populations $x_1,\ldots, x_m$: confidence in grammars. 
+The model is: define $b_{ij}=\fc{F_{ij}+F_{ji}}2$, pairwise compatibility of 2 grammars. Fitness.
+
+Probability of confusion is (mutation)
+$Q_{ij}=$,
+probability that trying to learn $i$, picking up something from $j$.
+
+We can define the fitness of a grammar 
+\[
+a_i = \sum_j b_{ij} Q_{ji}x_j:
+\]
+knowing $i$, how well you can communicate with rest of population?
+$a_i$ has to do with the learning. $Q_{ii}=1-\mu_i$, $Q_{ij}=\fc{\mu}{m-1}$.
+
+Quadratic $f$, $x(t+1)=f(x(t))$. Study the steady state vector as a function of $\mu$. As you increase the mutation rate, all points close to corners are stable. They slowly disappear and only the point in the center is stable. The Tower of Babel.
+They call it the coherence threshold.
+
+%learn a grammar without knowing logic?
+
+Batch learning, etc. Heuristic arguments: how big the grammar has to be as a function of the learning environment. cf. we got some bound on $M$ given $\mu$. Recently we're looking at how the mixing time behaves. Because of multiple equilibria, can prove phase transition. Not a good idea to have multiple fixed points in dynamical systems where we're studying finite versions. 
+Parameters fine-tuned slowly. Prefers dynamical systems with nice equilibria?
+
+Different models of learning, do we need the notion of universal grammar. Here's a learning mechanism for which the size of the grammar is small. Less information have to be born with, ability to teach how to speak.
+
+Techniques for quadratic dynamical systems. Fixed point. Move in parameter space. Determined by Jacobian, eigenvalues. Smooth functions. All eigenvalues real part negative. Converge from every direction. Change parameters, then these properties violated. Hopf fibration (?).
+Can understand convergence from close-by points. 
+
+Algorithmic: finite sampling. 
+
+Now can do linear programming via slime. What optimization? Riemannian manifold.
+%science or math
+%do things without boundaries.
+%think about science q's not math constrained.
+
+\section{Dynamical systems and space-bounded computation}
+
+A dynamical system is  function $f:X\to X$. We care about compact $X\subeq \R^n$. This is the most general model for physical systems. $X$ is the state space, $f$ is the transition. Very simple functions $f$ can give rise to chaotic behavior.
+
+Mathematicians study chaos: 2 starting states that start off almost the same diverge quickly. For example the logistic map $f(x)=4x(1-x)$ is chaotic. The general goal is to understand iterates.
+
+An \vocab{invariant measure} is a measure fixed under $f$: For all measurable $A\subeq X$,
+\[
+\mu(A) = \mu(f^{-1}(A)).
+\]
+Can we compute invariant measures?
+
+No. You can embed a universal Turing machine inside a smooth dynamical system.
+
+Given a nice $A$, e.g., a box $A=[a_1,b_1]\times \cdots \times [a_n,b_n]$, what is $\mu(A)$ to within precision $\de$? If the Turing machine halts, all the mass of the Turing machine is on one set; if not, it's on the complement.
+
+We expect reasonable systems to be computable. What's present in real life but not here is noise.
+
+Consider a random perturbation of a dynamical system, $x\mapsto f(x)+(\ep\text{-noise})$. Think of the noise as uniform on an $\ep$-ball or Gaussian. 
+
+For the results on invariant measures to be ``physical", they must be robust. Physical computers are robust. These mathematical objects are not physical. Noncomputable phenomenon do not survive under noise. 
+
+Encode a Turing machine as 2 decimal numbers representing what's to the left/right on the tape. If I shake the system, erase all but $\log\ep$ window around the head. The Turing machine dissipates under noise; all the good simulators are high-dimensional.
+
+BGR show that invariant measures of random perturbations are computable. Originally you have infinite memory, it gets erased.
+By invariant we mean 
+\[
+\Pj_\mu(X_{t+1}\in A) = \Pj_\mu(X_t\in A).
+\]
+Think of $f$ as acting on measures. The invariant measures are those that are fixed under the operation.
+%mark, christobal...
+
+
+How might you compute it? Divide space into $A$ regions. Assume it's roughly constant on each. The problem transforms to computing the stationary  distribution of a $A$-state Markov chain. This can be done in polynomial time in $A$. If you want to compute to precision $\de$, each should have size depending $\de$; take $A=\poly\prc{\de}$.
+
+Should depend primarily on $\ep$ and not so much on the precision: $O_\ep(\poly\prc{\ep})$.
+
+This makes sense when $\ep\ll \de$: the precision is much smaller than $\ep$.
+
+%For reasonable functions $f$ you can
+With noise the measure is almost constant on each piece: you jump and scatter. The probability that you are close by is the same. There is smoothing. Without noise there is no guarantee. (You can get weird invariant measures, supported on fractals, etc.) The noise smoothens all the bumps.
+%A bump that tries to jump over the fence
+
+We'll do something similar but more clever.
+
+Divide space into $A$ regions $a_1,\ldots, a_n$. In each region choose center points $x_1,\ldots, x_n$ arbitrarily. We'll write the density function as a Taylor series around the $x_i$.
+
+Decompose $\mu_t(x) = \sum_{i=1}^A \one_{x\in a_i} \sum_{k=1}^{\iy} p_{i,k}(t) (x-x_i)^k$. \fixme{(We assume $f$ and noise are nice, i.e., smooth. Gaussian noise smooths things out.)} We can express any smooth measure in terms of Taylor coefficients. The nice thing is that the dynamical system acts linearly on these coefficients. Start with arbitrary $\mu_0$, evolve the system to get $\mu_1,\mu_2,\ldots, \mu_t,\ldots$.
+
+There is an explicit linear map $Pp^{(t)}=p^{(t+1)}$. $P$ is infinite-dimensional but we can fix this by truncating at level $N$. We stopped at level 0 in the picture before.
+
+Let $P_N=P$ truncated to degree $\le N$.
+%noisy dynamical systems (and raising
+%matrices to very high powers in polylogarithmic space).
+
+This is an $AN\times AN$ matrix.
+We lose something. To get $\ve{P_N^T\mu - \pi}\le \de$, set 
+\[
+T=O(\ln \prc{\de} \exp(\ep^{-1})),\quad T=O(\ln \prc{\de} \poly(\ep^{-1})).
+\]
+We can compute the map in polynomial time. The total time is $O(\ln \prc{\de}\poly\prc{\ep})$.
+This gives an efficient natural time bound. 
+
+\subsection{Space complexity}
+
+The argument of why these should be computable is from space complexity: you can't store so much in one step because of noise.
+
+We use a similar technique. 
+\begin{thm}
+For nice $f$ and Gaussian noise, we can compute the invariant measure in space complexity 
+\[
+O(\poly(\ln \prc{\ep} + \ln \ln \prc{\de})).
+\]
+It's polylog in the size of the input and output.
+\end{thm}
+The model is the typical: There is a read-only input tape, a work tape of the above size, and a write-only output tape.
+This is tight: any Turing machine with this space complexity, can be embedded in a dynamical system.
+%invariant measure = stationary distribution?
+%local noise: space result like this. 
+%with probability $\ep$ just randomly to random point. weird behavior.
+$\ep$-noise is like distinguishing $\rc{\ep}$ space. You should behave like a memory $\lg\rc{\ep}$ machine. %This is the strongest theorem you can have.
+This is a characterization of dynamical systems as a computational device.
+
+The algorithm is essentially no different. We still want to 
+\begin{enumerate}
+\item
+compute $P_N$,
+\item
+raise $P_N^T$.
+\end{enumerate}
+
+Computing $P_N$ boils down to computing a bunch of integrals. It's relatively easy to do. The second part is trickier.
+
+Now ignore all these dynamical system stuff. It's just a problem of raising matrices to large powers in polylog space. Given an $n\times n$ matrix all of whose entries are integer multiples of $2^{-\poly(n)}$ (i.e., numbers specified to that precision), compute in $O(\polylog(n))$ space $M^{2^n}$. We want an exponential power because $T$ can be exponential iin $\exp(\ep^{-1})$ or $\exp(\ep^{-2})$. Another way of thinking of this is that I give you a Markov chain
+
+Each entry has $\poly(n)$ bits. You cannot even store 1 entry/number in the graph. (Cf. reachability: you can't store the graph. Recall what you can do in log space. 
+\begin{enumerate}
+\item
+In $O(\lg n)$ space you can add $n$-bit numbers (add bit by bit and remember the carry), 
+\item multiply $n$-bit numbers (add $n$ $n$-bit numbers at once.)
+\item
+divide $n$-bit numbers (harder, resolved in 90s). Division can be done in $TC^0$.
+\item
+work with real numbers that are multiples of $2^{-\poly(n)}$,
+\item
+Multiply 2 matrices (follows from multiplying and adding)
+\end{enumerate}
+When you compose, space adds. (You can use recursion, pretend like you wrote the intermediate result; call the first program instead, you need stack space for both)
+
+In polylog space you can 
+\begin{enumerate}
+\item
+Compute $M^{\poly(n)}$. By iterated squaring you can do this with $\lg(n)$ operations. This takes $O((\lg n)^2)$ space. This is essentially Savitch's Theorem: replace the matrix with the adjacency matrix.
+\item
+Compute $\det(M)$ and the characteristic polynomial of $M$ in time $O((\lg n)^2)$.
+\item
+Find roots of a real/complex polynomial to within precision $2^{-n}$ in time $O((\lg n)^5)$. 
+%to highest precision you can hope fore
+%analytic, univariate. find complex roots.
+\end{enumerate}
+%binary search? can't do!
+But we need to compute to exponential-sized exponents. Repeated squaring would take time greater than $n$.
+
+First consider raising a number to an exponential power $x^{2^n}$. Repeated squaring takes too much space. Rewrite as
+\[
+x^{2^n} = \exp(2^n\ln x)
+\]
+which you can approximate in logspace using Taylor series, to precision $2^{-\poly(n)}$. 
+
+If we can diagonalize $M$ then we are happy.
+If you can diagonalize $M=U^{-1}DU$, then $M^{2^n}=U^{-1}D^{2^n}U$, and you can do this in polylog time. But no one knows how to diagonalize matrices in polylog time.
+
+What you can do is compute eigenvalues, because they are roots of the characteristic polynomial. Compute $\la_1,\ldots, \la_n$ or $M$. 
+%paper by Nef.
+%division in $TC^0$. amazing result?
+%collapse of counting hierarchy.
+Then compute $(\la_i^{2^n})$. By Lagrange interpolation construct a degree $n-1$ polynomial $p(\la_i)= \la_i^{2^n}$.
+%Hermite interpolation: knowing derivatives too. Approximations to eigenvalues? Division by 0 somewhere. Not like algebraic fields. too close? Not robust. 
+%compute eigenvectors? But can only find eigenvalues approximately.
+%in the limit break down because th approx only works at that level. 
+%raising to power $T$ does one thing...
+%norm of $P_N$ not 1 anymore?
+In the denominator you get $\la_i-\la_j$. We need a lower bound on the distance between 2 roots, which we have by $2^{-n}$ precision. Now compute $p(M)=M^{2^n}$.
+%don't need Cayley hamilton. poly operators commute.
+If there are repeated eigenvalues, perturb $M$. One of $n+1$ perturbations will succeed. A small amount of perturbation to a univariate polynomial will have distinct roots. $(1-t)M+E$: $\prod (\la_i-\la_j)=P(M_{ij})$. 
 
 %\bibliographystyle{plain}
 %\bibliography{refs}

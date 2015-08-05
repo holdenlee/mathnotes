@@ -142,10 +142,14 @@ Computation/general/seminars/*
 
 !Computation/machine_learning
 Computation/machine_learning/*
-!Computation/machine_learning/nn.tex
-!Computation/machine_learning/nn.pdf
 !Computation/machine_learning/deep_learning.tex
 !Computation/machine_learning/deep_learning.pdf
+!Computation/machine_learning/neural_nets
+Computation/machine_learning/neural_nets/*
+!Computation/machine_learning/neural_nets/*.tex
+!Computation/machine_learning/neural_nets/nn.pdf
+!Computation/machine_learning/neural_nets/barron1.pdf
+!Computation/machine_learning/neural_nets/nn.bib
 
 !Computation/machine_learning/intractability
 Computation/machine_learning/intractability/*

@@ -1,0 +1,183 @@
+Reference: Chapter 4.4 and 4.9 in \cite{Clarke2009}.
+
+\section{The curse of dimensionality}
+%The intermediate tranche is where the finite-dimensional methods confront
+%the Curse of Dimensionality on their way to achieving good approximations to the
+%nonparametric setting.
+In statistics and machine learning, the standard setting is the following. Given $(x_i\in B,y_i)$, a function $f_\te(x)$, find parameters $\wt{\te}$ such that $f_{\wt\te}(x_i)\approx y_i$. What is our metric of success? We want an algorithm that minimizes the \vocab{mean integrated square error} (let $\wt f=f_{\wt \te}$)
+\[
+\text{MISE}%(\wt f) 
+= \E_{(x_i,y_i)} [\ve{\wt f-f}_2^2] 
+\]
+where $\ve{f}_2=\int_B f(x)^2\,d\mu(x)$. The expected value is over independent random $(x_i,y_i)$, and the integral is with respect to the probability distribution on the samples $x_i$. (We assume there is a distribution on the $x$'s.) %(or at least, random $y_i$ if we don't assume a distribution of the $x_i$).
+
+The \vocab{curse of dimensionality} is a general phenomenon where estimates degrade with the number of dimensions. Consider a class of models $f_{p,\te}:\R^p\to \R$. For useful classes of models, the MISE typically increases superlinearly in $p$, and the number of data points required also increases rapidly.
+
+Now let's look at the setting of neural nets.
+
+\begin{df}
+A sigmoidal function is a differentiable function $f$ on $\R$ with $f'>0$, $\lim_{x\to -\iy}f(x)=0$, and $\lim_{x\to \iy}f(x)=1$.
+\end{df}
+
+We have the following.
+\begin{pr}
+Let $\phi$ be sigmoidal. 
+Every continuous function on a bounded set $B\subeq \R^p$ can be approximated by a linear combination of $\phi(a\cdot x+b)$. 
+\end{pr}
+Such a combination is represented by a (1-layer) neural net where 
+\begin{itemize}
+\item
+the input layer has $p$ nodes, i.e., represents an element of $\R^p$,
+\item
+the hidden layer has some number of nodes,
+\item
+the output node is a linear combination of hidden layer nodes.
+\end{itemize}
+(We're trying to approximate a function rather than make a decision, so we don't take a threshold function at the output.)
+
+A natural question is how well can such a neural net approximate an arbitrary continuous function? We'll give a precise answer, depending on the regularity of $f$ and the size of the hidden layer we allow, but {\it not the dimension $p$}.
+Barron's theorem tells us that ``neural nets evade the curse of dimensionality" in the following sense.
+
+{\it The best 1-layer neural net approximations do not get worse as $p$ increases.}
+
+(Note we are not saying anything about an {\it algorithm} to find the best approximation. The loss function is in general not convex so it's unclear whether gradient descent will actually find the approximation that Barron's Theorem gives.)
+
+%The number of hidden nodes required to get an approximation of  $O\prc{r}$
+
+\section{Barron's Theorem}
+
+The Fourier transform of $f:\R^p\to \R$ is
+\[
+\wh f(\om)=\rc{(2\pi)^p}\int_{\R^p} f(x)e^{-i\om\cdot x}\,dx.
+\]
+The Fourier inversion formula is
+\[
+f(x) = \int \wh f(x)e^{i\om\cdot x}\,dx.
+\]
+When $B$ is the unit ball, our measure of smoothness will be the following:
+\[
+\ve{\wh{f'}}_1 = \ve{\om \wh f}_1 = \int_{\R^p} |\om \wh f(\om)|\,d\om.
+\]
+More generally, for an arbitrary bounded set $B\subeq \R^p$ %conditions,
+let $|\om|_B=\sup_{x\in B} |\om \cdot x|$. When $B=B_0(1)$ is the unit ball, this is simply $\ve{\om}_2$. %We'll consider the 
+In the general setting our smoothness measure is 
+\[
+\ve{f}_B^* :=\int_{\R^p} |\om|_B |\wh f(\om)|\,d\om.
+\]
+
+Let $\Ga_B$ be the set of functions on $B$ where the Fourier inversion formula holds after subtracting out the mean,\footnote{for example, it includes all smooth ($C^{\iy}$) functions and more generally, all $L^1$ functions on $B$ whose Fourier transform is also $L^1$}
+ %conditions?
+\[
+\Ga_B=\set{f:B\to \R}{\forall x\in B, f(x)=f(0) + \int (e^{i\om \cdot x}-1)\wh f(\om)\,d\om}
+\]
+Let $\Ga_{B,C}$ be the subset with smoothness $\le C$:
+\[
+\Ga_{B,C}=\Ga_B \cap \{\ve{f}_B^*\le C\}.
+\]
+The quality of the approximation will depend on how large the phases of $f$ are. We'll see in the proof where the norm $\ve{f}_B^*$ arises.
+
+\begin{thm}[Barron]
+Let $B\subeq \R^p$ be a bounded set, $\mu$ a probability measure on $B$, and $\ep>0$.
+Let $f\in \Ga_{B,C}$ and $\phi$ be sigmoidal. There exists
+\[
+f_r=\sum_{i=1}^r c_i\phi(a_i\cdot x+b_i)
+\]
+with $\sum_{i=1}^r |c_i|\le 2C$ such that 
+\[
+\ve{f-f_r}^2 =\int_B (f(x)-f_r(x))^2\,\mu(dx) \le \fc{(2C)^2}{r}+\ep.
+\]
+\end{thm}
+%The theorem also holds with an arbitrary measure $\mu$.
+We'll just consider the case when $\mu$ is uniform on $B$, but in general, the proof goes through the same way (with a bit more care). %For simplicity we just consider normal Lebesgue measure.
+
+This means that the number of parameters required to get an approximation of $\ep$ is $(p+2)r = (p+2)\fc{(2C)^2}{\ep}$, which is linear in $p$ rather than superlinear.
+
+The idea of the proof is the following. 
+\begin{enumerate}
+\item
+Show that $f$ is in the closed convex hull of the $\phi$'s. We break this into several inclusions which we show one at a time:
+\bal
+\{\ve{f}^*\le C\} &\stackrel{(3)}{\subeq}
+\oconv \ub{\set{\fc{\ga}{|\om|_B}(\cos (\om \cdot x+b)-\cos b)}{\om \ne 0, |\ga|\le C}}{=:G_{\cos}}\\
+& \stackrel{(2)}{\subeq}
+\oconv \ub{\set{cH(a\cdot x +b)}{c\le 2C, |a|_B=1, |b|_B\le 1}}{=: G_{\text{step}}}\\
+& \stackrel{(1)}{\subeq}
+\oconv \ub{\set{c\phi(a\cdot x+b)}{c\le 2C}}{G_{\phi}}
+\end{align*}
+where $H$ is the step function $1_{x\ge 0}$. 
+We explain the inclusions.
+First, the exact form of $\phi$ doesn't matter: all we need about $\phi$ is that it can approximate step functions arbitrarily well. ($\phi$ sigmoidal gives us this.) 
+\item Second, we write the step functions in terms of a standard basis, namely the Fourier basis. 
+\item Third, we write out the Fourier expansion of an arbitrary regular $f$ to show that $f$ is in $G_{\cos}$.
+\item
+Next, we use a general fact: If $A$ is convex and $f\in \oconv A$, then $f$ is close to a small combination of elements of $A$. This in fact holds in any Hilbert space. The proof is by writing $f$ as a linear combination, and then sampling the functions with probabilities given by the coefficients.
+
+Thus $f$ being in the convex hull of the $\phi$'s gives us that $f$ is close to a small combination of them.
+\end{enumerate}
+
+\begin{proof}
+\begin{enumerate}
+\item
+Without loss of generality, $\phi$ is centered at 0. Then 
+\[
+\phi(k(a\cdot x+b))\to H(a\cdot x+b)
+\]
+for $x\ne 0$ so $G_{\text{step}}\subeq \ol{G_{\phi}}$.
+\item
+We relate $H$ to the the Fourier basis: $G_{\cos}\subeq \oconv (G_{\text{step}}^\mu)$. 
+We can do this easily because each $\cos(\om\cdot x+b)-\cos b$ is 1-dimensional. (This is why Fourier transforms are useful in this proof: $\om\cdot x+b$ is a projection of $x$ onto the $\om$ direction.) 
+
+Let $g(y)=\cos(|\om|_By+b)-\cos(y)$. Let $x_{-k},\ldots, x_k$ be a partition of $[-1,1]$ such that $g$ changes by $<\ep$ on each interval, we can approximate $g$ to within $\ep$ at every point by the sum
+\[
+\sum_{i\ge 0} (g(x_{i+1})-g(x_i))1_{\ge x_i} +\sum_{i\le 0} (g(x_{i-1})-g(x_i)) 1_{\le x_i}.
+\]
+The sum of coefficients is 
+\[\sum_i |g(x_{i+1})-g(x_i)|\le \int |g'|\,dx\le 2|\om|_B.\]
+Now substitute $y=\fc{\om}{|\om|_B}\cdot x$ to get the approximation of $\cos(\om\cdot x+b)$ by a linear combination  with sum of coefficients $2|\om|_B$, i.e., an approximation of 
+$\fc{\ga}{|\om|_B}(\cos(\om\cdot x + b) - \cos b),\om \ne 0,|\ga|\le C$ by a linear combination of $H$'s with sum of coefficients $2C$. \footnote{For an arbitrary measure, there is an extra step where we show that we can restrict $-b$ to the continuity points of the measure $\mu$.}
+\item
+When is $f\in \oconv (G_{\cos})$? We show $\{\ve{f}^*\le C\}\subeq \oconv (G_{\cos})$.
+Use Fourier inversion. Write the Fourier transform in polar form as $\wh f=|\wh f|e^{i\te(\om)}$: 
+\bal
+f(x)-f(0)&= \int \wh f(\om) (e^{i\om \cdot x}-1)\,d\om \\
+&= \int |\wh f| e^{i\te(\om)} (e^{i\om \cdot x}-1)\,d\om\\
+&= \int |\wh f|(\cos(\om \cdot x+\te(\om))-\cos( \te(\om)))\,d\om&\text{taking real part}\\
+&= \int |\wh f||\om|_B \rc{|\om|_B} (\cos(\om \cdot x+\te(\om))-\cos( \te(\om)))\,d\om.
+\end{align*}
+Hence, so long as $\int |\wh f||\om|_B\le C$, $f$ is in a combination of functions in $G_{\cos}$ with sum (integral) of coefficients $\le C$. (The integral is in the closure of the convex hull because it can be approximated as a Riemann sum.)
+\item
+We show the following.
+\begin{lem}
+Let $G$ be a bounded set in a Hilbert space, where every element has norm $\le b$. (For example, $G\subeq L^2(B)$.) Let $f\in \oconv(G)$. Then for every $r$,
+\[
+\inf_{f_r=\sum_{i=1}^r c_ig_i,g_i\in G, \sum c_i=1} \ve{f-f_r}^2 \le \fc{b^2-\ve{f}^2}{r} \le \fc{b^2}{r}.
+\]
+(The infimum is taken over all convex combinations involving $r$ functions.)
+\end{lem}
+\begin{proof}
+Since $f\in \oconv(G)$, for all $\ep$, there exists $f^*$ in the following form that is $\ep$ away from $f$:
+\[
+f\approx_\ep f^*=\sum_{i=1}^m c_i g_i^*.
+\] 
+Let $g$ be a random variable such that 
+\[
+g=g_i^*\text{ with probability } \fc{c_i}{\sum_{j=1}^m |c_j|}.
+\]
+Let $g_1,\ldots, g_r$ be $r$ independent draws, and let $f_n$ be the average,
+\[
+f_r = \rc r\sum_{i=1}^r g_i.
+\]
+Then (since $f_r$ is the average of $r$ variables distributed as $G$ and $f^*=\E g$)
+\bal
+\E\ve{f_r - f^*}^2 &= \rc r\E\ve{g-\E g}^2 \\
+&=\rc r [\E(g^2)-(\E g)^2] \\
+&\le \rc r(b^2-\ve{f}^2).
+\end{align*}
+\end{proof}
+Finally, apply the lemma to 
+\[
+f\in \oconv\set{c\phi(a\cdot x+b)}{c\le 2C},
+\]
+noting that the norms of the $\phi$'s are $\le 1$ since $\mu$ is a probability measure.
+\end{enumerate}
+\end{proof}
