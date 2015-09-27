@@ -1647,6 +1647,104 @@ In the denominator you get $\la_i-\la_j$. We need a lower bound on the distance 
 %don't need Cayley hamilton. poly operators commute.
 If there are repeated eigenvalues, perturb $M$. One of $n+1$ perturbations will succeed. A small amount of perturbation to a univariate polynomial will have distinct roots. $(1-t)M+E$: $\prod (\la_i-\la_j)=P(M_{ij})$. 
 
+
+\section{Formulas resilient to short-circuit errors}
+
+(Kalai, Lewleo, Rao, FOCS12)
+
+\begin{thm}
+Every formula $F$ can be efficiently converted to $E$ where $E$ is resilient to $(\rc{10}-\ep)$-fraction of short-circuit noise at any input-to-output path, with $|E|=O_\ep(|F|)$.
+\end{thm}
+
+What is short-circuit noise?
+
+Consider the von Neumann noise model: There is a BSC channel at the output: the right answer $g$ with probability $1-\ep$ and $\wh g $ with probability $1-\ep$. 
+
+Short circuit noise connects one of the inputs to the output. It can be adaptive: it can look at the input and choose which to output. What's clear is that $g(0,0)=0$ and $g(1,1)=1$. Short-circuit noise is slightly weaker. In the short-circuit csae we can deal with worst-case error. In the von Neumann model, if the output gate is wrong, the output is wrong.
+
+Consider what happens when there are multiple outputs. You can't beat $(1-\ep)^m$, while in the short-circuit model you can. Short-circuit errors are actually realistic.
+
+You can have a whole layer of gates that is short-circuited, disconnecting the input and output.
+We assume the negations are pushed to the bottom.
+
+We prove the theorem in 3 steps.
+\begin{enumerate}
+\item
+Convert $F$ into an interactive protocol $P$ (Karchmer-Wigderson)
+\item
+Convert $P$ to $P'$ resilient to noise.
+\item
+Conver from $P'$ into formula $W$ (KW).
+\end{enumerate}•
+\subsection{Interactive protocol}
+
+A formula is a circuit with fan-out 1. Assume we just use AND and OR gates. (Assume negation at the bottom is noiseless.) I.e., just consider monotone formulas.
+
+A protocol: Alice gets input $X$ and Bob gets $Y$. Alice sends a bit; people react based on what they see. This creates a tree, until you get to the output.
+
+Karchmer-Wigderson says these are equivalent. (They both involve trees!) 
+Alice gets $x\in f^{-1}(0)$ and Bob gets $y\in f^{-1}(1)$. Their task is to find $i$ such that $x_i\ne y_i$.
+
+Look at the formula: every time there is an AND gate, Alice speaks and says which input evaluates to 0. Bob speaks when there is OR, and says which input evaluates to 1.
+
+What happens when there is a short circuit? An AND is short-circuited. In the protocol, no matter what Alice sends, Bob receives 0. Bob believes that they are in the other branch of the tree. Alice is aware that Bob got 0.
+This is exactly errors with feedback.
+The conversion goes both ways.
+Formula with short circuit is equivalent to interactive protocols with feedback. 
+Because the protocol continuation is given by Bob's branch; by definition of the tree representation of the protocol, Alice knows.
+
+If $P$ with feedback is resilient to $e$ errors then $F_{(P)}$ is resilient to $e$-short circuits.
+
+%if we don't allow feedback, it doesn't go?
+%adaptive protocols?
+%Alice thinks we're here, 
+%interactive protocol know how to do.
+%problem is converting back to formula
+%circuit cannot adaptively change.
+
+\subsection{Making interactive protocol resilient to noise}
+
+EGH15 in ICTS: $\rc3-\ep$ noise over 3-ary alphabet, $\rc5-\ep$ noise over binary. Communicate $\{0,1,\leftarrow\}$ (go back). Every time we lose 3 rounds; this leads to $\rc3$ noise. If we have a protocol with $n$ rounds, with $n+3e$ many we can resist $e$ errors:
+\[
+\fc{e}{n+3e} =\fc{\fc{n}{\ep}}{n+\fc{3n}{\ep}}>\rc 3-\ep.
+\]
+Take $e=\fc n{\ep}$.
+
+For binary, $\leftarrow$ needs 2 rounds to communicate. We need $n+5e$. This is not tight.
+
+We can get $\rc3-\ep$ over binary (2015).
+
+For every noise, pay 3 or 5 times.
+Size is linear in $\rc{\ep}$: $e\sim \fc{n}{\ep}$, $n+\fc n{\ep}=O(\prc{\ep}n)=O_\ep(n)$. 
+%poly blowup in size
+%start with balanch.
+\begin{thm}[KLR12]
+For every $\ep>0$ there is an efficient compiler that takes fan-in 2 $F$ of depth $d$ and generates $E_2$ or $E_3$ of depth  $4d+5e$ or $2d+3e$ respectively resilient to $e$ short-circuit errors, fan-in 3. The 2 is to convert $F$ into and/or's.
+\end{thm}
+What they get is $\rc{10}$, 10 and 6 respectively.
+The fan-in is the alphabet size. $\rc{10}-\ep\to \rc5-\ep$. $\rc6-\ep\to \rc3-\ep$.
+
+Use the new result (sophisticated) and put it in, should get $\rc3$ in fan-in 2.
+
+%black box reduction? %no adaptiveness, etc. 
+
+What happens with circuits, fan-out?
+
+Make the circuit become a formula. Into formula of exponential size. Want noise-resistant of poly size.
+
+What if there is no feedback? Protocol can diverge; how to convert it to a circuit? The motivation is that we have results that are conceptually harder than the feedback for noise-resilient protocols.
+
+%duality between circuits and branching programs.
+%protocol branching program.
+%now allow remember entire transcript, remember some memory. Noise resilience has never been worked out. tree codes don't apply, but don't need because don't need to protect against so many bad things.
+%protocol model has not been studied. on the fce of it, just solve a decision/branching program which corresponds to modifying rather than appending to the transcript.
+%increase size at most polynomially.
+%circuits in practice are long and thin, because the depth dimension is time. a million gates, ten billion time.
+%circuits with feedback.
+KW were introduced to study NC1 lower bounds.
+
+%circuit and protocol branching program. step backwards, because CC can get results. introduce size. separating L from P? not hopeless but harder than NC1, P.
+
 %\bibliographystyle{plain}
 %\bibliography{refs}
 \end{document}

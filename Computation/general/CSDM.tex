@@ -1014,4 +1014,329 @@ The communication complexity of deciding $ABA'B'=g,h$ for $A_n$ is $\om(1)$ for 
 %another group: constant. 
 Use nontrivial structure of $A_n$. (See papers on conjugacy classes on $A_n$. Need conjugacy class result.)
 
+
+\section{Explicit two-source extractors and resilient functions}
+
+We need the following notions.
+\begin{enumerate}
+\item
+Min-entropy, the worst-case version of Shannon entropy.
+\[
+H_{\iy}(X)=\min_{x\in \Supp(X)}(-\lg(\Pj(X=x))).
+\]
+For example, if $X$ is uniform on a set of size $2^k$ then $H_{\iy}(X)=k$.
+\item
+A $(n,k)$-source is a random variable $X$ on $\{0,1\}^n$, $H_{\iy}(X)\ge k$.
+\item
+A $t$-wise independent distribution $D$  on $\{0,1\}^n$ is such that any projection of $D$ onto $t$ coordinates is $U_t$, uniform on $\{0,1\}^t$.
+\item
+Statistical distance is
+\[
+|D_1-D_2|=\rc2\sum_{x\in \Om} |D_1(x)-D_2(x)|.
+\]
+\end{enumerate}
+Our goal is to find an extractor Ext such that given \emph{any} $(n,k)$-sources $X$ and $Y$,
+\[
+|\Ext(X,Y)-U_1|\le \ep
+\]
+i.e.,
+\[
+|\Pj[\Ext(X,Y)=1]-\rc2|\le \ep.
+\]
+
+Previous work:
+\begin{enumerate}
+\item
+Chor and Goldreich in 88 showed the inner product function is an extractor for $(n,0.51n), (n,0.51n)$ sources.
+\item
+Bourgain 05 used sum-product theorems in additive combinatorics to get $(n,(0.5-\al)n), (n,(0.5-\al)n)$. 
+\item
+Raz 05 got $(n,0.51n), (n,O(\lg n))$.
+\end{enumerate}•
+There is a folklore conjecture that the matrix of quadratic residues works for $(n,\de n),(n,\de n)$ (take the sum mod $p$ and output 1 if quadratic residue).
+%that the construction works fr $(n,\de n),(n,\de n)$: the matrix of quadratic residues.
+
+\begin{thm}
+There is an explicit 2-source extractor for $k\ge \log^Cn$.
+\end{thm}
+Our proof can be proken down into 2 parts. Assume the sources $X,Y$ are $(n,k)$-sources.
+\begin{enumerate}
+\item
+Using $X$ and $Y$, get a $(q,t)$-non-oblivious-bit fixing source on $n^{O(1)}$ bits. (A bit fixing source on $n$ bits has a set of coordinates where each coordinate is independent and uniform, the other coordinates may depend arbitrarily.)
+%Most of the talk will be designing extractors for these sources.)
+Here $q$ is the number of coordinates in the subset, and $t$ means they are $t$-wise independent.
+\item
+Designing a (deterministic) extractor for $(q,t)$-NOBF source.
+\end{enumerate}
+Li showed how to design extractors for these sources that output multiple bits.
+
+The focus of the talk will be part 2. If we have time, I'll get into part 1.
+
+Some ingredients in step 1 are non-malleable extractors by Goyal and Li for $\polylog(n)$ min-entropy.
+$t$ is polylog and $q=n^{1-\de}$. %We design extractors which extract from these parameters.
+
+\subsection{Extractors for non-oblivious bit fixing sources}
+
+\begin{df}
+An \vocab{$q$-oblivious bit-fixing source (OBF)} is a string of length $n$ with a set of bad coordinates $Q\subeq [n],|Q|=q$ such that bits in $\ol{Q}=[n]\bs Q$ are uniform and independent. It's oblivious if the bad bits do not depend on the good bits.
+(In the oblivious case, the adversary chooses the bits in $Q$ before you choose the bits in $\ol{Q}$; in the non-oblivious case, the adversary chooses the bits afterwards.)
+
+A \vocab{$q$-non-oblivious-bit-fixing source (NOBF)} is one where bits in $Q$ depend arbitrarily on bits in $\ol{Q}$.
+
+A \vocab{$(q,t)$-non-oblivious-bit-fixing source} is where bits in $\ol{Q}$ are $t$-wise independent---this is a weaker restriction.
+\end{df}
+For example, Parity is a $q$-OBF. This would not work for $q$-NOBF's: the adversarial can always make the parity 0.
+%as hard as extracting from general sources.
+%here, some linear $q$.
+
+%no restriction on bits in $Q$.
+
+In the actual reduction, the sources are almost $t$-wise independent. %In the reduction we get $\ep$-close to $t$-wise independent. $(t,\ga)$, then close $\ga n^t$.
+
+\begin{df}
+Let
+$f:\{0,1\}^n\to \{0,1\}$, $Q\subeq [n]$. We define a model of influence these coordinates have on $f$.
+
+Let $D$ be any distribution on $n-q$ bits. Let the influence $Q$ has on distribution $D$ with respect to $f$ be
+\[
+I_{Q,D}(f)=\Pj_{y\sim D}[f\text{ is not fixed when bits in $\ol{Q}$ are set to $y$}].
+\]
+i.e., the coordinates in $Q$ can still influence the outcome of the function.
+
+%For $D=U_{n-q}\to I_Q$, abbreviate as $I_Q(D)$. Let
+Let
+\[
+I_{q,D}=\max_{Q\subeq [n],|Q|=q} \{I_{Q,D}(f)\},
+\]
+and similarly define $I_{Q,t}$ for $t$-wise independent distributions $D$.
+\end{df}
+%Q should be small.
+
+\begin{lem}
+Suppose $f:\{0,1\}^n\to \{0,1\}$ such that $I_{q,t}(f)\le \ep_1$, and for any $t$-wise independent distributions $D$ on $n$ bits, 
+\[|\E_{x\sim D}[f(x)]-\rc 2|\le \ep_2.\]
+Then $f$ is an extrctor for $(q,t)$-NOBf sources with error $\ep_1+\ep_2$.
+\end{lem}
+This connects designing extractors for NOBFs to finding resilient functions (functions with low influence ``resilient to coalitions" of  certain size).
+
+We sketch the proof.
+\begin{proof}
+Let $X$ be a $(q,t)$-NOBf with bad set of coordinates $Q\subeq [n],|Q|\le q$.
+% a set of bad coordinates $q$, $|Q|\le q$.
+
+Let $x\sim X$ and suppose the bits in $\ol{Q}$ are fixed to $x_{\ol Q}$. Partially evaluate $f$. 
+Let $E$ be the event that $f$ is fixed under this partial evaluation. Because $f$ is resilient, $E$ happens with high probability:
+%When you sample $X$, if the assignment to $\ol Q$ fixes a function, then you are balanced because you don't care about the bits outside.
+%Probability not fixed at most $\ep_1$
+%Once you assume $f$ is fixed, you can assume coming from $t$-wise independent.
+%unbiased up to ...
+%$\ep_1$ because not fixed.
+\[
+|\E[f(X)]-\rc 2|\le \ep_1+\ep_2
+\]
+\end{proof}
+Now we translate this to coming up with functions with slightly easier properties.
+Think of $q=n^{1-\de}$. Majority is resilient up to $\sqrt n$.
+
+%$AC^0$ of low depth and monotone. Unbiased under the uniform distribution.
+
+\begin{thm}
+Let $f:\{0,1\}^n\to \{0,1\}$. Suppose
+\begin{enumerate}
+\item
+(small $AC^0$ circuit) $f\in AC^0$ is of depth $d$ and size $m$,
+\item
+$f$ is monotone,
+\item
+(Bounded influence under uniform distribution) $I_q(f)\le \ep$,
+\item
+(Balanced under uniform distribution) $|\E_{x\sim U_n}[f(x)]-\rc 2|\le \ep_2.$
+\end{enumerate}
+Then for some $C$, for $t\ge \log^C(n)$, 
+\[
+I_{q,t}(f)\le \ep_1+\ep_3,
+\]
+and if $D$ is a $t$-wise independent distribution on $n$ bits,
+\[
+|\E_{x\sim D}[f(x)]-\rc 2|\le \ep_2+\ep_3.
+\]
+%$f$ has low influence, almost unbiased
+\end{thm}
+It's enough to get a function satisfying these 4 properties.
+\begin{proof}
+Two observations lead to this theorem.
+\begin{enumerate}
+\item
+Let's just use the fact that $f$ is monotone. Observation: if $f$ is monotone, let $y\in \{0,1\}^{n-q}$, it is easy to check if $f_{\ol Q\lar y}$ is constant: check if $f_{\ol Q\lar y}(\mathbf 0)=f_{\ol Q\lar y}(\mathbf 1)$.
+\item
+%monotone function: 
+%coordinates in $Q$ actually influence? by setting all to 0, eval set to 1, different.
+We use Braverman's breakthrough result in pseudorandomness. If $f$ has an $AC^0$ circuit, then this can be checked by a small $AC^0$ circuit, which evaluates to 1 only if not fixed.
+\begin{thm}[Braverman 2007, Tal 15]
+If $C:\{0,1\}^n \to \{0,1\}$, $C\in AC^0$ of depth $d$ and size $m$, and
+\[
+t\ge C\lg\pf{m}{\ep}^{3d+3}
+\]
+then for any $D$ on $n$ bits, $t$-wise independent,
+\[
+|\E_{x\sim U_n}[C(x)] - \E_{x\sim D} [C(x)]|\le \ep.
+\]
+\end{thm}
+We use this to say that if $f$ is bounded under uniform distribution, then it is bounded under any $t$-wise independent distribution.
+
+For $f_{\ol Q\lar y}$, let 
+\[
+E_{\ol Q\lar y}: \{0,1\}^q \to \{0,1\}
+\]
+be the function that is 1 iff $f_{\ol Q\lar y}$ is not a constant function. Then
+\[
+I_Q(f)=\Pj_{z\sim U_q}[E_{\ol Q\lar y}(z)=1].
+\]
+This is an $AC^0$ circuit computing $E$ of depth $d+1$.
+%if there could be some other way to check. If check all values, size blows up.
+Now use Braverman and Tal's result to get this is
+\[
+\approx \Pj_{z\sim D}
+\]
+when $R$ is $t$-wise independent; this gives the bound for $I_{Q,t}(f)$. We use the result of BT again to get also that $\E f$ is close; we get $\ep_3$ from the error from $t$-wise independence.
+\end{enumerate}
+\end{proof}
+%low depth AC0, monotone, low influence, also unbiased under influence
+The starting point for constructing such a function is a construction by Ajtai-Linial 1990. This is a probabilistic construction. Derandomization takes $n^{O(n^2)}$ time, and it is not monotone, so it's not clear how to use this function.
+%good pseudorandom generators.
+%Constructing 2-source extractor in this time is fine.
+
+We start with the Tribes function $\bigvee^n\bigwedge^B x_{i,j}$, evalating to 1 if there is a tribe that unilaterally says 1. 
+
+We set up notations. Let $n=MB$. Let $\cal P$ be a set of partitions $\{P^1,\ldots, P^R\}$ where each $P$ is a partition of $[n]$ into blocks of size $B$. 
+Let $P^i_j$ denote the $j$th block of $P^i$. 
+Let $\vec g = \{g_1,\ldots, g_R\}$, $g_i:[n]\to \{0,1\}$ (used to negate some variables).
+Define
+\[
+AL_{\cal P,\vec g} = \bigwedge_{i=1}^R \bigvee_{j=1}^m \pa{
+\bigwedge_{l\in P_j^i} x_l = g_i(l)
+},
+\]
+i.e., in every partition, one set has to agree with $g$
+They show that if we randomly choose partitions and negations, then with high probability the functions in this sample space have low influence for $q=\Om\pf{n}{\log^2 n}$. (Choose parameters  so the function is be balanced at the end.)
+
+We delete the $g$: 
+\[
+AL_{\cal P} = \bigwedge_{i=1}^R \bigvee_{j=1}^m \pa{
+\bigwedge_{l\in P_j^i} x_l.
+},
+\]
+and make the $x_l$ circuits on disjoint sets of variables (CNF's---simulate Bernoulli with CNF's). Now the size of partitions are $m^\de$. Make the $x_l$ 1 with high probability. Analyze the bias with respect to the Bernoulli distribution where each $x_l$ is 1 with high probability.
+
+Let $|P_j^i|=B$.
+We construct the partitions in the following way. % , using graph theory. 
+Suppose we have a $(k,\ep)$ seeded extractor $\Ext:\{0,1\}^r \times \{0,1\}^b\to \{0,1\}^m$. The property is that $|\Ext(X,U_b)-U_m|\le \ep$ when $X$ is a $(r,k)$-source.
+
+We can interpret this graph theoretically as follows: consider a bipartite graph with left set $\{0,1\}^r,R=2^r$, right set $\{0,1\}^m$, and left degree $2^b=B$.  This extractors satisfies the following nice property.
+
+Look at any $T\subeq \{0,1\}^m$ and look at the $x$'s which have sufficient intersection with $T$; then the number of such can be bounded:
+\begin{thm}[Zuckerman 97]
+The graph of the extractor satisfies the following.
+Let $T\subeq \{0,1\}^m$, $\mu(T)=\fc{|T|}{2^m}$, $|N(x)|=B$, and define
+\[
+BAD = \set{x\in \{0,1\}^r}{N(x)\cap T>(\mu(T)+\ep)B}
+\]
+Then 
+\[
+|BAD|\le 2^k=:K.
+\]
+\end{thm}
+The construction is as follows. For $v\in \{0,1\}^r$, $N(x)=\{w_1,\ldots, w_B\}$, 
+\bal
+P_1^v &=\{(1,w_1),\ldots, (B,w_B)\}, w_i\in \{0,1\}^m\\
+P_j^v&= \{(1,w_1\opl j),\ldots, (B,w_B\opl j)\}, j\in \{0,1\}^m
+\end{align*}
+Think of this as a curve in 2-dimensions we are shifting.
+This is a partition of a bigger set $[B]\times \{0,1\}^m$.
+% a monotone function, constant depth.
+%bounded influence, unbiased.
+Think of $M=n^{1-\de/10}$ and $B=n^{\de/10}$. The error is $\ep<\fc{\de}4$. %we need the error to be less than $\de$ that we're handling.
+We show the following.
+\begin{enumerate}
+\item Bounding the influence, $Q\subeq [n],|Q|=q=n^{1-\de}$. 
+%vertex in expander? 
+%How biased these $x_i$ are. How 
+%x is overloaded.
+We have a circuit with
+\begin{itemize}
+\item
+top gate $\wedge$, fan-in $R$
+\item
+middle gates $\vee$, fan-in $M$,
+\item
+lower gates $\wedge$, fan-in $B$.
+\end{itemize}
+Let $\Pj(x_i=1)=1-p_i$, $p_i=O\prc{B}$. Then we want (in order the final probability to be balanced)
+\bal
+\Pj\ba{
+\bigwedge_{i=1}^B x_i=1
+} &= (1-p_1)^B = p_2\approx O\prc{M},\\
+\Pj[f^i(x)=0] &=(1-p_2)^M = O\prc{R} = p_3.
+%some sort of independence. 1-1/r. 
+\end{align*}
+%prob much smaller than 1/r.
+%then use union bound. 
+%partitions interact don't bother us.
+%just use property that N subset low interseciton
+%balanced harder.
+The trivial way of bounding the influence would just give you influence is at most $O\prc{R}$, and a union bound is not good enough. We need to prove a stronger bound on the influence, and then use the union bound.
+
+Let's assume that a simple calculate gives that the influence on any tribe is at most $\rc R$. Let's show we can do better if they (?) come from an extractor.
+
+A partition $P^i$ is bad with respect to $Q$ if there exists a block $|P_j^i\cap Q|>2\in B$ (expect to be constant in expectation). Using the property of the extractor, there exist at most $KM$ bad partitions. Here $K=2^k, M=2^m$, $k$ the min-entropy, $m$ the output length. Here $k=2\de r$: extractor for linear entropy. %It's crucial that $o(r)$.
+Suppose there are least this many paritions. Then there exists a shift such that there exist at least $M$ bad partitions corresponding to it, and a shift of the extractor is not an extractor, contradiction.
+
+We get $\fc{KM}{R}+R\rc{R}\rc{n^{O(1)}}$. %($R$ is polynomial in $n$) 
+The second term... We want to argue what the outside members have to do to still have some incluences. All the lower $\wedge$ without a variable from $Q$ should evaluate to 0, at least (???) 1 gate with variable from $Q$ to have 0 in it, all other things evaluate to 1.
+
+So the influence of the function is bounded.
+%same function with smaller block size.
+\item Balanced: It's easy to evaluate the bias to the middle $\vee$, $p_3$, by independence. 
+
+Now let $E_i$ be the event $f^i(x)=0$. Then 
+\[
+\Pj[f(x)=0] = \Pj\ba{\bigwedge_{i=1}^R f^i(x)=0}.
+\]
+Now using the inclusion/exclusion principle,
+\[%R^\de
+\sum_{c=1}^\la (-1)^c S_c \le \Pj[f(x)=0]\le \sum_{c=1}^{\la + 1} (-1)^c S_c,
+\]
+where
+\[
+S_c=\sum_{1\le j_1<\cdots <j_c\le z} \Pj[E_{j_1}\wedge\cdots \wedge E_{j_c}].
+\]
+?? none of tribes contained in set $T$ where $T$ corresponds to 1's. $\Pj[E_1\wedge\cdots \wedge E_c]=\Pj(\forall l\in [n], \forall i\in [c], P_l^i\nsubeq T)$, $T\subeq [n]$, $i$ with probablity $1-p$
+\[
+\Pj(E_1)=\Pj_{x\sim Ber(...)} [f^i(x)=0] = \Pj[\forall l\in [m], P^j_l \nsubeq T]
+\]
+Pairwise low intersection property. Jensen's inequality? Behave like independent tribes.
+$|P_{j_1}^{i_1}\cap P_{j_2}^{i_2}|\le 0.9B$. %i_1+i_2.
+%Jensen bound sets contined in T.
+
+We used this version of Jensen's inequality.
+\begin{thm}
+Let $\Om$ be a set and let $T$ be a subset where each $t\in \Om$ is picked with probability $p$. Let $S_1,\ldots, S_r\subeq [\Om]$. We want to bound 
+\[
+p:=\Pj[\forall i\in [r], S_i\nsubeq T]\approx \prod\Pj [S_i\nsubeq T].
+\]
+Suppose 
+\begin{enumerate}
+\item
+$\Pj(S_i\subeq T)\le \tau$.
+\item
+$\De = \sum_{S_i\cap S_j\ne \phi} \Pj(S_i\subeq T\wedge S_j\subeq T)$. 
+\end{enumerate}
+Then $w\le p \le we^{\fc{\De}{1-\tau}}$. 
+\end{thm}
+This condition that the blocks do not have too large an intersection translates to proving a bound for $\De$. At least $1.1B$ elements are in your set.
+\end{enumerate}
+Use the Trevisan extractor (from designs). Main difficulty to improving on error. Some coordinates with coordinates $\log n$, superpoly. Get better error would reduce $X,Y$ to source with stronger. %Use of resilient.
+The last step is lossy: use extractor to generate function with some property that resilient functions... KKL : influential.
 \end{document}
+
+%types of definitions (inductive, iff...)

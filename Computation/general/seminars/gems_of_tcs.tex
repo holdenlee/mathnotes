@@ -1074,8 +1074,607 @@ In the paper they get $\fc{t+l}{t-1}$. Bur for $l\ge t$, it's $\ge 2^t$.
 
 %RP\cap coRP. ZPP.
 
+
+\section{Optimal inapproximability of MAXCUT from UGC}
+%Unique Games Conjecture and hardness of approximation}
+This is a paper from [KKMO04].
+
+Goemans-Williamson achieves $\al\approx0.878$-approximation to MAXCUT.
+
+If UGC is true than approximating MAXCUT better than $\al_{GW}+\ep$ is NP-hard for every $\ep>0$.
+
+The way to show it is the following: Look at $\mathsf{Gap-MaxCut}_{(c,s)}$, $c>s$. If this is NP-hard for some parameters $c,s$, then a $\fc cs$ approximation is NP-hard.
+
+They prove that for all $\ep>0,-1<\rh<0$, $\mathsf{Gap-MaxCut}_{(\fc{1-\rh}2-\ep,\fc{\cos^{-1}\rh}{\pi}+\ep)}$ is NP-hard assuming UGC.
+
+Unconditionally, ($\fc{16}{17}+\ep$)-approximation of Gap-MaxCut is NP-hard.
+
+Maximizing the bound gives the GW bound:
+\[
+\max_{-1<\rh<0} \fc{\pf{1-\rh}2}{\cos^{-1}\fc{\rh}{\pi}}=\al_{GW}\approx 0.878.
+\]
+The bad case for GW gives the same bad case here.
+
+We construct a PCP-like theorem. For every $-1<\rh<0,\ep>0$, construct a 2-query PCP system with alphabet $\{-1,1\}$ and completeness $c=\fc{1-\rh}2-\ep$ and soundness $s=\fc{\cos^{-1}\rh}{\pi}+\ep$ in which the verifier.
+
+The verifier looks at 2 bits and depending on the 2 bits, accepts or rejects. If $x$ is in the language, accept with probability $\ge c$ and if not, accept with probability $\le s$, using only $\ne$ checks.
+%The only possible functions are equality and inequality.
+
+What is MaxCut? It's some kind of equality constraint.
+
+Given a PCP, estimate the proof that will make the verifier accept with the highest probability. The probability of acceptance is the max cut in the graph constructed as follows:  the vertices are the number of bits. The weight on $v_iv_j$ is $\Pj\pat{verifier queries $i,j$}$. The max cut is the probability of acceptance. %verifier pick distribution.
+
+If there is  PCP system, you can convert it into a max cut system. Estimate $\max_{\text{proofs}} \Pj(V\text{ accepts }p)$.
+%MAXCUT with $\om_{ij}\sim \Pj(i,j\text{ is queries})$.
+
+%3-query is NP in general.
+%3SAT to maxcut: if there's a gap there, there is a gap here.
+
+%reduce a NP-problem to this?
+%reduce UCG to this.
+
+If $L$ is a NP-hard language, then we are done. We don't know existing NP-hard problems with this property, so we start with UGC instead.
+
+Consider Gap-UniqueLabelCover$(\Si)_{(1-\de,\de)}$. Consider a bipartite graph $G=(V\cup W,E)$.  Each edge has a permutation $\pi_{vw}:\Si\to \Si$ that is left regular. We want $\si:V\cup W\to E$ such that for all $(v,w)\in E$, $\pi_{vw}(\si(w))=\si(v)$.  The value is the maximum fraction of edges satisfiable.
+
+For example, say $\Si=\F_q$. The constraint is that $\si(v)+\si(w)=c_{vw}$. $\mathsf{Max2Lin}(\F_q)$.
+%max stable cover
+%label cover maps
+Label cover is NP-hard.
+
+%in NP.
+%Either value $\ge 1-\de$ or $<\de$.
+
+\begin{conj}[UGC (Khot)]
+For all $\de>0$ there exists $m=|\Si|$ such that $GapUGC_{(1-\de,\de)}(\Si)$ is NP-hard.
+
+\end{conj}
+
+We give a 2-query PCP system for this problem.
+
+We need the long code. It is $E:[m]\to \set{f}{\{-1,1\}^m\to \{-1,1\}}\cong B^{B^m}$, mapping $i\mapsto e_i=\Dict_i$ where $e_i(x)=x_i$.
+
+Proofs only has $-1$ and 1. Can't give labels, so encode labels using encoding to turn into bits. Use long code to turn labels into bits.
+%long code of ech label in the optimal labelling.
+
+Find a random edge, check to see if the permutation is satisfied. However, only bits can be checked!
+
+We give the dictatorship test.
+Suppose we want to know whether the function is (close to) a long code or not.
+Given $f:\{-1,1\}^m\to \{-1,1\}$ we want to check if $f$ is a dictator using 2 queries.
+
+The simplest attempt is to take $x\sim \{-1,1\}^n$. Check if $f(x)\ne f(-x)$. This is bad because all odd functions satisfy this.
+
+Attempt 2: Instead, we randomly flip some bits. $x\sim \{-1,1\}^n$. Take $y\sim_\rh x$ where 
+\[
+y_i=\begin{cases}
+x_i,&\text{with probability } \fc{1+\rh}2\\
+-x_i,&\text{with probability } \fc{1-\rh}2.
+\end{cases}
+\]
+Check if $f(x)\ne f(y)$. 
+For the dictator, we get
+\begin{enumerate}
+\item
+$C=\fc{1-\rh}2$, the probability a single fixed bit is flipped.
+\item
+Soundness: 
+\bal
+s(f) & =\Pj(f\text{ is accepted})\\
+&= \Pj_{x\sim_\rh y}(f(x)\ne f(y))\\
+&=\rc2-\rc2\ub{\E_{x\sim_\rh y} [f(x)f(y)]}{\Stab_\rh(f)}.
+%correlation with noisy version of itself.
+\end{align*}
+\end{enumerate}•
+For example, consider $f=\Maj(x)$. 
+\[
+\Pj(\Maj\text{ is accepted})=\rc2-\rc2\Stab_\rh(\Maj_m)\to \fc{\cos^{-1}\rh}{\pi}
+\]
+as $m\to \iy$.
+Proof: Use the central limit theorem to get $\Maj\pf{\sum x_i}{\sqrt m}$ approaches a Gaussian.
+
+\begin{thm}[Majority is stablest, MOO05]
+Let $-1<\rh<0,\ep>0$. There exists $\tau,C$ such that if $f$ passes the test with probability $>\fc{\cos^{-1}\rh}{\pi}+\ep$, then there exists $i\in [m]$ such that $\Inf_i^{\le c}(f)\ge \tau$.
+\end{thm}
+\begin{df}
+Define $x^{\opl i}$ is $x$ with the $i$th coordinate flipped. Note the Fourier expansion is $f(x)=\sum_{S\subeq [m]}\wh f(S)\chi_S(x)$, $\wh f(S)=\E_x f(x)\chi_S(x)$, $\chi_S(x)=\prod_{i\in S}x_i$. Note $\sum_{S\subeq [m]}\wh f(S)^2 =\E [f(x)^2] = 1$.
+\bal
+\Inf_i(f)&=\Pj_{x\sim\{-1,1\}^n}[f(x)\ne f(x^{\opl i})]\\
+&= \sum_{S\ni i} \wh f(S)^2.
+\end{align*}
+For example $f(x)=x_i$ has $\Inf_i(e_i)=1$. We also have $\Inf_i(f)=1$ for all $i$, which we want to exclude. Thus we look at 
+\[
+\Inf_i^{\le c}(f) =\sum_{S\ni s,|S|\le c}\wh f(S)^2.
+\]
+\end{df}
+%equivalent to stable influences?
+%(There must be an influential coordinate.)
+
+Now we come to the 2-query PCP for GapULC$(\Si)_{(1-\de,\de)}$. Given a graph, %we ask the prover to give us the long code $f_v:\{-1,1\}^m\to \{-1,1\}$
+the verifier asks the prover to encode the optimal labelling using the long code. How do we check it satisfies $1-\de$ fraction? This is inspired by the dictatorship test. We can only test whether one of the symbols is a dictator or not. I give you a sequence of functions, how can you test? The test combines!
+
+Attempt 1: 
+\begin{itemize}
+\item
+Pick a random $(v,w)\sim E$. Let $f_v,f_w$ be the supposed long codes of $\si(v)$ and $\si(w)$. 
+\item
+Let $\pi=\pi_{vw}$.
+\item
+Choose $x\sim_\rh y$ ($\rh$-correlated).
+(We're trying to combine the 2 test.)
+\item
+Accept if $f_v(x)=f_w(y\circ \pi)$ where $(y\circ \pi)_i = y_{\pi(i)}$. Here $y\in \{-1,1\}^m$ and $\pi:[m]\to [m]$.
+\end{itemize}•
+This doesn't work because the prover can set $f_v=1$ for all $v\in V$ and $f_w=-1$ for all $w\in W$ and by bipartiteness the verifier always accepts.
+
+$x_{\si(v)}=e_{\si(v)}(x)\ne e_{\si(w)}(y\circ \pi) = e_{\pi(\si(w))}(y) = y_{\si(v)}$.
+
+We modify the test.
+\begin{itemize}
+\item
+Pick $v\sim V$ and $w,w'\sim N(v)$. (We assume left-regularity.)
+\item
+Let $\pi=\pi_{vw},\pi'=\pi_{vw'}$.
+\item Let $x\sim_\rh y$.
+\item
+Accept if $f_w(x\circ \pi)\ne f_{w'}(y\circ \pi')$. 
+\end{itemize}
+
+Completeness: An optimal labeling will satisfy $\ge 1-\de$ of the edges. The distribution of $(v,w),(v,w')$ are marginally uniform. 
+\[
+\Pj(\ge1\text{ of }(v,w),(v,w'))\le \Pj((v,w)\text{ not})+\Pj((v,w')\text{ not})\le 2\de.
+\]
+Write $f_w=e_{\si(w)}$, $f_{w'}=e_{\si(w')}$, 
+\[
+x_{\si(v)}=
+x_{\pi_{vw}(\si(w))} = e_{\si(w)}(x\circ \pi) \ne e_{\si(w')} (y\circ \pi') = y_{\pi_{vw'}(\si(w'))} =y_{\si(v)} 
+\]
+For every $\de$, some $m$ for which NP-hard. Set $\de$ to be small.
+Completeness is
+\[
+C\ge (1-2\de) \pf{1-\de}2 \ge \fc{1-\rh}2-\ep,
+\]
+$\de\le \eph$.
+
+Soundness: Suppose $\Pj(V\text{ accepts})\ge C+\ep$. We want to show there exists a labeling which satisfies $>\de$ fraction of edges.
+%we'll extract a labeling.
+
+This is the main part of the proof.
+
+For at least $\fc{\ep}2$ fraction of $v\in V$, the test conditioned on selecting $v$ accepts with probability $>\pf{\cos^{-1}\rh}{\pi}+\eph$.
+
+Otherwise by averaging argument 
+\[\Pj(\text{accept})\le \eph I + (1-\eph) (\fc{\cos^{-1}}{\rh} + \eph)<\cos^{-1}\fc{\rh}{\pi}+\ep.\]
+Call such $v$'s good. Then 
+\[
+\Pj\pat{accept} = \E_{w,w'}\ba{
+\E_{x\sim_\rh y} \ba{
+\rc2-\rc2 f_w(x\circ \pi) f_{w'}(y\circ \pi')
+}
+}.
+\]
+Let 
+\[
+g_v(z)=\E_{w\sim N(v)}[f_w(z\circ \pi_{vw})].
+\]
+If this is a proper labeling, $e_{\si(w)}(z\circ \pi_{vw})=z_{\pi_{vw'}(\si(w))} = z_{\si(v)}$.
+%extract labeling.
+We'll extract the most influential coordinates.
+
+The expectation goes inside. Each expectation you can replace with $g$.
+\bal
+\Pj\pat{accept} 
+&= \E_{x\sim_\rh y} [\rc2-\rc2g_v(x)g_w(x)]\\
+&=\rc2-\rc2\Stab_\rh (g_v) > \cos^{-1}\pf{\rh}{\pi} + \eph.
+\end{align*}
+Now we use Majority is Stablest. There exists $j\in [m]$ such that 
+\[
+\Inf_j^{\le C}(g_v)\ge \tau.
+\]
+Assign $\si^*(v)=j_v$. %the label should be dictator index.
+
+%We need to keep in mind tht 
+%Given $v$ can we use it fin
+Assign a label for $w$ independent of $v$. The label of $v$ depend on its neighbors, the label for $w$ depends only on its long code.
+
+We show that the label for $w$ should also have high influence for $f_w$. Expand 
+\bal
+f_w\circ \pi_{vw}&=\sum_{S\subeq [m]} \wh f_w(S)\chi_S(x\circ \pi_{vw})\\
+&=\sum_T \wh{f_w}(\pi^{-1}(T))\chi_T\\
+g_v&=\E_{w\sim N(v)}[f_w(x\circ \pi_{vw})]\\
+&=\sum_T \E_v \wh f_w(\pi^{-1}(T))\chi_T.
+\end{align*}
+Influence high says that influence of neighbors $f_w$ for these neighbors high for some coordinates. By Jensen,
+\bal
+\tau & \le \Inf_{j_v}^{\le C}(g_v)\\
+&=\sum_{|S|\le C,S\ni j_v} \wh g_v(S)^2\\
+&=\sum_{|S|\le C, S\ni j_v} \pa{
+\E_w\ba{\wh {f_w}(\pi^{-1}(S))}^2}\\
+&\le \sum_{|S|\le C,S\ni j_v} \E_w\ba{\wh{f_w}(\pi^{-1}(S))^2}\\
+&= \E_w \ba{\sum_{|S|\le C,S\ni j_v}\wh{f_w}(\pi^{-1}(S)^2)}\\
+&=\E_w\ba{\Inf_{\pi^{-1}_{vw}(i_v)}^{\le C}(f_w)}.
+\end{align*}
+By another averaging argument, for at least $\fc{\tau}2$ fraction of $v$'s neighborhood, $\Inf_{\pi_{vw}(j_v)}^{\le C}(f_w)\ge \fc{\tau}2$.
+
+Look at all coordinates with high influence and choose one with high influence randomly: Let 
+\[
+S_w = \set{k}{\Inf_k^{\le C}(f_w)\ge \fc{\tau}2}.
+\]
+Assigning $\si^*(w)\sim_R S_w$, $|S_w|\le \fc{C}{\pf{\tau}2}=\fc{2C}{\tau}$.
+\begin{proof}
+We have 
+\[
+\sum_{i=1}^m\Inf_i^{\le C}(f_w) = \sum_{|S|\le C}|S|\wh{f_w}(S)^2.
+\]
+($\Inf_i^{\le C}(f_w)=\sum_{S\ni i,|S|\le C}\wh{f_w}(S)^2$. The number of $S\ni i$ is $|S|$.)
+Choose a random $(v,w)\sim E$. What is $\Pj(\si^*(v)=\pi_{vw}(\si^*(w)))$? It's
+\bal
+\Pj(\si^*(v)=\pi_{vw}(\si^*(w)))
+&=\Pj\pat{$v$ good}
+\Pj\pat{$w$ good for $v$|$v$ is good}
+\Pj\pat{$\si^*(v) = \pi_vw(\si^*(w))$|...}\\
+&\ge \eph\fc{\tau}2\rc{\pf{2C}{\tau}}\\
+&=\fc{\ep\tau^2}{8C}=\de.
+\end{align*}
+%de independent of size of graph, depend on size of alphabet size.
+%Last: $\Pj(\pi_{vw}^{-1}(j_v)=\si^*(w))$.
+\end{proof}
+$m$ depends on $\de$ depends on $\tau,C$ depends on $\ep,\rh$.
+We reduced $\mathsf{Gap-ULC}_{(1-\de,\de)}(\ep)$ to $\mathsf{Gap-MaxCut}_{(\fc{1-\rh}2-\ep, \fc{\cos^{-1}\rh}{\pi}+\ep)}$.
+%dependence (on alphabet size) can be bad.
+%optimal SDP for every constraint sat problem 
+%constant arity
+%pick $m(\de)$ to make GapULC NP-hard. Now forget about $m$.
+
+In MaxCSP, maximize the constraints satisfied. $C_i(x|_S)$, $|S|\le q$ constant arity. Maximize number of constraints satisfied. There is an SDP that achieves best approximation ratio. Generalizes GW.
+
+Charikar: given ULC with $\ge 1-\de$ satisfiable, there is an algorithm to satisfy $\rc{|\ep|^{\fc{\de}2+O(S^2)}}$ fraction of constraints.
+
+UGC captures limitations of SDP methods. Assuming UGC is like saying SDP is the best. 
+%look ifferent.
+
+There is a reason to disbelieve UGC if you think for some problem there can be something better than SDP.
+
+Matching, determinants: require exponential size SDP.
+
+Lower bounds: cannot compute parity using SDP?
+%many algs are optimal
+%if we want to improve we need so solve this problem
+%algorithmic technique solve all these at once. if solve UGC then can solve all these CSP.
+%win-win: conjecture true/false.
+%american conjecture: win-win scenario.
+
+%hastad 3bit pcp: max3sat. unique label, not unique label cover.
+%proof idea same. test depends on problem. test at end reflect constraint.
+
+%r o'donnell's course.
+
+\section{Hastad's 3-bit PCP}
+This was proved by Hastad in 1997. It's based on hardness of label cover.
+
+\subsection{Hardness of label cover}
+\begin{df}
+An instance $I$ of label cover consists of
+\begin{enumerate}
+\item
+labels $L,R$,
+\item
+$G=(U,V,E)$,
+\item
+for each edge $E$ in $G$, a function. $\Pi=\set{\pi_e:L\to R}{e\in E}$. (In unique label cover the functions have to be permutations, but not here.)
+\end{enumerate}•
+%Output: 
+
+A labeling is a pair of functions $A:U\to L, B:V\to R$. An edge $(u,v)$ is satisfied iff $\pi_{(u,v)} (A(u))=B(v)$. 
+
+Define the value $\val(I)$ to be the maximum possible fraction of satisfied edges.
+\end{df}
+
+\begin{thm}[Hardness of label cover]
+For all $\de\in (0,1)$, there exist $L,R$ such that $|L|,|R|\le \exp\prc{\de}$ such that $\mathsf{Gap-LC}(L,R)_{(1,\de)}$ is NP-hard, where 
+\begin{itemize}
+\item
+Yes instances are $I$ with $\val(I)=1$,
+\item
+No instances are $I$ with $\val(I)\le \ep$.
+\end{itemize}
+\end{thm}
+The proof is by Ran Raz in 1995, by the Parallel Repetition Theorem.
+
+\begin{thm}[3 bit PCP]
+For all $\ep,\de\in (0,1)$, 
+there exists a PCP for Gap-LC${}_{(1,\de)}$ over the boolean alphabet satisfying the following.
+\begin{enumerate}
+\item
+The verifier queries 3 bits and checks $x_{i_1}\opl x_{i_2}\opl x_{i_3}=b$.
+\item
+Completeness is $1-\ep$.
+(If it is a yes instance, there exists a proof that is accepted with probability $\ge 1-\ep$.)
+\item
+Soundness is $\rc2+\de$.
+(If it is a no instance, all proofs are accepted with probability $\le \rc2+\de$.)
+\end{enumerate}
+\end{thm}
+
+\begin{cor}[Hardness of MAX3LIN2]
+It is NP-hard to distinguish: given a system of linear equations over $\F_2$ with 3 variables, are
+\begin{itemize}
+\item
+$\ge 1-\ep$ satisfiable,
+\item
+$\le \rc2+\ep$ satisfiable.
+\end{itemize}
+%poly n
+%for all $\ep,\de$ can find $\de'$.
+\end{cor}
+This is optimal because a random assignment gives a 2-approximation.
+
+\begin{cor}[Hardness of MAX3SAT]
+For all $\ep,\de\in (0,1)$, it is NP-hard to distinguish a $(1-\ep)$-satisfiable instance and $(\fc 78+\de)$-satisfiable instance.
+\end{cor}
+A random assignment will give a $\fc 78$ approximation.
+
+If we can solve MAX3SAT with better than $\fc78$ approximation, we can get better than 2-approximation for MAX3LIN. This gives a reduction from MAX3SAT to MAX3LIN2. Encode $x_{i_1}\opl x_{i_2}\opl x_{i_3}=1$ with
+\begin{gather*}
+x_{i_1}\vee x_{i_2}\vee x_{i_3}\\
+x_{i_1}\vee \ol{x_{i_2}}\vee \ol{x_{i_3}}\\
+\ol{x_{i_1}} \vee \ol{x_{i_2}}\vee x_{i_3}\\
+\ol{x_{i_1}} \vee x_{i_2}\vee \ol{x_{i_3}}\\
+\end{gather*}
+
+We use the long code,
+\[
+\text{long}_L(x_1,\ldots, x_L) = \chi_c.
+\]
+\subsection{Hastad's 3 bit PCP}
+Hastad's 3-bit PCP is as follows.
+The input is a LC instance $I$. The proof is
+\bal
+f_u:\{-1,1\}^L \to \{1,-1\} ,\forall u\in U\\
+f_v:\{-1,1\}^R \to \{1,-1\} ,\forall v\in V
+\end{align*}
+The verifier does the following. 
+\begin{enumerate}
+\item
+Pick $(u,v)\sim_R E$. 
+\item
+Pick $x\sim_R\{-1,1\}^R$, $y\sim_R\{1,-1\}^L$. 
+\item
+Pick $\mu\sim \{1,-1\}^L$ such that 
+\[\mu_i=\begin{cases}
+1,&\text{w. p. } 1-\ep\\
+-1,&\text{w. p. }\ep.
+\end{cases}
+\]
+\item
+For all $i\in L$, take $z_i=X_{\pi_{(u,v)}(i)}y_i\mu_i$.
+\item
+Accept if $f_u(z)=f_v(x)f_u(y)$.
+\end{enumerate}
+%\ep removed by later proof?
+
+\begin{proof}[Completeness.]
+Let $A,B$ be labelings satisfying all edges. Let $f_u(x_1,\ldots, x_L)=X_{A(u)}$ and $f_v(x_1,\ldots, x_R)=X_{B(V)}$.
+Then
+\begin{align*}
+\Pj\pat{accept} & = \Pj(f_u(z)=f_v(x)f_u(y))\\
+&=\Pj[Z_{A(u)} = X_{B(V)} Y_{A(U)}\\
+&=\Pj(X_{\pi_{(u,v)}(A(u))}Y_{A(u)} = X_{B(v)}Y_{A(u)})\\
+&=\Pj(\mu_{A(u)}=1)=1-\ep.
+\end{align*}
+\end{proof}
+
+Problem: if you set the bits all to 1, the verifier will always accept the proof.
+
+\begin{proof}[Soundness]
+The valid long code should satisfy the following condition: $f_u(-x)=-f_u(x)$ (we say it is folded). 
+
+We don't ask the prover to give all the information; we just ask the prover to give half the information. For all $f_u$, and a pair $(x,-x)$, only one of $f_u(x),f_u(-x)$ is given in the proof.
+%query and negate to get the other one.
+
+Claim: if a function $f:\{-1,1\}^L \to \{-1,1\}$ is folded, then $\wh{f}(\phi)=0$. 
+
+Proof: $\wh f(\phi)=\E_x[f(x)]=0$.
+
+We have to show that if $\Pj\pat{accept} \ge \rc2+\de$ then there exists a labelling $(A,B)$ that satisfies $\ge \de'$ fraction of edge constraints. 
+
+Notation: Given $S\subeq L$, $\pi:L\to R$, 
+\bal
+\pi(S)&= \set{j\in R}{\exists L\in S,\pi(L)=j}\\
+\pi_2(S)&= \set{j\in R}{\text{odd number of $L$'s in $S$, $\pi(L)=j$}}
+\end{align*}
+
+Claim: For all $x\in \{-1,1\}^R$, $\chi_S(x\circ \pi)=\chi_{\pi_2(S)}(x)$. ($(x\circ \pi)_i=x_{\pi(i)}$)
+
+Proof: $\chi_S(x\circ \pi)=\prod_{i\in S} x_{\pi(i)} = \prod_{j\in \pi(S)}x_j$. We have
+\bal
+\rc 2+\de \le \Pj\pat{accept} &= 
+\E_{u,v,x,y,\mu} \ba{
+\fc{1+f_u(x)f_v(x)f_u(y)}{2}
+}\\
+\implies \E[f_u(z)f_v(x)f_u(y)] & \ge  2 \de.
+\end{align*}
+This implies at for $\ge \de$ fraction of edges $(u,v)$, the value $\E f_u(z)f_v(x)f_u(y)\ge \de$.
+
+To prove soundness, set $f_u=f, f_v=g$ for notational convenience.  Then
+\bal
+\E [ f(z) g(x)f(y)] & =\sum_{S,T,U} \wh f_S \wh g_T \wh f_U \E_{x,y,u} [\chi_S(x)\chi_T(x)\chi_U(y)]&z=(\chi \circ \pi) y \mu\\
+&=\sum_{S,T,U} \wh f_S \wh g_T \wh f_U 
+\E_{x}[\chi_S(x\circ \pi) \chi_T(x)]
+\E_y [\chi_U(y)\chi_S(y)]
+\E_\mu [\chi_S(\mu)]\\
+&=\sum_S \wh f_S^2 \wh g_{\pi_2(S)} (1-2\ep)^{|S|}. %noise stability
+\end{align*}
+This is $\ge \de$ for $\de$ fraction of edges.
+
+Decoding a labeling is done as follows. 
+\begin{enumerate}
+\item
+For all $u$, pick $S$ with probability $\wh f_u^2(S)$.
+\item 
+Set $A(u) \sim_R S$.
+\end{enumerate}•
+For all $v$, 
+\begin{enumerate}
+\item
+pick $T$ with probability $\wh f_v^2(T)$. 
+\item Sample $B(v)\sim_R T$.
+\end{enumerate}
+Why does this labeling satisfy some fraction of edges?
+
+Fix $(u,v)$.
+\begin{align*}
+\Pj[(u,v)\text{ is satisfied}] &= \Pj[\pi_{(u,v)}(A(u))=B(v)]\\
+&\ge \sum_S\sum_{T\subeq \pi(S)} \wh f_u^2(S)\wh f_v^2(T) \rc{|S|}.
+\end{align*}
+%once fix $B(v)$ at least one element in $S$, $\pi$ of that element equals $v$.
+
+What is the probability that a random edge is satisfied?
+\bal
+\Pj_{(u,v)\in E}[(u,v)\text{ is satisfied}]
+&\ge %\sum_{S,T\subeq \pi(S)}
+\sum_S \wh f_u^2(S)\wh f_v^2(\pi_v(S))\rc{|S|}\\
+&=\sum_S (\wh f_u(S) \wh f_2(S)\rc{\sqrt|S|})^2 \sum_S\wh{f}_u^2(S)\\
+&\stackrel{\text{CS}}\le \pa{
+\sum_S \wh f_u^2(S) \wh f_v(\pi_2(S))\rc{\sqrt{|S|}}
+}^2\\
+&\ge 4\ep(\sum_S\wh f_u^2(S) \wh f_v(\pi_2(S))(1-2\ep)^{|S|})^2\\
+&\ge \de \cdot 4\ep, \de^2=4\ep\de^2 =\de'
+\end{align*}
+%1/2 +\ep 
+Use $\rc{\sqrt x}\ge \sqrt{4\ep} (1-2\ep)^x$.
+(Take derivatives to see this.)
+\end{proof}
+Easier than PCP we saw last timel. Do 
+
+%samples in poly time. 
+%suppose cn solve this, show solve ...
+
+\section{ZKP for NP}
+
+What is a zero-knowledge proof? IP plus some notion of zero knowledge.
+
+Recap: In IP
+\begin{itemize}
+\item
+Prover (Merlin), computationally unbounded
+\item
+Verifier (Arthur), computationally bounded, probabilistic
+\end{itemize}
+Prover wants to convince verifier that $x\in L$. This procedure should be
+\begin{itemize}
+\item
+Complete: if $x\in L$, V should accept (with perfect completeness---can always make one-sided (?))
+\item
+Sound: if $x\nin L$, V should reject with high probabilistic
+\end{itemize}
+
+What is zero knowledge?
+Prover should convince $x\in L$ without giving any other info. The verifier can simulate the entire procedure, in the following sense. There exits an efficient algorithm $S$ such that 
+\[
+\Pj(S\text{ outputs }\pi) =\Pj((P,V)\text{ outputs }\pi).
+\]
+This is called Perfect Zero Knowledge.
+Statistically Zero Knowledge is when the distributions are $\approx$: superpoly samples are required.
+Computational Zero Knowledge means for all $x\in L$, no polytime algorithm can distinguish between output of $S$ and $(P,V)$.
+%inputs to both.
+This is the version used in crypto.
+
+We give some canonical examples.
+\begin{enumerate}
+\item
+Graph nonisomorphism (PZK):
+
+Input: $G_1,G_2$. Prover wants to convince verifier $G_1\ncong G_2$.
+
+Verifier chooses random permutation $H$ of either $G_1$ or $G_2$ and sends it to the prover.
+
+Prover says whether $H\cong G_1$ or $H\cong G_2$.
+
+If $G_1\cong G_2$, prover can't be right with probability $>\rc2$.
+
+Here is the simulator: picks $G_1,G_2$, chooses random isomorphism, and outputs index chosen: $(\pi(G_b),b)$. 
+\item
+Graph isomorphism (PZK): Input $G_1,G_2$. 
+
+Prover sends V a random permutation $H$ of $G$. 
+
+Verifier says 1 or 2.
+
+Prover sends permutation $\pi$ such that $\pi(H)=G_b$.
+
+Simulator: You might think this is impossible, but the simulator doesn't need to solve graph isomorphism. With probability $\rc2$ output $(\pi(G_1),1,\pi^{-1})$. With probability $\rc2$ output $(\pi(G_2),2,\pi^{-1})$.
+\end{enumerate}
+We show 3-coloring has a zero-knowledge proof, conditioned on the existence of 1-way functions. (Actually, you need bit commitment. Encrypt a bit and send it to the verifier and then reveal later.)
+%Reduce to the 3-coloring problem and then give a proof of that.
+
+Let $G$ be the input graph with a 3-coloring $C$. 
+
+$P$ randomly permutes colors in C and then commits. Each vertex is colored.
+
+Verifier chooses a random edge. The verifier reveals the colors on that edge. Accept if the vertices have different colors.
+
+$\rc{n^2}$ probability of failure.
+%Reject if crypto failed, or the colors the same.
+%encrypts with secret key, and later shares.
+
+If $|G|=n$, then repeat $n^3$ times. Issues in parallel?
+
+Question: Can you do in parallel? (Concurrent zero-knowledge.)
+
+This is not perfect zero-knowledge because of bit-commitment. If it is perfectly binding, the verifier could figure all the colors from the commitment. for a computationally bounded verifier.
+
+OWF$\implies$PRG$\implies$bit commitments. (OWP: $h$ hardcore predicate. $f(x),h(x\opl b)$. Given $f(x)$ hard to predict $h(x)$.)
+
+If has a PZK proof, what happens? If any NP-complete problem has PZK proof, the poly hierarchy collapses to the 2nd level.
+
+Simulator outputs random edge. Permutation ensures random colors. $e, (u,v)$, encrypts those. For the rest, assign random bit commitments. It doesn't have to start at the beginning, it just has to output a plausible transcript. It's not perfect; if you had enough time you can check the bit commitments are bogus. %Simulator has to be efficient and doesn't know coloring.
+%break commitment scheme
+
 %\input{chapters/1.tex}
- 
+
+This shows $NP\subeq ZK$. It's in fact true that PSPACE$\subeq ZK$. In fact because ZK$\subeq$IP, PSPACE$=$ZK$=$IP. Anything you can prove, you can prove in zero knowledge.
+
+Take $L\in $IP. $L$ has an interactive protocol. Prover sends $y_1$. Veifier sends $x_1$, etc. Turn this into ZK by encrypting each of prover's messages with random key, $E(y_i, d_i)$. There are various problems. 
+\begin{enumerate}
+\item
+First, how does the verifier know how to respond?
+Every language in IP also has public coins IP protocol (Goldwasser, Sipser). Small-set certification with hash functions. 
+
+The verifier only sends public coins! The prover can simulate the verifier. (The verifier is deterministic algorithm minus the randomness.) The prover can't see the coins ahead of time. 
+%private but make more public.
+Prover should not know $x_2$ when sending $y_2$.
+
+Ex. 3-colorability is public-coin protocol? Prover should not know coin ahead of time.
+%``Fresh public coins"
+%Every ZKP can be made into a non-interactive ZKP; you just have to wait. 
+%non-interactive 
+%just share long random string
+1-round. ???
+
+\item
+How does the verifier know when to accept? Can't just reveal the $d_i$ because this would give away the $y_i$ in the original protocol which is not ZK. 
+
+Consider the following statement. ``If $d_1,\ldots, d_n$ are known to $V$, then $V$ will accept $x$." This is in NP. (guess $d_1,\ldots, d_n$.) %there exist $d_i$ such that the corresponding $y_i$ would make accept.
+(Can also send $f(d_i)$, so can check. What if you plug in bad $d$ and something else?)
+
+Prover can convince V of the statement in ZK.
+
+$y_1\opl d_1$, but also including $f(d_1)$, $f$ a OWP; know when you guess $d_1$ right. 
+
+%what if verifier is in NP.
+%people care about bounded prover. 
+%ZK 1 round vs. many
+
+%share long public randomness. 
+%ZKMA
+\end{enumerate}
+SZK$=$coSZK. PK$\subeq$coAM (Fortnow). NP language in , then NP$\subeq$coAM, collapse to 2nd level.
+
+%What other things have perfect zero-knowledge proofs? 
+
+factoring may have zero knowledge?
+
 %\bibliographystyle{plain}
 %\bibliography{refs}
 \end{document}

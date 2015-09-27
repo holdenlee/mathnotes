@@ -1,0 +1,1482 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+
+\input{\filepath/packages_article.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+
+\pagestyle{fancy}
+\lhead{APPROX RANDOM 2015}
+\chead{} 
+\rhead{} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{.3pt} 
+\setlength\voffset{0in}
+\setlength\textheight{648pt}
+
+\addbibresource{bib.bib}
+
+\begin{document}
+\section{Pseudorandomness via iterative simplification}
+
+References
+\begin{itemize}
+\item
+2012 Gopalan, Meka, Reingold, Trevisan, Vadhan
+\item
+2015 Gopalan, Kane, Meka
+\end{itemize}
+
+We want to study randomness as a resource. Randomness is useful for cryptography, e-commerce, and algorithms.
+
+Where do random bits come from? There are companies which sell randomness. 
+
+We should ask whether randomness is necessary for computation. A central challenge is P$\qeq$BPP. There is strong evidence that randomness is not needed (hardness vs. randomness). If hard functions exist then P$=$BPP. But this doesn't prove it.
+
+``Randomness is in the eye (computational power) of the beholder."
+
+A pseudorandom generator stretches bits to fool a class of test functions $\cal F$. $G:B^r\to B^n$, \[\ab{\Pj_{x\sim B^n}[f(x)=1]-\Pj_{y\sim B^r}[f(G(y))=1]}<\ep.\]
+We say $G$ $\ep$-fools $\cal F$.
+
+They're used in complexity, random algorithms, approximations.
+
+We focus on bounded depth circuits and bounded space computation. 
+
+\subsection{PRGs for bounded depth circuits}
+\begin{itemize}
+\item
+Parity problem, small-error
+\item
+PRG for read-once CNF's.
+\end{itemize}
+
+AC0 (bounded depth, unlimited fan-in): There sxists a non-explicity generator with seed length $O(\ln \pf{n}{\ep})$.
+
+For polynomially small error the best was $O((\ln n)^2)$ even for read-once CNF's and DNF's. Why do we care about small-error? To derandomize, we only need error $\rc3$.
+
+Not being able to handle small error is symptomatic of bottleneck for larger depth. If there is a PRG for dept 2 with seed $O(\ln \pf{n}{\ep})$, then NP does not have depth 3 size $2^{o(n)}$ circuits. The best by Hastad is $2^{\sqrt n}$ lower bound for parity. There is a matching upper bound; we need new functions and techniques.
+
+Also lower bound for linear size circuits of log depth (trade size for depth).
+
+GMRTV12 gives PRG for read-once CNFs with seed-length $\wt O(\ln \pf{n}{\ep})$. (Build on ideas of CRSW10, KMN10.)
+In a read-once CNF, each variable appears at most once.
+
+We sketch the construction of PRGs for CNFs.
+
+We use the hammer of random restrictions and switching lemmas. Randomly fix $\approx 1-\rc{\ln n}$ fraction of variables. Then a formula on $\fc{n}{\ln n}$ variables collapses to constant size.
+
+Ajtai and Wigderson (1985) used pseudorandom restrictions. Problem: there is no good pseudorandom switching lemma---we don't have a good family of psuedorandom functions.
+
+Look at mild pseudorandomness restrictions: restrict only half the bits pseudorandomly. the average function is fooled by small bias spaces.
+
+This suggests the following iterative generator: Choose and set a fraction of variables. Repeat $O(\ln \ln n)$ times. $O((\ln n)(\ln \ln n))$ bits are used.
+
+Restricting half the bits in a read-once CNF in $n $ variables gives a read-once CNF in $\sqrt n$ variables.
+
+The switching lemma is very subtle; it's hard to derandomize. The above claim (simple counting) can derandomize with limited independence.
+
+Open problems.
+\begin{enumerate}
+\item
+Power of mild pseudorandom restrictions: what else can the generator fool? E.g., combining small-bias spaces is very powerful, e.g., for $\F_2$-polynomials.
+\item
+Does the construction fool read-twice CNF's?
+%read variable at most constant number of times.
+\end{enumerate}•
+
+\subsection{PRGs for small space machines}
+
+\begin{itemize}
+\item
+Halfspaces, modular sums, Chernoff bounds
+\item
+One generator to fool tem all: Fourier shapes
+\item
+Outline of construction
+\end{itemize}•
+They are both based on iterative simplification. Gradually simplify a function to get easier proofs.
+
+We ask the space version of P vs. BPP, does RL$\qeq$L? Nisan 92 and INW94 give a PRG with seed $O(\ln\pf{n}{\ep}^2)$ for logspace. There are not many cases where we can beat this bound.
+\begin{enumerate}
+\item
+BPL in $L^{\fc 32}$ (Saks-Zhou)
+\item
+Undirected $s$-$t$ connectivity. (Reingold)
+\item
+Regular branching programs (BRRY, BV)
+\end{enumerate}
+GKM15 give PRG's for halfspaces, modular sums, Chernoff bounds, and most linear tests.
+
+The two papers show new constructions that can get around previous barriers.
+
+Halfspaces: Given $f:B^n\to B$, $f(x)=\sign(\an{w,x}-\te)$.
+
+Halfspaces have applications to perceptrons, boosting, SVM's, streaming algorithms, rounding algorithms...
+
+We construct a PRG for halfspaces with seedlength $\wt O(\ln\pf{n}{\ep})$. It works over $\R^n$ as well.
+
+Modular sums $f:B^n\to B^n$. $f(x)$ is whether $\an{w,x}\md m\in A$. It's a basis test function and generalizes small-bias spaces. The best previous result is $\wt O(\ln \pf{n}{\ep}+(\ln m)^2)$. For polynomial-sized modulus, best previous is $(\ln n)^2$.
+
+Derandomizing Chernoff bounds: 
+\[
+\Pj\ba{
+\ab{\sum X_i-\sum_i \E[X_i]}
+}\le 2\exp\pf{-t^2}{4n}.
+\]
+In many cases we can't affort to have complete independence. In many applications we use $O(\ln n)$-wise independence. But this nees $O((\ln n)^2)$ random bits: there is no improvement over Nisan. GKM15: we can satisfy all such tail bounds using $\wt O(\ln\pf{n}{\ep})$ randomness.
+
+One generator to fool them all: Fourier shapes. This generalizes halfspaces, modular sums, chernoff bounds, combinatorial rectangles/shapes...
+
+\begin{df}
+A $(m,n)$ \vocab{Fourier shape} is $f:[m]^n\to \C_1$ (unit complex disc) where
+\[
+f(x)=f_1(x_1)f_2(x_2)\cdots f_n(x_n),
+\]
+each a function to $\C_1$. 
+\end{df}
+Why are we using complex numbers? Roots of unity captures modular sums. The discrete Fourier transform captures linear functions. 
+
+Why large domains? It's more general, and more robust: it allows nice compositions.
+%cf. coding composition
+
+%not binary
+%error with respect to $L^2$ error of complex numbers
+
+\begin{itemize}
+\item
+$\ep$-fool $(2,n)$ Fourier shapes $\implies$ $n^2\ep$-fool halfspaces
+\item
+$\ep$-fool $(2,n)$ Fourier shapes $\implies$ $n\ep$-fool modular sums
+\end{itemize}
+
+PRG for Fourier shapes
+\begin{enumerate}
+\item
+A dichotomy of Fourier shapes: high-variance vs. low-variance
+\item
+PRG for high variance Fourier shapes (generalize Naor-Naor construction)
+\item
+Low-variance: alphabet/dimension reduction.
+\end{enumerate}•
+
+To build a $\ep$-PRG for $(m,n)$-Fourier shapes using extra $\wt O(\ln m)$ bits, we start from a $\fc{\ep}{100}$-PRG for $(n,n)$-Fourier shapes.
+
+Take the square root each time, using $O(\ln m)$ bits each time.
+
+We need to reduce the alphabet size $m$. Subsample each column ($\sqrt m$) using limited independence. 
+Formally, generate $[m]^{\sqrt m\times n}$ whose columns are $k$-wise independent.
+
+%The columns have limited ind
+
+Just working with the definition, we want
+\[
+\prod_{j=1}^n \pa{\rc{\sqrt m}\sum_{i=1}^{\sqrt m} f_j(X_{ij})}\approx \prod_{j=1}^m \E[f_j].
+\]
+Denote the estimated column average by $Y_j$. We want $\E\ba{\prod_{j=1}^n}\approx \prod_{j=1}^n \E[Y_j]$.
+
+\begin{lem}
+Let $Y_i\in \C_1$ be $k$-wise independent. Then
+\[
+\ab{\E\ba{\prod_{j=1}^n Y_j}\approx \prod_{j=1}^n \E[Y_j]}\precsim \pa{\sum_{i=1}^n \si^2(Y_i)}^{0.1k}.
+\]
+The error is very small if the variance is small. Subsampling reduces variance drastically. 
+
+%Limited independence handles Low-variance
+%reduction, subsampling
+\end{lem}
+Dimension reduction
+
+What about $(2,n)$? We want a $\ep$-PRG for $(n,n)$-Fourier shapes. Given $O(\ln \pf{n}{\ep})$ random bits, it suffices to get a $\pf{\ep}{100}$-PRG for $(\pf{n}{\ep}^{10},\sqrt n)$-Fourier shapes. Now apply alphabet reduction to get $\fc{\ep}{100^2}$-PRG for $(\sqrt n, \sqrt n)$ Fourier shapes.
+$O(\ln \ln \pf{n}{\ep})$ iterative simplifications. Total seed length $\wt O(\ln\pf{n}{\ep})$. 
+
+Open problems. Generalize to log-space?
+\begin{enumerate}
+\item
+Generalize to matrix shapes: $f:[m]^n\to \C_1^{2\times 2}$.
+\fixme{domain?} 
+\item Does the PRG fool depth 2 circuits? (Large alphabets are like CSP's.)
+\item
+Can we use these ideas for polynomial threshold functions? The best, by MZ10, is $O\pf{(\ln n)}{\ep^{O(1)}}$.
+\end{enumerate}
+
+%The best throw of the dice is to throw them away.
+
+%DFT: fool arbitrary sym functions if fool fourier transforms of them
+
+%PRG output symbols. fool functions whose values are complex numbers.
+
+%polyloglog factors
+
+%modular polys of constant degree. Not over large m. 
+
+%Constant m, like 6.
+
+\section{Dynamics for the mean-field random-cluster model}
+In the random cluster model, we have $G=(V,E)$, and the probability measure over the subgraph $(V,A\subeq E)$ is
+\[
+\pi_{p,q}(A)\propto p^{|A|}(1-p)^{|E|-|A|}q^{c(A)}
+\]
+where $c(A)$ is the number of components in $(V,A)$. This is the unifying framework for studying several interesting distributions.
+\begin{itemize}
+\item
+When $q=1$, we get the bond percolation model, For $G=K_n$, this is $G(n,p)$.
+\item
+For integer $q\ge 2$, it is dual to the ferromagnetic $q$-state Potts model.
+\item
+For $q\to 0$, we get weak limits UST,...
+\end{itemize}•
+Focus: Markov chains on random-cluster configurations with stationary distribution $\pi_{p,q}$.
+
+%MCMC
+
+Chayes-Machta dynamics: Given a random cluster configuration $A\subeq E$:
+\begin{enumerate}
+\item
+Activate each connected component of $A$ independently with probability $\rc q$. 
+\item
+Act each acive edge with probability $p$. (?)
+\end{enumerate}
+It's non-local dynamics.
+
+Now we look at the specific mean-field model, $G=K_n$. Hopefully after we understand this we can extend to larger classes of graphs.
+
+If $p=\fc{\la}{n}$ then there exists $\la_c(q)$ such that w.h.p., 
+\begin{itemize}
+\item
+$\la<\la_c(q)$: all components have size $O(\ln n)$.
+\item
+$\la >\la_c(q)$: there is a component of size $\sim \te_rn$.
+\end{itemize}•
+The critical value is known (Bollobas et al., 1996).
+
+Mixing time: number of steps $T_{mix}$ until total variation distance from $\pi_{p,q}$ is small $\le \fc14$, starting from initial configuration.
+
+Swendsen-Wang: for integer $q$. Mixing time of SW dynamics for $q=2$ fully understood, partially understood for $q\ge 3$.
+
+\begin{thm}
+For $q>1$, $p=\fc{\la}n$, mixing time of CM dynamics is $\exp(\Om(\sqrt n))$ for $\la\in (\la_L,\la_R)$, $\Te(\ln n)$ outside.
+\end{thm}
+...Second order phase transition for $1<q\le 2$.
+For $q>2$, $\la=\la_c$, bimodal!
+$\la_L,\la_R$ are where the modes disappear. 
+
+Theorem 2: In mean-field with $q>1$. %, $T_{mix}$ is $\wt
+
+Technique:
+\begin{itemize}
+\item
+couple 2 copies $(X_t), (Y_t)$ of the CM dynamics, starting from arbitrary inital configurations $X_0,Y_0$. 
+If $\Pj(X_t\ne Y_t)$, then $T_{mix}\le T$.
+\end{itemize}
+\begin{enumerate}
+\item
+Independent evolution until both have largest component of correct size. (Drift analysis on size of largest component.)
+\item
+Coupled evolution of $(X_t)$, $(Y_t)$.
+(Couple activation of components in a way that both active subgraphs have the same size whp. Couple edge resampling step using arbitrary bijection between active edges. So same component structure in updated part whp. Need $O(\ln n)$ consecutive successes.)
+\end{enumerate}•
+
+%burning phase.
+Drift function: Consider $\phi(\te)-\te$. Drift always has desired sign. (???)
+
+2: First part of activation creates a discrepancy $D=o(\sqrt n)$. Correct $D$ using coupling of binomial distributions on $I_X,I_Y$ (?).
+
+\begin{itemize}
+\item
+Mixing time of CM dynamics in mean-field
+\item
+Mixing time of heat-bath dynamics in $n\times n$ boxes of $\Z^2$.
+\end{itemize}
+
+\section{Swendsen-Wang algorithm on the mean-field Potts model}
+
+Generalization of Ising model. Given spins $[q]$ and a parameter (inverse temperature) $B>0$ (ferromagnetic for $B\ge 1$, antiferromagnetic for $B<1$), $w(\si)=B^{m(\si)}$ where $m(\si)$ is the number of monochromatic edges.
+
+We want to sample from $\mu$.
+
+Glauber dynamics uses local dynamics (single-site updates).  Choose a random vertex; sample from distribution induced by neighbors. Slow to converge at low temperatures (exponentially many steps).
+
+Swendsen-Wang: non-local dynamics for Potts model.
+
+$B_c(\Z^2)$: uniqueness threshold: 
+\begin{enumerate}
+\item
+if $B<B_c(\Z^2)$, then all monochromatic components are finite a.s.
+\item
+if $>$, then infinite monochromatic component a.s.
+\end{enumerate}
+``Correlation phenomenon." Thi affects the mixing time: shoots from $n\ln n$ to exponential.
+
+Alternative dynamics potentially rapid mixing at all temperatures? Possibly Swendsen-Wang.
+
+let $M$ be set of monochromatic edges. Independently for $e\in M$. Percolation (delete some edges). Randomly color connected components.
+
+Ferromagnetic Potts on Mean-field model. High/low temp is $O(\ln n)$, Intermediate temp is $\exp(n^{\Om(1)})$. %critical $O(n^{\rc 3})$.
+
+When $\max_\al Z^\al(B)$? Ordered/disordered. Balanced $B_c, B_o, B_h$ majority.
+
+...
+
+\section{Towards resistance sparsifiers}
+
+Input: dense graph $G$. 
+
+Goal: Give sparse weighted subgraph $H$ that approximately preserves some properties of $G$.
+\begin{itemize}
+\item
+shortest paths
+\item
+cut values
+\item
+spectra
+\item
+resistance distance
+\end{itemize}•
+We want a metric that captures connectedness. Equivalent views
+\begin{itemize}
+\item
+electric voltage distance.
+\item random walks: commute time---expected time go to $v$ and back to $u$
+\item Probability of appearing in random spanning tree.
+\end{itemize}•
+Similarity measure in machine learning.
+
+We can calculate it efficiently
+\[
+R_G(u,v)=(\chi_u-\chi_v)^TL_G^{-1}(\chi_u-\chi_v).
+\]
+
+Can we construct efficient resistance sparsifiers?
+
+Yes, with edges $O\pf{n}{\ep^2}$ (Batson-Spielman-Srivatava).
+
+Can we do better? For the complete graph, spectral sparsifiers require $O\pf{n}{\ep^2}$, but resistance with $O\prc n$. On expanders, resistance metric is essentially determined by vertex degrees.
+
+Do more graphs have efficient resistance sparsifiers?
+Yes for dense regular expanders
+\begin{thm}
+$\Om(n)$ regular expander has $(1+\ep)$-resistance of $\wt O\pf n\ep$.
+Every $\Om(n)$ regular expander contains $\poly\log(n)$ regular expander as subgraph.
+\end{thm}
+Decompose $G$ into disjoint Hamiltonian cycles or random matchings. CHoose a uniformly random subset of them to form $H$.
+
+Analysis uses the Cut-matching game by Khandekar-Rao-Vazirani 2006.
+Start with empty graph on $n$ vertices.
+\begin{enumerate}
+\item
+Cut player chooses bisection
+\item
+Matching adds perfect matching across bisection.
+\end{enumerate}
+The cut player goal: construct expander.
+Matching: delay.
+
+Cut player can win within $O((\ln n)^2)$ rounds.
+
+Warm up: degree $>(\fc34+\de)n$. Find sparse regular subgraph of $G$. 
+
+Claim: $G$ contains perfect matching across any bisection. Play cut-matching: Matching returns bisection given by claim. Resulting $H$ is $O((\ln n)^2)$-regular expander subgraph of $G$.
+
+Generalize to cut-weave game.
+Given a bisection, a weave is a graph in which every vertex has a incident edge across the bisection.
+Play the cut weave game. The weave player adds a $r$-regular weave across the bisection.
+Cut plaer cna win within $O(r(\ln n)^2)$ rounds.
+
+Now assume $\deg>(\rc2+\de)n$. Suppose $G$ is $D$-regular with $D>(\rc2+\de)n$. $G$ decomposes into disjoint Hamiltonian cycles.
+
+Claim: for any bisection in $G$, we get a weave by choosing $O(\ln n)$ uniformly random cycles from the decomposition. Proof: set cover.
+
+Play the cut-weave game with $r=\ln n$. Weave samples random cycles to form a weave.
+
+Resulting $H$ is $O((\ln n)^4)$-regular expander subgraph of $G$.
+
+Extension to $D=\Om(n)$: more technical details.
+
+%resistant sparsifiers for dense regular expanders
+%gap between spectral and resistance sparsification
+%adapticve analysis for non-adaptive corre sample alg.
+
+All the weave player is subsample. Oblivious to cut player. Don't simulate cut player.
+
+Extend to more graphs? More direct analysis?
+
+\section{Approximating TSP}
+
+Find the shortest tour. 
+Assume it's 2-connected; else we can break up the graph at a cut point.
+
+Results:
+\begin{enumerate}
+\item
+Size $\fc{4n}3$ in a graph with a spanning tree and a simple cycle on its odd nodes.
+\item
+Size $\fc{9n}{7}$ in cubic bipartite graphs
+\item
+Size $(1+O\prc{\sqrt d})n$ in $d$-regular graphs.
+\end{enumerate}
+
+Main ideas for short tours
+\begin{enumerate}
+\item
+Augment spanning tree with carefully carefully edges.
+\item
+Delete carefully chosen edges from the whole graph (accounting shows it's small).
+\item
+Augment cycle cover with few cycles.
+\item
+Augment path covers with few paths. (Connect up using spanning tree.)
+\end{enumerate}
+
+General bounds:
+
+In every connected, the shortest path is between $n$ and $2n-2$. Proof: spanning tree.
+
+Christofides, 1976 gives a $\fc32$ approximation to graph TSP (also works for metric TSP). Tour is union of minimum spanning tree and minimum $T$-join on odd-degree vertices. Gives connected Eulerian graph.
+
+$T$-join: in induced subgraph of this edge set, collection of all odd-degree vertices is $T$.
+
+Find $T$-join by solving matching problem. %lengths are distances. min length matching. 
+This is solvable in polynomial time.
+
+The minimum $T$-join is $\le \fc{\text{opt}}2$. Split optimal tour into 2 pars: between $T$-nodes and others, minimal is $\le 2n$.
+
+Observation: if $G$ has spanning tree and simple cycle $C$ on odd nodes, then tour of length $\fc{4n}3$.
+\begin{itemize}
+\item
+If $|C|>\fc{2n}3$ then contract cycle and double remaining spanning tree.
+\item
+If $|C|<\fc{2n}3$, use Christofides's idea and take shorter of even and odd segments.
+\end{itemize}
+Cor: If $G$ has Hamiltonian path, then it has tour of length $\fc{4n}3$.
+%DFS with small number of leaves.
+
+Approximating TSP: $\fc32$ is still best approx ratio of metric TSP. Worst integrality gap example is $\fc43$ (max degree 3). Old graph TSP bound: $\fc 75$.
+
+Rather than start from an arbitrary spanning tree, start with one that would give a cheap $T$-join. Use fraction of LP to define a distribution over spanning trees, sample one at random; it is likely to have a cheap $T$-join.
+
+(2) Delete edges. (M\"omke, Svensson, 1.461 approximation.) Every 3-regular 2-vertex connectedgraph has a tour of length at most $\fc{4n}3$.
+
+Use probability over $T$-joins to fix up a tree. Delete carefully chosen edges.
+
+Assign every edge in 3-regular 2-vertex connected graph puts it in perfect matching polytope: $\chi(\pl v)=1$ for all $v$. Blossom inequalities: $\chi(\pl(S))\ge 1$ for all $|S|$ odd. (At least 1 leaving odd set.)
+
+Every edge inside count twice. Cancel out even from odd num. Leaving is odd. 2-connectivity then implies $|\de(S)|\ge 3$.
+
+Caratheodory's Theorem: $G$ with $\rc3$ on every edge can be written as a convex combination of a polynomial number of perfect matchings.
+
+MS11: 
+\begin{enumerate}
+\item
+Pick a DFS tree $T$ with back edges $B$. Partition edges into 2 parts: $P$ tree edges with back edges hanging from parent.
+%n/2 back edges, hang except at root.
+\item
+Pick matching $M$ randomly from distribution defined by $x=\rc3$ on $E(G)$.
+\item
+Initialize solution $H$ to whole graph $G$: Delete $M\cap B, M\cap P$, double $M\cap Q$.
+\end{enumerate}•
+Eulerian connected:
+\begin{itemize}
+\item
+Every node has initial degree 3. One matching edge incident is deleted or doubled: degree 2 or 4.
+\item
+Connected (bottom up): if tree edge in $P$ deleted, backedge hanging from parent connects subtree to upper part.
+If back edge deleted, sibling tree edge in $P$ connects both sides.
+\end{itemize}
+Number of edges:
+\[
+\E|H| = \fc{3n}2-\rc3\fc n2 - \rc3\fc n2 + \rc3 \fc n2.
+\]
+Hence has tour of length $\le \fc{4n}3$.
+
+Sebo and Vygen 2012: find nice ear decomposition, pick set of edges based on decomposition (earmuff) to form connectedsubgraph. 
+
+Extendchosen subgraph to even supergraph by adding edges from pendant ears. If many, add $T$-join on odd nodes; if few, use MS.
+
+(3) Augment cycle cover with few cycles. 
+
+Find cycle cover with few cycles. Double edges between.
+
+$\fc{3n}2$ tour: cycle cover with no parallel edges (union of 2 disjoint perfect matchings). Min cycle length is 4, at most $\fc n4$ cycles. add doubles spanning tree connecting cycles.
+
+while square, replace it with gadget. Find cycle cover in square-free graph. Expand gadgets. Put 13, 24 back. Consider all cases.
+
+Expand back to cycle cover which does not increase number of cycles.
+
+Subcubic graphs require $\fc{4n}3$ edges. (3 long paths. Duplicate...)
+
+CLS11, 12; KR13, VZ15.
+
+Barnette's conjecture: planar bipartite cubic graphs have Hamiltonian cycle.
+
+Idea: replace short cycles (6-cycles, etc.)
+
+Algorithm sketch: 
+Organic: made up or original nodes and edges.
+\begin{enumerate}
+\item
+while graph contains 4-cycle or organic 6-cycle, COMPRESS.
+Instead of compress hexagos, compress parasites: hexagons with 3-path. Will never get back a hexagon.
+Final amortized average cycle length $\ge 7$.
+\item
+...
+\end{enumerate}
+
+Nisheeth Vishnoi 2012: every $n$-vertex $d$-regular graph... 
+Why would $d$-regular graph have cycle cover with few cycles? How can it be found?
+
+Matrix representation of cycle covers: Given $G$ consider its $n\times n$ adjacency matrix $A$. All-1 permutation is cycle cover. Permanent of adjacency matrix is number of cycle covers. Van der werden's conjecture: permanent is large.
+
+Few permutations with linearly many cycles. (Random permutation hsa $O(\ln n)$ cycles.) Averaging argument. $O\pf{n}{\sqrt{\ln d}}$.
+
+Regularity is essential: graphsof min degree $d$ need not have short tours. Can go between 2 parts...
+
+If all around degree $d$, get nothing.
+
+Improved bounds: get down to $\rc{\sqrt d}$. 
+
+Our approach: find spanning tree with small set $T$ of odd degree vertices. Find small $T$-join of size $O(|T|)+O\pf nd$.
+
+Given $T'$ spanning $T$, there is $T$-join on $T'$. (Proof: drop edges connecting even sized components.)
+
+3-net: maximal set of vertices, no two of which at distance $<3$ from each other. 3-net has $\fc{n}{d+1}$-vertices. Every vertex at distance $|le 2$ from 3-net. All of $T$ plus 3-net conected by $2|T|+\fc{2n}{d+1}-3$ edges.
+
+Theorem: every connected $d$-regular graph has a spanning tree with $O\pf{n}{\sqrt d}$ odd degree vertices.
+%how make into spanning tree? path have 2 odd nodes.
+%add 2P.
+%total number odd 4P.
+Conver by spanning linear forest. 
+
+Conjecture (Magnant and Martin): path cove number of $d$-regular graph is $\le \fc{n}{d+1}$.
+
+Arboricity: cover edges by forests. Linear arboricity: cover edges by linear forests. Conjecture: $\ce{\fc{d+1}2}$ linear forests suffice. if true, one has at least $n-O\pf nd$ edges.
+
+Alon Spencer: $\le \fc{d+\wt O(d^{\fc 23})}2$. Get $d^{-\rc3}$. 
+
+Strengthen: inductive construction of path cover. Easier for directed graphs. Keep edges/arcs coming into head, going out of tail. 
+
+$d$ even: take Euler tour... Pair up nodes. Pu in $(L,R)$ or $(R,L)$. Find max matching of directed edges from $L$ to $R$. use dummy edges to complete to perfect matching $M$.
+
+Double, $\lg n$?
+
+... Use LLL! Fractional linear forms.
+
+Max/min degree within small fraction: still works.
+
+Open: use steiner cycles for grpah-TSP, Barnette, improve additive bound, ...
+
+%11/9
+
+\section{Deletion codes in the high-rate and high-error regime}
+
+In the erasure model, symbols are replaced with `?'.
+
+In the deletion model, symbols are deleted.
+
+We assume no errors or insertions.
+Receiver knows block length. Our results will be for adversarial deletions. 
+
+Why deletions?
+\begin{enumerate}
+\item
+Natural model for asynchronous channels.
+\item
+Think of deletions as dropped packets.
+\item
+There are nice combinatorial questions.
+\end{enumerate}
+
+Deletions are easy! Given $m_1,\ldots, m_n$, all we have to do is give $n$ headers. Then we're back to the model of erasures. The alphabet grows with the length of the code. 
+We expect deletions to happen at the bit level: what can we do over constant alphabets?
+
+Previous work.
+\begin{itemize}
+\item
+Lots of work on constant number of deletions. (We're interested in a constant fraction.)
+\item
+Random deletions: for deletion probability $p$, capacity at least $\fc{1-p}9$.
+\item
+Random deletions: for $p\to 0$, capacity is $1-h(p)$.
+\item
+Adversarial deletions: explicit good binary cocdes correcting constant fraction of deletions.
+\end{itemize}
+
+Goal: understand tradeoff between redundancy (rate) and correction capability. For fixed deletion fraction, what's the best rate we can get? This is difficult even for random deletions. So we focus on coding for extremes: low/high noise.
+
+What's possible? Greedy construction:
+\begin{itemize}
+\item
+High noise: correct $1-\ep$ deletion with rate $\Om(\ep)$ and alphabet size $O\prc{\ep^3}$.
+\item
+Low noise: Binary codes correct $\ep$ with rate $1-2h(\ep)$.
+\end{itemize}•
+
+For high note, large alphabet is necessary: with $>\rc2$, can delete all 1's.
+
+\begin{thm}
+(High noise) Explicit code correct $1-\ep$ fraction of deletions with rate $\ep^2$, alph $\rc{\ep^4}$
+
+(High rate) $\ep$, $1-\sqrt{\ep}$
+\end{thm}
+
+We know 2 kinds of deletion codes. Good explicit codes for large alphabets (headers). Good non-explicit codes for small alphabets (brute force). Put them together!
+
+Outer code $B_1,\ldots$, relace $B_i$ with block $\Enc(B_i)$, inner code. We hope if both are deletion resistant, so is combined.
+
+Erasures: How to decode concatenated code? By averaging, if not too many erasures, enough will survive. 
+
+Deletions: We want to recover each block individually, but we don't know where the blocks are. How to locate the boundaries?
+
+High deletions:
+$1-\ep,\poly(\ep),\poly\prc{\ep}$.
+
+Initial code: concatenate Reed-Solomon with headers and small alphabet code against $1-\eph$ deletion fraction. Modify code to help locate blocks.
+
+Idea: add constant-sized labels. Color blocks modulo 3. Use colors to guess and decode blocks.
+
+Hope color boundaries same as block boundaries.
+
+If placed enough correctly, get a lot of correct symbols. Decode if many windows are correct. Need to bound number of bad windows.
+
+Analysis ideas: with $1-\ep$ fraction of deletions, adversary can't affect too many blocks. 
+\begin{itemize}
+\item
+Adversary can just delete enough information in block (must delete $>1-\eph$ fraction)
+\item
+Delete separation from next same-colored neighbor.
+\item
+Wasted a lot of deletions to achieve same effect. (Could just delete info in the middle.) If number of colors is $\poly\prc{\ep}$, then also expensive.
+\end{itemize}
+
+Open questions.
+
+\begin{enumerate}
+\item
+For binary codes, what is the highest fraction we can correct with constant rate. We don't know the answer existentially. It's in $[\rc3,\rc2]$.
+\item
+How about fixed $k$?
+\item
+Can we give efficient codes with better parameters?
+\end{enumerate}
+
+\section{Communications with partial noiseless feedback}
+Pritish Kamath
+
+$C:B^k\to B^n$. Rate $\fc kn$.
+
+We consider adversarial errors, and $|\Si|=2$.
+
+Upper boud $\rc4$ (Plotkin) and lower bound $\rc4-\ep$ with rate $O(\ep^2)$.
+
+Berlekamp: communication with noiseless feedback. Bob tells Alice what he received. How many errors can you tolerate? Upper bound $\rc3$, lower bound $\rc{3}-\ep$ with $O(\ep)$.
+
+Communication with partial noiseless feedback: what if Bob is allowed to send only $\de n$ bits of feedback for $\de<1$?
+
+Coding for interactive communication, Schulman 1992. Generalization of Shannon's 1-way communication.
+
+Alice and Bob engage in a protocol $\pi$. They want to make it robust to noise. Why is this not solved, why can't we encode each round? An adversary can completely corrupt 1 round.
+
+What fraction of errors can $C(\pi)$ tolerate? He showed $\rc{240}$. Braverman and Rao show an upper bound of $\rc4$, and $\rc4-\ep$ can be achieved for large alphabet. For binary, $\rc8-\ep$ vs. upper bound $\rc6$.
+
+Between 0 and 1, $\rc4$ and $\rc3$. 
+Randomized protocol, can correct up to $\rc3$ for $>0$.
+
+Deterministic protocol: piecewise linear.
+
+Communication with $\de=1$ feedback.
+\begin{enumerate}
+\item
+pad 1's after every bit to remove consecutive 0's. Repeat for $N$ rounds. 
+\item
+Bob appends received bit, if transcript ends in 00, backtrack 3 bits. 
+A: if Bob correct send next bit, else send 0.
+If $N>\fc{|y|}{3\ep}$, this protocol tolerates $\rc3-\ep$ fraction errors. Rate $O(\ep)$.
+\end{enumerate}
+$\de=\fc2D$-feedback
+\begin{enumerate}
+\item
+Alice sends $D$ bits and Bob sends 2 bits. 
+If Bob has correct so far, send next bit of $y$ $D$ times, else $0^D$. 
+
+Bob soft-decodes received bit: probabilistic decoding. Depending onhow many 1s, 1 or ?, or 0 or ?. 
+Feedback is decoded bit.
+
+%Ex. 111111 to 101111.  OK
+%11111 to 100001. Suppose $?$. 
+\end{enumerate}
+Key insight: adversary might as well corrupt block entirely, or not corrupt it at all. Rate $O(\ep\de)$.
+
+Deterministic communication with $\fc23$ feedback.
+Derandomize. Pad 1's after every bit.
+
+Soft-decode: decode as 0, 1 if number of 1's is 0 or 3, or ? else.
+
+Open questions.
+\begin{itemize}
+\item
+What upper bounds can be shown on $f^{\det}(\de)$? Continuity at $\de=0$?
+\item
+What about rate vs. error tradeoff?
+\item
+Close the $\rc8,\rc6$ gap?
+\end{itemize}•
+
+\section{Fortification of Projection Games}
+
+Label cover game. Every edge in bipartite graph has a constraint $\pi_{xy}:\Si_X\to \Si_Y$. Accept if $\pi_{xy}(\si)=\si'$.
+
+PCP Theorem: There exist constant sized alphabets such that it is NP-hard to check if a given label cover instance has value 1 or $\le .999$. 
+
+Need a better gap to show NP-hardness reductions. Can we amplify the gap>
+
+Need polytime reduction: if $\val(\cal G)=1$ then $\val(\cal G')=1$; if $\le .999$ then $\le .001$. 
+
+Parallel repetition. $\Si^k$. If $\val(\cal G)\le \ep_0$, is $\val(\cal G^{\ot k})\le \ep_0^k$? This is false. However, the value does go down exponentially with $k$.
+
+The state of the art is DS14: $\le \pf{2\sqrt{\ep_0}}{1+\ep_0}^{\fc k2}$. Moshkovitz gives a method working for any constant gap.
+
+Fortification: give necessary sufficient conditions fo this step to hold, and give optimal improvements.
+
+Main idea. Q: why were previous proofs so hard? There is a smaller subgame of the repeated game, such that conditioned on it, the value in the $k$th coordinate game is large.
+
+If the symmetrized game is robust, this won't happen.
+
+Value of robust games goes down exponentially with $k$ in parallel repetition. 
+
+Symmetrized games: check if labels of $x$ and $\wt x$ project onto the same label of $y$.
+
+$\val(\cal G)\le \val(\cal G_{\text{sym}})\le \sqrt{\val(\cal G)}$.
+
+A $(\de,\al)$-robust game: For $S,T, |S|,|T|\ge \de|\cal X|$, then $\val(\cal G_{sym}|_{S\times T})\le \val(\cal G_{sym})+\al$.
+Concatentation makes a game robust.
+
+Add bipartite on left and right. (Biregular). Play on last 2. Path.
+
+What graphs can we concatenate? Constraining factor is degree $D$. Dependence of $W$'s degree $D$ on $\de$ is crucial: alphabet size.
+
+Necessary and sufficient conditions to make robust.
+
+\begin{enumerate}
+\item
+When does concat work? 
+Easy case: If $W$ complete graph, robust. Degree too large.
+
+$(\de,\al)$ extractor? We want $\ve{\mu_{ST}-\mathbf u}_1\le \al$.
+
+What went wrong? Although both $\mu_S-u,\mu_T-u$ have small $\ell_1$ norms, large $\ell_2$ norms. If both have small $\ell_2$ norms, then small. 
+
+Bounded $\ell_2$ norms suffice. Call such bipartite graphs fortifiers.
+$|S|\ge \de|W|$ implies $\ve{\mu_S-u}_1$...
+Do explicit fortifiers exist with small degree? Natural bipartite version of $\la$-spectral expander. 
+\item
+Fortifiers are necessary (when underlying game is far from being expander). 
+$|\mu_S-u|_1\le \al$. $\ve{\mu_S}^2\le \fc{O(\al)}{|X|}$.
+\item
+Lower bounds on degree. 
+\end{enumerate}
+
+%necessary and sufficient
+
+\section{Separating DT from subcube partition complexity}
+
+Goal: compute $f:B^n\to B$ by reading as few input bits as possible. $D(f)$ deterministic query complexity. $R(f)$ randomized query complexity.
+
+Techniques: block sensitivity, approximate degree, classical adversary, randomized certificate complexity... choose technique based on function.
+
+New technique: Pb$(f)$ partition bound subsumes all these techniques.
+
+Also gives upper bound on query complexity:
+\[
+Pb(f)\le R(f)\le Pb(f)^2.
+\]
+Conjecture: $R(f)=\Te(Pb(f))$.
+Aside: $Q(f)=\Te(Qadv(f))$.
+%SDP.
+
+False! There is an asymptotic gap. There are $f$, $R(f)\ge 3.2^k$, $Pb(f)\le 3^k$.
+
+Intuition: Partition bound is too ambitious---bounds randomized subcube complexity. Open: Is $R^{sc}(f)=o(R(f))$? Main result: $R^{sc}(f)=o(R(f))$.
+
+What is subcube partition complexity? Partition into $f$-monochromatic subcubes, each fixes $d$ variables, $D^{sc}(f)=d$. Clearly $D^{sc}(f)\le D(f)$.
+
+Captain-crew function.  $f(x_1,x_2,x_3,x_4) = x_1$ unless everyone else disagrees. $D(f)=4$ (easy) and $D^{sc}(f)\le 3$.
+How do we boost? Compose. $D$ is multiplicative. $D(f^k)=4^k, D^{sc}(f^k)\le 3^k$.
+
+$R^{sc}(f^k)\le 3^k$. Difficult: $R(f^k)\ge (3.2)^k$.
+
+Same lower bound techniques as 3MAJ. Guessing hard distribution is nontrivial due to asymmetry. Inductive argument is more involved.
+
+What is best separation between $D(f),D^{sc}(f)$? $D\in [D^{sc},D^{sc2}]$
+
+Best separation between $R(f)$ and $R^{sc}(f)$? Similar bound. Comm complexity?
+
+Devise lower bound techniques for $R(f)$ that do not also lower bound $R^{sc}(f)$.
+
+\section{Compression to entropy in protocols}
+
+Shorten conversation as much as possible while keeping its content.
+
+External and internal information. $I_\mu^{ext}=I(M_\pi:XY)$. Number of bits an external observer learns on the input from the transcript.
+
+Internal entropy is number of bits required to describe transcript to Alice plus ... to Bob.
+\[
+H_\mu^{int}=H(M_\pi|X)+H(M_\pi|Y).
+\]
+
+External simulation. External $\ep$-error simulation of $\pi$ if there exists dictionary such that distribution of $(x,y,M_\pi)$ is $\ep$-close in statistical distace to that of $(x,y,D(M_\si))$.
+
+Internal simulation: $(x,y,M_\pi)\approx_\ep (x,y,D_{A}(M_\si,x))$.
+
+Braverman-Rao: internal information $=$ amortized communication.
+
+$H=I$ if no private randomness.
+
+If 0-error simulation $CC_\mu(\si)\ge H_\mu(\pi)$.
+
+If in $\pi$ just Alice speaks, for all $\mu$ there is 0-error simulation $CC_\mu(\si)\le H_\mu^{ext}(\pi)+1$. (Huffman)
+In general, $CC_\mu(\si)\le 2.18H_\mu^{ext}(\pi)+2$. Kushilevitz.
+
+Internal compression upper bounds. BMY:
+\[
+CC_\mu(\si)\le O_\ep(H_\mu^{int}(\pi)^2\ln \ln CC_\mu(\pi)).
+\]
+There exists private coin protocol. 
+public coin simulation with info $O(k)$ has exponential loss in entropy.
+
+Proof of Dietzfelbinger-Wunderlich.
+Simulate $\pi$ with 0-error. Communicate 2 bits and convey 0.5 bits of information.
+
+For every $v$ in $\pi$, $R_v=\set{(x,y)}{v\text{ is ancestor of }M_\pi(x,y)}$. 
+Meaningful vertex: balanced or is lead and at least $\fc23$ pass through it.
+For all $\mu,\pi$ there exists a meaningful vector. Go to bigger sum.
+
+...
+
+\section{Correlation in Hard disributions in communication complexity}
+
+One-way model of communication: Alice to Bob.
+
+Allow mixed strategies: let Alice and Bob use shared randomness.
+
+Zero-sum game: computing $f(X,Y)$ means players win.  Von Neumann's mimimax: optimal win rate is same for a worst case input and a hardest input distribution.
+
+Is there a hardest inpt distribution that is product distribution? wr input partition into Alice/Bob's half. Or nearly-hardest?
+
+Hard non-produce distribution resulting in complexity $\Om(n)$, for Disj. $(X_i,Y_i)= (1,1)$ with prob $\rc n$, and equally shared among 3 other possibilities.
+
+Optimally hard product distribution: $(1-\rc{\sqrt n})^2, \rc{\sqrt n}-\rc n ,...,\rc n$. Complexity $\Om(\sqrt n)$.
+
+BFS86: Disj requires $O(\sqrt n \ln n)$ communication under any product distribution. How about limited-correlaion distributions.
+How much correlation needed to prove $\Om(n)$ bound. Quantum?
+
+One way communication vs. PAC-learnability: Kremer, Nisan, Ron in 1999: for Boolean $f$,
+\[
+R_{\rc 3}^{A\to B, I=0}(f) = \Te(VC(f)).
+\]
+VC-dimension characterizes PAC-learnability.
+
+Is one-way communication under product distribution stronger than PAC-learnability?
+
+classical optimal complexity $O(\sqrt n)$, improving by $\ln n$.
+
+Our protocol is based on previously known ideas, unlickly give optimal quantum (informational trace).
+
+Design quantum protocol based on new principles, achieving complexity of $\wt O(n^{\rc 4})$. Classical $O(\fc{\sqrt{n(k+1)}}{\ep^2})$. Quantum 4th, $3/2$. Poly dependence on $\rc{\ep}$ is essential (no Chernoff).
+
+Amount of correlation required for strong lower bounds. 
+Exists: worst case complexity is $\Om(n)$, but under bipartite dist with correlation less than $\fc{n}{1000}$ then dist complexity of $f$ is $O(\ln n)$. ``strongest possible counterexample."
+
+PAC learnabilty is min length of example sequence that lets $\ep$-learn $g$.
+Alice's input $x$ defines $g_x(y)=f(x,y)$.
+For constant $\ep$, PAC-complexity of $\set{g_x}{x\in B^n}$ asymptotically equals the one-way communication cost of $f$> 
+
+Alice plays teacher's role. Can she do more?
+
+Error dependence of 1-way communication cost of $f$ is $O(\ln \prc{\ep})$ while PAC $\Om\prc{\ep}$.
+
+Open
+\begin{itemize}
+\item
+Error dependence of optimal quantum protocol for Disj under product distributions? $O\ln \prc{\ep}$?
+\item
+Optimal error dependence of 2-way protocols under product distributions?
+\item
+Close remaining polylog gap in quantum communication complexity of Disj under distributions with limited correlation.
+\end{itemize}
+
+%can't save on bits. both char by VC dimension.
+
+
+\section{Multiparty pointer jumping}
+\begin{enumerate}
+\item
+Generalized ER random graphs to handle edge dep
+\item
+Prove bounds on clique num and chromatic num
+\item
+improve NOF bounds for MPJ.
+\end{enumerate}
+
+Concentration of measure quantify what most graphs look like.
+
+B88: $\ch=(1+o(1))\fc{-n \ln (1-p)}{2\ln n}$. 
+BE76: clique number $r,r+1$, $r\approx \fc{2\ln n}{\ln \rc p}$.
+
+Threshold functions: connected. All monotone properties have threshold function (BT87).
+
+Other results: graph evolution, degree sequence, eigenvalue distribution...
+
+What if we allow edge dependencies?
+
+$G_d(n,p)$: each edge depends on at most $d$ other edges.
+
+Ex. label vertices, add edge between same labels. Graph always has clique of size $\ge \fc n2$. Add edge between different. Bipartite.
+
+Dependencies smaller in linear then get concentration of measure back. 
+
+\begin{enumerate}
+\item
+If $\fc dp\ll \sqrt n$, then whp clique$(G)=\Om\pf{\ln n}{\ln \rc p}$. Same bound as ER up to constant!
+\item
+$d\le \fc{n}{(\ln n)^2}$: $O(d\ln n)$
+\item
+$d=n^{o(1)}$: $\chi<\fc{-3n\ln (1-p)}{2\ln n}$.
+\end{enumerate}•
+
+Key intuition: let $G\sim G_p(n,p)$. Let $S\subeq V$. Say $S\subeq V$ uncorrelated if $G|_S$ independent.
+
+Most small sets of vertices are uncorrelated. $dk^3\le n$. $\Pj\pat{$S$ is uncorrelated}\ge 1-\fc{3kd^3}{2n}$. Lots of ER graphs living inside. Patch ER result?
+
+Classical clique LB (Bollobas88): $Y=$largest number of edge-disjoint $k$-cliques. Bound below by random process.
+\begin{itemize}
+\item
+select each $k$-clique independently with prob $\ga$.
+\item
+remove all pairs of selected intersecting $k$-cliques
+\item
+$L$ be set of remaining $k$-cliques.
+\end{itemize}•
+$\E Y \ge \ga\E\pat{k-cliques}-2\ga^2\E\pat{intersecting k-cliques}\ge\fc{n^2p}{18k^5}$.
+
+Edge martingale.
+
+How make work for dependent?
+
+$Y$ is largest number of edge-disjoint uncorrelated $k$-cliques.
+
+Add ``uncorrelated" everywhere.
+
+Independent case: $\Pj(S,T\text{ cliques})=p^{\binom k2}p^{\binom k2-\binom l2}$.
+
+Problem $S,T$ can depend on each other. Dependent case $\Pj(S,T\text{ cliques})<p^{\binom k2}$. Look at dependencies, quantify, technical stuff...
+
+Martingale argument.  $\Pj(Y=0)\le \exp\pa{-\fc{(\E Y)^2}{2\binom n2 d^2}}$. Independent: learn info one bit at a time. increase by at most 1. In this case, expose new edge, could increase by $d$.
+
+Everything is still small.
+
+Communication complexity: $D(MPJ_3)=O\pf{n(\ln \ln n)}{\ln n}$. Pudlak, R\"odl, Sgall prove for permutations. Modify PRS to work on al inputs. Correctness dependent on chromatic number bound for dependent random graphs.
+
+\section{Deterministically factoring sparse polynomials into multilinear factors and sms of univariate polynomials}
+
+Given a polynomial, find its irreducible factors. This is a natural problem with applications in list decoding...
+
+It is einteger factorization: there exists a efficient randomized algorithm for factoring a polynomial given as a arithmetic circuit and as a black-box. 
+
+If $f$ has circuit of size $s$ then all it factors have circuits of size poly. No efficient deterministic algorithms known for poly factorizaiton. 
+
+Possible reason: poly factorization harder than PIT?
+
+Other models? Look at sparsity of polynomial.
+
+There exists deterministic identity testing for sparse polynomials. There exists efficient randomized algorithm for factoring sparse polynomials.
+
+Problem: $\prod_{i=1}^n (x_i^n-1)=\prod_{i=1}^n (1+\cdots +x_{i}^{n-1})\prod_{i=1}^n(x_i-1)$. $n^n$ dense factor of $2^n$ sparse polynomial: quasipolynomial blowup. GK85.
+
+Easier problem: test sparse factorization. Given $m+1$ sparse polynomials $f,g_1,\ldots, g_m$ test $f=g_1\cdots g_m$. (Restricted version of identity testing.) %deterministic.
+
+Testing sparse factorization:
+\begin{itemize}
+\item
+symmetric case: when $g_i$ equal.
+\item
+when $g_i$'s are sums of univariate polynomials.
+\item
+factoring multilinear sparse polynomials
+\item
+multiquadratic sparse polynomials.
+\end{itemize}
+Addition sparse factorization/testing algorithm...?
+
+Let $\cal C$ be class of polys. $f$ is $\cal C$-split if $f$ is product of polys from $\cal C$. 
+
+exist efficient deterministic factorization algorithms for multilinearly-split and sums-of-univariates-split sparse polynomials.
+
+Both models have sparse factors: no representation problem. Extends SV10 (multilinear polys). Prior to work, no efficient deterministic factorization algorithms for any of these models.
+
+Let $f=f_1\cdots f_k\in \F[x_1,\ldots, x_n]$ be a poly of degree $d$. Factorization can be done in $d^{O(d)}$.  Idea: reduce the number of variables. 
+
+Previous approach: construct map $H:\F^t\to \F^n$. 
+\begin{enumerate}
+\item
+$f_i$ is irreducible implying $f_i(H)$ is irreducible.
+\item
+$f_i\nsim f_j\implies f_i(H)\nsim f_j(H)$.
+\end{enumerate}•
+Take $H$ to be a random map. No known explicit constructions even for explicit classes.
+
+Our approach: $H:\F^t\to \F^n,\Psi_H:\F^n\to \F^t$. 
+\begin{enumerate}
+\item
+$\Psi_H(f_i)$ is an irreducible factor of $f_i(H)$.
+\item
+$f_i\nsim f_j\implies \psi_H(f_i)\nsim \psi_H(f_j)$.
+\item
+don't want mix: $\psi_H(f_j)|f_i(H)\implies \psi_H(f_i)\sim \psi_H(f_j)$.
+\end{enumerate}•
+Relaxation.
+%should be easier than deran
+
+EFS for multilinear sparse polys and sums of univar polys.
+
+$(H,\psi_H)$ is an essential factorization scheme for $\cal C$ if given two irreducible polys, $\psi_H(f_1)$ is irred of $f_1(H)$. $\psi_H(f_1)\mid f_2(H)$ if $f_1\sim f_2$.
+
+If $f=\prod f_i,g=\prod g_i$ where $f_i,g_j\in \cal C$ irreducible, $f\equiv g$ iff $f(H)\equiv g(H)$. %irredu %testing.
+
+$\prod f_i(H)=\prod g_i(H)$. $\psi_H(f_1)\mid f_1(H)$.
+Match $f_1\sim g_j$, repeat.
+%H not nec linear, prob not linear.
+%polys.
+
+New approach for poly factorization: EFS.
+
+EFS for more classes of polynomials. Sparse polys with constant individual degree $>2$.
+
+Upper bound sparsity of factor.
+
+Is quasi-poly worst possible blowup over char 0?
+Simplification: for perfect roots? ($n$th roots)
+Poly blowup for cubic?
+
+\subsection{A structure results for low degree poly and application}
+
+Low degree polys and subspace. $\F=\F_q$. Any $\F_q^n\to \F_q$ can be represented uniquely as multivar poly $p$ with individual degrees $\le q-1$. 
+
+For $f$, let $K(f)$ be max dimension of $\F_q^n$ on which $f$ is constant. $k_q(n,d)=\min\set{K(f)}{\deg f\le d}$. For any poly of deg $d$ exists subspace of dim $k$ where $f$ is constant.
+
+How does $k_q(n,d)$ behave? 
+\begin{itemize}
+\item
+$d=1\implies k_q(n,d)=n-1$.
+\item
+$d=2,q=2^m, k_q(n,d)=\fc n2$.
+\item
+Random degree $d$ poly, $d_q(n,d)=O(dn^{\rc{d-1}})$. 
+\item
+Tardos Barringgon $k_2(n,d)=\Te(dn^{\rc{d-1}})$ for $d\le \ln n$.
+\item
+Result $k_q(n,d)=\Te(dn^{\rc{d-1}})$. 
+\end{itemize}
+Applications to pseudorandomness.
+Let $f$ be a poly over $n$ vars of degree $d\le \ln n$. Then exists $U$ of dim $\Om(dn^{\rc{d-1}})$ such that $f|_U=$constant.
+
+For $q=2$, WLOG $f(0)=0$. Grow subspace 1 at a time. Find basis for $U$ step by step. Enough to show $U=\spn(\De_1,\ldots, \De_k)$, exists $\De_{k+1}$ such that $f|...=0$.
+
+Maintiain cosets $x+U$ such that $f|_{x+U}=0$.
+
+$A_k=\set{x\in \F_2^n}{f|_{x+U}=0}$, if $|A_k|>2^k$, can choose any $\De_{k+1}\in A_k\bs U$, continue.
+
+$A_k$ expressed as set of nonzeros of small degree polys. enough to require $f(x+\sum_{i=1}^k a_i\De_i)=0$ for all $a\in \F_2^k$ of hamming weight $\le d$. Interpolate from values. $g(x)=\prod_{|a|\le d}(1-f(x+\sum_i a_i\De_i))$ then $x\in A_k$ iff $g(x)=1$.
+$g$ deg$\le d(1+\cdots +\binom kd)=O(k^d)$. 
+By Schwartz-Zippel, if exists one solution to $g(x)=1$ there are $\ge 2^{n-\deg(g)}$ solutions.
+
+General fields: can define $A_k$ and show corresponds to set of nonzeros of low degree poly $g(x)$. Wish find line in $A_k$. However, big sets with no line.
+
+New direction $\my$, lin indep of $\De_{\le k}$, $g(r\cdot \my\ne 0$ for all $r\in \F_q$. $h(y)=\sum_{r\in \F_q} g(r\cdot y)$. $y$ good dir iff $H(y)\ne 0$. Trivial direction exists, so $h$ nonzero. Many good directions exist.
+
+Zeev Dvir to Kakeya set problem.
+
+Affine extractor and disperser. Disperser: $f|_{u_0+U}$ not constant. Extracor: $|\E_{x\sim u_0+U} (-1)^{f(x)}|\le \ep$.
+Disperser known. Extractor: recent polylog.
+Degree $d$ poly not $(n,o(dn^{\rc{d-1}}))$ affine disperser/extractor.
+$AC^0[2]$ of depth 2 cannot compute good affine disperser/extractor. $AC^0[3]$ of depth 3 can. Affine extractors are variety extractors with related parameters.
+Low deg affine dis are affine extr. Affine extractor have small correlationswith low degree polys.
+
+From affine disperser to affine extractor. Kaufman-Lovett 2008. (Bognadov-Viola.)
+$(n,k)$ affine disperser of degree $d$, assume $f$ is not $(n,ck^{d-2})$ affine extractor with error $\de$.
+
+Generalization work for several polys simultaneously. Dimension $k$ where constant.
+
+\section{Decomposing overcomplete 3rd order tensors using sum of squares}
+
+SVD $M=UDV^T=\sum_{i=1}^m d_iu_iv_i^T$. Matrix is sum of rank 1 matrices.
+We want the same thing for tensors. Rank 1 is $T_{i,j,k}=a(i)a(j)a(k)$. Low rank tensor decomposition.
+
+Once we can do tensor decomposition, we can learn topic models, Mixture of Gaussians, HMM's, etc.
+
+Tensor decomposition is unique: $I=RR^T$ for orthogonal $R$. (Rotation!) $T=\sum e_i^{\ot 3}$ unique.
+
+Tensor decomposition can be overcomplete: number of components $\gg$ number of dimensions.
+
+Given tensor $T=\sum a_i^{\ot 3}$ where $a_i\sim N(0,\fc{I}n)\in \R^n$, when $m<o(n^{1.5})$ our algorithm robustly find components $\{a_i\}$ with high probability in quasi-poly time. First algorithm for highly overcomplete 3rd order tensor decomposition.
+
+Handle mildly overcomplete 3rd order tensors $m=O(n)$. Handle $m=\poly(n)$ with at least 4th order tensor. Higher order tensors require more samples to accurately estimate.
+
+Previous:
+Uniqueness for general position 3rd order tensor only when $2m\le 3n-2$.
+
+Local convergence for tensors with randomlike components when $m<o(n^{1.5})$
+
+How to find componets: Finding components $\iff$ optimizing polynomial.
+
+Given tensor $T=\sum_{i=1}^ma_i\ot a_i\ot a_i$, for $x\in \R^n$ can compute poly $P(x)=\sum_{i=1}^m \an{a_i,x}$, and when $m\le o(n^{1.5})$, $P(x)$ only large when $x$ close to $a_i$.
+
+How can we optimize degree 3 polynomial?
+
+Make the formulation convex: $\max \E P(x)$ such that $X$ is distribution on unit sphere. Still cannot optimize. (too many distributions.)
+%
+Replace distribution with pseudo-distribution: $\max \wt{\E}P(X)$ such that $\wt{\E}$ looks like expectation.
+
+There is algorithm that optimizes over pseudo-distributions in $n^{O(r)}$ time, such that pseudo-distributions are indistinguishable to real distributions by polys of degree $\le r$.
+%take expect over low-degree poly
+
+Example: bound degree 4 poly: $Q(x)=\sum_{i=1}^m\an{a_i,x}^4$, $\ve{x}=1$. Flatten $M=\sum_{i=1}^m (a_i\ot a_i)(a_i\ot a_i)^T$. Bound spectral norm of $M$ using low-degree proof.
+
+3rd order tensor cannot be flattened symmetrically: $n\times n^2$.
+
+Take the square of $P(x)$ to increase degree, flatten 4th order tensor, bound the spectral norm.
+
+...
+
+Way of flattening matters. $\sum_{i\ne j} (a_i\ot a_j)(a_i\ot a_j)^T$.
+
+First quasi-poly time algorithm for 3rd order tensor decomposition in highly overcomplete case. Sum of squres useful in tensor decomp. Different ways of flatten lead to...
+
+Improve running time to poly. Use SoS to bound $2\to 3$ norm $P'(x)=\sum_{i=1}^m |\an{a_i,x}^3|$. 
+Decomposing overcomplete 3rd order tensors when components are not random.
+
+Constant degree SoS can be viewed as SoS proof. Poly... $1+o(1)$. When $x=a_i$, is $1-o(1)$...
+
+\section{Dimension expanders via rank condensers}
+
+Michael Forbes
+
+\begin{thm}
+New construction of explicit constant-degree dimension expanders over large fields. (Weakers results over small fields)
+\end{thm}
+Idea: boolean pseudorandomness, sizes of subsets/min-entropy :: Linear algebraic pseudorandomness:dimensino of subspaces.
+
+Prior work implicitly gave constructions.. Construction follow from developing connections in this theory to prior work.
+
+Dimension expanders: $V\subeq \F^n$ Consider $A,B,C:\F^n\to \F^n$. How affect dimension of $V$? $A(V),B(V)$.
+Constant number of maps, all small suspaces expand when take images together. 
+
+BISW04: $\F$ a field , $A_1,\ldots, A_d:\F^n\to \F^n$ is $(\ep,\al)$-dimension expander if for all $V\subeq \F^n$ with $\dim V\le \ep n$, $\dim \spn\{A_i(V)\}_i \ge \al \dim V$.
+Parameters
+\begin{itemize}
+\item
+degree $d$, ideally $d=O(1)$.
+\item expansion $\al$, $\al\le d$. Ideally $\al\approx d$. Existentially.
+\item
+Goal: $(\rc2,1+\de)$-dimension expanders of constant degree.
+\end{itemize}
+
+Previous work:
+\begin{enumerate}
+\item (Wigderson2004, LubotzkyZelmanov08)
+irreducible representations of expander groups. Before, Cayley group. Char 0
+\item
+DvirS, DW10. $A_i\in B^{n\times n}$ every $\F$. Via reduction to monotone vertex expanders. Monotone vertex expanders via expansion in $\SL_2(\R)$.
+\item
+$|\F|\ge \poly(n)$. Via linear algebra and polynomial method. Simpler than expander graphs. Can't get expander graph out of it. Better parameters.
+\end{enumerate}
+
+Strategy
+\begin{enumerate}
+\item
+tensor: trivially obtain expansion. increase ambient space.
+\item
+condense: reduce ambient space, roughly preserve expansion.
+\item
+$\F^n$, dimension $\ep n$. Tensor degree $d$, $\F^{nd}$, dimension $\ep dn$. Condense degree $\approx d$: $\F^n, \ep d n$.
+\end{enumerate}
+
+Tensor is easy.
+
+Condensing. Output smaller. $\F^t$ big enough to fit all inside of $V$. $E_1,E_2,\ldots$. How much dimension do we lose? For most maps preserve most of dimension...
+
+QUantify: don't lose too much too often.
+2 definitions.
+\begin{df}
+\begin{enumerate}
+\item
+$\cal E:\{\F^n\to \F^t\}$ $(r,\ep)$-lossy rank condenser if for all subspaces $V\subeq \F^n$ with $\dim V=r$, some $E\in \cal E$ with $\dim E(V)\ge (1-\ep)\dim V$. (1 map that works. Small collection of maps.) (Method can give $99\%$ that work.)
+\item
+$\cal E$ $(r,L)$-lossless rank condenser if for all subspaces $V\subeq \F^n$ with $\dim V=r$, $\sum_{E\in \cal E}(\dim V-\dim E(V))\le L$. (Challenge: fix $r,L$, get as many maps as possible. Guarantee most maps have no loss.)
+\end{enumerate}
+\end{df}
+%number of maps $>n$?
+
+Need lossy. Implicit give lossless.
+\begin{lem}
+$\cal E$ a $(r,L)$ lossless condenser implies $(r,\ep)$-lossy condenser with $|\cal E'|\le \fc{L}{\ep r}$ if $|\cal E|>\fc{L}{\ep r}$.
+\end{lem}
+
+Guruswami Kopparty13: $|\F|\ge\poly(n)$. 
+explicit $(r,\fc{nr}{t-r})$-lossless condenser. $|\cal E|>\fc{|F|}{t-r}$.
+Infinite number of maps, no loss for most! Originally phrased as subspace design.
+
+
+Corollary: explicity $(r,\ep)$ lossy rank condenser $|\cal E|\le \rc{n}{\ep(t-r)}$. 
+
+$(n,\ep n)\to (nd, \ep dn)\xra{(\ep dn,\de)}(\F^n, (1-\de)\ep dn)$.
+
+Brute force, dim $\approx d^2$.
+
+Cor. $|\F|\ge \poly$> Explicity $(\ep,(1-\de)d)$ dimension expander of degree $\fc{d^2}{\de(1-\ep d)}$.
+
+Conclusions. Summary
+\begin{itemize}
+\item
+Previous ocnsructions used strong notions of spectral expansion
+\item
+dimension expanders emerging theory of linear-algebraic pr.
+\item construction: dimension expanders via tensoring and condensing.
+\item subspace designs of GK13 are lossless condensers, get lossy c
+\item connections with 2-source rank condensers, rank-metric codes, subspace evasive sets
+\end{itemize}•
+Open; concat almost yields $O(\ln n)$-degree dim expanders over $\F_2$: improve? Our construction has expansion $\sqrt d$. Tensor plus condense, independent. Fold tensoring into condensing. Achieve $\Om(d)$?
+
+%rank-preservingspaces.
+
+\section{Learning circuits with negation}
+
+Given a fixed, known class of Boolean functions, unknown $f\in \cal C$, learn efficiently.
+
+Uniform-distribution learning $\le$ With membership queries
+
+Monotone: AND/OR; $\le$; $f(0^n)\le f(1^n)$, changes at most once on any increasing chain.
+
+Ex. majority, $s$-clique, dictator
+
+Class of monotone Boolean functions can be learned from uniform examples in $2^{\wt O\pf{\sqrt n}{\ep}}$. 
+
+Can we do better? Learning from membership queries to error $\rc{\sqrt n\ln n}$ requires $2^{\Om(n)}$ queries.
+
+Are we done?
+
+Generalizing:
+\begin{enumerate}
+\item
+Generalize monotone to $k$-alternating, two views
+\item
+Structural theorems: characterize as combination of simpler ones
+\item
+Lower bound.
+\end{enumerate}
+
+\begin{df}
+$f:B^n\to B$ has inversion complexity $t$ if can be computed by Boolean circuit with $t$ negations, but no less.
+
+$k$-alternating: On any chain, changes at most $k$ times.
+\end{df}
+Not-suspicious function function (1 iff in $[.5,.9]$)
+$s$-clique but no hamiltonian.
+Highlander (one 1).
+
+Markov's Theorem: $f:B^n\to B$ not identically 0. Then $f$ is $k$-alternating iff inversion complexity $O(\ln k)$. 
+
+Refinement: $k$-alternating iff can be written as $f=h(m_1,\ldots, m_k)$ whre each $m_k$ is monotone, and $h$ is parity or negation.
+
+$m_i$'s are successive nested layers.
+
+There is uniform-distribution learning algorithm which learns any unknown $f\in C_t^n$ from random examples to error $\ep$ in time $n^{O(2^t\sqrt n/\ep)}$. ]]Proof. Low degree algorithm.
+
+Monotone have total influence $\le \sqrt n$, decomposition, union bound.
+
+Lower bound. three-step program. 
+\begin{enumerate}
+\item
+Monotone functions hare to learn well.
+\item 
+Hard to learn period. (Hardness amplification)
+\item
+$k$-alternating are hard to learn to. Hardness amp and truncated parity. $2^{\Om(k\sqrt n/\ep)}$ negations. 
+\end{enumerate}•
+
+Composition: inner function $f$, combining function $g$, $g\ot f=g(f,\ldots, f)$. 
+
+expected bias: kill ech variable independently by random restriction. What is expected bias. 
+
+XOR lemma. If we can learn $g\ot f$'s we can learn $f$'s.
+
+Hard to learn well, to hard to learn.
+
+$mr=n$, $r=\om(1)$.
+Take Mossel-O'Donnell funcion $g_r$, balanced monotone function minimally stable under small noise. (Want expected bias $+\ep'\le 1-\ep$, less stable means smaller Exp bias
+
+$k$-truncated parity on $r$ variables. Parity${}_{k,r}$.
+
+Conclusions and open problems: learn to error $\rc2-\rc{\poly(n)}$ in poly time? 
+
+Fourier spectrm: can we get any further understanding of Fourier pectrum of $k$-alternating functions? $\sum_{|S|\le 2}\wh h(S)^2 \ge \rc{\poly(n)}$. Or even $>0$?
+$h=parity(f,g)$.
+
+Testing monotone functions.
+
+PAC learning under arbitrary distributions?
+
+\section{Negation-limited formulas}
+
+Circuit: and, or, not, fan-out 2.
+
+Formula: circuit with fan-out 1.
+
+Size $s$.
+
+look at restricted models: monotone computation: no NOT gates.
+
+\begin{enumerate}
+\item
+Circuit loewr bound, monotone vs. general $2^{\Om(n/\ln n)^{\rc 3}$ vs $5n$.
+\item
+Formula $2^{\Om(n/\ln n)}$, $n^{3-o(1)}$.
+\end{enumerate}•
+The effect of negation gates on circuit size remains to a large extent a mystery.
+
+How many negation gates do we need to perform computation.
+
+Markov58, Fiher75, BNT98. Size $s$ negations $t$ becomes size $2s+O(n\ln n)$ negations $\ce{\ln (n+1)}$.
+
+Formulas (Nechiporuk62, Morizumi09): size $s$, negations $t$ to $sn^{6.4}$ $\ff n2$ negations.
+
+Size not known to tight. Number of negations is tight.
+
+circuits with $>\ln n$ negations equivalent.
+
+formulas with $n/2$.
+
+Move up from 0! AM05, Ros15, BCOST15, GMOR15. Average case lower bound for monotone circuits, get average lower bounds for circuits with few negations.
+
+Idea: decompose $t$-negation circuit $2^t$ monotone parts.
+
+What about negation limited formulas. Trivial: circuit applies to formulas. What about for $>\ln n$?
+Yes, push exponentially further. Decompose $t$-negation formula into $t$ monotone parts and apply known results on them.
+
+Decomposition theorem. Every $F$ of size $s$ and $t$ negations can be rewritten as formula of size $2s$ of form $H(G_1,\ldots, G_T)$ where $T=O(t)$ where $H$ is read-once formula, $G_i$ is monotone formula. Here $T=O(t)$.
+
+Pushing nots to root (note: rather than leaves). 
+
+Application 1: formulas to circuits. Circuit $(s,t)$ to formula $(2^s,2^t)$. Reverse: $(s,t)\to (s,t)$. 
+
+This work: $(2s+O(t\ln t), \ln t+O(1))$. Save exponentially many negations. Result for negation limited circuits giv non-trivial result for negation-limited formulas.
+Polytime transformation.
+
+App2: shrinkage of formulas. $F_{|\rh}$ is $F$ where each input is fixed wp $1-p$ to uniformly random bit. What happens to $L(F_{|\rh})$ the size of $F_{|\rh}$? Applications to PRGs, lower bounds, Fourier results, $\#\SAT$ algorithms, etc. $\Ga$ is the largest constant such that for all formulas $F$ $\E_\rh[L(\F_{|\rh})]=O(p^{\Ga_t}L(F)+1)$.
+
+$\Ga=2$. Open: shrinkage exponent of monotone formulas. Conjecture $=\approx3.27$.
+$\Ga_t$ shrinkage exponent of formulas with $t$ negations. 
+\begin{itemize}
+\item
+$\Ga=2$
+\item
+$\Ga\qeq 3.27$.
+\end{itemize}
+Theorem: Let $F$ be formula with $t>0$ negations. Then $\E_{\rh}(L(F_{|\rh}))=O(p^{\Ga_0}L(F)+t)$. 
+
+Cor. If $t=\Te(1)$, then $\Ga_t=\Ga_0$.
+
+Summary: efficient decomposition theorem for formulas that depend on the number of negation gates.
+
+Extend results to negation limited formulas from negation limited circuits. (Generic, expect improvement.) Monotone formulas (shrinkage). Close to $\fc n2$?
+
+Proof of Theorem 1. Slightly larger circuit, log number of negations. Decomposition theorem. $H$ is formula with $O(t)$ inputs. View $H$ as circuit with $O(t)$ inputs. Apply BNT98 theorem to $H$ to get $H'$ with $\ln t +O(1)$ negations.
+
+\section{Tighter connections between ...}
+
+\begin{enumerate}
+\item
+Efficient deterministic simulation of every randomized algorithm?
+\item
+Which functions require large circuits?
+\end{enumerate}
+Circuit lower bounds imply derandomization. Yao82, NW94, IW97,...
+
+Can we derandomize without circuit lower bounds?
+
+No: derandomization $\implies$ circuit lower bounds. 
+
+Caveat: for some values of derandomization and circuit lower bounds.
+
+Goal: derandomization $\iff$ circuit lower bounds for natural derandomization and circuit lower bounds.
+
+Arithmetic circuits over $\F_k,\Z$.
+
+%coNP complete
+PIT: $C$. is $p(C)$ identically equal to 0?
+
+Definition: $ml-\cal C$ is set of multilinear poly sthat cna be eval in $\cal C$. generalize VP? Sneaky algorithm that exploits twiddling bits, instead of just use arithmetic ops.
+
+$\ml-NE=ml-(NE\cap coNE)$.
+
+\begin{itemize}
+\item
+derandomization of PrBPP gives boolean circuit lower bounds for NEXP
+\item
+boolean circuit lower bounds for $NEXP\cap coNEXP$ give infinitely often nondeterminsitic derand of PrBPP.
+\item
+derandomization of PIT over $\Z$ even nondet give arith circuit lower bounds for ml-NEXP/LIN
+\item
+Circuit lower bounds over $\Z$ for ml-NE give nondeterministic derandomization of PIT over $\Z$
+\end{itemize}
+
+%advice
+
+Main results:
+\begin{itemize}
+\item
+Derand of PIT over $\F_k$ implies arith circuit loewrbouds over $\F_k$
+\item
+Definitions that allow derandomization iff circuit lower bounds without advice.
+\item
+Connections that bring down circuit lower bound as close as possible to NEXP$\cap$coNEXP.
+\end{itemize}
+coNEXP$\subeq$NEXP/LIN (folklore).
+
+Connections between derandomization and circuit lower bounds that...
+
+Example equivalence theorems: JS12...nondet subexp ime algo for PIT, get associate arithmetic class lower bound. Hold for fixed finite fields, remove advice. Morally closer to NE$\cap $coNE. 
+
+Computably robustly often, FortnowS11
+
+Fixed finite fields: 
+
+$f$ PIT-checkable iff there is deterministic program checker for $f$ using PIT oracle.
+
+%sharp P \Si_2.
+Main technical tool: PIT-checkable $f$ that is hard for PH. Previous results: set $f=perm$. But perm over $\F_k$ not known to be hard for PH. use TQBF as $f$. 
+%prg dereand circ lower bounds.
+
+ro. robust version that need superpoly padding.
+%VNP?
+
+multilin poly encodes TQBF. Adapt IP$=$PSPACE.
+
+Use advice: the hardness is over here. If have advice on both sides.
+
+Input-length event notation.
+
+Exampe E: no circuit of size $s(n)$ computing $f_n$.
+
+io- and ae- are extremal notions. 
+
+Pics! a.e.: failure constantly many times. i.o. both infinitely many times. no control over where good events happen. (Must supply locations in advice.) r.o. in between: Good events are smooth, $|n^{\om(1)}|$ long (superpoly ranges). 
+
+Long range where $f$ is hard gives long range where PIT works. Long range where PIT works gives long range where $f$ hard. 
+
+dreabd OUT iver $\F_k$ implies arith circ lower bounds. derand for PrBPP gives boolean circuit lower bound for $N\cap coN$EXP.
+
+Open. $PromiseBPP\in SUBEXP\implies EXP\nsubeq P/\poly$.
+
+\printbibliography
+\end{document}
