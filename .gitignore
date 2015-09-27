@@ -141,8 +141,8 @@ Computation/general/seminars/*
 !Computation/general/seminars/*.tex
 !Computation/general/simons
 Computation/general/simons/*
-!Computation/general/seminars/*.tex
-!Computation/general/seminars/*.pdf
+!Computation/general/simons/*.tex
+!Computation/general/simons/*.pdf
 
 !Computation/machine_learning
 Computation/machine_learning/*
